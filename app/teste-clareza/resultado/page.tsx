@@ -165,33 +165,27 @@ export default function ResultadoUnificado() {
     }
   }
 
-  // Classes de tema
+  // Classes de tema - SEMPRE ESCURO para melhor legibilidade
+  // Fundo escuro com letras claras que sobressaem
   const theme = {
-    bgMain: isDarkMode ? 'bg-[#020617]' : 'bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50',
-    bgHeader: isDarkMode ? 'bg-[#0F172A]/95' : 'bg-white/80',
-    borderHeader: isDarkMode ? 'border-slate-800' : 'border-gray-100',
-    textPrimary: isDarkMode ? 'text-white' : 'text-gray-900',
-    textSecondary: isDarkMode ? 'text-gray-400' : 'text-gray-600',
-    cardBg: isDarkMode ? 'bg-slate-900' : 'bg-white',
-    cardBorder: isDarkMode ? 'border-slate-800' : 'border-gray-100',
-    accentText: isDarkMode ? 'text-violet-400' : 'text-purple-600',
-    accentBg: isDarkMode ? 'bg-violet-600' : 'bg-purple-600',
+    bgMain: 'bg-[#020617]', // Fundo principal escuro
+    bgHeader: 'bg-[#0F172A]/95',
+    borderHeader: 'border-slate-800',
+    textPrimary: 'text-white', // Letras brancas
+    textSecondary: 'text-gray-300', // Letras cinza claro
+    cardBg: 'bg-slate-900/80', // Cards com fundo escuro
+    cardBorder: 'border-slate-700',
+    accentText: 'text-violet-400',
+    accentBg: 'bg-violet-600',
   }
 
   const getLevelColor = (level: string) => {
-    if (isDarkMode) {
-      switch (level) {
-        case 'baixo': return 'bg-green-900/50 text-green-400'
-        case 'moderado': return 'bg-yellow-900/50 text-yellow-400'
-        case 'alto': return 'bg-red-900/50 text-red-400'
-        default: return 'bg-gray-800 text-gray-400'
-      }
-    }
+    // Sempre cores escuras com texto claro
     switch (level) {
-      case 'baixo': return 'bg-green-100 text-green-800'
-      case 'moderado': return 'bg-yellow-100 text-yellow-800'
-      case 'alto': return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'baixo': return 'bg-green-900/50 text-green-400'
+      case 'moderado': return 'bg-yellow-900/50 text-yellow-400'
+      case 'alto': return 'bg-red-900/50 text-red-400'
+      default: return 'bg-gray-800 text-gray-400'
     }
   }
 
@@ -209,7 +203,7 @@ export default function ResultadoUnificado() {
     return (
       <div className={`min-h-screen ${theme.bgMain} flex items-center justify-center`}>
         <div className="text-center">
-          <div className={`w-16 h-16 ${isDarkMode ? 'bg-violet-900/50' : 'bg-purple-100'} rounded-2xl flex items-center justify-center mx-auto mb-4`}>
+          <div className={`w-16 h-16 bg-violet-900/50 rounded-2xl flex items-center justify-center mx-auto mb-4`}>
             <Target className={`w-8 h-8 ${theme.accentText} animate-pulse`} />
           </div>
           <p className={theme.textSecondary}>Carregando seu resultado...</p>
@@ -223,8 +217,8 @@ export default function ResultadoUnificado() {
     return (
       <div className={`min-h-screen ${theme.bgMain} flex items-center justify-center p-4`}>
         <div className="text-center max-w-md">
-          <div className={`w-16 h-16 ${isDarkMode ? 'bg-slate-800' : 'bg-gray-100'} rounded-2xl flex items-center justify-center mx-auto mb-4`}>
-            <AlertTriangle className={`w-8 h-8 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
+          <div className={`w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4`}>
+            <AlertTriangle className={`w-8 h-8 text-gray-400`} />
           </div>
           <h2 className={`text-xl font-bold ${theme.textPrimary} mb-2`}>Resultado não encontrado</h2>
           <p className={`${theme.textSecondary} mb-6`}>Parece que você ainda não fez o teste.</p>
@@ -264,9 +258,9 @@ export default function ResultadoUnificado() {
             <span className={`text-sm ${theme.textSecondary}`}>{testDate}</span>
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-lg ${isDarkMode ? 'bg-slate-800 text-yellow-400' : 'bg-gray-100 text-gray-600'} hover:opacity-80 transition-all`}
+              className={`p-2 rounded-lg bg-slate-800 text-yellow-400 hover:opacity-80 transition-all`}
             >
-              {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              <Sun className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -285,26 +279,26 @@ export default function ResultadoUnificado() {
 
         {/* Alerta de Risco Físico */}
         {result.hasPhysicalRisk && (
-          <div className={`mb-6 p-5 rounded-2xl ${isDarkMode ? 'bg-red-900/40 border-red-700' : 'bg-red-50 border-red-200'} border-2`}>
+          <div className={`mb-6 p-5 rounded-2xl bg-red-900/40 border-red-700 border-2`}>
             <div className="flex items-start gap-4">
-              <div className={`p-3 rounded-xl ${isDarkMode ? 'bg-red-800' : 'bg-red-100'}`}>
-                <ShieldAlert className={`w-6 h-6 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`} />
+              <div className={`p-3 rounded-xl bg-red-800`}>
+                <ShieldAlert className={`w-6 h-6 text-red-400`} />
               </div>
               <div className="flex-1">
-                <h3 className={`font-bold ${isDarkMode ? 'text-red-300' : 'text-red-800'} mb-2`}>
+                <h3 className={`font-bold text-red-300 mb-2`}>
                   ⚠️ Alerta de Segurança
                 </h3>
-                <p className={`text-sm ${isDarkMode ? 'text-red-400' : 'text-red-700'} mb-3`}>
+                <p className={`text-sm text-red-400 mb-3`}>
                   Suas respostas indicam possível risco físico. Sua segurança é prioridade.
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <a href="tel:190" className={`inline-flex items-center gap-2 px-4 py-2 ${isDarkMode ? 'bg-red-800 text-red-200' : 'bg-red-600 text-white'} rounded-lg font-medium text-sm`}>
+                  <a href="tel:190" className={`inline-flex items-center gap-2 px-4 py-2 bg-red-800 text-red-200 rounded-lg font-medium text-sm`}>
                     <Phone className="w-4 h-4" /> 190 - Polícia
                   </a>
-                  <a href="tel:180" className={`inline-flex items-center gap-2 px-4 py-2 ${isDarkMode ? 'bg-red-800 text-red-200' : 'bg-red-600 text-white'} rounded-lg font-medium text-sm`}>
+                  <a href="tel:180" className={`inline-flex items-center gap-2 px-4 py-2 bg-red-800 text-red-200 rounded-lg font-medium text-sm`}>
                     <Phone className="w-4 h-4" /> 180 - Mulher
                   </a>
-                  <Link href="/plano-seguranca" className={`inline-flex items-center gap-2 px-4 py-2 ${isDarkMode ? 'bg-slate-700 text-white' : 'bg-gray-100 text-gray-800'} rounded-lg font-medium text-sm`}>
+                  <Link href="/plano-seguranca" className={`inline-flex items-center gap-2 px-4 py-2 bg-slate-700 text-white rounded-lg font-medium text-sm`}>
                     <Shield className="w-4 h-4" /> Plano de Segurança
                   </Link>
                 </div>
@@ -314,7 +308,7 @@ export default function ResultadoUnificado() {
         )}
 
         {/* Card de Resultado Global */}
-        <div className={`mb-8 p-6 sm:p-8 rounded-3xl border-2 ${isDarkMode ? 'bg-slate-900/50' : ''} ${zoneConfig.bgColor} ${zoneConfig.borderColor}`}>
+        <div className={`mb-8 p-6 sm:p-8 rounded-3xl border-2 bg-slate-900/50 ${zoneConfig.bgColor} ${zoneConfig.borderColor}`}>
           <div className="text-center">
             <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${zoneConfig.bgColor} ${zoneConfig.color} font-semibold mb-4`}>
               {result.globalZone === 'atencao' && <AlertCircle className="w-5 h-5" />}
@@ -354,7 +348,7 @@ export default function ResultadoUnificado() {
                       <span className={`text-2xl font-bold ${theme.textPrimary}`}>{Math.round(axis.percentage * 100)}</span>
                       <span className={theme.textSecondary}>%</span>
                     </div>
-                    <div className={`w-full ${isDarkMode ? 'bg-slate-800' : 'bg-gray-200'} rounded-full h-2`}>
+                    <div className={`w-full bg-slate-800 rounded-full h-2`}>
                       <div 
                         className={`h-2 rounded-full bg-gradient-to-r ${getAxisColor(axis.axis)}`}
                         style={{ width: `${axis.percentage * 100}%` }}
@@ -381,10 +375,10 @@ export default function ResultadoUnificado() {
             return (
               <div 
                 key={cat.category} 
-                className={`${theme.cardBg} rounded-xl border ${isHighlighted ? (isDarkMode ? 'border-amber-700' : 'border-amber-300') : theme.cardBorder} p-4`}
+                className={`${theme.cardBg} rounded-xl border ${isHighlighted ? 'border-amber-700' : theme.cardBorder} p-4`}
               >
                 <div className="flex items-center gap-3 mb-3">
-                  <div className={`p-2 rounded-lg ${isDarkMode ? 'bg-slate-800' : 'bg-gray-100'}`}>
+                  <div className={`p-2 rounded-lg bg-slate-800`}>
                     <IconComponent className={`w-5 h-5 ${catConfig.color}`} />
                   </div>
                   <div>
@@ -393,7 +387,7 @@ export default function ResultadoUnificado() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className={`flex-1 ${isDarkMode ? 'bg-slate-800' : 'bg-gray-200'} rounded-full h-2`}>
+                  <div className={`flex-1 bg-slate-800 rounded-full h-2`}>
                     <div 
                       className={`h-2 rounded-full ${
                         cat.percentage >= 0.66 ? 'bg-red-500' : 
@@ -407,7 +401,7 @@ export default function ResultadoUnificado() {
                   </span>
                 </div>
                 {isHighlighted && (
-                  <p className={`mt-2 text-xs ${isDarkMode ? 'text-amber-400' : 'text-amber-600'}`}>
+                  <p className={`mt-2 text-xs text-amber-400`}>
                     ⚠️ Merece atenção
                   </p>
                 )}
@@ -462,7 +456,7 @@ export default function ResultadoUnificado() {
                         <Link
                           key={tool.id}
                           href={tool.href}
-                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium ${isDarkMode ? 'bg-slate-800 text-gray-300 hover:bg-slate-700' : 'bg-white text-gray-700 hover:bg-gray-100'} transition-colors`}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-800 text-gray-300 hover:bg-slate-700 transition-colors`}
                         >
                           {tool.shortLabel || tool.name}
                         </Link>
@@ -477,10 +471,10 @@ export default function ResultadoUnificado() {
 
         {/* Dados do Diário */}
         {diaryStats && diaryStats.totalEntries > 0 && (
-          <div className={`${isDarkMode ? 'bg-gradient-to-r from-indigo-950 to-purple-950 border-indigo-900' : 'bg-gradient-to-r from-indigo-50 to-purple-50 border-indigo-100'} rounded-3xl shadow-lg border p-6 sm:p-8 mb-8`}>
+          <div className={`bg-gradient-to-r from-indigo-950 to-purple-950 border-indigo-900 rounded-3xl shadow-lg border p-6 sm:p-8 mb-8`}>
             <div className="flex items-center gap-3 mb-6">
-              <div className={`p-2 ${isDarkMode ? 'bg-indigo-900' : 'bg-indigo-100'} rounded-xl`}>
-                <PenLine className={`w-6 h-6 ${isDarkMode ? 'text-indigo-400' : 'text-indigo-600'}`} />
+              <div className={`p-2 bg-indigo-900 rounded-xl`}>
+                <PenLine className={`w-6 h-6 text-indigo-400`} />
               </div>
               <div>
                 <h2 className={`text-xl font-bold ${theme.textPrimary}`}>
@@ -493,20 +487,20 @@ export default function ResultadoUnificado() {
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
-              <div className={`${isDarkMode ? 'bg-slate-900' : 'bg-white'} rounded-xl p-4 text-center shadow-sm`}>
-                <p className={`text-2xl font-bold ${isDarkMode ? 'text-indigo-400' : 'text-indigo-600'}`}>{diaryStats.totalEntries}</p>
+              <div className={`bg-slate-900 rounded-xl p-4 text-center shadow-sm`}>
+                <p className={`text-2xl font-bold text-indigo-400`}>{diaryStats.totalEntries}</p>
                 <p className={`text-xs ${theme.textSecondary}`}>Episódios</p>
               </div>
-              <div className={`${isDarkMode ? 'bg-slate-900' : 'bg-white'} rounded-xl p-4 text-center shadow-sm`}>
-                <p className={`text-2xl font-bold ${isDarkMode ? 'text-purple-400' : 'text-purple-600'}`}>{diaryStats.recentEntries}</p>
+              <div className={`bg-slate-900 rounded-xl p-4 text-center shadow-sm`}>
+                <p className={`text-2xl font-bold text-purple-400`}>{diaryStats.recentEntries}</p>
                 <p className={`text-xs ${theme.textSecondary}`}>Últimos 30 dias</p>
               </div>
-              <div className={`${isDarkMode ? 'bg-slate-900' : 'bg-white'} rounded-xl p-4 text-center shadow-sm`}>
-                <p className={`text-2xl font-bold ${isDarkMode ? 'text-rose-400' : 'text-rose-600'}`}>{diaryStats.avgImpact}/5</p>
+              <div className={`bg-slate-900 rounded-xl p-4 text-center shadow-sm`}>
+                <p className={`text-2xl font-bold text-rose-400`}>{diaryStats.avgImpact}/5</p>
                 <p className={`text-xs ${theme.textSecondary}`}>Impacto médio</p>
               </div>
-              <div className={`${isDarkMode ? 'bg-slate-900' : 'bg-white'} rounded-xl p-4 text-center shadow-sm`}>
-                <p className={`text-2xl font-bold ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>{diaryStats.topTags.length}</p>
+              <div className={`bg-slate-900 rounded-xl p-4 text-center shadow-sm`}>
+                <p className={`text-2xl font-bold text-blue-400`}>{diaryStats.topTags.length}</p>
                 <p className={`text-xs ${theme.textSecondary}`}>Padrões</p>
               </div>
             </div>
@@ -516,10 +510,10 @@ export default function ResultadoUnificado() {
                 {diaryStats.topTags.map(({ tag, count }: { tag: string; count: number }) => (
                   <span 
                     key={tag}
-                    className={`inline-flex items-center gap-1 px-3 py-1.5 ${isDarkMode ? 'bg-purple-900/50 text-purple-300' : 'bg-purple-100 text-purple-700'} rounded-full text-sm font-medium`}
+                    className={`inline-flex items-center gap-1 px-3 py-1.5 bg-purple-900/50 text-purple-300 rounded-full text-sm font-medium`}
                   >
                     {tag}
-                    <span className={`${isDarkMode ? 'bg-purple-800' : 'bg-purple-200'} px-1.5 py-0.5 rounded-full text-xs`}>{count}x</span>
+                    <span className={`bg-purple-800 px-1.5 py-0.5 rounded-full text-xs`}>{count}x</span>
                   </span>
                 ))}
               </div>
@@ -529,10 +523,10 @@ export default function ResultadoUnificado() {
 
         {/* CTA para criar diário */}
         {(!diaryStats || diaryStats.totalEntries === 0) && (
-          <div className={`${isDarkMode ? 'bg-gradient-to-r from-blue-950 to-indigo-950 border-blue-900' : 'bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-100'} rounded-3xl shadow-lg border p-6 sm:p-8 mb-8`}>
+          <div className={`bg-gradient-to-r from-blue-950 to-indigo-950 border-blue-900 rounded-3xl shadow-lg border p-6 sm:p-8 mb-8`}>
             <div className="flex flex-col sm:flex-row items-center gap-4">
-              <div className={`p-4 ${isDarkMode ? 'bg-blue-900' : 'bg-blue-100'} rounded-2xl`}>
-                <PenLine className={`w-8 h-8 ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />
+              <div className={`p-4 bg-blue-900 rounded-2xl`}>
+                <PenLine className={`w-8 h-8 text-blue-400`} />
               </div>
               <div className="flex-1 text-center sm:text-left">
                 <h3 className={`font-bold ${theme.textPrimary} text-lg`}>
@@ -562,54 +556,54 @@ export default function ResultadoUnificado() {
           <div className="grid sm:grid-cols-2 gap-4">
             <Link
               href="/diario/novo"
-              className={`flex items-center gap-4 p-4 rounded-2xl border-2 ${isDarkMode ? 'border-blue-900 bg-blue-950/50 hover:border-blue-700' : 'border-blue-100 bg-blue-50 hover:border-blue-300'} transition-colors group`}
+              className={`flex items-center gap-4 p-4 rounded-2xl border-2 border-blue-900 bg-blue-950/50 hover:border-blue-700 transition-colors group`}
             >
-              <div className={`p-3 ${isDarkMode ? 'bg-slate-900' : 'bg-white'} rounded-xl shadow-sm`}>
-                <PenLine className={`w-6 h-6 ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />
+              <div className={`p-3 bg-slate-900 rounded-xl shadow-sm`}>
+                <PenLine className={`w-6 h-6 text-blue-400`} />
               </div>
               <div className="flex-1">
                 <h3 className={`font-semibold ${theme.textPrimary}`}>Registrar Episódio</h3>
                 <p className={`text-sm ${theme.textSecondary}`}>Documente situações</p>
               </div>
-              <ArrowRight className={`w-5 h-5 ${isDarkMode ? 'text-blue-500' : 'text-blue-400'}`} />
+              <ArrowRight className={`w-5 h-5 text-blue-400`} />
             </Link>
             
             <Link
               href="/chat"
-              className={`flex items-center gap-4 p-4 rounded-2xl border-2 ${isDarkMode ? 'border-emerald-900 bg-emerald-950/50 hover:border-emerald-700' : 'border-emerald-100 bg-emerald-50 hover:border-emerald-300'} transition-colors group`}
+              className={`flex items-center gap-4 p-4 rounded-2xl border-2 border-emerald-900 bg-emerald-950/50 hover:border-emerald-700 transition-colors group`}
             >
-              <div className={`p-3 ${isDarkMode ? 'bg-slate-900' : 'bg-white'} rounded-xl shadow-sm`}>
-                <MessageCircle className={`w-6 h-6 ${isDarkMode ? 'text-emerald-400' : 'text-emerald-600'}`} />
+              <div className={`p-3 bg-slate-900 rounded-xl shadow-sm`}>
+                <MessageCircle className={`w-6 h-6 text-emerald-400`} />
               </div>
               <div className="flex-1">
                 <h3 className={`font-semibold ${theme.textPrimary}`}>Coach IA</h3>
                 <p className={`text-sm ${theme.textSecondary}`}>Apoio 24/7</p>
               </div>
-              <ArrowRight className={`w-5 h-5 ${isDarkMode ? 'text-emerald-500' : 'text-emerald-400'}`} />
+              <ArrowRight className={`w-5 h-5 text-emerald-400`} />
             </Link>
             
             {result.globalZone === 'vermelha' && (
               <Link
                 href="/plano-seguranca"
-                className={`flex items-center gap-4 p-4 rounded-2xl border-2 ${isDarkMode ? 'border-red-900 bg-red-950/50 hover:border-red-700' : 'border-red-100 bg-red-50 hover:border-red-300'} transition-colors group sm:col-span-2`}
+                className={`flex items-center gap-4 p-4 rounded-2xl border-2 border-red-900 bg-red-950/50 hover:border-red-700 transition-colors group sm:col-span-2`}
               >
-                <div className={`p-3 ${isDarkMode ? 'bg-slate-900' : 'bg-white'} rounded-xl shadow-sm`}>
-                  <Shield className={`w-6 h-6 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`} />
+                <div className={`p-3 bg-slate-900 rounded-xl shadow-sm`}>
+                  <Shield className={`w-6 h-6 text-red-400`} />
                 </div>
                 <div className="flex-1">
                   <h3 className={`font-semibold ${theme.textPrimary}`}>Criar Plano de Segurança</h3>
                   <p className={`text-sm ${theme.textSecondary}`}>Importante: organize sua proteção</p>
                 </div>
-                <ArrowRight className={`w-5 h-5 ${isDarkMode ? 'text-red-500' : 'text-red-400'}`} />
+                <ArrowRight className={`w-5 h-5 text-red-400`} />
               </Link>
             )}
           </div>
         </div>
 
         {/* Disclaimer */}
-        <div className={`flex items-start gap-3 p-4 ${isDarkMode ? 'bg-amber-900/30 border-amber-800' : 'bg-amber-50 border-amber-200'} border rounded-2xl mb-8`}>
-          <AlertTriangle className={`w-5 h-5 ${isDarkMode ? 'text-amber-400' : 'text-amber-600'} flex-shrink-0 mt-0.5`} />
-          <p className={`text-sm ${isDarkMode ? 'text-amber-300' : 'text-amber-800'} leading-relaxed`}>
+        <div className={`flex items-start gap-3 p-4 bg-amber-900/30 border-amber-800 border rounded-2xl mb-8`}>
+          <AlertTriangle className={`w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5`} />
+          <p className={`text-sm text-amber-300 leading-relaxed`}>
             <strong>Lembrete:</strong> Este teste é uma ferramenta de autoconhecimento, 
             NÃO um diagnóstico clínico. Ele ajuda a identificar padrões, mas não substitui 
             avaliação de profissional de saúde mental.
@@ -715,18 +709,18 @@ export default function ResultadoUnificado() {
         </div>
 
         {/* Contatos de Emergência */}
-        <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-slate-800/50' : 'bg-gray-50'} mb-6`}>
+        <div className={`p-4 rounded-xl bg-slate-800/50 mb-6`}>
           <p className={`text-sm ${theme.textSecondary} text-center mb-3`}>
             Se você está em perigo, ligue:
           </p>
           <div className="flex justify-center gap-4 flex-wrap">
-            <a href="tel:190" className={`text-sm font-medium ${isDarkMode ? 'text-red-400' : 'text-red-600'}`}>
+            <a href="tel:190" className={`text-sm font-medium text-red-400`}>
               190 - Polícia
             </a>
-            <a href="tel:180" className={`text-sm font-medium ${isDarkMode ? 'text-pink-400' : 'text-pink-600'}`}>
+            <a href="tel:180" className={`text-sm font-medium text-pink-400`}>
               180 - Mulher
             </a>
-            <a href="tel:188" className={`text-sm font-medium ${isDarkMode ? 'text-yellow-400' : 'text-yellow-600'}`}>
+            <a href="tel:188" className={`text-sm font-medium text-yellow-400`}>
               188 - CVV
             </a>
           </div>
