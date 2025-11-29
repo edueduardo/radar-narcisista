@@ -1,0 +1,638 @@
+================================================================================
+RADAR NARCISISTA – ATLAS COMPLETO DO PROJETO (CÓDIGO REAL)
+================================================================================
+Data/hora da geração: 29/11/2025 18:10 (UTC-5)
+Ambiente: projeto local do Eduardo (Windsurf)
+Gerado por: Windsurf AI (Cascade)
+
+================================================================================
+[ÍNDICE]
+================================================================================
+1. Visão geral do projeto
+2. Rotas e páginas (app/)
+3. Fluxos principais
+   3.1 Teste de Clareza
+   3.2 Diário
+   3.3 Chat/Coach IA
+   3.4 Dashboard
+4. Esquema de banco (Supabase)
+5. Planos e monetização
+6. Idiomas (i18n)
+7. Segurança, LGPD e botão de emergência
+8. Diferença entre visão (TUDO PARA O GPT.txt) e código real
+9. Pendências técnicas e riscos
+
+================================================================================
+[1] VISÃO GERAL DO PROJETO
+================================================================================
+
+STACK TÉCNICA:
+- Framework: Next.js 16.0.3 (App Router)
+- Linguagem: TypeScript 5.x
+- React: 19.2.0
+- Estilização: TailwindCSS 4.0.0
+- Banco de dados: Supabase (PostgreSQL + Auth + Storage)
+- Pagamentos: Stripe 20.0.0
+- IAs: OpenAI 6.9.1 + Groq (via lib/ia-conexoes-reais.ts)
+- PDF: jspdf 3.0.4 + @react-pdf/renderer 4.3.1
+- Gráficos: Recharts 3.5.0
+- Animações: Framer Motion 12.23.24
+
+PASTAS PRINCIPAIS:
+- app/           → Rotas e páginas (App Router do Next.js)
+- lib/           → Lógica de negócio, configs, prompts, utils
+- components/    → Componentes React reutilizáveis
+- hooks/         → Hooks customizados (useI18n, useTermsAcceptance, etc.)
+- database/      → Schemas SQL e migrations
+- public/        → Assets estáticos
+- scripts/       → Scripts de build e verificação
+
+ÁREAS PRINCIPAIS DO SISTEMA:
+1. Teste de Clareza (18 perguntas + 1 aberta, 3 eixos, 6 categorias)
+2. Diário de Episódios (registros com tags, anexos, análise IA)
+3. Chat/Coach IA (múltiplas IAs colaborativas)
+4. Dashboard (visão geral, alertas, recomendações)
+5. Planos (Visitante, Guardar, Jornada, Defesa, Profissional)
+6. Admin (painel administrativo completo)
+7. Hub de Problemas (invalidação, gaslighting, etc.)
+8. Plano de Segurança (contatos, documentos, mala de emergência)
+9. Loja de Add-ons (funcionalidades extras)
+10. Blog/Educação (conteúdo sobre abuso narcisista)
+
+================================================================================
+[2] ROTAS E PÁGINAS (app/)
+================================================================================
+
+ROTAS PRINCIPAIS (verificadas no código):
+
+/ (Homepage)
+  Arquivo: app/page.tsx (97KB)
+  Função: Landing page com hero, seções de confiança, "Como Funciona",
+          bloco "Você escolhe como usar", ferramentas, planos, FAQ.
+  Status: IMPLEMENTADA com i18n (PT/EN/ES)
+
+/teste-clareza
+  Arquivo: app/teste-clareza/page.tsx (47KB)
+  Função: Teste de Clareza com 18 perguntas objetivas + 1 aberta.
+          Usa lib/clarity-unified-config.ts para configuração.
+  Status: IMPLEMENTADA
+
+/teste-clareza/resultado
+  Arquivo: app/teste-clareza/resultado/page.tsx
+  Função: Exibe resultado do teste com zonas, eixos, categorias,
+          opção de salvar como "base do Radar" ou apenas visualizar.
+  Status: IMPLEMENTADA
+
+/planos
+  Arquivo: app/planos/page.tsx (15KB)
+  Função: Página de planos com toggle mensal/anual.
+          Usa lib/plans-config.ts para configuração.
+  Status: IMPLEMENTADA
+
+/diario
+  Arquivo: app/diario/page.tsx (17KB)
+  Função: Lista de entradas do diário com filtros e busca.
+  Status: IMPLEMENTADA
+
+/diario/novo
+  Arquivo: app/diario/novo/page.tsx
+  Função: Criar nova entrada no diário com tags, anexos, análise IA.
+  Status: IMPLEMENTADA
+
+/diario/[id]
+  Arquivo: app/diario/[id]/page.tsx
+  Função: Visualizar entrada específica do diário.
+  Status: IMPLEMENTADA
+
+/diario/timeline
+  Arquivo: app/diario/timeline/page.tsx
+  Função: Timeline visual dos episódios registrados.
+  Status: IMPLEMENTADA
+
+/chat
+  Arquivo: app/chat/page.tsx (89KB)
+  Função: Chat com Coach IA de Clareza. Usa múltiplas IAs (OpenAI + Groq).
+          Recebe contexto do perfil de clareza do usuário.
+  Status: IMPLEMENTADA
+
+/dashboard
+  Arquivo: app/dashboard/page.tsx
+  Função: Visão geral do usuário com recomendações e alertas.
+  Status: IMPLEMENTADA
+
+/plano-seguranca
+  Arquivo: app/plano-seguranca/page.tsx
+  Função: Plano de segurança com contatos, documentos, mala de emergência.
+  Status: IMPLEMENTADA
+
+/profissional
+  Arquivo: app/profissional/page.tsx
+  Função: Página para profissionais (terapeutas, advogados).
+  Status: IMPLEMENTADA (com waitlist)
+
+/loja
+  Arquivo: app/loja/page.tsx
+  Função: Loja de add-ons e funcionalidades extras.
+  Status: IMPLEMENTADA
+
+/hub
+  Arquivo: app/hub/page.tsx
+  Função: Hub de problemas (invalidação, gaslighting, etc.).
+  Status: IMPLEMENTADA
+
+/admin/*
+  Arquivos: app/admin/ (34 subpastas)
+  Função: Painel administrativo completo com:
+          - Analytics, métricas, custos IA
+          - Gerenciamento de IAs, fluxos
+          - Beta testers, comunidade
+          - Configurações, estados
+  Status: IMPLEMENTADA
+
+OUTRAS ROTAS RELEVANTES:
+- /login, /cadastro → Autenticação
+- /configuracoes → Configurações do usuário
+- /privacidade, /termos → Páginas legais
+- /blog → Conteúdo educativo
+- /faq → Perguntas frequentes
+- /contato → Formulário de contato
+- /seguranca, /seguranca-digital → Recursos de segurança
+- /modo-espelho, /espelho → Ferramenta de reflexão
+- /carta-futuro → Cartas para o futuro
+- /termometro → Termômetro emocional
+- /ciclo-abuso, /gaslighting, /love-bombing, /triangulacao → Educação
+
+================================================================================
+[3] FLUXOS PRINCIPAIS
+================================================================================
+
+--------------------------------------------------------------------------------
+[3.1] TESTE DE CLAREZA
+--------------------------------------------------------------------------------
+
+ARQUIVO DE CONFIGURAÇÃO PRINCIPAL:
+lib/clarity-unified-config.ts (21KB)
+
+ESTRUTURA DO TESTE:
+- 18 perguntas objetivas (escala 0-4: Nunca → Quase sempre)
+- 1 pergunta aberta (narrativa do usuário)
+- Pesos diferentes por pergunta (1, 1.5, 2, 2.5, 3)
+
+3 EIXOS PRINCIPAIS:
+1. Névoa Mental (nevoa) - Confusão, gaslighting, dúvida
+2. Medo e Tensão (medo) - Medo de reações, tensão constante
+3. Desrespeito a Limites (limites) - Limites ignorados, isolamento
+
+6 CATEGORIAS DETALHADAS:
+1. Invalidação (3 perguntas) - Eixo: Névoa
+2. Gaslighting (3 perguntas) - Eixo: Névoa
+3. Controle (3 perguntas) - Eixo: Medo
+4. Isolamento (3 perguntas) - Eixo: Limites
+5. Abuso Emocional (3 perguntas) - Eixo: Medo
+6. Risco Físico (3 perguntas) - Eixo: Limites (peso alto)
+
+ZONAS GLOBAIS:
+- Zona de Atenção (0-33%): Sinais leves
+- Zona de Alerta (33-66%): Sinais moderados
+- Zona de Alto Risco (66-100%): Sinais graves
+
+ARQUIVO DE VOZES:
+lib/clarity-questions-voices.ts (11KB)
+- 3 vozes: Científica, Amiga, Direta
+- Cada pergunta tem texto adaptado para cada voz
+
+FLUXO "GUARDAR X VER APENAS":
+- Visitante: Faz teste, vê resultado, não salva
+- Logado: Pode escolher "Guardar como base do Radar"
+- API: app/api/clarity/activate-profile/route.ts
+- Quando salva: is_profile_base = true, gera resumo IA
+
+RESUMO AUTOMÁTICO POR IA:
+- Função: generateAISummary() em activate-profile/route.ts
+- Usa provedores: Groq > OpenAI > Claude > Gemini
+- Gera 3-5 frases empáticas sem diagnóstico
+- Salvo no campo `summary` da tabela clarity_tests
+
+--------------------------------------------------------------------------------
+[3.2] DIÁRIO
+--------------------------------------------------------------------------------
+
+ROTAS:
+- /diario → Lista de entradas
+- /diario/novo → Criar entrada
+- /diario/[id] → Visualizar entrada
+- /diario/[id]/editar → Editar entrada
+- /diario/timeline → Timeline visual
+
+TABELA: journal_entries
+- id, user_id, created_at, updated_at, deleted_at
+- title, context (RELACIONAMENTO/FAMILIA/TRABALHO/OUTRO)
+- content, mood_intensity (0-10), highlight, tags[]
+- from_voice (se veio de transcrição)
+- entry_type (normal, clarity_baseline) - NOVO
+- clarity_test_id (referência ao teste) - NOVO
+
+INTEGRAÇÃO COM TESTE DE CLAREZA:
+- Quando usuário salva teste como base, pode criar entrada automática
+- entry_type = 'clarity_baseline'
+- clarity_test_id = ID do teste
+- Tags sugeridas baseadas nos eixos do teste
+
+ANEXOS:
+- Tabela: journal_attachments
+- Tipos: IMAGE, AUDIO, PDF, VIDEO, OTHER
+- Storage: Supabase Storage
+
+--------------------------------------------------------------------------------
+[3.3] CHAT/COACH IA
+--------------------------------------------------------------------------------
+
+ROTA: /chat
+ARQUIVO: app/chat/page.tsx (89KB)
+
+SISTEMA DE IAs:
+- lib/chat-colaborativo.ts - Sistema de múltiplas IAs
+- lib/ia-conexoes-reais.ts - Conexões com OpenAI e Groq
+- lib/prompts/coachPrompt.ts - Prompt do Coach de Clareza
+
+PROMPT DO COACH:
+- Persona: "Radar Narcisista – Coach de Clareza"
+- Tom: Amigo responsável brasileiro
+- Regras: Responder diretamente, sugerir passos, poucas perguntas
+- Limites: Não é terapia, não faz diagnóstico
+- Protocolo de crise: CVV 188, Polícia 190, Mulher 180
+- Guardrails anti-vingança: Detecta e recusa ajudar com vingança
+- Detecção de fraude: Red flags para relatos inconsistentes
+
+INTEGRAÇÃO COM PERFIL DE CLAREZA:
+- Busca perfil do usuário (is_profile_base = true)
+- Injeta contexto silencioso com:
+  - Zona atual, percentual geral
+  - Scores dos 3 eixos
+  - Alerta de risco físico (se houver)
+  - Resumo gerado pela IA
+- IA usa contexto para personalizar respostas
+
+API: /api/chat
+- Recebe: message, history, userLocation, clarityProfile
+- Detecta problemas no texto (gaslighting, invalidação, etc.)
+- Detecta red flags de fraude/má-fé
+- Retorna: reply, transparencia (IAs usadas, consenso)
+
+--------------------------------------------------------------------------------
+[3.4] DASHBOARD
+--------------------------------------------------------------------------------
+
+ROTA: /dashboard
+ARQUIVO: app/dashboard/page.tsx
+
+CONTEÚDO:
+- Resumo do perfil de clareza (se existir)
+- Últimas entradas do diário
+- Alertas de risco (se houver)
+- Recomendações personalizadas
+- Atalhos para ferramentas
+
+VARIANTES:
+- /dashboard-v2 → Versão alternativa
+- /dashboard-premium → Versão para planos pagos
+
+================================================================================
+[4] ESQUEMA DE BANCO (SUPABASE)
+================================================================================
+
+ARQUIVO: database/schema.sql (20KB)
+
+TABELAS PRINCIPAIS:
+
+user_profiles
+- user_id (PK, FK → auth.users)
+- name, role (USER/ADMIN/SUPER_ADMIN)
+- created_at, updated_at
+
+user_settings
+- user_id (PK, FK → auth.users)
+- save_history, save_voice_audio
+- allow_ai_learning_product, allow_ai_dataset_research
+- created_at, updated_at
+
+clarity_tests
+- id (PK), user_id (FK)
+- fog_score, fear_score, limits_score (0-16 cada)
+- global_zone (ATENCAO/ALERTA/VERMELHA)
+- raw_answers (JSONB), summary (TEXT)
+- from_voice (BOOLEAN)
+- NOVOS CAMPOS (migrations pendentes):
+  - is_profile_base (BOOLEAN)
+  - user_narrative (TEXT)
+  - overall_percentage (DECIMAL)
+  - has_physical_risk (BOOLEAN)
+  - test_type (TEXT)
+  - category_scores (JSONB)
+  - axis_scores (JSONB)
+  - ip_hash (TEXT)
+  - completed_at (TIMESTAMPTZ)
+
+journal_entries
+- id (PK), user_id (FK)
+- title, context, content
+- mood_intensity, highlight, tags[]
+- from_voice, deleted_at
+- NOVOS CAMPOS (migrations pendentes):
+  - entry_type (TEXT)
+  - clarity_test_id (FK → clarity_tests)
+
+journal_attachments
+- id (PK), journal_entry_id (FK), user_id (FK)
+- type, filename, storage_path
+- description, transcription
+
+ai_chat_sessions
+- id (PK), user_id (FK)
+- name, kind (USER_COACH, AI_STUDIO_*)
+
+ai_messages
+- id (PK), session_id (FK), user_id (FK)
+- role (user/assistant/system/meta)
+- content, from_voice, meta (JSONB)
+
+subscriptions
+- id (PK), user_id (FK)
+- stripe_subscription_id, stripe_customer_id
+- status, price_id, amount, currency
+- current_period_start/end, cancel_at_period_end
+
+safety_plans
+- id (PK), user_id (FK)
+- emergency_contacts (JSONB)
+- important_documents (JSONB)
+- emergency_bag_items (JSONB)
+- safe_place (JSONB)
+- digital_security (JSONB)
+- overall_status, notes
+
+risk_alerts
+- id (PK), user_id (FK)
+- source, source_id, level, category
+- title, description, recommendation
+- is_read, is_dismissed
+
+waitlist (NOVA - migration pendente)
+- id (PK), email, source
+- created_at, notified_at, converted_at
+- metadata (JSONB)
+
+MIGRATIONS PENDENTES (database/migrations/):
+1. 20241129_add_clarity_profile_base.sql
+2. 20241129_add_clarity_extra_fields.sql
+3. 20241129_add_diary_clarity_fields.sql
+4. 20241129_create_waitlist.sql
+
+RLS (Row Level Security):
+- Todas as tabelas têm RLS habilitado
+- Políticas: usuário só vê/edita seus próprios dados
+- Admins têm acesso especial via role
+
+================================================================================
+[5] PLANOS E MONETIZAÇÃO
+================================================================================
+
+ARQUIVO: lib/plans-config.ts (11KB)
+
+5 NÍVEIS DE PLANO:
+
+1. VISITANTE (sem conta)
+   - legacyId: 'visitante'
+   - Preço: Grátis
+   - Limites: 1 teste/mês, 0 diário, 0 chat
+   - Features: Teste 1x, ver resultado na tela
+   - NÃO inclui: PDF, salvar, diário, coach
+
+2. RADAR GUARDAR (gratuito com conta)
+   - legacyId: 'gratuito'
+   - Preço: Grátis
+   - Limites: Testes ilimitados, 3 diário/mês, 5 chat/dia
+   - Features: Salvar resultado, diário básico, coach básico
+   - NÃO inclui: PDF, histórico completo
+
+3. RADAR JORNADA (ex-Essencial)
+   - legacyId: 'essencial'
+   - Preço: R$29,90/mês ou R$299/ano
+   - Limites: Ilimitado diário, 50 chat/dia
+   - Features: Tudo do Guardar + PDF, histórico, análise padrões
+
+4. RADAR DEFESA (ex-Premium)
+   - legacyId: 'premium'
+   - Preço: R$49,90/mês ou R$499/ano
+   - Limites: Ilimitado tudo
+   - Features: Tudo do Jornada + IAs colaborativas, relatórios avançados
+   - popular: true
+
+5. RADAR PROFISSIONAL (futuro)
+   - legacyId: 'profissional'
+   - Preço: R$99,90/mês
+   - comingSoon: true
+   - Para: Terapeutas, advogados
+   - Features: Múltiplos clientes, relatórios profissionais
+
+INTEGRAÇÃO STRIPE:
+- Arquivo: lib/stripe.ts
+- API: app/api/stripe/checkout, webhook, portal
+- Price IDs: via env (STRIPE_PRICE_ESSENCIAL_MENSAL, etc.)
+
+================================================================================
+[6] IDIOMAS (i18n)
+================================================================================
+
+ARQUIVO: lib/i18n.ts (36KB)
+
+IDIOMAS SUPORTADOS:
+- pt-BR (Português Brasileiro) - DEFAULT
+- en (English)
+- es (Español)
+
+ESTRUTURA:
+- translations: Record<Locale, Record<string, string>>
+- frontpageDictionaries: Dicionários estruturados para homepage
+
+PÁGINAS COM i18n IMPLEMENTADO:
+- app/page.tsx (homepage) - PARCIAL
+  - Seções: Hero, Como Funciona, Ferramentas, Planos, Garantias
+  - Bloco "Você escolhe como usar"
+  - Algumas listas ainda hardcoded em PT-BR
+
+PÁGINAS SEM i18n (hardcoded PT-BR):
+- app/teste-clareza/page.tsx
+- app/diario/*.tsx
+- app/chat/page.tsx
+- app/dashboard/page.tsx
+- app/planos/page.tsx
+- Maioria das outras páginas
+
+COMPONENTE SELETOR:
+- components/LanguageSelector.tsx
+- Salva preferência no localStorage
+- Recarrega página ao mudar idioma
+
+================================================================================
+[7] SEGURANÇA, LGPD E BOTÃO DE EMERGÊNCIA
+================================================================================
+
+BOTÃO DE EMERGÊNCIA (ESC):
+- Implementado em: components/EmergencyButton.tsx
+- Atalho: Tecla ESC
+- Ação: Redireciona para site neutro (Google)
+- Presente em: Layout principal, páginas sensíveis
+
+TERMOS E RESPONSABILIDADE:
+- Componente: components/ResponsibilityTermsModal.tsx
+- Modal obrigatório no primeiro uso do chat
+- 6 checkboxes obrigatórios:
+  1. Perspectiva unilateral
+  2. Mentir é crime (Art. 299 CP)
+  3. Forjar provas é crime (Art. 347 CP)
+  4. Calúnia/difamação/injúria são crimes
+  5. Responsabilidade total pelo uso
+  6. Ferramenta de apoio (não substitui profissionais)
+- Registra aceite no banco com timestamp
+
+AVISOS NO FRONTEND:
+- Chat: Microaviso abaixo do input
+- Chat: Aviso periódico a cada 8 mensagens
+- Chat: Modal de confirmação antes de exportar PDF
+- Diário: Microaviso abaixo do campo de descrição
+- Timeline: Aviso completo com ícone
+
+LGPD:
+- Tabela user_settings com preferências de privacidade
+- save_history, save_voice_audio
+- allow_ai_learning_product, allow_ai_dataset_research
+- Rota /configuracoes para gerenciar preferências
+- Rota /privacidade com política de privacidade
+
+EXPORTAR/APAGAR DADOS:
+- Rota /dados-e-ia para visualizar dados
+- Funcionalidade de exportar dados: PARCIALMENTE IMPLEMENTADA
+- Funcionalidade de apagar conta: PARCIALMENTE IMPLEMENTADA
+
+================================================================================
+[8] DIFERENÇA ENTRE VISÃO (TUDO PARA O GPT.txt) E CÓDIGO REAL
+================================================================================
+
+TESTE DE CLAREZA:
+- Visão: 18 perguntas + 1 aberta, 3 eixos, 6 categorias, vozes
+- Código: ✅ IMPLEMENTADO CONFORME VISÃO
+- Diferença: Nenhuma significativa
+
+FLUXO "GUARDAR X VER APENAS":
+- Visão: Escolha clara entre ver e guardar como base
+- Código: ✅ IMPLEMENTADO
+- API activate-profile funcional
+- Resumo IA gerado automaticamente
+
+DIÁRIO:
+- Visão: Integração com teste de clareza, tags sugeridas
+- Código: ✅ IMPLEMENTADO
+- Campos entry_type e clarity_test_id adicionados
+- PENDENTE: Migrations precisam ser executadas no Supabase
+
+CHAT/COACH IA:
+- Visão: Múltiplas IAs, contexto do perfil, detecção de fraude
+- Código: ✅ IMPLEMENTADO
+- Sistema colaborativo OpenAI + Groq
+- Contexto do perfil de clareza injetado
+- Detecção de red flags funcionando
+
+PLANOS:
+- Visão: 5 níveis (Visitante, Guardar, Jornada, Defesa, Profissional)
+- Código: ✅ IMPLEMENTADO
+- Nomes comerciais corretos
+- legacyId mantido para Stripe
+- Profissional marcado como comingSoon
+
+IDIOMAS:
+- Visão: PT/EN/ES em toda a plataforma
+- Código: ⚠️ PARCIALMENTE IMPLEMENTADO
+- Homepage tem i18n
+- Maioria das outras páginas ainda hardcoded PT-BR
+
+RADAR PROFISSIONAL:
+- Visão: Plano B2B para terapeutas/advogados
+- Código: ⚠️ PARCIALMENTE IMPLEMENTADO
+- Página /profissional existe com waitlist
+- Funcionalidades específicas: AINDA NÃO IMPLEMENTADAS
+
+LOJA DE ADD-ONS:
+- Visão: Funcionalidades extras para compra avulsa
+- Código: ⚠️ PARCIALMENTE IMPLEMENTADO
+- Página /loja existe
+- Integração com pagamento: AINDA NÃO IMPLEMENTADA
+
+TRILHAS/CURSOS:
+- Visão: Conteúdo educativo personalizado
+- Código: ⚠️ PARCIALMENTE IMPLEMENTADO
+- Página /cursos existe
+- Personalização baseada no teste: AINDA NÃO IMPLEMENTADA
+
+================================================================================
+[9] PENDÊNCIAS TÉCNICAS E RISCOS
+================================================================================
+
+MIGRATIONS PENDENTES (CRÍTICO):
+Os seguintes arquivos SQL existem mas podem não ter sido executados:
+1. database/migrations/20241129_add_clarity_profile_base.sql
+   - Adiciona: is_profile_base, user_narrative, overall_percentage, etc.
+2. database/migrations/20241129_add_clarity_extra_fields.sql
+   - Adiciona: category_scores, axis_scores, ip_hash, summary, completed_at
+3. database/migrations/20241129_add_diary_clarity_fields.sql
+   - Adiciona: entry_type, clarity_test_id em journal_entries
+4. database/migrations/20241129_create_waitlist.sql
+   - Cria tabela waitlist com RLS
+
+RISCO: Se as migrations não forem executadas, o código que usa esses campos
+vai falhar silenciosamente ou com erro.
+
+ARQUIVOS DE BACKUP:
+- Movidos para app/_archive/teste-clareza/
+- page-old.tsx, page-old-backup.tsx
+- resultado/page-old.tsx, resultado/page-old-backup.tsx
+- NÃO estão sendo importados em nenhum lugar
+
+PONTOS FRÁGEIS:
+1. Chat depende de campos que podem não existir (is_profile_base)
+2. Diário novo tenta usar entry_type que pode não existir
+3. i18n incompleto pode causar textos misturados PT/EN
+
+VARIÁVEIS DE AMBIENTE NECESSÁRIAS:
+- NÃO CONSIGO VER O CONTEÚDO DO .env.local
+- Necessárias: SUPABASE_URL, SUPABASE_ANON_KEY, OPENAI_API_KEY,
+  GROQ_API_KEY, STRIPE_SECRET_KEY, STRIPE_PRICE_*, etc.
+
+DUPLICAÇÕES:
+- lib/clarity-test-config.ts vs lib/clarityTestConfig.ts (legado)
+- lib/clarity-index.ts vs lib/clarityIndex.ts (legado)
+- Recomendação: Remover arquivos legados após confirmar não uso
+
+TESTES AUTOMATIZADOS:
+- Pasta __tests__/ existe com 2 itens
+- Cobertura: NÃO CONSIGO CONFIRMAR EXTENSÃO
+- jest.config.js configurado
+
+================================================================================
+FIM DO ATLAS
+================================================================================
+Gerado em: 29/11/2025 18:10 (UTC-5)
+Tamanho aproximado: ~20KB
+Seções: 9
+
+NOTA IMPORTANTE:
+Este documento reflete o estado do CÓDIGO no momento da geração.
+O estado real do banco de dados Supabase NÃO PODE SER CONFIRMADO
+a partir do código. As migrations listadas como "pendentes" podem
+já ter sido executadas manualmente.
+
+Para confirmar o estado do banco:
+1. Acessar Supabase Dashboard
+2. Verificar se as colunas existem nas tabelas
+3. Executar migrations pendentes se necessário
+================================================================================

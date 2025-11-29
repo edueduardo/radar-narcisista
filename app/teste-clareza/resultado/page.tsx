@@ -10,7 +10,7 @@ import {
   LayoutDashboard, AlertCircle, Brain, Lock, Heart, ShieldAlert, 
   Users, RefreshCw, Phone, Download, Printer, Copy, FileCheck,
   MousePointerClick, FileDown, Save, Eye, CheckCircle2, Loader2,
-  Sparkles, UserPlus
+  Sparkles, UserPlus, Mail, KeyRound, LogIn
 } from 'lucide-react'
 
 import {
@@ -62,6 +62,14 @@ export default function ResultadoV2() {
   const [rawAnswers, setRawAnswers] = useState<Record<string, number> | null>(null)
   const [userNarrative, setUserNarrative] = useState<string>('')
   
+  // Estados para GATE DE LOGIN (bloqueia resultado até criar conta)
+  const [showAuthGate, setShowAuthGate] = useState(false)
+  const [authMode, setAuthMode] = useState<'signup' | 'login'>('signup')
+  const [authEmail, setAuthEmail] = useState('')
+  const [authPassword, setAuthPassword] = useState('')
+  const [authLoading, setAuthLoading] = useState(false)
+  const [authError, setAuthError] = useState<string | null>(null)
+  
   // Ref para acessar função de download do componente PDF
   const pdfRef = useRef<ClarityResultPDFHandle>(null)
   
@@ -74,6 +82,9 @@ export default function ResultadoV2() {
 
   const loadResult = async () => {
     try {
+      // Primeiro: verificar se usuário está logado
+      const { data: { user } } = await supabase.auth.getUser()
+      
       const savedResult = localStorage.getItem('radar-test-result')
       if (savedResult) {
         const parsed = JSON.parse(savedResult)
@@ -82,18 +93,22 @@ export default function ResultadoV2() {
         setUserNarrative(parsed.userNarrative || '')
         setTestDate(new Date(parsed.completedAt).toLocaleDateString('pt-BR'))
         
-        const { data: { user } } = await supabase.auth.getUser()
-        if (user) {
-          await loadDiaryStats(user.id)
-          // Verificar se já existe um teste salvo como base
-          await checkIfSavedAsBase(user.id)
+        // SE NÃO ESTÁ LOGADO → MOSTRAR GATE DE LOGIN
+        if (!user) {
+          setShowAuthGate(true)
+          setLoading(false)
+          return
         }
+        
+        // Está logado → carregar dados extras
+        await loadDiaryStats(user.id)
+        await checkIfSavedAsBase(user.id)
         
         setLoading(false)
         return
       }
 
-      const { data: { user } } = await supabase.auth.getUser()
+      // Sem resultado no localStorage - verificar no banco
       if (!user) {
         router.push('/teste-clareza')
         return
@@ -249,6 +264,64 @@ export default function ResultadoV2() {
     }
   }
 
+  // =========================================================================
+  // FUNÇÃO DE AUTENTICAÇÃO (GATE DE LOGIN)
+  // =========================================================================
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setAuthLoading(true)
+    setAuthError(null)
+    
+    try {
+      if (authMode === 'signup') {
+        // Criar conta
+        const { data, error } = await supabase.auth.signUp({
+          email: authEmail,
+          password: authPassword,
+          options: {
+            emailRedirectTo: `${window.location.origin}/teste-clareza/resultado`
+          }
+        })
+        
+        if (error) throw error
+        
+        if (data.user) {
+          // Conta criada com sucesso - fechar gate e mostrar resultado
+          setShowAuthGate(false)
+          // Recarregar para pegar dados do usuário
+          loadResult()
+        }
+      } else {
+        // Login
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: authEmail,
+          password: authPassword,
+        })
+        
+        if (error) throw error
+        
+        if (data.user) {
+          setShowAuthGate(false)
+          loadResult()
+        }
+      }
+    } catch (error: any) {
+      console.error('Erro de autenticação:', error)
+      if (error.message?.includes('Invalid login')) {
+        setAuthError('E-mail ou senha incorretos')
+      } else if (error.message?.includes('already registered')) {
+        setAuthError('Este e-mail já está cadastrado. Faça login.')
+        setAuthMode('login')
+      } else if (error.message?.includes('Password should be')) {
+        setAuthError('A senha deve ter pelo menos 6 caracteres')
+      } else {
+        setAuthError(error.message || 'Erro ao autenticar. Tente novamente.')
+      }
+    } finally {
+      setAuthLoading(false)
+    }
+  }
+
   // Loading
   if (loading) {
     return (
@@ -280,6 +353,158 @@ export default function ResultadoV2() {
             <Target className="w-5 h-5" />
             Fazer Teste de Clareza
           </Link>
+        </div>
+      </div>
+    )
+  }
+
+  // =========================================================================
+  // GATE DE LOGIN - Bloqueia resultado até criar conta
+  // =========================================================================
+  if (showAuthGate) {
+    const zoneConfig = getZoneConfig(result.globalZone)
+    
+    return (
+      <div className="min-h-screen bg-[#020617] flex items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          {/* Preview borrado do resultado */}
+          <div className="relative mb-6 p-6 rounded-2xl bg-slate-800/50 border border-slate-700 overflow-hidden">
+            <div className="absolute inset-0 backdrop-blur-md bg-slate-900/60 z-10" />
+            <div className="relative z-0 opacity-30">
+              <div className="text-center">
+                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl ${zoneConfig.bgColor} ${zoneConfig.borderColor} border`}>
+                  <Target className={`w-5 h-5 ${zoneConfig.color}`} />
+                  <span className={`font-bold ${zoneConfig.color}`}>{zoneConfig.title}</span>
+                </div>
+                <p className="mt-3 text-gray-400">Seu resultado está pronto!</p>
+              </div>
+            </div>
+            <div className="absolute inset-0 z-20 flex items-center justify-center">
+              <Lock className="w-8 h-8 text-violet-400" />
+            </div>
+          </div>
+          
+          {/* Card de autenticação */}
+          <div className="bg-slate-800/80 border border-slate-700 rounded-2xl p-6 sm:p-8">
+            <div className="text-center mb-6">
+              <div className="w-14 h-14 bg-violet-900/50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Target className="w-7 h-7 text-violet-400" />
+              </div>
+              <h1 className="text-xl sm:text-2xl font-bold text-white mb-2">
+                {authMode === 'signup' ? 'Crie sua conta gratuita' : 'Entre na sua conta'}
+              </h1>
+              <p className="text-gray-400 text-sm sm:text-base">
+                {authMode === 'signup' 
+                  ? 'Para ver seu resultado e salvar seu progresso'
+                  : 'Acesse sua conta para ver o resultado'
+                }
+              </p>
+            </div>
+            
+            <form onSubmit={handleAuth} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                  E-mail
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                  <input
+                    type="email"
+                    value={authEmail}
+                    onChange={(e) => setAuthEmail(e.target.value)}
+                    placeholder="seu@email.com"
+                    required
+                    className="w-full pl-10 pr-4 py-3 bg-slate-900 border border-slate-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-1.5">
+                  Senha
+                </label>
+                <div className="relative">
+                  <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                  <input
+                    type="password"
+                    value={authPassword}
+                    onChange={(e) => setAuthPassword(e.target.value)}
+                    placeholder={authMode === 'signup' ? 'Mínimo 6 caracteres' : 'Sua senha'}
+                    required
+                    minLength={6}
+                    className="w-full pl-10 pr-4 py-3 bg-slate-900 border border-slate-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+              
+              {authError && (
+                <div className="p-3 bg-red-900/30 border border-red-700 rounded-xl">
+                  <p className="text-red-400 text-sm">{authError}</p>
+                </div>
+              )}
+              
+              <button
+                type="submit"
+                disabled={authLoading}
+                className="w-full py-3 bg-violet-600 hover:bg-violet-500 disabled:bg-violet-800 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors flex items-center justify-center gap-2"
+              >
+                {authLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    {authMode === 'signup' ? 'Criando conta...' : 'Entrando...'}
+                  </>
+                ) : (
+                  <>
+                    {authMode === 'signup' ? <UserPlus className="w-5 h-5" /> : <LogIn className="w-5 h-5" />}
+                    {authMode === 'signup' ? 'Criar Conta e Ver Resultado' : 'Entrar e Ver Resultado'}
+                  </>
+                )}
+              </button>
+            </form>
+            
+            <div className="mt-6 text-center">
+              <button
+                onClick={() => {
+                  setAuthMode(authMode === 'signup' ? 'login' : 'signup')
+                  setAuthError(null)
+                }}
+                className="text-violet-400 hover:text-violet-300 text-sm font-medium transition-colors"
+              >
+                {authMode === 'signup' 
+                  ? 'Já tem conta? Faça login'
+                  : 'Não tem conta? Crie agora'
+                }
+              </button>
+            </div>
+            
+            {/* Benefícios */}
+            <div className="mt-6 pt-6 border-t border-slate-700">
+              <p className="text-xs text-gray-500 text-center mb-3">Ao criar sua conta você terá:</p>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="flex items-center gap-1.5 text-gray-400">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />
+                  <span>Resultado salvo</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-gray-400">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />
+                  <span>Diário de episódios</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-gray-400">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />
+                  <span>Coach IA</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-gray-400">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />
+                  <span>100% gratuito</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Aviso de segurança */}
+          <p className="mt-4 text-center text-xs text-gray-500">
+            🔒 Seus dados são criptografados e protegidos
+          </p>
         </div>
       </div>
     )
