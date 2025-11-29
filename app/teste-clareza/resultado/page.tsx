@@ -23,9 +23,14 @@ import {
 } from '@/lib/clarity-unified-config'
 import { PROBLEMS, getToolsByProblem } from '@/lib/tools-config'
 
+// Componentes de cadeia de custódia
+import TermsConsentBadge from '@/components/TermsConsentBadge'
+import ClarityResultPDF from '@/components/ClarityResultPDF'
+
 // =============================================================================
 // RESULTADO DO TESTE DE CLAREZA - UNIFICADO
 // PLANO D: Combina o melhor de todos os sistemas anteriores
+// + Cadeia de Custódia: Badge de termo + Exportação PDF
 // =============================================================================
 
 // Mapeamento de ícones para categorias
@@ -658,6 +663,22 @@ export default function ResultadoUnificado() {
             </div>
           )}
         </div>
+
+        {/* Badge de Termo de Consentimento */}
+        <div className="flex justify-center mb-6">
+          <TermsConsentBadge />
+        </div>
+
+        {/* Exportar PDF com Cadeia de Custódia */}
+        {result && (
+          <div className="mb-8">
+            <ClarityResultPDF 
+              result={result} 
+              testDate={testDate} 
+              isDarkMode={isDarkMode} 
+            />
+          </div>
+        )}
 
         {/* Navegação */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">

@@ -11,7 +11,8 @@ import {
   Moon,
   Sun,
   ShieldAlert,
-  ChevronRight
+  ChevronRight,
+  Lock
 } from 'lucide-react'
 
 // Importar configuração unificada
@@ -25,9 +26,14 @@ import {
   type UnifiedQuestion,
 } from '@/lib/clarity-unified-config'
 
+// Importar componentes de termos
+import ClarityTermsModal from '@/components/ClarityTermsModal'
+import TermsConsentBadge from '@/components/TermsConsentBadge'
+
 // =============================================================================
 // TESTE DE CLAREZA UNIFICADO - RADAR NARCISISTA BR
 // PLANO D: 18 perguntas, 3 eixos, 6 categorias, design adaptável
+// + Cadeia de Custódia: Modal de termos obrigatório com validade de 30 dias
 // =============================================================================
 
 export default function TesteClarezaUnificado() {
@@ -39,6 +45,11 @@ export default function TesteClarezaUnificado() {
   const [isDarkMode, setIsDarkMode] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [questions, setQuestions] = useState<UnifiedQuestion[]>([])
+  
+  // Estados para controle de termos
+  const [termsAccepted, setTermsAccepted] = useState<boolean | null>(null) // null = verificando
+  const [showTermsModal, setShowTermsModal] = useState(false)
+  const [termsBlocked, setTermsBlocked] = useState(false) // Se fechou sem aceitar
 
   const router = useRouter()
   const supabase = createClientComponentClient()
@@ -68,10 +79,83 @@ export default function TesteClarezaUnificado() {
         }
       }
       
+      // Verificar se termos foram aceitos nos últimos 30 dias
+      await checkTermsAcceptance(user)
+      
       setLoading(false)
     }
     init()
   }, [supabase])
+
+  // Verificar aceite de termos (localStorage + Supabase)
+  const checkTermsAcceptance = async (currentUser: any) => {
+    // Primeiro verificar localStorage (cache)
+    const cachedAcceptance = localStorage.getItem('clarity-terms-accepted')
+    if (cachedAcceptance) {
+      try {
+        const parsed = JSON.parse(cachedAcceptance)
+        const expiresAt = new Date(parsed.expiresAt)
+        
+        // Se ainda não expirou (30 dias), aceitar
+        if (expiresAt > new Date()) {
+          setTermsAccepted(true)
+          return
+        }
+      } catch (e) {
+        console.error('Erro ao verificar cache de termos:', e)
+      }
+    }
+
+    // Se não tem cache válido, verificar no Supabase
+    if (currentUser) {
+      try {
+        const thirtyDaysAgo = new Date()
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+
+        const { data, error } = await supabase
+          .from('terms_acceptances')
+          .select('id, accepted_at')
+          .eq('user_id', currentUser.id)
+          .gte('accepted_at', thirtyDaysAgo.toISOString())
+          .order('accepted_at', { ascending: false })
+          .limit(1)
+
+        if (!error && data && data.length > 0) {
+          // Tem aceite válido no banco, atualizar cache
+          const acceptance = data[0]
+          const expiresAt = new Date(acceptance.accepted_at)
+          expiresAt.setDate(expiresAt.getDate() + 30)
+          
+          localStorage.setItem('clarity-terms-accepted', JSON.stringify({
+            acceptedAt: acceptance.accepted_at,
+            expiresAt: expiresAt.toISOString()
+          }))
+          
+          setTermsAccepted(true)
+          return
+        }
+      } catch (e) {
+        console.error('Erro ao verificar termos no Supabase:', e)
+      }
+    }
+
+    // Não tem aceite válido - precisa mostrar modal
+    setTermsAccepted(false)
+    setShowTermsModal(true)
+  }
+
+  // Handler quando aceita os termos
+  const handleTermsAccepted = () => {
+    setTermsAccepted(true)
+    setShowTermsModal(false)
+    setTermsBlocked(false)
+  }
+
+  // Handler quando fecha o modal sem aceitar
+  const handleTermsClose = () => {
+    setShowTermsModal(false)
+    setTermsBlocked(true)
+  }
 
   // Salvar preferência de tema
   const toggleTheme = () => {
@@ -194,6 +278,62 @@ export default function TesteClarezaUnificado() {
     )
   }
 
+  // Tela de bloqueio - se fechou o modal sem aceitar
+  if (termsBlocked) {
+    return (
+      <div className={`min-h-screen ${theme.bgMain} flex items-center justify-center p-4`}>
+        <div className={`max-w-md w-full ${theme.cardBg} rounded-2xl shadow-xl border ${theme.cardBorder} p-6 sm:p-8 text-center`}>
+          <div className={`w-16 h-16 bg-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4`}>
+            <Lock className="w-8 h-8 text-red-400" />
+          </div>
+          <h1 className={`text-xl font-bold ${theme.textPrimary} mb-3`}>
+            Teste Bloqueado
+          </h1>
+          <p className={`${theme.textSecondary} mb-6 text-sm`}>
+            O Teste de Clareza só é habilitado após você ter ciência das regras e leis aplicáveis. 
+            Isso é necessário para sua proteção e para garantir o uso ético da plataforma.
+          </p>
+          <div className="space-y-3">
+            <button 
+              onClick={() => {
+                setTermsBlocked(false)
+                setShowTermsModal(true)
+              }}
+              className={`w-full py-3 px-6 ${theme.accentBg} ${theme.accentHover} text-white rounded-xl font-semibold transition-colors`}
+            >
+              Ler Termo de Responsabilidade
+            </button>
+            <Link href="/">
+              <button className={`w-full py-3 px-6 ${isDarkMode ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-100 hover:bg-gray-200'} ${theme.textPrimary} rounded-xl font-medium transition-colors`}>
+                Voltar ao início
+              </button>
+            </Link>
+          </div>
+        </div>
+        
+        {/* Modal de termos */}
+        <ClarityTermsModal 
+          isOpen={showTermsModal}
+          onAccept={handleTermsAccepted}
+          onClose={handleTermsClose}
+        />
+      </div>
+    )
+  }
+
+  // Modal de termos (se ainda não aceitou)
+  if (!termsAccepted && showTermsModal) {
+    return (
+      <div className={`min-h-screen ${theme.bgMain}`}>
+        <ClarityTermsModal 
+          isOpen={showTermsModal}
+          onAccept={handleTermsAccepted}
+          onClose={handleTermsClose}
+        />
+      </div>
+    )
+  }
+
   // Disclaimer inicial
   if (showDisclaimer) {
     return (
@@ -282,7 +422,14 @@ export default function TesteClarezaUnificado() {
     <div className={`min-h-screen ${theme.bgMain}`}>
       {/* Header */}
       <header className={`sticky top-0 z-40 ${theme.bgHeader} backdrop-blur-sm border-b ${theme.borderHeader}`}>
-        <div className="max-w-3xl mx-auto px-4 py-4">
+        <div className="max-w-3xl mx-auto px-4 py-3">
+          {/* Badge de Termo de Consentimento no topo */}
+          {termsAccepted && (
+            <div className="flex justify-center mb-3">
+              <TermsConsentBadge />
+            </div>
+          )}
+          
           <div className="flex items-center justify-between mb-3">
             <button 
               onClick={handleBack}
