@@ -385,3 +385,214 @@ export function detectBrowserLocale(): Locale {
   
   return defaultLocale
 }
+
+// =============================================================================
+// TEMA 14: Dicionários completos para frontpage
+// =============================================================================
+
+export const frontpageDictionaries = {
+  'pt-BR': {
+    nav: {
+      howItWorks: 'Como funciona',
+      tools: 'Ferramentas',
+      plans: 'Planos',
+      faq: 'FAQ',
+      login: 'Entrar',
+      startTest: 'Fazer o Teste',
+    },
+    hero: {
+      badge: 'Ferramenta gratuita de autoconhecimento',
+      title: 'Você não está louca.',
+      subtitle: 'Você está confusa por alguém que te confundiu.',
+      description: 'O Teste de Clareza te ajuda a entender o que está acontecendo no seu relacionamento. Em 5 minutos, você terá mais clareza sobre os padrões que está vivendo.',
+      cta: 'Fazer o Teste de Clareza',
+      ctaSecondary: 'Como funciona',
+      stats: [
+        { value: '15.000+', label: 'Testes realizados' },
+        { value: '4.8/5', label: 'Avaliação média' },
+        { value: '5 min', label: 'Tempo médio' },
+      ],
+    },
+    howItWorks: {
+      title: 'Como funciona',
+      subtitle: 'Três passos para mais clareza',
+      steps: [
+        { number: '01', title: 'Responda 18 perguntas', description: 'Perguntas simples sobre situações do seu dia a dia. Sem julgamento, apenas reflexão.' },
+        { number: '02', title: 'Receba seu resultado', description: 'Veja em qual zona você está e quais padrões foram identificados no seu relacionamento.' },
+        { number: '03', title: 'Decida o próximo passo', description: 'Guarde seu resultado, explore ferramentas de apoio ou converse com nosso Coach IA.' },
+      ],
+    },
+    tools: {
+      title: 'Ferramentas para sua jornada',
+      subtitle: 'Tudo que você precisa para documentar, entender e se proteger',
+      free: 'Grátis',
+    },
+    plans: {
+      title: 'Escolha seu nível de proteção',
+      subtitle: 'Comece grátis, evolua quando precisar',
+      monthly: 'Mensal',
+      annual: 'Anual',
+      annualDiscount: '-17%',
+      startFree: 'Começar Grátis',
+      choosePlan: 'Escolher Plano',
+      mostPopular: 'MAIS POPULAR',
+    },
+    testimonials: {
+      title: 'O que dizem sobre nós',
+      subtitle: 'Histórias reais de quem usou o Radar',
+    },
+    faq: {
+      title: 'Perguntas Frequentes',
+    },
+    finalCta: {
+      title: 'Pronta para ter mais clareza?',
+      subtitle: 'O primeiro passo é o mais difícil. Mas você não precisa dar sozinha.',
+      cta: 'Começar o Teste Gratuito',
+    },
+    footer: {
+      description: 'Ferramenta de autoconhecimento para pessoas em relacionamentos difíceis.',
+      product: 'Produto',
+      support: 'Suporte',
+      emergency: 'Emergência',
+      copyright: '© 2024 Radar Narcisista. Todos os direitos reservados.',
+    },
+  },
+  'en': {
+    nav: {
+      howItWorks: 'How it works',
+      tools: 'Tools',
+      plans: 'Plans',
+      faq: 'FAQ',
+      login: 'Sign in',
+      startTest: 'Take the Test',
+    },
+    hero: {
+      badge: 'Free self-awareness tool',
+      title: "You're not crazy.",
+      subtitle: "You're confused by someone who confused you.",
+      description: "The Clarity Test helps you understand what's happening in your relationship. In 5 minutes, you'll have more clarity about the patterns you're experiencing.",
+      cta: 'Take the Clarity Test',
+      ctaSecondary: 'How it works',
+      stats: [
+        { value: '15,000+', label: 'Tests taken' },
+        { value: '4.8/5', label: 'Average rating' },
+        { value: '5 min', label: 'Average time' },
+      ],
+    },
+    howItWorks: {
+      title: 'How it works',
+      subtitle: 'Three steps to more clarity',
+      steps: [
+        { number: '01', title: 'Answer 18 questions', description: 'Simple questions about everyday situations. No judgment, just reflection.' },
+        { number: '02', title: 'Get your result', description: "See which zone you're in and what patterns were identified in your relationship." },
+        { number: '03', title: 'Decide your next step', description: 'Save your result, explore support tools, or talk to our AI Coach.' },
+      ],
+    },
+    tools: {
+      title: 'Tools for your journey',
+      subtitle: 'Everything you need to document, understand, and protect yourself',
+      free: 'Free',
+    },
+    plans: {
+      title: 'Choose your protection level',
+      subtitle: 'Start free, upgrade when you need',
+      monthly: 'Monthly',
+      annual: 'Annual',
+      annualDiscount: '-17%',
+      startFree: 'Start Free',
+      choosePlan: 'Choose Plan',
+      mostPopular: 'MOST POPULAR',
+    },
+    testimonials: {
+      title: 'What people say about us',
+      subtitle: 'Real stories from Radar users',
+    },
+    faq: {
+      title: 'Frequently Asked Questions',
+    },
+    finalCta: {
+      title: 'Ready for more clarity?',
+      subtitle: "The first step is the hardest. But you don't have to take it alone.",
+      cta: 'Start the Free Test',
+    },
+    footer: {
+      description: 'Self-awareness tool for people in difficult relationships.',
+      product: 'Product',
+      support: 'Support',
+      emergency: 'Emergency',
+      copyright: '© 2024 Radar Narcisista. All rights reserved.',
+    },
+  },
+  'es': {
+    nav: {
+      howItWorks: 'Cómo funciona',
+      tools: 'Herramientas',
+      plans: 'Planes',
+      faq: 'FAQ',
+      login: 'Iniciar sesión',
+      startTest: 'Hacer el Test',
+    },
+    hero: {
+      badge: 'Herramienta gratuita de autoconocimiento',
+      title: 'No estás loca.',
+      subtitle: 'Estás confundida por alguien que te confundió.',
+      description: 'El Test de Claridad te ayuda a entender lo que está pasando en tu relación. En 5 minutos, tendrás más claridad sobre los patrones que estás viviendo.',
+      cta: 'Hacer el Test de Claridad',
+      ctaSecondary: 'Cómo funciona',
+      stats: [
+        { value: '15.000+', label: 'Tests realizados' },
+        { value: '4.8/5', label: 'Valoración media' },
+        { value: '5 min', label: 'Tiempo medio' },
+      ],
+    },
+    howItWorks: {
+      title: 'Cómo funciona',
+      subtitle: 'Tres pasos para más claridad',
+      steps: [
+        { number: '01', title: 'Responde 18 preguntas', description: 'Preguntas simples sobre situaciones de tu día a día. Sin juicio, solo reflexión.' },
+        { number: '02', title: 'Recibe tu resultado', description: 'Mira en qué zona estás y qué patrones fueron identificados en tu relación.' },
+        { number: '03', title: 'Decide el próximo paso', description: 'Guarda tu resultado, explora herramientas de apoyo o habla con nuestro Coach IA.' },
+      ],
+    },
+    tools: {
+      title: 'Herramientas para tu camino',
+      subtitle: 'Todo lo que necesitas para documentar, entender y protegerte',
+      free: 'Gratis',
+    },
+    plans: {
+      title: 'Elige tu nivel de protección',
+      subtitle: 'Empieza gratis, evoluciona cuando necesites',
+      monthly: 'Mensual',
+      annual: 'Anual',
+      annualDiscount: '-17%',
+      startFree: 'Empezar Gratis',
+      choosePlan: 'Elegir Plan',
+      mostPopular: 'MÁS POPULAR',
+    },
+    testimonials: {
+      title: 'Lo que dicen de nosotros',
+      subtitle: 'Historias reales de quienes usaron el Radar',
+    },
+    faq: {
+      title: 'Preguntas Frecuentes',
+    },
+    finalCta: {
+      title: '¿Lista para tener más claridad?',
+      subtitle: 'El primer paso es el más difícil. Pero no tienes que darlo sola.',
+      cta: 'Empezar el Test Gratuito',
+    },
+    footer: {
+      description: 'Herramienta de autoconocimiento para personas en relaciones difíciles.',
+      product: 'Producto',
+      support: 'Soporte',
+      emergency: 'Emergencia',
+      copyright: '© 2024 Radar Narcisista. Todos los derechos reservados.',
+    },
+  },
+}
+
+export type FrontpageDictionary = typeof frontpageDictionaries['pt-BR']
+
+export function getFrontpageDictionary(locale: Locale): FrontpageDictionary {
+  return frontpageDictionaries[locale] || frontpageDictionaries['pt-BR']
+}

@@ -8,17 +8,37 @@ import { GlobalZone } from '@/lib/clarity-unified-config'
  * Perfil de Clareza do usuário
  * Representa o teste de clareza marcado como "base" do sistema
  */
+// Estrutura de score por categoria (TEMA 3)
+export interface CategoryScore {
+  score: number
+  percentage: number
+  level: 'baixo' | 'moderado' | 'alto'
+}
+
+// Estrutura de score por eixo (TEMA 3)
+export interface AxisScore {
+  score: number
+  percentage: number
+  level: 'baixo' | 'moderado' | 'alto'
+}
+
 export interface ClarityProfile {
   id: string
   createdAt: string
+  completedAt?: string    // TEMA 3: data/hora exata de conclusão
   globalZone: GlobalZone
   overallPercentage: number
-  fogScore: number      // Névoa mental
-  fearScore: number     // Medo e tensão
-  limitsScore: number   // Desrespeito a limites
+  fogScore: number        // Névoa mental
+  fearScore: number       // Medo e tensão
+  limitsScore: number     // Desrespeito a limites
   hasPhysicalRisk: boolean
   userNarrative?: string
   rawAnswers?: Record<string, number>
+  
+  // NOVOS CAMPOS - TEMA 3
+  categoryScores?: Record<string, CategoryScore>  // Scores das 6 categorias
+  axisScores?: Record<string, AxisScore>          // Scores detalhados dos 3 eixos
+  summary?: string                                 // Resumo gerado pela IA
   
   // Campos derivados (calculados)
   topAxes: Array<{ axis: string; score: number }>
@@ -137,6 +157,7 @@ export function useClarityProfile(): UseClarityProfileReturn {
       setProfile({
         id: data.id,
         createdAt: data.created_at,
+        completedAt: data.completed_at,
         globalZone: (data.global_zone?.toLowerCase() || 'atencao') as GlobalZone,
         overallPercentage: data.overall_percentage || 0,
         fogScore: data.fog_score || 0,
@@ -145,6 +166,11 @@ export function useClarityProfile(): UseClarityProfileReturn {
         hasPhysicalRisk: data.has_physical_risk || false,
         userNarrative: data.user_narrative,
         rawAnswers: data.raw_answers,
+        // NOVOS CAMPOS - TEMA 3
+        categoryScores: data.category_scores,
+        axisScores: data.axis_scores,
+        summary: data.summary,
+        // Campos derivados
         topAxes: axes,
         topCategories,
         daysAgo,

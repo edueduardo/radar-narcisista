@@ -113,19 +113,19 @@ function NovoDiarioPageContent() {
     checkDiaryEntries()
   }, [supabase])
   
-  // Função para usar teste de clareza como base
+  // Mapear categorias do perfil para tags do diário
+  const categoryToTags: Record<string, string[]> = {
+    invalidacao: ['minimização', 'desqualificação'],
+    gaslighting: ['gaslighting', 'negação'],
+    controle: ['controle', 'ciúmes excessivos'],
+    isolamento: ['isolamento', 'controle social'],
+    emocional: ['humilhação', 'punição emocional'],
+    fisico: ['ameaça velada', 'violência física']
+  }
+  
+  // Função para usar teste de clareza como base (preenche formulário)
   const useClarityAsBase = () => {
     if (!clarityProfile) return
-    
-    // Mapear categorias do perfil para tags do diário
-    const categoryToTags: Record<string, string[]> = {
-      invalidacao: ['minimização', 'desqualificação'],
-      gaslighting: ['gaslighting', 'negação'],
-      controle: ['controle', 'ciúmes excessivos'],
-      isolamento: ['isolamento', 'controle social'],
-      emocional: ['humilhação', 'punição emocional'],
-      fisico: ['ameaça velada', 'violência física']
-    }
     
     const suggestedTags: string[] = []
     clarityProfile.topCategories.forEach(cat => {
@@ -145,6 +145,122 @@ function NovoDiarioPageContent() {
     
     setUsedClarityAsBase(true)
     setShowClarityCard(false)
+  }
+  
+  // TEMA 4: Criar entrada automática tipo clarity_baseline
+  const [isCreatingBaseline, setIsCreatingBaseline] = useState(false)
+  
+  const createClarityBaselineEntry = async () => {
+    if (!clarityProfile) return
+    
+    setIsCreatingBaseline(true)
+    
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        router.push('/login')
+        return
+      }
+      
+      // Gerar tags baseadas nas categorias do perfil
+      const suggestedTags: string[] = []
+      clarityProfile.topCategories.forEach(cat => {
+        if (categoryToTags[cat]) {
+          suggestedTags.push(...categoryToTags[cat])
+        }
+      })
+      
+      // Gerar descrição baseada no perfil
+      const zoneLabels: Record<string, string> = {
+        atencao: 'Zona de Atenção',
+        alerta: 'Zona de Alerta',
+        vermelha: 'Zona de Alto Risco'
+      }
+      
+      const axisLabels: Record<string, string> = {
+        nevoa: 'Névoa Mental',
+        medo: 'Medo e Tensão',
+        limites: 'Desrespeito a Limites'
+      }
+      
+      const categoryLabels: Record<string, string> = {
+        invalidacao: 'Invalidação',
+        gaslighting: 'Gaslighting',
+        controle: 'Controle',
+        isolamento: 'Isolamento',
+        emocional: 'Abuso Emocional',
+        fisico: 'Risco Físico'
+      }
+      
+      // Construir descrição automática
+      let description = `📊 RESUMO DO TESTE DE CLAREZA\n`
+      description += `Data do teste: ${new Date(clarityProfile.createdAt).toLocaleDateString('pt-BR')}\n\n`
+      description += `🎯 Resultado geral: ${zoneLabels[clarityProfile.globalZone] || clarityProfile.globalZone}\n`
+      description += `📈 Percentual: ${Math.round(clarityProfile.overallPercentage * 100)}%\n\n`
+      
+      if (clarityProfile.hasPhysicalRisk) {
+        description += `⚠️ ALERTA: Sinais de possível risco físico detectados.\n\n`
+      }
+      
+      description += `📌 Eixos mais impactados:\n`
+      clarityProfile.topAxes.forEach((axis, i) => {
+        description += `${i + 1}. ${axisLabels[axis.axis] || axis.axis}: ${axis.score} pontos\n`
+      })
+      
+      if (clarityProfile.topCategories.length > 0) {
+        description += `\n🏷️ Categorias principais:\n`
+        clarityProfile.topCategories.forEach((cat, i) => {
+          description += `${i + 1}. ${categoryLabels[cat] || cat}\n`
+        })
+      }
+      
+      if (clarityProfile.userNarrative) {
+        description += `\n📝 O que você escreveu no teste:\n"${clarityProfile.userNarrative}"\n`
+      }
+      
+      description += `\n---\nEste é um resumo automático gerado a partir do seu Teste de Clareza. Use-o como ponto de partida para registrar episódios futuros.`
+      
+      // Criar entrada no diário com tipo especial
+      const { error } = await supabase.from('journal_entries').insert({
+        user_id: user.id,
+        title: `Resumo inicial – Teste de Clareza de ${new Date(clarityProfile.createdAt).toLocaleDateString('pt-BR')}`,
+        description: description,
+        context: 'RELACIONAMENTO',
+        impact_score: clarityProfile.globalZone === 'vermelha' ? 3 : clarityProfile.globalZone === 'alerta' ? 2 : 1,
+        tags: [...new Set(suggestedTags)].slice(0, 5),
+        from_voice: false,
+        entry_type: 'clarity_baseline', // TEMA 4: tipo especial
+        clarity_test_id: clarityProfile.id // Referência ao teste
+      })
+      
+      if (error) {
+        console.error('Erro ao criar entrada baseline:', error)
+        // Se o campo entry_type não existir, tentar sem ele
+        if (error.message?.includes('entry_type') || error.message?.includes('clarity_test_id')) {
+          const { error: error2 } = await supabase.from('journal_entries').insert({
+            user_id: user.id,
+            title: `Resumo inicial – Teste de Clareza de ${new Date(clarityProfile.createdAt).toLocaleDateString('pt-BR')}`,
+            description: description,
+            context: 'RELACIONAMENTO',
+            impact_score: clarityProfile.globalZone === 'vermelha' ? 3 : clarityProfile.globalZone === 'alerta' ? 2 : 1,
+            tags: [...new Set(suggestedTags)].slice(0, 5),
+            from_voice: false
+          })
+          if (error2) throw error2
+        } else {
+          throw error
+        }
+      }
+      
+      // Redirecionar para o diário
+      router.push('/diario')
+      
+    } catch (error) {
+      console.error('Erro ao criar entrada baseline:', error)
+      alert('Erro ao criar resumo inicial. Tente novamente.')
+    } finally {
+      setIsCreatingBaseline(false)
+    }
   }
 
   // Tags organizadas por categoria - USANDO CONFIG
@@ -595,23 +711,54 @@ psiquiatria ou terapia.
                     Usar seu Teste de Clareza como ponto de partida
                   </h3>
                   <p className="text-sm text-violet-700 mb-3">
-                    Você já fez o Teste de Clareza. Podemos usar aquele resultado para te ajudar a registrar seu primeiro episódio com tags e contexto pré-preenchidos.
+                    Você já fez o Teste de Clareza. Podemos usar aquele resultado para te ajudar a registrar seu primeiro episódio.
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    <button
-                      type="button"
-                      onClick={useClarityAsBase}
-                      className="px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium rounded-lg transition-colors"
-                    >
-                      Sim, usar como base
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setShowClarityCard(false)}
-                      className="px-4 py-2 bg-white hover:bg-gray-50 text-violet-700 text-sm font-medium rounded-lg border border-violet-300 transition-colors"
-                    >
-                      Não agora
-                    </button>
+                  
+                  {/* TEMA 4: Duas opções - automático ou preencher formulário */}
+                  <div className="flex flex-col gap-3">
+                    {/* Opção 1: Criar resumo automático */}
+                    <div className="p-3 bg-white/80 rounded-lg border border-violet-200">
+                      <p className="text-xs text-violet-600 mb-2 font-medium">✨ Opção rápida</p>
+                      <button
+                        type="button"
+                        onClick={createClarityBaselineEntry}
+                        disabled={isCreatingBaseline}
+                        className="w-full px-4 py-2.5 bg-violet-600 hover:bg-violet-700 disabled:bg-violet-400 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+                      >
+                        {isCreatingBaseline ? (
+                          <>
+                            <span className="animate-spin">⏳</span>
+                            Criando resumo...
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles className="w-4 h-4" />
+                            Criar resumo inicial automaticamente
+                          </>
+                        )}
+                      </button>
+                      <p className="text-xs text-violet-500 mt-1.5">
+                        Cria uma entrada com seu resultado do teste, pronta para consulta.
+                      </p>
+                    </div>
+                    
+                    {/* Opção 2: Preencher formulário */}
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={useClarityAsBase}
+                        className="px-4 py-2 bg-white hover:bg-violet-50 text-violet-700 text-sm font-medium rounded-lg border border-violet-300 transition-colors"
+                      >
+                        Preencher formulário com dados do teste
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowClarityCard(false)}
+                        className="px-4 py-2 text-violet-500 hover:text-violet-700 text-sm font-medium transition-colors"
+                      >
+                        Não agora
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <button

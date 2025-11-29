@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Shield, BookOpen, MessageCircle, ChevronRight, Heart, Lock, Phone, Menu, X, BarChart3, Globe, Check, Moon, Sun, Monitor, ArrowUp } from 'lucide-react'
+import { Shield, BookOpen, MessageCircle, ChevronRight, Heart, Lock, Phone, Menu, X, BarChart3, Globe, Check, Moon, Sun, Monitor, ArrowUp, Users, Sparkles, RefreshCw, FileText, Lightbulb, MapPin, Star, TrendingUp } from 'lucide-react'
 import { Locale, locales, localeNames, defaultLocale, detectBrowserLocale, translations } from '../lib/i18n'
 import HeaderMenuDropdown, { MobileMenuDropdown } from '../components/HeaderMenuDropdown'
 import SocialProofWidget from '../components/SocialProofWidget'
@@ -11,6 +11,7 @@ import SkipLinks, { SectionMarker, ScreenReaderAnnouncement } from '../component
 import { initializeEasterEggs } from '../lib/easter-eggs'
 import { initializeUltraSecrets } from '../lib/easter-eggs-secret'
 import { initializeHiddenPowers } from '../lib/hidden-powers'
+import { getDisplayPlans } from '../lib/plans-config'
 
 type Theme = 'light' | 'dark' | 'high-contrast'
 
@@ -21,7 +22,11 @@ export default function HomePage() {
   const [theme, setTheme] = useState<Theme>('dark') // Escuro como padrão - Premium
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [periodo, setPeriodo] = useState<'mensal' | 'anual'>('mensal')
   const router = useRouter()
+  
+  // Planos para exibir
+  const displayPlans = getDisplayPlans(false, false).filter(p => !p.comingSoon)
 
   // Scroll progress + botão voltar ao topo
   useEffect(() => {
@@ -511,10 +516,286 @@ export default function HomePage() {
 
           {/* Link para mais ferramentas */}
           <div className="text-center mt-8">
-            <p className={`mb-3 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>E mais: Modo Espelho, Carta ao Futuro, Biblioteca de Respostas, Termômetro...</p>
             <Link href="/dashboard" className={`font-medium inline-flex items-center gap-1 ${theme === 'dark' ? 'text-violet-400 hover:text-violet-300' : 'text-purple-600 hover:text-purple-700'}`}>
               Ver todas as ferramentas <ChevronRight className="w-4 h-4" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FERRAMENTAS PARA SUA JORNADA - Grid 6 ferramentas */}
+      <section className={`py-16 md:py-20 ${theme === 'dark' ? 'bg-[#0F172A]' : 'bg-gradient-to-br from-purple-50 to-white'}`}>
+        <div className="container-app">
+          <div className="text-center mb-12">
+            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-purple-900'}`}>
+              Ferramentas para sua jornada
+            </h2>
+            <p className={`text-lg max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+              Tudo que você precisa para documentar, entender e se proteger
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-md border border-gray-100'}`}>
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${theme === 'dark' ? 'bg-violet-500/20' : 'bg-purple-100'}`}>
+                <Shield className={`w-6 h-6 ${theme === 'dark' ? 'text-violet-400' : 'text-purple-600'}`} />
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Teste de Clareza</h3>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${theme === 'dark' ? 'bg-green-500/20 text-green-400' : 'bg-green-100 text-green-700'}`}>Grátis</span>
+              </div>
+              <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>18 perguntas para entender os padrões do seu relacionamento</p>
+            </div>
+
+            <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-md border border-gray-100'}`}>
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${theme === 'dark' ? 'bg-green-500/20' : 'bg-green-100'}`}>
+                <MessageCircle className={`w-6 h-6 ${theme === 'dark' ? 'text-green-400' : 'text-green-600'}`} />
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Coach IA</h3>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${theme === 'dark' ? 'bg-green-500/20 text-green-400' : 'bg-green-100 text-green-700'}`}>Grátis</span>
+              </div>
+              <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Converse com uma IA treinada para te ouvir sem julgamento</p>
+            </div>
+
+            <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-md border border-gray-100'}`}>
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-100'}`}>
+                <BookOpen className={`w-6 h-6 ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`} />
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Diário Seguro</h3>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${theme === 'dark' ? 'bg-green-500/20 text-green-400' : 'bg-green-100 text-green-700'}`}>Grátis</span>
+              </div>
+              <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Registre episódios com criptografia e análise de padrões</p>
+            </div>
+
+            <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-md border border-gray-100'}`}>
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${theme === 'dark' ? 'bg-red-500/20' : 'bg-red-100'}`}>
+                <MapPin className={`w-6 h-6 ${theme === 'dark' ? 'text-red-400' : 'text-red-600'}`} />
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Plano de Segurança</h3>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${theme === 'dark' ? 'bg-green-500/20 text-green-400' : 'bg-green-100 text-green-700'}`}>Grátis</span>
+              </div>
+              <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Organize contatos, documentos e rotas de fuga</p>
+            </div>
+
+            <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-md border border-gray-100'}`}>
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${theme === 'dark' ? 'bg-amber-500/20' : 'bg-amber-100'}`}>
+                <Lightbulb className={`w-6 h-6 ${theme === 'dark' ? 'text-amber-400' : 'text-amber-600'}`} />
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Biblioteca de Respostas</h3>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${theme === 'dark' ? 'bg-green-500/20 text-green-400' : 'bg-green-100 text-green-700'}`}>Grátis</span>
+              </div>
+              <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Frases prontas para situações difíceis</p>
+            </div>
+
+            <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-md border border-gray-100'}`}>
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${theme === 'dark' ? 'bg-cyan-500/20' : 'bg-cyan-100'}`}>
+                <FileText className={`w-6 h-6 ${theme === 'dark' ? 'text-cyan-400' : 'text-cyan-600'}`} />
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className={`text-lg font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Relatórios PDF</h3>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${theme === 'dark' ? 'bg-green-500/20 text-green-400' : 'bg-green-100 text-green-700'}`}>Grátis</span>
+              </div>
+              <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Exporte seus dados para mostrar a profissionais</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SEÇÃO DE PLANOS */}
+      <section id="planos" className={`py-16 md:py-24 ${theme === 'dark' ? 'bg-gradient-to-b from-[#020617] to-[#0F172A]' : 'bg-gradient-to-b from-blue-50 to-white'}`}>
+        <div className="container-app">
+          <div className="text-center mb-12">
+            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Escolha seu plano
+            </h2>
+            <p className={`text-lg max-w-2xl mx-auto mb-8 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+              Invista na sua clareza mental. Todos os planos incluem 7 dias de garantia.
+            </p>
+            
+            {/* Toggle Mensal/Anual */}
+            <div className={`inline-flex items-center gap-2 p-1 rounded-full ${theme === 'dark' ? 'bg-slate-800' : 'bg-gray-100'}`}>
+              <button
+                onClick={() => setPeriodo('mensal')}
+                className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
+                  periodo === 'mensal' 
+                    ? (theme === 'dark' ? 'bg-violet-600 text-white' : 'bg-white text-gray-900 shadow') 
+                    : (theme === 'dark' ? 'text-gray-400' : 'text-gray-600')
+                }`}
+              >
+                Mensal
+              </button>
+              <button
+                onClick={() => setPeriodo('anual')}
+                className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${
+                  periodo === 'anual' 
+                    ? (theme === 'dark' ? 'bg-violet-600 text-white' : 'bg-white text-gray-900 shadow') 
+                    : (theme === 'dark' ? 'text-gray-400' : 'text-gray-600')
+                }`}
+              >
+                Anual
+              </button>
+            </div>
+          </div>
+
+          {/* 3 Cards de Planos */}
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-8">
+            {displayPlans.map((plan) => {
+              const isPopular = plan.popular
+              const isFree = plan.price === 0
+              const priceToShow = periodo === 'anual' && plan.priceAnnual 
+                ? plan.priceAnnual / 12 
+                : plan.price
+              
+              return (
+                <div 
+                  key={plan.id}
+                  className={`rounded-2xl p-6 relative overflow-hidden border-2 ${
+                    isPopular 
+                      ? 'bg-gradient-to-br from-orange-500 to-orange-600 text-white border-orange-500' 
+                      : theme === 'dark'
+                      ? 'bg-slate-800/50 border-slate-700/50'
+                      : 'bg-white border-gray-200'
+                  }`}
+                >
+                  {isPopular && (
+                    <div className="absolute top-4 right-4">
+                      <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+                        <Sparkles className="h-3 w-3" />
+                        POPULAR
+                      </span>
+                    </div>
+                  )}
+                  
+                  <div className="text-center mb-6">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 ${
+                      isPopular ? 'bg-white/20' : theme === 'dark' ? 'bg-violet-500/20' : 'bg-purple-100'
+                    }`}>
+                      {isFree ? (
+                        <Shield className={`w-6 h-6 ${isPopular ? 'text-white' : theme === 'dark' ? 'text-violet-400' : 'text-purple-600'}`} />
+                      ) : plan.id === 'jornada' ? (
+                        <TrendingUp className={`w-6 h-6 ${isPopular ? 'text-white' : theme === 'dark' ? 'text-violet-400' : 'text-purple-600'}`} />
+                      ) : (
+                        <Star className={`w-6 h-6 ${isPopular ? 'text-white' : theme === 'dark' ? 'text-violet-400' : 'text-purple-600'}`} />
+                      )}
+                    </div>
+                    <h3 className={`text-xl font-bold ${isPopular ? 'text-white' : theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                      {plan.name}
+                    </h3>
+                    <p className={`text-sm mt-1 ${isPopular ? 'text-white/80' : theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+                      {plan.tagline}
+                    </p>
+                    <div className="mt-4">
+                      <span className={`text-4xl font-bold ${isPopular ? 'text-white' : theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                        {isFree ? 'Grátis' : `R$ ${priceToShow.toFixed(2).replace('.', ',')}`}
+                      </span>
+                      {!isFree && (
+                        <span className={isPopular ? 'text-white/70' : theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}>/mês</span>
+                      )}
+                    </div>
+                  </div>
+
+                  <ul className="space-y-3 mb-6">
+                    {plan.features.slice(0, 7).map((feature, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        {feature.included ? (
+                          <Check className={`h-5 w-5 flex-shrink-0 ${isPopular ? 'text-green-300' : 'text-green-500'}`} />
+                        ) : (
+                          <span className={`h-5 w-5 flex-shrink-0 text-center ${isPopular ? 'text-white/30' : theme === 'dark' ? 'text-gray-600' : 'text-gray-300'}`}>—</span>
+                        )}
+                        <span className={`text-sm ${
+                          !feature.included 
+                            ? (isPopular ? 'text-white/40 line-through' : theme === 'dark' ? 'text-gray-600 line-through' : 'text-gray-400 line-through')
+                            : (isPopular ? 'text-white/90' : theme === 'dark' ? 'text-gray-300' : 'text-gray-600')
+                        }`}>
+                          {feature.text}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link
+                    href={isFree ? '/cadastro' : '/planos'}
+                    className={`block w-full py-3 px-4 rounded-xl font-medium text-center transition-colors ${
+                      isPopular
+                        ? 'bg-white text-orange-600 hover:bg-gray-100'
+                        : isFree
+                        ? (theme === 'dark' ? 'bg-slate-700 text-gray-300 hover:bg-slate-600' : 'bg-gray-100 text-gray-700 hover:bg-gray-200')
+                        : (theme === 'dark' ? 'bg-violet-600 text-white hover:bg-violet-700' : 'bg-purple-600 text-white hover:bg-purple-700')
+                    }`}
+                  >
+                    {isFree ? 'Plano Atual' : `Assinar ${plan.name.replace('Radar ', '')}`}
+                  </Link>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Banner Horizontal - Radar Profissional */}
+          <Link 
+            href="/profissional"
+            className="block max-w-5xl mx-auto p-6 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl text-white hover:from-blue-700 hover:to-blue-800 transition-all"
+          >
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-white/20 rounded-xl">
+                  <Users className="w-8 h-8" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-xl font-bold">Radar Profissional</h3>
+                    <span className="bg-white/20 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                      EM BREVE
+                    </span>
+                  </div>
+                  <p className="text-blue-100">
+                    Para profissionais de saúde e direito. Gerencie clientes, gere relatórios para laudos.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="text-right hidden md:block">
+                  <div className="text-2xl font-bold">R$ 99,90</div>
+                  <div className="text-blue-200 text-sm">/mês</div>
+                </div>
+                <div className="px-6 py-3 bg-white text-blue-600 font-medium rounded-xl hover:bg-blue-50 transition-colors whitespace-nowrap">
+                  Entrar na lista →
+                </div>
+              </div>
+            </div>
+          </Link>
+
+          {/* Garantias */}
+          <div className={`max-w-5xl mx-auto mt-12 rounded-2xl p-8 ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-lg'}`}>
+            <h3 className={`text-xl font-bold text-center mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Sua segurança é nossa prioridade
+            </h3>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center">
+                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl mb-3 ${theme === 'dark' ? 'bg-green-500/20' : 'bg-green-100'}`}>
+                  <Shield className={`h-6 w-6 ${theme === 'dark' ? 'text-green-400' : 'text-green-600'}`} />
+                </div>
+                <h4 className={`font-semibold mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>7 dias de garantia</h4>
+                <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Não gostou? Devolvemos 100% do valor.</p>
+              </div>
+              <div className="text-center">
+                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl mb-3 ${theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-100'}`}>
+                  <Lock className={`h-6 w-6 ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`} />
+                </div>
+                <h4 className={`font-semibold mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Pagamento seguro</h4>
+                <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Processado pelo Stripe, líder mundial.</p>
+              </div>
+              <div className="text-center">
+                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl mb-3 ${theme === 'dark' ? 'bg-purple-500/20' : 'bg-purple-100'}`}>
+                  <RefreshCw className={`h-6 w-6 ${theme === 'dark' ? 'text-purple-400' : 'text-purple-600'}`} />
+                </div>
+                <h4 className={`font-semibold mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Cancele quando quiser</h4>
+                <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Sem multa, sem burocracia.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

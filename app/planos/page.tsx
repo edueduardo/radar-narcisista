@@ -12,16 +12,35 @@ import {
   Crown,
   CreditCard,
   Lock,
-  RefreshCw
+  RefreshCw,
+  TrendingUp,
+  ShieldAlert,
+  Users,
+  Eye
 } from 'lucide-react'
-import { PLANOS, formatarPreco } from '../../lib/stripe'
+import { PLANS, getDisplayPlans, formatPrice, getAnnualSavings, type PlanConfig } from '@/lib/plans-config'
+
+// TEMA 10: Página de planos com novos nomes
+// Radar Guardar, Radar Jornada, Radar Defesa
 
 export default function PlanosPage() {
   const [periodo, setPeriodo] = useState<'mensal' | 'anual'>('mensal')
   const [carregando, setCarregando] = useState<string | null>(null)
 
-  const handleAssinar = async (planoId: 'essencial' | 'premium') => {
-    setCarregando(planoId)
+  // Usar a nova configuração de planos
+  const displayPlans = getDisplayPlans(false, true) // Inclui profissional
+
+  const handleAssinar = async (plan: PlanConfig) => {
+    // Mapear para IDs legados do Stripe
+    const planoId = plan.legacyId === 'essencial' ? 'essencial' : 
+                    plan.legacyId === 'premium' ? 'premium' : null
+    
+    if (!planoId) {
+      alert('Este plano ainda não está disponível para assinatura.')
+      return
+    }
+    
+    setCarregando(plan.id)
     
     try {
       // Chamar API para criar checkout session
@@ -47,11 +66,16 @@ export default function PlanosPage() {
     }
   }
 
-  const economiaAnual = (mensal: number, anual: number) => {
-    const totalMensal = mensal * 12
-    const economia = totalMensal - anual
-    const percentual = Math.round((economia / totalMensal) * 100)
-    return { economia, percentual }
+  // Ícone por plano
+  const getPlanIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'Eye': return <Eye className="h-6 w-6" />
+      case 'Shield': return <Shield className="h-6 w-6" />
+      case 'TrendingUp': return <TrendingUp className="h-6 w-6" />
+      case 'ShieldAlert': return <ShieldAlert className="h-6 w-6" />
+      case 'Users': return <Users className="h-6 w-6" />
+      default: return <Shield className="h-6 w-6" />
+    }
   }
 
   return (
@@ -100,152 +124,153 @@ export default function PlanosPage() {
           </div>
         </div>
 
-        {/* Cards de Planos */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          {/* Plano Gratuito */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-100">
-            <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl mb-4">
-                <Shield className="h-6 w-6 text-gray-600" />
+        {/* Cards de Planos - 3 cards verticais (sem Profissional) */}
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          {displayPlans.filter(p => !p.comingSoon).map((plan) => {
+            const isPopular = plan.popular
+            const isFree = plan.price === 0
+            const priceToShow = periodo === 'anual' && plan.priceAnnual 
+              ? plan.priceAnnual / 12 
+              : plan.price
+            const savings = getAnnualSavings(plan)
+            
+            return (
+              <div 
+                key={plan.id}
+                className={`rounded-2xl shadow-lg p-6 relative overflow-hidden ${
+                  isPopular 
+                    ? 'bg-gradient-to-br from-amber-500 to-orange-600 text-white' 
+                    : 'bg-white border-2 border-gray-100'
+                }`}
+              >
+                {/* Badge Popular */}
+                {isPopular && (
+                  <div className="absolute top-4 right-4">
+                    <span className="bg-white text-amber-600 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
+                      <Sparkles className="h-3 w-3" />
+                      POPULAR
+                    </span>
+                  </div>
+                )}
+                
+
+                <div className="text-center mb-6">
+                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4 ${
+                    isPopular ? 'bg-white/20' : plan.bgColor
+                  }`}>
+                    <span className={isPopular ? 'text-white' : plan.color}>
+                      {getPlanIcon(plan.icon)}
+                    </span>
+                  </div>
+                  <h3 className={`text-xl font-bold ${isPopular ? 'text-white' : 'text-gray-900'}`}>
+                    {plan.name}
+                  </h3>
+                  <p className={`text-sm mt-1 ${isPopular ? 'text-white/80' : 'text-gray-500'}`}>
+                    {plan.tagline}
+                  </p>
+                  <div className="mt-4">
+                    <span className={`text-4xl font-bold ${isPopular ? 'text-white' : 'text-gray-900'}`}>
+                      {formatPrice(priceToShow)}
+                    </span>
+                    {!isFree && (
+                      <span className={isPopular ? 'text-white/70' : 'text-gray-500'}>/mês</span>
+                    )}
+                  </div>
+                  {periodo === 'anual' && savings > 0 && (
+                    <p className={`text-sm mt-1 ${isPopular ? 'text-green-200' : 'text-green-600'}`}>
+                      Economia de {formatPrice(savings)}/ano
+                    </p>
+                  )}
+                </div>
+
+                <ul className="space-y-2 mb-6">
+                  {plan.features.map((feature, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      {feature.included ? (
+                        <Check className={`h-4 w-4 flex-shrink-0 mt-0.5 ${
+                          isPopular ? 'text-green-200' : 'text-green-500'
+                        }`} />
+                      ) : (
+                        <X className={`h-4 w-4 flex-shrink-0 mt-0.5 ${
+                          isPopular ? 'text-white/40' : 'text-gray-300'
+                        }`} />
+                      )}
+                      <span className={`text-sm ${
+                        !feature.included 
+                          ? (isPopular ? 'text-white/40' : 'text-gray-400')
+                          : feature.highlight
+                          ? (isPopular ? 'text-white font-medium' : 'text-gray-900 font-medium')
+                          : (isPopular ? 'text-white/90' : 'text-gray-600')
+                      }`}>
+                        {feature.text}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  onClick={() => handleAssinar(plan)}
+                  disabled={carregando !== null || isFree}
+                  className={`w-full py-3 px-4 rounded-xl font-medium transition-colors disabled:opacity-50 flex items-center justify-center gap-2 ${
+                    isPopular
+                      ? 'bg-white text-amber-600 hover:bg-gray-100'
+                      : isFree
+                      ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
+                      : 'bg-violet-600 text-white hover:bg-violet-700'
+                  }`}
+                >
+                  {carregando === plan.id ? (
+                    <>
+                      <RefreshCw className="h-4 w-4 animate-spin" />
+                      Processando...
+                    </>
+                  ) : isFree ? (
+                    'Plano Atual'
+                  ) : (
+                    <>
+                      <CreditCard className="h-4 w-4" />
+                      Assinar {plan.name.replace('Radar ', '')}
+                    </>
+                  )}
+                </button>
               </div>
-              <h3 className="text-xl font-bold text-gray-900">{PLANOS.GRATUITO.nome}</h3>
-              <div className="mt-4">
-                <span className="text-4xl font-bold text-gray-900">R$ 0</span>
-                <span className="text-gray-500">/mês</span>
-              </div>
-            </div>
-
-            <ul className="space-y-3 mb-6">
-              {PLANOS.GRATUITO.features.map((feature, index) => (
-                <li key={index} className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-600 text-sm">{feature}</span>
-                </li>
-              ))}
-              <li className="flex items-start gap-2 opacity-50">
-                <X className="h-5 w-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-400 text-sm">Exportar PDF</span>
-              </li>
-              <li className="flex items-start gap-2 opacity-50">
-                <X className="h-5 w-5 text-gray-400 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-400 text-sm">Histórico completo</span>
-              </li>
-            </ul>
-
-            <button
-              disabled
-              className="w-full py-3 px-4 bg-gray-100 text-gray-500 rounded-xl font-medium cursor-not-allowed"
-            >
-              Plano Atual
-            </button>
-          </div>
-
-          {/* Plano Essencial */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-purple-200">
-            <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-100 rounded-xl mb-4">
-                <Zap className="h-6 w-6 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900">{PLANOS.ESSENCIAL.nome}</h3>
-              <div className="mt-4">
-                <span className="text-4xl font-bold text-gray-900">
-                  {formatarPreco(periodo === 'mensal' ? PLANOS.ESSENCIAL.preco : PLANOS.ESSENCIAL.precoAnual / 12)}
-                </span>
-                <span className="text-gray-500">/mês</span>
-              </div>
-              {periodo === 'anual' && (
-                <p className="text-sm text-green-600 mt-1">
-                  {formatarPreco(PLANOS.ESSENCIAL.precoAnual)}/ano 
-                  (economia de {formatarPreco(economiaAnual(PLANOS.ESSENCIAL.preco, PLANOS.ESSENCIAL.precoAnual).economia)})
-                </p>
-              )}
-            </div>
-
-            <ul className="space-y-3 mb-6">
-              {PLANOS.ESSENCIAL.features.map((feature, index) => (
-                <li key={index} className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-600 text-sm">{feature}</span>
-                </li>
-              ))}
-            </ul>
-
-            <button
-              onClick={() => handleAssinar('essencial')}
-              disabled={carregando !== null}
-              className="w-full py-3 px-4 bg-purple-600 text-white rounded-xl font-medium hover:bg-purple-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
-            >
-              {carregando === 'essencial' ? (
-                <>
-                  <RefreshCw className="h-4 w-4 animate-spin" />
-                  Processando...
-                </>
-              ) : (
-                <>
-                  <CreditCard className="h-4 w-4" />
-                  Assinar Essencial
-                </>
-              )}
-            </button>
-          </div>
-
-          {/* Plano Premium */}
-          <div className="bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl shadow-xl p-6 text-white relative overflow-hidden">
-            {/* Badge Popular */}
-            <div className="absolute top-4 right-4">
-              <span className="bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
-                <Sparkles className="h-3 w-3" />
-                POPULAR
-              </span>
-            </div>
-
-            <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-white/20 rounded-xl mb-4">
-                <Crown className="h-6 w-6 text-yellow-300" />
-              </div>
-              <h3 className="text-xl font-bold">{PLANOS.PREMIUM.nome}</h3>
-              <div className="mt-4">
-                <span className="text-4xl font-bold">
-                  {formatarPreco(periodo === 'mensal' ? PLANOS.PREMIUM.preco : PLANOS.PREMIUM.precoAnual / 12)}
-                </span>
-                <span className="text-white/70">/mês</span>
-              </div>
-              {periodo === 'anual' && (
-                <p className="text-sm text-green-300 mt-1">
-                  {formatarPreco(PLANOS.PREMIUM.precoAnual)}/ano 
-                  (economia de {formatarPreco(economiaAnual(PLANOS.PREMIUM.preco, PLANOS.PREMIUM.precoAnual).economia)})
-                </p>
-              )}
-            </div>
-
-            <ul className="space-y-3 mb-6">
-              {PLANOS.PREMIUM.features.map((feature, index) => (
-                <li key={index} className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-300 flex-shrink-0 mt-0.5" />
-                  <span className="text-white/90 text-sm">{feature}</span>
-                </li>
-              ))}
-            </ul>
-
-            <button
-              onClick={() => handleAssinar('premium')}
-              disabled={carregando !== null}
-              className="w-full py-3 px-4 bg-white text-purple-600 rounded-xl font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
-            >
-              {carregando === 'premium' ? (
-                <>
-                  <RefreshCw className="h-4 w-4 animate-spin" />
-                  Processando...
-                </>
-              ) : (
-                <>
-                  <Crown className="h-4 w-4" />
-                  Assinar Premium
-                </>
-              )}
-            </button>
-          </div>
+            )
+          })}
         </div>
+
+        {/* Banner Horizontal - Radar Profissional */}
+        <Link 
+          href="/profissional"
+          className="block mb-8 p-6 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl text-white hover:from-blue-700 hover:to-blue-800 transition-all"
+        >
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-white/20 rounded-xl">
+                <Users className="w-8 h-8" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="text-xl font-bold">Radar Profissional</h3>
+                  <span className="bg-white/20 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                    EM BREVE
+                  </span>
+                </div>
+                <p className="text-blue-100">
+                  Para profissionais de saúde e direito. Gerencie clientes, gere relatórios para laudos.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="text-right hidden md:block">
+                <div className="text-2xl font-bold">R$ 99,90</div>
+                <div className="text-blue-200 text-sm">/mês</div>
+              </div>
+              <div className="px-6 py-3 bg-white text-blue-600 font-medium rounded-xl hover:bg-blue-50 transition-colors whitespace-nowrap">
+                Entrar na lista →
+              </div>
+            </div>
+          </div>
+        </Link>
 
         {/* Garantias */}
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">

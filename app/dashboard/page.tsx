@@ -41,7 +41,12 @@ import {
   Lightbulb,
   ExternalLink,
   Sun,
-  Moon
+  Moon,
+  // TEMA 5: Ícones para trilhas
+  Brain,
+  Lock,
+  ShieldAlert,
+  PenLine
 } from 'lucide-react'
 import {
   RadarButton,
@@ -52,6 +57,7 @@ import {
 } from '@/components/ui/design-system'
 import { useClarityProfile } from '@/hooks/useClarityProfile'
 import { getClarityRecommendations, type ClarityRecommendation } from '@/lib/clarity-recommendations'
+import { getCourseRecommendations, getOnboardingText, type CourseRecommendation } from '@/lib/clarity-course-recommendations'
 
 // ============================================================================
 // DASHBOARD V2 - RADAR NARCISISTA BR
@@ -225,9 +231,14 @@ export default function DashboardV2Page() {
   const { profile: clarityProfile, hasProfile: hasClarityProfile, isLoading: isLoadingProfile } = useClarityProfile()
   const [clarityRecommendations, setClarityRecommendations] = useState<ClarityRecommendation[]>([])
   
+  // TEMA 5: Estado para trilhas recomendadas
+  const [courseRecommendations, setCourseRecommendations] = useState<CourseRecommendation[]>([])
+  const [onboardingText, setOnboardingText] = useState<string>('')
+  
   // Gerar recomendações quando perfil carregar
   useEffect(() => {
     if (clarityProfile && hasClarityProfile) {
+      // Recomendações de ações
       const recommendations = getClarityRecommendations({
         globalZone: clarityProfile.globalZone,
         overallPercentage: clarityProfile.overallPercentage,
@@ -236,6 +247,11 @@ export default function DashboardV2Page() {
         hasPhysicalRisk: clarityProfile.hasPhysicalRisk,
       })
       setClarityRecommendations(recommendations.slice(0, 3)) // Top 3
+      
+      // TEMA 5: Recomendações de trilhas/cursos
+      const courses = getCourseRecommendations(clarityProfile)
+      setCourseRecommendations(courses)
+      setOnboardingText(getOnboardingText(clarityProfile))
     }
   }, [clarityProfile, hasClarityProfile])
 
@@ -869,6 +885,80 @@ export default function DashboardV2Page() {
                       </div>
                     </div>
                   </Link>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* ============================================================ */}
+          {/* 5.6. TRILHAS RECOMENDADAS - TEMA 5 */}
+          {/* ============================================================ */}
+          {hasClarityProfile && courseRecommendations.length > 0 && (
+            <section className="mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <BookOpen className="w-5 h-5 text-blue-400" />
+                    Trilhas para você
+                  </h3>
+                  <p className="text-sm text-gray-400">
+                    {onboardingText}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                {courseRecommendations.map((rec) => (
+                  <div 
+                    key={rec.path.id}
+                    className={`p-4 rounded-xl border ${rec.path.bgColor.replace('bg-', 'bg-').replace('100', '950/30')} border-slate-700/50`}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className={`p-3 rounded-xl ${rec.path.bgColor.replace('100', '900/50')}`}>
+                        {rec.path.icon === 'Brain' && <Brain className={`w-6 h-6 ${rec.path.color}`} />}
+                        {rec.path.icon === 'Lock' && <Lock className={`w-6 h-6 ${rec.path.color}`} />}
+                        {rec.path.icon === 'ShieldAlert' && <ShieldAlert className={`w-6 h-6 ${rec.path.color}`} />}
+                        {rec.path.icon === 'Heart' && <Heart className={`w-6 h-6 ${rec.path.color}`} />}
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-white">{rec.path.title}</h4>
+                        <p className="text-sm text-gray-400 mb-3">{rec.path.subtitle}</p>
+                        
+                        {/* Módulos sugeridos */}
+                        <div className="flex flex-wrap gap-2">
+                          {rec.suggestedModules.slice(0, 3).map((mod) => (
+                            <Link 
+                              key={mod.id} 
+                              href={mod.href}
+                              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                                mod.priority === 'alta' 
+                                  ? 'bg-red-900/50 text-red-300 hover:bg-red-900/70' 
+                                  : 'bg-slate-700/50 text-gray-300 hover:bg-slate-700/70'
+                              }`}
+                            >
+                              {mod.icon === 'BookOpen' && <BookOpen className="w-3 h-3" />}
+                              {mod.icon === 'PenLine' && <PenLine className="w-3 h-3" />}
+                              {mod.icon === 'MessageCircle' && <MessageCircle className="w-3 h-3" />}
+                              {mod.icon === 'Shield' && <Shield className="w-3 h-3" />}
+                              {mod.icon === 'Phone' && <Phone className="w-3 h-3" />}
+                              {mod.icon === 'CheckSquare' && <CheckSquare className="w-3 h-3" />}
+                              {mod.icon === 'Scale' && <Scale className="w-3 h-3" />}
+                              {mod.icon === 'Users' && <Users className="w-3 h-3" />}
+                              {mod.icon === 'FileText' && <FileText className="w-3 h-3" />}
+                              {mod.title}
+                              <span className="text-gray-500">• {mod.duration}</span>
+                            </Link>
+                          ))}
+                        </div>
+                        
+                        {/* Razão da recomendação */}
+                        <p className="text-xs text-gray-500 mt-2">
+                          {rec.reason}
+                        </p>
+                      </div>
+                      <ChevronRight className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                    </div>
+                  </div>
                 ))}
               </div>
             </section>

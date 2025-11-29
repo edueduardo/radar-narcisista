@@ -125,8 +125,7 @@ export default function ClarityTermsModal({ isOpen, onAccept, onClose }: Clarity
 
     try {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) throw new Error('Usuário não autenticado')
-
+      
       // Coletar metadados do dispositivo
       const ip = await getPublicIP()
       const userAgent = navigator.userAgent
@@ -139,8 +138,8 @@ export default function ClarityTermsModal({ isOpen, onAccept, onClose }: Clarity
 
       // Criar payload canônico para hash
       const canonicalPayload = {
-        user_id: user.id,
-        user_email: user.email,
+        user_id: user?.id || 'visitor',
+        user_email: user?.email || 'visitor',
         terms_version_id: termsVersion.id,
         terms_slug: termsVersion.slug,
         terms_hash: termsVersion.content_hash,
@@ -160,31 +159,36 @@ export default function ClarityTermsModal({ isOpen, onAccept, onClose }: Clarity
       // Gerar hash do IP para LGPD
       const ipHash = await generateBrowserHash(ip)
 
-      // Salvar no Supabase
-      const { error: insertError } = await supabase
-        .from('terms_acceptances')
-        .insert({
-          user_id: user.id,
-          terms_version_id: termsVersion.id,
-          accepted_at: acceptedAt,
-          ip_address: ip,
-          ip_hash: ipHash,
-          user_agent: userAgent,
-          locale: locale,
-          platform: platform,
-          referrer: referrer,
-          screen_resolution: screenResolution,
-          timezone: timezone,
-          acceptance_context: {
-            checkboxes: checkboxes,
-            scrolled_to_bottom: hasScrolledToBottom,
-            test_type: 'clarity_test'
-          },
-          event_hash: eventHash,
-          canonical_payload: canonicalPayload
-        })
+      // Só salva no Supabase se tiver usuário logado
+      if (user) {
+        const { error: insertError } = await supabase
+          .from('terms_acceptances')
+          .insert({
+            user_id: user.id,
+            terms_version_id: termsVersion.id,
+            accepted_at: acceptedAt,
+            ip_address: ip,
+            ip_hash: ipHash,
+            user_agent: userAgent,
+            locale: locale,
+            platform: platform,
+            referrer: referrer,
+            screen_resolution: screenResolution,
+            timezone: timezone,
+            acceptance_context: {
+              checkboxes: checkboxes,
+              scrolled_to_bottom: hasScrolledToBottom,
+              test_type: 'clarity_test'
+            },
+            event_hash: eventHash,
+            canonical_payload: canonicalPayload
+          })
 
-      if (insertError) throw insertError
+        if (insertError) {
+          console.error('Erro ao salvar aceite:', insertError)
+          // Continua mesmo com erro - visitante pode prosseguir
+        }
+      }
 
       // Salvar no localStorage para cache de 30 dias
       localStorage.setItem('clarity-terms-accepted', JSON.stringify({

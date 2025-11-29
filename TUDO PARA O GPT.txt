@@ -1384,3 +1384,474 @@ Rodar a migration no Supabase SQL Editor para adicionar os novos campos.
 - app/plano-seguranca/page.tsx (alerta risco físico)
 
 ================================================================================
+TEMA 3 IMPLEMENTADO - 29/11/2025 - 13:45
+================================================================================
+
+📋 RESUMO:
+Completado o TEMA 3 - "O que salvar do teste" - adicionando campos extras para
+cadeia de custódia e análise detalhada por categoria.
+
+🎯 NOVOS CAMPOS ADICIONADOS:
+- category_scores (JSONB): Scores das 6 categorias com score, percentage, level
+- axis_scores (JSONB): Scores detalhados dos 3 eixos
+- ip_hash (TEXT): Hash SHA-256 do IP para cadeia de custódia (LGPD compliant)
+- summary (TEXT): Campo para resumo gerado pela IA (preenchido depois)
+- completed_at (TIMESTAMPTZ): Data/hora exata de conclusão do teste
+
+📁 ARQUIVOS CRIADOS/MODIFICADOS:
+- database/migrations/20241129_add_clarity_extra_fields.sql (NOVO)
+- app/api/clarity/activate-profile/route.ts (MODIFICADO)
+- hooks/useClarityProfile.ts (MODIFICADO)
+
+🔧 MUDANÇAS TÉCNICAS:
+1. API POST agora salva:
+   - category_scores com estrutura {categoria: {score, percentage, level}}
+   - axis_scores com estrutura {eixo: {score, percentage, level}}
+   - ip_hash gerado com SHA-256 do IP + salt
+   - completed_at com timestamp de conclusão
+
+2. API GET agora retorna:
+   - categoryScores, axisScores, summary, completedAt
+
+3. Hook useClarityProfile:
+   - Novas interfaces CategoryScore e AxisScore
+   - Interface ClarityProfile expandida com novos campos
+
+⚠️ AÇÃO NECESSÁRIA:
+Rodar a migration 20241129_add_clarity_extra_fields.sql no Supabase SQL Editor.
+
+================================================================================
+TEMA 4 IMPLEMENTADO - 29/11/2025 - 14:00
+================================================================================
+
+📋 RESUMO:
+Completado o TEMA 4 - "Integração com Diário" - adicionando opção de criar
+entrada automática tipo "clarity_baseline" a partir do Teste de Clareza.
+
+🎯 FUNCIONALIDADES IMPLEMENTADAS:
+1. Botão "Criar resumo inicial automaticamente" no card de clareza
+2. Função createClarityBaselineEntry() que:
+   - Gera descrição formatada com resultado do teste
+   - Inclui zona, eixos, categorias e narrativa
+   - Define tags automaticamente baseadas nas categorias
+   - Define impact_score baseado na zona (vermelha=3, alerta=2, atenção=1)
+   - Salva com entry_type='clarity_baseline' e clarity_test_id
+
+3. UX melhorada com duas opções:
+   - "Criar resumo inicial automaticamente" (salva direto)
+   - "Preencher formulário com dados do teste" (preenche e deixa editar)
+
+📁 ARQUIVOS CRIADOS/MODIFICADOS:
+- database/migrations/20241129_add_diary_clarity_fields.sql (NOVO)
+- app/diario/novo/page.tsx (MODIFICADO)
+
+🔧 NOVOS CAMPOS NO BANCO (journal_entries):
+- entry_type: TEXT ('normal' ou 'clarity_baseline')
+- clarity_test_id: UUID (referência ao teste de clareza)
+
+⚠️ AÇÃO NECESSÁRIA:
+Rodar a migration 20241129_add_diary_clarity_fields.sql no Supabase SQL Editor.
+
+================================================================================
+TEMA 5 IMPLEMENTADO - 29/11/2025 - 14:15
+================================================================================
+
+📋 RESUMO:
+Completado o TEMA 5 - "Integração com Curso/Trilhas" - sistema de recomendação
+de trilhas educacionais baseadas no perfil de clareza.
+
+🎯 FUNCIONALIDADES IMPLEMENTADAS:
+1. Helper lib/clarity-course-recommendations.ts com:
+   - 4 trilhas pré-definidas: "Você Não Está Louca", "Prisão Emocional", 
+     "Plano de Segurança", "Reconstruindo Autoestima"
+   - Cada trilha tem módulos com tipo, duração, prioridade
+   - Função getCourseRecommendations() que calcula match score
+   - Função getUrgentPath() para trilha mais urgente
+   - Função getOnboardingText() para texto de boas-vindas
+
+2. Seção "Trilhas para você" no Dashboard:
+   - Mostra até 3 trilhas recomendadas
+   - Cada trilha mostra até 3 módulos sugeridos
+   - Links diretos para módulos (biblioteca, diário, chat, etc.)
+   - Razão da recomendação visível
+
+3. Lógica de priorização:
+   - Risco físico → Plano de Segurança (prioridade máxima)
+   - Gaslighting → "Você Não Está Louca"
+   - Controle/Isolamento → "Prisão Emocional"
+   - Invalidação → "Reconstruindo Autoestima"
+
+📁 ARQUIVOS CRIADOS/MODIFICADOS:
+- lib/clarity-course-recommendations.ts (NOVO)
+- app/dashboard/page.tsx (MODIFICADO)
+
+🔧 ESTRUTURA DAS TRILHAS:
+- CoursePath: id, title, subtitle, description, modules[], forCategories[], forAxes[]
+- CourseModule: id, title, description, duration, type, href, icon, priority
+- CourseRecommendation: path, reason, matchScore, suggestedModules[]
+
+================================================================================
+TEMA 10 IMPLEMENTADO - 29/11/2025 - 14:30
+================================================================================
+
+📋 RESUMO:
+Completado o TEMA 10 - "Planos e Preços (5 níveis)" - renomeando planos e
+criando configuração centralizada.
+
+🎯 NOVOS NOMES DOS PLANOS:
+| Antigo     | Novo              | Preço      |
+|------------|-------------------|------------|
+| (sem conta)| Visitante         | Grátis     |
+| Gratuito   | Radar Guardar     | Grátis     |
+| Essencial  | Radar Jornada     | R$29,90/mês|
+| Premium    | Radar Defesa      | R$49,90/mês|
+| (novo)     | Radar Profissional| R$99,90/mês|
+
+⚠️ IMPORTANTE: Os IDs do Stripe NÃO mudaram!
+- essencial → jornada (legacyId = 'essencial')
+- premium → defesa (legacyId = 'premium')
+
+📁 ARQUIVOS CRIADOS/MODIFICADOS:
+- lib/plans-config.ts (NOVO) - Configuração centralizada dos 5 planos
+- app/planos/page.tsx (MODIFICADO) - Página atualizada com novos nomes
+
+🔧 FUNÇÕES DISPONÍVEIS:
+- PLANS: Record com todos os 5 planos
+- getPlanByLegacyId(): Busca plano pelo ID antigo
+- getUserPlanLevel(): Retorna nível do plano do usuário
+- hasFeatureAccess(): Verifica acesso a feature
+- getFeatureLimit(): Retorna limite de feature
+- formatPrice(): Formata preço em BRL
+- getAnnualSavings(): Calcula economia anual
+- getDisplayPlans(): Lista planos para exibição
+
+🎨 UI DA PÁGINA DE PLANOS:
+- Grid responsivo com 4 colunas
+- Card destacado para plano popular (Radar Defesa)
+- Badge "Em Breve" para Radar Profissional
+- Toggle mensal/anual funcional
+- Economia anual calculada automaticamente
+
+================================================================================
+TEMA 11 IMPLEMENTADO - 29/11/2025 - 14:45
+================================================================================
+
+📋 RESUMO:
+Completado o TEMA 11 - "Limites por Plano" - sistema completo de verificação
+e gerenciamento de limites de uso baseados no plano do usuário.
+
+🎯 LIMITES POR PLANO:
+| Recurso              | Guardar | Jornada | Defesa |
+|----------------------|---------|---------|--------|
+| Mensagens chat/dia   | 5       | 50      | ∞      |
+| Entradas diário/mês  | 3       | ∞       | ∞      |
+| Testes/mês           | ∞       | ∞       | ∞      |
+| Exportar PDF         | ❌      | ✅      | ✅     |
+| Histórico completo   | ❌      | ✅      | ✅     |
+| IAs colaborativas    | ❌      | ❌      | ✅     |
+
+📁 ARQUIVOS CRIADOS:
+- lib/plan-limits.ts - Funções de verificação de limites
+- hooks/usePlanLimits.ts - Hook React para usar limites
+- components/UpgradeLimitModal.tsx - Modal de upgrade
+- app/api/limits/check/route.ts - API para verificar limites
+
+🔧 FUNÇÕES DISPONÍVEIS (lib/plan-limits.ts):
+- countTodayMessages(): Conta mensagens de hoje
+- countMonthDiaryEntries(): Conta entradas do mês
+- countMonthTests(): Conta testes do mês
+- getUserUsage(): Obtém todo o uso
+- checkChatLimit(): Verifica limite de chat
+- checkDiaryLimit(): Verifica limite de diário
+- checkTestLimit(): Verifica limite de testes
+- checkPdfExportAccess(): Verifica acesso a PDF
+- checkHistoryAccess(): Verifica acesso a histórico
+- checkCollaborativeAIAccess(): Verifica acesso a IAs
+
+🪝 HOOK usePlanLimits:
+- canSendMessage, canCreateEntry, canCreateTest (booleanos)
+- canExportPdf, canViewHistory, canUseCollaborativeAI
+- chatLimit, diaryLimit, testLimit (detalhados)
+- incrementChatUsage(), incrementDiaryUsage() (optimistic updates)
+
+🎨 COMPONENTES:
+- UpgradeLimitModal: Modal bonito para upgrade
+- UsageBar: Barra de progresso de uso
+
+📡 API /api/limits/check:
+- GET ?type=chat|diary|tests|all
+- Retorna: allowed, currentUsage, limit, remaining, planLevel
+
+================================================================================
+TEMA 12 IMPLEMENTADO - 29/11/2025 - 15:00
+================================================================================
+
+📋 RESUMO:
+Completado o TEMA 12 - "Add-ons e Upsells" - sistema completo de recursos
+extras que podem ser comprados separadamente.
+
+🎯 TIPOS DE ADD-ONS:
+1. CRÉDITOS EXTRAS:
+   - +50 Mensagens Coach IA (R$9,90)
+   - +200 Mensagens Coach IA (R$29,90) - Popular
+   - +10 Entradas no Diário (R$4,90)
+
+2. FEATURES AVULSAS:
+   - Exportar PDF Avulso (R$4,90)
+   - Relatório Completo (R$19,90)
+
+3. PACOTES TEMÁTICOS:
+   - Kit Segurança (R$14,90)
+   - Kit Documentação Legal (R$24,90)
+
+4. SERVIÇOS (Em breve):
+   - Sessão de Orientação (R$99,90)
+
+🔔 SISTEMA DE UPSELLS CONTEXTUAIS:
+- chat_limit_reached → Oferece +50 mensagens
+- chat_near_limit → Oferece +200 mensagens com desconto
+- diary_limit_reached → Oferece +10 entradas
+- test_result_view → Oferece exportar PDF
+- physical_risk_detected → Oferece Kit Segurança
+- many_diary_entries → Oferece Relatório Completo
+
+📁 ARQUIVOS CRIADOS:
+- lib/addons-config.ts - Catálogo de add-ons e upsells
+- components/AddonsStore.tsx - Componente de loja
+- app/loja/page.tsx - Página da loja (/loja)
+
+🔧 FUNÇÕES DISPONÍVEIS:
+- getAddonsForPlan(): Add-ons disponíveis para um plano
+- getAddonsByCategory(): Add-ons por categoria
+- getPopularAddons(): Add-ons populares
+- getUpsellForTrigger(): Upsell para um trigger
+- getAddonById(): Busca add-on por ID
+- formatAddonPrice(): Formata preço
+
+🎨 COMPONENTES:
+- AddonsStore: Grid de add-ons com filtros
+- UpsellBanner: Banner contextual de upsell
+
+📍 ROTA: /loja
+- Exibe todos os add-ons disponíveis
+- Filtros por categoria
+- Banner promocional
+- FAQ integrado
+
+================================================================================
+TEMA 13 IMPLEMENTADO - 29/11/2025 - 15:20
+================================================================================
+
+📋 RESUMO:
+Completado o TEMA 13 - "Front Page de Teste" - nova página inicial com design
+moderno e seções reorganizadas.
+
+📍 ROTA: /frontpage-teste
+(NÃO substitui a home atual - é versão de teste)
+
+🎯 SEÇÕES DA PÁGINA:
+1. NAVBAR
+   - Logo + links de navegação
+   - CTA "Fazer o Teste"
+   - Menu mobile responsivo
+
+2. HERO SECTION
+   - Badge "Ferramenta gratuita"
+   - Título: "Você não está louca."
+   - Subtítulo: "Você está confusa por alguém que te confundiu."
+   - CTAs: Fazer teste + Como funciona
+   - Stats: 15.000+ testes, 4.8/5 avaliação, 5 min
+
+3. COMO FUNCIONA
+   - 3 passos com ícones
+   - Responder → Receber resultado → Decidir próximo passo
+
+4. FERRAMENTAS
+   - Grid de 6 ferramentas
+   - Badge "Grátis" nas gratuitas
+   - Ícones coloridos
+
+5. PLANOS
+   - Toggle mensal/anual
+   - 3 cards: Guardar, Jornada, Defesa
+   - Card popular destacado
+
+6. DEPOIMENTOS
+   - 3 depoimentos com rating
+   - Design de cards
+
+7. FAQ
+   - 5 perguntas frequentes
+   - Accordion expandível
+
+8. CTA FINAL
+   - Fundo gradiente
+   - "Pronta para ter mais clareza?"
+
+9. FOOTER
+   - Logo + descrição
+   - Links: Produto, Suporte, Emergência
+   - Copyright
+
+📁 ARQUIVOS CRIADOS:
+- app/frontpage-teste/page.tsx
+
+🔧 PREPARADO PARA i18n:
+- Todo conteúdo em objeto CONTENT
+- Fácil de extrair para dicionários
+- Estrutura pronta para TEMA 14
+
+================================================================================
+TEMA 14 IMPLEMENTADO - 29/11/2025 - 15:40
+================================================================================
+
+📋 RESUMO:
+Completado o TEMA 14 - "Sistema de Idiomas" - suporte multilíngue para
+a frontpage com PT-BR, EN e ES.
+
+🌍 IDIOMAS SUPORTADOS:
+- 🇧🇷 Português (Brasil) - padrão
+- 🇺🇸 English
+- 🇪🇸 Español
+
+📁 ARQUIVOS MODIFICADOS:
+- lib/i18n.ts - Adicionado frontpageDictionaries com traduções completas
+- hooks/useI18n.ts - Corrigido para usar exports corretos
+
+🔧 COMO USAR:
+
+1. No componente:
+```tsx
+import { useFrontpageI18n } from '@/hooks/useI18n'
+
+function MyComponent() {
+  const { t, locale, setLocale, availableLocales } = useFrontpageI18n()
+  
+  return (
+    <h1>{t.hero.title}</h1>
+    // PT: "Você não está louca."
+    // EN: "You're not crazy."
+    // ES: "No estás loca."
+  )
+}
+```
+
+2. Seletor de idioma já existe:
+```tsx
+import LanguageSelector from '@/components/LanguageSelector'
+```
+
+📚 ESTRUTURA DOS DICIONÁRIOS:
+- nav: Links de navegação
+- hero: Seção principal
+- howItWorks: Como funciona
+- tools: Ferramentas
+- plans: Planos
+- testimonials: Depoimentos
+- faq: Perguntas frequentes
+- finalCta: CTA final
+- footer: Rodapé
+
+🎯 DETECÇÃO AUTOMÁTICA:
+- Detecta idioma do navegador
+- Salva preferência no localStorage
+- Fallback para PT-BR
+
+================================================================================
+RADAR PROFISSIONAL IMPLEMENTADO - 29/11/2025 - 15:50
+================================================================================
+
+📋 RESUMO:
+Criada página completa do plano Radar Profissional com lista de espera.
+
+📍 ROTA: /profissional
+
+🎯 FUNCIONALIDADES DA PÁGINA:
+- Hero com preço (R$99,90/mês)
+- Formulário de lista de espera
+- Seção "Para quem é" (psicólogos, advogados, etc.)
+- Grid de funcionalidades exclusivas
+- Tabela comparativa Defesa vs Profissional
+- FAQ específico
+- CTA final
+
+📁 ARQUIVOS CRIADOS:
+- app/profissional/page.tsx - Página completa
+- app/api/waitlist/route.ts - API para lista de espera
+- database/migrations/20241129_create_waitlist.sql - Tabela waitlist
+
+🔧 FUNCIONALIDADES DO PLANO PROFISSIONAL:
+- Painel de clientes (até 20)
+- Relatórios para laudos
+- Análise de padrões
+- Exportação em massa
+- Suporte dedicado
+- Tudo do Radar Defesa
+
+📡 API /api/waitlist:
+- POST: Adiciona email à lista
+- GET: Conta emails (admin only)
+
+⚠️ AÇÃO NECESSÁRIA:
+Rodar migration 20241129_create_waitlist.sql no Supabase.
+
+================================================================================
+FRONTPAGE-TESTE IMPLEMENTADA - 29/11/2025 - 16:30
+================================================================================
+
+📋 RESUMO:
+Criada página /frontpage-teste como CLONE da página original do Vercel
+com adições de novas seções.
+
+📍 ROTA: /frontpage-teste
+
+🔄 BASE: Clone exato de app/page.tsx (página original do Vercel)
+
+✅ ADIÇÕES IMPLEMENTADAS:
+
+1. "COMO FUNCIONA" MELHORADO
+   - Design com ícones grandes (Target, Brain, Heart)
+   - Números 01, 02, 03 em destaque roxo
+   - Linha conectora horizontal entre os passos
+   - Textos mais descritivos
+
+2. SEÇÃO DE PLANOS COMPLETA
+   - Toggle Mensal/Anual
+   - 3 Cards verticais: Radar Guardar, Jornada, Defesa
+   - Radar Defesa em laranja com badge "POPULAR"
+   - Banner horizontal azul: Radar Profissional
+     - Badge "EM BREVE"
+     - Preço R$ 99,90/mês
+     - Botão "Entrar na lista →" → /profissional
+   - Garantias: 7 dias, Stripe, Cancele quando quiser
+
+3. GRID DE FERRAMENTAS EXPANDIDO (8 extras)
+   - Modo Espelho
+   - Carta ao Futuro
+   - Biblioteca de Respostas
+   - Termômetro
+   - Análise de Padrões
+   - Exportar PDF
+   - Plano de Saída
+   - Recursos de Emergência
+
+📁 ARQUIVOS MODIFICADOS:
+- app/frontpage-teste/page.tsx
+
+📁 BACKUPS CRIADOS:
+- app/page.BACKUP_ORIGINAL.tsx (backup da página original)
+- app/frontpage-teste/page.BACKUP_ORIGINAL.tsx (backup do clone)
+
+🔧 IMPORTS ADICIONADOS:
+- lucide-react: Users, CreditCard, Sparkles, RefreshCw, Target, Brain, Eye, Mail, Lightbulb, TrendingUp, FileText, Compass, AlertTriangle, Star
+- lib/plans-config: getDisplayPlans, formatPrice
+
+📊 ESTADO ADICIONADO:
+- periodo: 'mensal' | 'anual'
+- displayPlans: planos filtrados (sem comingSoon)
+
+🎯 PRÓXIMOS PASSOS:
+- Testar em http://localhost:3000/frontpage-teste
+- Quando aprovado, encaixar na página original
+
+================================================================================

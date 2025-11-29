@@ -1,0 +1,162 @@
+================================================================================
+GUIA DE IMPLEMENTAÇÃO - FRONTPAGE DE TESTE + PLANOS + IDIOMAS
+================================================================================
+Data: 29/11/2025
+Projeto: Radar Narcisista BR
+
+================================================================================
+RESUMO DO QUE PRECISA SER FEITO
+================================================================================
+
+OBJETIVO PRINCIPAL:
+Criar uma NOVA front page de teste (Home V2) em /frontpage-teste que:
+1. Reorganiza seções da homepage atual
+2. Apresenta os 5 níveis de planos de forma clara
+3. Suporta 3 idiomas (PT/EN/ES) apenas nessa página
+4. NÃO altera a homepage oficial atual
+
+================================================================================
+ESTRUTURA DOS 5 NÍVEIS DE PLANOS
+================================================================================
+
+NÍVEL 0 - VISITANTE (sem conta):
+- Teste de Clareza sempre grátis
+- Vê resultado completo
+- Nada é salvo depois de fechar
+
+NÍVEL 1 - RADAR GUARDAR (R$ 0/mês):
+- Mapeia para: Plano Gratuito atual
+- Guardar 1 Teste de Clareza como base
+- Diário em versão básica
+- Coach IA em versão básica
+- Plano de segurança básico
+
+NÍVEL 2 - RADAR JORNADA (R$ 29,90/mês):
+- Mapeia para: Plano Essencial atual
+- Tudo do Guardar +
+- Histórico de Testes de Clareza
+- Diário ampliado
+- Mais conversas com Coach IA
+- Gráficos simples de evolução
+- Acesso aos módulos principais do Curso
+
+NÍVEL 3 - RADAR DEFESA (R$ 49,90/mês):
+- Mapeia para: Plano Premium atual
+- Tudo do Jornada +
+- Ferramentas avançadas de registro/filtros
+- Relatórios mais completos
+- Apoio extra das IAs
+- Prioridade em novidades
+
+NÍVEL 4 - RADAR PROFISSIONAL (B2B):
+- Para psicólogas, advogadas, ONGs
+- Acompanhar múltiplos casos
+- Ferramentas para apoio terapêutico/jurídico
+- Página placeholder se não existir
+
+================================================================================
+ORDEM DAS SEÇÕES NA FRONTPAGE DE TESTE
+================================================================================
+
+1. HERO (cabeçalho principal)
+   - "Você não está imaginando coisas."
+   - Botões: Fazer Teste, Ver como funciona, Ver planos
+
+2. FAIXA DE CONFIANÇA
+   - Segurança, ESC, 18+
+
+3. "COMO FUNCIONA EM 3 PASSOS"
+   - Faça o Teste → Veja Resultado → Decida como usar
+
+4. BLOCO "VOCÊ ESCOLHE COMO USAR"
+   - Card 1: Teste Rápido (sem conta)
+   - Card 2: Radar Completo (com conta)
+
+5. BLOCO DE PLANOS (5 níveis)
+   - 5.1: Faixa Teste de Clareza (Nível 0)
+   - 5.2: Tabela 3 colunas (Guardar/Jornada/Defesa)
+   - 5.3: Card Radar Profissional
+
+6. "SUAS FERRAMENTAS"
+   - Teste, Diário, Coach, etc.
+
+7. BLOCO EDUCATIVO
+   - Abuso Narcisista, Ciclo, Mitos x Realidade
+
+8. HISTÓRIAS / DEPOIMENTOS
+
+9. SEGURANÇA / CONTATOS DE EMERGÊNCIA
+
+10. FAQ
+
+11. CTA FINAL
+    - "Pronta(o) para encontrar clareza?"
+
+================================================================================
+SISTEMA DE IDIOMAS (PATCH LOCAL)
+================================================================================
+
+ARQUIVOS A CRIAR:
+- app/frontpage-teste/i18n/frontpageV2.pt.ts
+- app/frontpage-teste/i18n/frontpageV2.en.ts
+- app/frontpage-teste/i18n/frontpageV2.es.ts
+
+ESTRUTURA DOS DICIONÁRIOS:
+- hero.title / subtitle / ctaTest / ctaHowItWorks / ctaPlans
+- trust.badge1 / badge2 / badge3
+- howItWorks.step1.title / description (etc.)
+- chooseMode.quickTest.title / description
+- chooseMode.radarFull.title / description / button
+- plans.header.title / subtitle
+- plans.level0.title / description / button
+- plans.guardar.title / priceLabel / bullets[...]
+- plans.jornada.title / priceLabel / bullets[...]
+- plans.defesa.title / priceLabel / bullets[...]
+- plans.pro.title / description / button
+- tools.sectionTitle / etc.
+- ctaFinal.title / subtitle / btnTest / btnSignup
+
+SELETOR DE IDIOMA:
+- 3 botões "PT / EN / ES" no topo
+- Estado local: useState<'pt' | 'en' | 'es'>('pt')
+- Default: PT-BR
+
+================================================================================
+REGRAS IMPORTANTES
+================================================================================
+
+1. NÃO alterar homepage oficial (app/page.tsx)
+2. NÃO mexer em Stripe/priceId/billing
+3. NÃO remover avisos de segurança/LGPD
+4. NÃO prometer funcionalidades que não existem
+5. Criar em app/frontpage-teste/page.tsx
+6. Reusar componentes existentes quando possível
+7. Comentar no código o que é roadmap vs implementado
+
+================================================================================
+MAPEAMENTO COM PLANOS ATUAIS (NÃO ALTERAR BACKEND)
+================================================================================
+
+Radar Guardar → priceId do atual "Gratuito"
+Radar Jornada → priceId do atual "Essencial" (R$ 29,90)
+Radar Defesa → priceId do atual "Premium" (R$ 49,90)
+
+Apenas renomear textos na UI, não alterar lógica de billing.
+
+================================================================================
+CHECKLIST FINAL
+================================================================================
+
+[ ] Homepage oficial intacta
+[ ] Nova rota /frontpage-teste criada
+[ ] Hero ajustado com CTAs corretos
+[ ] Bloco "Você escolhe como usar" implementado
+[ ] Bloco de planos com 5 níveis
+[ ] Seções educativas reaproveitadas
+[ ] CTA final com 2 botões
+[ ] Sistema de idiomas PT/EN/ES funcionando
+[ ] Seletor de idioma visível
+[ ] Todos os CTAs apontam para rotas reais
+[ ] Comentários explicando roadmap vs implementado
+
+================================================================================

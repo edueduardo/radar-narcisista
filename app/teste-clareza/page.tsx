@@ -257,6 +257,7 @@ export default function TesteClarezaV2() {
     try {
       const result = calculateUnifiedResult(finalAnswers)
       
+      // Salva resultado no localStorage (para recuperar após criar conta)
       localStorage.setItem('radar-test-result', JSON.stringify({
         answers: finalAnswers,
         result,
@@ -265,6 +266,7 @@ export default function TesteClarezaV2() {
       }))
       
       if (user) {
+        // Usuário logado: salva no banco e vai direto pro resultado
         const nevoaScore = result.axisScores.find(a => a.axis === 'nevoa')
         const medoScore = result.axisScores.find(a => a.axis === 'medo')
         const limitesScore = result.axisScores.find(a => a.axis === 'limites')
@@ -284,12 +286,17 @@ export default function TesteClarezaV2() {
             has_physical_risk: result.hasPhysicalRisk,
             created_at: new Date().toISOString(),
           })
+        
+        localStorage.removeItem('radar-test-answers-v2')
+        router.push('/teste-clareza/resultado')
+      } else {
+        // VISITANTE: redireciona para criar conta ANTES de ver o resultado
+        localStorage.removeItem('radar-test-answers-v2')
+        router.push('/cadastro?from=teste&redirect=/teste-clareza/resultado')
       }
-      
-      localStorage.removeItem('radar-test-answers-v2')
-      router.push('/teste-clareza/resultado')
     } catch (error) {
       console.error('Erro ao salvar:', error)
+      // Em caso de erro, tenta ir pro resultado mesmo assim
       router.push('/teste-clareza/resultado')
     }
   }
