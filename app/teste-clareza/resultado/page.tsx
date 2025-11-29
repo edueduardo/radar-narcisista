@@ -215,67 +215,69 @@ export default function ResultadoV2() {
 
   return (
     <div className="min-h-screen bg-[#020617]">
-      {/* Header Simples */}
+      {/* Header Simples - Responsivo */}
       <header className="bg-[#0F172A]/95 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/dashboard" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
-            <Home className="w-5 h-5" />
-            <span className="text-sm font-medium hidden sm:inline">Dashboard</span>
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
+          <Link href="/dashboard" className="flex items-center gap-1.5 sm:gap-2 text-gray-400 hover:text-white transition-colors">
+            <Home className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="text-xs sm:text-sm font-medium hidden xs:inline">Dashboard</span>
           </Link>
           
-          <div className="flex items-center gap-2">
-            <Target className="w-5 h-5 text-violet-400" />
-            <span className="font-semibold text-white">Resultado V2</span>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <Target className="w-4 h-4 sm:w-5 sm:h-5 text-violet-400" />
+            <span className="font-semibold text-white text-sm sm:text-base">Resultado</span>
           </div>
           
-          <span className="text-sm text-gray-400">{testDate}</span>
+          <span className="text-xs sm:text-sm text-gray-400">{testDate}</span>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      <main className="max-w-4xl mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8">
         
         {/* ============================================================= */}
         {/* SECTION 1 – CABEÇALHO CALMO */}
         {/* ============================================================= */}
-        <section className="mb-8">
-          <div className="text-center mb-6">
-            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">
+        <section className="mb-5 sm:mb-6 md:mb-8">
+          <div className="text-center mb-4 sm:mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 sm:mb-3">
               Seu Mapa de Clareza
             </h1>
-            <p className="text-gray-400 text-lg">
-              Resultado do Teste • {testDate} • {result.overallScore}/{result.maxOverallScore} ({overallPct}%)
+            <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed">
+              <span className="block sm:inline">Resultado do Teste • {testDate}</span>
+              <span className="hidden sm:inline"> • </span>
+              <span className="block sm:inline">{result.overallScore}/{result.maxOverallScore} ({overallPct}%)</span>
             </p>
           </div>
 
           {/* Badge de Zona */}
-          <div className="flex justify-center mb-6">
-            <div className={`inline-flex items-center gap-3 px-6 py-3 rounded-2xl ${zoneConfig.bgColor} ${zoneConfig.borderColor} border-2`}>
-              {result.globalZone === 'atencao' && <AlertCircle className={`w-6 h-6 ${zoneConfig.color}`} />}
-              {result.globalZone === 'alerta' && <AlertTriangle className={`w-6 h-6 ${zoneConfig.color}`} />}
-              {result.globalZone === 'vermelha' && <ShieldAlert className={`w-6 h-6 ${zoneConfig.color}`} />}
-              <span className={`text-lg font-bold ${zoneConfig.color}`}>{zoneConfig.title}</span>
+          <div className="flex justify-center mb-4 sm:mb-6">
+            <div className={`inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl ${zoneConfig.bgColor} ${zoneConfig.borderColor} border-2`}>
+              {result.globalZone === 'atencao' && <AlertCircle className={`w-5 h-5 sm:w-6 sm:h-6 ${zoneConfig.color}`} />}
+              {result.globalZone === 'alerta' && <AlertTriangle className={`w-5 h-5 sm:w-6 sm:h-6 ${zoneConfig.color}`} />}
+              {result.globalZone === 'vermelha' && <ShieldAlert className={`w-5 h-5 sm:w-6 sm:h-6 ${zoneConfig.color}`} />}
+              <span className={`text-base sm:text-lg font-bold ${zoneConfig.color}`}>{zoneConfig.title}</span>
             </div>
           </div>
 
           {/* Alerta de Risco Físico */}
           {result.hasPhysicalRisk && (
-            <div className="mb-6 p-6 rounded-2xl bg-red-900/40 border-red-700 border-2">
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-red-800">
-                  <ShieldAlert className="w-7 h-7 text-red-400" />
+            <div className="mb-4 sm:mb-6 p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-red-900/40 border-red-700 border-2">
+              <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+                <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-red-800 flex-shrink-0">
+                  <ShieldAlert className="w-5 h-5 sm:w-7 sm:h-7 text-red-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-bold text-red-300 text-lg mb-2">
+                  <h3 className="font-bold text-red-300 text-base sm:text-lg mb-1.5 sm:mb-2">
                     ⚠️ Possível risco à sua segurança física
                   </h3>
-                  <p className="text-red-400 mb-4">
+                  <p className="text-red-400 text-sm sm:text-base mb-3 sm:mb-4">
                     Sua segurança vem antes de qualquer teste. Esta tela é só um mapa para você buscar apoio com mais clareza.
                   </p>
                   <Link 
                     href="/plano-seguranca" 
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-500 text-white rounded-xl font-semibold transition-colors"
+                    className="inline-flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-red-600 hover:bg-red-500 text-white rounded-lg sm:rounded-xl font-semibold transition-colors text-sm sm:text-base w-full sm:w-auto justify-center sm:justify-start"
                   >
-                    <Shield className="w-5 h-5" />
+                    <Shield className="w-4 h-4 sm:w-5 sm:h-5" />
                     Criar Plano de Segurança
                   </Link>
                 </div>
@@ -288,10 +290,10 @@ export default function ResultadoV2() {
             <div className="flex justify-center">
               <a 
                 href="#proximos-passos"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white rounded-xl font-semibold transition-colors"
+                className="inline-flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-violet-600 hover:bg-violet-500 text-white rounded-lg sm:rounded-xl font-semibold transition-colors text-sm sm:text-base w-full sm:w-auto justify-center"
               >
                 Ver próximos passos sugeridos
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </a>
             </div>
           )}
@@ -300,14 +302,14 @@ export default function ResultadoV2() {
         {/* ============================================================= */}
         {/* SECTION 2 – SUA SITUAÇÃO GERAL (NARRATIVA + 3 VOZES) */}
         {/* ============================================================= */}
-        <section className="mb-10">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <section className="mb-6 sm:mb-8 md:mb-10">
+          <div className="flex flex-col gap-3 sm:gap-4 mb-4 sm:mb-6">
             <div>
-              <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
-                <span className="text-3xl">1.</span>
+              <h2 className="text-xl sm:text-2xl font-bold text-white mb-1.5 sm:mb-2 flex items-center gap-2 sm:gap-3">
+                <span className="text-2xl sm:text-3xl">1.</span>
                 Sua situação geral
               </h2>
-              <p className="text-gray-400">
+              <p className="text-gray-400 text-sm sm:text-base">
                 Entenda o que seu resultado significa, explicado de 3 formas diferentes.
               </p>
             </div>
@@ -325,18 +327,18 @@ export default function ResultadoV2() {
                 }
               }}
               disabled={isDownloadingPDF}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 disabled:bg-emerald-700 disabled:cursor-wait text-white rounded-xl font-medium transition-colors whitespace-nowrap shadow-lg shadow-emerald-500/20"
+              className="inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-emerald-600 hover:bg-emerald-500 disabled:bg-emerald-700 disabled:cursor-wait text-white rounded-lg sm:rounded-xl font-medium transition-colors whitespace-nowrap shadow-lg shadow-emerald-500/20 text-sm sm:text-base w-full sm:w-auto"
             >
               {isDownloadingPDF ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
-                <FileDown className="w-5 h-5" />
+                <FileDown className="w-4 h-4 sm:w-5 sm:h-5" />
               )}
               {isDownloadingPDF ? 'Gerando...' : 'Baixar PDF Completo'}
             </button>
           </div>
 
-          <div className="bg-slate-900/80 rounded-2xl border border-slate-700 p-6">
+          <div className="bg-slate-900/80 rounded-xl sm:rounded-2xl border border-slate-700 p-4 sm:p-6">
             <Explanation3Voices
               topicId="geral"
               context={{
@@ -354,34 +356,34 @@ export default function ResultadoV2() {
         {/* ============================================================= */}
         {/* SECTION 3 – EIXOS PRINCIPAIS (VISUAL + ACCORDION) */}
         {/* ============================================================= */}
-        <section className="mb-10">
-          <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
-            <span className="text-3xl">2.</span>
+        <section className="mb-6 sm:mb-8 md:mb-10">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-1.5 sm:mb-2 flex items-center gap-2 sm:gap-3">
+            <span className="text-2xl sm:text-3xl">2.</span>
             Como isso aparece no seu dia a dia
           </h2>
-          <p className="text-gray-400 mb-6">
+          <p className="text-gray-400 text-sm sm:text-base mb-4 sm:mb-6">
             Três dimensões que mostram onde a relação está te afetando mais.
           </p>
 
           {/* Barras Visuais */}
-          <div className="grid gap-4 mb-6">
+          <div className="grid gap-3 sm:gap-4 mb-4 sm:mb-6">
             {result.axisScores.map((axis) => (
               <div 
                 key={axis.axis}
-                className="bg-slate-900/80 rounded-xl border border-slate-700 p-4"
+                className="bg-slate-900/80 rounded-lg sm:rounded-xl border border-slate-700 p-3 sm:p-4"
               >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-semibold text-white">{axis.label}</span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg font-bold text-white">{Math.round(axis.percentage * 100)}%</span>
-                    <span className={`px-2 py-0.5 rounded text-xs font-medium border ${getLevelBadge(axis.level)}`}>
+                <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                  <span className="font-semibold text-white text-sm sm:text-base">{axis.label}</span>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className="text-base sm:text-lg font-bold text-white">{Math.round(axis.percentage * 100)}%</span>
+                    <span className={`px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-xs font-medium border ${getLevelBadge(axis.level)}`}>
                       {axis.level.toUpperCase()}
                     </span>
                   </div>
                 </div>
-                <div className="w-full bg-slate-800 rounded-full h-3">
+                <div className="w-full bg-slate-800 rounded-full h-2 sm:h-3">
                   <div 
-                    className={`h-3 rounded-full bg-gradient-to-r ${getAxisColor(axis.axis)} transition-all duration-500`}
+                    className={`h-2 sm:h-3 rounded-full bg-gradient-to-r ${getAxisColor(axis.axis)} transition-all duration-500`}
                     style={{ width: `${axis.percentage * 100}%` }}
                   />
                 </div>
@@ -390,7 +392,7 @@ export default function ResultadoV2() {
           </div>
 
           {/* Accordions com 3 Vozes */}
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {result.axisScores.map((axis) => {
               const isExpanded = expandedAxis === axis.axis
               const axisLabels: Record<string, { title: string; desc: string }> = {
@@ -401,25 +403,25 @@ export default function ResultadoV2() {
               const config = axisLabels[axis.axis] || { title: axis.label, desc: '' }
 
               return (
-                <div key={axis.axis} className="bg-slate-900/60 rounded-xl border border-slate-700 overflow-hidden">
+                <div key={axis.axis} className="bg-slate-900/60 rounded-lg sm:rounded-xl border border-slate-700 overflow-hidden">
                   <button
                     onClick={() => setExpandedAxis(isExpanded ? null : axis.axis)}
-                    className="w-full px-5 py-4 flex items-center justify-between hover:bg-slate-800/50 transition-colors"
+                    className="w-full px-3 sm:px-5 py-3 sm:py-4 flex items-center justify-between hover:bg-slate-800/50 transition-colors"
                   >
-                    <div className="text-left">
-                      <h3 className="font-semibold text-white">{config.title}</h3>
-                      <p className="text-sm text-gray-400">{config.desc}</p>
+                    <div className="text-left flex-1 min-w-0">
+                      <h3 className="font-semibold text-white text-sm sm:text-base">{config.title}</h3>
+                      <p className="text-xs sm:text-sm text-gray-400 truncate">{config.desc}</p>
                     </div>
                     {isExpanded ? (
-                      <ChevronUp className="w-5 h-5 text-gray-400" />
+                      <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0 ml-2" />
                     ) : (
-                      <ChevronDown className="w-5 h-5 text-gray-400" />
+                      <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0 ml-2" />
                     )}
                   </button>
                   
                   {isExpanded && (
-                    <div className="px-5 pb-5 border-t border-slate-700/50">
-                      <div className="pt-4">
+                    <div className="px-3 sm:px-5 pb-3 sm:pb-5 border-t border-slate-700/50">
+                      <div className="pt-3 sm:pt-4">
                         <AxisExplanation
                           axis={axis.axis as 'nevoa' | 'medo' | 'limites'}
                           percentage={axis.percentage}
@@ -441,17 +443,17 @@ export default function ResultadoV2() {
         {/* ============================================================= */}
         {/* SECTION 4 – CATEGORIAS DE RISCO (GRID DE CARDS) */}
         {/* ============================================================= */}
-        <section className="mb-10">
-          <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
-            <span className="text-3xl">3.</span>
+        <section className="mb-6 sm:mb-8 md:mb-10">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-1.5 sm:mb-2 flex items-center gap-2 sm:gap-3">
+            <span className="text-2xl sm:text-3xl">3.</span>
             Onde isso pega mais forte
           </h2>
-          <p className="text-gray-400 mb-6 flex items-center gap-2">
-            <MousePointerClick className="w-4 h-4 text-violet-400" />
-            Clique em cada categoria para entender melhor e ver sugestões.
+          <p className="text-gray-400 text-sm sm:text-base mb-4 sm:mb-6 flex items-center gap-1.5 sm:gap-2">
+            <MousePointerClick className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-400 flex-shrink-0" />
+            <span>Clique em cada categoria para entender melhor.</span>
           </p>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {result.categoryScores.map((cat) => {
               const catConfig = getCategoryConfig(cat.category)
               const IconComponent = CATEGORY_ICONS[cat.category] || AlertCircle
@@ -462,33 +464,33 @@ export default function ResultadoV2() {
               return (
                 <div 
                   key={cat.category}
-                  className={`bg-slate-900/80 rounded-xl border overflow-hidden transition-all ${
+                  className={`bg-slate-900/80 rounded-lg sm:rounded-xl border overflow-hidden transition-all ${
                     isHighlighted ? 'border-amber-700' : 'border-slate-700'
                   }`}
                 >
                   <button
                     onClick={() => setExpandedCategory(isExpanded ? null : cat.category)}
-                    className="w-full p-4 text-left hover:bg-slate-800/50 transition-colors"
+                    className="w-full p-3 sm:p-4 text-left hover:bg-slate-800/50 transition-colors"
                   >
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2 rounded-lg bg-slate-800">
-                        <IconComponent className={`w-5 h-5 ${catConfig.color}`} />
+                    <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                      <div className="p-1.5 sm:p-2 rounded-md sm:rounded-lg bg-slate-800 flex-shrink-0">
+                        <IconComponent className={`w-4 h-4 sm:w-5 sm:h-5 ${catConfig.color}`} />
                       </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-white text-sm">{cat.label}</h3>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-white text-xs sm:text-sm truncate">{cat.label}</h3>
                       </div>
-                      <span className={`text-lg font-bold ${
+                      <span className={`text-base sm:text-lg font-bold flex-shrink-0 ${
                         pct >= 66 ? 'text-red-400' : pct >= 33 ? 'text-yellow-400' : 'text-green-400'
                       }`}>
                         {pct}%
                       </span>
                       {/* Ícone indicando que é clicável */}
-                      <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                      <ChevronDown className={`w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`} />
                     </div>
                     
-                    <div className="w-full bg-slate-800 rounded-full h-2 mb-2">
+                    <div className="w-full bg-slate-800 rounded-full h-1.5 sm:h-2 mb-1.5 sm:mb-2">
                       <div 
-                        className={`h-2 rounded-full ${
+                        className={`h-1.5 sm:h-2 rounded-full ${
                           pct >= 66 ? 'bg-red-500' : pct >= 33 ? 'bg-yellow-500' : 'bg-green-500'
                         }`}
                         style={{ width: `${pct}%` }}
@@ -496,13 +498,13 @@ export default function ResultadoV2() {
                     </div>
 
                     {isHighlighted && (
-                      <p className="text-xs text-amber-400">⚠️ Merece atenção</p>
+                      <p className="text-[10px] sm:text-xs text-amber-400">⚠️ Merece atenção</p>
                     )}
                   </button>
 
                   {isExpanded && (
-                    <div className="px-4 pb-4 border-t border-slate-700/50">
-                      <div className="pt-4">
+                    <div className="px-3 sm:px-4 pb-3 sm:pb-4 border-t border-slate-700/50">
+                      <div className="pt-3 sm:pt-4">
                         <CategoryExplanation
                           category={cat.category}
                           percentage={cat.percentage}
@@ -523,90 +525,90 @@ export default function ResultadoV2() {
         {/* ============================================================= */}
         {/* SECTION 5 – SEUS REGISTROS (DIÁRIO) */}
         {/* ============================================================= */}
-        <section className="mb-10">
-          <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
-            <span className="text-3xl">4.</span>
+        <section className="mb-6 sm:mb-8 md:mb-10">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-1.5 sm:mb-2 flex items-center gap-2 sm:gap-3">
+            <span className="text-2xl sm:text-3xl">4.</span>
             Seus registros até agora
           </h2>
-          <p className="text-gray-400 mb-6">
+          <p className="text-gray-400 text-sm sm:text-base mb-4 sm:mb-6">
             Dados do seu diário que complementam o teste.
           </p>
 
           {diaryStats && diaryStats.totalEntries > 0 ? (
-            <div className="bg-gradient-to-r from-indigo-950 to-purple-950 border-indigo-900 rounded-2xl border p-6">
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-                <div className="bg-slate-900/80 rounded-xl p-4 text-center">
-                  <p className="text-2xl font-bold text-indigo-400">{diaryStats.totalEntries}</p>
-                  <p className="text-xs text-gray-400">Episódios</p>
+            <div className="bg-gradient-to-r from-indigo-950 to-purple-950 border-indigo-900 rounded-xl sm:rounded-2xl border p-4 sm:p-6">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-4 sm:mb-6">
+                <div className="bg-slate-900/80 rounded-lg sm:rounded-xl p-3 sm:p-4 text-center">
+                  <p className="text-xl sm:text-2xl font-bold text-indigo-400">{diaryStats.totalEntries}</p>
+                  <p className="text-[10px] sm:text-xs text-gray-400">Episódios</p>
                 </div>
-                <div className="bg-slate-900/80 rounded-xl p-4 text-center">
-                  <p className="text-2xl font-bold text-purple-400">{diaryStats.recentEntries}</p>
-                  <p className="text-xs text-gray-400">Últimos 30 dias</p>
+                <div className="bg-slate-900/80 rounded-lg sm:rounded-xl p-3 sm:p-4 text-center">
+                  <p className="text-xl sm:text-2xl font-bold text-purple-400">{diaryStats.recentEntries}</p>
+                  <p className="text-[10px] sm:text-xs text-gray-400">Últimos 30 dias</p>
                 </div>
-                <div className="bg-slate-900/80 rounded-xl p-4 text-center">
-                  <p className="text-2xl font-bold text-rose-400">{diaryStats.avgImpact}/5</p>
-                  <p className="text-xs text-gray-400">Impacto médio</p>
+                <div className="bg-slate-900/80 rounded-lg sm:rounded-xl p-3 sm:p-4 text-center">
+                  <p className="text-xl sm:text-2xl font-bold text-rose-400">{diaryStats.avgImpact}/5</p>
+                  <p className="text-[10px] sm:text-xs text-gray-400">Impacto médio</p>
                 </div>
-                <div className="bg-slate-900/80 rounded-xl p-4 text-center">
-                  <p className="text-2xl font-bold text-blue-400">{diaryStats.topTags.length}</p>
-                  <p className="text-xs text-gray-400">Padrões</p>
+                <div className="bg-slate-900/80 rounded-lg sm:rounded-xl p-3 sm:p-4 text-center">
+                  <p className="text-xl sm:text-2xl font-bold text-blue-400">{diaryStats.topTags.length}</p>
+                  <p className="text-[10px] sm:text-xs text-gray-400">Padrões</p>
                 </div>
               </div>
 
               {diaryStats.topTags.length > 0 && (
-                <div className="mb-6">
-                  <p className="text-sm text-gray-400 mb-2">Padrões que mais se repetem:</p>
-                  <div className="flex flex-wrap gap-2">
+                <div className="mb-4 sm:mb-6">
+                  <p className="text-xs sm:text-sm text-gray-400 mb-2">Padrões que mais se repetem:</p>
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {diaryStats.topTags.map(({ tag, count }: { tag: string; count: number }) => (
                       <span 
                         key={tag}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 bg-purple-900/50 text-purple-300 rounded-full text-sm font-medium"
+                        className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-1.5 bg-purple-900/50 text-purple-300 rounded-full text-xs sm:text-sm font-medium"
                       >
                         {tag}
-                        <span className="bg-purple-800 px-1.5 py-0.5 rounded-full text-xs">{count}x</span>
+                        <span className="bg-purple-800 px-1 sm:px-1.5 py-0.5 rounded-full text-[10px] sm:text-xs">{count}x</span>
                       </span>
                     ))}
                   </div>
                 </div>
               )}
 
-              <p className="text-sm text-gray-400 mb-4">
+              <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">
                 O diário ajuda a identificar padrões ao longo do tempo. Quanto mais você registra, mais clareza você ganha.
               </p>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <Link
                   href="/diario/novo"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-medium transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg sm:rounded-xl font-medium transition-colors text-sm sm:text-base"
                 >
                   <PenLine className="w-4 h-4" />
                   Registrar novo episódio
                 </Link>
                 <Link
                   href="/diario/timeline"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-medium transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-slate-700 hover:bg-slate-600 text-white rounded-lg sm:rounded-xl font-medium transition-colors text-sm sm:text-base"
                 >
                   Ver linha do tempo
                 </Link>
               </div>
             </div>
           ) : (
-            <div className="bg-gradient-to-r from-blue-950 to-indigo-950 border-blue-900 rounded-2xl border p-6">
-              <div className="flex flex-col sm:flex-row items-center gap-4">
-                <div className="p-4 bg-blue-900 rounded-2xl">
-                  <PenLine className="w-8 h-8 text-blue-400" />
+            <div className="bg-gradient-to-r from-blue-950 to-indigo-950 border-blue-900 rounded-xl sm:rounded-2xl border p-4 sm:p-6">
+              <div className="flex flex-col items-center gap-3 sm:gap-4 text-center">
+                <div className="p-3 sm:p-4 bg-blue-900 rounded-xl sm:rounded-2xl">
+                  <PenLine className="w-6 h-6 sm:w-8 sm:h-8 text-blue-400" />
                 </div>
-                <div className="flex-1 text-center sm:text-left">
-                  <h3 className="font-bold text-white text-lg">Comece a registrar seus episódios</h3>
-                  <p className="text-gray-400 text-sm mt-1">
+                <div>
+                  <h3 className="font-bold text-white text-base sm:text-lg">Comece a registrar seus episódios</h3>
+                  <p className="text-gray-400 text-xs sm:text-sm mt-1">
                     O diário ajuda a identificar padrões e complementa seu teste
                   </p>
                 </div>
                 <Link
                   href="/diario/novo"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg sm:rounded-xl font-semibold transition-colors text-sm sm:text-base w-full sm:w-auto"
                 >
-                  <PenLine className="w-5 h-5" />
+                  <PenLine className="w-4 h-4 sm:w-5 sm:h-5" />
                   Criar registro
                 </Link>
               </div>
@@ -617,34 +619,34 @@ export default function ResultadoV2() {
         {/* ============================================================= */}
         {/* SECTION 6 – EXPORTAÇÃO E CUIDADOS */}
         {/* ============================================================= */}
-        <section className="mb-10">
-          <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
-            <span className="text-3xl">5.</span>
-            Guardar ou compartilhar com alguém
+        <section className="mb-6 sm:mb-8 md:mb-10">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-1.5 sm:mb-2 flex items-center gap-2 sm:gap-3">
+            <span className="text-2xl sm:text-3xl">5.</span>
+            Guardar ou compartilhar
           </h2>
-          <p className="text-gray-400 mb-6">
+          <p className="text-gray-400 text-sm sm:text-base mb-4 sm:mb-6">
             Exporte seu resultado para mostrar a um profissional ou guardar para você.
           </p>
 
-          <div id="export-section" className="bg-slate-900/80 rounded-2xl border border-slate-700 overflow-hidden scroll-mt-20">
+          <div id="export-section" className="bg-slate-900/80 rounded-xl sm:rounded-2xl border border-slate-700 overflow-hidden scroll-mt-20">
             <button
               onClick={() => setShowExportSection(!showExportSection)}
-              className="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-800/50 transition-colors"
+              className="w-full px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between hover:bg-slate-800/50 transition-colors"
             >
-              <div className="flex items-center gap-3">
-                <FileCheck className="w-5 h-5 text-emerald-400" />
-                <span className="font-semibold text-white">Opções de exportação</span>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <FileCheck className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
+                <span className="font-semibold text-white text-sm sm:text-base">Opções de exportação</span>
               </div>
               {showExportSection ? (
-                <ChevronUp className="w-5 h-5 text-gray-400" />
+                <ChevronUp className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
               ) : (
-                <ChevronDown className="w-5 h-5 text-gray-400" />
+                <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
               )}
             </button>
 
             {showExportSection && (
-              <div className="px-6 pb-6 border-t border-slate-700/50">
-                <div className="pt-4">
+              <div className="px-4 sm:px-6 pb-4 sm:pb-6 border-t border-slate-700/50">
+                <div className="pt-3 sm:pt-4">
                   <ClarityResultPDF 
                     ref={pdfRef}
                     result={result} 
@@ -652,8 +654,8 @@ export default function ResultadoV2() {
                     isDarkMode={true} 
                   />
                   
-                  <div className="mt-4 p-4 bg-amber-900/20 border border-amber-800/50 rounded-xl">
-                    <p className="text-sm text-amber-300">
+                  <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-amber-900/20 border border-amber-800/50 rounded-lg sm:rounded-xl">
+                    <p className="text-xs sm:text-sm text-amber-300">
                       <strong>Sobre a verificação:</strong> O documento gerado inclui um código de verificação (hash) e horário de geração. Isso ajuda a mostrar que o documento não foi alterado depois, mas <strong>NÃO é laudo nem decisão judicial</strong>.
                     </p>
                   </div>
@@ -662,8 +664,8 @@ export default function ResultadoV2() {
             )}
           </div>
 
-          <div className="mt-4 p-4 bg-slate-800/50 rounded-xl">
-            <p className="text-sm text-gray-400 text-center">
+          <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-slate-800/50 rounded-lg sm:rounded-xl">
+            <p className="text-xs sm:text-sm text-gray-400 text-center">
               ⚠️ Este teste é uma ferramenta de autoconhecimento. Não substitui psicoterapia, avaliação clínica ou decisão judicial.
             </p>
           </div>
@@ -672,53 +674,53 @@ export default function ResultadoV2() {
         {/* ============================================================= */}
         {/* PRÓXIMOS PASSOS (ANCHOR) */}
         {/* ============================================================= */}
-        <section id="proximos-passos" className="mb-10 scroll-mt-20">
-          <h2 className="text-2xl font-bold text-white mb-6">
+        <section id="proximos-passos" className="mb-6 sm:mb-8 md:mb-10 scroll-mt-20">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">
             🚀 Próximos Passos Recomendados
           </h2>
           
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <Link
               href="/diario/novo"
-              className="flex items-center gap-4 p-4 rounded-2xl border-2 border-blue-900 bg-blue-950/50 hover:border-blue-700 transition-colors"
+              className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 border-blue-900 bg-blue-950/50 hover:border-blue-700 transition-colors"
             >
-              <div className="p-3 bg-slate-900 rounded-xl">
-                <PenLine className="w-6 h-6 text-blue-400" />
+              <div className="p-2 sm:p-3 bg-slate-900 rounded-lg sm:rounded-xl flex-shrink-0">
+                <PenLine className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
               </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-white">Registrar Episódio</h3>
-                <p className="text-sm text-gray-400">Documente situações</p>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-white text-sm sm:text-base">Registrar Episódio</h3>
+                <p className="text-xs sm:text-sm text-gray-400">Documente situações</p>
               </div>
-              <ArrowRight className="w-5 h-5 text-blue-400" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400 flex-shrink-0" />
             </Link>
             
             <Link
               href="/chat"
-              className="flex items-center gap-4 p-4 rounded-2xl border-2 border-emerald-900 bg-emerald-950/50 hover:border-emerald-700 transition-colors"
+              className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 border-emerald-900 bg-emerald-950/50 hover:border-emerald-700 transition-colors"
             >
-              <div className="p-3 bg-slate-900 rounded-xl">
-                <MessageCircle className="w-6 h-6 text-emerald-400" />
+              <div className="p-2 sm:p-3 bg-slate-900 rounded-lg sm:rounded-xl flex-shrink-0">
+                <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400" />
               </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-white">Coach IA</h3>
-                <p className="text-sm text-gray-400">Apoio 24/7</p>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-white text-sm sm:text-base">Coach IA</h3>
+                <p className="text-xs sm:text-sm text-gray-400">Apoio 24/7</p>
               </div>
-              <ArrowRight className="w-5 h-5 text-emerald-400" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400 flex-shrink-0" />
             </Link>
             
             {result.globalZone === 'vermelha' && (
               <Link
                 href="/plano-seguranca"
-                className="flex items-center gap-4 p-4 rounded-2xl border-2 border-red-900 bg-red-950/50 hover:border-red-700 transition-colors sm:col-span-2"
+                className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 border-red-900 bg-red-950/50 hover:border-red-700 transition-colors sm:col-span-2"
               >
-                <div className="p-3 bg-slate-900 rounded-xl">
-                  <Shield className="w-6 h-6 text-red-400" />
+                <div className="p-2 sm:p-3 bg-slate-900 rounded-lg sm:rounded-xl flex-shrink-0">
+                  <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-red-400" />
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-white">Criar Plano de Segurança</h3>
-                  <p className="text-sm text-gray-400">Importante: organize sua proteção</p>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-white text-sm sm:text-base">Criar Plano de Segurança</h3>
+                  <p className="text-xs sm:text-sm text-gray-400">Importante: organize sua proteção</p>
                 </div>
-                <ArrowRight className="w-5 h-5 text-red-400" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-red-400 flex-shrink-0" />
               </Link>
             )}
           </div>
@@ -727,63 +729,63 @@ export default function ResultadoV2() {
         {/* ============================================================= */}
         {/* SECTION 7 – RODAPÉ FUNCIONAL */}
         {/* ============================================================= */}
-        <section className="mb-8">
+        <section className="mb-6 sm:mb-8">
           {/* Navegação */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-4 sm:mb-6">
             <Link
               href="/dashboard"
-              className="flex flex-col items-center gap-2 p-4 bg-slate-900/80 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors"
+              className="flex flex-col items-center gap-1.5 sm:gap-2 p-3 sm:p-4 bg-slate-900/80 rounded-lg sm:rounded-xl border border-slate-700 hover:border-slate-600 transition-colors"
             >
-              <LayoutDashboard className="w-6 h-6 text-violet-400" />
-              <span className="text-sm text-gray-400">Dashboard</span>
+              <LayoutDashboard className="w-5 h-5 sm:w-6 sm:h-6 text-violet-400" />
+              <span className="text-xs sm:text-sm text-gray-400">Dashboard</span>
             </Link>
             
             <Link
               href="/teste-clareza"
-              className="flex flex-col items-center gap-2 p-4 bg-slate-900/80 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors"
+              className="flex flex-col items-center gap-1.5 sm:gap-2 p-3 sm:p-4 bg-slate-900/80 rounded-lg sm:rounded-xl border border-slate-700 hover:border-slate-600 transition-colors"
             >
-              <RefreshCw className="w-6 h-6 text-violet-400" />
-              <span className="text-sm text-gray-400">Refazer Teste</span>
+              <RefreshCw className="w-5 h-5 sm:w-6 sm:h-6 text-violet-400" />
+              <span className="text-xs sm:text-sm text-gray-400">Refazer Teste</span>
             </Link>
             
             <Link
               href="/biblioteca"
-              className="flex flex-col items-center gap-2 p-4 bg-slate-900/80 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors"
+              className="flex flex-col items-center gap-1.5 sm:gap-2 p-3 sm:p-4 bg-slate-900/80 rounded-lg sm:rounded-xl border border-slate-700 hover:border-slate-600 transition-colors"
             >
-              <BookOpen className="w-6 h-6 text-violet-400" />
-              <span className="text-sm text-gray-400">Biblioteca</span>
+              <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-violet-400" />
+              <span className="text-xs sm:text-sm text-gray-400">Biblioteca</span>
             </Link>
             
             <Link
               href="/diario/timeline"
-              className="flex flex-col items-center gap-2 p-4 bg-slate-900/80 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors"
+              className="flex flex-col items-center gap-1.5 sm:gap-2 p-3 sm:p-4 bg-slate-900/80 rounded-lg sm:rounded-xl border border-slate-700 hover:border-slate-600 transition-colors"
             >
-              <Target className="w-6 h-6 text-violet-400" />
-              <span className="text-sm text-gray-400">Timeline</span>
+              <Target className="w-5 h-5 sm:w-6 sm:h-6 text-violet-400" />
+              <span className="text-xs sm:text-sm text-gray-400">Timeline</span>
             </Link>
           </div>
 
           {/* Contatos de Emergência */}
-          <div className="p-4 rounded-xl bg-slate-800/50 mb-6">
-            <p className="text-sm text-gray-400 text-center mb-3">
+          <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-slate-800/50 mb-4 sm:mb-6">
+            <p className="text-xs sm:text-sm text-gray-400 text-center mb-2 sm:mb-3">
               Em situação de perigo imediato, procure ajuda:
             </p>
-            <div className="flex justify-center gap-4 flex-wrap">
-              <a href="tel:190" className="text-sm font-medium text-red-400 hover:text-red-300">
+            <div className="flex justify-center gap-3 sm:gap-4 flex-wrap">
+              <a href="tel:190" className="text-xs sm:text-sm font-medium text-red-400 hover:text-red-300">
                 190 - Polícia
               </a>
-              <a href="tel:180" className="text-sm font-medium text-pink-400 hover:text-pink-300">
+              <a href="tel:180" className="text-xs sm:text-sm font-medium text-pink-400 hover:text-pink-300">
                 180 - Mulher
               </a>
-              <a href="tel:188" className="text-sm font-medium text-yellow-400 hover:text-yellow-300">
+              <a href="tel:188" className="text-xs sm:text-sm font-medium text-yellow-400 hover:text-yellow-300">
                 188 - CVV
               </a>
             </div>
           </div>
 
           {/* Disclaimer Final */}
-          <div className="p-4 bg-amber-900/20 border border-amber-800/50 rounded-xl mb-6">
-            <p className="text-sm text-amber-300 text-center">
+          <div className="p-3 sm:p-4 bg-amber-900/20 border border-amber-800/50 rounded-lg sm:rounded-xl mb-4 sm:mb-6">
+            <p className="text-xs sm:text-sm text-amber-300 text-center leading-relaxed">
               <strong>Ferramenta de autoconhecimento.</strong> Este teste ajuda a identificar padrões, mas não substitui avaliação de profissional de saúde mental nem constitui diagnóstico.
             </p>
           </div>
@@ -795,10 +797,10 @@ export default function ResultadoV2() {
         </section>
 
         {/* Link para voltar à versão original */}
-        <div className="text-center pb-8">
+        <div className="text-center pb-6 sm:pb-8">
           <Link 
             href="/teste-clareza/resultado" 
-            className="text-sm text-gray-500 hover:text-gray-400 underline"
+            className="text-xs sm:text-sm text-gray-500 hover:text-gray-400 underline"
           >
             ← Voltar para versão original
           </Link>

@@ -8,6 +8,14 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens: {
+      'xs': '375px',  // iPhone SE, pequenos smartphones
+      'sm': '640px',  // Smartphones maiores
+      'md': '768px',  // Tablets
+      'lg': '1024px', // Laptops
+      'xl': '1280px', // Desktops
+      '2xl': '1536px', // Telas grandes
+    },
     extend: {
       colors: {
         // ============================================

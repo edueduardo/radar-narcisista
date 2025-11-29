@@ -394,43 +394,43 @@ export default function TesteClarezaV2() {
   // ==========================================================================
   if (showDisclaimer) {
     return (
-      <div className={`min-h-screen ${theme.bgMain} flex items-center justify-center p-4`}>
+      <div className={`min-h-screen ${theme.bgMain} flex items-center justify-center p-3 sm:p-4`}>
         <div className={`max-w-lg w-full`}>
           {/* Toggle de tema - discreto no canto */}
-          <div className="flex justify-end mb-6">
+          <div className="flex justify-end mb-4 sm:mb-6">
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-lg ${isDarkMode ? 'bg-slate-800 text-yellow-400' : 'bg-white text-gray-600 shadow-sm'} hover:opacity-80 transition-all`}
+              className={`p-1.5 sm:p-2 rounded-lg ${isDarkMode ? 'bg-slate-800 text-yellow-400' : 'bg-white text-gray-600 shadow-sm'} hover:opacity-80 transition-all`}
               title={isDarkMode ? 'Modo claro' : 'Modo escuro'}
             >
-              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              {isDarkMode ? <Sun className="w-4 h-4 sm:w-5 sm:h-5" /> : <Moon className="w-4 h-4 sm:w-5 sm:h-5" />}
             </button>
           </div>
           
           {/* Header - Hierarquia clara */}
-          <div className="text-center mb-8">
-            <div className={`w-20 h-20 ${theme.accentBgLight} rounded-3xl flex items-center justify-center mx-auto mb-5`}>
-              <Target className={`w-10 h-10 ${theme.accentText}`} />
+          <div className="text-center mb-5 sm:mb-8">
+            <div className={`w-16 h-16 sm:w-20 sm:h-20 ${theme.accentBgLight} rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto mb-4 sm:mb-5`}>
+              <Target className={`w-8 h-8 sm:w-10 sm:h-10 ${theme.accentText}`} />
             </div>
-            <h1 className={`text-3xl font-bold ${theme.textPrimary} mb-2`}>Teste de Clareza</h1>
-            <p className={`${theme.textSecondary} text-lg mb-3`}>Um mapa para entender sua situação</p>
+            <h1 className={`text-2xl sm:text-3xl font-bold ${theme.textPrimary} mb-1.5 sm:mb-2`}>Teste de Clareza</h1>
+            <p className={`${theme.textSecondary} text-base sm:text-lg mb-2 sm:mb-3`}>Um mapa para entender sua situação</p>
             
             {/* Tempo estimado - visível e tranquilizador */}
-            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${isDarkMode ? 'bg-slate-800' : 'bg-gray-100'}`}>
-              <Clock className={`w-4 h-4 ${theme.textMuted}`} />
-              <span className={`text-sm ${theme.textSecondary}`}>Leva cerca de 5-10 minutos</span>
+            <div className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full ${isDarkMode ? 'bg-slate-800' : 'bg-gray-100'}`}>
+              <Clock className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${theme.textMuted}`} />
+              <span className={`text-xs sm:text-sm ${theme.textSecondary}`}>Leva cerca de 5-10 minutos</span>
             </div>
           </div>
 
           {/* Card ALERTA (único laranja) */}
-          <div className={`p-5 rounded-2xl ${isDarkMode ? 'bg-amber-900/30 border-amber-700/50' : 'bg-amber-50 border-amber-200'} border mb-4`}>
-            <div className="flex items-start gap-4">
-              <div className={`p-2.5 rounded-xl ${isDarkMode ? 'bg-amber-800/50' : 'bg-amber-100'} flex-shrink-0`}>
-                <AlertTriangle className={`w-5 h-5 ${isDarkMode ? 'text-amber-400' : 'text-amber-600'}`} />
+          <div className={`p-4 sm:p-5 rounded-xl sm:rounded-2xl ${isDarkMode ? 'bg-amber-900/30 border-amber-700/50' : 'bg-amber-50 border-amber-200'} border mb-3 sm:mb-4`}>
+            <div className="flex items-start gap-3 sm:gap-4">
+              <div className={`p-2 sm:p-2.5 rounded-lg sm:rounded-xl ${isDarkMode ? 'bg-amber-800/50' : 'bg-amber-100'} flex-shrink-0`}>
+                <AlertTriangle className={`w-4 h-4 sm:w-5 sm:h-5 ${isDarkMode ? 'text-amber-400' : 'text-amber-600'}`} />
               </div>
               <div>
-                <h3 className={`font-semibold ${isDarkMode ? 'text-amber-300' : 'text-amber-800'} mb-2`}>Antes de começar</h3>
-                <ul className={`text-sm space-y-1.5 ${isDarkMode ? 'text-amber-400/90' : 'text-amber-700'}`}>
+                <h3 className={`font-semibold ${isDarkMode ? 'text-amber-300' : 'text-amber-800'} mb-1.5 sm:mb-2 text-sm sm:text-base`}>Antes de começar</h3>
+                <ul className={`text-xs sm:text-sm space-y-1 sm:space-y-1.5 ${isDarkMode ? 'text-amber-400/90' : 'text-amber-700'}`}>
                   <li>• Este teste <strong>não é diagnóstico</strong> médico ou psicológico</li>
                   <li>• Ele mapeia <strong>sua percepção</strong> da situação</li>
                   <li>• Os resultados são um ponto de partida, não uma conclusão</li>
@@ -440,16 +440,16 @@ export default function TesteClarezaV2() {
           </div>
 
           {/* Cards INFORMATIVOS (mesmo estilo, cor unificada) */}
-          <div className="space-y-3 mb-8">
+          <div className="space-y-2 sm:space-y-3 mb-5 sm:mb-8">
             {/* O que você vai responder */}
-            <div className={`p-5 rounded-2xl ${isDarkMode ? 'bg-slate-800/70 border-slate-700' : 'bg-white border-gray-200'} border`}>
-              <div className="flex items-start gap-4">
-                <div className={`p-2.5 rounded-xl ${isDarkMode ? 'bg-slate-700' : 'bg-gray-100'} flex-shrink-0`}>
-                  <FileText className={`w-5 h-5 ${theme.textSecondary}`} />
+            <div className={`p-4 sm:p-5 rounded-xl sm:rounded-2xl ${isDarkMode ? 'bg-slate-800/70 border-slate-700' : 'bg-white border-gray-200'} border`}>
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className={`p-2 sm:p-2.5 rounded-lg sm:rounded-xl ${isDarkMode ? 'bg-slate-700' : 'bg-gray-100'} flex-shrink-0`}>
+                  <FileText className={`w-4 h-4 sm:w-5 sm:h-5 ${theme.textSecondary}`} />
                 </div>
                 <div>
-                  <h3 className={`font-semibold ${theme.textPrimary} mb-2`}>O que você vai responder</h3>
-                  <ul className={`text-sm space-y-1.5 ${theme.textSecondary}`}>
+                  <h3 className={`font-semibold ${theme.textPrimary} mb-1.5 sm:mb-2 text-sm sm:text-base`}>O que você vai responder</h3>
+                  <ul className={`text-xs sm:text-sm space-y-1 sm:space-y-1.5 ${theme.textSecondary}`}>
                     <li>• <strong>18 perguntas</strong> + 1 especial</li>
                     <li>• <strong>6 categorias</strong>, 3 eixos de análise</li>
                   </ul>
@@ -458,14 +458,14 @@ export default function TesteClarezaV2() {
             </div>
 
             {/* A última pergunta é especial */}
-            <div className={`p-5 rounded-2xl ${isDarkMode ? 'bg-slate-800/70 border-slate-700' : 'bg-white border-gray-200'} border`}>
-              <div className="flex items-start gap-4">
-                <div className={`p-2.5 rounded-xl ${isDarkMode ? 'bg-slate-700' : 'bg-gray-100'} flex-shrink-0`}>
-                  <Sparkles className={`w-5 h-5 ${theme.accentText}`} />
+            <div className={`p-4 sm:p-5 rounded-xl sm:rounded-2xl ${isDarkMode ? 'bg-slate-800/70 border-slate-700' : 'bg-white border-gray-200'} border`}>
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className={`p-2 sm:p-2.5 rounded-lg sm:rounded-xl ${isDarkMode ? 'bg-slate-700' : 'bg-gray-100'} flex-shrink-0`}>
+                  <Sparkles className={`w-4 h-4 sm:w-5 sm:h-5 ${theme.accentText}`} />
                 </div>
                 <div>
-                  <h3 className={`font-semibold ${theme.textPrimary} mb-2`}>A última pergunta é especial</h3>
-                  <ul className={`text-sm space-y-1.5 ${theme.textSecondary}`}>
+                  <h3 className={`font-semibold ${theme.textPrimary} mb-1.5 sm:mb-2 text-sm sm:text-base`}>A última pergunta é especial</h3>
+                  <ul className={`text-xs sm:text-sm space-y-1 sm:space-y-1.5 ${theme.textSecondary}`}>
                     <li>• Você poderá contar sua história com suas palavras</li>
                     <li>• É opcional, mas faz toda a diferença</li>
                   </ul>
@@ -475,18 +475,18 @@ export default function TesteClarezaV2() {
           </div>
 
           {/* CTA Principal - com respiro */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             <button 
               onClick={() => setShowDisclaimer(false)} 
-              className={`w-full py-4 px-6 ${theme.accentBg} ${theme.accentHover} text-white rounded-xl font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-violet-500/20`}
+              className={`w-full py-3 sm:py-4 px-4 sm:px-6 ${theme.accentBg} ${theme.accentHover} text-white rounded-lg sm:rounded-xl font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-violet-500/20 text-sm sm:text-base`}
             >
               Entendi, começar teste
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
             
             {/* Link secundário - discreto */}
             <div className="text-center">
-              <Link href="/" className={`text-sm ${theme.textMuted} hover:${theme.textSecondary} transition-colors`}>
+              <Link href="/" className={`text-xs sm:text-sm ${theme.textMuted} hover:${theme.textSecondary} transition-colors`}>
                 ← Voltar ao início
               </Link>
             </div>
@@ -503,49 +503,49 @@ export default function TesteClarezaV2() {
     return (
       <div className={`min-h-screen ${theme.bgMain}`}>
         <header className={`sticky top-0 z-40 ${theme.bgHeader} backdrop-blur-sm border-b ${theme.borderHeader}`}>
-          <div className="max-w-3xl mx-auto px-4 py-4">
+          <div className="max-w-3xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
             <div className="flex items-center justify-between">
               <button 
                 onClick={() => setShowQuestion19(false)}
-                className={`p-2 ${theme.textSecondary} hover:${theme.textPrimary} ${isDarkMode ? 'hover:bg-slate-800' : 'hover:bg-gray-100'} rounded-lg transition-colors`}
+                className={`p-1.5 sm:p-2 ${theme.textSecondary} hover:${theme.textPrimary} ${isDarkMode ? 'hover:bg-slate-800' : 'hover:bg-gray-100'} rounded-lg transition-colors`}
               >
-                <ArrowLeft className="w-5 h-5" />
+                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
-              <span className={`text-sm ${theme.textSecondary}`}>19 de 19</span>
+              <span className={`text-xs sm:text-sm ${theme.textSecondary}`}>19 de 19</span>
               <button
                 onClick={toggleTheme}
-                className={`p-2 rounded-lg ${isDarkMode ? 'bg-slate-700 text-yellow-400' : 'bg-gray-100 text-gray-600'} hover:opacity-80 transition-all`}
+                className={`p-1.5 sm:p-2 rounded-lg ${isDarkMode ? 'bg-slate-700 text-yellow-400' : 'bg-gray-100 text-gray-600'} hover:opacity-80 transition-all`}
               >
-                {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                {isDarkMode ? <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
               </button>
             </div>
-            <div className={`mt-3 h-1.5 ${isDarkMode ? 'bg-slate-800' : 'bg-gray-200'} rounded-full overflow-hidden`}>
+            <div className={`mt-2 sm:mt-3 h-1 sm:h-1.5 ${isDarkMode ? 'bg-slate-800' : 'bg-gray-200'} rounded-full overflow-hidden`}>
               <div className={`h-full ${theme.accentBg} rounded-full`} style={{ width: '100%' }} />
             </div>
           </div>
         </header>
 
-        <main className="max-w-3xl mx-auto px-4 py-8">
+        <main className="max-w-3xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
           {/* Banner simplificado - 2 linhas */}
-          <div className={`mb-8 p-5 rounded-2xl ${isDarkMode ? 'bg-violet-900/30 border-violet-700/50' : 'bg-purple-50 border-purple-200'} border`}>
-            <div className="flex items-center gap-4">
-              <div className={`p-3 rounded-xl ${isDarkMode ? 'bg-violet-800/50' : 'bg-purple-100'} flex-shrink-0`}>
-                <Sparkles className={`w-6 h-6 ${isDarkMode ? 'text-violet-400' : 'text-purple-600'}`} />
+          <div className={`mb-4 sm:mb-8 p-4 sm:p-5 rounded-xl sm:rounded-2xl ${isDarkMode ? 'bg-violet-900/30 border-violet-700/50' : 'bg-purple-50 border-purple-200'} border`}>
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className={`p-2 sm:p-3 rounded-lg sm:rounded-xl ${isDarkMode ? 'bg-violet-800/50' : 'bg-purple-100'} flex-shrink-0`}>
+                <Sparkles className={`w-5 h-5 sm:w-6 sm:h-6 ${isDarkMode ? 'text-violet-400' : 'text-purple-600'}`} />
               </div>
               <div>
-                <h3 className={`font-bold ${isDarkMode ? 'text-violet-300' : 'text-purple-800'} text-lg`}>
+                <h3 className={`font-bold ${isDarkMode ? 'text-violet-300' : 'text-purple-800'} text-base sm:text-lg`}>
                   Esta é a pergunta mais importante.
                 </h3>
-                <p className={`text-sm ${isDarkMode ? 'text-violet-400/80' : 'text-purple-700'}`}>
+                <p className={`text-xs sm:text-sm ${isDarkMode ? 'text-violet-400/80' : 'text-purple-700'}`}>
                   Ela ajuda a juntar todas as peças do que você está vivendo.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className={`${theme.cardBg} rounded-2xl shadow-xl border ${theme.cardBorder} p-6 sm:p-8`}>
+          <div className={`${theme.cardBg} rounded-xl sm:rounded-2xl shadow-xl border ${theme.cardBorder} p-4 sm:p-6 md:p-8`}>
             {/* Pergunta */}
-            <h2 className={`text-xl sm:text-2xl font-semibold ${theme.textPrimary} mb-6 leading-relaxed`}>
+            <h2 className={`text-lg sm:text-xl md:text-2xl font-semibold ${theme.textPrimary} mb-4 sm:mb-6 leading-relaxed`}>
               Com suas próprias palavras, conte o que você está vivendo ou sentindo nessa relação.
             </h2>
 
@@ -557,7 +557,7 @@ export default function TesteClarezaV2() {
 • um episódio que ficou marcado
 • um padrão que se repete
 • ou simplesmente como você se sente hoje`}
-              className={`w-full h-44 sm:h-52 p-4 rounded-xl border resize-none ${
+              className={`w-full h-36 sm:h-44 md:h-52 p-3 sm:p-4 rounded-lg sm:rounded-xl border resize-none text-sm sm:text-base ${
                 isDarkMode 
                   ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-500 focus:border-violet-500' 
                   : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-purple-500'
@@ -565,37 +565,37 @@ export default function TesteClarezaV2() {
             />
 
             {/* Contador de caracteres */}
-            <div className={`mt-2 text-xs ${theme.textMuted} text-right`}>
+            <div className={`mt-1.5 sm:mt-2 text-[10px] sm:text-xs ${theme.textMuted} text-right`}>
               {freeText.length} caracteres
             </div>
 
             {/* Opção de áudio (Premium) - Colapsável e discreto */}
-            <div className={`mt-6 rounded-xl ${isDarkMode ? 'bg-slate-800/30 border-slate-700/50' : 'bg-gray-50 border-gray-200'} border overflow-hidden`}>
+            <div className={`mt-4 sm:mt-6 rounded-lg sm:rounded-xl ${isDarkMode ? 'bg-slate-800/30 border-slate-700/50' : 'bg-gray-50 border-gray-200'} border overflow-hidden`}>
               <button
                 onClick={() => setShowAudioOption(!showAudioOption)}
-                className={`w-full px-4 py-3 flex items-center justify-between hover:${isDarkMode ? 'bg-slate-800/50' : 'bg-gray-100'} transition-colors`}
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between hover:${isDarkMode ? 'bg-slate-800/50' : 'bg-gray-100'} transition-colors`}
               >
-                <div className="flex items-center gap-3">
-                  <Mic className={`w-4 h-4 ${theme.textMuted}`} />
-                  <span className={`text-sm ${theme.textSecondary}`}>Prefere falar?</span>
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <Mic className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${theme.textMuted}`} />
+                  <span className={`text-xs sm:text-sm ${theme.textSecondary}`}>Prefere falar?</span>
                 </div>
                 {showAudioOption ? (
-                  <ChevronUp className={`w-4 h-4 ${theme.textMuted}`} />
+                  <ChevronUp className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${theme.textMuted}`} />
                 ) : (
-                  <ChevronDown className={`w-4 h-4 ${theme.textMuted}`} />
+                  <ChevronDown className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${theme.textMuted}`} />
                 )}
               </button>
               
               {showAudioOption && (
-                <div className={`px-4 pb-4 border-t ${isDarkMode ? 'border-slate-700/50' : 'border-gray-200'}`}>
-                  <p className={`text-xs ${theme.textMuted} mt-3 mb-3`}>
+                <div className={`px-3 sm:px-4 pb-3 sm:pb-4 border-t ${isDarkMode ? 'border-slate-700/50' : 'border-gray-200'}`}>
+                  <p className={`text-[10px] sm:text-xs ${theme.textMuted} mt-2 sm:mt-3 mb-2 sm:mb-3`}>
                     Você pode gravar um áudio, e nós transcrevemos para você. Recurso do plano Premium.
                   </p>
                   <Link href="/planos">
-                    <button className={`w-full py-2 px-4 rounded-lg text-sm font-medium ${
+                    <button className={`w-full py-2 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-medium ${
                       isDarkMode ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    } transition-colors flex items-center justify-center gap-2`}>
-                      <Crown className={`w-4 h-4 ${isDarkMode ? 'text-amber-400' : 'text-amber-500'}`} />
+                    } transition-colors flex items-center justify-center gap-1.5 sm:gap-2`}>
+                      <Crown className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isDarkMode ? 'text-amber-400' : 'text-amber-500'}`} />
                       Gravar áudio (Premium)
                     </button>
                   </Link>
@@ -605,18 +605,18 @@ export default function TesteClarezaV2() {
           </div>
 
           {/* Botões de ação - hierarquia clara */}
-          <div className="mt-8 space-y-3">
+          <div className="mt-5 sm:mt-8 space-y-2 sm:space-y-3">
             <button
               onClick={handleFinishTest}
-              className={`w-full py-4 px-6 ${theme.accentBg} hover:opacity-90 text-white rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-violet-500/20`}
+              className={`w-full py-3 sm:py-4 px-4 sm:px-6 ${theme.accentBg} hover:opacity-90 text-white rounded-lg sm:rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-violet-500/20 text-sm sm:text-base`}
             >
               {freeText.trim() ? 'Finalizar e ver meu resultado' : 'Finalizar teste'}
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
             
             <button
               onClick={handleSkipQuestion19}
-              className={`w-full py-3 px-6 rounded-xl font-medium transition-colors border ${
+              className={`w-full py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl font-medium transition-colors border text-sm sm:text-base ${
                 isDarkMode 
                   ? 'border-slate-700 text-slate-400 hover:bg-slate-800/50' 
                   : 'border-gray-300 text-gray-500 hover:bg-gray-50'
@@ -627,7 +627,7 @@ export default function TesteClarezaV2() {
           </div>
 
           {/* Texto de apoio */}
-          <p className={`mt-6 text-xs ${theme.textMuted} text-center leading-relaxed`}>
+          <p className={`mt-4 sm:mt-6 text-[10px] sm:text-xs ${theme.textMuted} text-center leading-relaxed`}>
             Você pode pular se não se sentir pronta agora.<br />
             Mas, se conseguir, contar um pouco da sua história ajuda <strong>muito</strong> na análise.
           </p>
@@ -648,26 +648,26 @@ export default function TesteClarezaV2() {
     <div className={`min-h-screen ${theme.bgMain}`}>
       {/* Header */}
       <header className={`sticky top-0 z-40 ${theme.bgHeader} backdrop-blur-sm border-b ${theme.borderHeader}`}>
-        <div className="max-w-3xl mx-auto px-4 py-3">
+        <div className="max-w-3xl mx-auto px-3 sm:px-4 py-2 sm:py-3">
           {/* Termo de Consentimento - COLAPSADO por padrão */}
           {termsAccepted && currentQuestion < 3 && (
-            <div className={`mb-3 rounded-lg ${isDarkMode ? 'bg-emerald-900/20 border-emerald-800/50' : 'bg-emerald-50 border-emerald-200'} border overflow-hidden`}>
+            <div className={`mb-2 sm:mb-3 rounded-lg ${isDarkMode ? 'bg-emerald-900/20 border-emerald-800/50' : 'bg-emerald-50 border-emerald-200'} border overflow-hidden`}>
               <button
                 onClick={() => setShowTermsExpanded(!showTermsExpanded)}
-                className={`w-full px-3 py-2 flex items-center justify-between text-left`}
+                className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 flex items-center justify-between text-left`}
               >
-                <div className="flex items-center gap-2">
-                  <FileText className={`w-4 h-4 ${isDarkMode ? 'text-emerald-500' : 'text-emerald-600'}`} />
-                  <span className={`text-xs ${isDarkMode ? 'text-emerald-400' : 'text-emerald-700'}`}>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <FileText className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isDarkMode ? 'text-emerald-500' : 'text-emerald-600'}`} />
+                  <span className={`text-[10px] sm:text-xs ${isDarkMode ? 'text-emerald-400' : 'text-emerald-700'}`}>
                     Termo de Consentimento aceito
                   </span>
                 </div>
-                <ChevronDown className={`w-4 h-4 ${isDarkMode ? 'text-emerald-500' : 'text-emerald-600'} transition-transform ${showTermsExpanded ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isDarkMode ? 'text-emerald-500' : 'text-emerald-600'} transition-transform ${showTermsExpanded ? 'rotate-180' : ''}`} />
               </button>
               
               {showTermsExpanded && (
-                <div className={`px-3 pb-3 border-t ${isDarkMode ? 'border-emerald-800/30' : 'border-emerald-200'}`}>
-                  <div className="pt-2">
+                <div className={`px-2 sm:px-3 pb-2 sm:pb-3 border-t ${isDarkMode ? 'border-emerald-800/30' : 'border-emerald-200'}`}>
+                  <div className="pt-1.5 sm:pt-2">
                     <TermsConsentBadge />
                   </div>
                 </div>
@@ -676,48 +676,49 @@ export default function TesteClarezaV2() {
           )}
           
           {/* Header reorganizado */}
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
             {/* Esquerda: Voltar + Progresso */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <button 
                 onClick={handleBack}
                 disabled={currentQuestion === 0}
-                className={`p-2 ${theme.textSecondary} ${currentQuestion === 0 ? 'opacity-30 cursor-not-allowed' : `hover:${theme.textPrimary}`} ${isDarkMode ? 'hover:bg-slate-800' : 'hover:bg-gray-100'} rounded-lg transition-colors`}
+                className={`p-1.5 sm:p-2 ${theme.textSecondary} ${currentQuestion === 0 ? 'opacity-30 cursor-not-allowed' : `hover:${theme.textPrimary}`} ${isDarkMode ? 'hover:bg-slate-800' : 'hover:bg-gray-100'} rounded-lg transition-colors`}
               >
-                <ArrowLeft className="w-5 h-5" />
+                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
               <div className="flex flex-col">
-                <span className={`text-sm font-medium ${theme.textPrimary}`}>
+                <span className={`text-xs sm:text-sm font-medium ${theme.textPrimary}`}>
                   {currentQuestion + 1} de {questions.length}
                 </span>
-                <span className={`text-xs ${theme.textMuted} flex items-center gap-1`}>
-                  <Clock className="w-3 h-3" />
+                <span className={`text-[10px] sm:text-xs ${theme.textMuted} flex items-center gap-0.5 sm:gap-1`}>
+                  <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                   {getEstimatedTimeRemaining()}
                 </span>
               </div>
             </div>
             
             {/* Direita: Categoria com tooltip + Tema */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               <div className="relative">
                 <button
                   onClick={() => setShowCategoryTooltip(!showCategoryTooltip)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${isDarkMode ? 'bg-slate-700 text-gray-300' : 'bg-gray-100 text-gray-600'} hover:opacity-80 transition-all`}
+                  className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium ${isDarkMode ? 'bg-slate-700 text-gray-300' : 'bg-gray-100 text-gray-600'} hover:opacity-80 transition-all`}
                 >
-                  {categoryConfig.label}
-                  <Info className="w-3.5 h-3.5" />
+                  <span className="hidden xs:inline">{categoryConfig.label}</span>
+                  <span className="xs:hidden">{categoryConfig.label.slice(0, 8)}...</span>
+                  <Info className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </button>
                 
                 {/* Tooltip */}
                 {showCategoryTooltip && (
-                  <div className={`absolute right-0 top-full mt-2 w-64 p-3 rounded-xl shadow-xl z-50 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-200'} border`}>
-                    <p className={`text-xs ${theme.textSecondary} leading-relaxed`}>
+                  <div className={`absolute right-0 top-full mt-2 w-56 sm:w-64 p-2 sm:p-3 rounded-lg sm:rounded-xl shadow-xl z-50 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-200'} border`}>
+                    <p className={`text-[10px] sm:text-xs ${theme.textSecondary} leading-relaxed`}>
                       <strong className={theme.textPrimary}>{categoryConfig.label}:</strong><br />
                       {CATEGORY_TOOLTIPS[question.category] || categoryConfig.description}
                     </p>
                     <button 
                       onClick={() => setShowCategoryTooltip(false)}
-                      className={`mt-2 text-xs ${theme.accentText} hover:underline`}
+                      className={`mt-1.5 sm:mt-2 text-[10px] sm:text-xs ${theme.accentText} hover:underline`}
                     >
                       Entendi
                     </button>
@@ -727,24 +728,24 @@ export default function TesteClarezaV2() {
               
               <button
                 onClick={() => setIsPaused(true)}
-                className={`p-2 rounded-lg ${isDarkMode ? 'bg-slate-700 text-slate-300 hover:text-white' : 'bg-gray-100 text-gray-600 hover:text-gray-900'} hover:opacity-80 transition-all`}
+                className={`p-1.5 sm:p-2 rounded-lg ${isDarkMode ? 'bg-slate-700 text-slate-300 hover:text-white' : 'bg-gray-100 text-gray-600 hover:text-gray-900'} hover:opacity-80 transition-all`}
                 title="Fazer uma pausa"
               >
-                <Pause className="w-4 h-4" />
+                <Pause className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
               
               <button
                 onClick={toggleTheme}
-                className={`p-2 rounded-lg ${isDarkMode ? 'bg-slate-700 text-yellow-400' : 'bg-gray-100 text-gray-600'} hover:opacity-80 transition-all`}
+                className={`p-1.5 sm:p-2 rounded-lg ${isDarkMode ? 'bg-slate-700 text-yellow-400' : 'bg-gray-100 text-gray-600'} hover:opacity-80 transition-all`}
                 title={isDarkMode ? 'Modo claro' : 'Modo escuro'}
               >
-                {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                {isDarkMode ? <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
               </button>
             </div>
           </div>
           
           {/* Progress bar */}
-          <div className={`h-1.5 ${isDarkMode ? 'bg-slate-800' : 'bg-gray-200'} rounded-full overflow-hidden`}>
+          <div className={`h-1 sm:h-1.5 ${isDarkMode ? 'bg-slate-800' : 'bg-gray-200'} rounded-full overflow-hidden`}>
             <div 
               className={`h-full ${theme.accentBg} rounded-full transition-all duration-300`}
               style={{ width: `${progress}%` }}
@@ -754,7 +755,7 @@ export default function TesteClarezaV2() {
       </header>
 
       {/* Question - COM ANIMAÇÃO */}
-      <main className="max-w-3xl mx-auto px-4 py-8">
+      <main className="max-w-3xl mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8">
         <div 
           className={`transition-all duration-200 ease-out ${
             isTransitioning 
@@ -764,11 +765,11 @@ export default function TesteClarezaV2() {
         >
         {/* Alerta de risco físico */}
         {question.category === 'fisico' && (
-          <div className={`mb-6 p-4 rounded-xl ${isDarkMode ? 'bg-red-900/30 border-red-800' : 'bg-red-50 border-red-200'} border`}>
-            <div className="flex items-start gap-3">
-              <ShieldAlert className={`w-5 h-5 ${isDarkMode ? 'text-red-400' : 'text-red-600'} flex-shrink-0 mt-0.5`} />
+          <div className={`mb-4 sm:mb-6 p-3 sm:p-4 rounded-lg sm:rounded-xl ${isDarkMode ? 'bg-red-900/30 border-red-800' : 'bg-red-50 border-red-200'} border`}>
+            <div className="flex items-start gap-2 sm:gap-3">
+              <ShieldAlert className={`w-4 h-4 sm:w-5 sm:h-5 ${isDarkMode ? 'text-red-400' : 'text-red-600'} flex-shrink-0 mt-0.5`} />
               <div>
-                <p className={`text-sm ${isDarkMode ? 'text-red-300' : 'text-red-800'}`}>
+                <p className={`text-xs sm:text-sm ${isDarkMode ? 'text-red-300' : 'text-red-800'}`}>
                   <strong>Importante:</strong> Se você está em perigo imediato, ligue <strong>190</strong> (Polícia) ou <strong>180</strong> (Central da Mulher).
                 </p>
               </div>
@@ -776,15 +777,15 @@ export default function TesteClarezaV2() {
           </div>
         )}
 
-        <div className={`${theme.cardBg} rounded-2xl shadow-xl border ${theme.cardBorder} p-6 sm:p-8`}>
+        <div className={`${theme.cardBg} rounded-xl sm:rounded-2xl shadow-xl border ${theme.cardBorder} p-4 sm:p-6 md:p-8`}>
           
           {/* ============================================================ */}
           {/* SELETOR DE VOZ - 3 opções */}
           {/* ============================================================ */}
           {hasThreeVoices(question.id) && (
-            <div className="mb-6">
-              <p className={`text-xs ${theme.textMuted} mb-2`}>Escolha como quer ler a pergunta:</p>
-              <div className="flex gap-2 flex-wrap">
+            <div className="mb-4 sm:mb-6">
+              <p className={`text-[10px] sm:text-xs ${theme.textMuted} mb-1.5 sm:mb-2`}>Escolha como quer ler a pergunta:</p>
+              <div className="flex gap-1.5 sm:gap-2 flex-wrap">
                 {(['colinho', 'profissional', 'defesa'] as QuestionVoice[]).map((voice) => {
                   const config = QUESTION_VOICE_CONFIG[voice]
                   const isActive = questionVoice === voice
@@ -792,14 +793,14 @@ export default function TesteClarezaV2() {
                     <button
                       key={voice}
                       onClick={() => setQuestionVoice(voice)}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                      className={`flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium transition-all ${
                         isActive
                           ? `${config.bgColor} ${config.color} ${config.borderColor} border-2`
                           : `${isDarkMode ? 'bg-slate-700/50 text-slate-400 border-slate-600' : 'bg-gray-100 text-gray-500 border-gray-200'} border hover:opacity-80`
                       }`}
                     >
                       <span>{config.emoji}</span>
-                      <span>{config.label}</span>
+                      <span className="hidden xs:inline">{config.label}</span>
                     </button>
                   )
                 })}
@@ -808,7 +809,7 @@ export default function TesteClarezaV2() {
           )}
           
           {/* Pergunta - usando voz selecionada */}
-          <h2 className={`text-xl sm:text-2xl font-semibold ${theme.textPrimary} mb-3 leading-relaxed`}>
+          <h2 className={`text-lg sm:text-xl md:text-2xl font-semibold ${theme.textPrimary} mb-2 sm:mb-3 leading-relaxed`}>
             {hasThreeVoices(question.id) 
               ? getQuestionText(question.id, questionVoice)
               : question.text
@@ -816,12 +817,12 @@ export default function TesteClarezaV2() {
           </h2>
           
           {/* Subtítulo guiado */}
-          <p className={`text-sm ${theme.textMuted} mb-8`}>
+          <p className={`text-xs sm:text-sm ${theme.textMuted} mb-5 sm:mb-8`}>
             Marque a opção que mais se aproxima da sua realidade nos últimos meses.
           </p>
 
           {/* Opções de resposta - com feedback visual melhorado e 3 vozes */}
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {ANSWER_OPTIONS.map((option) => {
               const isSelected = answers[question.id] === option.value
               const answerVoice = hasThreeVoices(question.id) 
@@ -832,7 +833,7 @@ export default function TesteClarezaV2() {
                 <button
                   key={option.value}
                   onClick={() => handleAnswer(option.value)}
-                  className={`w-full p-4 rounded-xl border text-left transition-all group ${
+                  className={`w-full p-3 sm:p-4 rounded-lg sm:rounded-xl border text-left transition-all group ${
                     isDarkMode 
                       ? `${isSelected 
                           ? 'bg-violet-600/30 border-violet-500 ring-2 ring-violet-500/30' 
@@ -843,20 +844,20 @@ export default function TesteClarezaV2() {
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <span className={`font-medium ${theme.textPrimary}`}>{answerVoice.label}</span>
+                    <div className="flex-1 min-w-0">
+                      <span className={`font-medium ${theme.textPrimary} text-sm sm:text-base`}>{answerVoice.label}</span>
                       {answerVoice.description && (
-                        <span className={`text-sm ${theme.textSecondary} ml-2`}>— {answerVoice.description}</span>
+                        <span className={`text-xs sm:text-sm ${theme.textSecondary} ml-1 sm:ml-2 block sm:inline mt-0.5 sm:mt-0`}>— {answerVoice.description}</span>
                       )}
                     </div>
                     {/* Check icon - sempre visível quando selecionado */}
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ml-3 transition-all ${
+                    <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center flex-shrink-0 ml-2 sm:ml-3 transition-all ${
                       isSelected 
                         ? `${theme.accentBg}` 
                         : `${isDarkMode ? 'bg-slate-700 group-hover:bg-slate-600' : 'bg-gray-200 group-hover:bg-gray-300'}`
                     }`}>
                       {isSelected && (
-                        <Check className="w-4 h-4 text-white" />
+                        <Check className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                       )}
                     </div>
                   </div>
@@ -866,12 +867,12 @@ export default function TesteClarezaV2() {
           </div>
 
           {/* Info de progresso */}
-          <div className={`mt-6 pt-6 border-t ${isDarkMode ? 'border-slate-700' : 'border-gray-200'} flex items-center justify-between`}>
-            <span className={`text-sm ${theme.textMuted}`}>
+          <div className={`mt-4 sm:mt-6 pt-4 sm:pt-6 border-t ${isDarkMode ? 'border-slate-700' : 'border-gray-200'} flex items-center justify-between`}>
+            <span className={`text-xs sm:text-sm ${theme.textMuted}`}>
               {answeredCount} de {questions.length} respondidas
             </span>
             {currentQuestion === questions.length - 1 && answeredCount === questions.length - 1 && (
-              <span className={`text-sm font-medium ${theme.accentText}`}>
+              <span className={`text-xs sm:text-sm font-medium ${theme.accentText}`}>
                 Última pergunta!
               </span>
             )}
@@ -879,8 +880,8 @@ export default function TesteClarezaV2() {
         </div>
 
         {/* Aviso de responsabilidade - mais discreto */}
-        <div className={`mt-6 py-3 px-4 rounded-xl ${isDarkMode ? 'bg-slate-800/50' : 'bg-gray-50'}`}>
-          <p className={`text-xs ${theme.textMuted} text-center`}>
+        <div className={`mt-4 sm:mt-6 py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl ${isDarkMode ? 'bg-slate-800/50' : 'bg-gray-50'}`}>
+          <p className={`text-[10px] sm:text-xs ${theme.textMuted} text-center`}>
             Lembre-se: você está relatando sua perspectiva. Este teste não é diagnóstico clínico.
           </p>
         </div>
@@ -891,38 +892,38 @@ export default function TesteClarezaV2() {
       {/* MODAL DE PAUSA - Modo respiro */}
       {/* ================================================================ */}
       {isPaused && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className={`max-w-md w-full ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-200'} rounded-3xl border shadow-2xl p-8 text-center`}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-sm">
+          <div className={`max-w-md w-full ${isDarkMode ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-200'} rounded-2xl sm:rounded-3xl border shadow-2xl p-5 sm:p-8 text-center relative`}>
             {/* Botão fechar */}
             <button
               onClick={() => setIsPaused(false)}
-              className={`absolute top-4 right-4 p-2 rounded-full ${isDarkMode ? 'text-slate-400 hover:text-white hover:bg-slate-800' : 'text-gray-400 hover:text-gray-900 hover:bg-gray-100'} transition-colors`}
+              className={`absolute top-3 right-3 sm:top-4 sm:right-4 p-1.5 sm:p-2 rounded-full ${isDarkMode ? 'text-slate-400 hover:text-white hover:bg-slate-800' : 'text-gray-400 hover:text-gray-900 hover:bg-gray-100'} transition-colors`}
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
             
             {/* Ícone */}
-            <div className={`w-20 h-20 mx-auto mb-6 rounded-full ${isDarkMode ? 'bg-violet-600/20' : 'bg-purple-100'} flex items-center justify-center`}>
-              <Coffee className={`w-10 h-10 ${isDarkMode ? 'text-violet-400' : 'text-purple-600'}`} />
+            <div className={`w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 rounded-full ${isDarkMode ? 'bg-violet-600/20' : 'bg-purple-100'} flex items-center justify-center`}>
+              <Coffee className={`w-8 h-8 sm:w-10 sm:h-10 ${isDarkMode ? 'text-violet-400' : 'text-purple-600'}`} />
             </div>
             
             {/* Título */}
-            <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-3`}>
+            <h2 className={`text-xl sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'} mb-2 sm:mb-3`}>
               Tudo bem fazer uma pausa
             </h2>
             
             {/* Mensagem */}
-            <p className={`${isDarkMode ? 'text-slate-300' : 'text-gray-600'} mb-6 leading-relaxed`}>
+            <p className={`${isDarkMode ? 'text-slate-300' : 'text-gray-600'} mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base`}>
               Respire fundo. Seu progresso está salvo.<br />
               Você pode continuar quando se sentir pronta.
             </p>
             
             {/* Dicas de respiro */}
-            <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-slate-800/50' : 'bg-gray-50'} mb-6`}>
-              <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-gray-500'} mb-3`}>
+            <div className={`p-3 sm:p-4 rounded-lg sm:rounded-xl ${isDarkMode ? 'bg-slate-800/50' : 'bg-gray-50'} mb-4 sm:mb-6`}>
+              <p className={`text-xs sm:text-sm ${isDarkMode ? 'text-slate-400' : 'text-gray-500'} mb-2 sm:mb-3`}>
                 💡 <strong>Dica de respiração:</strong>
               </p>
-              <div className={`text-sm ${isDarkMode ? 'text-slate-300' : 'text-gray-600'} space-y-1`}>
+              <div className={`text-xs sm:text-sm ${isDarkMode ? 'text-slate-300' : 'text-gray-600'} space-y-0.5 sm:space-y-1`}>
                 <p>• Inspire por 4 segundos</p>
                 <p>• Segure por 4 segundos</p>
                 <p>• Expire por 4 segundos</p>
@@ -931,20 +932,20 @@ export default function TesteClarezaV2() {
             </div>
             
             {/* Progresso salvo */}
-            <div className={`flex items-center justify-center gap-2 mb-6 ${isDarkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>
-              <Check className="w-4 h-4" />
-              <span className="text-sm font-medium">
+            <div className={`flex items-center justify-center gap-1.5 sm:gap-2 mb-4 sm:mb-6 ${isDarkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>
+              <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="text-xs sm:text-sm font-medium">
                 {answeredCount} de {questions.length} perguntas salvas
               </span>
             </div>
             
             {/* Botões */}
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               <button
                 onClick={() => setIsPaused(false)}
-                className={`w-full py-3.5 px-6 ${theme.accentBg} hover:opacity-90 text-white rounded-xl font-semibold transition-colors flex items-center justify-center gap-2`}
+                className={`w-full py-3 sm:py-3.5 px-4 sm:px-6 ${theme.accentBg} hover:opacity-90 text-white rounded-lg sm:rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 text-sm sm:text-base`}
               >
-                <Play className="w-5 h-5" />
+                <Play className="w-4 h-4 sm:w-5 sm:h-5" />
                 Continuar teste
               </button>
               
@@ -953,22 +954,22 @@ export default function TesteClarezaV2() {
                   setIsPaused(false)
                   router.push('/dashboard')
                 }}
-                className={`w-full py-3 px-6 rounded-xl font-medium transition-colors ${isDarkMode ? 'text-slate-400 hover:text-white hover:bg-slate-800' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}
+                className={`w-full py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl font-medium transition-colors text-sm sm:text-base ${isDarkMode ? 'text-slate-400 hover:text-white hover:bg-slate-800' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'}`}
               >
                 Sair e continuar depois
               </button>
             </div>
             
             {/* Contatos de emergência */}
-            <div className={`mt-6 pt-4 border-t ${isDarkMode ? 'border-slate-700' : 'border-gray-200'}`}>
-              <p className={`text-xs ${isDarkMode ? 'text-slate-500' : 'text-gray-400'} mb-2`}>
+            <div className={`mt-4 sm:mt-6 pt-3 sm:pt-4 border-t ${isDarkMode ? 'border-slate-700' : 'border-gray-200'}`}>
+              <p className={`text-[10px] sm:text-xs ${isDarkMode ? 'text-slate-500' : 'text-gray-400'} mb-1.5 sm:mb-2`}>
                 Precisa de ajuda agora?
               </p>
-              <div className="flex justify-center gap-4">
-                <a href="tel:188" className={`text-xs font-medium ${isDarkMode ? 'text-violet-400 hover:text-violet-300' : 'text-purple-600 hover:text-purple-700'}`}>
+              <div className="flex justify-center gap-3 sm:gap-4">
+                <a href="tel:188" className={`text-[10px] sm:text-xs font-medium ${isDarkMode ? 'text-violet-400 hover:text-violet-300' : 'text-purple-600 hover:text-purple-700'}`}>
                   188 - CVV
                 </a>
-                <a href="tel:180" className={`text-xs font-medium ${isDarkMode ? 'text-pink-400 hover:text-pink-300' : 'text-pink-600 hover:text-pink-700'}`}>
+                <a href="tel:180" className={`text-[10px] sm:text-xs font-medium ${isDarkMode ? 'text-pink-400 hover:text-pink-300' : 'text-pink-600 hover:text-pink-700'}`}>
                   180 - Mulher
                 </a>
               </div>
