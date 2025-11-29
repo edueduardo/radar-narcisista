@@ -170,19 +170,20 @@ function TermsDetailModal({ acceptance, onClose }: TermsDetailModalProps) {
 
   return (
     <div 
-      className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-4"
-      style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)' }}
+      className="fixed inset-0 z-[9999] flex items-start sm:items-center justify-center p-0 sm:p-4 overflow-y-auto"
+      style={{ backgroundColor: 'rgba(0, 0, 0, 0.95)' }}
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div 
         className="
-          relative w-full max-w-2xl 
+          relative w-full sm:max-w-2xl 
           bg-gradient-to-b from-slate-900 to-slate-950 
-          rounded-xl sm:rounded-2xl 
-          shadow-2xl border border-emerald-500/30
+          sm:rounded-2xl 
+          shadow-2xl border-0 sm:border border-emerald-500/30
           flex flex-col
-          max-h-[98vh] sm:max-h-[95vh]
-          overflow-hidden
+          min-h-screen sm:min-h-0
+          sm:max-h-[95vh]
+          sm:my-4
         "
       >
         {/* Header */}

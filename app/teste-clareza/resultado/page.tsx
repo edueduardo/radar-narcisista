@@ -26,6 +26,7 @@ import { PROBLEMS, getToolsByProblem } from '@/lib/tools-config'
 // Componentes de cadeia de custódia
 import TermsConsentBadge from '@/components/TermsConsentBadge'
 import ClarityResultPDF from '@/components/ClarityResultPDF'
+import ResultExplanation from '@/components/ResultExplanation'
 
 // =============================================================================
 // RESULTADO DO TESTE DE CLAREZA - UNIFICADO
@@ -329,6 +330,9 @@ export default function ResultadoUnificado() {
             </div>
           </div>
         </div>
+
+        {/* Explicação Didática do Resultado */}
+        <ResultExplanation result={result} isDarkMode={isDarkMode} />
 
         {/* Cards por Eixo */}
         <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>Análise por Eixo</h2>
@@ -664,11 +668,6 @@ export default function ResultadoUnificado() {
           )}
         </div>
 
-        {/* Badge de Termo de Consentimento */}
-        <div className="flex justify-center mb-6">
-          <TermsConsentBadge />
-        </div>
-
         {/* Exportar PDF com Cadeia de Custódia */}
         {result && (
           <div className="mb-8">
@@ -716,7 +715,7 @@ export default function ResultadoUnificado() {
         </div>
 
         {/* Contatos de Emergência */}
-        <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-slate-800/50' : 'bg-gray-50'}`}>
+        <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-slate-800/50' : 'bg-gray-50'} mb-6`}>
           <p className={`text-sm ${theme.textSecondary} text-center mb-3`}>
             Se você está em perigo, ligue:
           </p>
@@ -731,6 +730,11 @@ export default function ResultadoUnificado() {
               188 - CVV
             </a>
           </div>
+        </div>
+
+        {/* Termo de Consentimento - Rodapé */}
+        <div className="flex justify-center">
+          <TermsConsentBadge />
         </div>
       </main>
     </div>
