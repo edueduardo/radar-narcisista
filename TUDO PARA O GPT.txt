@@ -1855,3 +1855,232 @@ com adições de novas seções.
 - Quando aprovado, encaixar na página original
 
 ================================================================================
+
+================================================================================
+PÓS-AUDITORIA – IMPLEMENTAÇÃO ETAPAS 1-5
+Data: 29/11/2025
+================================================================================
+
+📋 RESUMO:
+Implementação do plano de ação da auditoria anterior, seguindo rigorosamente
+a ordem das etapas sem inventar nada novo.
+
+================================================================================
+ETAPA 1 – MIGRATIONS SQL (VERIFICAÇÃO)
+================================================================================
+
+✅ SCRIPTS VERIFICADOS:
+- database/migrations/20241129_add_clarity_profile_base.sql
+  → Adiciona: is_profile_base, user_narrative, overall_percentage, 
+    has_physical_risk, test_type + trigger para único perfil base
+    
+- database/migrations/20241129_add_clarity_extra_fields.sql
+  → Adiciona: category_scores (JSONB), axis_scores (JSONB), ip_hash, 
+    summary, completed_at
+    
+- database/migrations/20241129_add_diary_clarity_fields.sql
+  → Adiciona: entry_type, clarity_test_id em journal_entries
+  
+- database/migrations/20241129_create_waitlist.sql
+  → Cria tabela waitlist com RLS
+
+✅ COMPATIBILIDADE CÓDIGO ↔ SQL: Verificada e confirmada
+⚠️ AÇÃO PENDENTE: Eduardo deve executar os scripts no Supabase SQL Editor
+
+================================================================================
+ETAPA 2 – LIMPEZA DE ARQUIVOS DE BACKUP
+================================================================================
+
+✅ ARQUIVOS MOVIDOS PARA app/_archive/teste-clareza/:
+- page-old-backup.tsx (de app/teste-clareza/)
+- page-old.tsx (de app/teste-clareza/)
+- page-old-backup.tsx (de app/teste-clareza/resultado/)
+- page-old.tsx (de app/teste-clareza/resultado/)
+
+✅ VERIFICAÇÃO: Nenhum arquivo movido estava sendo importado
+
+================================================================================
+ETAPA 3 – i18n NA HOMEPAGE
+================================================================================
+
+✅ CHAVES ADICIONADAS em lib/i18n.ts (PT-BR, EN, ES):
+- howItWorks.* (Como Funciona - 3 passos)
+- tools.* (Ferramentas)
+- plans.* (Planos)
+- finalCta.* (CTA Final)
+- choose.* (Bloco "Você escolhe como usar")
+
+✅ TEXTOS SUBSTITUÍDOS em app/page.tsx:
+- Seção "Como Funciona" (título, subtítulo, 3 passos, CTA)
+- Seção "Ferramentas" (título, subtítulo)
+- Seção "Planos" (título, subtítulo, toggle mensal/anual)
+- Garantias (7 dias, pagamento seguro, cancele quando quiser)
+
+================================================================================
+ETAPA 4 – RESUMO AUTOMÁTICO PELA IA
+================================================================================
+
+✅ FUNÇÃO generateAISummary() CRIADA em:
+   app/api/clarity/activate-profile/route.ts
+
+✅ CARACTERÍSTICAS:
+- Usa provedores existentes (Groq > OpenAI > Claude > Gemini)
+- Prompt empático que:
+  • Valida sentimentos sem julgar
+  • NÃO faz diagnósticos médicos/psicológicos/legais
+  • NÃO usa termos como "narcisista" ou "abusador"
+  • Gera 3-5 frases em português brasileiro
+- Execução assíncrona (não bloqueia resposta)
+- Timeout de 15s para evitar travamentos
+- Fallback seguro: se IA falhar, teste continua válido (summary = null)
+
+✅ INTEGRAÇÃO:
+- Resumo gerado automaticamente ao salvar teste como "base do perfil"
+- Salvo no campo `summary` da tabela clarity_tests
+
+================================================================================
+ETAPA 5 – BLOCO "VOCÊ ESCOLHE COMO USAR"
+================================================================================
+
+✅ NOVA SEÇÃO ADICIONADA em app/page.tsx:
+- Localização: após "Como Funciona", antes de "Ferramentas"
+
+✅ DOIS CARDS COMPARATIVOS:
+1. Teste Rápido (sem conta):
+   - 18 perguntas em 5 minutos
+   - Resultado imediato
+   - 100% anônimo
+   - CTA: "Começar Teste →"
+
+2. Radar Completo (com conta) [RECOMENDADO]:
+   - Tudo do teste rápido
+   - Resultado salvo para sempre
+   - Diário + Coach IA + Trilhas
+   - Resumo personalizado pela IA
+   - CTA: "Criar Conta Grátis →"
+
+✅ DESIGN:
+- Responsivo (grid 2 colunas no desktop)
+- Tema claro/escuro
+- Badge "RECOMENDADO" no card premium
+- Textos internacionalizados (PT-BR, EN, ES)
+
+================================================================================
+ARQUIVOS MODIFICADOS NESTA IMPLEMENTAÇÃO
+================================================================================
+
+📁 lib/i18n.ts
+   - Adicionadas ~60 novas chaves de tradução (PT-BR, EN, ES)
+
+📁 app/page.tsx
+   - Seção "Como Funciona" internacionalizada
+   - Seção "Ferramentas" internacionalizada
+   - Seção "Planos" internacionalizada
+   - Garantias internacionalizadas
+   - Nova seção "Você escolhe como usar" adicionada
+
+📁 app/api/clarity/activate-profile/route.ts
+   - Import de ai-providers
+   - Função generateAISummary() adicionada
+   - Integração assíncrona após salvar teste
+
+📁 app/_archive/teste-clareza/
+   - page-old-backup.tsx (movido)
+   - page-old.tsx (movido)
+   - resultado/page-old-backup.tsx (movido)
+   - resultado/page-old.tsx (movido)
+
+================================================================================
+PENDÊNCIAS PARA O EDUARDO
+================================================================================
+
+⚠️ EXECUTAR MIGRATIONS NO SUPABASE:
+1. Acessar Supabase Dashboard → SQL Editor
+2. Executar na ordem:
+   - 20241129_add_clarity_profile_base.sql
+   - 20241129_add_clarity_extra_fields.sql
+   - 20241129_add_diary_clarity_fields.sql
+   - 20241129_create_waitlist.sql
+3. Verificar se as colunas foram criadas corretamente
+
+================================================================================
+BUILD STATUS
+================================================================================
+
+✅ npm run build: PASSOU SEM ERROS
+✅ Todas as 130 páginas geradas com sucesso
+✅ TypeScript: OK
+✅ Compilação: ~3 minutos
+
+================================================================================
+
+================================================================================
+ETAPA 2 – INTEGRAÇÃO COACH IA ↔ PERFIL DE CLAREZA
+Data: 29/11/2025
+================================================================================
+
+📋 RESUMO:
+Implementada integração entre o Coach IA (chat) e o perfil de clareza do usuário.
+Agora o chat recebe contexto dos eixos e categorias do teste para respostas mais personalizadas.
+
+================================================================================
+ARQUIVOS MODIFICADOS
+================================================================================
+
+📁 app/chat/page.tsx
+   - Adicionado estado `clarityProfile` para armazenar perfil de clareza
+   - Busca do perfil na função `loadChatSession()` (is_profile_base = true)
+   - Passagem do perfil para API `/api/chat` no body da requisição
+
+📁 app/api/chat/route.ts
+   - Recebe `clarityProfileFromClient` do body
+   - Usa perfil do cliente quando disponível (evita query extra)
+   - Fallback para busca no banco se não veio do cliente
+   - Contexto inclui: zona, percentual, eixos, risco físico, resumo IA
+
+================================================================================
+FLUXO DA INTEGRAÇÃO
+================================================================================
+
+1. Usuário abre /chat
+2. `loadChatSession()` busca perfil de clareza (is_profile_base = true)
+3. Se encontrar, salva em `clarityProfile` state
+4. Ao enviar mensagem, perfil é passado para `/api/chat`
+5. API monta contexto com:
+   - Zona atual (Atenção, Alerta, Vermelha)
+   - Percentual geral
+   - Scores dos 3 eixos (Névoa, Medo, Limites)
+   - Alerta de risco físico (se houver)
+   - Resumo gerado pela IA (se houver)
+6. Contexto é injetado como mensagem de sistema para a IA
+7. IA usa contexto silenciosamente para personalizar respostas
+
+================================================================================
+EXEMPLO DE CONTEXTO INJETADO
+================================================================================
+
+[CONTEXTO DE CLAREZA DA USUÁRIA - NÃO MENCIONAR DIRETAMENTE]
+- Zona atual: Zona de Alerta (sinais moderados)
+- Percentual geral: 65%
+- ⚠️ ALERTA: Sinais de possível risco físico detectados no teste
+
+Eixos mais impactados (scores):
+- Névoa Mental: 18 pontos
+- Medo e Tensão: 15 pontos
+- Desrespeito a Limites: 12 pontos
+
+Resumo do teste (gerado por IA):
+"Seu resultado indica padrões de confusão mental e medo frequente..."
+
+Use essas informações para adaptar sua linguagem e sugestões.
+NÃO repita diagnósticos, apenas use como contexto silencioso.
+
+================================================================================
+BUILD STATUS
+================================================================================
+
+✅ npm run build: PASSOU SEM ERROS
+✅ Todas as 130 páginas geradas com sucesso
+✅ Compilação: ~103 segundos
+
+================================================================================

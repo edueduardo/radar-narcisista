@@ -423,10 +423,10 @@ export default function HomePage() {
         <div className="container-app">
           <div className="text-center mb-12">
             <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              Como funciona em 3 passos
+              {t('howItWorks.title')}
             </h2>
             <p className={`text-lg max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}`}>
-              Simples, rápido e 100% confidencial
+              {t('howItWorks.subtitle')}
             </p>
           </div>
 
@@ -435,41 +435,123 @@ export default function HomePage() {
               <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${theme === 'dark' ? 'bg-violet-500/20' : 'bg-purple-100'}`}>
                 <span className={`text-3xl font-bold ${theme === 'dark' ? 'text-violet-400' : 'text-purple-600'}`}>1</span>
               </div>
-              <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Faça o Teste</h3>
-              <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}>18 perguntas em 5 minutos. Sem cadastro obrigatório.</p>
+              <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{t('howItWorks.step1.title')}</h3>
+              <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}>{t('howItWorks.step1.desc')}</p>
             </div>
             <div className="text-center">
               <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-100'}`}>
                 <span className={`text-3xl font-bold ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>2</span>
               </div>
-              <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Veja seu Resultado</h3>
-              <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}>Entenda os padrões de névoa, medo e limites na sua relação.</p>
+              <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{t('howItWorks.step2.title')}</h3>
+              <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}>{t('howItWorks.step2.desc')}</p>
             </div>
             <div className="text-center">
               <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 ${theme === 'dark' ? 'bg-green-500/20' : 'bg-green-100'}`}>
                 <span className={`text-3xl font-bold ${theme === 'dark' ? 'text-green-400' : 'text-green-600'}`}>3</span>
               </div>
-              <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Use as Ferramentas</h3>
-              <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}>Diário, Coach IA e recursos exclusivos para sua jornada.</p>
+              <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{t('howItWorks.step3.title')}</h3>
+              <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}>{t('howItWorks.step3.desc')}</p>
             </div>
           </div>
 
           <div className="text-center mt-10">
             <button onClick={() => router.push('/teste-clareza')} className="btn-primary text-lg px-8 py-4">
-              Começar Teste Gratuito →
+              {t('howItWorks.cta')}
             </button>
           </div>
         </div>
       </section>
       </SectionMarker>
 
+      {/* BLOCO "VOCÊ ESCOLHE COMO USAR" - ETAPA 5 */}
+      <section className={`py-16 md:py-20 ${theme === 'dark' ? 'bg-gradient-to-b from-[#0F172A] to-[#020617]' : 'bg-gradient-to-b from-white to-gray-50'}`}>
+        <div className="container-app">
+          <div className="text-center mb-12">
+            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              {t('choose.title')}
+            </h2>
+            <p className={`text-lg max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+              {t('choose.subtitle')}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Card 1: Teste Rápido (sem conta) */}
+            <div className={`rounded-2xl p-8 border-2 transition-all hover:scale-[1.02] ${theme === 'dark' ? 'bg-slate-800/50 border-slate-700 hover:border-violet-500/50' : 'bg-white border-gray-200 hover:border-purple-300 shadow-lg'}`}>
+              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 ${theme === 'dark' ? 'bg-blue-500/20 text-blue-400' : 'bg-blue-100 text-blue-700'}`}>
+                ⚡ {t('choose.quick.subtitle')}
+              </div>
+              <h3 className={`text-2xl font-bold mb-3 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                {t('choose.quick.title')}
+              </h3>
+              <p className={`mb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                {t('choose.quick.desc')}
+              </p>
+              <ul className={`text-sm space-y-2 mb-6 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> 18 perguntas em 5 minutos
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Resultado imediato
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> 100% anônimo
+                </li>
+              </ul>
+              <Link 
+                href="/teste-clareza" 
+                className={`inline-flex items-center gap-2 font-semibold ${theme === 'dark' ? 'text-violet-400 hover:text-violet-300' : 'text-purple-600 hover:text-purple-700'}`}
+              >
+                {t('choose.quick.cta')} <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* Card 2: Radar Completo (com conta) */}
+            <div className={`rounded-2xl p-8 border-2 transition-all hover:scale-[1.02] relative ${theme === 'dark' ? 'bg-gradient-to-br from-violet-900/30 to-indigo-900/30 border-violet-500/50 hover:border-violet-400' : 'bg-gradient-to-br from-purple-50 to-indigo-50 border-purple-300 hover:border-purple-400 shadow-lg'}`}>
+              <div className={`absolute -top-3 right-6 px-3 py-1 rounded-full text-xs font-bold ${theme === 'dark' ? 'bg-violet-500 text-white' : 'bg-purple-600 text-white'}`}>
+                RECOMENDADO
+              </div>
+              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 ${theme === 'dark' ? 'bg-violet-500/20 text-violet-400' : 'bg-purple-100 text-purple-700'}`}>
+                🎯 {t('choose.radar.subtitle')}
+              </div>
+              <h3 className={`text-2xl font-bold mb-3 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                {t('choose.radar.title')}
+              </h3>
+              <p className={`mb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                {t('choose.radar.desc')}
+              </p>
+              <ul className={`text-sm space-y-2 mb-6 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
+                <li className="flex items-center gap-2">
+                  <span className="text-violet-500">✓</span> Tudo do teste rápido
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-violet-500">✓</span> Resultado salvo para sempre
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-violet-500">✓</span> Diário + Coach IA + Trilhas
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-violet-500">✓</span> Resumo personalizado pela IA
+                </li>
+              </ul>
+              <Link 
+                href="/cadastro" 
+                className={`inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all ${theme === 'dark' ? 'bg-violet-600 hover:bg-violet-500 text-white' : 'bg-purple-600 hover:bg-purple-700 text-white'}`}
+              >
+                {t('choose.radar.cta')} <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FERRAMENTAS PRINCIPAIS */}
       <section className={`py-16 md:py-20 ${theme === 'dark' ? 'bg-gradient-to-br from-violet-950/30 to-indigo-950/30' : 'bg-gradient-to-br from-purple-50 to-blue-50'}`}>
         <div className="container-app">
           <div className="text-center mb-12">
-            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Suas Ferramentas</h2>
+            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{t('tools.title')}</h2>
             <p className={`text-lg max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-              Tudo que você precisa para entender, registrar e planejar
+              {t('tools.subtitle')}
             </p>
           </div>
 
@@ -478,8 +560,8 @@ export default function HomePage() {
               <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 ${theme === 'dark' ? 'bg-violet-500/20' : 'bg-purple-100'}`}>
                 <Shield className={`w-7 h-7 ${theme === 'dark' ? 'text-violet-400' : 'text-purple-600'}`} />
               </div>
-              <h3 className={`text-xl font-semibold mb-3 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Teste de Clareza</h3>
-              <p className={`mb-4 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>18 perguntas que te ajudam a identificar padrões de confusão, medo e limites.</p>
+              <h3 className={`text-xl font-semibold mb-3 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{t('tools.test.title')}</h3>
+              <p className={`mb-4 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>{t('tools.test.desc')}</p>
               <ul className={`text-sm space-y-2 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
                 <li>✓ Resultado imediato</li>
                 <li>✓ 100% gratuito</li>
@@ -610,10 +692,10 @@ export default function HomePage() {
         <div className="container-app">
           <div className="text-center mb-12">
             <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              Escolha seu plano
+              {t('plans.title')}
             </h2>
             <p className={`text-lg max-w-2xl mx-auto mb-8 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-              Invista na sua clareza mental. Todos os planos incluem 7 dias de garantia.
+              {t('plans.subtitle')}
             </p>
             
             {/* Toggle Mensal/Anual */}
@@ -626,7 +708,7 @@ export default function HomePage() {
                     : (theme === 'dark' ? 'text-gray-400' : 'text-gray-600')
                 }`}
               >
-                Mensal
+                {t('plans.monthly')}
               </button>
               <button
                 onClick={() => setPeriodo('anual')}
@@ -636,7 +718,7 @@ export default function HomePage() {
                     : (theme === 'dark' ? 'text-gray-400' : 'text-gray-600')
                 }`}
               >
-                Anual
+                {t('plans.annual')}
               </button>
             </div>
           </div>
@@ -778,21 +860,21 @@ export default function HomePage() {
                 <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl mb-3 ${theme === 'dark' ? 'bg-green-500/20' : 'bg-green-100'}`}>
                   <Shield className={`h-6 w-6 ${theme === 'dark' ? 'text-green-400' : 'text-green-600'}`} />
                 </div>
-                <h4 className={`font-semibold mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>7 dias de garantia</h4>
+                <h4 className={`font-semibold mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{t('plans.guarantee')}</h4>
                 <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Não gostou? Devolvemos 100% do valor.</p>
               </div>
               <div className="text-center">
                 <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl mb-3 ${theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-100'}`}>
                   <Lock className={`h-6 w-6 ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`} />
                 </div>
-                <h4 className={`font-semibold mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Pagamento seguro</h4>
+                <h4 className={`font-semibold mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{t('plans.securePayment')}</h4>
                 <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Processado pelo Stripe, líder mundial.</p>
               </div>
               <div className="text-center">
                 <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl mb-3 ${theme === 'dark' ? 'bg-purple-500/20' : 'bg-purple-100'}`}>
                   <RefreshCw className={`h-6 w-6 ${theme === 'dark' ? 'text-purple-400' : 'text-purple-600'}`} />
                 </div>
-                <h4 className={`font-semibold mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Cancele quando quiser</h4>
+                <h4 className={`font-semibold mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{t('plans.cancelAnytime')}</h4>
                 <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Sem multa, sem burocracia.</p>
               </div>
             </div>

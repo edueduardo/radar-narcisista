@@ -250,6 +250,8 @@ export async function POST(request: NextRequest) {
     const message = rawMessage.trim()
     const history = Array.isArray(body?.history) ? body.history : []
     const userLocation = typeof body?.userLocation === 'string' ? body.userLocation : ''
+    // ETAPA 2 - Receber perfil de clareza do frontend (otimização)
+    const clarityProfileFromClient = body?.clarityProfile || null
 
     if (!message) {
       return NextResponse.json(
@@ -277,7 +279,39 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
     
     let clarityContext: string | null = null
-    if (user) {
+    
+    // ETAPA 2 - Usar perfil do cliente se disponível (evita query extra)
+    if (clarityProfileFromClient) {
+      const zoneLabels: Record<string, string> = {
+        VERDE: 'Zona Verde (baixo risco)',
+        ATENCAO: 'Zona de Atenção (sinais leves)',
+        ALERTA: 'Zona de Alerta (sinais moderados)',
+        VERMELHA: 'Zona de Alto Risco (sinais graves)',
+        CRITICO: 'Zona Crítica (risco alto)',
+      }
+      
+      clarityContext = `\n\n[CONTEXTO DE CLAREZA DA USUÁRIA - NÃO MENCIONAR DIRETAMENTE]\n`
+      clarityContext += `- Zona atual: ${zoneLabels[clarityProfileFromClient.globalZone?.toUpperCase()] || clarityProfileFromClient.globalZone}\n`
+      clarityContext += `- Percentual geral: ${Math.round((clarityProfileFromClient.overallPercentage || 0) * 100)}%\n`
+      
+      if (clarityProfileFromClient.hasPhysicalRisk) {
+        clarityContext += `- ⚠️ ALERTA: Sinais de possível risco físico detectados no teste\n`
+      }
+      
+      clarityContext += `\nEixos mais impactados (scores):\n`
+      clarityContext += `- Névoa Mental: ${clarityProfileFromClient.fogScore || 0} pontos\n`
+      clarityContext += `- Medo e Tensão: ${clarityProfileFromClient.fearScore || 0} pontos\n`
+      clarityContext += `- Desrespeito a Limites: ${clarityProfileFromClient.limitsScore || 0} pontos\n`
+      
+      if (clarityProfileFromClient.summary) {
+        clarityContext += `\nResumo do teste (gerado por IA):\n"${clarityProfileFromClient.summary.slice(0, 400)}"\n`
+      }
+      
+      clarityContext += `\nUse essas informações para adaptar sua linguagem e sugestões. NÃO repita diagnósticos, apenas use como contexto silencioso.`
+      
+      console.log('[API /chat] Usando perfil de clareza do cliente')
+    } else if (user) {
+      // Fallback: buscar do banco se não veio do cliente
       clarityContext = await getClarityContextForChat(user.id)
     }
 

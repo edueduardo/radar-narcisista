@@ -128,6 +128,62 @@ export const translations: Record<Locale, Record<string, string>> = {
     'emergency.title': 'Em perigo?',
     'emergency.exit': 'Sair Rápido (ESC)',
     'emergency.call': 'Ligar 190',
+    
+    // Como Funciona (3 passos)
+    'howItWorks.title': 'Como funciona em 3 passos',
+    'howItWorks.subtitle': 'Simples, rápido e 100% confidencial',
+    'howItWorks.step1.title': 'Faça o Teste',
+    'howItWorks.step1.desc': '18 perguntas em 5 minutos. Sem cadastro obrigatório.',
+    'howItWorks.step2.title': 'Veja seu Resultado',
+    'howItWorks.step2.desc': 'Entenda os padrões de névoa, medo e limites na sua relação.',
+    'howItWorks.step3.title': 'Use as Ferramentas',
+    'howItWorks.step3.desc': 'Diário, Coach IA e recursos exclusivos para sua jornada.',
+    'howItWorks.cta': 'Começar Teste Gratuito →',
+    
+    // Ferramentas
+    'tools.title': 'Suas Ferramentas',
+    'tools.subtitle': 'Tudo que você precisa para entender, registrar e planejar',
+    'tools.test.title': 'Teste de Clareza',
+    'tools.test.desc': '18 perguntas que te ajudam a identificar padrões de confusão, medo e limites.',
+    'tools.diary.title': 'Diário de Episódios',
+    'tools.diary.desc': 'Registre situações, emoções e padrões. Sua memória segura e organizada.',
+    'tools.coach.title': 'Coach IA de Clareza',
+    'tools.coach.desc': 'Converse com uma IA empática que te ajuda a organizar pensamentos.',
+    
+    // Ferramentas para sua jornada (6 cards)
+    'journey.title': 'Ferramentas para sua jornada',
+    'journey.subtitle': 'Recursos gratuitos e premium para cada etapa',
+    
+    // Planos
+    'plans.title': 'Escolha seu plano',
+    'plans.subtitle': 'Invista na sua clareza mental. Todos os planos incluem 7 dias de garantia.',
+    'plans.monthly': 'Mensal',
+    'plans.annual': 'Anual',
+    'plans.popular': 'POPULAR',
+    'plans.comingSoon': 'EM BREVE',
+    'plans.startFree': 'Começar Grátis',
+    'plans.choosePlan': 'Escolher Plano',
+    'plans.joinWaitlist': 'Entrar na lista →',
+    'plans.guarantee': '7 dias de garantia',
+    'plans.securePayment': 'Pagamento seguro via Stripe',
+    'plans.cancelAnytime': 'Cancele quando quiser',
+    
+    // CTA Final
+    'finalCta.title': 'Pronta para ter mais clareza?',
+    'finalCta.subtitle': 'O primeiro passo é o mais difícil. Mas você não precisa dar sozinha.',
+    'finalCta.cta': 'Começar o Teste Gratuito',
+    
+    // Bloco "Você escolhe como usar"
+    'choose.title': 'Você escolhe como usar',
+    'choose.subtitle': 'Duas formas de começar sua jornada',
+    'choose.quick.title': 'Teste Rápido',
+    'choose.quick.subtitle': 'Sem conta',
+    'choose.quick.desc': 'Faça o teste, veja seu resultado e vá embora. Nada é salvo.',
+    'choose.quick.cta': 'Começar Teste →',
+    'choose.radar.title': 'Radar Completo',
+    'choose.radar.subtitle': 'Com conta gratuita',
+    'choose.radar.desc': 'Seu teste vira a base do Radar: alimenta diário, Coach IA e recomendações.',
+    'choose.radar.cta': 'Criar Conta Grátis →',
   },
   
   'en': {
@@ -242,6 +298,62 @@ export const translations: Record<Locale, Record<string, string>> = {
     'emergency.title': 'In danger?',
     'emergency.exit': 'Quick Exit (ESC)',
     'emergency.call': 'Call 911',
+    
+    // How It Works (3 steps)
+    'howItWorks.title': 'How it works in 3 steps',
+    'howItWorks.subtitle': 'Simple, fast, and 100% confidential',
+    'howItWorks.step1.title': 'Take the Test',
+    'howItWorks.step1.desc': '18 questions in 5 minutes. No registration required.',
+    'howItWorks.step2.title': 'See Your Result',
+    'howItWorks.step2.desc': 'Understand the patterns of fog, fear, and boundaries in your relationship.',
+    'howItWorks.step3.title': 'Use the Tools',
+    'howItWorks.step3.desc': 'Diary, AI Coach, and exclusive resources for your journey.',
+    'howItWorks.cta': 'Start Free Test →',
+    
+    // Tools
+    'tools.title': 'Your Tools',
+    'tools.subtitle': 'Everything you need to understand, document, and plan',
+    'tools.test.title': 'Clarity Test',
+    'tools.test.desc': '18 questions that help you identify patterns of confusion, fear, and boundaries.',
+    'tools.diary.title': 'Episode Diary',
+    'tools.diary.desc': 'Record situations, emotions, and patterns. Your safe and organized memory.',
+    'tools.coach.title': 'AI Clarity Coach',
+    'tools.coach.desc': 'Talk to an empathetic AI that helps you organize your thoughts.',
+    
+    // Tools for your journey (6 cards)
+    'journey.title': 'Tools for your journey',
+    'journey.subtitle': 'Free and premium resources for every stage',
+    
+    // Plans
+    'plans.title': 'Choose your plan',
+    'plans.subtitle': 'Invest in your mental clarity. All plans include 7-day guarantee.',
+    'plans.monthly': 'Monthly',
+    'plans.annual': 'Annual',
+    'plans.popular': 'POPULAR',
+    'plans.comingSoon': 'COMING SOON',
+    'plans.startFree': 'Start Free',
+    'plans.choosePlan': 'Choose Plan',
+    'plans.joinWaitlist': 'Join waitlist →',
+    'plans.guarantee': '7-day guarantee',
+    'plans.securePayment': 'Secure payment via Stripe',
+    'plans.cancelAnytime': 'Cancel anytime',
+    
+    // Final CTA
+    'finalCta.title': 'Ready for more clarity?',
+    'finalCta.subtitle': "The first step is the hardest. But you don't have to take it alone.",
+    'finalCta.cta': 'Start the Free Test',
+    
+    // "You choose how to use" block
+    'choose.title': 'You choose how to use',
+    'choose.subtitle': 'Two ways to start your journey',
+    'choose.quick.title': 'Quick Test',
+    'choose.quick.subtitle': 'No account',
+    'choose.quick.desc': 'Take the test, see your result, and leave. Nothing is saved.',
+    'choose.quick.cta': 'Start Test →',
+    'choose.radar.title': 'Full Radar',
+    'choose.radar.subtitle': 'With free account',
+    'choose.radar.desc': 'Your test becomes the Radar base: feeds diary, AI Coach, and recommendations.',
+    'choose.radar.cta': 'Create Free Account →',
   },
   
   'es': {
@@ -356,6 +468,62 @@ export const translations: Record<Locale, Record<string, string>> = {
     'emergency.title': '¿En peligro?',
     'emergency.exit': 'Salir Rápido (ESC)',
     'emergency.call': 'Llamar 112',
+    
+    // Cómo Funciona (3 pasos)
+    'howItWorks.title': 'Cómo funciona en 3 pasos',
+    'howItWorks.subtitle': 'Simple, rápido y 100% confidencial',
+    'howItWorks.step1.title': 'Haz el Test',
+    'howItWorks.step1.desc': '18 preguntas en 5 minutos. Sin registro obligatorio.',
+    'howItWorks.step2.title': 'Ve tu Resultado',
+    'howItWorks.step2.desc': 'Entiende los patrones de niebla, miedo y límites en tu relación.',
+    'howItWorks.step3.title': 'Usa las Herramientas',
+    'howItWorks.step3.desc': 'Diario, Coach IA y recursos exclusivos para tu camino.',
+    'howItWorks.cta': 'Empezar Test Gratis →',
+    
+    // Herramientas
+    'tools.title': 'Tus Herramientas',
+    'tools.subtitle': 'Todo lo que necesitas para entender, registrar y planificar',
+    'tools.test.title': 'Test de Claridad',
+    'tools.test.desc': '18 preguntas que te ayudan a identificar patrones de confusión, miedo y límites.',
+    'tools.diary.title': 'Diario de Episodios',
+    'tools.diary.desc': 'Registra situaciones, emociones y patrones. Tu memoria segura y organizada.',
+    'tools.coach.title': 'Coach IA de Claridad',
+    'tools.coach.desc': 'Habla con una IA empática que te ayuda a organizar tus pensamientos.',
+    
+    // Herramientas para tu camino (6 cards)
+    'journey.title': 'Herramientas para tu camino',
+    'journey.subtitle': 'Recursos gratuitos y premium para cada etapa',
+    
+    // Planes
+    'plans.title': 'Elige tu plan',
+    'plans.subtitle': 'Invierte en tu claridad mental. Todos los planes incluyen 7 días de garantía.',
+    'plans.monthly': 'Mensual',
+    'plans.annual': 'Anual',
+    'plans.popular': 'POPULAR',
+    'plans.comingSoon': 'PRÓXIMAMENTE',
+    'plans.startFree': 'Empezar Gratis',
+    'plans.choosePlan': 'Elegir Plan',
+    'plans.joinWaitlist': 'Unirse a la lista →',
+    'plans.guarantee': '7 días de garantía',
+    'plans.securePayment': 'Pago seguro vía Stripe',
+    'plans.cancelAnytime': 'Cancela cuando quieras',
+    
+    // CTA Final
+    'finalCta.title': '¿Lista para tener más claridad?',
+    'finalCta.subtitle': 'El primer paso es el más difícil. Pero no tienes que darlo sola.',
+    'finalCta.cta': 'Empezar el Test Gratuito',
+    
+    // Bloque "Tú eliges cómo usar"
+    'choose.title': 'Tú eliges cómo usar',
+    'choose.subtitle': 'Dos formas de empezar tu camino',
+    'choose.quick.title': 'Test Rápido',
+    'choose.quick.subtitle': 'Sin cuenta',
+    'choose.quick.desc': 'Haz el test, ve tu resultado y vete. Nada se guarda.',
+    'choose.quick.cta': 'Empezar Test →',
+    'choose.radar.title': 'Radar Completo',
+    'choose.radar.subtitle': 'Con cuenta gratuita',
+    'choose.radar.desc': 'Tu test se convierte en la base del Radar: alimenta diario, Coach IA y recomendaciones.',
+    'choose.radar.cta': 'Crear Cuenta Gratis →',
   }
 }
 

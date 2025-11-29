@@ -40,6 +40,10 @@ COMMENT ON COLUMN public.waitlist.converted_at IS 'Data em que se tornou cliente
 
 ALTER TABLE public.waitlist ENABLE ROW LEVEL SECURITY;
 
+-- Dropar políticas existentes para permitir re-execução
+DROP POLICY IF EXISTS "Anyone can insert waitlist" ON public.waitlist;
+DROP POLICY IF EXISTS "Only admins can view waitlist" ON public.waitlist;
+
 -- Política: Qualquer um pode inserir (para o formulário público)
 CREATE POLICY "Anyone can insert waitlist" ON public.waitlist
   FOR INSERT WITH CHECK (true);

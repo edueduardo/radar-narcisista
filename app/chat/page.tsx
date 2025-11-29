@@ -112,6 +112,18 @@ function ChatPageContent() {
   // Estado para alertas de fraude/inconsistência detectados
   const [detectedFraudFlags, setDetectedFraudFlags] = useState<Array<{type: string, severity: number, description: string}>>([])
   const [showFraudAlert, setShowFraudAlert] = useState(false)
+  // Estado para perfil de clareza (ETAPA 2 - Integração Coach IA ↔ Perfil)
+  const [clarityProfile, setClarityProfile] = useState<{
+    globalZone: string
+    overallPercentage: number
+    fogScore: number
+    fearScore: number
+    limitsScore: number
+    hasPhysicalRisk: boolean
+    userNarrative?: string
+    summary?: string
+    createdAt: string
+  } | null>(null)
   
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -183,6 +195,32 @@ function ChatPageContent() {
         .single()
 
       setUserSettings(settings)
+
+      // ETAPA 2 - Buscar perfil de clareza do usuário (is_profile_base = true)
+      // Isso permite que o Coach IA tenha contexto sobre os eixos e categorias do teste
+      const { data: profileData } = await supabase
+        .from('clarity_tests')
+        .select('global_zone, overall_percentage, fog_score, fear_score, limits_score, has_physical_risk, user_narrative, summary, created_at')
+        .eq('user_id', user.id)
+        .eq('is_profile_base', true)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single()
+      
+      if (profileData) {
+        setClarityProfile({
+          globalZone: profileData.global_zone || 'ATENCAO',
+          overallPercentage: profileData.overall_percentage || 0,
+          fogScore: profileData.fog_score || 0,
+          fearScore: profileData.fear_score || 0,
+          limitsScore: profileData.limits_score || 0,
+          hasPhysicalRisk: profileData.has_physical_risk || false,
+          userNarrative: profileData.user_narrative,
+          summary: profileData.summary,
+          createdAt: profileData.created_at
+        })
+        console.log('✅ Perfil de clareza carregado para contexto do Coach IA')
+      }
 
       // SEMPRE criar nova sessão - cada entrada no chat é uma conversa nova
       // Mensagens antigas não são carregadas
@@ -398,6 +436,16 @@ function ChatPageContent() {
             history: recentMessages,
             usarColaborativo,
             userLocation,
+            // ETAPA 2 - Passar perfil de clareza para contexto do Coach IA
+            clarityProfile: clarityProfile ? {
+              globalZone: clarityProfile.globalZone,
+              overallPercentage: clarityProfile.overallPercentage,
+              fogScore: clarityProfile.fogScore,
+              fearScore: clarityProfile.fearScore,
+              limitsScore: clarityProfile.limitsScore,
+              hasPhysicalRisk: clarityProfile.hasPhysicalRisk,
+              summary: clarityProfile.summary,
+            } : null,
           }),
         })
 

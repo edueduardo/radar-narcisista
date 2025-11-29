@@ -2,6 +2,7 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies, headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 import crypto from 'crypto'
+import { callAI, getAvailableProviders } from '@/lib/ai-providers'
 
 /**
  * POST /api/clarity/activate-profile
@@ -51,6 +52,83 @@ function getClientIP(headersList: Headers): string {
     return realIP
   }
   return 'unknown'
+}
+
+/**
+ * Gera um resumo empático do resultado do teste usando IA.
+ * IMPORTANTE: Este resumo é apenas apoio emocional/informativo,
+ * NÃO é diagnóstico médico, psicológico ou legal.
+ * 
+ * @param result - Resultado do teste com scores e zona global
+ * @param userNarrative - Narrativa opcional do usuário (pergunta 19)
+ * @returns Resumo em 3-5 frases ou null se falhar
+ */
+async function generateAISummary(
+  result: any,
+  userNarrative?: string
+): Promise<string | null> {
+  try {
+    const providers = getAvailableProviders()
+    if (providers.length === 0) {
+      console.warn('Nenhum provedor de IA disponível para gerar resumo')
+      return null
+    }
+
+    // Usar o primeiro provedor disponível (prioridade: groq > openai > claude > gemini)
+    const preferredOrder = ['groq', 'openai', 'claude', 'gemini']
+    const provider = preferredOrder.find(p => providers.some(pr => pr.id === p)) || providers[0].id
+
+    // Preparar dados para o prompt
+    const zoneLabels: Record<string, string> = {
+      'VERDE': 'zona verde (baixo risco)',
+      'ATENCAO': 'zona de atenção (risco moderado)',
+      'ALERTA': 'zona de alerta (risco elevado)',
+      'CRITICO': 'zona crítica (risco alto)'
+    }
+    const zoneLabel = zoneLabels[result.globalZone?.toUpperCase()] || 'zona de atenção'
+
+    const systemPrompt = `Você é uma assistente empática especializada em apoio a pessoas em relacionamentos difíceis.
+
+Sua tarefa é gerar um resumo BREVE (3-5 frases) do resultado de um teste de clareza emocional.
+
+REGRAS IMPORTANTES:
+1. Seja acolhedora e validadora, nunca julgue
+2. Use linguagem simples e direta
+3. NÃO faça diagnósticos médicos, psicológicos ou legais
+4. NÃO use termos como "narcisista", "abusador" ou "vítima" diretamente
+5. Foque em padrões observados e sentimentos validados
+6. Termine com uma frase de encorajamento
+7. Escreva em português brasileiro
+8. Máximo 5 frases curtas`
+
+    const userPrompt = `Gere um resumo empático para este resultado do Teste de Clareza:
+
+- Zona global: ${zoneLabel}
+- Porcentagem geral: ${result.overallPercentage || 0}%
+- Score Névoa (confusão mental): ${result.axisScores?.nevoa?.score || 0}/30
+- Score Medo (medo e ansiedade): ${result.axisScores?.medo?.score || 0}/30  
+- Score Limites (dificuldade com limites): ${result.axisScores?.limites?.score || 0}/30
+- Risco físico identificado: ${result.hasPhysicalRisk ? 'Sim' : 'Não'}
+${userNarrative ? `- Relato da pessoa: "${userNarrative.substring(0, 500)}"` : ''}
+
+Gere o resumo agora (3-5 frases, em português):`
+
+    const response = await Promise.race([
+      callAI(provider, userPrompt, systemPrompt),
+      new Promise<null>((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout')), 15000)
+      )
+    ])
+
+    if (response && typeof response === 'object' && 'content' in response) {
+      return response.content.trim()
+    }
+    return null
+
+  } catch (error) {
+    console.error('Erro ao gerar resumo IA:', error)
+    return null
+  }
 }
 
 export async function POST(request: Request) {
@@ -143,6 +221,29 @@ export async function POST(request: Request) {
       }
       
       finalTestId = newTest.id
+      
+      // ETAPA 4 - Gerar resumo automático pela IA (não bloqueia o fluxo)
+      // O resumo é gerado de forma assíncrona e salvo depois
+      // Se falhar, o teste continua válido (summary fica null)
+      const resultWithAxisScores = {
+        ...result,
+        axisScores: axisScores
+      }
+      generateAISummary(resultWithAxisScores, userNarrative)
+        .then(async (summary) => {
+          if (summary && finalTestId) {
+            // Atualizar o teste com o resumo gerado
+            await supabase
+              .from('clarity_tests')
+              .update({ summary })
+              .eq('id', finalTestId)
+            console.log('Resumo IA salvo para teste:', finalTestId)
+          }
+        })
+        .catch((err) => {
+          console.error('Erro ao salvar resumo IA:', err)
+        })
+        
     } else if (testId) {
       // Verificar se o teste pertence ao usuário
       const { data: existingTest, error: fetchError } = await supabase
