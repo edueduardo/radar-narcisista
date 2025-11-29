@@ -175,7 +175,7 @@ function getDeviceType(): DeviceType {
   return 'desktop'
 }
 
-export default function DashboardV2Page() {
+export default function DashboardPage() {
   const [user, setUser] = useState<any>(null)
   const [userEmail, setUserEmail] = useState<string | null>(null)
   const [userName, setUserName] = useState('')
@@ -214,9 +214,9 @@ export default function DashboardV2Page() {
     pointsToNextLevel: 100,
   })
   const [journeyTasks, setJourneyTasks] = useState<JourneyTask[]>([
-    { id: '1', label: 'Fazer Teste de Clareza', completed: false, link: '/teste-clareza' },
-    { id: '2', label: 'Registrar 1º episódio', completed: false, link: '/diario-premium' },
-    { id: '3', label: 'Configurar Plano de Segurança', completed: false, link: '/seguranca-premium' },
+    { id: '1', label: 'Fazer Teste de Clareza', completed: false, link: '/teste-claridade' },
+    { id: '2', label: 'Registrar 1º episódio', completed: false, link: '/diario' },
+    { id: '3', label: 'Configurar Plano de Segurança', completed: false, link: '/plano-seguranca' },
   ])
 
   const router = useRouter()
@@ -448,16 +448,16 @@ export default function DashboardV2Page() {
         {/* Navigation */}
         <nav className="flex-1 p-4 space-y-1">
           <NavItem href="/dashboard" icon={Home} label="Início" active theme={theme} />
-          <NavItem href="/diario-premium" icon={BookOpen} label="Diário" theme={theme} />
-          <NavItem href="/timeline-premium" icon={Clock} label="Linha do Tempo" theme={theme} />
-          <NavItem href="/chat-premium" icon={MessageCircle} label="Coach de Clareza" theme={theme} />
-          <NavItem href="/documentos-premium" icon={FileText} label="Documentos" theme={theme} />
-          <NavItem href="/teste-clareza" icon={BarChart3} label="Teste de Clareza" theme={theme} />
+          <NavItem href="/diario" icon={BookOpen} label="Diário" theme={theme} />
+          <NavItem href="/timeline" icon={Clock} label="Linha do Tempo" theme={theme} />
+          <NavItem href="/chat" icon={MessageCircle} label="Coach de Clareza" theme={theme} />
+          <NavItem href="/documentos" icon={FileText} label="Documentos" theme={theme} />
+          <NavItem href="/teste-claridade" icon={BarChart3} label="Teste de Clareza" theme={theme} />
           
           <div className={`pt-4 mt-4 border-t ${t.borderLight}`}>
-            <NavItem href="/seguranca-premium" icon={Shield} label="Plano de Segurança" variant="danger" theme={theme} />
+            <NavItem href="/plano-seguranca" icon={Shield} label="Plano de Segurança" variant="danger" theme={theme} />
             <NavItem href="/manifesto" icon={Heart} label="Manifesto" theme={theme} />
-            <NavItem href="/configuracoes-premium" icon={Settings} label="Configurações" theme={theme} />
+            <NavItem href="/configuracoes" icon={Settings} label="Configurações" theme={theme} />
             {isAdmin && (
               <NavItem href="/admin" icon={Settings} label="Admin" variant="admin" theme={theme} />
             )}
@@ -528,10 +528,10 @@ export default function DashboardV2Page() {
         {mobileMenuOpen && (
           <nav className={`px-4 pb-4 space-y-1 ${t.bgSecondary} border-b ${t.borderLight}`}>
             <MobileNavItem href="/dashboard" icon={Home} label="Início" onClick={() => setMobileMenuOpen(false)} theme={theme} />
-            <MobileNavItem href="/diario-premium" icon={BookOpen} label="Diário" onClick={() => setMobileMenuOpen(false)} theme={theme} />
-            <MobileNavItem href="/chat-premium" icon={MessageCircle} label="Coach" onClick={() => setMobileMenuOpen(false)} theme={theme} />
-            <MobileNavItem href="/documentos-premium" icon={FileText} label="Documentos" onClick={() => setMobileMenuOpen(false)} theme={theme} />
-            <MobileNavItem href="/seguranca-premium" icon={Shield} label="Segurança" variant="danger" onClick={() => setMobileMenuOpen(false)} theme={theme} />
+            <MobileNavItem href="/diario" icon={BookOpen} label="Diário" onClick={() => setMobileMenuOpen(false)} theme={theme} />
+            <MobileNavItem href="/chat" icon={MessageCircle} label="Coach" onClick={() => setMobileMenuOpen(false)} theme={theme} />
+            <MobileNavItem href="/documentos" icon={FileText} label="Documentos" onClick={() => setMobileMenuOpen(false)} theme={theme} />
+            <MobileNavItem href="/plano-seguranca" icon={Shield} label="Segurança" variant="danger" onClick={() => setMobileMenuOpen(false)} theme={theme} />
           </nav>
         )}
       </header>
@@ -546,7 +546,7 @@ export default function DashboardV2Page() {
           {/* 1. BARRA DE EMERGÊNCIA */}
           {/* ============================================================ */}
           <div className="mb-6">
-            <Link href="/seguranca-premium">
+            <Link href="/plano-seguranca">
               <div className={`${t.bgEmergency} border ${t.borderEmergency} rounded-xl p-3 flex items-center justify-between hover:opacity-90 transition-colors cursor-pointer`}>
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center">
@@ -588,13 +588,13 @@ export default function DashboardV2Page() {
                   Este é seu espaço seguro. Aqui você encontra <span className={`${t.textAccent} font-medium`}>clareza</span> sem medo e confusão.
                 </p>
                 <div className="flex flex-wrap gap-3 mt-2">
-                  <Link href="/chat-premium">
+                  <Link href="/chat">
                     <button className="inline-flex items-center gap-2 px-5 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-medium transition-colors shadow-lg shadow-purple-500/25">
                       <MessageCircle className="w-4 h-4" />
                       Conversar com Coach IA
                     </button>
                   </Link>
-                  <Link href="/diario-premium">
+                  <Link href="/diario">
                     <button className={`inline-flex items-center gap-2 px-5 py-3 ${t.bgSecondary} ${t.text} rounded-xl font-medium border ${t.border} hover:border-purple-300 transition-colors`}>
                       <BookOpen className="w-4 h-4 text-purple-500" />
                       Registrar Episódio
@@ -616,7 +616,7 @@ export default function DashboardV2Page() {
                 icon={Target} 
                 title="Teste de Clareza" 
                 description="Entenda sua situação em 5-10 minutos"
-                href="/teste-clareza"
+                href="/teste-claridade"
                 color="violet"
                 theme={theme}
               />
@@ -624,7 +624,7 @@ export default function DashboardV2Page() {
                 icon={BookOpen} 
                 title="Diário de Episódios" 
                 description="Registre o que acontece com você"
-                href="/diario-premium"
+                href="/diario"
                 color="green"
                 theme={theme}
               />
@@ -632,7 +632,7 @@ export default function DashboardV2Page() {
                 icon={MessageCircle} 
                 title="Coach de Clareza" 
                 description="Apoio 24/7 para suas dúvidas"
-                href="/chat-premium"
+                href="/chat"
                 color="blue"
                 theme={theme}
               />
@@ -662,8 +662,8 @@ export default function DashboardV2Page() {
                   Se você está confusa, com invalidação, gaslighting ou manipulação, comece por aqui.
                 </p>
                 <div className="space-y-2">
-                  <CheckItemThemed label="Teste" href="/teste-clareza" theme={theme} />
-                  <CheckItemThemed label="Escala 0-10" href="/diario-premium" theme={theme} />
+                  <CheckItemThemed label="Teste" href="/teste-claridade" theme={theme} />
+                  <CheckItemThemed label="Escala 0-10" href="/diario" theme={theme} />
                   <CheckItemThemed label="Biblioteca" href="/biblioteca" theme={theme} />
                 </div>
               </div>
@@ -683,8 +683,8 @@ export default function DashboardV2Page() {
                   Se você quer documentar o que acontece, criar uma linha do tempo ou ver padrões.
                 </p>
                 <div className="space-y-2">
-                  <CheckItemThemed label="Diário" href="/diario-premium" theme={theme} />
-                  <CheckItemThemed label="Timeline" href="/timeline-premium" theme={theme} />
+                  <CheckItemThemed label="Diário" href="/diario" theme={theme} />
+                  <CheckItemThemed label="Timeline" href="/timeline" theme={theme} />
                 </div>
               </div>
 
@@ -703,9 +703,9 @@ export default function DashboardV2Page() {
                   Se você está em risco, precisa de um plano de fuga ou quer se preparar.
                 </p>
                 <div className="space-y-2">
-                  <CheckItemThemed label="Plano de Fuga" href="/seguranca-premium" theme={theme} />
-                  <CheckItemThemed label="Alertas" href="/seguranca-premium" theme={theme} />
-                  <CheckItemThemed label="Plano de Hoje" href="/seguranca-premium" theme={theme} />
+                  <CheckItemThemed label="Plano de Fuga" href="/plano-seguranca" theme={theme} />
+                  <CheckItemThemed label="Alertas" href="/plano-seguranca" theme={theme} />
+                  <CheckItemThemed label="Plano de Hoje" href="/plano-seguranca" theme={theme} />
                 </div>
               </div>
             </div>
@@ -717,47 +717,47 @@ export default function DashboardV2Page() {
           <section className="mb-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {/* Tarefas da Jornada */}
-              <RadarCard variant="soft" padding="md">
+              <div className={`rounded-xl p-5 ${t.bgCard} border ${t.border} ${t.cardShadow}`}>
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h3 className="font-semibold text-white flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-violet-400" />
+                    <h3 className={`font-semibold flex items-center gap-2 ${t.text}`}>
+                      <Sparkles className={`w-4 h-4 ${t.textAccent}`} />
                       Sua Jornada
                     </h3>
-                    <p className="text-xs text-gray-500">Complete sua jornada de clareza</p>
+                    <p className={`text-xs ${t.textMuted}`}>Complete sua jornada de clareza</p>
                   </div>
-                  <RadarTag tone="accent" size="sm">
-                    {journeyTasks.filter(t => t.completed).length}/{journeyTasks.length}
-                  </RadarTag>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${theme === 'light' ? 'bg-purple-100 text-purple-700' : 'bg-violet-500/20 text-violet-400'}`}>
+                    {journeyTasks.filter(jt => jt.completed).length}/{journeyTasks.length}
+                  </span>
                 </div>
                 <div className="space-y-3">
                   {journeyTasks.map((task) => (
                     <Link key={task.id} href={task.link}>
                       <div className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${
                         task.completed 
-                          ? 'bg-green-950/30 border border-green-900/30' 
-                          : 'bg-slate-800/50 hover:bg-slate-800 border border-slate-700/50'
+                          ? theme === 'light' ? 'bg-green-50 border border-green-200' : 'bg-green-950/30 border border-green-900/30'
+                          : theme === 'light' ? 'bg-gray-50 hover:bg-gray-100 border border-gray-200' : 'bg-slate-800/50 hover:bg-slate-800 border border-slate-700/50'
                       }`}>
                         {task.completed ? (
-                          <CheckCircle className="w-5 h-5 text-green-400" />
+                          <CheckCircle className={`w-5 h-5 ${theme === 'light' ? 'text-green-500' : 'text-green-400'}`} />
                         ) : (
-                          <Circle className="w-5 h-5 text-gray-500" />
+                          <Circle className={`w-5 h-5 ${t.textMuted}`} />
                         )}
-                        <span className={`text-sm ${task.completed ? 'text-green-300 line-through' : 'text-gray-300'}`}>
+                        <span className={`text-sm ${task.completed ? theme === 'light' ? 'text-green-700 line-through' : 'text-green-300 line-through' : t.textSecondary}`}>
                           {task.label}
                         </span>
-                        {!task.completed && <ChevronRight className="w-4 h-4 text-gray-500 ml-auto" />}
+                        {!task.completed && <ChevronRight className={`w-4 h-4 ml-auto ${t.textMuted}`} />}
                       </div>
                     </Link>
                   ))}
                 </div>
-              </RadarCard>
+              </div>
 
               {/* Gamificação - Nível e Pontos */}
-              <RadarCard variant="accent" padding="md">
+              <div className={`rounded-xl p-5 ${theme === 'light' ? 'bg-gradient-to-br from-purple-50 to-indigo-50 border border-purple-200' : 'bg-gradient-to-br from-violet-950/50 to-indigo-950/50 border border-violet-800/30'}`}>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-semibold text-white flex items-center gap-2">
-                    <Zap className="w-4 h-4 text-yellow-400" />
+                  <h3 className={`font-semibold flex items-center gap-2 ${t.text}`}>
+                    <Zap className="w-4 h-4 text-yellow-500" />
                     Seu Progresso
                   </h3>
                 </div>
@@ -769,7 +769,7 @@ export default function DashboardV2Page() {
                         cx="64"
                         cy="64"
                         r="56"
-                        stroke="#1E293B"
+                        stroke={theme === 'light' ? '#E5E7EB' : '#1E293B'}
                         strokeWidth="12"
                         fill="none"
                       />
@@ -777,7 +777,7 @@ export default function DashboardV2Page() {
                         cx="64"
                         cy="64"
                         r="56"
-                        stroke="#7C3AED"
+                        stroke={theme === 'light' ? '#9333EA' : '#7C3AED'}
                         strokeWidth="12"
                         fill="none"
                         strokeLinecap="round"
@@ -785,19 +785,19 @@ export default function DashboardV2Page() {
                       />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-xs text-gray-400">Nível</span>
-                      <span className="text-3xl font-bold text-white">{stats.currentLevel}</span>
+                      <span className={`text-xs ${t.textMuted}`}>Nível</span>
+                      <span className={`text-3xl font-bold ${t.text}`}>{stats.currentLevel}</span>
                     </div>
                   </div>
                 </div>
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-violet-400">{stats.currentPoints}</p>
-                  <p className="text-xs text-gray-500">pontos totais</p>
-                  <p className="text-xs text-gray-400 mt-2">
-                    Faltam <span className="text-violet-400 font-medium">{stats.pointsToNextLevel}</span> pontos para o próximo nível
+                  <p className={`text-2xl font-bold ${t.textAccent}`}>{stats.currentPoints}</p>
+                  <p className={`text-xs ${t.textMuted}`}>pontos totais</p>
+                  <p className={`text-xs mt-2 ${t.textMuted}`}>
+                    Faltam <span className={`font-medium ${t.textAccent}`}>{stats.pointsToNextLevel}</span> pontos para o próximo nível
                   </p>
                 </div>
-              </RadarCard>
+              </div>
             </div>
           </section>
 
@@ -806,10 +806,10 @@ export default function DashboardV2Page() {
           {/* ============================================================ */}
           <section className="mb-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <StatCard icon={Target} value={stats.totalTests} label="Testes" />
-              <StatCard icon={Calendar} value={stats.totalWeeks} label="Semanas" />
-              <StatCard icon={MessageCircle} value={stats.totalMessages} label="Mensagens" />
-              <StatCard icon={Clock} value={stats.daysActive} label="Dias ativos" />
+              <StatCard icon={Target} value={stats.totalTests} label="Testes" theme={theme} />
+              <StatCard icon={Calendar} value={stats.totalWeeks} label="Semanas" theme={theme} />
+              <StatCard icon={MessageCircle} value={stats.totalMessages} label="Mensagens" theme={theme} />
+              <StatCard icon={Clock} value={stats.daysActive} label="Dias ativos" theme={theme} />
             </div>
           </section>
 
@@ -817,13 +817,13 @@ export default function DashboardV2Page() {
           {/* 7. ESTOU LIDANDO COM... */}
           {/* ============================================================ */}
           <section className="mb-8">
-            <h3 className="text-lg font-semibold text-white mb-2">Estou lidando com...</h3>
-            <p className="text-sm text-gray-400 mb-4">Clique no que você está enfrentando para ver ferramentas específicas</p>
+            <h3 className={`text-lg font-semibold mb-2 ${t.text}`}>Estou lidando com...</h3>
+            <p className={`text-sm mb-4 ${t.textMuted}`}>Clique no que você está enfrentando para ver ferramentas específicas</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <ProblemButton label="Invalidação" color="pink" href="/biblioteca?tema=invalidacao" />
-              <ProblemButton label="Gaslighting" color="purple" href="/biblioteca?tema=gaslighting" />
-              <ProblemButton label="Manipulação" color="blue" href="/biblioteca?tema=manipulacao" />
-              <ProblemButton label="Agressão Aberta" color="red" href="/biblioteca?tema=agressao" />
+              <ProblemButton label="Invalidação" color="pink" href="/biblioteca?tema=invalidacao" theme={theme} />
+              <ProblemButton label="Gaslighting" color="purple" href="/biblioteca?tema=gaslighting" theme={theme} />
+              <ProblemButton label="Manipulação" color="blue" href="/biblioteca?tema=manipulacao" theme={theme} />
+              <ProblemButton label="Agressão Aberta" color="red" href="/biblioteca?tema=agressao" theme={theme} />
             </div>
           </section>
 
@@ -834,31 +834,31 @@ export default function DashboardV2Page() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Atalhos Rápidos */}
               <div>
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-violet-400" />
+                <h3 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${t.text}`}>
+                  <Sparkles className={`w-4 h-4 ${t.textAccent}`} />
                   Atalhos Rápidos
                 </h3>
                 <div className="space-y-2">
-                  <QuickLink href="/teste-clareza" icon={Target} label="Testes" />
-                  <QuickLink href="/diario-premium" icon={BookOpen} label="Diário" />
-                  <QuickLink href="/diario-premium" icon={FileText} label="Novo Registro" />
-                  <QuickLink href="/diario-premium" icon={Scale} label="Escala 0-10" />
+                  <QuickLink href="/teste-claridade" icon={Target} label="Testes" theme={theme} />
+                  <QuickLink href="/diario" icon={BookOpen} label="Diário" theme={theme} />
+                  <QuickLink href="/diario" icon={FileText} label="Novo Registro" theme={theme} />
+                  <QuickLink href="/diario" icon={Scale} label="Escala 0-10" theme={theme} />
                 </div>
               </div>
 
               {/* Ferramentas de Clareza */}
               <div>
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                  <Target className="w-4 h-4 text-violet-400" />
+                <h3 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${t.text}`}>
+                  <Target className={`w-4 h-4 ${t.textAccent}`} />
                   Ferramentas de Clareza
                 </h3>
                 <div className="grid grid-cols-3 gap-3">
-                  <ToolIcon icon={Eye} label="Sala" href="/sala" />
-                  <ToolIcon icon={Scale} label="Escala" href="/diario-premium" />
-                  <ToolIcon icon={RefreshCw} label="Espelho" href="/espelho" />
-                  <ToolIcon icon={Library} label="Biblioteca" href="/biblioteca" />
-                  <ToolIcon icon={RefreshCw} label="Ciclo" href="/ciclo" />
-                  <ToolIcon icon={CheckSquare} label="Checklist" href="/checklist" />
+                  <ToolIcon icon={Eye} label="Sala" href="/sala" theme={theme} />
+                  <ToolIcon icon={Scale} label="Escala" href="/diario" theme={theme} />
+                  <ToolIcon icon={RefreshCw} label="Espelho" href="/espelho" theme={theme} />
+                  <ToolIcon icon={Library} label="Biblioteca" href="/biblioteca" theme={theme} />
+                  <ToolIcon icon={RefreshCw} label="Ciclo" href="/ciclo" theme={theme} />
+                  <ToolIcon icon={CheckSquare} label="Checklist" href="/checklist" theme={theme} />
                 </div>
               </div>
             </div>
@@ -872,28 +872,28 @@ export default function DashboardV2Page() {
               {/* Últimas Entradas */}
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-gray-400" />
+                  <h3 className={`text-lg font-semibold flex items-center gap-2 ${t.text}`}>
+                    <Clock className={`w-4 h-4 ${t.textMuted}`} />
                     Últimas Entradas
                   </h3>
-                  <Link href="/timeline-premium" className="text-xs text-violet-400 hover:underline">
+                  <Link href="/timeline" className={`text-xs ${t.textAccent} hover:underline`}>
                     Ver mais
                   </Link>
                 </div>
                 <div className="space-y-2">
                   {recentEntries.length === 0 ? (
-                    <p className="text-sm text-gray-500 py-4 text-center">
-                      Nenhum registro ainda. <Link href="/diario-premium" className="text-violet-400 hover:underline">Criar primeiro</Link>
+                    <p className={`text-sm py-4 text-center ${t.textMuted}`}>
+                      Nenhum registro ainda. <Link href="/diario" className={`${t.textAccent} hover:underline`}>Criar primeiro</Link>
                     </p>
                   ) : (
                     recentEntries.slice(0, 3).map((entry) => (
                       <Link key={entry.id} href={`/diario/${entry.id}`}>
-                        <div className="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg hover:bg-slate-800 transition-colors border-l-4 border-violet-500">
+                        <div className={`flex items-center gap-3 p-3 rounded-lg transition-colors border-l-4 ${theme === 'light' ? 'bg-gray-50 hover:bg-gray-100 border-purple-500' : 'bg-slate-800/50 hover:bg-slate-800 border-violet-500'}`}>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-white truncate">
+                            <p className={`text-sm font-medium truncate ${t.text}`}>
                               {(entry.title || 'Sem título').substring(0, 2).toUpperCase()}
                             </p>
-                            <p className="text-xs text-gray-500">
+                            <p className={`text-xs ${t.textMuted}`}>
                               {new Date(entry.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' })}, {new Date(entry.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                             </p>
                           </div>
@@ -906,16 +906,16 @@ export default function DashboardV2Page() {
 
               {/* Segurança */}
               <div>
-                <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <h3 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${t.text}`}>
                   <Shield className="w-4 h-4 text-red-400" />
                   Segurança
                 </h3>
                 <div className="space-y-2">
-                  <SecurityLink icon={Shield} label="Plano" href="/seguranca-premium" />
-                  <SecurityLink icon={MapPin} label="Plano de Fuga" href="/seguranca-premium" />
-                  <SecurityLink icon={HardDrive} label="Reg. Digital" href="/documentos-premium" />
-                  <SecurityLink icon={Eye} label="Evidência" href="/documentos-premium" />
-                  <SecurityLink icon={Phone} label="Recursos" href="/seguranca-premium" />
+                  <SecurityLink icon={Shield} label="Plano" href="/plano-seguranca" theme={theme} />
+                  <SecurityLink icon={MapPin} label="Plano de Fuga" href="/plano-seguranca" theme={theme} />
+                  <SecurityLink icon={HardDrive} label="Reg. Digital" href="/documentos" theme={theme} />
+                  <SecurityLink icon={Eye} label="Evidência" href="/documentos" theme={theme} />
+                  <SecurityLink icon={Phone} label="Recursos" href="/plano-seguranca" theme={theme} />
                 </div>
               </div>
             </div>
@@ -925,15 +925,15 @@ export default function DashboardV2Page() {
           {/* 10. BANNER INCLUSIVO */}
           {/* ============================================================ */}
           <section className="mb-8">
-            {/* Banner amarelo/dourado - IGUAL IMAGEM BRANCA */}
-            <div className="bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border border-yellow-500/30 rounded-xl p-4">
+            {/* Banner amarelo/dourado */}
+            <div className={`rounded-xl p-4 ${theme === 'light' ? 'bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200' : 'bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border border-yellow-500/30'}`}>
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Users className="w-6 h-6 text-yellow-400" />
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${theme === 'light' ? 'bg-yellow-100' : 'bg-yellow-500/20'}`}>
+                  <Users className={`w-6 h-6 ${theme === 'light' ? 'text-yellow-600' : 'text-yellow-400'}`} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-yellow-200 mb-1">Este é um espaço para TODOS</h3>
-                  <p className="text-sm text-yellow-100/70">
+                  <h3 className={`font-semibold mb-1 ${theme === 'light' ? 'text-yellow-800' : 'text-yellow-200'}`}>Este é um espaço para TODOS</h3>
+                  <p className={`text-sm ${theme === 'light' ? 'text-yellow-700' : 'text-yellow-100/70'}`}>
                     Aqui não há julgamento por gênero, profissão, situação financeira, religião ou qualquer outra condição. 
                     Se você está sofrendo abuso ou confusão, você merece ajuda.
                   </p>
@@ -946,18 +946,18 @@ export default function DashboardV2Page() {
           {/* 11. DICAS RÁPIDAS */}
           {/* ============================================================ */}
           <section className="mb-8">
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-              <Lightbulb className="w-4 h-4 text-yellow-400" />
+            <h3 className={`text-lg font-semibold mb-4 flex items-center gap-2 ${t.text}`}>
+              <Lightbulb className="w-4 h-4 text-yellow-500" />
               Dicas Rápidas
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 bg-slate-800/30 rounded-xl border border-slate-700/50">
-                <p className="text-sm text-gray-300 mb-2">• Use o diário para registrar episódios assim que acontecem</p>
-                <p className="text-sm text-gray-300">• Releia o Teste de Clareza periodicamente para acompanhar sua evolução</p>
+              <div className={`p-4 rounded-xl border ${theme === 'light' ? 'bg-gray-50 border-gray-200' : 'bg-slate-800/30 border-slate-700/50'}`}>
+                <p className={`text-sm mb-2 ${t.textSecondary}`}>• Use o diário para registrar episódios assim que acontecem</p>
+                <p className={`text-sm ${t.textSecondary}`}>• Releia o Teste de Clareza periodicamente para acompanhar sua evolução</p>
               </div>
-              <div className="p-4 bg-slate-800/30 rounded-xl border border-slate-700/50">
-                <p className="text-sm text-gray-300 mb-2">• O Coach IA está disponível 24/7 para suas dúvidas</p>
-                <p className="text-sm text-gray-300">• Suas configurações de privacidade podem ser ajustadas a qualquer momento</p>
+              <div className={`p-4 rounded-xl border ${theme === 'light' ? 'bg-gray-50 border-gray-200' : 'bg-slate-800/30 border-slate-700/50'}`}>
+                <p className={`text-sm mb-2 ${t.textSecondary}`}>• O Coach IA está disponível 24/7 para suas dúvidas</p>
+                <p className={`text-sm ${t.textSecondary}`}>• Suas configurações de privacidade podem ser ajustadas a qualquer momento</p>
               </div>
             </div>
           </section>
@@ -978,60 +978,60 @@ export default function DashboardV2Page() {
           {/* 13. CONTATOS DE EMERGÊNCIA */}
           {/* ============================================================ */}
           <section className="mb-8">
-            <h3 className="text-lg font-semibold text-white mb-4">Precisa de ajuda agora?</h3>
+            <h3 className={`text-lg font-semibold mb-4 ${t.text}`}>Precisa de ajuda agora?</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <EmergencyContact number="188" label="CVV - Valorização da Vida" description="24h, ligação gratuita" />
-              <EmergencyContact number="190" label="Polícia" description="Risco físico imediato" />
-              <EmergencyContact number="180" label="Central da Mulher" description="Violência doméstica" />
+              <EmergencyContact number="188" label="CVV - Valorização da Vida" description="24h, ligação gratuita" theme={theme} />
+              <EmergencyContact number="190" label="Polícia" description="Risco físico imediato" theme={theme} />
+              <EmergencyContact number="180" label="Central da Mulher" description="Violência doméstica" theme={theme} />
             </div>
           </section>
 
           {/* ============================================================ */}
           {/* 14. FOOTER */}
           {/* ============================================================ */}
-          <footer className="text-center py-8 border-t border-slate-800/50">
-            <p className="text-xs text-gray-500 mb-4">
+          <footer className={`text-center py-8 border-t ${t.borderLight}`}>
+            <p className={`text-xs mb-4 ${t.textMuted}`}>
               Radar Narcisista BR © 2025 — Ferramenta de apoio, não substitui profissionais.
             </p>
             
             {/* Botões de ajuda */}
             <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="text-xs text-gray-500">Como posso ajudar você?</span>
+              <span className={`text-xs ${t.textMuted}`}>Como posso ajudar você?</span>
             </div>
-            {/* 4 botões - IGUAL IMAGEM BRANCA */}
+            {/* 4 botões */}
             <div className="flex items-center justify-center gap-2 flex-wrap">
-              <Link href="/diario-premium">
-                <button className="px-4 py-2 bg-slate-800 text-gray-300 text-xs rounded-lg hover:bg-slate-700 transition-colors flex items-center gap-2">
+              <Link href="/diario">
+                <button className={`px-4 py-2 text-xs rounded-lg transition-colors flex items-center gap-2 ${theme === 'light' ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-slate-800 text-gray-300 hover:bg-slate-700'}`}>
                   <BookOpen className="w-3 h-3" /> Diário
                 </button>
               </Link>
-              <Link href="/timeline-premium">
-                <button className="px-4 py-2 bg-slate-800 text-gray-300 text-xs rounded-lg hover:bg-slate-700 transition-colors flex items-center gap-2">
+              <Link href="/timeline">
+                <button className={`px-4 py-2 text-xs rounded-lg transition-colors flex items-center gap-2 ${theme === 'light' ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-slate-800 text-gray-300 hover:bg-slate-700'}`}>
                   <BarChart3 className="w-3 h-3" /> Dados/Rel.us
                 </button>
               </Link>
-              <Link href="/documentos-premium">
-                <button className="px-4 py-2 bg-slate-800 text-gray-300 text-xs rounded-lg hover:bg-slate-700 transition-colors flex items-center gap-2">
+              <Link href="/documentos">
+                <button className={`px-4 py-2 text-xs rounded-lg transition-colors flex items-center gap-2 ${theme === 'light' ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-slate-800 text-gray-300 hover:bg-slate-700'}`}>
                   <FileText className="w-3 h-3" /> Relatório
                 </button>
               </Link>
-              <Link href="/chat-premium">
-                <button className="px-4 py-2 bg-slate-800 text-gray-300 text-xs rounded-lg hover:bg-slate-700 transition-colors flex items-center gap-2">
+              <Link href="/chat">
+                <button className={`px-4 py-2 text-xs rounded-lg transition-colors flex items-center gap-2 ${theme === 'light' ? 'bg-gray-100 text-gray-700 hover:bg-gray-200' : 'bg-slate-800 text-gray-300 hover:bg-slate-700'}`}>
                   <MessageCircle className="w-3 h-3" /> Dúvidas
                 </button>
               </Link>
             </div>
             
             <div className="flex items-center justify-center gap-4 text-xs mt-4">
-              <Link href="/manifesto" className="text-gray-400 hover:text-violet-400 transition-colors">
+              <Link href="/manifesto" className={`${t.textMuted} hover:${t.textAccent} transition-colors`}>
                 Manifesto
               </Link>
-              <span className="text-gray-700">•</span>
-              <Link href="/termos" className="text-gray-400 hover:text-violet-400 transition-colors">
+              <span className={t.textMuted}>•</span>
+              <Link href="/termos" className={`${t.textMuted} hover:${t.textAccent} transition-colors`}>
                 Termos
               </Link>
-              <span className="text-gray-700">•</span>
-              <Link href="/privacidade" className="text-gray-400 hover:text-violet-400 transition-colors">
+              <span className={t.textMuted}>•</span>
+              <Link href="/privacidade" className={`${t.textMuted} hover:${t.textAccent} transition-colors`}>
                 Privacidade
               </Link>
             </div>
@@ -1045,9 +1045,9 @@ export default function DashboardV2Page() {
       <nav className={`lg:hidden fixed bottom-0 left-0 right-0 ${t.bgHeader} backdrop-blur-sm border-t ${t.borderLight} z-40`}>
         <div className="flex items-center justify-around py-2">
           <BottomNavItem href="/dashboard" icon={Home} label="Início" active theme={theme} />
-          <BottomNavItem href="/diario-premium" icon={BookOpen} label="Diário" theme={theme} />
-          <BottomNavItem href="/chat-premium" icon={MessageCircle} label="Coach" theme={theme} />
-          <BottomNavItem href="/seguranca-premium" icon={Shield} label="Segurança" theme={theme} />
+          <BottomNavItem href="/diario" icon={BookOpen} label="Diário" theme={theme} />
+          <BottomNavItem href="/chat" icon={MessageCircle} label="Coach" theme={theme} />
+          <BottomNavItem href="/plano-seguranca" icon={Shield} label="Segurança" theme={theme} />
         </div>
       </nav>
     </div>
@@ -1155,18 +1155,25 @@ function CheckItemThemed({ label, href, theme = 'light' }: { label: string; href
   )
 }
 
-function StatCard({ icon: Icon, value, label }: { icon: any; value: number; label: string }) {
+function StatCard({ icon: Icon, value, label, theme = 'dark' }: { icon: any; value: number; label: string; theme?: ThemeMode }) {
+  const isLight = theme === 'light'
   return (
-    <div className="p-4 bg-slate-800/50 border border-slate-700/50 rounded-xl text-center">
-      <Icon className="w-5 h-5 text-gray-500 mx-auto mb-2" />
-      <p className="text-2xl font-bold text-white">{value}</p>
+    <div className={`p-4 rounded-xl text-center ${isLight ? 'bg-white border border-gray-200 shadow-sm' : 'bg-slate-800/50 border border-slate-700/50'}`}>
+      <Icon className={`w-5 h-5 mx-auto mb-2 ${isLight ? 'text-purple-500' : 'text-gray-500'}`} />
+      <p className={`text-2xl font-bold ${isLight ? 'text-gray-900' : 'text-white'}`}>{value}</p>
       <p className="text-xs text-gray-500">{label}</p>
     </div>
   )
 }
 
-function ProblemButton({ label, color, href }: { label: string; color: 'pink' | 'purple' | 'blue' | 'red'; href: string }) {
-  const colors = {
+function ProblemButton({ label, color, href, theme = 'dark' }: { label: string; color: 'pink' | 'purple' | 'blue' | 'red'; href: string; theme?: ThemeMode }) {
+  const isLight = theme === 'light'
+  const colors = isLight ? {
+    pink: 'bg-pink-50 text-pink-600 border-pink-200 hover:bg-pink-100',
+    purple: 'bg-purple-50 text-purple-600 border-purple-200 hover:bg-purple-100',
+    blue: 'bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100',
+    red: 'bg-red-50 text-red-600 border-red-200 hover:bg-red-100',
+  } : {
     pink: 'bg-pink-600/20 text-pink-400 border-pink-900/50 hover:bg-pink-600/30',
     purple: 'bg-purple-600/20 text-purple-400 border-purple-900/50 hover:bg-purple-600/30',
     blue: 'bg-blue-600/20 text-blue-400 border-blue-900/50 hover:bg-blue-600/30',
@@ -1182,50 +1189,54 @@ function ProblemButton({ label, color, href }: { label: string; color: 'pink' | 
   )
 }
 
-function QuickLink({ href, icon: Icon, label }: { href: string; icon: any; label: string }) {
+function QuickLink({ href, icon: Icon, label, theme = 'dark' }: { href: string; icon: any; label: string; theme?: ThemeMode }) {
+  const isLight = theme === 'light'
   return (
     <Link href={href}>
-      <div className="flex items-center gap-3 p-3 bg-slate-800/50 border border-slate-700/50 rounded-lg hover:bg-slate-800 transition-colors">
-        <Icon className="w-4 h-4 text-gray-400" />
-        <span className="text-sm text-gray-300">{label}</span>
+      <div className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${isLight ? 'bg-gray-50 border border-gray-200 hover:bg-gray-100' : 'bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800'}`}>
+        <Icon className={`w-4 h-4 ${isLight ? 'text-purple-500' : 'text-gray-400'}`} />
+        <span className={`text-sm ${isLight ? 'text-gray-700' : 'text-gray-300'}`}>{label}</span>
       </div>
     </Link>
   )
 }
 
-function ToolIcon({ icon: Icon, label, href }: { icon: any; label: string; href: string }) {
+function ToolIcon({ icon: Icon, label, href, theme = 'dark' }: { icon: any; label: string; href: string; theme?: ThemeMode }) {
+  const isLight = theme === 'light'
   return (
     <Link href={href}>
-      <div className="p-3 bg-slate-800/50 border border-slate-700/50 rounded-xl text-center hover:bg-slate-800 transition-colors cursor-pointer">
-        <Icon className="w-5 h-5 text-violet-400 mx-auto mb-1" />
-        <span className="text-xs text-gray-400">{label}</span>
+      <div className={`p-3 rounded-xl text-center transition-colors cursor-pointer ${isLight ? 'bg-gray-50 border border-gray-200 hover:bg-gray-100' : 'bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800'}`}>
+        <Icon className={`w-5 h-5 mx-auto mb-1 ${isLight ? 'text-purple-500' : 'text-violet-400'}`} />
+        <span className={`text-xs ${isLight ? 'text-gray-600' : 'text-gray-400'}`}>{label}</span>
       </div>
     </Link>
   )
 }
 
-function SecurityLink({ icon: Icon, label, href }: { icon: any; label: string; href: string }) {
+function SecurityLink({ icon: Icon, label, href, theme = 'dark' }: { icon: any; label: string; href: string; theme?: ThemeMode }) {
+  const isLight = theme === 'light'
   return (
     <Link href={href}>
-      <div className="flex items-center gap-3 p-3 bg-red-950/20 border border-red-900/30 rounded-lg hover:bg-red-950/30 transition-colors">
-        <Icon className="w-4 h-4 text-red-400" />
-        <span className="text-sm text-red-300">{label}</span>
+      <div className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${isLight ? 'bg-red-50 border border-red-200 hover:bg-red-100' : 'bg-red-950/20 border border-red-900/30 hover:bg-red-950/30'}`}>
+        <Icon className={`w-4 h-4 ${isLight ? 'text-red-500' : 'text-red-400'}`} />
+        <span className={`text-sm ${isLight ? 'text-red-700' : 'text-red-300'}`}>{label}</span>
       </div>
     </Link>
   )
 }
 
-function EmergencyContact({ number, label, description }: { number: string; label: string; description: string }) {
+function EmergencyContact({ number, label, description, theme = 'dark' }: { number: string; label: string; description: string; theme?: ThemeMode }) {
+  const isLight = theme === 'light'
   return (
     <a href={`tel:${number}`}>
-      <div className="bg-slate-900/50 border border-slate-800/50 rounded-xl p-4 hover:bg-slate-800/50 transition-all">
+      <div className={`rounded-xl p-4 transition-all ${isLight ? 'bg-white border border-gray-200 shadow-sm hover:shadow-md' : 'bg-slate-900/50 border border-slate-800/50 hover:bg-slate-800/50'}`}>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center">
-            <Phone className="w-5 h-5 text-red-400" />
+          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${isLight ? 'bg-red-100' : 'bg-red-500/20'}`}>
+            <Phone className={`w-5 h-5 ${isLight ? 'text-red-500' : 'text-red-400'}`} />
           </div>
           <div>
-            <p className="text-lg font-bold text-white">{number}</p>
-            <p className="text-xs text-gray-400">{label}</p>
+            <p className={`text-lg font-bold ${isLight ? 'text-gray-900' : 'text-white'}`}>{number}</p>
+            <p className={`text-xs ${isLight ? 'text-gray-600' : 'text-gray-400'}`}>{label}</p>
             <p className="text-xs text-gray-500">{description}</p>
           </div>
         </div>
