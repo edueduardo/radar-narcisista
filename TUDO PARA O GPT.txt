@@ -1162,22 +1162,75 @@ ROTA OFICIAL DO TESTE: /teste-clareza
 PLANO D IMPLEMENTADO - VERSÃO 2.0.0 - TESTE ÚNICO EM /teste-clareza
 ================================================================================
 
-🚀 **REFATORAÇÃO UX/UI DO TESTE DE CLAREZA V2** - 29/11/2025
+🚀 **REFATORAÇÃO COMPLETA UX/UI DO TESTE DE CLAREZA** - 29/11/2025
 Tipo: Frontend / UX / UI
 Objetivo: Melhorar experiência para público ansioso/fragilizado
+Status: ✅ IMPLEMENTADO E EM PRODUÇÃO
 
-IMPLEMENTAÇÃO:
-- Criado /teste-clareza-v2 como versão de TESTE (sem afetar original)
-- O original /teste-clareza permanece intacto para rollback
+================================================================================
+SISTEMA DE 3 VOZES NAS PERGUNTAS (NOVO!)
+================================================================================
 
-MUDANÇAS NA TELA DE INTRODUÇÃO:
+Cada pergunta do teste pode ser lida em 3 estilos diferentes:
+
+💜 VOZ COLINHO - Acolhedora, empática
+   "Você sente que suas emoções são frequentemente minimizadas?"
+
+🩺 VOZ PROFISSIONAL - Técnica, explicativa  
+   "Com que frequência você percebe que suas reações emocionais são desconsideradas?"
+
+⚖️ VOZ DEFESA - Objetiva, para documentação
+   "A outra parte costuma desconsiderar suas manifestações emocionais?"
+
+📁 Arquivo: lib/clarity-questions-voices.ts
+- Todas as 18 perguntas em 3 versões
+- Todas as 5 respostas em 3 versões
+- Seletor visual no topo de cada pergunta
+
+================================================================================
+NOVAS FUNCIONALIDADES IMPLEMENTADAS
+================================================================================
+
+1. ANIMAÇÕES DE TRANSIÇÃO
+   - Fade + slide suave entre perguntas
+   - Direção diferente ao avançar/voltar
+   - Duração: 200ms
+
+2. INDICADOR DE TEMPO RESTANTE
+   - Mostra "~X min restantes" no header
+   - Calcula baseado em 20s por pergunta
+   - Atualiza automaticamente
+
+3. MODO PAUSA
+   - Botão ⏸️ no header
+   - Modal com dicas de respiração (4-4-4)
+   - Mostra progresso salvo
+   - Opções: Continuar ou Sair
+   - Contatos de emergência (188 CVV, 180 Mulher)
+
+4. MELHOR CONTRASTE MODO ESCURO
+   - Textos mais legíveis
+   - Bordas mais visíveis
+   - Cards com fundo ajustado
+
+5. BOTÃO PDF FUNCIONAL
+   - Botão verde no topo do resultado funciona
+   - Mesmo comportamento do botão embaixo
+   - Loading state enquanto gera
+
+================================================================================
+MUDANÇAS NA TELA DE INTRODUÇÃO
+================================================================================
 - Tempo estimado "5-10 minutos" visível logo abaixo do subtítulo
 - Cards unificados: só o laranja é ALERTA, os outros são informativos (cinza)
 - Bullets resumidos (máx 2-3 por card)
 - Mais respiro vertical antes do CTA
 - "Voltar ao início" como link secundário discreto
 
-MUDANÇAS NA TELA DE PERGUNTA (1-18):
+================================================================================
+MUDANÇAS NA TELA DE PERGUNTA (1-18)
+================================================================================
+- SELETOR DE 3 VOZES no topo (Colinho/Profissional/Defesa)
 - Termo de Consentimento COLAPSADO por padrão (menos ruído)
 - Termo só aparece nas primeiras 3 perguntas
 - Header reorganizado: progresso à esquerda, categoria à direita com tooltip
@@ -1185,29 +1238,63 @@ MUDANÇAS NA TELA DE PERGUNTA (1-18):
 - Subtítulo guiado: "Marque a opção que mais se aproxima..."
 - Feedback visual melhorado nas alternativas (ring + check)
 - Aviso no rodapé mais discreto
+- Indicador de tempo restante
+- Botão de pausa
 
-MUDANÇAS NA TELA DA ÚLTIMA PERGUNTA (19):
+================================================================================
+MUDANÇAS NA TELA DA ÚLTIMA PERGUNTA (19)
+================================================================================
 - Banner simplificado (2 linhas apenas)
 - Placeholder guiado com bullets de sugestão
 - Módulo Premium (áudio) colapsável e discreto
 - Hierarquia clara: "Finalizar" principal, "Pular" outline
 - Texto de apoio abaixo dos botões
 
-PRINCÍPIOS APLICADOS:
+================================================================================
+MUDANÇAS NA TELA DE RESULTADO
+================================================================================
+- Botão "Baixar PDF Completo" verde no topo FUNCIONAL
+- Mesmo comportamento do botão na seção de exportação
+- Loading state com spinner enquanto gera PDF
+- Melhor contraste no modo escuro
+
+================================================================================
+PRINCÍPIOS APLICADOS
+================================================================================
 - Menos tipos de card por tela
 - Tipografia consistente
 - Respiro vertical (espaço = calma)
 - Ícones com função clara
 - Mobile-first
+- Acessibilidade (teclado, contraste)
 
-📁 Arquivos criados:
-- app/teste-clareza-v2/page.tsx (NOVO - versão de teste)
+================================================================================
+ARQUIVOS PRINCIPAIS
+================================================================================
 
-📁 Arquivos NÃO modificados (originais intactos):
-- app/teste-clareza/page.tsx
-- app/teste-clareza/resultado/page.tsx
+📁 Teste de Clareza:
+- app/teste-clareza/page.tsx (PRINCIPAL - refatorado)
+- app/teste-clareza/resultado/page.tsx (PRINCIPAL - refatorado)
+- app/teste-clareza/page-old-backup.tsx (backup do antigo)
+- app/teste-clareza/resultado/page-old-backup.tsx (backup do antigo)
 
-ROTA DE TESTE: /teste-clareza-v2
-ROTA ORIGINAL: /teste-clareza (intacta)
+📁 Sistema de 3 Vozes:
+- lib/clarity-questions-voices.ts (18 perguntas x 3 vozes)
+- lib/clarity-three-voices.ts (conteúdo das vozes para resultado)
+- components/Explanation3Voices.tsx (componente de 3 vozes)
+
+📁 Componentes de Suporte:
+- components/ClarityResultPDF.tsx (geração de PDF com forwardRef)
+- components/ClarityTermsModal.tsx (modal de termos)
+- components/TermsConsentBadge.tsx (badge de consentimento)
+
+================================================================================
+ROTAS OFICIAIS
+================================================================================
+
+TESTE: /teste-clareza
+RESULTADO: /teste-clareza/resultado
+
+⚠️ Versões V2 foram removidas (já incorporadas nas principais)
 
 ================================================================================
