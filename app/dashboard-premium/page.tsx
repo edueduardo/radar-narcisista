@@ -127,7 +127,7 @@ export default function DashboardPremiumPage() {
           <NavItem href="/timeline-premium" icon={Clock} label="Linha do Tempo" />
           <NavItem href="/chat-premium" icon={MessageCircle} label="Coach de Clareza" />
           <NavItem href="/documentos-premium" icon={FileText} label="Documentos" />
-          <NavItem href="/teste-premium" icon={BarChart3} label="Teste de Clareza" />
+          <NavItem href="/teste-clareza" icon={BarChart3} label="Teste de Clareza" />
           
           <div className="pt-4 mt-4 border-t border-slate-800/50">
             <NavItem href="/seguranca-premium" icon={Shield} label="Plano de Segurança" variant="danger" />
@@ -251,7 +251,7 @@ export default function DashboardPremiumPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               
               {/* Card 1: Entender minha situação */}
-              <Link href="/teste-premium">
+              <Link href="/teste-clareza">
                 <RadarCard variant="default" padding="md" hover>
                   <div className="flex flex-col h-full">
                     <div className="w-12 h-12 bg-violet-600/20 rounded-xl flex items-center justify-center mb-4">

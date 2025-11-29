@@ -214,7 +214,7 @@ export default function DashboardV2Page() {
     pointsToNextLevel: 100,
   })
   const [journeyTasks, setJourneyTasks] = useState<JourneyTask[]>([
-    { id: '1', label: 'Fazer Teste de Clareza', completed: false, link: '/teste-premium' },
+    { id: '1', label: 'Fazer Teste de Clareza', completed: false, link: '/teste-clareza' },
     { id: '2', label: 'Registrar 1º episódio', completed: false, link: '/diario-premium' },
     { id: '3', label: 'Configurar Plano de Segurança', completed: false, link: '/seguranca-premium' },
   ])
@@ -452,7 +452,7 @@ export default function DashboardV2Page() {
           <NavItem href="/timeline-premium" icon={Clock} label="Linha do Tempo" theme={theme} />
           <NavItem href="/chat-premium" icon={MessageCircle} label="Coach de Clareza" theme={theme} />
           <NavItem href="/documentos-premium" icon={FileText} label="Documentos" theme={theme} />
-          <NavItem href="/teste-premium" icon={BarChart3} label="Teste de Clareza" theme={theme} />
+          <NavItem href="/teste-clareza" icon={BarChart3} label="Teste de Clareza" theme={theme} />
           
           <div className={`pt-4 mt-4 border-t ${t.borderLight}`}>
             <NavItem href="/seguranca-premium" icon={Shield} label="Plano de Segurança" variant="danger" theme={theme} />
@@ -616,7 +616,7 @@ export default function DashboardV2Page() {
                 icon={Target} 
                 title="Teste de Clareza" 
                 description="Entenda sua situação em 5-10 minutos"
-                href="/teste-premium"
+                href="/teste-clareza"
                 color="violet"
                 theme={theme}
               />
@@ -662,7 +662,7 @@ export default function DashboardV2Page() {
                   Se você está confusa, com invalidação, gaslighting ou manipulação, comece por aqui.
                 </p>
                 <div className="space-y-2">
-                  <CheckItemThemed label="Teste" href="/teste-premium" theme={theme} />
+                  <CheckItemThemed label="Teste" href="/teste-clareza" theme={theme} />
                   <CheckItemThemed label="Escala 0-10" href="/diario-premium" theme={theme} />
                   <CheckItemThemed label="Biblioteca" href="/biblioteca" theme={theme} />
                 </div>
@@ -839,7 +839,7 @@ export default function DashboardV2Page() {
                   Atalhos Rápidos
                 </h3>
                 <div className="space-y-2">
-                  <QuickLink href="/teste-premium" icon={Target} label="Testes" />
+                  <QuickLink href="/teste-clareza" icon={Target} label="Testes" />
                   <QuickLink href="/diario-premium" icon={BookOpen} label="Diário" />
                   <QuickLink href="/diario-premium" icon={FileText} label="Novo Registro" />
                   <QuickLink href="/diario-premium" icon={Scale} label="Escala 0-10" />
