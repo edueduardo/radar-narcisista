@@ -1298,3 +1298,63 @@ RESULTADO: /teste-clareza/resultado
 ⚠️ Versões V2 foram removidas (já incorporadas nas principais)
 
 ================================================================================
+IMPLEMENTAÇÃO: 29/11/2025 - PERFIL DE CLAREZA (TAREFA A + B)
+================================================================================
+
+📋 RESUMO:
+Implementado sistema para que o resultado do Teste de Clareza possa ser salvo
+como "base do perfil" do usuário, alimentando diário, IAs e recomendações.
+
+🎯 TAREFA A - ESTRUTURA DO TESTE (AUDITADA E CONFIRMADA):
+- 18 perguntas objetivas + 1 especial (texto livre)
+- 3 eixos: névoa, medo, limites
+- 6 categorias: invalidação, gaslighting, controle, isolamento, emocional, físico
+- Escala 0-4 (Nunca → Quase sempre)
+- Configuração unificada em: lib/clarity-unified-config.ts
+
+🎯 TAREFA B - FLUXO "GUARDAR OU NÃO":
+
+1. MIGRATION SQL (database/migrations/20241129_add_clarity_profile_base.sql):
+   - Campo is_profile_base BOOLEAN na tabela clarity_tests
+   - Campo user_narrative TEXT para pergunta 19
+   - Campo overall_percentage DECIMAL
+   - Campo has_physical_risk BOOLEAN
+   - Trigger para garantir apenas UM teste como base por usuário
+   - Índices otimizados
+
+2. API /api/clarity/activate-profile (app/api/clarity/activate-profile/route.ts):
+   - POST: Salva teste como base (cria novo ou marca existente)
+   - GET: Retorna perfil de clareza ativo do usuário
+
+3. HOOK useClarityProfile (hooks/useClarityProfile.ts):
+   - useClarityProfile(): busca e gerencia perfil
+   - getClarityContextForAI(): gera contexto para injetar nas IAs
+
+4. UX NA TELA DE RESULTADO (app/teste-clareza/resultado/page.tsx):
+   - Seção "O que fazer com este resultado?" (seção 6)
+   - Dois cards: "Guardar como base" vs "Só visualizar"
+   - Estado visual quando já salvo (badge verde)
+   - Redirecionamento para login se não autenticado
+
+5. HELPER DE RECOMENDAÇÕES (lib/clarity-recommendations.ts):
+   - getClarityRecommendations(): gera recomendações personalizadas
+   - getMainFocus(): retorna foco principal do perfil
+   - getClaritySummary(): resumo curto para dashboard
+
+📁 ARQUIVOS CRIADOS/MODIFICADOS:
+- database/migrations/20241129_add_clarity_profile_base.sql (NOVO)
+- app/api/clarity/activate-profile/route.ts (NOVO)
+- hooks/useClarityProfile.ts (NOVO)
+- lib/clarity-recommendations.ts (NOVO)
+- app/teste-clareza/resultado/page.tsx (MODIFICADO)
+
+⚠️ AÇÃO NECESSÁRIA:
+Rodar a migration no Supabase SQL Editor para adicionar os novos campos.
+
+🔗 INTEGRAÇÕES PREPARADAS (para implementar depois):
+- Diário: usar perfil para sugerir tags no primeiro registro
+- Coach IA: injetar contexto de clareza no prompt
+- Dashboard: mostrar recomendações baseadas no perfil
+- Plano de Segurança: alerta especial se risco físico alto
+
+================================================================================

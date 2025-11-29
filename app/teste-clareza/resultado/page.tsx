@@ -9,7 +9,8 @@ import {
   AlertTriangle, ChevronDown, ChevronUp, HelpCircle, Home, 
   LayoutDashboard, AlertCircle, Brain, Lock, Heart, ShieldAlert, 
   Users, RefreshCw, Phone, Download, Printer, Copy, FileCheck,
-  MousePointerClick, FileDown
+  MousePointerClick, FileDown, Save, Eye, CheckCircle2, Loader2,
+  Sparkles, UserPlus
 } from 'lucide-react'
 
 import {
@@ -54,6 +55,13 @@ export default function ResultadoV2() {
   const [showAboutTest, setShowAboutTest] = useState(false)
   const [isDownloadingPDF, setIsDownloadingPDF] = useState(false)
   
+  // Estados para "Guardar ou Não"
+  const [isSavedAsBase, setIsSavedAsBase] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
+  const [rawAnswers, setRawAnswers] = useState<Record<string, number> | null>(null)
+  const [userNarrative, setUserNarrative] = useState<string>('')
+  
   // Ref para acessar função de download do componente PDF
   const pdfRef = useRef<ClarityResultPDFHandle>(null)
   
@@ -70,11 +78,15 @@ export default function ResultadoV2() {
       if (savedResult) {
         const parsed = JSON.parse(savedResult)
         setResult(parsed.result)
+        setRawAnswers(parsed.answers || null)
+        setUserNarrative(parsed.userNarrative || '')
         setTestDate(new Date(parsed.completedAt).toLocaleDateString('pt-BR'))
         
         const { data: { user } } = await supabase.auth.getUser()
         if (user) {
           await loadDiaryStats(user.id)
+          // Verificar se já existe um teste salvo como base
+          await checkIfSavedAsBase(user.id)
         }
         
         setLoading(false)
@@ -102,6 +114,9 @@ export default function ResultadoV2() {
 
       const test = tests[0]
       setTestDate(new Date(test.created_at).toLocaleDateString('pt-BR'))
+      setRawAnswers(test.raw_answers || null)
+      setUserNarrative(test.user_narrative || '')
+      setIsSavedAsBase(test.is_profile_base || false)
 
       if (test.raw_answers) {
         const calculatedResult = calculateUnifiedResult(test.raw_answers)
@@ -113,6 +128,66 @@ export default function ResultadoV2() {
       console.error('Erro ao carregar resultado:', error)
     } finally {
       setLoading(false)
+    }
+  }
+  
+  const checkIfSavedAsBase = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('clarity_tests')
+        .select('id, is_profile_base')
+        .eq('user_id', userId)
+        .eq('is_profile_base', true)
+        .limit(1)
+      
+      if (!error && data && data.length > 0) {
+        setIsSavedAsBase(true)
+      }
+    } catch (e) {
+      console.error('Erro ao verificar perfil base:', e)
+    }
+  }
+  
+  const handleSaveAsBase = async () => {
+    setIsSaving(true)
+    setSaveError(null)
+    
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (!user) {
+        // Redirecionar para login com retorno
+        localStorage.setItem('radar-redirect-after-login', '/teste-clareza/resultado')
+        router.push('/login?redirect=/teste-clareza/resultado')
+        return
+      }
+      
+      // Chamar API para salvar como base
+      const response = await fetch('/api/clarity/activate-profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          answers: rawAnswers,
+          userNarrative,
+          result,
+        }),
+      })
+      
+      const data = await response.json()
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Erro ao salvar')
+      }
+      
+      setIsSavedAsBase(true)
+      // Limpar localStorage após salvar no banco
+      localStorage.removeItem('radar-test-result')
+      
+    } catch (error: any) {
+      console.error('Erro ao salvar como base:', error)
+      setSaveError(error.message || 'Erro ao salvar. Tente novamente.')
+    } finally {
+      setIsSaving(false)
     }
   }
 
@@ -669,6 +744,114 @@ export default function ResultadoV2() {
               ⚠️ Este teste é uma ferramenta de autoconhecimento. Não substitui psicoterapia, avaliação clínica ou decisão judicial.
             </p>
           </div>
+        </section>
+
+        {/* ============================================================= */}
+        {/* SECTION 6.5 – GUARDAR OU NÃO (DECISÃO DO USUÁRIO) */}
+        {/* ============================================================= */}
+        <section className="mb-6 sm:mb-8 md:mb-10">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-1.5 sm:mb-2 flex items-center gap-2 sm:gap-3">
+            <span className="text-2xl sm:text-3xl">6.</span>
+            O que fazer com este resultado?
+          </h2>
+          <p className="text-gray-400 text-sm sm:text-base mb-4 sm:mb-6">
+            Você decide se quer guardar ou apenas visualizar agora.
+          </p>
+
+          {isSavedAsBase ? (
+            /* Estado: JÁ SALVO */
+            <div className="bg-gradient-to-r from-emerald-950 to-green-950 border-emerald-800 rounded-xl sm:rounded-2xl border-2 p-4 sm:p-6">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="p-2 sm:p-3 bg-emerald-900 rounded-lg sm:rounded-xl flex-shrink-0">
+                  <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-emerald-300 text-base sm:text-lg mb-1">
+                    ✅ Resultado salvo como base do seu Radar
+                  </h3>
+                  <p className="text-emerald-400/80 text-sm sm:text-base mb-3">
+                    Este teste agora alimenta seu diário, Coach IA e recomendações personalizadas.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 bg-emerald-900/50 text-emerald-300 rounded-full text-xs sm:text-sm">
+                      <Sparkles className="w-3 h-3" /> Diário conectado
+                    </span>
+                    <span className="inline-flex items-center gap-1 px-2 sm:px-3 py-1 bg-emerald-900/50 text-emerald-300 rounded-full text-xs sm:text-sm">
+                      <MessageCircle className="w-3 h-3" /> Coach IA com contexto
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* Estado: NÃO SALVO - Mostrar opções */
+            <div className="bg-slate-900/80 rounded-xl sm:rounded-2xl border border-slate-700 p-4 sm:p-6">
+              <div className="grid sm:grid-cols-2 gap-4">
+                {/* Opção 1: Guardar */}
+                <div className="p-4 rounded-xl bg-gradient-to-br from-violet-950/50 to-purple-950/50 border-2 border-violet-800/50">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 bg-violet-900 rounded-lg">
+                      <Save className="w-5 h-5 text-violet-400" />
+                    </div>
+                    <h3 className="font-semibold text-white text-sm sm:text-base">Guardar como base</h3>
+                  </div>
+                  <p className="text-gray-400 text-xs sm:text-sm mb-4">
+                    Este resultado vai alimentar seu diário, Coach IA e recomendações. Você não precisa recontar tudo.
+                  </p>
+                  
+                  {saveError && (
+                    <div className="mb-3 p-2 bg-red-900/30 border border-red-800 rounded-lg">
+                      <p className="text-red-400 text-xs">{saveError}</p>
+                    </div>
+                  )}
+                  
+                  <button
+                    onClick={handleSaveAsBase}
+                    disabled={isSaving}
+                    className="w-full py-2.5 sm:py-3 px-4 bg-violet-600 hover:bg-violet-500 disabled:bg-violet-800 disabled:cursor-wait text-white rounded-lg sm:rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
+                  >
+                    {isSaving ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Salvando...
+                      </>
+                    ) : (
+                      <>
+                        <Save className="w-4 h-4" />
+                        Guardar e usar como base
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {/* Opção 2: Só visualizar */}
+                <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 bg-slate-700 rounded-lg">
+                      <Eye className="w-5 h-5 text-gray-400" />
+                    </div>
+                    <h3 className="font-semibold text-white text-sm sm:text-base">Só visualizar agora</h3>
+                  </div>
+                  <p className="text-gray-400 text-xs sm:text-sm mb-4">
+                    O resultado fica só nesta página. Se você fechar, precisará refazer o teste.
+                  </p>
+                  <div className="text-center">
+                    <p className="text-gray-500 text-xs sm:text-sm">
+                      Você já está visualizando. Pode baixar o PDF acima se quiser guardar offline.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Nota sobre login */}
+              <div className="mt-4 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                <p className="text-xs sm:text-sm text-gray-400 text-center flex items-center justify-center gap-2">
+                  <UserPlus className="w-4 h-4" />
+                  Para guardar, você precisa estar logada. Se não tiver conta, criaremos uma para você.
+                </p>
+              </div>
+            </div>
+          )}
         </section>
 
         {/* ============================================================= */}
