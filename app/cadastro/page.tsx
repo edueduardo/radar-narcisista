@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '../../lib/supabaseClient'
-import { UserPlus, Mail, Lock, AlertCircle, ArrowLeft, Shield, Check, Target, Sparkles, LogIn } from 'lucide-react'
+import { UserPlus, Mail, Lock, AlertCircle, ArrowLeft, Shield, Check, Target, Sparkles, LogIn, Loader2 } from 'lucide-react'
 
-export default function CadastroPage() {
+// Componente interno que usa useSearchParams
+function CadastroContent() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -350,5 +351,26 @@ export default function CadastroPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+// Componente de loading
+function CadastroLoading() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50">
+      <div className="text-center">
+        <Loader2 className="w-8 h-8 animate-spin text-purple-600 mx-auto mb-4" />
+        <p className="text-gray-600">Carregando...</p>
+      </div>
+    </div>
+  )
+}
+
+// Componente exportado com Suspense
+export default function CadastroPage() {
+  return (
+    <Suspense fallback={<CadastroLoading />}>
+      <CadastroContent />
+    </Suspense>
   )
 }
