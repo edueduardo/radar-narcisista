@@ -20,8 +20,10 @@ import {
   ChevronUp,
   Save,
   Loader2,
-  CheckCircle
+  CheckCircle,
+  Sparkles
 } from 'lucide-react'
+import { useClarityProfile } from '@/hooks/useClarityProfile'
 
 // ============================================
 // TIPOS
@@ -132,12 +134,16 @@ export default function PlanoSegurancaPage() {
   const router = useRouter()
   const supabase = createClientComponentClient()
   
+  // Hook para perfil de clareza (alerta de risco físico)
+  const { profile: clarityProfile, hasProfile: hasClarityProfile } = useClarityProfile()
+  
   const [plan, setPlan] = useState<SafetyPlan>(getDefaultPlan())
   const [planId, setPlanId] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
   const [lastSaved, setLastSaved] = useState<Date | null>(null)
+  const [showPhysicalRiskAlert, setShowPhysicalRiskAlert] = useState(true)
 
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
     contacts: true,
@@ -478,6 +484,42 @@ export default function PlanoSegurancaPage() {
             </div>
           </div>
         </div>
+
+        {/* Alerta de Risco Físico baseado no Teste de Clareza */}
+        {hasClarityProfile && clarityProfile?.hasPhysicalRisk && showPhysicalRiskAlert && (
+          <div className="mb-6 p-4 bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950/50 dark:to-orange-950/50 border-2 border-red-200 dark:border-red-800 rounded-xl">
+            <div className="flex items-start gap-3">
+              <div className="p-2 bg-red-100 dark:bg-red-900 rounded-lg flex-shrink-0">
+                <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-red-900 dark:text-red-300 mb-1">
+                  ⚠️ Atenção: Sinais de Risco Físico Detectados
+                </h3>
+                <p className="text-sm text-red-700 dark:text-red-400 mb-2">
+                  Seu Teste de Clareza indicou sinais de possível risco físico. É muito importante que você preencha este Plano de Segurança com atenção e mantenha-o atualizado.
+                </p>
+                <div className="flex flex-wrap gap-2 text-xs">
+                  <span className="px-2 py-1 bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 rounded">
+                    Priorize contatos de emergência
+                  </span>
+                  <span className="px-2 py-1 bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 rounded">
+                    Tenha documentos prontos
+                  </span>
+                  <span className="px-2 py-1 bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300 rounded">
+                    Identifique um local seguro
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowPhysicalRiskAlert(false)}
+                className="p-1 text-red-400 hover:text-red-600 dark:hover:text-red-300"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Progresso */}
         <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm mb-6">

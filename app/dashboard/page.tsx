@@ -50,6 +50,8 @@ import {
   RadarAlertBanner,
   RadarProgressWidget,
 } from '@/components/ui/design-system'
+import { useClarityProfile } from '@/hooks/useClarityProfile'
+import { getClarityRecommendations, type ClarityRecommendation } from '@/lib/clarity-recommendations'
 
 // ============================================================================
 // DASHBOARD V2 - RADAR NARCISISTA BR
@@ -218,6 +220,24 @@ export default function DashboardV2Page() {
     { id: '2', label: 'Registrar 1º episódio', completed: false, link: '/diario-premium' },
     { id: '3', label: 'Configurar Plano de Segurança', completed: false, link: '/seguranca-premium' },
   ])
+  
+  // Hook para perfil de clareza e recomendações
+  const { profile: clarityProfile, hasProfile: hasClarityProfile, isLoading: isLoadingProfile } = useClarityProfile()
+  const [clarityRecommendations, setClarityRecommendations] = useState<ClarityRecommendation[]>([])
+  
+  // Gerar recomendações quando perfil carregar
+  useEffect(() => {
+    if (clarityProfile && hasClarityProfile) {
+      const recommendations = getClarityRecommendations({
+        globalZone: clarityProfile.globalZone,
+        overallPercentage: clarityProfile.overallPercentage,
+        topCategories: clarityProfile.topCategories as any,
+        topAxes: clarityProfile.topAxes as any,
+        hasPhysicalRisk: clarityProfile.hasPhysicalRisk,
+      })
+      setClarityRecommendations(recommendations.slice(0, 3)) // Top 3
+    }
+  }, [clarityProfile, hasClarityProfile])
 
   const router = useRouter()
   const supabase = createClientComponentClient()
@@ -800,6 +820,59 @@ export default function DashboardV2Page() {
               </RadarCard>
             </div>
           </section>
+
+          {/* ============================================================ */}
+          {/* 5.5. RECOMENDAÇÕES BASEADAS NO TESTE DE CLAREZA */}
+          {/* ============================================================ */}
+          {hasClarityProfile && clarityRecommendations.length > 0 && (
+            <section className="mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <Lightbulb className="w-5 h-5 text-amber-400" />
+                    Recomendado para você
+                  </h3>
+                  <p className="text-sm text-gray-400">
+                    Com base no seu Teste de Clareza de {clarityProfile?.daysAgo === 0 ? 'hoje' : `há ${clarityProfile?.daysAgo} dias`}
+                  </p>
+                </div>
+                <Link href="/teste-clareza/resultado" className="text-xs text-violet-400 hover:text-violet-300">
+                  Ver resultado completo →
+                </Link>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {clarityRecommendations.map((rec) => (
+                  <Link key={rec.id} href={rec.link || '#'}>
+                    <div className={`p-4 rounded-xl border transition-all hover:scale-[1.02] ${
+                      rec.priority === 'alta' 
+                        ? 'bg-gradient-to-br from-red-950/50 to-orange-950/50 border-red-800/50 hover:border-red-700' 
+                        : rec.priority === 'media'
+                        ? 'bg-gradient-to-br from-violet-950/50 to-purple-950/50 border-violet-800/50 hover:border-violet-700'
+                        : 'bg-slate-800/50 border-slate-700/50 hover:border-slate-600'
+                    }`}>
+                      <div className="flex items-start gap-3">
+                        <div className={`p-2 rounded-lg ${
+                          rec.priority === 'alta' ? 'bg-red-900/50' : 
+                          rec.priority === 'media' ? 'bg-violet-900/50' : 'bg-slate-700/50'
+                        }`}>
+                          {rec.type === 'alerta' && <AlertTriangle className="w-4 h-4 text-red-400" />}
+                          {rec.type === 'acao' && <Target className="w-4 h-4 text-violet-400" />}
+                          {rec.type === 'modulo' && <BookOpen className="w-4 h-4 text-blue-400" />}
+                          {rec.type === 'recurso' && <Phone className="w-4 h-4 text-green-400" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium text-white text-sm truncate">{rec.title}</h4>
+                          <p className="text-xs text-gray-400 line-clamp-2 mt-1">{rec.description}</p>
+                        </div>
+                        <ChevronRight className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* ============================================================ */}
           {/* 6. ESTATÍSTICAS */}

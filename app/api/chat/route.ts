@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { chatWithCoach } from '../../../lib/openai'
 import { chatColaborativo, getConfigChatColaborativo } from '../../../lib/chat-colaborativo'
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
 
 // Tipos de problemas que podem ser detectados
 type ProblemTag = 
@@ -134,6 +136,77 @@ function detectFraudFlags(text: string, history: any[]): FraudFlag[] {
   return flags
 }
 
+// ============================================================================
+// CONTEXTO DE CLAREZA PARA IAs
+// ============================================================================
+async function getClarityContextForChat(userId: string): Promise<string | null> {
+  try {
+    const cookieStore = cookies()
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+    
+    const { data: profile, error } = await supabase
+      .from('clarity_tests')
+      .select('*')
+      .eq('user_id', userId)
+      .eq('is_profile_base', true)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    
+    if (error || !profile) return null
+    
+    // Formatar contexto
+    const zoneLabels: Record<string, string> = {
+      ATENCAO: 'Zona de Atenção (sinais leves)',
+      ALERTA: 'Zona de Alerta (sinais moderados)',
+      VERMELHA: 'Zona de Alto Risco (sinais graves)',
+    }
+    
+    const axisLabels: Record<string, string> = {
+      nevoa: 'Névoa Mental',
+      medo: 'Medo e Tensão',
+      limites: 'Desrespeito a Limites',
+    }
+    
+    // Calcular dias desde o teste
+    const testDate = new Date(profile.created_at)
+    const now = new Date()
+    const daysAgo = Math.floor((now.getTime() - testDate.getTime()) / (1000 * 60 * 60 * 24))
+    
+    // Ordenar eixos por score
+    const axes = [
+      { axis: 'nevoa', score: profile.fog_score || 0 },
+      { axis: 'medo', score: profile.fear_score || 0 },
+      { axis: 'limites', score: profile.limits_score || 0 },
+    ].sort((a, b) => b.score - a.score)
+    
+    let context = `\n\n[CONTEXTO DE CLAREZA DA USUÁRIA - NÃO MENCIONAR DIRETAMENTE]\n`
+    context += `- Teste de Clareza realizado há ${daysAgo} dias\n`
+    context += `- Zona atual: ${zoneLabels[profile.global_zone] || profile.global_zone}\n`
+    context += `- Percentual geral: ${Math.round((profile.overall_percentage || 0) * 100)}%\n`
+    
+    if (profile.has_physical_risk) {
+      context += `- ⚠️ ALERTA: Sinais de possível risco físico detectados no teste\n`
+    }
+    
+    context += `\nEixos mais impactados:\n`
+    axes.forEach((axis, i) => {
+      context += `${i + 1}. ${axisLabels[axis.axis]}: ${axis.score} pontos\n`
+    })
+    
+    if (profile.user_narrative) {
+      context += `\nNarrativa da usuária (resumo):\n"${profile.user_narrative.slice(0, 300)}${profile.user_narrative.length > 300 ? '...' : ''}"\n`
+    }
+    
+    context += `\nUse essas informações para adaptar sua linguagem e sugestões. NÃO repita diagnósticos, apenas use como contexto silencioso.`
+    
+    return context
+  } catch (error) {
+    console.warn('[CLARITY CONTEXT] Erro ao buscar perfil (não crítico):', error)
+    return null
+  }
+}
+
 // Função para registrar suspeita de fraude (fire and forget)
 async function logFraudSuspicion(
   userId: string,
@@ -198,14 +271,35 @@ export async function POST(request: NextRequest) {
     
     const detectedProblems = detectProblemsInText(allText)
 
-    // Adicionar contexto de localização ao histórico se disponível
-    const enhancedHistory = userLocation ? [
-      {
+    // Buscar contexto de clareza do usuário (se logado e tiver perfil)
+    const cookieStore = cookies()
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    let clarityContext: string | null = null
+    if (user) {
+      clarityContext = await getClarityContextForChat(user.id)
+    }
+
+    // Adicionar contexto de localização e clareza ao histórico
+    const systemContexts: { role: 'system'; content: string }[] = []
+    
+    if (userLocation) {
+      systemContexts.push({
         role: 'system' as const,
         content: `O usuário é de ${userLocation}. Adapte sua linguagem e exemplos para a realidade dessa região, sendo mais próximo e culturalmente relevante. Use expressões brasileiras autênticas e referências locais quando apropriado.`
-      },
-      ...history
-    ] : history
+      })
+    }
+    
+    if (clarityContext) {
+      systemContexts.push({
+        role: 'system' as const,
+        content: clarityContext
+      })
+      console.log('[API /chat] Contexto de clareza injetado para usuário:', user?.id)
+    }
+    
+    const enhancedHistory = [...systemContexts, ...history]
 
     // Verificar se deve usar modo colaborativo
     const usarColaborativo = body?.usarColaborativo !== false

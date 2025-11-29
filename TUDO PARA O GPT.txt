@@ -1351,10 +1351,36 @@ como "base do perfil" do usuário, alimentando diário, IAs e recomendações.
 ⚠️ AÇÃO NECESSÁRIA:
 Rodar a migration no Supabase SQL Editor para adicionar os novos campos.
 
-🔗 INTEGRAÇÕES PREPARADAS (para implementar depois):
-- Diário: usar perfil para sugerir tags no primeiro registro
-- Coach IA: injetar contexto de clareza no prompt
-- Dashboard: mostrar recomendações baseadas no perfil
-- Plano de Segurança: alerta especial se risco físico alto
+🔗 INTEGRAÇÕES IMPLEMENTADAS (29/11/2025 - 13:00):
+
+1. INTEGRAÇÃO DIÁRIO (app/diario/novo/page.tsx):
+   - Card "Usar Teste de Clareza como ponto de partida"
+   - Aparece apenas no primeiro diário se tem perfil de clareza
+   - Preenche título, tags e descrição automaticamente
+   - Badge verde quando usando teste como base
+
+2. CONTEXTO COACH IA (app/api/chat/route.ts):
+   - Função getClarityContextForChat() busca perfil do usuário
+   - Injeta contexto silencioso no histórico do chat
+   - Inclui zona, eixos, categorias e narrativa
+   - Coach adapta linguagem sem mencionar diagnóstico
+
+3. DASHBOARD COM RECOMENDAÇÕES (app/dashboard/page.tsx):
+   - Seção "Recomendado para você" baseada no perfil
+   - Usa getClarityRecommendations() para gerar sugestões
+   - Cards com prioridade visual (alta=vermelho, média=roxo)
+   - Link para ver resultado completo do teste
+
+4. ALERTA PLANO DE SEGURANÇA (app/plano-seguranca/page.tsx):
+   - Alerta especial se hasPhysicalRisk = true
+   - Banner vermelho com dicas de priorização
+   - Pode ser fechado pelo usuário
+   - Integrado com hook useClarityProfile
+
+📁 ARQUIVOS MODIFICADOS NESTA SESSÃO:
+- app/diario/novo/page.tsx (integração clareza)
+- app/api/chat/route.ts (contexto para IAs)
+- app/dashboard/page.tsx (recomendações)
+- app/plano-seguranca/page.tsx (alerta risco físico)
 
 ================================================================================

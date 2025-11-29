@@ -12,8 +12,9 @@ import {
   getTagsByCategory,
   AbuseTagCategoryId 
 } from '../../../lib/abuse-tags-config'
-import { ArrowLeft, AlertTriangle } from 'lucide-react'
+import { ArrowLeft, AlertTriangle, Sparkles, X as XIcon, CheckCircle } from 'lucide-react'
 import { ResponsibilityTermsModal, useTermsAcceptance } from '@/components/ResponsibilityTermsModal'
+import { useClarityProfile } from '@/hooks/useClarityProfile'
 
 // =============================================================================
 // TEMPLATES POR TIPO DE PROBLEMA
@@ -89,6 +90,62 @@ function NovoDiarioPageContent() {
   
   // Hook para verificar aceite dos termos
   const { hasAccepted: hasAcceptedTerms, isLoading: isLoadingTerms, markAsAccepted } = useTermsAcceptance()
+  
+  // Hook para perfil de clareza
+  const { profile: clarityProfile, hasProfile: hasClarityProfile, isLoading: isLoadingProfile } = useClarityProfile()
+  const [showClarityCard, setShowClarityCard] = useState(true)
+  const [usedClarityAsBase, setUsedClarityAsBase] = useState(false)
+  const [hasDiaryEntries, setHasDiaryEntries] = useState<boolean | null>(null)
+  
+  // Verificar se usuário já tem entradas no diário
+  useEffect(() => {
+    const checkDiaryEntries = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        const { count } = await supabase
+          .from('journal_entries')
+          .select('id', { count: 'exact', head: true })
+          .eq('user_id', user.id)
+          .is('deleted_at', null)
+        setHasDiaryEntries((count || 0) > 0)
+      }
+    }
+    checkDiaryEntries()
+  }, [supabase])
+  
+  // Função para usar teste de clareza como base
+  const useClarityAsBase = () => {
+    if (!clarityProfile) return
+    
+    // Mapear categorias do perfil para tags do diário
+    const categoryToTags: Record<string, string[]> = {
+      invalidacao: ['minimização', 'desqualificação'],
+      gaslighting: ['gaslighting', 'negação'],
+      controle: ['controle', 'ciúmes excessivos'],
+      isolamento: ['isolamento', 'controle social'],
+      emocional: ['humilhação', 'punição emocional'],
+      fisico: ['ameaça velada', 'violência física']
+    }
+    
+    const suggestedTags: string[] = []
+    clarityProfile.topCategories.forEach(cat => {
+      if (categoryToTags[cat]) {
+        suggestedTags.push(...categoryToTags[cat])
+      }
+    })
+    
+    // Preencher formulário
+    setFormData(prev => ({
+      ...prev,
+      title: `Resumo inicial – Teste de Clareza`,
+      context: 'RELACIONAMENTO',
+      tags: [...new Set(suggestedTags)].slice(0, 5),
+      description: clarityProfile.userNarrative || ''
+    }))
+    
+    setUsedClarityAsBase(true)
+    setShowClarityCard(false)
+  }
 
   // Tags organizadas por categoria - USANDO CONFIG
   const categories = getOrderedCategories()
@@ -525,6 +582,58 @@ psiquiatria ou terapia.
               Registre o episódio para organizar seus pensamentos e identificar padrões
             </p>
           </div>
+
+          {/* Card: Usar Teste de Clareza como base (só aparece se tem perfil e é primeiro diário) */}
+          {!isLoadingProfile && hasClarityProfile && hasDiaryEntries === false && showClarityCard && !usedClarityAsBase && (
+            <div className="mb-6 p-4 bg-gradient-to-r from-violet-50 to-purple-50 border-2 border-violet-200 rounded-xl">
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-violet-100 rounded-lg flex-shrink-0">
+                  <Sparkles className="w-5 h-5 text-violet-600" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-violet-900 mb-1">
+                    Usar seu Teste de Clareza como ponto de partida
+                  </h3>
+                  <p className="text-sm text-violet-700 mb-3">
+                    Você já fez o Teste de Clareza. Podemos usar aquele resultado para te ajudar a registrar seu primeiro episódio com tags e contexto pré-preenchidos.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={useClarityAsBase}
+                      className="px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium rounded-lg transition-colors"
+                    >
+                      Sim, usar como base
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowClarityCard(false)}
+                      className="px-4 py-2 bg-white hover:bg-gray-50 text-violet-700 text-sm font-medium rounded-lg border border-violet-300 transition-colors"
+                    >
+                      Não agora
+                    </button>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowClarityCard(false)}
+                  className="p-1 text-violet-400 hover:text-violet-600"
+                >
+                  <XIcon className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Badge: Usando teste de clareza como base */}
+          {usedClarityAsBase && (
+            <div className="mb-6 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-green-600" />
+              <span className="text-sm text-green-800">
+                Usando seu Teste de Clareza como base. Você pode editar livremente.
+              </span>
+            </div>
+          )}
 
           {/* Form */}
           <div className="bg-white rounded-xl shadow-lg p-8">
