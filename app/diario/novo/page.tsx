@@ -1,0 +1,1077 @@
+'use client'
+
+import { useState, useEffect, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { analyzePatternsServer } from './actions'
+import Microphone from '../../../components/Microphone'
+import AbuseTagsDictionary from '../../../components/diario/AbuseTagsDictionary'
+import { 
+  getOrderedCategories, 
+  getTagsByCategory,
+  AbuseTagCategoryId 
+} from '../../../lib/abuse-tags-config'
+import { ArrowLeft, AlertTriangle } from 'lucide-react'
+import { ResponsibilityTermsModal, useTermsAcceptance } from '@/components/ResponsibilityTermsModal'
+
+// =============================================================================
+// TEMPLATES POR TIPO DE PROBLEMA
+// Pré-preenche o formulário quando vem de /hub/[problema] com ?tipo=
+// =============================================================================
+const PROBLEM_TEMPLATES: Record<string, { title: string; context: string; tags: string[] }> = {
+  invalidacao: {
+    title: 'Episódio de invalidação',
+    context: 'RELACIONAMENTO',
+    tags: ['minimização', 'desqualificação', 'negação']
+  },
+  gaslighting: {
+    title: 'Episódio de gaslighting',
+    context: 'RELACIONAMENTO',
+    tags: ['gaslighting', 'negação', 'inversão de culpa']
+  },
+  manipulacao: {
+    title: 'Episódio de manipulação',
+    context: 'RELACIONAMENTO',
+    tags: ['vitimização', 'inversão de culpa', 'projeção']
+  },
+  ameaca: {
+    title: 'Episódio de ameaça',
+    context: 'RELACIONAMENTO',
+    tags: ['ameaça velada', 'controle social']
+  },
+  'ameaca-legal': {
+    title: 'Ameaça legal/criminalização',
+    context: 'RELACIONAMENTO',
+    tags: ['ameaça velada', 'controle financeiro']
+  },
+  isolamento: {
+    title: 'Episódio de isolamento',
+    context: 'RELACIONAMENTO',
+    tags: ['isolamento', 'controle social', 'ciúmes excessivos']
+  }
+}
+
+function NovoDiarioPageContent() {
+  const searchParams = useSearchParams()
+  const tipoProblema = searchParams.get('tipo')
+  
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    context: '',
+    impact_score: 2,
+    tags: [] as string[]
+  })
+  
+  // Aplicar template se vier com ?tipo=
+  useEffect(() => {
+    if (tipoProblema && PROBLEM_TEMPLATES[tipoProblema]) {
+      const template = PROBLEM_TEMPLATES[tipoProblema]
+      setFormData(prev => ({
+        ...prev,
+        title: template.title,
+        context: template.context,
+        tags: template.tags
+      }))
+    }
+  }, [tipoProblema])
+  const [newTag, setNewTag] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [suggestions, setSuggestions] = useState<string[]>([])
+  const [reminderText, setReminderText] = useState('')
+  const [isRecordingReminder, setIsRecordingReminder] = useState(false)
+  const [analysisResult, setAnalysisResult] = useState<any>(null)
+  const [selectedCategoryId, setSelectedCategoryId] = useState<AbuseTagCategoryId | null>(null)
+  const router = useRouter()
+  const supabase = createClientComponentClient()
+  
+  // Hook para verificar aceite dos termos
+  const { hasAccepted: hasAcceptedTerms, isLoading: isLoadingTerms, markAsAccepted } = useTermsAcceptance()
+
+  // Tags organizadas por categoria - USANDO CONFIG
+  const categories = getOrderedCategories()
+  
+  // Lista plana para compatibilidade com análise IA
+  const predefinedTags = categories.flatMap(cat => 
+    getTagsByCategory(cat.id).map(tag => tag.label.toLowerCase())
+  )
+
+  const handleInputChange = (field: string, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
+  const addTag = (tag: string) => {
+    if (tag && !formData.tags.includes(tag)) {
+      setFormData(prev => ({
+        ...prev,
+        tags: [...prev.tags, tag]
+      }))
+    }
+    setNewTag('')
+  }
+
+  const removeTag = (tagToRemove: string) => {
+    setFormData(prev => ({
+      ...prev,
+      tags: prev.tags.filter(tag => tag !== tagToRemove)
+    }))
+  }
+
+  const handleTranscription = (text: string) => {
+    setFormData(prev => ({
+      ...prev,
+      description: prev.description + (prev.description ? ' ' : '') + text
+    }))
+  }
+
+  const handleTranscriptionError = (error: string) => {
+    console.error('Erro na transcrição:', error)
+    alert(`Erro na transcrição: ${error}`)
+  }
+
+  const handleReminderTranscription = (text: string) => {
+    setReminderText(prev => prev + (prev ? ' ' : '') + text)
+  }
+
+  const handleReminderTranscriptionError = (error: string) => {
+    console.error('Erro na transcrição do lembrete:', error)
+    alert(`Erro na transcrição: ${error}`)
+  }
+
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false)
+
+  const generateAnalysisPDF = async (analysisData: any) => {
+    setIsGeneratingPDF(true)
+    try {
+      // Tentar gerar PDF real via API
+      const response = await fetch('/api/user/analysis-report/pdf-real', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ analysisData })
+      })
+
+      if (response.ok) {
+        // Download do PDF
+        const blob = await response.blob()
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        const hash = response.headers.get('X-SHA256-Hash')
+        link.download = `analise-colaborativa-${new Date().toISOString().split('T')[0]}.pdf`
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        URL.revokeObjectURL(url)
+        
+        alert(`✅ PDF gerado com sucesso!\n\n🔐 Hash SHA-256 para verificação:\n${hash?.substring(0, 32)}...`)
+      } else {
+        // Fallback para TXT se PDF falhar
+        generateAnalysisTXT(analysisData)
+      }
+    } catch (error) {
+      console.error('Erro ao gerar PDF:', error)
+      // Fallback para TXT
+      generateAnalysisTXT(analysisData)
+    } finally {
+      setIsGeneratingPDF(false)
+    }
+  }
+
+  const generateAnalysisTXT = (analysisData: any) => {
+    const currentDate = new Date().toLocaleDateString('pt-BR')
+    const currentTime = new Date().toLocaleTimeString('pt-BR')
+    
+    const txtContent = `
+====================================
+RELATÓRIO DE ANÁLISE EMOCIONAL
+Radar Narcisista - ${currentDate} ${currentTime}
+====================================
+
+TÍTULO DO EPISÓDIO: ${formData.title || 'Não informado'}
+
+RESUMO DA ANÁLISE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 PADRÕES IDENTIFICADOS:
+${analysisData.themes?.join(', ') || 'Nenhum padrão específico detectado'}
+
+😔 ESTADO EMOCIONAL:
+${analysisData.emotions?.join(', ') || 'Emoções não especificadas'}
+
+⚡ NÍVEL DE IMPACTO EMOCIONAL:
+${(analysisData.intensity * 100).toFixed(0)}% - ${
+  analysisData.intensity < 0.3 ? 'BAIXO' :
+  analysisData.intensity < 0.7 ? 'MÉDIO' : 'ALTO'
+}
+
+${analysisData.intensity < 0.3 ? '🟢 Episódio leve, com efeitos emocionais limitados' :
+  analysisData.intensity < 0.7 ? '🟡 Episódio moderado, com efeitos emocionais significativos' :
+  '🔴 Episódio severo, com efeitos emocionais intensos e duradouros'}
+
+${analysisData.risk_flags && analysisData.risk_flags.length > 0 ? `
+⚠️ PONTOS DE ATENÇÃO:
+${analysisData.risk_flags.join('\n')}
+` : ''}
+
+💡 RECOMENDAÇÕES:
+${analysisData.suggestions?.join('\n') || 'Continue monitorando seus padrões emocionais.'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DESCRIÇÃO COMPLETA DO EPISÓDIO:
+${formData.description || 'Não informado'}
+
+${reminderText ? `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LEMBRETE REGISTRADO:
+${reminderText}
+` : ''}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CONTEXTO: ${formData.context || 'Não informado'}
+TAGS: ${formData.tags.join(', ') || 'Nenhuma tag'}
+IMPACTO REGISTRADO: ${formData.impact_score === 1 ? 'Baixo' : formData.impact_score === 2 ? 'Médio' : 'Alto'}
+
+====================================
+AVISO IMPORTANTE:
+Este relatório é educacional e não substitui
+atendimento profissional de psicologia,
+psiquiatria ou terapia.
+====================================
+`
+
+    const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `analise-emocional-${currentDate.replace(/\//g, '-')}.txt`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+
+    alert('✅ Relatório salvo como TXT (PDF não disponível no momento)')
+  }
+
+  const analyzeEntry = async () => {
+    // Pode analisar descrição ou lembrete
+    const textToAnalyze = formData.description.trim() || reminderText.trim()
+    
+    if (!textToAnalyze) {
+      alert('Escreva algo, grave uma transcrição ou crie um lembrete antes de analisar.')
+      return
+    }
+
+    console.log('🎛️ INICIANDO ANÁLISE COLABORATIVA ADMINISTRATIVA')
+    console.log('Texto:', textToAnalyze.substring(0, 100) + '...')
+    
+    setIsAnalyzing(true)
+    try {
+      // 🎯 USANDO SISTEMA ADMINISTRATIVO COMPLETO VIA API SERVER-SIDE
+      const response = await fetch('/api/diario/analisar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text: textToAnalyze })
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null)
+        console.error('Erro na API /api/diario/analisar:', errorData || response.statusText)
+
+        if (response.status === 502) {
+          alert('❌ Nenhuma IA conseguiu analisar. Verifique suas chaves de API no painel do administrador.')
+        } else {
+          alert('Erro na análise colaborativa. Tente novamente.')
+        }
+        return
+      }
+
+      const data = await response.json()
+      const resultadoColaborativo = data.resultado
+      console.log('🎛️ RESULTADO COLABORATIVO:', resultadoColaborativo)
+      
+      // 📊 Processar resultado colaborativo
+      if (resultadoColaborativo.etapa_1_analises.length > 0) {
+        // 🎯 Obter análise consensual (média de todas as IAs)
+        const analiseConsensual = processarResultadoColaborativo(resultadoColaborativo)
+        
+        console.log('📊 Análise consensual:', analiseConsensual)
+        
+        // Add suggested tags AUTOMATICAMENTE
+        if (analiseConsensual.themes && analiseConsensual.themes.length > 0) {
+          const suggestedTags = analiseConsensual.themes
+            .filter((theme: any) => predefinedTags.includes(theme.toLowerCase()))
+            .slice(0, 3)
+          
+          console.log('Tags sugeridas:', suggestedTags)
+          
+          // ADICIONAR TAGS AUTOMATICAMENTE
+          const newTags = [...formData.tags]
+          suggestedTags.forEach((tag: string) => {
+            if (!newTags.includes(tag)) {
+              newTags.push(tag)
+            }
+          })
+          
+          setFormData(prev => ({
+            ...prev,
+            tags: newTags
+          }))
+          
+          setSuggestions(suggestedTags)
+        }
+
+        // Suggest impact based on intensity
+        if (analiseConsensual.intensity && analiseConsensual.intensity > 0.7) {
+          console.log('Alta intensidade detectada:', analiseConsensual.intensity)
+          setFormData(prev => ({
+            ...prev,
+            impact_score: 3
+          }))
+        } else if (analiseConsensual.intensity && analiseConsensual.intensity < 0.3) {
+          console.log('Baixa intensidade detectada:', analiseConsensual.intensity)
+          setFormData(prev => ({
+            ...prev,
+            impact_score: 1
+          }))
+        }
+
+        // Show success message COMPLETA
+        const numIAs = resultadoColaborativo.etapa_1_analises.length
+        const consensoRate = calcularTaxaConsenso(resultadoColaborativo)
+        
+        alert(`✅ ANÁLISE COLABORATIVA CONCLUÍDA!\n\n🎛️ RELATÓRIO ADMINISTRATIVO:\n• ${numIAs} IAs analisaram\n• Taxa de consenso: ${(consensoRate * 100).toFixed(0)}%\n• ${resultadoColaborativo.etapa_2_votacoes.length} validações\n• ${resultadoColaborativo.etapa_3_consensos.length} consensos\n\n🎯 Veja o resultado completo ABAIXO!`)
+        
+        // Guardar resultado COLABORATIVO para mostrar
+        setAnalysisResult({
+          ...analiseConsensual,
+          metadados_colaborativos: {
+            total_ias: resultadoColaborativo.etapa_1_analises.length,
+            taxa_consenso: consensoRate,
+            validacoes: resultadoColaborativo.etapa_2_votacoes.length,
+            consensos: resultadoColaborativo.etapa_3_consensos.length,
+            relatorio_admin: resultadoColaborativo.relatorio_global_sistema,
+            analise_juridica: resultadoColaborativo.analise_juridica,
+            deteccao_veracidade: resultadoColaborativo.deteccao_veracidade
+          }
+        })
+      } else {
+        alert('❌ Nenhuma IA conseguiu analisar. Verifique suas chaves de API.')
+      }
+    } catch (error) {
+      console.error('Erro na análise colaborativa:', error)
+      alert('Erro na análise colaborativa. Tente novamente.')
+    } finally {
+      setIsAnalyzing(false)
+    }
+  }
+
+  // 📊 Função para processar resultado colaborativo
+  const processarResultadoColaborativo = (resultado: any) => {
+    if (resultado.etapa_1_analises.length === 0) {
+      return { themes: [], emotions: [], intensity: 0, risk_flags: [], suggestions: [] }
+    }
+    
+    // 🎯 Calcular média consensual de todas as IAs
+    const analises = resultado.etapa_1_analises.map((a: any) => a.resultado)
+    
+    // Themes mais comuns
+    const allThemes = analises.flatMap((a: any) => a.themes || [])
+    const themeCounts = allThemes.reduce((acc: any, theme: string) => {
+      acc[theme] = (acc[theme] || 0) + 1
+      return acc
+    }, {})
+    
+    const consensualThemes = Object.entries(themeCounts)
+      .filter(([_, count]: any) => count >= Math.ceil(analises.length * 0.5))
+      .map(([theme]) => theme)
+    
+    // Emotions mais comuns
+    const allEmotions = analises.flatMap((a: any) => a.emotions || [])
+    const emotionCounts = allEmotions.reduce((acc: any, emotion: string) => {
+      acc[emotion] = (acc[emotion] || 0) + 1
+      return acc
+    }, {})
+    
+    const consensualEmotions = Object.entries(emotionCounts)
+      .filter(([_, count]: any) => count >= Math.ceil(analises.length * 0.5))
+      .map(([emotion]) => emotion)
+    
+    // Intensity média
+    const intensities = analises.map((a: any) => a.intensity || 0).filter((i: number) => i > 0)
+    const avgIntensity = intensities.length > 0 
+      ? intensities.reduce((sum: number, i: number) => sum + i, 0) / intensities.length 
+      : 0
+    
+    // Risk flags consolidados
+    const allRisks = analises.flatMap((a: any) => a.risk_flags || [])
+    const uniqueRisks = [...new Set(allRisks)]
+    
+    // Suggestions consolidados
+    const allSuggestions = analises.flatMap((a: any) => a.suggestions || [])
+    const uniqueSuggestions = [...new Set(allSuggestions)]
+    
+    return {
+      themes: consensualThemes,
+      emotions: consensualEmotions,
+      intensity: avgIntensity,
+      risk_flags: uniqueRisks,
+      suggestions: uniqueSuggestions.slice(0, 5) // Limitar a 5 sugestões
+    }
+  }
+
+  // 📊 Calcular taxa de consenso
+  const calcularTaxaConsenso = (resultado: any) => {
+    if (resultado.etapa_1_analises.length === 0) return 0
+    
+    const validacoesAprovadas = resultado.etapa_2_votacoes.filter((v: any) => v.votacao.aprovado).length
+    const consensosAprovados = resultado.etapa_3_consensos.filter((c: any) => c.consenso.consenso_final).length
+    
+    return (validacoesAprovadas + consensosAprovados) / (resultado.etapa_2_votacoes.length + resultado.etapa_3_consensos.length)
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!formData.title.trim()) {
+      alert('Preencha título do episódio.')
+      return
+    }
+
+    // Descrição é opcional - pode usar apenas lembrete ou deixar vazio
+    setIsSubmitting(true)
+    
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        router.push('/login')
+        return
+      }
+
+      // Get user settings
+      const { data: settings } = await supabase
+        .from('user_settings')
+        .select('allow_ai_learning_product')
+        .eq('user_id', user.id)
+        .single()
+
+      // Create journal entry
+      const { error } = await supabase.from('journal_entries').insert({
+        user_id: user.id,
+        title: formData.title,
+        description: formData.description,
+        context: formData.context || null,
+        impact_score: formData.impact_score,
+        tags: formData.tags,
+        from_voice: false
+      })
+
+      if (error) throw error
+
+      // Analyze patterns if user allowed
+      if (settings?.allow_ai_learning_product && formData.description) {
+        try {
+          const result = await analyzePatternsServer(formData.description)
+          
+          if (result.success && result.data) {
+            // Save analysis as AI event (without the original text)
+            await supabase.from('ai_events').insert({
+              user_id: user.id,
+              event_type: 'pattern_analysis',
+              event_data: result.data,
+              created_at: new Date().toISOString()
+            })
+          }
+        } catch (error) {
+          console.error('Erro ao salvar análise:', error)
+        }
+      }
+
+      router.push('/diario')
+      
+    } catch (error) {
+      console.error('Erro ao salvar entrada:', error)
+      alert('Ocorreu um erro ao salvar. Tente novamente.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  return (
+    <>
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 py-8 px-4">
+        <div className="max-w-2xl mx-auto">
+          {/* Botão Voltar */}
+          <Link 
+            href="/diario" 
+            className="inline-flex items-center gap-2 text-gray-600 hover:text-purple-600 transition-colors mb-6"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span className="font-medium">Voltar ao Diário</span>
+          </Link>
+
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+              Nova Entrada no Diário
+            </h1>
+            <p className="text-gray-600">
+              Registre o episódio para organizar seus pensamentos e identificar padrões
+            </p>
+          </div>
+
+          {/* Form */}
+          <div className="bg-white rounded-xl shadow-lg p-8">
+            {/* Lembrete Section */}
+            <div className="mb-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <h3 className="font-medium text-yellow-900 mb-3">📝 Área de Lembretes (Opcional)</h3>
+              <p className="text-sm text-yellow-700 mb-3">
+                Grave um lembrete rápido de até 2 minutos para não esquecer detalhes importantes antes de escrever a história completa.
+              </p>
+              
+              <div className="space-y-3">
+                <div className="relative">
+                  <textarea
+                    value={reminderText}
+                    onChange={(e) => setReminderText(e.target.value)}
+                    placeholder="Use o microfone para gravar um lembrete rápido ou digite aqui..."
+                    className="w-full px-3 py-2 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent resize-none"
+                    rows={3}
+                    disabled={isSubmitting || isRecordingReminder}
+                  />
+                  <div className="absolute bottom-2 right-2">
+                    <Microphone
+                      onTranscription={handleReminderTranscription}
+                      onError={handleReminderTranscriptionError}
+                      disabled={isSubmitting || isRecordingReminder}
+                    />
+                  </div>
+                </div>
+                
+                {reminderText && (
+                  <div className="flex items-center justify-between p-2 bg-yellow-100 rounded">
+                    <span className="text-sm text-yellow-800">Lembrete salvo!</span>
+                    <button
+                      type="button"
+                      onClick={() => setReminderText('')}
+                      className="text-xs text-yellow-600 hover:text-yellow-800"
+                    >
+                      Limpar
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Title */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Título do Episódio *
+                </label>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e) => handleInputChange('title', e.target.value)}
+                  placeholder="Ex: Discussão sobre finanças"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  disabled={isSubmitting}
+                />
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  O que aconteceu? <span className="text-gray-400">(opcional)</span>
+                </label>
+                <div className="relative">
+                  <textarea
+                    value={formData.description}
+                    onChange={(e) => handleInputChange('description', e.target.value)}
+                    placeholder="Você pode: 1) Escrever diretamente, 2) Usar o microfone para transcrever, ou 3) Deixar em branco e usar apenas o lembrete acima"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                    rows={6}
+                    disabled={isSubmitting}
+                  />
+                  <div className="absolute bottom-2 right-2">
+                    <Microphone
+                      onTranscription={handleTranscription}
+                      onError={handleTranscriptionError}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between mt-2">
+                  <p className="text-xs text-gray-500">
+                    Escreva, grave para transcrever, ou deixe em branco
+                  </p>
+                  {reminderText && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFormData(prev => ({
+                          ...prev,
+                          description: prev.description + (prev.description ? '\n\n--- Lembrete ---\n' : '') + reminderText
+                        }))
+                      }}
+                      className="text-xs px-3 py-1 bg-yellow-100 text-yellow-800 rounded hover:bg-yellow-200"
+                    >
+                      Usar lembrete
+                    </button>
+                  )}
+                </div>
+                
+                {/* Microaviso de responsabilidade */}
+                <p className="mt-2 text-[10px] text-gray-400 leading-relaxed">
+                  ⚠️ Lembre-se: você está registrando <strong>sua perspectiva</strong>. A IA analisa apenas o que você relata. 
+                  Seja honesto(a) consigo mesmo(a) para obter clareza real.
+                </p>
+              </div>
+
+              {/* Context */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Contexto (opcional)
+                </label>
+                <input
+                  type="text"
+                  value={formData.context}
+                  onChange={(e) => handleInputChange('context', e.target.value)}
+                  placeholder="Ex: Em casa, durante o jantar, com as crianças presentes"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  disabled={isSubmitting}
+                />
+              </div>
+
+              {/* Impact Score */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Nível de impacto emocional
+                </label>
+                <div className="flex space-x-4">
+                  {[1, 2, 3].map((score) => (
+                    <label key={score} className="flex items-center">
+                      <input
+                        type="radio"
+                        name="impact"
+                        value={score}
+                        checked={formData.impact_score === score}
+                        onChange={(e) => handleInputChange('impact_score', parseInt(e.target.value))}
+                        className="mr-2"
+                        disabled={isSubmitting}
+                      />
+                      <span className={`px-3 py-1 rounded-full text-sm ${
+                        score === 1 ? 'bg-green-100 text-green-800' :
+                        score === 2 ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {score === 1 ? 'Baixo' : score === 2 ? 'Médio' : 'Alto'}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tags - LAYOUT DE DUAS COLUNAS */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Tags de Tipo de Abuso
+                  </label>
+                </div>
+                
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                  <p className="text-sm text-blue-700">
+                    Isso é opcional, mas ajuda a organizar seus episódios. Clique em uma categoria para ver explicações e exemplos.
+                  </p>
+                </div>
+
+                {/* GRID DE DUAS COLUNAS: Tags à esquerda, Explicações à direita */}
+                <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+                  {/* COLUNA ESQUERDA - Categorias + Chips */}
+                  <div className="space-y-3">
+                    {categories.map((category) => {
+                      const tags = getTagsByCategory(category.id)
+                      const colors = category.colorClass
+                      const isSelected = selectedCategoryId === category.id
+                      
+                      return (
+                        <div 
+                          key={category.id} 
+                          className={`p-3 rounded-lg border transition-all ${
+                            isSelected 
+                              ? `${colors.bg} ${colors.border} ring-2 ring-purple-300 ring-offset-1` 
+                              : `${colors.bg} ${colors.border} hover:ring-1 hover:ring-purple-200`
+                          }`}
+                        >
+                          {/* Header da categoria - clicável */}
+                          <button
+                            type="button"
+                            onClick={() => setSelectedCategoryId(isSelected ? null : category.id)}
+                            className={`w-full flex items-center justify-between text-left mb-2 ${colors.text}`}
+                          >
+                            <span className="text-xs font-semibold flex items-center gap-1">
+                              {category.emoji} {category.title}
+                            </span>
+                            <span className="text-xs opacity-70 hidden sm:inline">
+                              {isSelected ? '✓ Ver explicações →' : 'Clique para ver explicações'}
+                            </span>
+                          </button>
+                          
+                          {/* Chips de tags */}
+                          <div className="flex flex-wrap gap-2">
+                            {tags.map((tag) => (
+                              <button
+                                key={tag.id}
+                                type="button"
+                                onClick={() => addTag(tag.label.toLowerCase())}
+                                className={`px-2 py-1 rounded text-xs transition-colors ${
+                                  formData.tags.includes(tag.id) || formData.tags.includes(tag.label.toLowerCase())
+                                    ? `${colors.bgActive} text-white`
+                                    : `bg-white ${colors.text} border ${colors.border} hover:opacity-80`
+                                }`}
+                                disabled={isSubmitting}
+                              >
+                                {tag.label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                    })}
+                    
+                    {/* Custom tag input */}
+                    <div className="flex space-x-2">
+                      <input
+                        type="text"
+                        value={newTag}
+                        onChange={(e) => setNewTag(e.target.value)}
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault()
+                            addTag(newTag)
+                          }
+                        }}
+                        placeholder="Adicionar tag personalizada"
+                        className="flex-1 px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        disabled={isSubmitting}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => addTag(newTag)}
+                        className="px-3 py-1 bg-purple-500 text-white rounded-lg text-sm hover:bg-purple-600"
+                        disabled={isSubmitting}
+                      >
+                        Adicionar
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* COLUNA DIREITA - Explicações e Exemplos (modo side) */}
+                  <div className="hidden lg:block sticky top-4 self-start max-h-[600px]">
+                    <AbuseTagsDictionary
+                      mode="side"
+                      focusedCategoryId={selectedCategoryId}
+                      selectedTags={formData.tags}
+                      onSelectTag={(tagId) => addTag(tagId)}
+                    />
+                  </div>
+                </div>
+
+                {/* Em mobile: mostrar dicionário abaixo quando categoria selecionada */}
+                {selectedCategoryId && (
+                  <div className="mt-4 lg:hidden">
+                    <AbuseTagsDictionary
+                      mode="side"
+                      focusedCategoryId={selectedCategoryId}
+                      selectedTags={formData.tags}
+                      onSelectTag={(tagId) => addTag(tagId)}
+                    />
+                  </div>
+                )}
+
+                {/* Selected tags */}
+                {formData.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {formData.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 bg-purple-100 text-purple-700 rounded-md text-sm flex items-center"
+                      >
+                        #{tag}
+                        <button
+                          type="button"
+                          onClick={() => removeTag(tag)}
+                          className="ml-2 text-purple-500 hover:text-purple-700"
+                          disabled={isSubmitting}
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* AI Suggestions */}
+              {suggestions.length > 0 && (
+                <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                  <h4 className="font-medium text-purple-900 mb-2">Sugestões da IA:</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {suggestions.map((tag) => (
+                      <button
+                        key={tag}
+                        type="button"
+                        onClick={() => addTag(tag)}
+                        className="px-3 py-1 bg-purple-200 text-purple-800 rounded-md text-sm hover:bg-purple-300"
+                        disabled={isSubmitting}
+                      >
+                        + #{tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Action buttons */}
+              <div className="flex space-x-4">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex-1 px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Salvando...' : 'Salvar Entrada'}
+                </button>
+                
+                <button
+                  type="button"
+                  onClick={analyzeEntry}
+                  disabled={isSubmitting || isAnalyzing || (!formData.description.trim() && !reminderText.trim())}
+                  className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isAnalyzing ? 'Analisando...' : 'Analisar com IA'}
+                </button>
+              </div>
+
+              {/* RESULTADO DA ANÁLISE - EXATAMENTE ABAIXO DO BOTÃO */}
+              {analysisResult && (
+                <div className="mt-6 p-4 bg-blue-50 border-2 border-blue-300 rounded-lg">
+                  {/* 🎛️ PAINEL ADMINISTRATIVO */}
+                  <div className="mb-4 p-3 bg-gray-900 text-white rounded-lg">
+                    <h3 className="font-bold text-lg mb-3">🎛️ PAINEL ADMINISTRATIVO DE IAS</h3>
+                    
+                    {/* 📊 Gráfico de Importância das Etapas */}
+                    <div className="mb-4">
+                      <p className="text-sm font-medium mb-2">📊 IMPORTÂNCIA DAS ETAPAS:</p>
+                      <div className="space-y-2">
+                        <div className="flex items-center">
+                          <span className="text-xs w-32">Etapa 1 - Análise:</span>
+                          <div className="flex-1 bg-gray-700 rounded-full h-4">
+                            <div className="bg-red-500 h-4 rounded-full" style={{ width: '95%' }}></div>
+                          </div>
+                          <span className="text-xs ml-2">95% 🔴</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-xs w-32">Etapa 2 - Votação:</span>
+                          <div className="flex-1 bg-gray-700 rounded-full h-4">
+                            <div className="bg-yellow-500 h-4 rounded-full" style={{ width: '70%' }}></div>
+                          </div>
+                          <span className="text-xs ml-2">70% 🟡</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-xs w-32">Etapa 3 - Consenso:</span>
+                          <div className="flex-1 bg-gray-700 rounded-full h-4">
+                            <div className="bg-orange-500 h-4 rounded-full" style={{ width: '85%' }}></div>
+                          </div>
+                          <span className="text-xs ml-2">85% 🟠</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-xs w-32">Etapa 4 - Transpar:</span>
+                          <div className="flex-1 bg-gray-700 rounded-full h-4">
+                            <div className="bg-green-500 h-4 rounded-full" style={{ width: '40%' }}></div>
+                          </div>
+                          <span className="text-xs ml-2">40% 🟢</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* 🎯 Controles do Administrador */}
+                    <div className="grid grid-cols-2 gap-2 mb-3">
+                      <div className="text-xs">
+                        <p>🔍 Etapa 1: {analysisResult.metadados_colaborativos?.total_ias || 0} IAs</p>
+                        <p>🗳️ Etapa 2: {analysisResult.metadados_colaborativos?.validacoes || 0} Validações</p>
+                      </div>
+                      <div className="text-xs">
+                        <p>🤝 Etapa 3: {analysisResult.metadados_colaborativos?.consensos || 0} Consensos</p>
+                        <p>📊 Taxa: {((analysisResult.metadados_colaborativos?.taxa_consenso || 0) * 100).toFixed(0)}%</p>
+                      </div>
+                    </div>
+                    
+                    {/* 🚨 Indicadores de Segurança */}
+                    <div className="flex flex-wrap gap-2">
+                      {analysisResult.metadados_colaborativos?.taxa_consenso > 0.8 && (
+                        <span className="px-2 py-1 bg-green-600 text-white rounded text-xs">✅ Alto Consenso</span>
+                      )}
+                      {analysisResult.risk_flags && analysisResult.risk_flags.length > 0 && (
+                        <span className="px-2 py-1 bg-red-600 text-white rounded text-xs">⚠️ Riscos Detectados</span>
+                      )}
+                      {analysisResult.metadados_colaborativos?.analise_juridica && (
+                        <span className="px-2 py-1 bg-yellow-600 text-white rounded text-xs">⚖️ Análise Jurídica</span>
+                      )}
+                      {analysisResult.metadados_colaborativos?.deteccao_veracidade && (
+                        <span className="px-2 py-1 bg-purple-600 text-white rounded text-xs">🔍 Veracidade</span>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <h3 className="font-bold text-blue-900 mb-3 text-lg">📊 RESULTADO DA ANÁLISE COLABORATIVA</h3>
+                  
+                  {/* Tags detectadas */}
+                  {analysisResult.themes && analysisResult.themes.length > 0 && (
+                    <div className="mb-4">
+                      <p className="text-sm font-medium text-blue-800 mb-2">🏷️ Tags detectadas (Consenso das IAs):</p>
+                      <div className="flex flex-wrap gap-2">
+                        {analysisResult.themes.map((theme: string, index: number) => (
+                          <span key={index} className="px-3 py-1 bg-blue-500 text-white rounded-md text-sm">
+                            #{theme}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Emoções detectadas */}
+                  {analysisResult.emotions && analysisResult.emotions.length > 0 && (
+                    <div className="mb-4">
+                      <p className="text-sm font-medium text-blue-800 mb-2">😔 Emoções detectadas (Consenso das IAs):</p>
+                      <div className="flex flex-wrap gap-2">
+                        {analysisResult.emotions.map((emotion: string, index: number) => (
+                          <span key={index} className="px-3 py-1 bg-purple-500 text-white rounded-md text-sm">
+                            {emotion}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Intensidade */}
+                  {analysisResult.intensity && (
+                    <div className="mb-4">
+                      <p className="text-sm font-medium text-blue-800 mb-2">⚡ Nível de impacto emocional detectado (Média das IAs):</p>
+                      <div className="flex items-center mb-2">
+                        <div className="w-32 bg-gray-200 rounded-full h-3 mr-3">
+                          <div 
+                            className="bg-gradient-to-r from-green-400 via-yellow-400 to-red-500 h-3 rounded-full"
+                            style={{ width: `${analysisResult.intensity * 100}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-sm font-bold text-blue-900">
+                          {(analysisResult.intensity * 100).toFixed(0)}%
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-600">
+                        {analysisResult.intensity < 0.3 ? "🟢 Baixo impacto - Episódio leve, com efeitos emocionais limitados" :
+                         analysisResult.intensity < 0.7 ? "🟡 Médio impacto - Episódio moderado, com efeitos emocionais significativos" :
+                         "🔴 Alto impacto - Episódio severo, com efeitos emocionais intensos e duradouros"}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* RESUMO COMPLETO DA ANÁLISE */}
+                  <div className="mb-4 p-3 bg-white border border-blue-200 rounded">
+                    <p className="text-sm font-medium text-blue-800 mb-2">📋 RESUMO DA ANÁLISE COLABORATIVA:</p>
+                    <div className="text-xs text-gray-700 space-y-1">
+                      <p><strong>Padrões identificados:</strong> {analysisResult.themes?.join(', ') || 'Nenhum padrão específico detectado'}</p>
+                      <p><strong>Estado emocional:</strong> {analysisResult.emotions?.join(', ') || 'Emoções não especificadas'}</p>
+                      <p><strong>Nível de impacto:</strong> {(analysisResult.intensity * 100).toFixed(0)}% - {
+                        analysisResult.intensity < 0.3 ? 'Baixo' :
+                        analysisResult.intensity < 0.7 ? 'Médio' : 'Alto'
+                      } ({analysisResult.metadados_colaborativos?.total_ias || 0} IAs)</p>
+                      {analysisResult.risk_flags && analysisResult.risk_flags.length > 0 && (
+                        <p><strong>⚠️ Pontos de atenção:</strong> {analysisResult.risk_flags.join(', ')}</p>
+                      )}
+                      <p><strong>Recomendações:</strong> {analysisResult.suggestions?.join('. ') || 'Continue monitorando seus padrões emocionais.'}</p>
+                      <p><strong>🎛️ Confiabilidade do sistema:</strong> {((analysisResult.metadados_colaborativos?.taxa_consenso || 0) * 100).toFixed(0)}% de consenso entre IAs</p>
+                    </div>
+                  </div>
+
+                  {/* Botão para gerar PDF */}
+                  <div className="mt-4 space-y-2">
+                    <button
+                      type="button"
+                      onClick={() => generateAnalysisPDF(analysisResult)}
+                      disabled={isGeneratingPDF}
+                      className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      {isGeneratingPDF ? (
+                        <>
+                          <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                          </svg>
+                          Gerando PDF...
+                        </>
+                      ) : (
+                        <>📄 GERAR PDF DA ANÁLISE COLABORATIVA</>
+                      )}
+                    </button>
+                    <p className="text-xs text-gray-500 text-center">
+                      PDF com hash SHA-256 para verificação de integridade
+                    </p>
+                    <p className="text-xs text-gray-400 text-center">
+                      Este documento é para uso pessoal e não tem valor jurídico automático
+                    </p>
+                  </div>
+                </div>
+              )}
+            </form>
+          </div>
+
+          {/* Tips */}
+          <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h4 className="font-medium text-blue-900 mb-2">💡 Dicas:</h4>
+            <ul className="text-sm text-blue-800 space-y-1">
+              <li>• Seja específico sobre o que aconteceu</li>
+              <li>• Inclue citações diretas se lembrar</li>
+              <li>• Descreva como você se sentiu durante e depois</li>
+              <li>• Use tags para encontrar padrões depois</li>
+              <li>• A IA pode sugerir tags baseadas na sua descrição</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal de Termos Obrigatório - Agora com verificação inteligente via CUC */}
+      {!isLoadingTerms && (
+        <ResponsibilityTermsModal 
+          onAccept={markAsAccepted} 
+          context="diario"
+          autoCheck={true}
+          forceShow={hasAcceptedTerms === false}
+        />
+      )}
+    </>
+  )
+}
+
+// Wrapper com Suspense para useSearchParams
+export default function NovoDiarioPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-10 w-10 border-2 border-purple-600 border-t-transparent mx-auto mb-4"></div>
+          <p className="text-gray-500 text-sm">Carregando formulário...</p>
+        </div>
+      </div>
+    }>
+      <NovoDiarioPageContent />
+    </Suspense>
+  )
+}

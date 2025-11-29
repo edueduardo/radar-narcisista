@@ -1,0 +1,176 @@
+{
+  "agents": [
+    {
+      "id": "coach_clareza_v1",
+      "display_name": "Coach de Clareza - v1",
+      "role": "PRODUCT_CHAT",
+      "layer": "produto",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "endpoint": "/api/ai/chat",
+      "active": true,
+      "priority": 1,
+      "features": ["chat_usuario", "sugerir_titulo_diario"],
+      "scope_declared": ["chat_usuario"],
+      "last_status": "HEALTHY",
+      "last_status_reason": null,
+      "last_heartbeat_at": "2025-11-26T10:30:00Z"
+    },
+    {
+      "id": "coach_clareza_v1_anthropic",
+      "display_name": "Coach de Clareza - Backup Anthropic",
+      "role": "PRODUCT_CHAT",
+      "layer": "produto",
+      "provider": "anthropic",
+      "model": "claude-3-haiku",
+      "endpoint": "/api/ai/chat",
+      "active": true,
+      "priority": 2,
+      "features": ["chat_usuario"],
+      "scope_declared": ["chat_usuario"],
+      "last_status": "HEALTHY",
+      "last_status_reason": null,
+      "last_heartbeat_at": "2025-11-26T10:30:00Z"
+    },
+    {
+      "id": "voice_transcribe_whisper_v1",
+      "display_name": "Transcrição de Voz - Whisper",
+      "role": "INFRA_TRANSCRIBE",
+      "layer": "infra",
+      "provider": "openai",
+      "model": "whisper-1",
+      "endpoint": "/api/voice/transcribe",
+      "active": true,
+      "priority": 1,
+      "features": ["transcrever_audio"],
+      "scope_declared": ["transcrever_audio"],
+      "last_status": "DEGRADED",
+      "last_status_reason": "Latência aumentou para 3.2s (limite: 2s)",
+      "last_heartbeat_at": "2025-11-26T10:25:00Z"
+    },
+    {
+      "id": "ux_conversao_home_v1",
+      "display_name": "IA Guardiã de UX & Conversão",
+      "role": "META_UX",
+      "layer": "meta",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "endpoint": "/api/ai/ux-insights",
+      "active": true,
+      "priority": 1,
+      "features": ["analise_cliques", "sugestoes_cta", "otimizacao_layout"],
+      "scope_declared": ["analise_cliques", "sugestoes_cta"],
+      "last_status": "HEALTHY",
+      "last_status_reason": null,
+      "last_heartbeat_at": "2025-11-26T10:30:00Z"
+    },
+    {
+      "id": "meta_insights_chat_v1",
+      "display_name": "Meta-insights do Chat",
+      "role": "META_ANALYTICS",
+      "layer": "meta",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "endpoint": "/api/ai/chat/meta",
+      "active": true,
+      "priority": 1,
+      "features": ["gerar_ai_events", "analise_conversa"],
+      "scope_declared": ["gerar_ai_events"],
+      "last_status": "HEALTHY",
+      "last_status_reason": null,
+      "last_heartbeat_at": "2025-11-26T10:30:00Z"
+    },
+    {
+      "id": "seo_sugestoes_conteudo_v1",
+      "display_name": "IA de SEO & Conteúdo",
+      "role": "META_SEO",
+      "layer": "meta",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "endpoint": "/api/ai/seo-suggestions",
+      "active": false,
+      "priority": 3,
+      "features": ["sugerir_artigos", "otimizar_titulos", "analise_buscas"],
+      "scope_declared": ["sugerir_artigos"],
+      "last_status": "DOWN",
+      "last_status_reason": "Desativada para testes",
+      "last_heartbeat_at": "2025-11-26T08:00:00Z"
+    }
+  ],
+  "metrics": [
+    {
+      "agent_id": "coach_clareza_v1",
+      "date": "2025-11-26",
+      "calls_total": 1250,
+      "calls_success": 1235,
+      "calls_error": 15,
+      "avg_latency_ms": 1200,
+      "tokens_input": 85000,
+      "tokens_output": 42000,
+      "cost_estimated_usd": 4.20
+    },
+    {
+      "agent_id": "voice_transcribe_whisper_v1",
+      "date": "2025-11-26",
+      "calls_total": 89,
+      "calls_success": 85,
+      "calls_error": 4,
+      "avg_latency_ms": 3200,
+      "tokens_input": 0,
+      "tokens_output": 0,
+      "cost_estimated_usd": 0.89
+    }
+  ],
+  "usage_logs": [
+    {
+      "agent_id": "coach_clareza_v1",
+      "feature_tag": "chat_usuario",
+      "route": "/api/ai/chat",
+      "success": true,
+      "latency_ms": 1100,
+      "tokens_used": 120,
+      "cost_usd": 0.0036,
+      "created_at": "2025-11-26T10:29:45Z"
+    },
+    {
+      "agent_id": "coach_clareza_v1",
+      "feature_tag": "plano_7_dias",
+      "route": "/api/ai/chat",
+      "success": true,
+      "latency_ms": 1300,
+      "tokens_used": 200,
+      "cost_usd": 0.0060,
+      "created_at": "2025-11-26T10:28:30Z"
+    }
+  ],
+  "incidents": [
+    {
+      "agent_id": "voice_transcribe_whisper_v1",
+      "old_status": "HEALTHY",
+      "new_status": "DEGRADED",
+      "reason": "Latência média aumentou para 3.2s",
+      "resolved_at": null,
+      "created_at": "2025-11-26T09:15:00Z"
+    }
+  ],
+  "suggestions": [
+    {
+      "type": "SCOPE_VIOLATION",
+      "agent_id": "coach_clareza_v1",
+      "suggestion": "Esta IA está sendo usada em 'plano_7_dias' mas não está declarado no escopo. Verifique se está correto.",
+      "auto_applied": false,
+      "applied_at": null,
+      "dismissed_at": null,
+      "created_at": "2025-11-26T10:00:00Z"
+    },
+    {
+      "type": "COST_OPTIMIZATION",
+      "agent_id": "coach_clareza_v1",
+      "suggestion": "Custo subiu 32% vs média. Sugiro testar gpt-4o-mini em 30% das sessões mantendo gpt-4o em 70%.",
+      "auto_applied": false,
+      "applied_at": null,
+      "dismissed_at": null,
+      "created_at": "2025-11-26T09:30:00Z"
+    }
+  ]
+}

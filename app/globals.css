@@ -1,0 +1,1160 @@
+@import "tailwindcss";
+
+/* ===== RADAR NARCISISTA BR - CSS LIMPO ===== */
+
+/* ===== TEMA CLARO (padrão) ===== */
+:root, .light {
+  /* Paleta principal - Roxo acolhedor */
+  --primary-50: #faf5ff;
+  --primary-100: #f3e8ff;
+  --primary-200: #e9d5ff;
+  --primary-300: #d8b4fe;
+  --primary-400: #c084fc;
+  --primary-500: #a855f7;
+  --primary-600: #9333ea;
+  --primary-700: #7c3aed;
+  --primary-800: #6b21a8;
+  --primary-900: #581c87;
+  
+  /* Paleta secundária - Azul calmo */
+  --secondary-50: #eff6ff;
+  --secondary-100: #dbeafe;
+  --secondary-200: #bfdbfe;
+  --secondary-300: #93c5fd;
+  --secondary-400: #60a5fa;
+  --secondary-500: #3b82f6;
+  --secondary-600: #2563eb;
+  
+  /* Cores de emergência */
+  --emergency-red: #dc2626;
+  --emergency-orange: #ea580c;
+  
+  /* Cores neutras */
+  --neutral-50: #fafafa;
+  --neutral-100: #f4f4f5;
+  --neutral-200: #e4e4e7;
+  --neutral-300: #d4d4d8;
+  --neutral-400: #a1a1aa;
+  --neutral-500: #71717a;
+  --neutral-600: #52525b;
+  --neutral-700: #3f3f46;
+  --neutral-800: #27272a;
+  --neutral-900: #18181b;
+  
+  /* Backgrounds */
+  --bg-primary: #faf5ff;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  
+  /* Text */
+  --text-primary: #18181b;
+  --text-secondary: #52525b;
+  --text-muted: #a1a1aa;
+}
+
+/* ===== TEMA CLARO CONFORTAVEL (ESPECIFICAÇÃO FINAL) ===== */
+/* Objetivo: bom contraste em ambiente claro, sem ficar estourado */
+.light {
+  --bg-primary: #f3f4ff;      /* off-white levemente azulado */
+  --bg-secondary: #ffffff;     /* superfícies/cards */
+  --bg-card: #ffffff;
+  --text-primary: #020617;     /* quase preto */
+  --text-secondary: #1f2937;   /* cinza escuro */
+  --text-muted: #4b5563;       /* cinza médio (ainda legível) */
+  --primary: #6366f1;          /* roxo/azul destaque */
+  --primary-hover: #4f46e5;
+}
+
+/* ===== TEMA ESCURO (ESPECIFICAÇÃO FINAL) ===== */
+/* Objetivo: leitura confortável à noite / pouca luz */
+.dark {
+  --bg-primary: #020617;       /* quase preto com azul */
+  --bg-secondary: #0b1120;     /* cards um pouco mais claros */
+  --bg-card: #0f172a;          /* superfícies */
+  --text-primary: #e5e7eb;     /* cinza claro */
+  --text-secondary: #9ca3af;   /* cinza médio */
+  --text-muted: #6b7280;       /* cinza mais escuro */
+  --primary: #a855f7;          /* roxo visível no escuro */
+  --primary-hover: #9333ea;
+  
+  /* Cores de emergência */
+  --emergency-red: #ef4444;
+  --emergency-orange: #f97316;
+}
+
+/* ===== TEMA ALTO CONTRASTE (ESPECIFICAÇÃO FINAL) ===== */
+/* Objetivo: acessibilidade para baixa visão */
+.high-contrast {
+  --bg-primary: #000000;       /* preto puro */
+  --bg-secondary: #000000;     /* sem diferença */
+  --bg-card: #111111;          /* quase preto */
+  --text-primary: #ffffff;     /* branco puro */
+  --text-secondary: #facc15;   /* amarelo forte para destaque */
+  --text-muted: #e5e5e5;       /* cinza claro */
+  --primary: #facc15;          /* amarelo forte */
+  --primary-hover: #fde047;
+  
+  /* Cores de emergência - bem saturadas */
+  --emergency-red: #ff0000;
+  --emergency-orange: #ff6600;
+}
+
+/* ============================================== */
+/* TEMA ALTO CONTRASTE - TEXTOS BRANCOS/AMARELOS */
+/* ============================================== */
+
+.high-contrast {
+  color-scheme: dark;
+}
+
+/* Fundo PRETO em TUDO */
+.high-contrast body,
+.high-contrast main,
+.high-contrast section,
+.high-contrast div,
+.high-contrast header,
+.high-contrast footer {
+  background-color: #000000 !important;
+}
+
+/* TODOS os textos - BRANCO PURO */
+.high-contrast h1, .high-contrast h2, .high-contrast h3, .high-contrast h4, .high-contrast h5, .high-contrast h6,
+.high-contrast p, .high-contrast span, .high-contrast li, .high-contrast label, .high-contrast div,
+.high-contrast td, .high-contrast th, .high-contrast summary, .high-contrast blockquote {
+  color: #ffffff !important;
+}
+
+/* Classes de texto - forçar BRANCO */
+.high-contrast [class*="text-"] {
+  color: #ffffff !important;
+}
+
+/* Links - AMARELO e sublinhados */
+.high-contrast a {
+  color: #facc15 !important;
+  text-decoration: underline !important;
+}
+
+/* Botoes - AMARELO com texto PRETO */
+.high-contrast button,
+.high-contrast .btn-primary,
+.high-contrast .btn-secondary {
+  background: #facc15 !important;
+  color: #000000 !important;
+  border: 3px solid #facc15 !important;
+  font-weight: bold !important;
+}
+
+/* Cards - fundo preto com borda branca */
+.high-contrast .bg-white,
+.high-contrast .rounded-xl,
+.high-contrast .rounded-2xl,
+.high-contrast [class*="bg-"] {
+  background-color: #000000 !important;
+  border: 1px solid #ffffff !important;
+}
+
+/* Gradientes - remover, usar preto */
+.high-contrast [class*="bg-gradient"] {
+  background: #000000 !important;
+}
+
+/* Tabelas - bordas brancas grossas */
+.high-contrast table td, .high-contrast table th {
+  border: 2px solid #ffffff !important;
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Header */
+.high-contrast header {
+  background: #000000 !important;
+  border-bottom: 2px solid #facc15 !important;
+}
+
+/* Inputs - borda branca grossa */
+.high-contrast input, .high-contrast textarea, .high-contrast select {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 3px solid #ffffff !important;
+}
+
+.high-contrast input::placeholder {
+  color: #a3a3a3 !important;
+}
+
+/* FAQ/Details */
+.high-contrast details, .high-contrast summary {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+
+/* Icones e emojis - manter visiveis */
+.high-contrast [class*="lucide"],
+.high-contrast svg {
+  color: #facc15 !important;
+}
+
+/* ============================================== */
+/* CONTRASTE MELHORADO                            */
+/* ============================================== */
+
+/* Textos um pouco mais grossos (semi-bold) */
+p, span, li {
+  font-weight: 500;
+}
+
+/* Textos cinza com melhor contraste em fundos claros */
+.text-gray-400 { color: #6b7280 !important; }
+.text-gray-500 { color: #4b5563 !important; }
+
+/* Fundos ESCUROS = texto BRANCO */
+.bg-gray-900 *, .bg-gray-800 *,
+.bg-purple-900 *, .bg-purple-800 *, .bg-purple-700 *, .bg-purple-600 *,
+.bg-blue-900 *, .bg-blue-800 *,
+[class*="from-purple-9"] *, [class*="from-purple-8"] *, [class*="from-purple-7"] *, [class*="from-purple-6"] *,
+[class*="from-gray-9"] *, [class*="from-gray-8"] * {
+  color: #ffffff !important;
+}
+
+/* EXCECAO: Botoes com fundo branco mantem texto colorido */
+.bg-white.text-purple-700,
+button.bg-white,
+a.bg-white {
+  color: #7c3aed !important;
+}
+
+/* Em fundos escuros, cinzas ficam claros */
+.bg-gray-900 .text-gray-400, .bg-gray-900 .text-gray-500,
+.bg-gray-800 .text-gray-400, .bg-gray-800 .text-gray-500,
+[class*="from-gray-9"] .text-gray-400, [class*="from-gray-9"] .text-gray-500 {
+  color: #d1d5db !important;
+}
+
+/* Textos claros em fundos escuros */
+.text-purple-100, .text-purple-200, .text-blue-100, .text-blue-200 {
+  color: #e9d5ff !important;
+}
+
+/* ============================================== */
+/* TEMA ESCURO - TODOS OS TEXTOS BRANCOS         */
+/* ============================================== */
+
+.dark {
+  color-scheme: dark;
+}
+
+/* Fundo escuro em TUDO */
+.dark body,
+.dark main,
+.dark section,
+.dark div,
+.dark header,
+.dark footer {
+  background-color: #020617 !important;
+}
+
+/* TODOS os textos - BRANCO */
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
+.dark p, .dark span, .dark li, .dark label, .dark a, .dark div,
+.dark td, .dark th, .dark summary, .dark blockquote {
+  color: #e5e7eb !important;
+}
+
+/* Classes de texto - forçar BRANCO */
+.dark [class*="text-gray"],
+.dark [class*="text-slate"],
+.dark [class*="text-zinc"],
+.dark [class*="text-neutral"] {
+  color: #e5e7eb !important;
+}
+
+/* Cards - fundo um pouco mais claro */
+.dark .bg-white,
+.dark .bg-gray-50,
+.dark .bg-gray-100,
+.dark [class*="bg-purple-5"],
+.dark [class*="bg-blue-5"],
+.dark .rounded-xl,
+.dark .rounded-2xl {
+  background-color: #0f172a !important;
+}
+
+/* Gradientes - fundo escuro */
+.dark [class*="bg-gradient"] {
+  background: #0b1120 !important;
+}
+
+/* Bordas visiveis */
+.dark [class*="border-"] {
+  border-color: #374151 !important;
+}
+
+/* Tabelas */
+.dark table td, .dark table th {
+  border: 1px solid #374151 !important;
+  background: #0f172a !important;
+  color: #e5e7eb !important;
+}
+
+/* Header */
+.dark header {
+  background: rgba(2, 6, 23, 0.95) !important;
+}
+
+/* Botoes */
+.dark .btn-primary {
+  background-color: #a855f7 !important;
+  color: #ffffff !important;
+}
+
+.dark .btn-secondary {
+  background-color: transparent !important;
+  color: #a855f7 !important;
+  border-color: #a855f7 !important;
+}
+
+/* Inputs */
+.dark input, .dark textarea, .dark select {
+  background: #0f172a !important;
+  color: #e5e7eb !important;
+  border-color: #374151 !important;
+}
+
+.dark input::placeholder {
+  color: #6b7280 !important;
+}
+
+/* Container principal */
+.dark .container-app {
+  background-color: transparent !important;
+}
+
+/* Qualquer elemento com bg explicito */
+.dark [style*="background"] {
+  background-color: #1e1b2e !important;
+}
+
+/* ===== ALTO CONTRASTE - CORRECOES TOTAIS ===== */
+
+/* Tudo preto com texto branco */
+.high-contrast * {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+/* Links amarelos */
+.high-contrast a {
+  color: #facc15 !important;
+  text-decoration: underline !important;
+}
+
+/* Botoes amarelos com texto preto */
+.high-contrast button,
+.high-contrast .btn-primary,
+.high-contrast .btn-secondary {
+  background: #facc15 !important;
+  color: #000000 !important;
+  border: 3px solid #facc15 !important;
+}
+
+/* Tabelas com bordas brancas grossas */
+.high-contrast table,
+.high-contrast table td,
+.high-contrast table th {
+  border: 2px solid #ffffff !important;
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Inputs */
+.high-contrast input,
+.high-contrast textarea,
+.high-contrast select {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 3px solid #ffffff !important;
+}
+
+/* FAQ e accordions */
+.high-contrast details,
+.high-contrast summary {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+
+/* Reset e base */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* TIPOGRAFIA ADAPTATIVA */
+@media (min-width: 640px) {
+  body { font-size: 17px; }
+}
+@media (min-width: 1024px) {
+  body { font-size: 18px; }
+}
+
+/* Parágrafos com boa leitura */
+p, li {
+  line-height: 1.75;
+  margin-bottom: 1em;
+}
+
+/* Seleção de texto */
+::selection {
+  background: rgba(168, 85, 247, 0.3);
+  color: #1f2937;
+}
+
+/* Tipografia - Títulos adaptativos */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+/* Mobile */
+h1 { font-size: 1.75rem; } /* 28px */
+h2 { font-size: 1.5rem; }  /* 24px */
+h3 { font-size: 1.25rem; } /* 20px */
+
+/* Tablet */
+@media (min-width: 640px) {
+  h1 { font-size: 2.25rem; } /* 36px */
+  h2 { font-size: 1.75rem; } /* 28px */
+  h3 { font-size: 1.5rem; }  /* 24px */
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  h1 { font-size: 3rem; }    /* 48px */
+  h2 { font-size: 2rem; }    /* 32px */
+  h3 { font-size: 1.5rem; }  /* 24px */
+}
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Botões base */
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Inputs */
+input, textarea, select {
+  font-family: inherit;
+}
+
+/* Esconde scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ===== ANIMAÇÕES ===== */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slideInLeft {
+  from { 
+    opacity: 0; 
+    transform: translateX(-20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
+}
+
+/* Animação ao entrar na viewport */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Seções com animação suave */
+section {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Hover suave em cards */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Tooltip customizado */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  background: #1f2937;
+  color: white;
+  font-size: 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  z-index: 100;
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+@keyframes pulse-soft {
+  0%, 100% { 
+    opacity: 1; 
+  }
+  50% { 
+    opacity: 0.7; 
+  }
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  50% { 
+    transform: translateY(-10px); 
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 3s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Delay classes para animações em sequência */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* ===== COMPONENTES CUSTOMIZADOS ===== */
+
+/* Gradiente de fundo principal */
+.bg-gradient-main {
+  background: linear-gradient(135deg, #faf5ff 0%, #eff6ff 50%, #faf5ff 100%);
+}
+
+/* Card com sombra suave */
+.card-shadow {
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 10px 30px -10px rgba(124, 58, 237, 0.1);
+}
+
+.card-shadow:hover {
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 20px 40px -15px rgba(124, 58, 237, 0.15);
+}
+
+/* Botão primário */
+.btn-primary {
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+  color: white;
+  padding: 0.875rem 2rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px -3px rgba(147, 51, 234, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5px rgba(147, 51, 234, 0.5);
+}
+
+/* Botão secundário */
+.btn-secondary {
+  background: white;
+  color: #7c3aed;
+  padding: 0.875rem 2rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  border: 2px solid #e9d5ff;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: #c084fc;
+  background: #faf5ff;
+}
+
+/* Input estilizado */
+.input-styled {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid #e4e4e7;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.input-styled:focus {
+  outline: none;
+  border-color: #c084fc;
+  box-shadow: 0 0 0 3px rgba(192, 132, 252, 0.2);
+}
+
+/* Badge de emergência */
+.badge-emergency {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Texto gradiente - IMPORTANTE: não sobrescrever */
+.text-gradient {
+  background: linear-gradient(135deg, #9333ea 0%, #3b82f6 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+/* Container responsivo */
+.container-app {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-app {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-app {
+    padding: 0 2rem;
+  }
+}
+
+/* ===== UTILITÁRIOS ===== */
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e4e4e7, transparent);
+}
+
+/* Focus ring acessível */
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.3);
+}
+
+/* Transição suave padrão */
+.transition-smooth {
+  transition: all 0.2s ease;
+}
+
+/* ===== RESPONSIVIDADE COMPLETA - TODOS OS DISPOSITIVOS ===== */
+
+/* Previne overflow horizontal em TODOS os dispositivos */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Container fluido que se adapta */
+.container-fluid {
+  width: 100%;
+  max-width: 100vw;
+  padding-left: env(safe-area-inset-left, 0);
+  padding-right: env(safe-area-inset-right, 0);
+}
+
+/* ===== SMARTWATCH / APPLE WATCH (< 200px) ===== */
+@media screen and (max-width: 200px) {
+  html {
+    font-size: 10px;
+  }
+  
+  body {
+    padding: 4px;
+  }
+  
+  .container-app {
+    padding: 0 4px;
+  }
+  
+  h1 { font-size: 1rem; }
+  h2 { font-size: 0.875rem; }
+  p, span, a { font-size: 0.75rem; }
+  
+  .btn-primary, .btn-secondary {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.625rem;
+    border-radius: 0.5rem;
+  }
+  
+  /* Esconde elementos não essenciais */
+  .hide-watch {
+    display: none !important;
+  }
+}
+
+/* ===== SMARTPHONES PEQUENOS (200px - 375px) ===== */
+@media screen and (min-width: 201px) and (max-width: 375px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .container-app {
+    padding: 0 0.75rem;
+  }
+  
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+  
+  .btn-primary, .btn-secondary {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  /* Grid adaptativo */
+  .grid-responsive {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ===== SMARTPHONES MÉDIOS (376px - 480px) ===== */
+@media screen and (min-width: 376px) and (max-width: 480px) {
+  html {
+    font-size: 15px;
+  }
+  
+  .container-app {
+    padding: 0 1rem;
+  }
+}
+
+/* ===== SMARTPHONES GRANDES / PHABLETS (481px - 640px) ===== */
+@media screen and (min-width: 481px) and (max-width: 640px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* ===== TABLETS PEQUENOS (641px - 768px) ===== */
+@media screen and (min-width: 641px) and (max-width: 768px) {
+  .container-app {
+    padding: 0 1.5rem;
+  }
+  
+  .grid-responsive {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ===== TABLETS / iPAD (769px - 1024px) ===== */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .container-app {
+    padding: 0 2rem;
+  }
+}
+
+/* ===== LAPTOPS (1025px - 1280px) ===== */
+@media screen and (min-width: 1025px) and (max-width: 1280px) {
+  .container-app {
+    max-width: 1100px;
+  }
+}
+
+/* ===== DESKTOPS (1281px - 1536px) ===== */
+@media screen and (min-width: 1281px) and (max-width: 1536px) {
+  .container-app {
+    max-width: 1200px;
+  }
+}
+
+/* ===== MONITORES GRANDES / 4K (> 1536px) ===== */
+@media screen and (min-width: 1537px) {
+  html {
+    font-size: 18px;
+  }
+  
+  .container-app {
+    max-width: 1400px;
+  }
+}
+
+/* ===== TVs / TELAS MUITO GRANDES (> 1920px) ===== */
+@media screen and (min-width: 1921px) {
+  html {
+    font-size: 20px;
+  }
+  
+  .container-app {
+    max-width: 1600px;
+  }
+  
+  h1 { font-size: 3.5rem; }
+  h2 { font-size: 2.5rem; }
+}
+
+/* ===== CARPLAY / ANDROID AUTO ===== */
+/* Telas de carro geralmente são wide e pequenas em altura */
+@media screen and (max-height: 400px) and (min-width: 600px) {
+  html {
+    font-size: 14px;
+  }
+  
+  body {
+    padding: env(safe-area-inset-top, 10px) env(safe-area-inset-right, 10px) env(safe-area-inset-bottom, 10px) env(safe-area-inset-left, 10px);
+  }
+  
+  /* Layout horizontal para carros */
+  .car-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  /* Botões maiores para toque no carro */
+  .btn-primary, .btn-secondary {
+    min-height: 60px;
+    min-width: 120px;
+    font-size: 1.25rem;
+  }
+  
+  /* Esconde elementos não essenciais no carro */
+  .hide-car {
+    display: none !important;
+  }
+  
+  /* Números de emergência bem grandes */
+  .emergency-number {
+    font-size: 3rem;
+    font-weight: bold;
+  }
+}
+
+/* ===== ORIENTAÇÃO LANDSCAPE (Horizontal) ===== */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .container-app {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  /* Reduz espaçamentos verticais */
+  section {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+}
+
+/* ===== ORIENTAÇÃO PORTRAIT (Vertical) ===== */
+@media screen and (orientation: portrait) {
+  .portrait-full {
+    min-height: 100vh;
+  }
+}
+
+/* ===== SAFE AREAS (iPhone X+, Android com notch) ===== */
+@supports (padding: env(safe-area-inset-top)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  /* Header fixo com safe area */
+  .header-fixed {
+    padding-top: calc(1rem + env(safe-area-inset-top));
+  }
+  
+  /* Footer com safe area */
+  .footer-safe {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* ===== MODO ESCURO DO SISTEMA ===== */
+@media (prefers-color-scheme: dark) {
+  .auto-dark {
+    background-color: #1a1a2e;
+    color: #eaeaea;
+  }
+}
+
+/* ===== REDUÇÃO DE MOVIMENTO (Acessibilidade) ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== ALTO CONTRASTE (Acessibilidade) ===== */
+@media (prefers-contrast: high) {
+  .btn-primary {
+    background: #000;
+    color: #fff;
+    border: 2px solid #fff;
+  }
+  
+  .btn-secondary {
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+  }
+}
+
+/* ===== TOUCH DEVICES ===== */
+@media (hover: none) and (pointer: coarse) {
+  /* Aumenta área de toque em dispositivos touch */
+  button, a, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Remove hover effects em touch */
+  .btn-primary:hover,
+  .btn-secondary:hover {
+    transform: none;
+  }
+}
+
+/* ===== PRINT (Impressão) ===== */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  a[href]::after {
+    content: " (" attr(href) ")";
+  }
+}
+
+/* ===== CLASSES UTILITÁRIAS RESPONSIVAS ===== */
+
+/* Esconde em mobile */
+.hide-mobile {
+  display: block;
+}
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+/* Mostra apenas em mobile */
+.show-mobile {
+  display: none;
+}
+@media (max-width: 768px) {
+  .show-mobile {
+    display: block !important;
+  }
+}
+
+/* Esconde em tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hide-tablet {
+    display: none !important;
+  }
+}
+
+/* Esconde em desktop */
+@media (min-width: 1025px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* Texto responsivo */
+.text-responsive {
+  font-size: clamp(0.875rem, 2vw, 1rem);
+}
+
+.title-responsive {
+  font-size: clamp(1.5rem, 5vw, 3rem);
+}
+
+.subtitle-responsive {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+/* Espaçamento responsivo */
+.p-responsive {
+  padding: clamp(0.5rem, 2vw, 2rem);
+}
+
+.m-responsive {
+  margin: clamp(0.5rem, 2vw, 2rem);
+}
+
+.gap-responsive {
+  gap: clamp(0.5rem, 2vw, 1.5rem);
+}
+
+/* ===== ANIMAÇÕES DE TOAST ===== */
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-right {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+.animate-slide-out {
+  animation: slide-out-right 0.2s ease-in forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.4s ease-out;
+}

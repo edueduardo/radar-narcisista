@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+
+# Prioridade para páginas principais
+Allow: /blog
+Allow: /estatisticas
+Allow: /pesquisa/academica
+Allow: /contato
+Allow: /seguranca
+
+# Permitir crawling do conteúdo público
+Allow: /estatisticas/publicas
+Allow: /estatisticas/mes
+Allow: /estatisticas/ano
+
+# Restringir áreas autenticadas (mas permitir indexação básica)
+Allow: /app
+Allow: /login
+Allow: /cadastro
+
+# Bloquear áreas administrativas sensíveis
+Disallow: /app/admin/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# Sitemap
+Sitemap: https://radarnarcisista.com.br/sitemap.xml
+
+# Delay respeitoso para sobrecarga
+Crawl-delay: 1

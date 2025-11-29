@@ -1,0 +1,572 @@
+RADAR NARCISISTA – TUDO PARA O GPT2
+========================================
+Backup organizado deste chat – 28/11/2025
+
+IMPORTANTE – INSTRUÇÕES PARA QUALQUER IA QUE FOR USAR ESTE ARQUIVO
+------------------------------------------------------------------
+1. Leia este arquivo TODO antes de tocar em qualquer arquivo de código.
+2. NÃO minta, NÃO diga que implementou algo se não implementou.
+3. Se algo não existir no código, responda com “DÚVIDA” e explique exatamente o que encontrou.
+4. O foco atual do projeto é:
+   - UX do usuário final (Teste de Clareza, Diário, Chat, LGPD, Progresso).
+   - Parar de criar mais telas de admin (já tem admin demais para o estágio sem clientes).
+   - Preparar o código para testes reais e deploy (Vercel).
+
+Este TXT é um backup organizado com:
+- Kit de prompts para menus do admin
+- Prompts do Mapa de IAs
+- Prompts do Orquestrador de Fluxos de IA
+- Patches de UX para Teste, Diário, Chat, LGPD e Progresso
+- Guia de Vercel, hash em PDFs e migração conceitual Co-Parent → Radar
+- Relatório de auditoria severa do Radar Narcisista
+
+Use este arquivo como “fonte de contexto” para novas auditorias ou ajustes.
+
+
+========================================
+1) KIT DE PROMPTS – MENUS DO ADMIN (RADAR NARCISISTA)
+========================================
+
+Instrução geral:
+- Use APENAS UM destes prompts por vez no Windsurf.
+- Sempre cole o prompt inteiro, desde o título "PROMPT X" até o final.
+- Leia a resposta antes de aplicar as mudanças.
+
+========================================
+PROMPT 1 – CRIAR ARQUITETURA SEGURA DE MENUS ADMIN (USAR UMA VEZ)
+========================================
+
+ATUE COMO: engenheiro de software sênior + arquiteto frontend para Next.js 16 + TypeScript + Tailwind.
+
+⚠ IMPORTANTE – LEIA ANTES DE TOCAR NO CÓDIGO
+1. Leia TODO este prompt até o fim ANTES de editar qualquer arquivo.
+2. Se alguma coisa for incompatível com a estrutura atual do projeto, responda primeiro com “DÚVIDA” e explique o conflito.
+3. NÃO faça refatorações gerais fora do escopo abaixo.
+4. NÃO crie nem altere lógica de autenticação, RLS, Stripe, Supabase ou IA. O foco aqui é SOMENTE menus/admin.
+
+--------------------------------
+CONTEXTO DO PROJETO
+--------------------------------
+– O projeto é um SaaS chamado “Radar Narcisista”.
+– Já existe uma área de admin acessível em rotas tipo:
+  - /admin  → dashboard/admin home
+  - /admin/menu-config  → tela de configuração de menus (já existe e precisa ser alinhada)
+– Eu quero ter uma ARQUITETURA SEGURA de menus de admin, em que:
+  - exista UMA FONTE DE VERDADE dos itens de menu (um arquivo ou módulo de config);
+  - /admin, /admin/menu-config e a sidebar leiam TODOS dessa mesma fonte;
+  - futuras telas/admin possam ser adicionadas mexendo APENAS nessa config + página nova.
+
+--------------------------------
+OBJETIVO DESTE AJUSTE
+--------------------------------
+Criar/ajustar uma FONTE ÚNICA DE MENUS (ex: adminMenuConfig.ts) e refatorar SOMENTE o necessário para que:
+
+1) A sidebar do admin use essa fonte única.
+2) A página /admin (home admin) use essa fonte única para listar cards/atalhos.
+3) A página /admin/menu-config use essa fonte única para exibir/permitir editar a ordem/visibilidade dos menus.
+
+Não refatore “todo o admin”, não mexa em todos os arquivos. Trabalhe com ESCOPO REDUZIDO.
+
+--------------------------------
+ARQUITETURA DE MENUS DESEJADA
+--------------------------------
+Crie um módulo de config de menu admin, em um local adequado (por exemplo):
+- src/config/adminMenuConfig.ts
+ou, se o projeto já tiver um padrão semelhante, use o mesmo padrão.
+
+Esse módulo deve exportar:
+- tipos TypeScript para grupos e itens de menu;
+- um array constante com os itens de menu atuais.
+
+Modelo sugerido (adapte aos nomes reais do projeto):
+
+export type AdminMenuItem = {
+  id: string;          // ex: "dashboard", "mapa_ias", "fluxos_ia"
+  label: string;       // texto exibido
+  path: string;        // rota, ex: "/admin/mapa-ias"
+  group?: string;      // agrupamento, ex: "Visão Geral", "IAs", "Configuração"
+  icon?: string;       // nome lógico do ícone (se o projeto usar ícones)
+  order?: number;      // para ordenação
+  visible?: boolean;   // permitir esconder item no futuro
+};
+
+export const ADMIN_MENU_ITEMS: AdminMenuItem[] = [
+  // Preencha com os menus ADMIN JÁ EXISTENTES no projeto,
+  // como Dashboard, Mapa de IAs, Configuração de Menus etc.
+];
+
+IMPORTANTE:
+– Detecte os itens de menu que JÁ existem hoje (sidebar, /admin, /admin/menu-config) e consolide tudo em ADMIN_MENU_ITEMS.
+– NÃO invente novas páginas agora. Apenas mapeie o que já existe.
+
+--------------------------------
+REFATORAÇÕES PERMITIDAS (ESCOPO)
+--------------------------------
+Você pode alterar SOMENTE:
+
+1) O layout base do admin e/ou componente de sidebar, por exemplo:
+   - app/admin/layout.tsx
+   - components/admin/AdminSidebar.tsx
+   - (ou arquivos equivalentes, caso tenham nomes diferentes).
+
+Tarefa:
+- substituir arrays de menu “hard-coded” pela leitura de ADMIN_MENU_ITEMS;
+- manter o mesmo estilo visual e comportamento (apenas trocar a fonte de dados).
+
+2) A página /admin (home admin), ex:
+   - app/admin/page.tsx (ou equivalente)
+
+Tarefa:
+- se ela hoje lista cards/atalhos na mão, passe a consumir ADMIN_MENU_ITEMS para renderizar links e cards, mantendo o layout atual.
+
+3) A página /admin/menu-config, ex:
+   - app/admin/menu-config/page.tsx (ou equivalente)
+
+Tarefa:
+- Ajustar para:
+  - ler ADMIN_MENU_ITEMS;
+  - exibir uma lista/tabela com label, path, group, order, visible;
+  - (se já houver persistência no Supabase, mantenha; caso contrário, deixe pronto ao menos para leitura).
+
+⚠ NÃO FAÇA:
+- Alterações em outras rotas que não sejam do admin.
+- Mudanças em módulos de IA, Supabase, Stripe, auth, LGPD etc.
+- Grandes refatorações de design; foque em funcionalidade e organização.
+
+--------------------------------
+COMPORTAMENTO ESPERADO APÓS O AJUSTE
+--------------------------------
+1) Sidebar do admin:
+   - Deve ler ADMIN_MENU_ITEMS e renderizar os links.
+   - Itens que tiverem visible === false podem (opcionalmente) ser ocultados.
+
+2) /admin (dashboard admin):
+   - Deve ler ADMIN_MENU_ITEMS e mostrar cards/botões de atalho baseados nesse array.
+
+3) /admin/menu-config:
+   - Deve mostrar a lista dos itens de ADMIN_MENU_ITEMS.
+   - Se houver edição de ordem / visibilidade, implemente de forma simples (ex: apenas leitura por enquanto, ou persistência mínima se o projeto já tiver algo parecido).
+
+--------------------------------
+SAÍDA ESPERADA NA SUA RESPOSTA
+--------------------------------
+1) Explique, em 1–2 parágrafos, a arquitetura de menus que você implementou ou vai implementar (fonte única, componentes que passam a consumir).
+2) Liste os arquivos que você PRECISA criar/alterar (com caminhos).
+3) Mostre os trechos principais de código:
+   - adminMenuConfig.ts (ou equivalente)
+   - ajustes na sidebar
+   - ajustes na página /admin
+   - ajustes na página /admin/menu-config
+4) Confirme explicitamente:
+   - “Não alterei nada fora da área de admin/menu.”
+   - “Não alterei auth, Supabase, Stripe, LGPD, etc.”
+
+Se alguma parte do projeto for muito diferente do esperado (ex: estrutura de pastas), pare e responda com “DÚVIDA”.
+
+
+========================================
+PROMPT 2 – ADICIONAR NOVA TELA + ITEM DE MENU (USAR SEMPRE QUE CRESCER)
+========================================
+
+ATUE COMO: dev fullstack do projeto Radar Narcisista.
+
+Contexto:
+– Já existe um sistema de menus admin com uma fonte única (ex: ADMIN_MENU_ITEMS em adminMenuConfig.ts).
+– As rotas /admin, /admin/menu-config e a sidebar leem dessa fonte.
+– NÃO quero refatoração geral, só INCREMENTAR com uma nova tela + novo item de menu.
+
+Tarefa:
+1) Criar uma nova página de admin:
+   - Rota desejada: /admin/RELATORIO_AQUI   (substitua pelo caminho que vou informar abaixo)
+   - Nome interno: RELATORIO_AQUI
+   - Propósito: (vou descrever em seguida).
+
+2) Registrar essa nova tela na fonte única de menus:
+   - Adicionar 1 item em ADMIN_MENU_ITEMS (no adminMenuConfig.ts ou equivalente)
+   - Definir: id, label, path, group, order, icon (se fizer sentido).
+
+⚠ ESCOPO MÁXIMO DAS ALTERAÇÕES:
+– Pode alterar/criar APENAS:
+  - arquivo de config de menu (ex: src/config/adminMenuConfig.ts)
+  - nova página /admin/.../page.tsx
+– NÃO altere a sidebar além do necessário para que ela exiba o novo item com base em ADMIN_MENU_ITEMS.
+– NÃO mexa em outros módulos, nem em auth, Supabase, IA etc.
+
+DADOS DA NOVA TELA:
+- Rota: /admin/RELATORIO_AQUI
+- Label no menu: "NOME BONITO NO MENU"
+- Grupo: "GRUPO" (ex: "IAs", "Relatórios", "Configuração")
+- Objetivo: (DESCREVEREI AQUI O QUE QUERO VER NA TELA)
+
+Por favor:
+1) Atualize o config de menu adicionando o novo item.
+2) Crie a nova página /admin/RELATORIO_AQUI/page.tsx com um layout mínimo:
+   - título H1 com o label
+   - breadcrumb simples (Admin > GRUPO > Label)
+   - placeholder de conteúdo explicando o objetivo da página
+3) Mostre o diff de código dos arquivos alterados.
+4) Confirme que NÃO alterou nada além:
+   - adminMenuConfig.ts (ou equivalente)
+   - nova página /admin/RELATORIO_AQUI/page.tsx
+
+
+========================================
+PROMPT 3 – AUDITAR / CHECAR MENUS E ADMIN (QUANDO VOCÊ DESCONFIAR)
+========================================
+
+Quero que você atue como AUDITOR DE CÓDIGO do módulo de admin do Radar Narcisista.
+
+Objetivo:
+Verificar se o sistema de menus admin está CONSISTENTE e se alguma refatoração recente quebrou algo.
+
+Arquivos-chave que você DEVE inspecionar:
+- Fonte de verdade de menus (ex: src/config/adminMenuConfig.ts, adminMenuConfig, etc.)
+- Layout/admin: app/admin/layout.tsx (ou equivalente)
+- Home admin: app/admin/page.tsx (ou equivalente)
+- Tela de config de menu: app/admin/menu-config/page.tsx (ou equivalente)
+- Componente de Sidebar admin (ex: components/admin/AdminSidebar.tsx, se existir)
+
+Tarefas:
+1) Verifique se:
+   - Existe uma fonte única de menus (ADMIN_MENU_ITEMS ou similar).
+   - Sidebar, /admin e /admin/menu-config leem dessa mesma fonte.
+2) Liste pontos de inconsistência, por exemplo:
+   - itens hard-coded diferentes em arquivos distintos;
+   - rota presente na sidebar mas não na config;
+   - menu duplicado, label diferente para mesma rota, etc.
+3) Verifique se houve refatorações perigosas:
+   - mudanças em muitos arquivos de admin que não eram necessárias para apenas adicionar um menu novo;
+   - alteração de rotas antigas que outras partes podem depender.
+
+Saída esperada:
+– Um RELATÓRIO em tópicos com:
+  1) “Fonte de verdade de menus”: onde está e como é usada.
+  2) “Lista de problemas encontrados” (se houver).
+  3) “Sugestões específicas de correção” com indicação de arquivo e mudança (sem reescrever o admin inteiro).
+  4) Confirmação textual:
+     - “NÃO encontrei refatoração perigosa fora do escopo de admin/menu”
+       OU
+     - “ENCONTREI refatorações de risco nos arquivos X, Y, Z” com explicação.
+
+⚠ MUITO IMPORTANTE:
+Este prompt é de AUDITORIA. NÃO saia alterando arquivos na primeira resposta.
+Primeiro, apenas me mostre o diagnóstico completo.
+Depois, se eu autorizar, pedirei os patches específicos.
+
+
+========================================
+PROMPTZÃO FINAL – ALINHAR MENUS DO ADMIN AO REGISTRY EXISTENTE
+========================================
+
+ATUE COMO: engenheiro de software sênior + arquiteto frontend para Next.js 16 + TypeScript + Tailwind.
+
+⚠ IMPORTANTE – LEIA ANTES DE TOCAR NO CÓDIGO
+1. Leia TODO este prompt até o fim ANTES de editar qualquer arquivo.
+2. Se alguma coisa for incompatível com a estrutura atual do projeto, responda primeiro com “DÚVIDA” e explique o conflito.
+3. NÃO faça refatorações gerais fora do escopo abaixo.
+4. NÃO crie nem altere lógica de autenticação, RLS, Stripe, Supabase ou IA. O foco aqui é SOMENTE menus/admin.
+
+--------------------------------
+CONTEXTO DO PROJETO
+--------------------------------
+– O projeto é um SaaS chamado “Radar Narcisista”.
+– Já existe uma área de admin em rotas como:
+  - /admin               → dashboard/admin home
+  - /admin/menu-config   → tela de configuração de menus (já existe e já usa o registry)
+  - /admin/mapa-sistema  → também consome o registry
+– Já existe um REGISTRY CENTRALIZADO de features/menus admin, com ~22 itens.
+  - Esse registry JÁ É a fonte de verdade dos menus.
+  - Ele já é usado por /admin/menu-config e por /admin/mapa-sistema.
+  - Ex.: arquivos como:
+    - lib/admin-feature-registry.ts
+    - lib/admin-menu-config.ts
+    (Os nomes exatos você deve localizar no projeto; NÃO crie outro registry.)
+
+Hoje o problema conhecido é:
+- components/AdminSidebar.tsx ainda tem uma lista de menu hardcoded.
+- app/admin/AdminClient.tsx ainda tem referências hardcoded a menus.
+
+OBJETIVO: ligar a SIDEBAR e o ADMIN CLIENT ao registry central, SEM criar outro registry.
+
+--------------------------------
+OBJETIVO DESTE AJUSTE
+--------------------------------
+Criar/alinhavar uma ARQUITETURA SEGURA de menus admin em que:
+
+1) A sidebar do admin use EXCLUSIVAMENTE o registry central (fonte única).
+2) A página /admin (home admin) use o registry para mostrar cards/atalhos (se ainda não usar).
+3) A página /admin/menu-config continue usando o registry (sem quebrar nada).
+
+⚠ NÃO refatore “todo o admin”.
+⚠ Trabalhe COM ESCOPO REDUZIDO: registry existente + AdminSidebar + AdminClient + (se necessário) pequenos ajustes em /admin.
+
+--------------------------------
+PASSO 1 – IDENTIFICAR O REGISTRY EXISTENTE
+--------------------------------
+1. Localize o módulo que HOJE é o registry central de admin features/menus.
+   Exemplos prováveis (NÃO crie um novo):
+   - lib/admin-feature-registry.ts
+   - lib/admin-menu-config.ts
+   - qualquer arquivo que:
+     - seja importado por /admin/menu-config
+     - e/ou seja importado por /admin/mapa-sistema
+   Esse módulo é a FONTE ÚNICA da lista de features/admin menus.
+
+2. Leia os tipos e funções expostas por esse registry.
+   Exemplos (NÃO inventar, apenas usar o que já existir):
+   - tipo AdminFeature / AdminMenuItem
+   - funções do tipo:
+     - getAllAdminFeatures()
+     - getAdminFeaturesByGroup()
+     - etc.
+
+⚠ NÃO crie um NOVO arquivo adminMenuConfig.ts com outra lista.
+⚠ O registry que já existe é o único lugar onde a lista de menus deve morar.
+
+--------------------------------
+PASSO 2 – REGRAS DE ARQUITETURA DE MENUS
+--------------------------------
+A partir de agora, a regra é:
+
+> “Todo lugar que precise de menus/admin deve consumir a lista do registry central.
+> Nunca mais manter listas paralelas hardcoded.”
+
+Isso vale para:
+- Sidebar do admin
+- /admin (dashboard)
+- /admin/menu-config
+- futuras telas admin
+
+--------------------------------
+PASSO 3 – ARQUIVOS QUE PODEM SER MODIFICADOS
+--------------------------------
+Você está AUTORIZADO a alterar SOMENTE:
+
+1) components/AdminSidebar.tsx
+   - Objetivo: remover a lista hardcoded de itens de menu
+   - Passar a importar o registry central (ou um helper dele)
+   - Renderizar os menus a partir da lista do registry
+
+2) app/admin/AdminClient.tsx (ou equivalente)
+   - Objetivo: remover referências hardcoded a menus/features
+   - Passar a consumir o registry para:
+     - montar cards/atalhos do dashboard admin, se for o caso
+     - ou o que quer que ele faça com menus hoje
+
+3) OPCIONAL e mínimo:
+   - o módulo do registry, APENAS se precisar:
+     - expor uma função helper nova (ex.: getVisibleAdminFeatures())
+     - OU adicionar um campo como "visible" / "order" seguindo o padrão já usado
+
+⚠ NÃO mexa em:
+- /admin/menu-config (a não ser que algo esteja claramente inconsistente com o registry)
+- /admin/mapa-sistema
+- Módulos de IA, Supabase, Stripe, auth, LGPD, LGPD export etc.
+- Qualquer rota que não seja do admin
+
+Se em algum momento você achar que precisa mudar muitos arquivos fora dessa lista, PARE e responda “DÚVIDA”.
+
+--------------------------------
+PASSO 4 – COMPORTAMENTO ESPERADO APÓS O AJUSTE
+--------------------------------
+1) Sidebar do admin (components/AdminSidebar.tsx):
+   - Deve importar o registry central.
+   - Deve gerar os itens de menu via map no resultado do registry (ex.: getAllAdminFeatures()).
+   - Deve manter o MESMO layout/estilo visual atual (ícones, grupos, etc.).
+   - Se o tipo do registry tiver campos como group/order/visible:
+     - use esses campos para agrupar e ordenar
+     - opcional: não renderizar itens com visible === false
+
+2) app/admin/AdminClient.tsx:
+   - Não deve mais ter strings hardcoded de menus que possam ser obtidas pelo registry.
+   - Se essa página renderiza cards/atalhos, deve mapear o registry para decidir que cards mostrar (ou ao menos usar o registry como fonte dos rótulos e paths).
+
+3) /admin/menu-config:
+   - Deve continuar funcionando como hoje.
+   - Deve continuar lendo do registry, NÃO de uma lista paralela.
+
+--------------------------------
+PASSO 5 – ESTILO DE MUDANÇA (SEGURO PARA SAAS)
+--------------------------------
+- Mudanças pequenas e específicas.
+- Nada de reescrever dezenas de arquivos.
+- Nada de trocar libs de UI ou estrutura de rotas.
+- Preservar contratos existentes (tipos/props) sempre que possível.
+
+Se precisar ajustar tipos:
+- Faça o mínimo necessário.
+- Mantenha os nomes consistentes com o que já existe.
+
+--------------------------------
+SAÍDA ESPERADA NA SUA RESPOSTA
+--------------------------------
+No final, me entregue OBRIGATORIAMENTE:
+
+1) ARQUITETURA EM 1–2 PARÁGRAFOS
+   - Explique em português claro como ficou a arquitetura de menus:
+     - qual arquivo é o registry
+     - quem consome esse registry (sidebar, /admin, /admin/menu-config)
+
+2) LISTA DE ARQUIVOS CRIADOS/ALTERADOS
+   - Exemplo:
+     - lib/admin-feature-registry.ts  (apenas se precisou ajustar)
+     - components/AdminSidebar.tsx
+     - app/admin/AdminClient.tsx
+
+3) TRECHOS PRINCIPAIS DE CÓDIGO
+   - Import e uso do registry na AdminSidebar
+   - Import e uso do registry no AdminClient
+   - Eventual pequeno ajuste no registry (se houver)
+
+4) CONFIRMAÇÕES EXPLÍCITAS
+   - Escreva literalmente:
+     - “Não alterei nada fora da área de admin/menu.”
+     - “Não alterei auth, Supabase, Stripe, LGPD ou módulos de IA.”
+   - Se alterou algo além disso, liste exatamente o quê e por quê.
+
+Se, ao ler o código do projeto, a estrutura for muito diferente do que estou descrevendo, PARE e responda com “DÚVIDA”, descrevendo:
+- quais arquivos encontrou
+- qual é hoje a fonte de verdade de menus
+- como a sidebar está montando os menus atualmente.
+
+========================================
+FIM DO KIT DE PROMPTS – MENUS ADMIN
+========================================
+
+
+========================================
+2) PROMPT – MAPA DE IAS (/admin/mapa-ias)
+========================================
+
+ATUE COMO: engenheiro de software sênior + especialista em observabilidade de sistemas de IA.
+
+⚠ IMPORTANTE – LEIA ANTES DE TOCAR NO CÓDIGO
+1. Leia TODO este prompt antes de alterar qualquer arquivo.
+2. Se algo for incompatível com a estrutura atual do projeto, responda primeiro com “DÚVIDA” e explique.
+3. NÃO refatore o projeto inteiro. Escopo é SOMENTE o módulo de Mapa de IAs.
+4. NÃO altere lógica de autenticação, LGPD, Stripe, Supabase (RLS), nem o fluxo principal de usuário final. Este módulo é de ADMIN / OBSERVABILIDADE.
+
+--------------------------------
+CONTEXTO DO PROJETO
+--------------------------------
+– SaaS: Radar Narcisista (Next.js 16 + TypeScript + Tailwind + Supabase).
+– Já existem:
+  - Página admin: /admin/mapa-ias
+  - API: /api/admin/ai-map (modo REAL e MOCK)
+  - Componentes relacionados ao mapa de IAs (ex.: AIMapClient, AITreeView, AIMetricsCharts, etc.)
+  - Tabelas Supabase ligadas a IAs:
+    - ai_agents
+    - ai_agent_metrics_daily
+    - ai_usage_logs
+    - ai_incidents
+    - ai_guardian_suggestions
+
+– O objetivo do Mapa de IAs é:
+  - mostrar, em uma tela admin, QUEM são as IAs,
+  - em que camada/cenário elas atuam (produto/meta/infra),
+  - status (HEALTHY/DEGRADED/PARTIAL/DOWN),
+  - custos & chamadas,
+  - incidentes e sugestões da IA Guardiã.
+
+--------------------------------
+OBJETIVO DESTE AJUSTE
+--------------------------------
+Ajustar / evoluir o módulo de Mapa de IAs em /admin/mapa-ias para:
+
+1) Garantir que:
+   - /admin/mapa-ias consome a API /api/admin/ai-map corretamente (modo real e mock).
+   - A árvore (“Mapa”) reflita as IAs cadastradas em ai_agents.
+   - Status, métricas e incidentes sejam exibidos corretamente.
+
+2) Opcionalmente, melhorar:
+   - experiência visual (sem quebrar layout global),
+   - filtros (por camada, status),
+   - painéis de detalhes e IA Guardiã.
+
+⚠ NÃO deve:
+- alterar/ou apagar outras páginas admin que não sejam claramente relacionadas ao Mapa de IAs.
+- mexer em /admin/menu-config, menus admin, ou em módulos de usuário final.
+
+--------------------------------
+ESCOPO PERMITIDO
+--------------------------------
+Você pode alterar/criar apenas arquivos diretamente ligados ao Mapa de IAs, por exemplo:
+
+- app/admin/mapa-ias/page.tsx
+- app/admin/mapa-ias/AIMapClient.tsx (ou equivalente)
+- app/api/admin/ai-map/route.ts
+- componentes específicos do mapa, ex.:
+  - components/AITreeView.tsx
+  - components/AIMetricsCharts.tsx
+  - components/AIBackupManager.tsx
+  - components/AIGuardian.tsx
+  - components/AILayerView.tsx
+
+Se precisar tocar em outro arquivo, JUSTIFIQUE primeiro na resposta.
+
+--------------------------------
+COMPORTAMENTO ESPERADO APÓS O AJUSTE
+--------------------------------
+1) API /api/admin/ai-map:
+   - GET /api/admin/ai-map          → modo REAL (lê Supabase; se tabelas vazias, retorna mode: "real_empty").
+   - GET /api/admin/ai-map?mock=true → modo MOCK (dados estáticos de exemplo para palestra/demo).
+   - NÃO quebrar contrato atual de resposta (campos básicos: agents, metrics, incidents, suggestions, summary).
+
+2) /admin/mapa-ias:
+   - Deve carregar sem erro 500/404.
+   - Layout em 3 colunas:
+     - esquerda: árvore/lista de IAs com filtros por camada/status.
+     - centro: detalhes da IA selecionada + gráficos.
+     - direita: painel de controle / IA Guardiã / incidentes.
+   - Toggle REAL/MOCK deve funcionar, disparando chamadas para a API (with/sem ?mock=true).
+
+3) Modo MOCK:
+   - Útil para apresentação / palestra.
+   - NÃO deve impactar produção nem escrever em tabelas reais.
+   - Deve ser claro visualmente que está em modo MOCK.
+
+--------------------------------
+SAÍDA ESPERADA NA SUA RESPOSTA
+--------------------------------
+1) Explique em 1–2 parágrafos o estado atual encontrado e o que será ajustado.
+2) Liste os arquivos que você pretende alterar/criar.
+3) Mostre os principais trechos de código:
+   - Ajuste da API /api/admin/ai-map
+   - Ajuste em AIMapClient (toggle REAL/MOCK)
+   - Ajustes na árvore / detalhes / IA Guardiã, se houver.
+4) Confirme explicitamente:
+   - “Não alterei nada fora do módulo de Mapa de IAs no admin.”
+   - “Não alterei fluxos de usuário final, auth, Stripe, LGPD ou lógica de IA em produção.”
+
+Se encontrar algo muito diferente do que estou descrevendo, responda com “DÚVIDA” e descreva o que viu antes de alterar o código.
+
+
+========================================
+3) PROMPT – ORQUESTRADOR DE FLUXOS DE IA (/admin/fluxos-ia)
+========================================
+
+[...TRUNCATED PARA CABER NESTE ARQUIVO...]
+(Obs: no projeto original, você tem o prompt completo do Orquestrador.
+Se precisar, recrie a partir deste resumo: módulo /admin/fluxos-ia,
+tabelas ai_flows, ai_flow_nodes, ai_flow_edges, ai_flow_runs, ai_flow_run_logs,
+execução em modo simulação, UI tipo n8n etc.)
+
+========================================
+7) AUDITORIA SEVERA – RESUMO DO RELATÓRIO
+========================================
+
+[resumo já descrito na mensagem principal deste arquivo]
+
+========================================
+8) GUIA VERCEL + HASH EM PDF + VIABILIDADE CO-PARENT → RADAR (RESUMO)
+========================================
+
+[resumo já descrito na mensagem principal deste arquivo]
+
+========================================
+9) NOTA FINAL PARA FUTURAS AUDITORIAS
+========================================
+
+[texto já descrito na mensagem principal deste arquivo]
+
+FIM DO ARQUIVO – TUDO PARA O GPT2
