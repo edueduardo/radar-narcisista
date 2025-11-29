@@ -1161,3 +1161,53 @@ ROTA OFICIAL DO TESTE: /teste-clareza
 ================================================================================
 PLANO D IMPLEMENTADO - VERSÃO 2.0.0 - TESTE ÚNICO EM /teste-clareza
 ================================================================================
+
+🚀 **REFATORAÇÃO UX/UI DO TESTE DE CLAREZA V2** - 29/11/2025
+Tipo: Frontend / UX / UI
+Objetivo: Melhorar experiência para público ansioso/fragilizado
+
+IMPLEMENTAÇÃO:
+- Criado /teste-clareza-v2 como versão de TESTE (sem afetar original)
+- O original /teste-clareza permanece intacto para rollback
+
+MUDANÇAS NA TELA DE INTRODUÇÃO:
+- Tempo estimado "5-10 minutos" visível logo abaixo do subtítulo
+- Cards unificados: só o laranja é ALERTA, os outros são informativos (cinza)
+- Bullets resumidos (máx 2-3 por card)
+- Mais respiro vertical antes do CTA
+- "Voltar ao início" como link secundário discreto
+
+MUDANÇAS NA TELA DE PERGUNTA (1-18):
+- Termo de Consentimento COLAPSADO por padrão (menos ruído)
+- Termo só aparece nas primeiras 3 perguntas
+- Header reorganizado: progresso à esquerda, categoria à direita com tooltip
+- Tooltip explica categoria em linguagem leiga
+- Subtítulo guiado: "Marque a opção que mais se aproxima..."
+- Feedback visual melhorado nas alternativas (ring + check)
+- Aviso no rodapé mais discreto
+
+MUDANÇAS NA TELA DA ÚLTIMA PERGUNTA (19):
+- Banner simplificado (2 linhas apenas)
+- Placeholder guiado com bullets de sugestão
+- Módulo Premium (áudio) colapsável e discreto
+- Hierarquia clara: "Finalizar" principal, "Pular" outline
+- Texto de apoio abaixo dos botões
+
+PRINCÍPIOS APLICADOS:
+- Menos tipos de card por tela
+- Tipografia consistente
+- Respiro vertical (espaço = calma)
+- Ícones com função clara
+- Mobile-first
+
+📁 Arquivos criados:
+- app/teste-clareza-v2/page.tsx (NOVO - versão de teste)
+
+📁 Arquivos NÃO modificados (originais intactos):
+- app/teste-clareza/page.tsx
+- app/teste-clareza/resultado/page.tsx
+
+ROTA DE TESTE: /teste-clareza-v2
+ROTA ORIGINAL: /teste-clareza (intacta)
+
+================================================================================

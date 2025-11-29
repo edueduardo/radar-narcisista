@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
@@ -8,7 +8,8 @@ import {
   Target, ArrowRight, BookOpen, MessageCircle, Shield, PenLine,
   AlertTriangle, ChevronDown, ChevronUp, HelpCircle, Home, 
   LayoutDashboard, AlertCircle, Brain, Lock, Heart, ShieldAlert, 
-  Users, Moon, Sun, RefreshCw, Phone
+  Users, RefreshCw, Phone, Download, Printer, Copy, FileCheck,
+  MousePointerClick, FileDown
 } from 'lucide-react'
 
 import {
@@ -17,24 +18,20 @@ import {
   getAxisConfig,
   getCategoryConfig,
   getAxisLevelDescription,
-  CATEGORIES_CONFIG,
   type UnifiedResult,
-  type GlobalZone,
 } from '@/lib/clarity-unified-config'
 import { PROBLEMS, getToolsByProblem } from '@/lib/tools-config'
 
-// Componentes de cadeia de custódia
+// Componentes
 import TermsConsentBadge from '@/components/TermsConsentBadge'
-import ClarityResultPDF from '@/components/ClarityResultPDF'
-import ResultExplanation from '@/components/ResultExplanation'
+import ClarityResultPDF, { type ClarityResultPDFHandle } from '@/components/ClarityResultPDF'
+import Explanation3Voices, { AxisExplanation, CategoryExplanation } from '@/components/Explanation3Voices'
 
 // =============================================================================
-// RESULTADO DO TESTE DE CLAREZA - UNIFICADO
-// PLANO D: Combina o melhor de todos os sistemas anteriores
-// + Cadeia de Custódia: Badge de termo + Exportação PDF
+// RESULTADO DO TESTE DE CLAREZA - VERSÃO 2
+// Nova UX com Sistema de 3 Vozes (Colinho / Profissional / Defesa)
 // =============================================================================
 
-// Mapeamento de ícones para categorias
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   invalidacao: AlertCircle,
   gaslighting: Brain,
@@ -44,40 +41,37 @@ const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>
   fisico: ShieldAlert,
 }
 
-export default function ResultadoUnificado() {
+export default function ResultadoV2() {
   const [result, setResult] = useState<UnifiedResult | null>(null)
   const [loading, setLoading] = useState(true)
-  const [showExplanation, setShowExplanation] = useState(false)
   const [testDate, setTestDate] = useState<string>('')
-  const [isDarkMode, setIsDarkMode] = useState(true)
   const [diaryStats, setDiaryStats] = useState<any>(null)
+  
+  // Estados para accordions
+  const [expandedAxis, setExpandedAxis] = useState<string | null>(null)
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null)
+  const [showExportSection, setShowExportSection] = useState(false)
+  const [showAboutTest, setShowAboutTest] = useState(false)
+  const [isDownloadingPDF, setIsDownloadingPDF] = useState(false)
+  
+  // Ref para acessar função de download do componente PDF
+  const pdfRef = useRef<ClarityResultPDFHandle>(null)
   
   const router = useRouter()
   const supabase = createClientComponentClient()
 
   useEffect(() => {
     loadResult()
-    // Carregar preferência de tema
-    const savedTheme = localStorage.getItem('radar-theme')
-    if (savedTheme === 'light') setIsDarkMode(false)
   }, [])
-
-  const toggleTheme = () => {
-    const newMode = !isDarkMode
-    setIsDarkMode(newMode)
-    localStorage.setItem('radar-theme', newMode ? 'dark' : 'light')
-  }
 
   const loadResult = async () => {
     try {
-      // Primeiro, tentar carregar do localStorage (resultado recém-calculado)
       const savedResult = localStorage.getItem('radar-test-result')
       if (savedResult) {
         const parsed = JSON.parse(savedResult)
         setResult(parsed.result)
         setTestDate(new Date(parsed.completedAt).toLocaleDateString('pt-BR'))
         
-        // Carregar estatísticas do diário se usuário logado
         const { data: { user } } = await supabase.auth.getUser()
         if (user) {
           await loadDiaryStats(user.id)
@@ -87,7 +81,6 @@ export default function ResultadoUnificado() {
         return
       }
 
-      // Se não tiver no localStorage, buscar do banco
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) {
         router.push('/teste-clareza')
@@ -110,7 +103,6 @@ export default function ResultadoUnificado() {
       const test = tests[0]
       setTestDate(new Date(test.created_at).toLocaleDateString('pt-BR'))
 
-      // Recalcular resultado se tiver raw_answers
       if (test.raw_answers) {
         const calculatedResult = calculateUnifiedResult(test.raw_answers)
         setResult(calculatedResult)
@@ -139,7 +131,6 @@ export default function ResultadoUnificado() {
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
       const recentEntries = entries.filter(e => new Date(e.created_at) > thirtyDaysAgo)
 
-      // Contar tags
       const tagCounts: Record<string, number> = {}
       entries.forEach(entry => {
         (entry.tags || []).forEach((tag: string) => {
@@ -165,30 +156,6 @@ export default function ResultadoUnificado() {
     }
   }
 
-  // Classes de tema - SEMPRE ESCURO para melhor legibilidade
-  // Fundo escuro com letras claras que sobressaem
-  const theme = {
-    bgMain: 'bg-[#020617]', // Fundo principal escuro
-    bgHeader: 'bg-[#0F172A]/95',
-    borderHeader: 'border-slate-800',
-    textPrimary: 'text-white', // Letras brancas
-    textSecondary: 'text-gray-300', // Letras cinza claro
-    cardBg: 'bg-slate-900/80', // Cards com fundo escuro
-    cardBorder: 'border-slate-700',
-    accentText: 'text-violet-400',
-    accentBg: 'bg-violet-600',
-  }
-
-  const getLevelColor = (level: string) => {
-    // Sempre cores escuras com texto claro
-    switch (level) {
-      case 'baixo': return 'bg-green-900/50 text-green-400'
-      case 'moderado': return 'bg-yellow-900/50 text-yellow-400'
-      case 'alto': return 'bg-red-900/50 text-red-400'
-      default: return 'bg-gray-800 text-gray-400'
-    }
-  }
-
   const getAxisColor = (axis: string) => {
     switch (axis) {
       case 'nevoa': return 'from-purple-500 to-purple-600'
@@ -198,15 +165,24 @@ export default function ResultadoUnificado() {
     }
   }
 
+  const getLevelBadge = (level: string) => {
+    switch (level) {
+      case 'baixo': return 'bg-green-900/50 text-green-400 border-green-700'
+      case 'moderado': return 'bg-yellow-900/50 text-yellow-400 border-yellow-700'
+      case 'alto': return 'bg-red-900/50 text-red-400 border-red-700'
+      default: return 'bg-gray-800 text-gray-400 border-gray-700'
+    }
+  }
+
   // Loading
   if (loading) {
     return (
-      <div className={`min-h-screen ${theme.bgMain} flex items-center justify-center`}>
+      <div className="min-h-screen bg-[#020617] flex items-center justify-center">
         <div className="text-center">
-          <div className={`w-16 h-16 bg-violet-900/50 rounded-2xl flex items-center justify-center mx-auto mb-4`}>
-            <Target className={`w-8 h-8 ${theme.accentText} animate-pulse`} />
+          <div className="w-16 h-16 bg-violet-900/50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <Target className="w-8 h-8 text-violet-400 animate-pulse" />
           </div>
-          <p className={theme.textSecondary}>Carregando seu resultado...</p>
+          <p className="text-gray-400">Carregando seu resultado...</p>
         </div>
       </div>
     )
@@ -215,16 +191,16 @@ export default function ResultadoUnificado() {
   // Sem resultado
   if (!result) {
     return (
-      <div className={`min-h-screen ${theme.bgMain} flex items-center justify-center p-4`}>
+      <div className="min-h-screen bg-[#020617] flex items-center justify-center p-4">
         <div className="text-center max-w-md">
-          <div className={`w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4`}>
-            <AlertTriangle className={`w-8 h-8 text-gray-400`} />
+          <div className="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <AlertTriangle className="w-8 h-8 text-gray-400" />
           </div>
-          <h2 className={`text-xl font-bold ${theme.textPrimary} mb-2`}>Resultado não encontrado</h2>
-          <p className={`${theme.textSecondary} mb-6`}>Parece que você ainda não fez o teste.</p>
+          <h2 className="text-xl font-bold text-white mb-2">Resultado não encontrado</h2>
+          <p className="text-gray-400 mb-6">Parece que você ainda não fez o teste.</p>
           <Link
             href="/teste-clareza"
-            className={`inline-flex items-center gap-2 px-6 py-3 ${theme.accentBg} text-white rounded-xl font-semibold transition-colors hover:opacity-90`}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 text-white rounded-xl font-semibold hover:bg-violet-500 transition-colors"
           >
             <Target className="w-5 h-5" />
             Fazer Teste de Clareza
@@ -235,500 +211,597 @@ export default function ResultadoUnificado() {
   }
 
   const zoneConfig = getZoneConfig(result.globalZone)
+  const overallPct = Math.round(result.overallPercentage * 100)
 
   return (
-    <div className={`min-h-screen ${theme.bgMain}`}>
-      {/* Header */}
-      <header className={`${theme.bgHeader} backdrop-blur-md border-b ${theme.borderHeader}`}>
+    <div className="min-h-screen bg-[#020617]">
+      {/* Header Simples */}
+      <header className="bg-[#0F172A]/95 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link 
-            href="/dashboard" 
-            className={`flex items-center gap-2 ${theme.textSecondary} hover:opacity-80 transition-colors`}
-          >
+          <Link href="/dashboard" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
             <Home className="w-5 h-5" />
             <span className="text-sm font-medium hidden sm:inline">Dashboard</span>
           </Link>
           
           <div className="flex items-center gap-2">
-            <Target className={`w-5 h-5 ${theme.accentText}`} />
-            <span className={`font-semibold ${theme.textPrimary}`}>Resultado</span>
+            <Target className="w-5 h-5 text-violet-400" />
+            <span className="font-semibold text-white">Resultado V2</span>
           </div>
           
-          <div className="flex items-center gap-2">
-            <span className={`text-sm ${theme.textSecondary}`}>{testDate}</span>
-            <button
-              onClick={toggleTheme}
-              className={`p-2 rounded-lg bg-slate-800 text-yellow-400 hover:opacity-80 transition-all`}
-            >
-              <Sun className="w-4 h-4" />
-            </button>
-          </div>
+          <span className="text-sm text-gray-400">{testDate}</span>
         </div>
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-8">
-        {/* Título */}
-        <div className="text-center mb-8">
-          <h1 className={`text-3xl sm:text-4xl font-bold ${theme.textPrimary} mb-2`}>
-            Seu Mapa de Clareza
-          </h1>
-          <p className={theme.textSecondary}>
-            Resultado do Teste de Clareza • {testDate}
-          </p>
-        </div>
+        
+        {/* ============================================================= */}
+        {/* SECTION 1 – CABEÇALHO CALMO */}
+        {/* ============================================================= */}
+        <section className="mb-8">
+          <div className="text-center mb-6">
+            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">
+              Seu Mapa de Clareza
+            </h1>
+            <p className="text-gray-400 text-lg">
+              Resultado do Teste • {testDate} • {result.overallScore}/{result.maxOverallScore} ({overallPct}%)
+            </p>
+          </div>
 
-        {/* Alerta de Risco Físico */}
-        {result.hasPhysicalRisk && (
-          <div className={`mb-6 p-5 rounded-2xl bg-red-900/40 border-red-700 border-2`}>
-            <div className="flex items-start gap-4">
-              <div className={`p-3 rounded-xl bg-red-800`}>
-                <ShieldAlert className={`w-6 h-6 text-red-400`} />
-              </div>
-              <div className="flex-1">
-                <h3 className={`font-bold text-red-300 mb-2`}>
-                  ⚠️ Alerta de Segurança
-                </h3>
-                <p className={`text-sm text-red-400 mb-3`}>
-                  Suas respostas indicam possível risco físico. Sua segurança é prioridade.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <a href="tel:190" className={`inline-flex items-center gap-2 px-4 py-2 bg-red-800 text-red-200 rounded-lg font-medium text-sm`}>
-                    <Phone className="w-4 h-4" /> 190 - Polícia
-                  </a>
-                  <a href="tel:180" className={`inline-flex items-center gap-2 px-4 py-2 bg-red-800 text-red-200 rounded-lg font-medium text-sm`}>
-                    <Phone className="w-4 h-4" /> 180 - Mulher
-                  </a>
-                  <Link href="/plano-seguranca" className={`inline-flex items-center gap-2 px-4 py-2 bg-slate-700 text-white rounded-lg font-medium text-sm`}>
-                    <Shield className="w-4 h-4" /> Plano de Segurança
+          {/* Badge de Zona */}
+          <div className="flex justify-center mb-6">
+            <div className={`inline-flex items-center gap-3 px-6 py-3 rounded-2xl ${zoneConfig.bgColor} ${zoneConfig.borderColor} border-2`}>
+              {result.globalZone === 'atencao' && <AlertCircle className={`w-6 h-6 ${zoneConfig.color}`} />}
+              {result.globalZone === 'alerta' && <AlertTriangle className={`w-6 h-6 ${zoneConfig.color}`} />}
+              {result.globalZone === 'vermelha' && <ShieldAlert className={`w-6 h-6 ${zoneConfig.color}`} />}
+              <span className={`text-lg font-bold ${zoneConfig.color}`}>{zoneConfig.title}</span>
+            </div>
+          </div>
+
+          {/* Alerta de Risco Físico */}
+          {result.hasPhysicalRisk && (
+            <div className="mb-6 p-6 rounded-2xl bg-red-900/40 border-red-700 border-2">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-xl bg-red-800">
+                  <ShieldAlert className="w-7 h-7 text-red-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-red-300 text-lg mb-2">
+                    ⚠️ Possível risco à sua segurança física
+                  </h3>
+                  <p className="text-red-400 mb-4">
+                    Sua segurança vem antes de qualquer teste. Esta tela é só um mapa para você buscar apoio com mais clareza.
+                  </p>
+                  <Link 
+                    href="/plano-seguranca" 
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-500 text-white rounded-xl font-semibold transition-colors"
+                  >
+                    <Shield className="w-5 h-5" />
+                    Criar Plano de Segurança
                   </Link>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Card de Resultado Global */}
-        <div className={`mb-8 p-6 sm:p-8 rounded-3xl border-2 bg-slate-900/50 ${zoneConfig.bgColor} ${zoneConfig.borderColor}`}>
-          <div className="text-center">
-            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${zoneConfig.bgColor} ${zoneConfig.color} font-semibold mb-4`}>
-              {result.globalZone === 'atencao' && <AlertCircle className="w-5 h-5" />}
-              {result.globalZone === 'alerta' && <AlertTriangle className="w-5 h-5" />}
-              {result.globalZone === 'vermelha' && <ShieldAlert className="w-5 h-5" />}
-              {zoneConfig.title}
+          {/* CTA Principal */}
+          {!result.hasPhysicalRisk && (
+            <div className="flex justify-center">
+              <a 
+                href="#proximos-passos"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white rounded-xl font-semibold transition-colors"
+              >
+                Ver próximos passos sugeridos
+                <ArrowRight className="w-5 h-5" />
+              </a>
             </div>
-            <p className={`text-lg leading-relaxed ${zoneConfig.color} max-w-2xl mx-auto`}>
-              {zoneConfig.description}
-            </p>
-            <div className={`mt-4 text-sm ${theme.textSecondary}`}>
-              Pontuação: {result.overallScore}/{result.maxOverallScore} ({Math.round(result.overallPercentage * 100)}%)
+          )}
+        </section>
+
+        {/* ============================================================= */}
+        {/* SECTION 2 – SUA SITUAÇÃO GERAL (NARRATIVA + 3 VOZES) */}
+        {/* ============================================================= */}
+        <section className="mb-10">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                <span className="text-3xl">1.</span>
+                Sua situação geral
+              </h2>
+              <p className="text-gray-400">
+                Entenda o que seu resultado significa, explicado de 3 formas diferentes.
+              </p>
             </div>
+            
+            {/* Botão Baixar PDF no topo - ATIVO */}
+            <button
+              onClick={async () => {
+                if (pdfRef.current) {
+                  setIsDownloadingPDF(true)
+                  try {
+                    await pdfRef.current.downloadPDF()
+                  } finally {
+                    setIsDownloadingPDF(false)
+                  }
+                }
+              }}
+              disabled={isDownloadingPDF}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 disabled:bg-emerald-700 disabled:cursor-wait text-white rounded-xl font-medium transition-colors whitespace-nowrap shadow-lg shadow-emerald-500/20"
+            >
+              {isDownloadingPDF ? (
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <FileDown className="w-5 h-5" />
+              )}
+              {isDownloadingPDF ? 'Gerando...' : 'Baixar PDF Completo'}
+            </button>
           </div>
-        </div>
 
-        {/* Explicação Didática do Resultado */}
-        <ResultExplanation result={result} isDarkMode={isDarkMode} />
+          <div className="bg-slate-900/80 rounded-2xl border border-slate-700 p-6">
+            <Explanation3Voices
+              topicId="geral"
+              context={{
+                score: result.overallScore,
+                zona: result.globalZone,
+                episodios30d: diaryStats?.recentEntries || 0,
+                impactoMedio: diaryStats?.avgImpact || 0,
+                padroesPrincipais: result.highlightedProblems
+              }}
+              showMicroAction={true}
+            />
+          </div>
+        </section>
 
-        {/* Cards por Eixo */}
-        <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>Análise por Eixo</h2>
-        <div className="grid md:grid-cols-3 gap-4 mb-8">
-          {result.axisScores.map((axis) => {
-            const axisConfig = getAxisConfig(axis.axis)
-            return (
-              <div key={axis.axis} className={`${theme.cardBg} rounded-2xl shadow-lg border ${theme.cardBorder} overflow-hidden`}>
-                <div className={`h-2 bg-gradient-to-r ${getAxisColor(axis.axis)}`} />
-                <div className="p-5">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className={`font-semibold ${theme.textPrimary}`}>{axis.label}</h3>
-                    <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${getLevelColor(axis.level)}`}>
+        {/* ============================================================= */}
+        {/* SECTION 3 – EIXOS PRINCIPAIS (VISUAL + ACCORDION) */}
+        {/* ============================================================= */}
+        <section className="mb-10">
+          <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+            <span className="text-3xl">2.</span>
+            Como isso aparece no seu dia a dia
+          </h2>
+          <p className="text-gray-400 mb-6">
+            Três dimensões que mostram onde a relação está te afetando mais.
+          </p>
+
+          {/* Barras Visuais */}
+          <div className="grid gap-4 mb-6">
+            {result.axisScores.map((axis) => (
+              <div 
+                key={axis.axis}
+                className="bg-slate-900/80 rounded-xl border border-slate-700 p-4"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-semibold text-white">{axis.label}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-bold text-white">{Math.round(axis.percentage * 100)}%</span>
+                    <span className={`px-2 py-0.5 rounded text-xs font-medium border ${getLevelBadge(axis.level)}`}>
                       {axis.level.toUpperCase()}
                     </span>
                   </div>
-                  <div className="mb-3">
-                    <div className="flex items-baseline gap-1 mb-1">
-                      <span className={`text-2xl font-bold ${theme.textPrimary}`}>{Math.round(axis.percentage * 100)}</span>
-                      <span className={theme.textSecondary}>%</span>
-                    </div>
-                    <div className={`w-full bg-slate-800 rounded-full h-2`}>
-                      <div 
-                        className={`h-2 rounded-full bg-gradient-to-r ${getAxisColor(axis.axis)}`}
-                        style={{ width: `${axis.percentage * 100}%` }}
-                      />
-                    </div>
-                  </div>
-                  <p className={`text-sm ${theme.textSecondary} leading-relaxed`}>
-                    {getAxisLevelDescription(axis.axis, axis.level)}
-                  </p>
                 </div>
-              </div>
-            )
-          })}
-        </div>
-
-        {/* Detalhamento por Categoria */}
-        <h2 className={`text-xl font-bold ${theme.textPrimary} mb-4`}>Detalhamento por Categoria</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-          {result.categoryScores.map((cat) => {
-            const catConfig = getCategoryConfig(cat.category)
-            const IconComponent = CATEGORY_ICONS[cat.category] || AlertCircle
-            const isHighlighted = cat.percentage >= 0.4
-            
-            return (
-              <div 
-                key={cat.category} 
-                className={`${theme.cardBg} rounded-xl border ${isHighlighted ? 'border-amber-700' : theme.cardBorder} p-4`}
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className={`p-2 rounded-lg bg-slate-800`}>
-                    <IconComponent className={`w-5 h-5 ${catConfig.color}`} />
-                  </div>
-                  <div>
-                    <h3 className={`font-semibold ${theme.textPrimary} text-sm`}>{cat.label}</h3>
-                    <span className={`text-xs ${theme.textSecondary}`}>{cat.questionCount} perguntas</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className={`flex-1 bg-slate-800 rounded-full h-2`}>
-                    <div 
-                      className={`h-2 rounded-full ${
-                        cat.percentage >= 0.66 ? 'bg-red-500' : 
-                        cat.percentage >= 0.33 ? 'bg-yellow-500' : 'bg-green-500'
-                      }`}
-                      style={{ width: `${cat.percentage * 100}%` }}
-                    />
-                  </div>
-                  <span className={`text-sm font-medium ${theme.textPrimary}`}>
-                    {Math.round(cat.percentage * 100)}%
-                  </span>
-                </div>
-                {isHighlighted && (
-                  <p className={`mt-2 text-xs text-amber-400`}>
-                    ⚠️ Merece atenção
-                  </p>
-                )}
-              </div>
-            )
-          })}
-        </div>
-
-        {/* Problemas em Destaque */}
-        {result.highlightedProblems.length > 0 && (
-          <div className={`${theme.cardBg} rounded-3xl shadow-lg border ${theme.cardBorder} p-6 sm:p-8 mb-8`}>
-            <h2 className={`text-xl font-bold ${theme.textPrimary} mb-2`}>
-              Onde isso pega mais forte
-            </h2>
-            <p className={`${theme.textSecondary} mb-6`}>
-              Baseado nas suas respostas, estes são os padrões mais presentes:
-            </p>
-            
-            <div className="space-y-4">
-              {result.highlightedProblems.slice(0, 4).map((problemTag) => {
-                const problemConfig = PROBLEMS.find(p => p.id === problemTag)
-                const problemScore = result.problemScores.find(ps => ps.problem === problemTag)
-                const tools = getToolsByProblem(problemTag).slice(0, 2)
-                
-                if (!problemConfig) return null
-                
-                return (
+                <div className="w-full bg-slate-800 rounded-full h-3">
                   <div 
-                    key={problemTag}
-                    className={`p-4 rounded-xl border ${problemConfig.bgColor} ${problemConfig.borderColor}`}
+                    className={`h-3 rounded-full bg-gradient-to-r ${getAxisColor(axis.axis)} transition-all duration-500`}
+                    style={{ width: `${axis.percentage * 100}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Accordions com 3 Vozes */}
+          <div className="space-y-3">
+            {result.axisScores.map((axis) => {
+              const isExpanded = expandedAxis === axis.axis
+              const axisLabels: Record<string, { title: string; desc: string }> = {
+                nevoa: { title: '🧠 Névoa mental', desc: 'Confusão e dúvida sobre sua própria percepção' },
+                medo: { title: '😰 Medo e tensão', desc: 'Estar sempre em alerta, pisando em ovos' },
+                limites: { title: '🛡️ Limites', desc: 'O quanto seus limites são respeitados' }
+              }
+              const config = axisLabels[axis.axis] || { title: axis.label, desc: '' }
+
+              return (
+                <div key={axis.axis} className="bg-slate-900/60 rounded-xl border border-slate-700 overflow-hidden">
+                  <button
+                    onClick={() => setExpandedAxis(isExpanded ? null : axis.axis)}
+                    className="w-full px-5 py-4 flex items-center justify-between hover:bg-slate-800/50 transition-colors"
                   >
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className={`font-semibold ${problemConfig.color}`}>
-                        {problemConfig.label}
-                      </h3>
-                      {problemScore && (
-                        <span className={`text-sm font-medium ${problemConfig.color}`}>
-                          {Math.round(problemScore.percentage * 100)}%
-                        </span>
-                      )}
+                    <div className="text-left">
+                      <h3 className="font-semibold text-white">{config.title}</h3>
+                      <p className="text-sm text-gray-400">{config.desc}</p>
+                    </div>
+                    {isExpanded ? (
+                      <ChevronUp className="w-5 h-5 text-gray-400" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5 text-gray-400" />
+                    )}
+                  </button>
+                  
+                  {isExpanded && (
+                    <div className="px-5 pb-5 border-t border-slate-700/50">
+                      <div className="pt-4">
+                        <AxisExplanation
+                          axis={axis.axis as 'nevoa' | 'medo' | 'limites'}
+                          percentage={axis.percentage}
+                          level={axis.level}
+                          context={{
+                            episodios30d: diaryStats?.recentEntries || 0,
+                            impactoMedio: diaryStats?.avgImpact || 0
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </section>
+
+        {/* ============================================================= */}
+        {/* SECTION 4 – CATEGORIAS DE RISCO (GRID DE CARDS) */}
+        {/* ============================================================= */}
+        <section className="mb-10">
+          <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+            <span className="text-3xl">3.</span>
+            Onde isso pega mais forte
+          </h2>
+          <p className="text-gray-400 mb-6 flex items-center gap-2">
+            <MousePointerClick className="w-4 h-4 text-violet-400" />
+            Clique em cada categoria para entender melhor e ver sugestões.
+          </p>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {result.categoryScores.map((cat) => {
+              const catConfig = getCategoryConfig(cat.category)
+              const IconComponent = CATEGORY_ICONS[cat.category] || AlertCircle
+              const isHighlighted = cat.percentage >= 0.4
+              const isExpanded = expandedCategory === cat.category
+              const pct = Math.round(cat.percentage * 100)
+
+              return (
+                <div 
+                  key={cat.category}
+                  className={`bg-slate-900/80 rounded-xl border overflow-hidden transition-all ${
+                    isHighlighted ? 'border-amber-700' : 'border-slate-700'
+                  }`}
+                >
+                  <button
+                    onClick={() => setExpandedCategory(isExpanded ? null : cat.category)}
+                    className="w-full p-4 text-left hover:bg-slate-800/50 transition-colors"
+                  >
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="p-2 rounded-lg bg-slate-800">
+                        <IconComponent className={`w-5 h-5 ${catConfig.color}`} />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-white text-sm">{cat.label}</h3>
+                      </div>
+                      <span className={`text-lg font-bold ${
+                        pct >= 66 ? 'text-red-400' : pct >= 33 ? 'text-yellow-400' : 'text-green-400'
+                      }`}>
+                        {pct}%
+                      </span>
+                      {/* Ícone indicando que é clicável */}
+                      <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
                     </div>
                     
-                    <div className="flex flex-wrap gap-2">
-                      <Link
-                        href={`/hub/${problemTag}`}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium ${problemConfig.bgColor} ${problemConfig.color} hover:opacity-80 transition-opacity`}
-                      >
-                        Ver Hub
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-                      {tools.map((tool) => (
-                        <Link
-                          key={tool.id}
-                          href={tool.href}
-                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-800 text-gray-300 hover:bg-slate-700 transition-colors`}
-                        >
-                          {tool.shortLabel || tool.name}
-                        </Link>
-                      ))}
+                    <div className="w-full bg-slate-800 rounded-full h-2 mb-2">
+                      <div 
+                        className={`h-2 rounded-full ${
+                          pct >= 66 ? 'bg-red-500' : pct >= 33 ? 'bg-yellow-500' : 'bg-green-500'
+                        }`}
+                        style={{ width: `${pct}%` }}
+                      />
                     </div>
-                  </div>
-                )
-              })}
-            </div>
+
+                    {isHighlighted && (
+                      <p className="text-xs text-amber-400">⚠️ Merece atenção</p>
+                    )}
+                  </button>
+
+                  {isExpanded && (
+                    <div className="px-4 pb-4 border-t border-slate-700/50">
+                      <div className="pt-4">
+                        <CategoryExplanation
+                          category={cat.category}
+                          percentage={cat.percentage}
+                          context={{
+                            episodios30d: diaryStats?.recentEntries || 0,
+                            impactoMedio: diaryStats?.avgImpact || 0
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
           </div>
-        )}
+        </section>
 
-        {/* Dados do Diário */}
-        {diaryStats && diaryStats.totalEntries > 0 && (
-          <div className={`bg-gradient-to-r from-indigo-950 to-purple-950 border-indigo-900 rounded-3xl shadow-lg border p-6 sm:p-8 mb-8`}>
-            <div className="flex items-center gap-3 mb-6">
-              <div className={`p-2 bg-indigo-900 rounded-xl`}>
-                <PenLine className={`w-6 h-6 text-indigo-400`} />
+        {/* ============================================================= */}
+        {/* SECTION 5 – SEUS REGISTROS (DIÁRIO) */}
+        {/* ============================================================= */}
+        <section className="mb-10">
+          <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+            <span className="text-3xl">4.</span>
+            Seus registros até agora
+          </h2>
+          <p className="text-gray-400 mb-6">
+            Dados do seu diário que complementam o teste.
+          </p>
+
+          {diaryStats && diaryStats.totalEntries > 0 ? (
+            <div className="bg-gradient-to-r from-indigo-950 to-purple-950 border-indigo-900 rounded-2xl border p-6">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                <div className="bg-slate-900/80 rounded-xl p-4 text-center">
+                  <p className="text-2xl font-bold text-indigo-400">{diaryStats.totalEntries}</p>
+                  <p className="text-xs text-gray-400">Episódios</p>
+                </div>
+                <div className="bg-slate-900/80 rounded-xl p-4 text-center">
+                  <p className="text-2xl font-bold text-purple-400">{diaryStats.recentEntries}</p>
+                  <p className="text-xs text-gray-400">Últimos 30 dias</p>
+                </div>
+                <div className="bg-slate-900/80 rounded-xl p-4 text-center">
+                  <p className="text-2xl font-bold text-rose-400">{diaryStats.avgImpact}/5</p>
+                  <p className="text-xs text-gray-400">Impacto médio</p>
+                </div>
+                <div className="bg-slate-900/80 rounded-xl p-4 text-center">
+                  <p className="text-2xl font-bold text-blue-400">{diaryStats.topTags.length}</p>
+                  <p className="text-xs text-gray-400">Padrões</p>
+                </div>
               </div>
-              <div>
-                <h2 className={`text-xl font-bold ${theme.textPrimary}`}>
-                  Seus Registros do Diário
-                </h2>
-                <p className={`text-sm ${theme.textSecondary}`}>
-                  Dados que complementam seu teste
-                </p>
+
+              {diaryStats.topTags.length > 0 && (
+                <div className="mb-6">
+                  <p className="text-sm text-gray-400 mb-2">Padrões que mais se repetem:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {diaryStats.topTags.map(({ tag, count }: { tag: string; count: number }) => (
+                      <span 
+                        key={tag}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 bg-purple-900/50 text-purple-300 rounded-full text-sm font-medium"
+                      >
+                        {tag}
+                        <span className="bg-purple-800 px-1.5 py-0.5 rounded-full text-xs">{count}x</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <p className="text-sm text-gray-400 mb-4">
+                O diário ajuda a identificar padrões ao longo do tempo. Quanto mais você registra, mais clareza você ganha.
+              </p>
+
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/diario/novo"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-medium transition-colors"
+                >
+                  <PenLine className="w-4 h-4" />
+                  Registrar novo episódio
+                </Link>
+                <Link
+                  href="/diario/timeline"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white rounded-xl font-medium transition-colors"
+                >
+                  Ver linha do tempo
+                </Link>
               </div>
             </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
-              <div className={`bg-slate-900 rounded-xl p-4 text-center shadow-sm`}>
-                <p className={`text-2xl font-bold text-indigo-400`}>{diaryStats.totalEntries}</p>
-                <p className={`text-xs ${theme.textSecondary}`}>Episódios</p>
-              </div>
-              <div className={`bg-slate-900 rounded-xl p-4 text-center shadow-sm`}>
-                <p className={`text-2xl font-bold text-purple-400`}>{diaryStats.recentEntries}</p>
-                <p className={`text-xs ${theme.textSecondary}`}>Últimos 30 dias</p>
-              </div>
-              <div className={`bg-slate-900 rounded-xl p-4 text-center shadow-sm`}>
-                <p className={`text-2xl font-bold text-rose-400`}>{diaryStats.avgImpact}/5</p>
-                <p className={`text-xs ${theme.textSecondary}`}>Impacto médio</p>
-              </div>
-              <div className={`bg-slate-900 rounded-xl p-4 text-center shadow-sm`}>
-                <p className={`text-2xl font-bold text-blue-400`}>{diaryStats.topTags.length}</p>
-                <p className={`text-xs ${theme.textSecondary}`}>Padrões</p>
+          ) : (
+            <div className="bg-gradient-to-r from-blue-950 to-indigo-950 border-blue-900 rounded-2xl border p-6">
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <div className="p-4 bg-blue-900 rounded-2xl">
+                  <PenLine className="w-8 h-8 text-blue-400" />
+                </div>
+                <div className="flex-1 text-center sm:text-left">
+                  <h3 className="font-bold text-white text-lg">Comece a registrar seus episódios</h3>
+                  <p className="text-gray-400 text-sm mt-1">
+                    O diário ajuda a identificar padrões e complementa seu teste
+                  </p>
+                </div>
+                <Link
+                  href="/diario/novo"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition-colors"
+                >
+                  <PenLine className="w-5 h-5" />
+                  Criar registro
+                </Link>
               </div>
             </div>
+          )}
+        </section>
 
-            {diaryStats.topTags.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {diaryStats.topTags.map(({ tag, count }: { tag: string; count: number }) => (
-                  <span 
-                    key={tag}
-                    className={`inline-flex items-center gap-1 px-3 py-1.5 bg-purple-900/50 text-purple-300 rounded-full text-sm font-medium`}
-                  >
-                    {tag}
-                    <span className={`bg-purple-800 px-1.5 py-0.5 rounded-full text-xs`}>{count}x</span>
-                  </span>
-                ))}
+        {/* ============================================================= */}
+        {/* SECTION 6 – EXPORTAÇÃO E CUIDADOS */}
+        {/* ============================================================= */}
+        <section className="mb-10">
+          <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+            <span className="text-3xl">5.</span>
+            Guardar ou compartilhar com alguém
+          </h2>
+          <p className="text-gray-400 mb-6">
+            Exporte seu resultado para mostrar a um profissional ou guardar para você.
+          </p>
+
+          <div id="export-section" className="bg-slate-900/80 rounded-2xl border border-slate-700 overflow-hidden scroll-mt-20">
+            <button
+              onClick={() => setShowExportSection(!showExportSection)}
+              className="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-800/50 transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <FileCheck className="w-5 h-5 text-emerald-400" />
+                <span className="font-semibold text-white">Opções de exportação</span>
+              </div>
+              {showExportSection ? (
+                <ChevronUp className="w-5 h-5 text-gray-400" />
+              ) : (
+                <ChevronDown className="w-5 h-5 text-gray-400" />
+              )}
+            </button>
+
+            {showExportSection && (
+              <div className="px-6 pb-6 border-t border-slate-700/50">
+                <div className="pt-4">
+                  <ClarityResultPDF 
+                    ref={pdfRef}
+                    result={result} 
+                    testDate={testDate} 
+                    isDarkMode={true} 
+                  />
+                  
+                  <div className="mt-4 p-4 bg-amber-900/20 border border-amber-800/50 rounded-xl">
+                    <p className="text-sm text-amber-300">
+                      <strong>Sobre a verificação:</strong> O documento gerado inclui um código de verificação (hash) e horário de geração. Isso ajuda a mostrar que o documento não foi alterado depois, mas <strong>NÃO é laudo nem decisão judicial</strong>.
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
           </div>
-        )}
 
-        {/* CTA para criar diário */}
-        {(!diaryStats || diaryStats.totalEntries === 0) && (
-          <div className={`bg-gradient-to-r from-blue-950 to-indigo-950 border-blue-900 rounded-3xl shadow-lg border p-6 sm:p-8 mb-8`}>
-            <div className="flex flex-col sm:flex-row items-center gap-4">
-              <div className={`p-4 bg-blue-900 rounded-2xl`}>
-                <PenLine className={`w-8 h-8 text-blue-400`} />
-              </div>
-              <div className="flex-1 text-center sm:text-left">
-                <h3 className={`font-bold ${theme.textPrimary} text-lg`}>
-                  Comece a registrar seus episódios
-                </h3>
-                <p className={`${theme.textSecondary} text-sm mt-1`}>
-                  O diário ajuda a identificar padrões e complementa seu teste
-                </p>
-              </div>
-              <Link
-                href="/diario/novo"
-                className={`inline-flex items-center gap-2 px-6 py-3 ${isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-600 hover:bg-blue-700'} text-white rounded-xl font-semibold transition-colors`}
-              >
-                <PenLine className="w-5 h-5" />
-                Criar registro
-              </Link>
-            </div>
+          <div className="mt-4 p-4 bg-slate-800/50 rounded-xl">
+            <p className="text-sm text-gray-400 text-center">
+              ⚠️ Este teste é uma ferramenta de autoconhecimento. Não substitui psicoterapia, avaliação clínica ou decisão judicial.
+            </p>
           </div>
-        )}
+        </section>
 
-        {/* Próximos Passos */}
-        <div className={`${theme.cardBg} rounded-3xl shadow-lg border ${theme.cardBorder} p-6 sm:p-8 mb-8`}>
-          <h2 className={`text-xl font-bold ${theme.textPrimary} mb-6`}>
-            Próximos Passos Recomendados
+        {/* ============================================================= */}
+        {/* PRÓXIMOS PASSOS (ANCHOR) */}
+        {/* ============================================================= */}
+        <section id="proximos-passos" className="mb-10 scroll-mt-20">
+          <h2 className="text-2xl font-bold text-white mb-6">
+            🚀 Próximos Passos Recomendados
           </h2>
           
           <div className="grid sm:grid-cols-2 gap-4">
             <Link
               href="/diario/novo"
-              className={`flex items-center gap-4 p-4 rounded-2xl border-2 border-blue-900 bg-blue-950/50 hover:border-blue-700 transition-colors group`}
+              className="flex items-center gap-4 p-4 rounded-2xl border-2 border-blue-900 bg-blue-950/50 hover:border-blue-700 transition-colors"
             >
-              <div className={`p-3 bg-slate-900 rounded-xl shadow-sm`}>
-                <PenLine className={`w-6 h-6 text-blue-400`} />
+              <div className="p-3 bg-slate-900 rounded-xl">
+                <PenLine className="w-6 h-6 text-blue-400" />
               </div>
               <div className="flex-1">
-                <h3 className={`font-semibold ${theme.textPrimary}`}>Registrar Episódio</h3>
-                <p className={`text-sm ${theme.textSecondary}`}>Documente situações</p>
+                <h3 className="font-semibold text-white">Registrar Episódio</h3>
+                <p className="text-sm text-gray-400">Documente situações</p>
               </div>
-              <ArrowRight className={`w-5 h-5 text-blue-400`} />
+              <ArrowRight className="w-5 h-5 text-blue-400" />
             </Link>
             
             <Link
               href="/chat"
-              className={`flex items-center gap-4 p-4 rounded-2xl border-2 border-emerald-900 bg-emerald-950/50 hover:border-emerald-700 transition-colors group`}
+              className="flex items-center gap-4 p-4 rounded-2xl border-2 border-emerald-900 bg-emerald-950/50 hover:border-emerald-700 transition-colors"
             >
-              <div className={`p-3 bg-slate-900 rounded-xl shadow-sm`}>
-                <MessageCircle className={`w-6 h-6 text-emerald-400`} />
+              <div className="p-3 bg-slate-900 rounded-xl">
+                <MessageCircle className="w-6 h-6 text-emerald-400" />
               </div>
               <div className="flex-1">
-                <h3 className={`font-semibold ${theme.textPrimary}`}>Coach IA</h3>
-                <p className={`text-sm ${theme.textSecondary}`}>Apoio 24/7</p>
+                <h3 className="font-semibold text-white">Coach IA</h3>
+                <p className="text-sm text-gray-400">Apoio 24/7</p>
               </div>
-              <ArrowRight className={`w-5 h-5 text-emerald-400`} />
+              <ArrowRight className="w-5 h-5 text-emerald-400" />
             </Link>
             
             {result.globalZone === 'vermelha' && (
               <Link
                 href="/plano-seguranca"
-                className={`flex items-center gap-4 p-4 rounded-2xl border-2 border-red-900 bg-red-950/50 hover:border-red-700 transition-colors group sm:col-span-2`}
+                className="flex items-center gap-4 p-4 rounded-2xl border-2 border-red-900 bg-red-950/50 hover:border-red-700 transition-colors sm:col-span-2"
               >
-                <div className={`p-3 bg-slate-900 rounded-xl shadow-sm`}>
-                  <Shield className={`w-6 h-6 text-red-400`} />
+                <div className="p-3 bg-slate-900 rounded-xl">
+                  <Shield className="w-6 h-6 text-red-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className={`font-semibold ${theme.textPrimary}`}>Criar Plano de Segurança</h3>
-                  <p className={`text-sm ${theme.textSecondary}`}>Importante: organize sua proteção</p>
+                  <h3 className="font-semibold text-white">Criar Plano de Segurança</h3>
+                  <p className="text-sm text-gray-400">Importante: organize sua proteção</p>
                 </div>
-                <ArrowRight className={`w-5 h-5 text-red-400`} />
+                <ArrowRight className="w-5 h-5 text-red-400" />
               </Link>
             )}
           </div>
-        </div>
+        </section>
 
-        {/* Disclaimer */}
-        <div className={`flex items-start gap-3 p-4 bg-amber-900/30 border-amber-800 border rounded-2xl mb-8`}>
-          <AlertTriangle className={`w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5`} />
-          <p className={`text-sm text-amber-300 leading-relaxed`}>
-            <strong>Lembrete:</strong> Este teste é uma ferramenta de autoconhecimento, 
-            NÃO um diagnóstico clínico. Ele ajuda a identificar padrões, mas não substitui 
-            avaliação de profissional de saúde mental.
-          </p>
-        </div>
-
-        {/* O que é este teste? */}
-        <div className={`${theme.cardBg} rounded-2xl shadow-lg border ${theme.cardBorder} overflow-hidden mb-8`}>
-          <button
-            onClick={() => setShowExplanation(!showExplanation)}
-            className={`w-full px-6 py-4 flex items-center justify-between ${isDarkMode ? 'bg-violet-900/30 hover:bg-violet-900/50' : 'bg-purple-50 hover:bg-purple-100'} transition-colors`}
-          >
-            <div className="flex items-center gap-2">
-              <HelpCircle className={`w-5 h-5 ${theme.accentText}`} />
-              <span className={`font-semibold ${theme.textPrimary}`}>O que é este teste?</span>
-            </div>
-            {showExplanation ? (
-              <ChevronUp className={`w-5 h-5 ${theme.textSecondary}`} />
-            ) : (
-              <ChevronDown className={`w-5 h-5 ${theme.textSecondary}`} />
-            )}
-          </button>
-          
-          {showExplanation && (
-            <div className={`px-6 py-5 space-y-4 ${theme.textSecondary}`}>
-              <p>
-                O <strong className={theme.textPrimary}>Teste de Clareza</strong> é uma ferramenta de autoconhecimento com 18 perguntas que ajuda você a identificar padrões em suas relações.
-              </p>
-              
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <div className="w-3 h-3 bg-purple-500 rounded-full mt-1.5 flex-shrink-0"></div>
-                  <div>
-                    <strong className={theme.textPrimary}>Névoa Mental</strong>
-                    <p className={`text-sm ${theme.textSecondary}`}>Confusão sobre sua própria percepção da realidade (gaslighting).</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-3">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
-                  <div>
-                    <strong className={theme.textPrimary}>Medo e Tensão</strong>
-                    <p className={`text-sm ${theme.textSecondary}`}>Nível de medo ou ansiedade em relação à outra pessoa.</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-3">
-                  <div className="w-3 h-3 bg-rose-500 rounded-full mt-1.5 flex-shrink-0"></div>
-                  <div>
-                    <strong className={theme.textPrimary}>Desrespeito a Limites</strong>
-                    <p className={`text-sm ${theme.textSecondary}`}>O quanto seus limites pessoais são respeitados.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Exportar PDF com Cadeia de Custódia */}
-        {result && (
-          <div className="mb-8">
-            <ClarityResultPDF 
-              result={result} 
-              testDate={testDate} 
-              isDarkMode={isDarkMode} 
-            />
+        {/* ============================================================= */}
+        {/* SECTION 7 – RODAPÉ FUNCIONAL */}
+        {/* ============================================================= */}
+        <section className="mb-8">
+          {/* Navegação */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+            <Link
+              href="/dashboard"
+              className="flex flex-col items-center gap-2 p-4 bg-slate-900/80 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors"
+            >
+              <LayoutDashboard className="w-6 h-6 text-violet-400" />
+              <span className="text-sm text-gray-400">Dashboard</span>
+            </Link>
+            
+            <Link
+              href="/teste-clareza"
+              className="flex flex-col items-center gap-2 p-4 bg-slate-900/80 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors"
+            >
+              <RefreshCw className="w-6 h-6 text-violet-400" />
+              <span className="text-sm text-gray-400">Refazer Teste</span>
+            </Link>
+            
+            <Link
+              href="/biblioteca"
+              className="flex flex-col items-center gap-2 p-4 bg-slate-900/80 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors"
+            >
+              <BookOpen className="w-6 h-6 text-violet-400" />
+              <span className="text-sm text-gray-400">Biblioteca</span>
+            </Link>
+            
+            <Link
+              href="/diario/timeline"
+              className="flex flex-col items-center gap-2 p-4 bg-slate-900/80 rounded-xl border border-slate-700 hover:border-slate-600 transition-colors"
+            >
+              <Target className="w-6 h-6 text-violet-400" />
+              <span className="text-sm text-gray-400">Timeline</span>
+            </Link>
           </div>
-        )}
 
-        {/* Navegação */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-          <Link
-            href="/dashboard"
-            className={`flex flex-col items-center gap-2 p-4 ${theme.cardBg} rounded-xl shadow-md hover:shadow-lg transition-shadow border ${theme.cardBorder}`}
-          >
-            <LayoutDashboard className={`w-7 h-7 ${theme.accentText}`} />
-            <span className={`text-sm font-medium ${theme.textSecondary}`}>Dashboard</span>
-          </Link>
-          
-          <Link
-            href="/teste-clareza"
-            className={`flex flex-col items-center gap-2 p-4 ${theme.cardBg} rounded-xl shadow-md hover:shadow-lg transition-shadow border ${theme.cardBorder}`}
-          >
-            <RefreshCw className={`w-7 h-7 ${theme.accentText}`} />
-            <span className={`text-sm font-medium ${theme.textSecondary}`}>Refazer Teste</span>
-          </Link>
-          
-          <Link
-            href="/biblioteca"
-            className={`flex flex-col items-center gap-2 p-4 ${theme.cardBg} rounded-xl shadow-md hover:shadow-lg transition-shadow border ${theme.cardBorder}`}
-          >
-            <BookOpen className={`w-7 h-7 ${theme.accentText}`} />
-            <span className={`text-sm font-medium ${theme.textSecondary}`}>Biblioteca</span>
-          </Link>
-          
-          <Link
-            href="/diario/timeline"
-            className={`flex flex-col items-center gap-2 p-4 ${theme.cardBg} rounded-xl shadow-md hover:shadow-lg transition-shadow border ${theme.cardBorder}`}
-          >
-            <Target className={`w-7 h-7 ${theme.accentText}`} />
-            <span className={`text-sm font-medium ${theme.textSecondary}`}>Timeline</span>
-          </Link>
-        </div>
-
-        {/* Contatos de Emergência */}
-        <div className={`p-4 rounded-xl bg-slate-800/50 mb-6`}>
-          <p className={`text-sm ${theme.textSecondary} text-center mb-3`}>
-            Se você está em perigo, ligue:
-          </p>
-          <div className="flex justify-center gap-4 flex-wrap">
-            <a href="tel:190" className={`text-sm font-medium text-red-400`}>
-              190 - Polícia
-            </a>
-            <a href="tel:180" className={`text-sm font-medium text-pink-400`}>
-              180 - Mulher
-            </a>
-            <a href="tel:188" className={`text-sm font-medium text-yellow-400`}>
-              188 - CVV
-            </a>
+          {/* Contatos de Emergência */}
+          <div className="p-4 rounded-xl bg-slate-800/50 mb-6">
+            <p className="text-sm text-gray-400 text-center mb-3">
+              Em situação de perigo imediato, procure ajuda:
+            </p>
+            <div className="flex justify-center gap-4 flex-wrap">
+              <a href="tel:190" className="text-sm font-medium text-red-400 hover:text-red-300">
+                190 - Polícia
+              </a>
+              <a href="tel:180" className="text-sm font-medium text-pink-400 hover:text-pink-300">
+                180 - Mulher
+              </a>
+              <a href="tel:188" className="text-sm font-medium text-yellow-400 hover:text-yellow-300">
+                188 - CVV
+              </a>
+            </div>
           </div>
-        </div>
 
-        {/* Termo de Consentimento - Rodapé */}
-        <div className="flex justify-center">
-          <TermsConsentBadge />
+          {/* Disclaimer Final */}
+          <div className="p-4 bg-amber-900/20 border border-amber-800/50 rounded-xl mb-6">
+            <p className="text-sm text-amber-300 text-center">
+              <strong>Ferramenta de autoconhecimento.</strong> Este teste ajuda a identificar padrões, mas não substitui avaliação de profissional de saúde mental nem constitui diagnóstico.
+            </p>
+          </div>
+
+          {/* Termo de Consentimento */}
+          <div className="flex justify-center">
+            <TermsConsentBadge />
+          </div>
+        </section>
+
+        {/* Link para voltar à versão original */}
+        <div className="text-center pb-8">
+          <Link 
+            href="/teste-clareza/resultado" 
+            className="text-sm text-gray-500 hover:text-gray-400 underline"
+          >
+            ← Voltar para versão original
+          </Link>
         </div>
       </main>
     </div>
