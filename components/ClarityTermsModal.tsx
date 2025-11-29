@@ -433,7 +433,7 @@ export default function ClarityTermsModal({ isOpen, onAccept, onClose }: Clarity
 // Função para renderizar markdown simples
 function renderMarkdown(content: string) {
   const lines = content.split('\n')
-  const elements: JSX.Element[] = []
+  const elements: React.ReactElement[] = []
   let key = 0
 
   for (const line of lines) {
