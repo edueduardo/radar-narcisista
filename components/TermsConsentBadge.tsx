@@ -10,15 +10,15 @@ import {
   Monitor, 
   Globe,
   Hash,
-  X,
+  ChevronDown,
+  ChevronUp,
   CheckCircle2,
   Loader2
 } from 'lucide-react'
 
 // =============================================================================
 // BADGE/BOTÃO DE TERMO DE CONSENTIMENTO
-// Mostra no topo da página que o usuário já aceitou os termos
-// Permite abrir e visualizar o termo aceito para mostrar a terceiros
+// Expande INLINE (abaixo) para mostrar os detalhes - NÃO usa modal
 // =============================================================================
 
 interface TermsAcceptance {
@@ -42,7 +42,7 @@ interface TermsAcceptance {
 export default function TermsConsentBadge() {
   const [acceptance, setAcceptance] = useState<TermsAcceptance | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false)
 
   const supabase = createClientComponentClient()
 
@@ -107,52 +107,55 @@ export default function TermsConsentBadge() {
   }
 
   return (
-    <>
-      {/* Badge/Botão no topo */}
+    <div className="w-full">
+      {/* Badge/Botão - clica para expandir ABAIXO */}
       <button
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => setIsExpanded(!isExpanded)}
         className="
-          flex items-center gap-2 
-          px-3 py-1.5 sm:px-4 sm:py-2
+          w-full flex items-center justify-between gap-2 
+          px-4 py-3
           bg-emerald-500/10 hover:bg-emerald-500/20
           border border-emerald-500/30 hover:border-emerald-500/50
-          rounded-lg sm:rounded-xl
+          rounded-xl
           transition-all duration-200
-          group
         "
-        title="Clique para ver seu Termo de Consentimento"
       >
-        <FileCheck className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
-        <span className="text-xs sm:text-sm text-emerald-400 font-medium">
-          Termo de Consentimento
-        </span>
-        <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-500 group-hover:scale-110 transition-transform" />
+        <div className="flex items-center gap-3">
+          <FileCheck className="w-5 h-5 text-emerald-400" />
+          <div className="text-left">
+            <span className="text-sm text-emerald-400 font-medium block">
+              Termo de Consentimento
+            </span>
+            <span className="text-xs text-gray-400">
+              Clique para ver detalhes da cadeia de custódia
+            </span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+          {isExpanded ? (
+            <ChevronUp className="w-5 h-5 text-gray-400" />
+          ) : (
+            <ChevronDown className="w-5 h-5 text-gray-400" />
+          )}
+        </div>
       </button>
 
-      {/* Modal com detalhes do termo aceito */}
-      {isModalOpen && (
-        <TermsDetailModal 
-          acceptance={acceptance} 
-          onClose={() => setIsModalOpen(false)} 
-        />
+      {/* Conteúdo expandido ABAIXO (não modal) */}
+      {isExpanded && (
+        <TermsDetailInline acceptance={acceptance} />
       )}
-    </>
+    </div>
   )
 }
 
 // =============================================================================
-// MODAL DE DETALHES DO TERMO ACEITO
+// DETALHES DO TERMO - INLINE (expande abaixo, não modal)
 // =============================================================================
 
-interface TermsDetailModalProps {
-  acceptance: TermsAcceptance
-  onClose: () => void
-}
-
-function TermsDetailModal({ acceptance, onClose }: TermsDetailModalProps) {
+function TermsDetailInline({ acceptance }: { acceptance: TermsAcceptance }) {
   const acceptedDate = new Date(acceptance.accepted_at)
   
-  // Formatar data/hora
   const formattedDate = acceptedDate.toLocaleDateString('pt-BR', {
     day: '2-digit',
     month: '2-digit',
@@ -164,202 +167,105 @@ function TermsDetailModal({ acceptance, onClose }: TermsDetailModalProps) {
     second: '2-digit'
   })
   const formattedDateUTC = acceptedDate.toISOString()
-
-  // Extrair info do dispositivo do user agent
   const deviceInfo = parseUserAgent(acceptance.user_agent)
 
   return (
-    <div 
-      className="fixed inset-0 z-[9999] flex items-start sm:items-center justify-center p-0 sm:p-4 overflow-y-auto"
-      style={{ backgroundColor: 'rgba(0, 0, 0, 0.95)' }}
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-    >
-      <div 
-        className="
-          relative w-full sm:max-w-2xl 
-          bg-gradient-to-b from-slate-900 to-slate-950 
-          sm:rounded-2xl 
-          shadow-2xl border-0 sm:border border-emerald-500/30
-          flex flex-col
-          min-h-screen sm:min-h-0
-          sm:max-h-[95vh]
-          sm:my-4
-        "
-      >
-        {/* Header */}
-        <div className="flex-shrink-0 p-3 sm:p-4 md:p-6 border-b border-emerald-500/20 bg-slate-900/80 backdrop-blur">
-          <div className="flex items-start gap-3">
-            <div className="p-2 sm:p-3 bg-emerald-500/20 rounded-xl flex-shrink-0">
-              <Shield className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-emerald-400" />
+    <div className="mt-3 p-4 bg-slate-900/80 border border-slate-700 rounded-xl space-y-4">
+      {/* Status de aceite */}
+      <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4">
+        <div className="flex items-center gap-3">
+          <CheckCircle2 className="w-8 h-8 text-emerald-400 flex-shrink-0" />
+          <div>
+            <h3 className="font-semibold text-emerald-400 text-sm">
+              Termos Aceitos com Sucesso
+            </h3>
+            <p className="text-xs text-slate-300 mt-1">
+              {acceptance.terms_version.title}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Dados da cadeia de custódia */}
+      <div className="space-y-3">
+        <h4 className="font-semibold text-white text-sm flex items-center gap-2">
+          <Hash className="w-4 h-4 text-amber-400" />
+          Dados da Cadeia de Custódia
+        </h4>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {/* Data/Hora Local */}
+          <div className="bg-slate-800/50 rounded-lg p-3">
+            <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
+              <Calendar className="w-3 h-3" />
+              Data/Hora Local
             </div>
-            <div className="flex-1 min-w-0">
-              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white leading-tight">
-                Termo de Consentimento Aceito
-              </h2>
-              <p className="text-xs sm:text-sm text-emerald-400/80 mt-1">
-                Registro com cadeia de custódia
-              </p>
+            <p className="text-white text-sm font-mono">
+              {formattedDate} às {formattedTime}
+            </p>
+          </div>
+
+          {/* Data/Hora UTC */}
+          <div className="bg-slate-800/50 rounded-lg p-3">
+            <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
+              <Clock className="w-3 h-3" />
+              Data/Hora UTC
             </div>
-            <button
-              onClick={onClose}
-              className="p-1.5 sm:p-2 hover:bg-white/10 rounded-lg transition-colors flex-shrink-0"
-            >
-              <X className="w-5 h-5 sm:w-6 sm:h-6 text-slate-400" />
-            </button>
+            <p className="text-white text-sm font-mono break-all">
+              {formattedDateUTC}
+            </p>
+          </div>
+
+          {/* Dispositivo */}
+          <div className="bg-slate-800/50 rounded-lg p-3">
+            <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
+              <Monitor className="w-3 h-3" />
+              Dispositivo
+            </div>
+            <p className="text-white text-sm">
+              {deviceInfo.device} ({acceptance.platform})
+            </p>
+            <p className="text-slate-400 text-xs mt-1">
+              {deviceInfo.browser} • {acceptance.screen_resolution}
+            </p>
+          </div>
+
+          {/* Localização */}
+          <div className="bg-slate-800/50 rounded-lg p-3">
+            <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
+              <Globe className="w-3 h-3" />
+              Localização
+            </div>
+            <p className="text-white text-sm">
+              {acceptance.timezone}
+            </p>
+            <p className="text-slate-400 text-xs mt-1">
+              Idioma: {acceptance.locale}
+            </p>
           </div>
         </div>
 
-        {/* Conteúdo scrollável */}
-        <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 space-y-4">
-          {/* Status de aceite */}
-          <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 sm:p-4">
-            <div className="flex items-center gap-3">
-              <CheckCircle2 className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-400 flex-shrink-0" />
-              <div>
-                <h3 className="font-semibold text-emerald-400 text-sm sm:text-base">
-                  Termos Aceitos com Sucesso
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-300 mt-1">
-                  {acceptance.terms_version.title}
-                </p>
-              </div>
-            </div>
+        {/* Hash do evento */}
+        <div className="bg-slate-800/50 rounded-lg p-3">
+          <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
+            <Hash className="w-3 h-3" />
+            Hash SHA-256 (Prova de Integridade)
           </div>
-
-          {/* Dados da cadeia de custódia */}
-          <div className="bg-slate-800/50 rounded-xl p-3 sm:p-4 space-y-3">
-            <h4 className="font-semibold text-white text-sm sm:text-base flex items-center gap-2">
-              <Hash className="w-4 h-4 text-amber-400" />
-              Dados da Cadeia de Custódia
-            </h4>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {/* Data/Hora Local */}
-              <div className="bg-slate-700/50 rounded-lg p-3">
-                <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
-                  <Calendar className="w-3 h-3" />
-                  Data/Hora Local
-                </div>
-                <p className="text-white text-sm font-mono">
-                  {formattedDate} às {formattedTime}
-                </p>
-              </div>
-
-              {/* Data/Hora UTC */}
-              <div className="bg-slate-700/50 rounded-lg p-3">
-                <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
-                  <Clock className="w-3 h-3" />
-                  Data/Hora UTC
-                </div>
-                <p className="text-white text-sm font-mono break-all">
-                  {formattedDateUTC}
-                </p>
-              </div>
-
-              {/* Dispositivo */}
-              <div className="bg-slate-700/50 rounded-lg p-3">
-                <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
-                  <Monitor className="w-3 h-3" />
-                  Dispositivo
-                </div>
-                <p className="text-white text-sm">
-                  {deviceInfo.device} ({acceptance.platform})
-                </p>
-                <p className="text-slate-400 text-xs mt-1">
-                  {deviceInfo.browser} • {acceptance.screen_resolution}
-                </p>
-              </div>
-
-              {/* Localização */}
-              <div className="bg-slate-700/50 rounded-lg p-3">
-                <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
-                  <Globe className="w-3 h-3" />
-                  Localização
-                </div>
-                <p className="text-white text-sm">
-                  {acceptance.timezone}
-                </p>
-                <p className="text-slate-400 text-xs mt-1">
-                  Idioma: {acceptance.locale}
-                </p>
-              </div>
-            </div>
-
-            {/* Hash do evento */}
-            <div className="bg-slate-700/50 rounded-lg p-3">
-              <div className="flex items-center gap-2 text-slate-400 text-xs mb-1">
-                <Hash className="w-3 h-3" />
-                Hash SHA-256 (Prova de Integridade)
-              </div>
-              <p className="text-amber-400 text-xs font-mono break-all">
-                {acceptance.event_hash}
-              </p>
-            </div>
-          </div>
-
-          {/* Conteúdo do termo */}
-          <div className="bg-slate-800/50 rounded-xl p-3 sm:p-4">
-            <h4 className="font-semibold text-white text-sm sm:text-base mb-3 flex items-center gap-2">
-              <FileCheck className="w-4 h-4 text-emerald-400" />
-              Conteúdo do Termo Aceito
-            </h4>
-            <div className="prose prose-invert prose-sm max-w-none bg-slate-700/30 rounded-lg p-3 max-h-60 overflow-y-auto">
-              {renderMarkdown(acceptance.terms_version.content_md)}
-            </div>
-          </div>
+          <p className="text-amber-400 text-xs font-mono break-all">
+            {acceptance.event_hash}
+          </p>
         </div>
+      </div>
 
-        {/* Footer */}
-        <div className="flex-shrink-0 p-3 sm:p-4 md:p-6 border-t border-emerald-500/20 bg-slate-900/80 backdrop-blur">
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-            <button
-              onClick={() => {
-                // Copiar informações para clipboard
-                const text = `
-TERMO DE CONSENTIMENTO - RADAR NARCISISTA BR
-=============================================
-Status: ACEITO
-Termo: ${acceptance.terms_version.title}
-Data/Hora: ${formattedDate} às ${formattedTime}
-Data/Hora UTC: ${formattedDateUTC}
-Dispositivo: ${deviceInfo.device} (${acceptance.platform})
-Navegador: ${deviceInfo.browser}
-Resolução: ${acceptance.screen_resolution}
-Fuso Horário: ${acceptance.timezone}
-Idioma: ${acceptance.locale}
-Hash SHA-256: ${acceptance.event_hash}
-=============================================
-                `.trim()
-                navigator.clipboard.writeText(text)
-                alert('Informações copiadas para a área de transferência!')
-              }}
-              className="
-                flex-1 py-3 px-4
-                bg-slate-700 hover:bg-slate-600 
-                text-slate-200 
-                rounded-xl font-medium
-                transition-all
-                text-sm
-                flex items-center justify-center gap-2
-              "
-            >
-              📋 Copiar Informações
-            </button>
-            <button
-              onClick={onClose}
-              className="
-                flex-1 py-3 px-4
-                bg-gradient-to-r from-emerald-500 to-emerald-600 
-                hover:from-emerald-400 hover:to-emerald-500 
-                text-white 
-                rounded-xl font-semibold
-                transition-all
-                text-sm
-                shadow-lg shadow-emerald-500/25
-              "
-            >
-              Fechar
-            </button>
+      {/* Conteúdo do termo */}
+      <div className="space-y-2">
+        <h4 className="font-semibold text-white text-sm flex items-center gap-2">
+          <Shield className="w-4 h-4 text-violet-400" />
+          Conteúdo do Termo Aceito
+        </h4>
+        <div className="bg-slate-800/50 rounded-lg p-4 max-h-60 overflow-y-auto">
+          <div className="prose prose-sm prose-invert max-w-none">
+            {renderMarkdown(acceptance.terms_version.content_md)}
           </div>
         </div>
       </div>
