@@ -12,7 +12,11 @@ import {
   Sun,
   ShieldAlert,
   ChevronRight,
-  Lock
+  Lock,
+  PenLine,
+  Mic,
+  Crown,
+  Sparkles
 } from 'lucide-react'
 
 // Importar configuração unificada
@@ -50,6 +54,11 @@ export default function TesteClarezaUnificado() {
   const [termsAccepted, setTermsAccepted] = useState<boolean | null>(null) // null = verificando
   const [showTermsModal, setShowTermsModal] = useState(false)
   const [termsBlocked, setTermsBlocked] = useState(false) // Se fechou sem aceitar
+  
+  // Estados para pergunta 19 (texto livre)
+  const [showQuestion19, setShowQuestion19] = useState(false)
+  const [freeText, setFreeText] = useState('')
+  const [isPremium, setIsPremium] = useState(false) // TODO: verificar plano do usuário
 
   const router = useRouter()
   const supabase = createClientComponentClient()
@@ -185,9 +194,19 @@ export default function TesteClarezaUnificado() {
       setCurrentQuestion(nextQuestion)
       saveProgress(newAnswers, nextQuestion)
     } else {
-      // Última pergunta - salvar e redirecionar
-      await saveAndRedirect(newAnswers)
+      // Última pergunta das 18 - mostrar pergunta 19 (texto livre)
+      setShowQuestion19(true)
     }
+  }
+  
+  // Finalizar teste (após pergunta 19)
+  const handleFinishTest = async () => {
+    await saveAndRedirect(answers, freeText)
+  }
+  
+  // Pular pergunta 19
+  const handleSkipQuestion19 = async () => {
+    await saveAndRedirect(answers, '')
   }
 
   // Voltar pergunta
@@ -200,7 +219,7 @@ export default function TesteClarezaUnificado() {
   }
 
   // Salvar resultado e redirecionar
-  const saveAndRedirect = async (finalAnswers: Record<string, number>) => {
+  const saveAndRedirect = async (finalAnswers: Record<string, number>, userNarrative: string = '') => {
     setIsSaving(true)
     try {
       // Calcular resultado usando a função unificada
@@ -210,6 +229,7 @@ export default function TesteClarezaUnificado() {
       localStorage.setItem('radar-test-result', JSON.stringify({
         answers: finalAnswers,
         result,
+        userNarrative, // Texto livre da pergunta 19
         completedAt: new Date().toISOString(),
       }))
       
@@ -224,8 +244,9 @@ export default function TesteClarezaUnificado() {
           .from('clarity_tests')
           .insert({
             user_id: user.id,
-            test_type: 'unificado_v2',
+            test_type: 'unificado_v3', // v3 = com pergunta 19
             raw_answers: finalAnswers,
+            user_narrative: userNarrative, // Texto livre
             fog_score: nevoaScore?.totalScore || 0,
             fear_score: medoScore?.totalScore || 0,
             limits_score: limitesScore?.totalScore || 0,
@@ -379,7 +400,7 @@ export default function TesteClarezaUnificado() {
             <h3 className={`font-semibold ${theme.textPrimary} mb-3`}>O que você vai responder:</h3>
             <div className="grid grid-cols-2 gap-2">
               <div className={`text-sm ${theme.textSecondary}`}>
-                <span className={`font-medium ${theme.textPrimary}`}>18</span> perguntas
+                <span className={`font-medium ${theme.textPrimary}`}>18</span> perguntas + 1 especial
               </div>
               <div className={`text-sm ${theme.textSecondary}`}>
                 <span className={`font-medium ${theme.textPrimary}`}>6</span> categorias
@@ -389,6 +410,20 @@ export default function TesteClarezaUnificado() {
               </div>
               <div className={`text-sm ${theme.textSecondary}`}>
                 <span className={`font-medium ${theme.textPrimary}`}>5-10</span> minutos
+              </div>
+            </div>
+          </div>
+          
+          {/* Destaque pergunta 19 */}
+          <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-violet-900/20 border-violet-800' : 'bg-purple-50 border-purple-200'} border mb-6`}>
+            <div className="flex items-start gap-3">
+              <Sparkles className={`w-5 h-5 ${isDarkMode ? 'text-violet-400' : 'text-purple-600'} flex-shrink-0 mt-0.5`} />
+              <div>
+                <h3 className={`font-semibold ${isDarkMode ? 'text-violet-300' : 'text-purple-800'} mb-1`}>A última pergunta é especial</h3>
+                <p className={`text-sm ${isDarkMode ? 'text-violet-400' : 'text-purple-700'}`}>
+                  No final, você poderá contar sua história com suas próprias palavras. 
+                  Isso ajuda a montar o quebra-cabeça completo da sua situação.
+                </p>
               </div>
             </div>
           </div>
@@ -412,7 +447,151 @@ export default function TesteClarezaUnificado() {
     )
   }
 
-  // Questionário
+  // ============================================================
+  // PERGUNTA 19 - TEXTO LIVRE (OPCIONAL)
+  // ============================================================
+  if (showQuestion19) {
+    return (
+      <div className={`min-h-screen ${theme.bgMain}`}>
+        <header className={`sticky top-0 z-40 ${theme.bgHeader} backdrop-blur-sm border-b ${theme.borderHeader}`}>
+          <div className="max-w-3xl mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <button 
+                onClick={() => setShowQuestion19(false)}
+                className={`p-2 ${theme.textSecondary} hover:${theme.textPrimary} ${isDarkMode ? 'hover:bg-slate-800' : 'hover:bg-gray-100'} rounded-lg transition-colors`}
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              <span className={`text-sm ${theme.textSecondary}`}>19 de 19</span>
+              <button
+                onClick={toggleTheme}
+                className={`p-2 rounded-lg ${isDarkMode ? 'bg-slate-700 text-yellow-400' : 'bg-gray-100 text-gray-600'} hover:opacity-80 transition-all`}
+              >
+                {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </button>
+            </div>
+            <div className={`mt-3 h-1.5 ${isDarkMode ? 'bg-slate-800' : 'bg-gray-200'} rounded-full overflow-hidden`}>
+              <div className={`h-full ${theme.accentBg} rounded-full`} style={{ width: '100%' }} />
+            </div>
+          </div>
+        </header>
+
+        <main className="max-w-3xl mx-auto px-4 py-8">
+          {/* Alerta de importância */}
+          <div className={`mb-6 p-4 rounded-xl ${isDarkMode ? 'bg-violet-900/30 border-violet-700' : 'bg-purple-50 border-purple-300'} border-2`}>
+            <div className="flex items-start gap-3">
+              <Sparkles className={`w-6 h-6 ${isDarkMode ? 'text-violet-400' : 'text-purple-600'} flex-shrink-0`} />
+              <div>
+                <h3 className={`font-bold ${isDarkMode ? 'text-violet-300' : 'text-purple-800'} mb-1`}>
+                  Esta é a pergunta mais importante!
+                </h3>
+                <p className={`text-sm ${isDarkMode ? 'text-violet-400' : 'text-purple-700'}`}>
+                  Sua resposta aqui vai ajudar a completar o quebra-cabeça e dar mais clareza sobre sua situação.
+                  É opcional, mas faz toda a diferença.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className={`${theme.cardBg} rounded-2xl shadow-xl border ${theme.cardBorder} p-6 sm:p-8`}>
+            {/* Ícone e título */}
+            <div className="flex items-center gap-3 mb-4">
+              <div className={`p-3 rounded-xl ${isDarkMode ? 'bg-violet-600/20' : 'bg-purple-100'}`}>
+                <PenLine className={`w-6 h-6 ${isDarkMode ? 'text-violet-400' : 'text-purple-600'}`} />
+              </div>
+              <span className={`text-xs font-medium uppercase tracking-wider ${theme.textSecondary}`}>
+                Sua história
+              </span>
+            </div>
+
+            {/* Pergunta */}
+            <h2 className={`text-xl sm:text-2xl font-semibold ${theme.textPrimary} mb-4 leading-relaxed`}>
+              Com suas próprias palavras, conte o que você está vivendo ou sentindo nessa relação.
+            </h2>
+            
+            <p className={`text-sm ${theme.textSecondary} mb-6`}>
+              Pode ser um episódio recente, um padrão que você percebeu, ou simplesmente como você se sente. 
+              Não existe resposta certa ou errada. Escreva o que vier ao coração.
+            </p>
+
+            {/* Campo de texto */}
+            <textarea
+              value={freeText}
+              onChange={(e) => setFreeText(e.target.value)}
+              placeholder="Escreva aqui... (opcional)"
+              className={`w-full h-40 sm:h-48 p-4 rounded-xl border resize-none ${
+                isDarkMode 
+                  ? 'bg-slate-800 border-slate-700 text-white placeholder-slate-500 focus:border-violet-500' 
+                  : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-400 focus:border-purple-500'
+              } focus:outline-none focus:ring-2 focus:ring-violet-500/20 transition-colors`}
+            />
+
+            {/* Contador de caracteres */}
+            <div className={`mt-2 text-xs ${theme.textSecondary} text-right`}>
+              {freeText.length} caracteres
+            </div>
+
+            {/* Opção de áudio (Premium) */}
+            <div className={`mt-6 p-4 rounded-xl ${isDarkMode ? 'bg-slate-800/50 border-slate-700' : 'bg-gray-50 border-gray-200'} border`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Mic className={`w-5 h-5 ${isDarkMode ? 'text-slate-500' : 'text-gray-400'}`} />
+                  <div>
+                    <p className={`text-sm font-medium ${theme.textPrimary}`}>Prefere falar?</p>
+                    <p className={`text-xs ${theme.textSecondary}`}>Grave um áudio e transcrevemos para você</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Crown className={`w-4 h-4 ${isDarkMode ? 'text-amber-400' : 'text-amber-500'}`} />
+                  <span className={`text-xs font-medium ${isDarkMode ? 'text-amber-400' : 'text-amber-600'}`}>
+                    Premium
+                  </span>
+                </div>
+              </div>
+              {!isPremium && (
+                <Link href="/planos">
+                  <button className={`mt-3 w-full py-2 px-4 rounded-lg text-sm font-medium ${
+                    isDarkMode ? 'bg-amber-600/20 text-amber-400 hover:bg-amber-600/30' : 'bg-amber-100 text-amber-700 hover:bg-amber-200'
+                  } transition-colors`}>
+                    Desbloquear com plano Premium
+                  </button>
+                </Link>
+              )}
+            </div>
+          </div>
+
+          {/* Botões de ação */}
+          <div className="mt-6 space-y-3">
+            <button
+              onClick={handleFinishTest}
+              className={`w-full py-4 px-6 ${theme.accentBg} hover:opacity-90 text-white rounded-xl font-semibold transition-colors flex items-center justify-center gap-2`}
+            >
+              {freeText.trim() ? 'Finalizar e ver meu resultado' : 'Finalizar teste'}
+              <ChevronRight className="w-5 h-5" />
+            </button>
+            
+            <button
+              onClick={handleSkipQuestion19}
+              className={`w-full py-3 px-6 ${isDarkMode ? 'bg-slate-800 hover:bg-slate-700 text-slate-300' : 'bg-gray-100 hover:bg-gray-200 text-gray-600'} rounded-xl font-medium transition-colors`}
+            >
+              Pular esta pergunta
+            </button>
+          </div>
+
+          {/* Dica */}
+          <div className={`mt-6 p-4 rounded-xl ${isDarkMode ? 'bg-slate-800/30' : 'bg-gray-50'}`}>
+            <p className={`text-xs ${theme.textSecondary} text-center`}>
+              💡 Quanto mais você compartilhar, mais personalizada será a análise do seu resultado.
+            </p>
+          </div>
+        </main>
+      </div>
+    )
+  }
+
+  // ============================================================
+  // QUESTIONÁRIO NORMAL (18 PERGUNTAS)
+  // ============================================================
   const question = questions[currentQuestion]
   const categoryConfig = getCategoryConfig(question.category)
   const progress = ((currentQuestion + 1) / questions.length) * 100
