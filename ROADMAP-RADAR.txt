@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 1.0
-Última atualização: 29/11/2025
+Versão: 1.1
+Última atualização: 29/11/2025 21:15 (UTC-5)
 
 ================================================================================
 STATUS GERAL
@@ -67,6 +67,23 @@ HISTÓRICO DE CONCLUSÕES
 - Integração homepage e /planos com hook usePlans
 - Suporte a promoções com labels e preços riscados
 - Fallback automático para plans-config.ts
+
+[29/11/2025 21:00] Correções Pós-Deploy
+- Corrigido acesso admin (getUser em vez de getSession)
+- Adicionada migration RLS para admins em billing_plans
+- Sistema de Planos 100% funcional em produção
+
+[29/11/2025 21:15] Sistema de Memória do Projeto
+- Criado ROADMAP-RADAR.txt
+- Criado TESTES-RADAR.txt
+- Criado script gerar-espelho-codigo.cjs
+- Comando: npm run espelho-codigo
+
+================================================================================
+BUGS CONHECIDOS (A CORRIGIR)
+================================================================================
+
+Nenhum bug crítico identificado no momento.
 
 ================================================================================
 FIM DO ROADMAP

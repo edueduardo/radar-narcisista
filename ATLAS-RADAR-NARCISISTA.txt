@@ -1,9 +1,16 @@
 ================================================================================
 RADAR NARCISISTA – ATLAS COMPLETO DO PROJETO (CÓDIGO REAL)
 ================================================================================
-Data/hora da geração: 29/11/2025 18:10 (UTC-5)
+Data/hora da geração: 29/11/2025 21:15 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
+
+ÚLTIMA ATUALIZAÇÃO: 29/11/2025 21:15
+MUDANÇAS DESDE ÚLTIMA VERSÃO:
+- Adicionada migration RLS para admins em billing_plans
+- Corrigido acesso admin (getUser em vez de getSession)
+- Sistema de Planos Administráveis 100% funcional
+- Criados arquivos ROADMAP-RADAR.txt e TESTES-RADAR.txt
 
 ================================================================================
 [ÍNDICE]
@@ -707,6 +714,52 @@ FUNCIONALIDADES:
 ✅ Fallback automático para plans-config.ts se tabelas não existirem
 ✅ Integração com homepage e /planos
 
+MIGRATIONS EXECUTADAS NO SUPABASE:
+✅ 20241129_create_billing_plans.sql - Tabelas criadas
+✅ 20241129_billing_rls_admin.sql - Políticas RLS para admins
+
 PRÓXIMO PASSO:
-Executar migration no Supabase para ativar sistema completo.
+Sistema de planos 100% funcional. Próximo: testar promoções.
+
+================================================================================
+[12] CORREÇÕES DE ACESSO ADMIN (29/11/2025 21:00)
+================================================================================
+
+PROBLEMA IDENTIFICADO:
+- Admin não conseguia acessar /admin após deploy
+- Erro: redirecionava para /dashboard?error=acesso_negado
+
+CAUSA:
+- getSession() não estava funcionando corretamente na Vercel
+- Verificação de email admin não estava priorizando email hardcoded
+
+CORREÇÃO APLICADA:
+- Arquivo: app/admin/page.tsx
+- Mudança: getSession() → getUser() (mais confiável)
+- Mudança: Verificação por email ANTES de verificar banco
+- Adicionados logs de debug para Vercel
+
+EMAILS ADMIN HARDCODED:
+- etailoffice@gmail.com
+- eduardo.mkt.davila@gmail.com
+
+================================================================================
+[13] ARQUIVOS DE MEMÓRIA DO PROJETO (29/11/2025)
+================================================================================
+
+5 ARQUIVOS TXT NA RAIZ:
+1. ATLAS-RADAR-NARCISISTA.txt - Mapa técnico do código real
+2. TUDO PARA O GPT.txt - Visão de produto, prompts, histórico
+3. ESPELHO-CODIGO-RADAR.txt - Espelho completo do código (gerado)
+4. ROADMAP-RADAR.txt - Tarefas e prioridades
+5. TESTES-RADAR.txt - Checklist de testes
+
+SCRIPT PARA GERAR ESPELHO:
+- Arquivo: scripts/gerar-espelho-codigo.cjs
+- Comando: npm run espelho-codigo
+- Saída: ESPELHO-CODIGO-RADAR.txt (4.3MB, 348 arquivos)
+- Nota: Arquivo não vai pro Git (muito grande)
+
+================================================================================
+FIM DO ATLAS
 ================================================================================

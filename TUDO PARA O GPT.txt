@@ -2336,3 +2336,45 @@ IMPORTANTE:
 - Compatibilidade total com código existente mantida
 
 ================================================================================
+ETAPA 5 – CORREÇÕES PÓS-DEPLOY (29/11/2025 21:00)
+================================================================================
+
+PROBLEMA 1: Acesso Admin Negado
+- Sintoma: Admin redirecionado para /dashboard?error=acesso_negado
+- Causa: getSession() não funcionava corretamente na Vercel
+- Solução: Trocar para getUser() + priorizar verificação por email
+- Arquivo: app/admin/page.tsx
+
+PROBLEMA 2: RLS Bloqueando Promoções
+- Sintoma: "new row violates row-level security policy"
+- Causa: Faltavam políticas INSERT/UPDATE/DELETE para admins
+- Solução: Nova migration 20241129_billing_rls_admin.sql
+- Executada no Supabase: ✅
+
+MIGRATIONS EXECUTADAS NO SUPABASE:
+✅ 20241129_create_billing_plans.sql
+✅ 20241129_billing_rls_admin.sql
+
+STATUS ATUAL:
+✅ Sistema de Planos 100% funcional
+✅ Admin consegue acessar /admin/planos
+✅ Admin consegue criar/editar promoções
+✅ Homepage e /planos lendo do banco
+
+================================================================================
+SISTEMA DE MEMÓRIA DO PROJETO (29/11/2025)
+================================================================================
+
+5 ARQUIVOS TXT OBRIGATÓRIOS NA RAIZ:
+1. ATLAS-RADAR-NARCISISTA.txt - Mapa técnico do código REAL
+2. TUDO PARA O GPT.txt - Visão de produto, prompts, histórico
+3. ESPELHO-CODIGO-RADAR.txt - Espelho completo do código (gerado)
+4. ROADMAP-RADAR.txt - Tarefas e prioridades
+5. TESTES-RADAR.txt - Checklist de testes
+
+COMANDO PARA GERAR ESPELHO:
+npm run espelho-codigo
+
+REGRA: Sempre rodar "CICLO RADAR 5 TXT" para sincronizar documentação.
+
+================================================================================
