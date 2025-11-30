@@ -286,6 +286,35 @@ export async function POST(request: Request) {
             console.log('Entrada de diário clarity_baseline criada para teste:', finalTestId)
           }
         })
+      
+      // ETAPA 7 - PLANO DE SEGURANÇA: Criar risk_alert quando hasPhysicalRisk
+      if (result.hasPhysicalRisk) {
+        const physicalScore = categoryScores['fisico']?.percentage || 0
+        const riskLevel = physicalScore >= 0.5 ? 'CRITICAL' : 'HIGH'
+        
+        supabase
+          .from('risk_alerts')
+          .insert({
+            user_id: user.id,
+            source: 'clarity_test',
+            source_id: finalTestId,
+            level: riskLevel,
+            category: 'PHYSICAL_VIOLENCE',
+            title: 'Risco de Violência Física Detectado',
+            description: `O Teste de Clareza indicou sinais de possível risco físico (${Math.round(physicalScore * 100)}%). Recomendamos revisar seu Plano de Segurança.`,
+            recommendation: 'Revise seu Plano de Segurança e mantenha contatos de emergência atualizados.',
+            is_read: false,
+            is_dismissed: false,
+            created_at: new Date().toISOString()
+          })
+          .then(({ error: alertError }) => {
+            if (alertError) {
+              console.error('Erro ao criar risk_alert (não crítico):', alertError)
+            } else {
+              console.log('Risk alert criado para risco físico no teste:', finalTestId)
+            }
+          })
+      }
         
     } else if (testId) {
       // Verificar se o teste pertence ao usuário

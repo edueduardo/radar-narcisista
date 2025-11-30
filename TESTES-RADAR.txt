@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 1.4
-Última atualização: 30/11/2025 09:20 (UTC-5)
+Versão: 1.6
+Última atualização: 30/11/2025 15:20 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -199,6 +199,89 @@ ETAPA 5 - EDITOR VISUAL DA FRONTPAGE:
 ☐ Preview responsivo funciona (desktop/tablet/mobile)
 ☐ Alterações salvas refletem na frontpage real
 ☐ Fallback funciona se tabela não existir
+
+================================================================================
+ETAPA 6 - TRIÂNGULO V2 (FILTROS + MAPA NO DASHBOARD):
+================================================================================
+
+FILTROS NO /diario:
+☐ Filtro "Todos" mostra todas as entradas
+☐ Filtro "Perfil de Clareza" mostra apenas entries clarity_baseline
+☐ Filtro "Resumo do Chat" mostra apenas entries chat_summary
+☐ Filtro "Episódios Normais" mostra apenas entries normal ou sem tipo
+☐ Mensagem amigável quando filtro não retorna resultados
+☐ Badges existentes continuam funcionando
+
+FILTROS + LEGENDA NO /diario/timeline:
+☐ Filtros por entry_type funcionam igual ao /diario
+☐ Legenda do Triângulo aparece corretamente:
+   - ✨ Perfil de Clareza
+   - 💬 Resumo do Chat
+   - 🔥 Episódio Intenso (≥7)
+☐ Filtro não quebra a timeline existente
+
+CARD "ESTADO DO TRIÂNGULO" NO /dashboard:
+☐ Card aparece na seção correta do dashboard
+☐ Coluna "Clareza" mostra se tem Perfil base salvo
+☐ Coluna "Diário" mostra contagem dos últimos 30 dias
+☐ Coluna "Chat" mostra contagem de resumos dos últimos 30 dias
+☐ Status "Triângulo Ativo" aparece quando os 3 lados têm dados
+☐ Status "Incompleto" aparece quando falta algum lado
+☐ Mensagem explicativa indica o que falta completar
+☐ Card funciona em tema claro e escuro
+
+================================================================================
+ETAPA 7.3 - PLANO DE SEGURANÇA NO TRIÂNGULO:
+================================================================================
+
+API /api/safety-plan:
+☐ GET /api/safety-plan retorna plano do usuário autenticado
+☐ GET /api/safety-plan retorna status calculado (NOT_STARTED, IN_PROGRESS, READY)
+☐ POST /api/safety-plan cria novo plano
+☐ POST /api/safety-plan cria entrada no diário com entry_type='safety_plan'
+☐ PATCH /api/safety-plan atualiza plano existente
+☐ PATCH /api/safety-plan cria entrada no diário de atualização
+☐ API retorna 401 se não autenticado
+☐ API retorna 409 se tentar criar plano que já existe
+
+DASHBOARD - Card "Plano de Segurança":
+☐ Card aparece no Dashboard
+☐ Card mostra status NOT_STARTED com cor cinza
+☐ Card mostra status IN_PROGRESS com cor amarela
+☐ Card mostra status READY com cor verde
+☐ Card tem link para /plano-seguranca
+☐ Card mostra contagem de contatos de emergência
+
+DASHBOARD - Banner de Risco Físico:
+☐ Banner aparece se hasPhysicalRisk = true E plano não está READY
+☐ Banner NÃO aparece se plano está READY
+☐ Banner tem cor vermelha se plano NOT_STARTED
+☐ Banner tem cor amarela se plano IN_PROGRESS
+☐ Banner tem link para /plano-seguranca
+
+CHAT - Detecção de Risco Físico:
+☐ Digitar "ele me bateu" mostra banner de alerta
+☐ Digitar "me ameaçou" mostra banner de alerta
+☐ Digitar "medo de morrer" mostra banner de alerta
+☐ Banner tem link para /plano-seguranca
+☐ risk_alert é criado no banco de dados
+☐ risk_alert tem source='chat', level='HIGH', category='PHYSICAL_VIOLENCE'
+
+DIÁRIO - Badge "Plano de Segurança":
+☐ Entradas com entry_type='safety_plan' mostram badge 🛡️
+☐ Badge aparece no /diario
+☐ Badge aparece no /diario/timeline
+☐ Badge tem estilo vermelho
+
+TESTE DE CLAREZA - risk_alert automático:
+☐ Ao salvar perfil com hasPhysicalRisk=true, cria risk_alert
+☐ risk_alert tem category='PHYSICAL_VIOLENCE'
+
+FLUXO COMPLETO:
+☐ Criar Plano de Segurança → Ver entrada no Diário com badge 🛡️
+☐ Atualizar Plano de Segurança → Ver nova entrada no Diário
+☐ Digitar frase de risco no Chat → Ver banner + risk_alert criado
+☐ Fazer teste com risco físico → Ver risk_alert criado
 
 ================================================================================
 MIGRATIONS PENDENTES (EXECUTAR NO SUPABASE):

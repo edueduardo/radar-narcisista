@@ -227,6 +227,20 @@ export default function DashboardV2Page() {
     { id: '3', label: 'Configurar Plano de Segurança', completed: false, link: '/seguranca-premium' },
   ])
   
+  // ETAPA 6 - Estado do Triângulo
+  const [triangleState, setTriangleState] = useState({
+    hasClarity: false,
+    lastClarityDate: null as string | null,
+    diaryCount30d: 0,
+    diaryIntense30d: 0,
+    chatSummaryCount30d: 0,
+    lastChatSummaryDate: null as string | null,
+  })
+  
+  // ETAPA 7 - Estado do Plano de Segurança
+  const [safetyPlanStatus, setSafetyPlanStatus] = useState<'NOT_STARTED' | 'IN_PROGRESS' | 'READY'>('NOT_STARTED')
+  const [showPhysicalRiskBanner, setShowPhysicalRiskBanner] = useState(true)
+  
   // Hook para perfil de clareza e recomendações
   const { profile: clarityProfile, hasProfile: hasClarityProfile, isLoading: isLoadingProfile } = useClarityProfile()
   const [clarityRecommendations, setClarityRecommendations] = useState<ClarityRecommendation[]>([])
@@ -398,6 +412,19 @@ export default function DashboardV2Page() {
       const temPlano = (planoRes.data?.length || 0) > 0
       setHasSecurityPlan(temPlano)
       
+      // ETAPA 7 - Buscar status detalhado do plano de segurança
+      if (temPlano) {
+        try {
+          const safetyPlanRes = await fetch('/api/safety-plan')
+          if (safetyPlanRes.ok) {
+            const safetyData = await safetyPlanRes.json()
+            setSafetyPlanStatus(safetyData.status || 'IN_PROGRESS')
+          }
+        } catch (err) {
+          console.error('Erro ao buscar status do plano:', err)
+        }
+      }
+      
       if (entradasRes.data) {
         setRecentEntries(entradasRes.data)
       }
@@ -427,6 +454,47 @@ export default function DashboardV2Page() {
         if (task.id === '3' && temPlano) return { ...task, completed: true }
         return task
       }))
+      
+      // ETAPA 6 - Carregar estado do Triângulo
+      const thirtyDaysAgo = new Date()
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+      
+      const [clarityEntriesRes, diaryEntriesRes, chatSummaryRes] = await Promise.all([
+        // Entradas clarity_baseline
+        supabase
+          .from('journal_entries')
+          .select('created_at')
+          .eq('user_id', user.id)
+          .eq('entry_type', 'clarity_baseline')
+          .order('created_at', { ascending: false })
+          .limit(1),
+        // Entradas do diário nos últimos 30 dias
+        supabase
+          .from('journal_entries')
+          .select('mood_intensity, created_at')
+          .eq('user_id', user.id)
+          .gte('created_at', thirtyDaysAgo.toISOString()),
+        // Resumos de chat nos últimos 30 dias
+        supabase
+          .from('journal_entries')
+          .select('created_at')
+          .eq('user_id', user.id)
+          .eq('entry_type', 'chat_summary')
+          .gte('created_at', thirtyDaysAgo.toISOString())
+          .order('created_at', { ascending: false })
+      ])
+      
+      const diaryEntries30d = diaryEntriesRes.data || []
+      const chatSummaries30d = chatSummaryRes.data || []
+      
+      setTriangleState({
+        hasClarity: (clarityEntriesRes.data?.length || 0) > 0,
+        lastClarityDate: clarityEntriesRes.data?.[0]?.created_at || null,
+        diaryCount30d: diaryEntries30d.length,
+        diaryIntense30d: diaryEntries30d.filter(e => (e.mood_intensity || 0) >= 7).length,
+        chatSummaryCount30d: chatSummaries30d.length,
+        lastChatSummaryDate: chatSummaries30d[0]?.created_at || null,
+      })
       
       setLoading(false)
     }
@@ -672,6 +740,265 @@ export default function DashboardV2Page() {
                 color="blue"
                 theme={theme}
               />
+            </div>
+          </section>
+
+          {/* ============================================================ */}
+          {/* 3.5. ESTADO DO TRIÂNGULO - ETAPA 6 */}
+          {/* ============================================================ */}
+          <section className="mb-8">
+            <div className={`${t.bgCard} border ${t.border} rounded-xl p-5 ${t.cardShadow}`}>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className={`w-10 h-10 ${theme === 'light' ? 'bg-gradient-to-br from-purple-100 to-indigo-100' : 'bg-gradient-to-br from-violet-600/20 to-indigo-600/20'} rounded-xl flex items-center justify-center`}>
+                    <Scale className={`w-5 h-5 ${theme === 'light' ? 'text-purple-600' : 'text-violet-400'}`} />
+                  </div>
+                  <div>
+                    <h3 className={`font-semibold ${t.text}`}>Estado do Triângulo</h3>
+                    <p className={`text-xs ${t.textMuted}`}>Clareza ⇄ Diário ⇄ Chat</p>
+                  </div>
+                </div>
+                {/* Status geral */}
+                {triangleState.hasClarity && triangleState.diaryCount30d > 0 && triangleState.chatSummaryCount30d > 0 ? (
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${theme === 'light' ? 'bg-green-100 text-green-700' : 'bg-green-900/30 text-green-400'}`}>
+                    ✅ Triângulo Ativo
+                  </span>
+                ) : (
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${theme === 'light' ? 'bg-amber-100 text-amber-700' : 'bg-amber-900/30 text-amber-400'}`}>
+                    ⚠️ Incompleto
+                  </span>
+                )}
+              </div>
+              
+              {/* Grid 3 colunas */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                {/* Clareza */}
+                <div className={`p-4 rounded-xl ${theme === 'light' ? 'bg-purple-50 border border-purple-100' : 'bg-violet-950/30 border border-violet-800/30'}`}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles className={`w-4 h-4 ${theme === 'light' ? 'text-purple-600' : 'text-purple-400'}`} />
+                    <span className={`text-sm font-medium ${t.text}`}>Clareza</span>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className={`text-xs ${t.textMuted}`}>Perfil base:</span>
+                      <span className={`text-xs font-medium ${triangleState.hasClarity ? (theme === 'light' ? 'text-green-600' : 'text-green-400') : (theme === 'light' ? 'text-red-600' : 'text-red-400')}`}>
+                        {triangleState.hasClarity ? '✓ Salvo' : '✗ Pendente'}
+                      </span>
+                    </div>
+                    {triangleState.lastClarityDate && (
+                      <div className="flex items-center justify-between">
+                        <span className={`text-xs ${t.textMuted}`}>Último:</span>
+                        <span className={`text-xs ${t.textSecondary}`}>
+                          {new Date(triangleState.lastClarityDate).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                {/* Diário */}
+                <div className={`p-4 rounded-xl ${theme === 'light' ? 'bg-green-50 border border-green-100' : 'bg-green-950/30 border border-green-800/30'}`}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <BookOpen className={`w-4 h-4 ${theme === 'light' ? 'text-green-600' : 'text-green-400'}`} />
+                    <span className={`text-sm font-medium ${t.text}`}>Diário</span>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className={`text-xs ${t.textMuted}`}>Últimos 30 dias:</span>
+                      <span className={`text-xs font-medium ${triangleState.diaryCount30d > 0 ? (theme === 'light' ? 'text-green-600' : 'text-green-400') : (theme === 'light' ? 'text-red-600' : 'text-red-400')}`}>
+                        {triangleState.diaryCount30d} episódios
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className={`text-xs ${t.textMuted}`}>Intensos (≥7):</span>
+                      <span className={`text-xs font-medium ${theme === 'light' ? 'text-orange-600' : 'text-orange-400'}`}>
+                        {triangleState.diaryIntense30d}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Chat */}
+                <div className={`p-4 rounded-xl ${theme === 'light' ? 'bg-indigo-50 border border-indigo-100' : 'bg-indigo-950/30 border border-indigo-800/30'}`}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <MessageCircle className={`w-4 h-4 ${theme === 'light' ? 'text-indigo-600' : 'text-indigo-400'}`} />
+                    <span className={`text-sm font-medium ${t.text}`}>Chat</span>
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className={`text-xs ${t.textMuted}`}>Resumos (30d):</span>
+                      <span className={`text-xs font-medium ${triangleState.chatSummaryCount30d > 0 ? (theme === 'light' ? 'text-green-600' : 'text-green-400') : (theme === 'light' ? 'text-red-600' : 'text-red-400')}`}>
+                        {triangleState.chatSummaryCount30d}
+                      </span>
+                    </div>
+                    {triangleState.lastChatSummaryDate && (
+                      <div className="flex items-center justify-between">
+                        <span className={`text-xs ${t.textMuted}`}>Último:</span>
+                        <span className={`text-xs ${t.textSecondary}`}>
+                          {new Date(triangleState.lastChatSummaryDate).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              
+              {/* Mensagem de status */}
+              <div className={`p-3 rounded-lg ${
+                triangleState.hasClarity && triangleState.diaryCount30d > 0 && triangleState.chatSummaryCount30d > 0
+                  ? (theme === 'light' ? 'bg-green-50 border border-green-200' : 'bg-green-950/30 border border-green-800/30')
+                  : (theme === 'light' ? 'bg-amber-50 border border-amber-200' : 'bg-amber-950/30 border border-amber-800/30')
+              }`}>
+                <p className={`text-xs ${
+                  triangleState.hasClarity && triangleState.diaryCount30d > 0 && triangleState.chatSummaryCount30d > 0
+                    ? (theme === 'light' ? 'text-green-700' : 'text-green-300')
+                    : (theme === 'light' ? 'text-amber-700' : 'text-amber-300')
+                }`}>
+                  {triangleState.hasClarity && triangleState.diaryCount30d > 0 && triangleState.chatSummaryCount30d > 0
+                    ? '✅ Triângulo ativo – o Radar tem visão completa da sua jornada. Continue registrando para manter a clareza!'
+                    : `⚠️ Triângulo incompleto – falta ${!triangleState.hasClarity ? 'salvar Perfil de Clareza' : ''} ${!triangleState.hasClarity && (triangleState.diaryCount30d === 0 || triangleState.chatSummaryCount30d === 0) ? ', ' : ''} ${triangleState.diaryCount30d === 0 ? 'registrar no Diário' : ''} ${triangleState.diaryCount30d === 0 && triangleState.chatSummaryCount30d === 0 ? ' e ' : ''} ${triangleState.chatSummaryCount30d === 0 ? 'salvar resumo do Chat' : ''}.`
+                  }
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* ============================================================ */}
+          {/* 3.6. PLANO DE SEGURANÇA - ETAPA 7 */}
+          {/* ============================================================ */}
+          
+          {/* Banner de alerta de risco físico */}
+          {hasClarityProfile && clarityProfile?.hasPhysicalRisk && showPhysicalRiskBanner && (
+            <section className="mb-4">
+              <div className={`p-4 rounded-xl border-2 ${
+                safetyPlanStatus === 'READY' 
+                  ? (theme === 'light' ? 'bg-green-50 border-green-300' : 'bg-green-950/30 border-green-700')
+                  : safetyPlanStatus === 'IN_PROGRESS'
+                    ? (theme === 'light' ? 'bg-amber-50 border-amber-300' : 'bg-amber-950/30 border-amber-700')
+                    : (theme === 'light' ? 'bg-red-50 border-red-300' : 'bg-red-950/30 border-red-700')
+              }`}>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start gap-3">
+                    <div className={`p-2 rounded-lg ${
+                      safetyPlanStatus === 'READY'
+                        ? (theme === 'light' ? 'bg-green-100' : 'bg-green-900/50')
+                        : safetyPlanStatus === 'IN_PROGRESS'
+                          ? (theme === 'light' ? 'bg-amber-100' : 'bg-amber-900/50')
+                          : (theme === 'light' ? 'bg-red-100' : 'bg-red-900/50')
+                    }`}>
+                      <Shield className={`w-5 h-5 ${
+                        safetyPlanStatus === 'READY'
+                          ? (theme === 'light' ? 'text-green-600' : 'text-green-400')
+                          : safetyPlanStatus === 'IN_PROGRESS'
+                            ? (theme === 'light' ? 'text-amber-600' : 'text-amber-400')
+                            : (theme === 'light' ? 'text-red-600' : 'text-red-400')
+                      }`} />
+                    </div>
+                    <div>
+                      <h4 className={`font-semibold ${
+                        safetyPlanStatus === 'READY'
+                          ? (theme === 'light' ? 'text-green-800' : 'text-green-300')
+                          : safetyPlanStatus === 'IN_PROGRESS'
+                            ? (theme === 'light' ? 'text-amber-800' : 'text-amber-300')
+                            : (theme === 'light' ? 'text-red-800' : 'text-red-300')
+                      }`}>
+                        {safetyPlanStatus === 'READY' 
+                          ? '✅ Seu Plano de Segurança está pronto'
+                          : safetyPlanStatus === 'IN_PROGRESS'
+                            ? '⚠️ Risco físico detectado – revise seu Plano'
+                            : '🚨 Risco físico detectado – crie seu Plano de Segurança'
+                        }
+                      </h4>
+                      <p className={`text-sm mt-1 ${
+                        safetyPlanStatus === 'READY'
+                          ? (theme === 'light' ? 'text-green-700' : 'text-green-400')
+                          : safetyPlanStatus === 'IN_PROGRESS'
+                            ? (theme === 'light' ? 'text-amber-700' : 'text-amber-400')
+                            : (theme === 'light' ? 'text-red-700' : 'text-red-400')
+                      }`}>
+                        {safetyPlanStatus === 'READY' 
+                          ? 'Mantenha-o atualizado e revise periodicamente.'
+                          : safetyPlanStatus === 'IN_PROGRESS'
+                            ? 'Seu plano está incompleto. Complete os campos essenciais.'
+                            : 'Seu Teste de Clareza indicou sinais de risco. Prepare-se para situações de emergência.'
+                        }
+                      </p>
+                      <Link 
+                        href="/plano-seguranca"
+                        className={`inline-flex items-center gap-1 mt-2 text-sm font-medium ${
+                          safetyPlanStatus === 'READY'
+                            ? (theme === 'light' ? 'text-green-700 hover:text-green-800' : 'text-green-400 hover:text-green-300')
+                            : safetyPlanStatus === 'IN_PROGRESS'
+                              ? (theme === 'light' ? 'text-amber-700 hover:text-amber-800' : 'text-amber-400 hover:text-amber-300')
+                              : (theme === 'light' ? 'text-red-700 hover:text-red-800' : 'text-red-400 hover:text-red-300')
+                        }`}
+                      >
+                        {safetyPlanStatus === 'READY' ? 'Revisar plano' : safetyPlanStatus === 'IN_PROGRESS' ? 'Completar plano' : 'Criar plano agora'}
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => setShowPhysicalRiskBanner(false)}
+                    className={`p-1 rounded ${theme === 'light' ? 'hover:bg-gray-200' : 'hover:bg-gray-700'}`}
+                  >
+                    <X className={`w-4 h-4 ${t.textMuted}`} />
+                  </button>
+                </div>
+              </div>
+            </section>
+          )}
+          
+          {/* Card Plano de Segurança */}
+          <section className="mb-8">
+            <div className={`${t.bgCard} border ${t.border} rounded-xl p-5 ${t.cardShadow}`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                    safetyPlanStatus === 'READY'
+                      ? (theme === 'light' ? 'bg-green-100' : 'bg-green-900/30')
+                      : safetyPlanStatus === 'IN_PROGRESS'
+                        ? (theme === 'light' ? 'bg-amber-100' : 'bg-amber-900/30')
+                        : (theme === 'light' ? 'bg-red-100' : 'bg-red-900/30')
+                  }`}>
+                    <Shield className={`w-6 h-6 ${
+                      safetyPlanStatus === 'READY'
+                        ? (theme === 'light' ? 'text-green-600' : 'text-green-400')
+                        : safetyPlanStatus === 'IN_PROGRESS'
+                          ? (theme === 'light' ? 'text-amber-600' : 'text-amber-400')
+                          : (theme === 'light' ? 'text-red-600' : 'text-red-400')
+                    }`} />
+                  </div>
+                  <div>
+                    <h3 className={`font-semibold ${t.text}`}>Plano de Segurança</h3>
+                    <p className={`text-sm ${t.textMuted}`}>
+                      {safetyPlanStatus === 'READY' 
+                        ? 'Pronto para emergências'
+                        : safetyPlanStatus === 'IN_PROGRESS'
+                          ? 'Em progresso – complete os campos'
+                          : 'Não iniciado – configure agora'
+                      }
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    safetyPlanStatus === 'READY'
+                      ? (theme === 'light' ? 'bg-green-100 text-green-700' : 'bg-green-900/30 text-green-400')
+                      : safetyPlanStatus === 'IN_PROGRESS'
+                        ? (theme === 'light' ? 'bg-amber-100 text-amber-700' : 'bg-amber-900/30 text-amber-400')
+                        : (theme === 'light' ? 'bg-red-100 text-red-700' : 'bg-red-900/30 text-red-400')
+                  }`}>
+                    {safetyPlanStatus === 'READY' ? '✅ Pronto' : safetyPlanStatus === 'IN_PROGRESS' ? '🔄 Em progresso' : '⚠️ Não iniciado'}
+                  </span>
+                  <Link 
+                    href="/plano-seguranca"
+                    className={`p-2 rounded-lg ${theme === 'light' ? 'bg-gray-100 hover:bg-gray-200' : 'bg-slate-700 hover:bg-slate-600'} transition-colors`}
+                  >
+                    <ArrowRight className={`w-5 h-5 ${t.textSecondary}`} />
+                  </Link>
+                </div>
+              </div>
             </div>
           </section>
 

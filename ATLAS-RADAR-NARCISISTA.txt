@@ -1,12 +1,33 @@
 ================================================================================
 RADAR NARCISISTA – ATLAS COMPLETO DO PROJETO (CÓDIGO REAL)
 ================================================================================
-Data/hora da geração: 30/11/2025 09:20 (UTC-5)
+Data/hora da geração: 30/11/2025 15:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 30/11/2025 09:20
-MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 01:00 → 09:20):
+ÚLTIMA ATUALIZAÇÃO: 30/11/2025 15:20
+MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 11:30 → 15:20):
+- ETAPA 7.3: Plano de Segurança integrado ao Triângulo
+- API REST /api/safety-plan criada (GET, POST, PATCH)
+- Card "Plano de Segurança" no Dashboard com status colorido
+- Banner de alerta de risco físico no Dashboard
+- Detecção de risco físico no Chat via regex (PHYSICAL_RISK_REGEX)
+- Banner de alerta no Chat quando risco físico detectado
+- Criação automática de risk_alert via Chat
+- Badge 🛡️ "Plano de Segurança" no Diário e Timeline
+- Tipo 'safety_plan' adicionado ao JournalEntryType
+- risk_alert automático quando hasPhysicalRisk no Teste de Clareza
+- Build passou: 134 páginas
+
+MUDANÇAS ANTERIORES (30/11/2025 09:20 → 11:30):
+- ETAPA 6: Triângulo V2 (Filtros + Mapa no Dashboard)
+- Filtros por entry_type no /diario (clarity_baseline, chat_summary, normal)
+- Filtros por entry_type no /diario/timeline
+- Legenda do Triângulo na Timeline (✨, 💬, 🔥)
+- Card "Estado do Triângulo" no /dashboard com 3 colunas
+- Status "Triângulo Ativo" ou "Incompleto" no Dashboard
+
+MUDANÇAS ANTERIORES (30/11/2025 01:00 → 09:20):
 - ETAPA 2: Triângulo Clareza ⇄ Diário ⇄ Chat implementado
 - ETAPA 3: Diário/Timeline/Dashboard conectados ao triângulo
 - ETAPA 4: Chat → Diário (salvar resumo de sessão)
@@ -47,6 +68,7 @@ FERRAMENTAS FUTURAS (GUARDADAS NA MEMÓRIA):
 12. Correções de Acesso Admin
 13. Arquivos de Memória do Projeto
 14. Editor Visual da Frontpage
+15. Triângulo V2 (Filtros + Mapa no Dashboard)
 
 ================================================================================
 [1] VISÃO GERAL DO PROJETO
@@ -292,6 +314,14 @@ INTEGRAÇÃO COM TESTE DE CLAREZA (ETAPA 2 - TRIÂNGULO):
 - Tags sugeridas baseadas nos eixos do teste (gaslighting, medo, controle, etc.)
 - Título: "📊 Radiografia da Relação – [Zona]"
 - Implementado em: app/api/clarity/activate-profile/route.ts
+- NOVO (ETAPA 7.3): Se hasPhysicalRisk = true, cria risk_alert automático
+
+INTEGRAÇÃO COM PLANO DE SEGURANÇA (ETAPA 7.3 - TRIÂNGULO):
+- Quando usuário cria/atualiza Plano de Segurança, CRIA entrada no diário
+- entry_type = 'safety_plan'
+- Tags: ['seguranca', 'plano']
+- Título: "Plano de Segurança criado/atualizado"
+- Implementado em: app/api/safety-plan/route.ts
 
 INTEGRAÇÃO COM CHAT (ETAPA 2 - TRIÂNGULO):
 - Chat recebe contexto dos últimos 3 episódios mais intensos (30 dias)
@@ -351,11 +381,21 @@ API: /api/chat/save-summary (ETAPA 4 - CHAT → DIÁRIO)
 - Título automático: "💬 Resumo da sessão com o Coach – DD/MM/YYYY"
 - Requer autenticação
 
-UI DO CHAT (ETAPA 4):
+DETECÇÃO DE RISCO FÍSICO (ETAPA 7.3 - PLANO DE SEGURANÇA):
+- Regex PHYSICAL_RISK_REGEX detecta frases de risco físico em mensagens
+- Palavras-chave: "me bateu", "me agrediu", "ameaçou", "vai me matar", "medo de morrer", etc.
+- Quando detecta: showPhysicalRiskAlert = true, exibe banner vermelho
+- Cria risk_alert via POST /api/chat com createRiskAlert = true
+- risk_alert salvo com: source='chat', level='HIGH', category='PHYSICAL_VIOLENCE'
+- Banner inclui link para /plano-seguranca
+- Implementado em: app/chat/page.tsx + app/api/chat/route.ts
+
+UI DO CHAT (ETAPA 4 + 7.3):
 - Botão "Salvar no Diário" aparece após 2+ mensagens do usuário
 - Modal de resumo: textarea, slider de intensidade, tags editáveis
 - Modal de encerramento: checkbox para salvar resumo antes de encerrar
 - Badge "Resumo do Chat" (💬) exibido no Diário e Timeline
+- NOVO: Banner de alerta de risco físico (vermelho) quando detectado
 
 --------------------------------------------------------------------------------
 [3.4] DASHBOARD (ETAPA 3 - VISOR DO TRIÂNGULO)
@@ -371,12 +411,28 @@ CONTEÚDO:
 - Recomendações personalizadas baseadas no perfil
 - Atalhos para ferramentas
 - Estatísticas reais: testes, episódios, mensagens, dias ativos
+- NOVO (ETAPA 7.3): Card "Plano de Segurança" com status colorido
+- NOVO (ETAPA 7.3): Banner de alerta de risco físico
+
+CARD "PLANO DE SEGURANÇA" (ETAPA 7.3):
+- Busca status via GET /api/safety-plan
+- Status: NOT_STARTED (cinza), IN_PROGRESS (amarelo), READY (verde)
+- Ícone Shield, link para /plano-seguranca
+- Mostra contagem de contatos de emergência
+
+BANNER DE RISCO FÍSICO (ETAPA 7.3):
+- Aparece se hasPhysicalRisk = true no perfil de clareza
+- E se safetyPlanStatus !== 'READY'
+- Cor varia: vermelho (NOT_STARTED), amarelo (IN_PROGRESS)
+- Mensagem incentiva completar o Plano de Segurança
+- Link direto para /plano-seguranca
 
 FONTES DE DADOS REAIS:
 - clarity_tests (perfil base)
-- journal_entries (incluindo clarity_baseline)
+- journal_entries (incluindo clarity_baseline, chat_summary, safety_plan)
 - ai_messages (histórico de chat)
 - safety_plans (plano de segurança)
+- risk_alerts (alertas de risco)
 
 VARIANTES:
 - /dashboard-v2 → Versão alternativa
@@ -787,12 +843,106 @@ PRÓXIMO PASSO:
 - Conectar frontpage real ao hook useFrontpageConfig
 
 ================================================================================
-FIM DO ATLAS
+[15] TRIÂNGULO V2 – FILTROS + MAPA NO DASHBOARD (30/11/2025 11:30)
 ================================================================================
+
+ETAPA 6 IMPLEMENTADA:
+
+OBJETIVO:
+Deixar o Triângulo CLAREZA ⇄ DIÁRIO ⇄ CHAT visível, filtrável e fácil de entender.
+
+IMPLEMENTAÇÕES:
+
+1. FILTROS NO /diario (app/diario/page.tsx):
+   - Novo estado: entryTypeFilter ('all' | 'clarity_baseline' | 'chat_summary' | 'normal')
+   - Painel de filtros no topo: "Tipo de entrada"
+   - Botões: Todos, Perfil de Clareza, Resumo do Chat, Episódios Normais
+   - Mensagens amigáveis quando filtro não retorna resultados
+
+2. FILTROS + LEGENDA NO /diario/timeline (app/diario/timeline/page.tsx):
+   - Mesmo filtro por entry_type
+   - Legenda visual do Triângulo:
+     ✨ Perfil de Clareza (clarity_baseline)
+     💬 Resumo do Chat (chat_summary)
+     🔥 Intenso (mood_intensity >= 7)
+
+3. CARD "ESTADO DO TRIÂNGULO" NO /dashboard (app/dashboard/page.tsx):
+   - Novo estado: triangleState com dados dos 3 lados
+   - Card com 3 colunas: Clareza / Diário / Chat
+   - Dados mostrados:
+     - Clareza: Perfil base salvo? + data do último
+     - Diário: Episódios nos últimos 30 dias + intensos
+     - Chat: Resumos nos últimos 30 dias + data do último
+   - Status geral:
+     - "✅ Triângulo Ativo" se os 3 lados têm dados
+     - "⚠️ Incompleto" se falta algum lado
+   - Mensagem explicativa do que falta
+
+PENDENTE-V2 (NÃO IMPLEMENTADO):
+- Auto-resumo IA no Chat (geração automática de resumo)
+
+================================================================================
+[16] ETAPA 7.3 – PLANO DE SEGURANÇA INTEGRADO AO TRIÂNGULO (30/11/2025 15:20)
+================================================================================
+
+OBJETIVO:
+Integrar o módulo "Plano de Segurança" com o Triângulo de Risco (Clareza ⇄ Diário ⇄ Chat).
+
+IMPLEMENTAÇÕES CONCLUÍDAS:
+
+1. API REST /api/safety-plan:
+   - GET: Retorna plano do usuário + status calculado
+   - POST: Cria novo plano + entrada no diário (entry_type='safety_plan')
+   - PATCH: Atualiza plano + entrada no diário
+   - Status: NOT_STARTED | IN_PROGRESS | READY
+   - Arquivo: app/api/safety-plan/route.ts
+
+2. DASHBOARD - Card "Plano de Segurança":
+   - Busca status via API
+   - Cores por status: cinza (NOT_STARTED), amarelo (IN_PROGRESS), verde (READY)
+   - Ícone Shield, link para /plano-seguranca
+   - Arquivo: app/dashboard/page.tsx
+
+3. DASHBOARD - Banner de Risco Físico:
+   - Aparece se hasPhysicalRisk = true E plano não está READY
+   - Cor varia conforme status do plano
+   - Mensagem incentiva completar o plano
+   - Arquivo: app/dashboard/page.tsx
+
+4. CHAT - Detecção de Risco Físico:
+   - Regex PHYSICAL_RISK_REGEX detecta frases de risco
+   - Banner vermelho quando detectado
+   - Cria risk_alert automático via API
+   - Arquivo: app/chat/page.tsx + app/api/chat/route.ts
+
+5. DIÁRIO - Badge "Plano de Segurança":
+   - Badge 🛡️ para entradas com entry_type='safety_plan'
+   - Estilo vermelho para destaque
+   - Arquivos: app/diario/page.tsx + app/diario/timeline/page.tsx
+
+6. TESTE DE CLAREZA - risk_alert automático:
+   - Quando hasPhysicalRisk = true ao salvar perfil base
+   - Cria risk_alert com category='PHYSICAL_VIOLENCE'
+   - Arquivo: app/api/clarity/activate-profile/route.ts
+
+7. TIPOS ATUALIZADOS:
+   - JournalEntryType += 'safety_plan'
+   - Arquivo: types/database.ts
+
+TABELAS UTILIZADAS:
+- safety_plans (já existia)
+- risk_alerts (já existia)
+- journal_entries (campo entry_type)
+- clarity_tests (campo has_physical_risk)
+
+================================================================================
+FIM DO ATLAS – 16 SEÇÕES
+================================================================================
+
 Gerado em: 29/11/2025 18:10 (UTC-5)
-Atualizado em: 30/11/2025 09:20 (UTC-5)
-Tamanho aproximado: ~28KB
-Seções: 14
+Atualizado em: 30/11/2025 15:20 (UTC-5)
+Tamanho aproximado: ~35KB
+Seções: 16
 
 NOTA IMPORTANTE:
 Este documento reflete o estado do CÓDIGO no momento da geração.
@@ -804,92 +954,4 @@ Para confirmar o estado do banco:
 1. Acessar Supabase Dashboard
 2. Verificar se as colunas existem nas tabelas
 3. Executar migrations pendentes se necessário
-================================================================================
-
-================================================================================
-[11] SISTEMA DE PLANOS ADMINISTRÁVEIS (29/11/2025)
-================================================================================
-
-IMPLEMENTAÇÃO COMPLETA:
-Sistema para gerenciar planos e promoções via admin, sem editar código.
-
-NOVAS TABELAS (migration: 20241129_create_billing_plans.sql):
-- billing_plans: Planos de assinatura (B2C e B2B)
-- billing_plan_promotions: Promoções temporárias
-
-NOVOS ARQUIVOS:
-- lib/types/billing.ts: Tipos TypeScript para billing
-- lib/plan-service.ts: Serviço server-side para planos
-- app/admin/planos/page.tsx: Tela admin para gerenciar planos
-- app/api/plans/route.ts: API para frontend buscar planos
-- hooks/usePlans.ts: Hook com fallback para dados hardcoded
-
-PLANOS CONFIGURADOS:
-| Código      | Nome             | Tipo | Preço    | Público |
-|-------------|------------------|------|----------|---------|
-| visitante   | Visitante        | B2C  | Grátis   | Não     |
-| guardar     | Radar Guardar    | B2C  | Grátis   | Sim     |
-| jornada     | Radar Jornada    | B2C  | R$29,90  | Sim     |
-| defesa      | Radar Defesa     | B2C  | R$49,90  | Sim     |
-| intermedio  | Radar Essencial  | B2C  | R$19,90  | Não*    |
-| profissional| Radar Profissional| B2B | R$99,90  | Sim     |
-
-* intermedio: is_mid_bridge=true, is_public=false (para promoções especiais)
-
-FUNCIONALIDADES:
-✅ CRUD de planos via /admin/planos
-✅ CRUD de promoções com datas de validade
-✅ Labels promocionais (ex: "Black Friday 50% OFF")
-✅ Preço original riscado quando há promoção
-✅ Fallback automático para plans-config.ts se tabelas não existirem
-✅ Integração com homepage e /planos
-
-MIGRATIONS EXECUTADAS NO SUPABASE:
-✅ 20241129_create_billing_plans.sql - Tabelas criadas
-✅ 20241129_billing_rls_admin.sql - Políticas RLS para admins
-
-PRÓXIMO PASSO:
-Sistema de planos 100% funcional. Próximo: testar promoções.
-
-================================================================================
-[12] CORREÇÕES DE ACESSO ADMIN (29/11/2025 21:00)
-================================================================================
-
-PROBLEMA IDENTIFICADO:
-- Admin não conseguia acessar /admin após deploy
-- Erro: redirecionava para /dashboard?error=acesso_negado
-
-CAUSA:
-- getSession() não estava funcionando corretamente na Vercel
-- Verificação de email admin não estava priorizando email hardcoded
-
-CORREÇÃO APLICADA:
-- Arquivo: app/admin/page.tsx
-- Mudança: getSession() → getUser() (mais confiável)
-- Mudança: Verificação por email ANTES de verificar banco
-- Adicionados logs de debug para Vercel
-
-EMAILS ADMIN HARDCODED:
-- etailoffice@gmail.com
-- eduardo.mkt.davila@gmail.com
-
-================================================================================
-[13] ARQUIVOS DE MEMÓRIA DO PROJETO (29/11/2025)
-================================================================================
-
-5 ARQUIVOS TXT NA RAIZ:
-1. ATLAS-RADAR-NARCISISTA.txt - Mapa técnico do código real
-2. TUDO PARA O GPT.txt - Visão de produto, prompts, histórico
-3. ESPELHO-CODIGO-RADAR.txt - Espelho completo do código (gerado)
-4. ROADMAP-RADAR.txt - Tarefas e prioridades
-5. TESTES-RADAR.txt - Checklist de testes
-
-SCRIPT PARA GERAR ESPELHO:
-- Arquivo: scripts/gerar-espelho-codigo.cjs
-- Comando: npm run espelho-codigo
-- Saída: ESPELHO-CODIGO-RADAR.txt (4.3MB, 348 arquivos)
-- Nota: Arquivo não vai pro Git (muito grande)
-
-================================================================================
-FIM DO ATLAS
 ================================================================================

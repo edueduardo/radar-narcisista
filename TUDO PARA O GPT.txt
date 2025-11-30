@@ -2,7 +2,7 @@
 RADAR NARCISISTA - HISTÓRICO COMPLETO DE IMPLEMENTAÇÕES
 ================================================================================
 Gerado em: 28/11/2025
-Atualizado em: 30/11/2025 09:20 (UTC-5)
+Atualizado em: 30/11/2025 15:20 (UTC-5)
 Projeto: SaaS de apoio a vítimas de relacionamentos abusivos/narcisistas
 Stack: Next.js 16 + Supabase + OpenAI/Groq + TailwindCSS 4
 
@@ -2540,6 +2540,47 @@ PENDENTE:
 - Upload de imagens
 
 ================================================================================
+ETAPA 6 – TRIÂNGULO V2: FILTROS + MAPA NO DASHBOARD (30/11/2025 11:30)
+================================================================================
+
+OBJETIVO:
+Deixar o Triângulo CLAREZA ⇄ DIÁRIO ⇄ CHAT visível, filtrável e fácil de entender.
+
+IMPLEMENTAÇÕES:
+
+1. FILTROS NO /diario:
+   - Novo estado: entryTypeFilter
+   - Botões: Todos, Perfil de Clareza, Resumo do Chat, Episódios Normais
+   - Filtragem client-side por entry_type
+   - Mensagens amigáveis quando filtro não retorna resultados
+
+2. FILTROS + LEGENDA NO /diario/timeline:
+   - Mesmo filtro por entry_type
+   - Legenda visual do Triângulo:
+     ✨ Perfil de Clareza (clarity_baseline)
+     💬 Resumo do Chat (chat_summary)
+     🔥 Intenso (mood_intensity >= 7)
+
+3. CARD "ESTADO DO TRIÂNGULO" NO /dashboard:
+   - Card com 3 colunas: Clareza / Diário / Chat
+   - Dados:
+     - Clareza: Perfil base salvo? + data do último
+     - Diário: Episódios nos últimos 30 dias + intensos
+     - Chat: Resumos nos últimos 30 dias + data do último
+   - Status:
+     - "✅ Triângulo Ativo" se os 3 lados têm dados
+     - "⚠️ Incompleto" se falta algum lado
+   - Mensagem explicativa do que falta
+
+ARQUIVOS MODIFICADOS:
+- app/diario/page.tsx (filtros por entry_type)
+- app/diario/timeline/page.tsx (filtros + legenda)
+- app/dashboard/page.tsx (card Estado do Triângulo + triangleState)
+
+PENDENTE-V2 (NÃO IMPLEMENTADO):
+- Auto-resumo IA no Chat (geração automática de resumo)
+
+================================================================================
 FERRAMENTAS FUTURAS (GUARDADAS NA MEMÓRIA - 30/11/2025)
 ================================================================================
 
@@ -2563,6 +2604,80 @@ PARA IMPLEMENTAR QUANDO NECESSÁRIO:
    - Crisp (chat + tickets + FAQ, tudo em um)
 
 NOTA: Builder.io não funciona no Windows sem Visual Studio C++ (node-gyp)
+
+================================================================================
+ETAPA 7.3 – PLANO DE SEGURANÇA INTEGRADO AO TRIÂNGULO (30/11/2025 15:20)
+================================================================================
+
+OBJETIVO:
+Integrar o módulo "Plano de Segurança" com o Triângulo de Risco (Clareza ⇄ Diário ⇄ Chat).
+
+IMPLEMENTAÇÕES CONCLUÍDAS:
+
+1. API REST /api/safety-plan (NOVO):
+   - GET: Retorna plano do usuário + status calculado
+   - POST: Cria novo plano + entrada no diário (entry_type='safety_plan')
+   - PATCH: Atualiza plano + entrada no diário
+   - Status: NOT_STARTED | IN_PROGRESS | READY
+   - Arquivo: app/api/safety-plan/route.ts
+
+2. DASHBOARD - Card "Plano de Segurança":
+   - Busca status via GET /api/safety-plan
+   - Cores por status: cinza (NOT_STARTED), amarelo (IN_PROGRESS), verde (READY)
+   - Ícone Shield, link para /plano-seguranca
+   - Mostra contagem de contatos de emergência
+   - Arquivo: app/dashboard/page.tsx
+
+3. DASHBOARD - Banner de Risco Físico:
+   - Aparece se hasPhysicalRisk = true no perfil de clareza
+   - E se safetyPlanStatus !== 'READY'
+   - Cor varia: vermelho (NOT_STARTED), amarelo (IN_PROGRESS)
+   - Mensagem incentiva completar o Plano de Segurança
+   - Link direto para /plano-seguranca
+   - Arquivo: app/dashboard/page.tsx
+
+4. CHAT - Detecção de Risco Físico:
+   - Regex PHYSICAL_RISK_REGEX detecta frases de risco físico
+   - Palavras-chave: "me bateu", "me agrediu", "ameaçou", "vai me matar", etc.
+   - Quando detecta: showPhysicalRiskAlert = true, exibe banner vermelho
+   - Cria risk_alert via POST /api/chat com createRiskAlert = true
+   - risk_alert salvo com: source='chat', level='HIGH', category='PHYSICAL_VIOLENCE'
+   - Banner inclui link para /plano-seguranca
+   - Arquivos: app/chat/page.tsx + app/api/chat/route.ts
+
+5. DIÁRIO - Badge "Plano de Segurança":
+   - Badge 🛡️ para entradas com entry_type='safety_plan'
+   - Estilo vermelho para destaque
+   - Arquivos: app/diario/page.tsx + app/diario/timeline/page.tsx
+
+6. TESTE DE CLAREZA - risk_alert automático:
+   - Quando hasPhysicalRisk = true ao salvar perfil base
+   - Cria risk_alert com category='PHYSICAL_VIOLENCE'
+   - Arquivo: app/api/clarity/activate-profile/route.ts
+
+7. TIPOS ATUALIZADOS:
+   - JournalEntryType += 'safety_plan'
+   - Arquivo: types/database.ts
+
+ARQUIVOS CRIADOS:
+- app/api/safety-plan/route.ts (API REST completa)
+
+ARQUIVOS MODIFICADOS:
+- types/database.ts (JournalEntryType += 'safety_plan')
+- app/api/clarity/activate-profile/route.ts (risk_alert em hasPhysicalRisk)
+- app/api/chat/route.ts (handler para risk_alert via chat)
+- app/dashboard/page.tsx (card + banner de segurança)
+- app/chat/page.tsx (detecção regex + banner + risk_alert)
+- app/diario/page.tsx (badge safety_plan)
+- app/diario/timeline/page.tsx (badge + tipo local)
+
+TABELAS UTILIZADAS (já existentes):
+- safety_plans
+- risk_alerts
+- journal_entries (campo entry_type)
+- clarity_tests (campo has_physical_risk)
+
+BUILD: ✅ PASSOU (134 páginas)
 
 ================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES

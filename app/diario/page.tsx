@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { JournalEntry } from '../../types/database'
-import { ArrowLeft, FileText, BookOpen, Sparkles, MessageCircle } from 'lucide-react'
+import { ArrowLeft, FileText, BookOpen, Sparkles, MessageCircle, Shield } from 'lucide-react'
 
 // Tipo para entradas com contagem de análises
 interface JournalEntryWithAnalysis extends JournalEntry {
@@ -17,12 +17,13 @@ export default function DiarioPage() {
   const [entriesWithAnalysis, setEntriesWithAnalysis] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<'all' | 'high' | 'medium' | 'low'>('all')
+  const [entryTypeFilter, setEntryTypeFilter] = useState<'all' | 'clarity_baseline' | 'chat_summary' | 'normal'>('all')
   const router = useRouter()
   const supabase = createClientComponentClient()
 
   useEffect(() => {
     loadEntries()
-  }, [filter])
+  }, [filter, entryTypeFilter])
 
   const loadEntries = async () => {
     try {
@@ -47,7 +48,19 @@ export default function DiarioPage() {
       const { data, error } = await query
 
       if (error) throw error
-      setEntries(data || [])
+      
+      // Filtro por entry_type (client-side)
+      let filteredData = data || []
+      if (entryTypeFilter !== 'all') {
+        filteredData = filteredData.filter(entry => {
+          if (entryTypeFilter === 'normal') {
+            return !entry.entry_type || entry.entry_type === 'normal'
+          }
+          return entry.entry_type === entryTypeFilter
+        })
+      }
+      
+      setEntries(filteredData)
 
       // Carrega quais entradas têm análises (tabela pode não existir ainda)
       if (data && data.length > 0) {
@@ -176,7 +189,59 @@ export default function DiarioPage() {
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 pb-8">
 
-          {/* Filters */}
+          {/* Filtros do Triângulo - ETAPA 6 */}
+          <div className="bg-slate-900/50 rounded-xl p-4 mb-4">
+            <div className="flex items-center flex-wrap gap-2">
+              <span className="text-sm text-gray-300 flex items-center gap-1">
+                <Sparkles className="w-4 h-4 text-purple-400" />
+                Tipo de entrada:
+              </span>
+              <button
+                onClick={() => setEntryTypeFilter('all')}
+                className={`px-3 py-1 rounded-full text-sm transition-colors ${
+                  entryTypeFilter === 'all' 
+                    ? 'bg-violet-600 text-white' 
+                    : 'bg-slate-700 text-gray-300 hover:bg-slate-600'
+                }`}
+              >
+                Todos
+              </button>
+              <button
+                onClick={() => setEntryTypeFilter('clarity_baseline')}
+                className={`px-3 py-1 rounded-full text-sm transition-colors flex items-center gap-1 ${
+                  entryTypeFilter === 'clarity_baseline' 
+                    ? 'bg-purple-600 text-white' 
+                    : 'bg-slate-700 text-gray-300 hover:bg-slate-600'
+                }`}
+              >
+                <Sparkles className="w-3 h-3" />
+                Perfil de Clareza
+              </button>
+              <button
+                onClick={() => setEntryTypeFilter('chat_summary')}
+                className={`px-3 py-1 rounded-full text-sm transition-colors flex items-center gap-1 ${
+                  entryTypeFilter === 'chat_summary' 
+                    ? 'bg-indigo-600 text-white' 
+                    : 'bg-slate-700 text-gray-300 hover:bg-slate-600'
+                }`}
+              >
+                <MessageCircle className="w-3 h-3" />
+                Resumo do Chat
+              </button>
+              <button
+                onClick={() => setEntryTypeFilter('normal')}
+                className={`px-3 py-1 rounded-full text-sm transition-colors ${
+                  entryTypeFilter === 'normal' 
+                    ? 'bg-green-600 text-white' 
+                    : 'bg-slate-700 text-gray-300 hover:bg-slate-600'
+                }`}
+              >
+                Episódios Normais
+              </button>
+            </div>
+          </div>
+
+          {/* Filters por Impacto */}
           <div className="bg-slate-900/50 rounded-xl p-4 mb-6">
             <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-300">Filtrar por impacto:</span>
@@ -227,15 +292,35 @@ export default function DiarioPage() {
           {entries.length === 0 ? (
             <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-12 text-center">
               <div className="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
+                {entryTypeFilter === 'clarity_baseline' ? (
+                  <Sparkles className="w-8 h-8 text-purple-400" />
+                ) : entryTypeFilter === 'chat_summary' ? (
+                  <MessageCircle className="w-8 h-8 text-indigo-400" />
+                ) : (
+                  <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                )}
               </div>
               <h2 className="text-xl font-semibold text-white mb-2">
-                Seu diário está vazio
+                {entryTypeFilter === 'all' 
+                  ? 'Seu diário está vazio'
+                  : entryTypeFilter === 'clarity_baseline'
+                    ? 'Nenhum Perfil de Clareza encontrado'
+                    : entryTypeFilter === 'chat_summary'
+                      ? 'Nenhum Resumo de Chat encontrado'
+                      : 'Nenhum episódio normal encontrado'
+                }
               </h2>
               <p className="text-gray-400 mb-6">
-                Comece a registrar os episódios para identificar padrões e encontrar clareza.
+                {entryTypeFilter === 'all' 
+                  ? 'Comece a registrar os episódios para identificar padrões e encontrar clareza.'
+                  : entryTypeFilter === 'clarity_baseline'
+                    ? 'Faça o Teste de Clareza e salve como base do seu Radar para criar um Perfil de Clareza.'
+                    : entryTypeFilter === 'chat_summary'
+                      ? 'Converse com o Coach de Clareza e salve um resumo da conversa no Diário.'
+                      : 'Registre episódios do seu dia a dia para identificar padrões.'
+                }
               </p>
               <button
                 onClick={() => router.push('/diario/novo')}
@@ -269,6 +354,13 @@ export default function DiarioPage() {
                           <span className="px-2 py-1 bg-indigo-900/50 text-indigo-300 rounded-full text-xs font-medium border border-indigo-800 flex items-center gap-1">
                             <MessageCircle className="w-3 h-3" />
                             Resumo do Chat
+                          </span>
+                        )}
+                        {/* ETAPA 7 - Badge para entradas safety_plan */}
+                        {entry.entry_type === 'safety_plan' && (
+                          <span className="px-2 py-1 bg-red-900/50 text-red-300 rounded-full text-xs font-medium border border-red-800 flex items-center gap-1">
+                            <Shield className="w-3 h-3" />
+                            Plano de Segurança
                           </span>
                         )}
                         {entry.from_voice && (

@@ -122,6 +122,8 @@ function ChatPageContent() {
   const [showFraudAlert, setShowFraudAlert] = useState(false)
   // Estado para limite de mensagens atingido
   const [showLimitReached, setShowLimitReached] = useState(false)
+  // ETAPA 7 - Estado para alerta de risco físico detectado no chat
+  const [showPhysicalRiskAlert, setShowPhysicalRiskAlert] = useState(false)
   const { planLevel, planName, usage, chatLimit, canSendMessage, isLoading: isLoadingPlan } = usePlanLimits()
   // Estado para perfil de clareza (ETAPA 2 - Integração Coach IA ↔ Perfil)
   const [clarityProfile, setClarityProfile] = useState<{
@@ -367,6 +369,30 @@ function ChatPageContent() {
     }
   }
 
+  // ETAPA 7 - Regex para detectar risco físico nas mensagens
+  const PHYSICAL_RISK_REGEX = /\b(me\s+bateu|me\s+agrediu|me\s+machucou|ameaç(ou|a|ando)|vai\s+me\s+matar|medo\s+de\s+morrer|violência|apanho|apanhei|socou|empurrou|estrangul|me\s+bate|me\s+agride|me\s+ameaça|quer\s+me\s+matar|disse\s+que\s+vai\s+me\s+matar|medo\s+dele|medo\s+dela|tenho\s+medo)/i
+
+  // ETAPA 7 - Função para criar risk_alert no backend
+  const createRiskAlert = async (userId: string, messageContent: string) => {
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          createRiskAlert: true,
+          userId,
+          messageContent,
+          source: 'chat'
+        })
+      })
+      if (!response.ok) {
+        console.error('Erro ao criar risk_alert')
+      }
+    } catch (error) {
+      console.error('Erro ao criar risk_alert:', error)
+    }
+  }
+
   // Modificar função sendMessage para incluir avaliação de clareza
   const sendMessage = async (messageContent: string, fromVoice = false) => {
     if (!messageContent.trim() || isLoading || !currentSession) return
@@ -384,6 +410,13 @@ function ChatPageContent() {
     if (!user) {
       router.push('/login')
       return
+    }
+
+    // ETAPA 7 - Detectar risco físico na mensagem
+    if (PHYSICAL_RISK_REGEX.test(messageContent)) {
+      setShowPhysicalRiskAlert(true)
+      // Criar risk_alert no backend (não bloqueia o fluxo)
+      createRiskAlert(user.id, messageContent)
     }
 
     // Avaliar clareza da mensagem do usuário
@@ -1838,6 +1871,44 @@ function ChatPageContent() {
               >
                 ✕
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ============================================================= */}
+      {/* ETAPA 7 - BANNER DE ALERTA DE RISCO FÍSICO */}
+      {/* ============================================================= */}
+      {showPhysicalRiskAlert && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-[100] w-full max-w-lg px-4">
+          <div className="bg-red-50 border-2 border-red-300 rounded-xl p-4 shadow-lg">
+            <div className="flex items-start gap-3">
+              <div className="p-2 bg-red-100 rounded-lg flex-shrink-0">
+                <Shield className="w-5 h-5 text-red-600" />
+              </div>
+              <div className="flex-1">
+                <h4 className="font-semibold text-red-800">
+                  🚨 Percebemos um possível risco na sua mensagem
+                </h4>
+                <p className="text-sm text-red-700 mt-1">
+                  Se você está em perigo, considere revisar seu Plano de Segurança ou ligar para 190 (Polícia) ou 180 (Central da Mulher).
+                </p>
+                <div className="flex gap-2 mt-3">
+                  <Link
+                    href="/plano-seguranca"
+                    className="px-3 py-1.5 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 flex items-center gap-1"
+                  >
+                    <Shield className="w-4 h-4" />
+                    Abrir Plano de Segurança
+                  </Link>
+                  <button
+                    onClick={() => setShowPhysicalRiskAlert(false)}
+                    className="px-3 py-1.5 border border-red-300 text-red-700 text-sm rounded-lg hover:bg-red-100"
+                  >
+                    Fechar
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

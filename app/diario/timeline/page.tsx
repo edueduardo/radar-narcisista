@@ -78,8 +78,8 @@ interface JournalEntry {
   mood_intensity?: number
   tags: string[]
   created_at: string
-  // ETAPA 3 - Campos de integração Clareza ⇄ Diário
-  entry_type?: 'normal' | 'clarity_baseline' | 'chat_summary' | 'voice_note' | 'photo_note' | 'video_note'
+  // ETAPA 3 - Campos de integração Clareza ⇄ Diário, ETAPA 7 - Plano de Segurança
+  entry_type?: 'normal' | 'clarity_baseline' | 'chat_summary' | 'voice_note' | 'photo_note' | 'video_note' | 'safety_plan'
   clarity_test_id?: string
 }
 
@@ -98,6 +98,8 @@ export default function TimelinePage() {
   const [showFilters, setShowFilters] = useState(false)
   const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d' | 'all'>('30d')
   const [expandedEntry, setExpandedEntry] = useState<string | null>(null)
+  // ETAPA 6 - Filtro por tipo de entrada do triângulo
+  const [entryTypeFilter, setEntryTypeFilter] = useState<'all' | 'clarity_baseline' | 'chat_summary' | 'normal'>('all')
   const router = useRouter()
   const supabase = createClientComponentClient()
 
@@ -249,11 +251,27 @@ export default function TimelinePage() {
       .filter(p => p.problem) // Remove problemas não encontrados
   }, [entries])
 
-  // Entradas filtradas
+  // Entradas filtradas (por tag E por entry_type)
   const filteredEntries = useMemo(() => {
-    if (!selectedTag) return entries
-    return entries.filter(e => (e.tags || []).includes(selectedTag))
-  }, [entries, selectedTag])
+    let filtered = entries
+    
+    // Filtro por tag
+    if (selectedTag) {
+      filtered = filtered.filter(e => (e.tags || []).includes(selectedTag))
+    }
+    
+    // ETAPA 6 - Filtro por entry_type
+    if (entryTypeFilter !== 'all') {
+      filtered = filtered.filter(entry => {
+        if (entryTypeFilter === 'normal') {
+          return !entry.entry_type || entry.entry_type === 'normal'
+        }
+        return entry.entry_type === entryTypeFilter
+      })
+    }
+    
+    return filtered
+  }, [entries, selectedTag, entryTypeFilter])
 
   // Agrupar por mês
   const groupedEntries = useMemo(() => {
@@ -343,6 +361,78 @@ export default function TimelinePage() {
                   {range === '7d' ? '7 dias' : range === '30d' ? '30 dias' : range === '90d' ? '90 dias' : 'Tudo'}
                 </button>
               ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ETAPA 6 - Filtros do Triângulo + Legenda */}
+        <div className="bg-white rounded-2xl p-4 mb-6 shadow-sm">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            {/* Filtro por tipo de entrada */}
+            <div className="flex items-center flex-wrap gap-2">
+              <span className="text-sm text-gray-600 flex items-center gap-1">
+                <Filter className="w-4 h-4 text-purple-600" />
+                Tipo:
+              </span>
+              <button
+                onClick={() => setEntryTypeFilter('all')}
+                className={`px-3 py-1 rounded-full text-sm transition-colors ${
+                  entryTypeFilter === 'all' 
+                    ? 'bg-purple-600 text-white' 
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                Todos
+              </button>
+              <button
+                onClick={() => setEntryTypeFilter('clarity_baseline')}
+                className={`px-3 py-1 rounded-full text-sm transition-colors flex items-center gap-1 ${
+                  entryTypeFilter === 'clarity_baseline' 
+                    ? 'bg-purple-600 text-white' 
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                <Sparkles className="w-3 h-3" />
+                Perfil de Clareza
+              </button>
+              <button
+                onClick={() => setEntryTypeFilter('chat_summary')}
+                className={`px-3 py-1 rounded-full text-sm transition-colors flex items-center gap-1 ${
+                  entryTypeFilter === 'chat_summary' 
+                    ? 'bg-indigo-600 text-white' 
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                <MessageCircle className="w-3 h-3" />
+                Resumo do Chat
+              </button>
+              <button
+                onClick={() => setEntryTypeFilter('normal')}
+                className={`px-3 py-1 rounded-full text-sm transition-colors ${
+                  entryTypeFilter === 'normal' 
+                    ? 'bg-green-600 text-white' 
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                Episódios Normais
+              </button>
+            </div>
+
+            {/* Legenda do Triângulo */}
+            <div className="flex items-center gap-3 text-xs text-gray-500 bg-gray-50 rounded-lg px-3 py-2">
+              <span className="font-medium text-gray-700">Legenda:</span>
+              <span className="flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-purple-600" />
+                Perfil de Clareza
+              </span>
+              <span className="flex items-center gap-1">
+                <MessageCircle className="w-3 h-3 text-indigo-600" />
+                Resumo do Chat
+              </span>
+              <span className="flex items-center gap-1">
+                <Flame className="w-3 h-3 text-orange-600" />
+                Intenso (≥7)
+              </span>
             </div>
           </div>
         </div>
@@ -578,6 +668,13 @@ export default function TimelinePage() {
                                     <span className="px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-700 flex items-center gap-1">
                                       <MessageCircle className="w-3 h-3" />
                                       Resumo do Chat
+                                    </span>
+                                  )}
+                                  {/* ETAPA 7 - Badge para entradas safety_plan */}
+                                  {entry.entry_type === 'safety_plan' && (
+                                    <span className="px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700 flex items-center gap-1">
+                                      <Shield className="w-3 h-3" />
+                                      Plano de Segurança
                                     </span>
                                   )}
                                   {/* ETAPA 3 - Destaque para mood_intensity alto */}

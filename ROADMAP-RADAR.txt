@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 1.4
-Última atualização: 30/11/2025 09:20 (UTC-5)
+Versão: 1.6
+Última atualização: 30/11/2025 15:20 (UTC-5)
 
 ================================================================================
 STATUS GERAL
@@ -41,6 +41,26 @@ PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
    - Hook useFrontpageConfig.ts criado ✅
    - Migration 007_frontpage_config.sql criada ✅
    - PENDENTE: Rodar migration no Supabase
+
+5) ✅ Triângulo V2 - Filtros + Mapa no Dashboard (CONCLUÍDO 30/11/2025)
+   - Filtros por entry_type no /diario ✅
+   - Filtros por entry_type no /diario/timeline ✅
+   - Legenda do Triângulo na Timeline (✨, 💬, 🔥) ✅
+   - Card "Estado do Triângulo" no /dashboard ✅
+   - Status "Triângulo Ativo" ou "Incompleto" ✅
+   - PENDENTE-V2: Auto-resumo IA no Chat
+
+6) ✅ ETAPA 7.3 - Plano de Segurança no Triângulo (CONCLUÍDO 30/11/2025 15:20)
+   - API REST /api/safety-plan (GET, POST, PATCH) ✅
+   - Card "Plano de Segurança" no Dashboard ✅
+   - Banner de risco físico no Dashboard ✅
+   - Detecção de risco físico no Chat (regex) ✅
+   - Banner de alerta no Chat ✅
+   - Criação de risk_alert via Chat ✅
+   - Badge 🛡️ no Diário e Timeline ✅
+   - risk_alert automático no Teste de Clareza ✅
+   - Tipo 'safety_plan' no JournalEntryType ✅
+   - Build passou: 134 páginas ✅
 
 ================================================================================
 DEPOIS DISSO
@@ -154,6 +174,41 @@ HISTÓRICO DE CONCLUSÕES
   - app/admin/frontpage-editor/page.tsx
   - app/admin/frontpage-visual/page.tsx
   - hooks/useFrontpageConfig.ts
+
+[30/11/2025 11:30] ETAPA 6 - Triângulo V2 (COMPLETA)
+- Filtros por entry_type no /diario (clarity_baseline, chat_summary, normal)
+- Filtros por entry_type no /diario/timeline
+- Legenda do Triângulo na Timeline (✨ Perfil, 💬 Chat, 🔥 Intenso)
+- Card "Estado do Triângulo" no /dashboard com 3 colunas
+- Status dinâmico: "Triângulo Ativo" ou "Incompleto"
+- Mensagem explicativa do que falta completar
+- PENDENTE-V2: Auto-resumo IA no Chat
+- Arquivos modificados:
+  - app/diario/page.tsx (filtros por entry_type)
+  - app/diario/timeline/page.tsx (filtros + legenda)
+  - app/dashboard/page.tsx (card Estado do Triângulo)
+
+[30/11/2025 15:20] ETAPA 7.3 - Plano de Segurança no Triângulo (COMPLETA)
+- API REST /api/safety-plan criada (GET, POST, PATCH)
+- Card "Plano de Segurança" no Dashboard com status colorido
+- Banner de alerta de risco físico no Dashboard
+- Detecção de risco físico no Chat via regex (PHYSICAL_RISK_REGEX)
+- Banner de alerta no Chat quando risco físico detectado
+- Criação automática de risk_alert via Chat
+- Badge 🛡️ "Plano de Segurança" no Diário e Timeline
+- Tipo 'safety_plan' adicionado ao JournalEntryType
+- risk_alert automático quando hasPhysicalRisk no Teste de Clareza
+- Build passou: 134 páginas
+- Arquivos criados:
+  - app/api/safety-plan/route.ts
+- Arquivos modificados:
+  - types/database.ts
+  - app/api/clarity/activate-profile/route.ts
+  - app/api/chat/route.ts
+  - app/dashboard/page.tsx
+  - app/chat/page.tsx
+  - app/diario/page.tsx
+  - app/diario/timeline/page.tsx
 
 ================================================================================
 BUGS CONHECIDOS (A CORRIGIR)

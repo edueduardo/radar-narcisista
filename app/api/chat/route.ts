@@ -294,6 +294,42 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => null)
 
+    // ETAPA 7 - Verificar se é uma requisição para criar risk_alert
+    if (body?.createRiskAlert) {
+      const cookieStore = cookies()
+      const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+      
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        return NextResponse.json({ success: false, error: 'Não autenticado' }, { status: 401 })
+      }
+      
+      // Criar risk_alert
+      const { error } = await supabase
+        .from('risk_alerts')
+        .insert({
+          user_id: user.id,
+          source: body.source || 'chat',
+          source_id: null,
+          level: 'HIGH',
+          category: 'PHYSICAL_VIOLENCE',
+          title: 'Possível Risco Físico Detectado no Chat',
+          description: `Mensagem com indicadores de risco físico detectada: "${body.messageContent?.substring(0, 200)}..."`,
+          recommendation: 'Revise seu Plano de Segurança e considere buscar ajuda profissional.',
+          is_read: false,
+          is_dismissed: false,
+          created_at: new Date().toISOString()
+        })
+      
+      if (error) {
+        console.error('[RISK ALERT] Erro ao criar:', error)
+        return NextResponse.json({ success: false, error: 'Erro ao criar alerta' }, { status: 500 })
+      }
+      
+      console.log('[RISK ALERT] Alerta de risco físico criado via chat')
+      return NextResponse.json({ success: true, message: 'Risk alert criado' })
+    }
+
     const rawMessage = typeof body?.message === 'string' ? body.message : ''
     const message = rawMessage.trim()
     const history = Array.isArray(body?.history) ? body.history : []

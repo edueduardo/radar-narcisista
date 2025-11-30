@@ -40,8 +40,8 @@ export interface ClarityTest {
   from_voice: boolean
 }
 
-// Tipos de entrada do diário (ETAPA 2 - TRIÂNGULO)
-export type JournalEntryType = 'normal' | 'clarity_baseline' | 'chat_summary' | 'voice_note' | 'photo_note' | 'video_note'
+// Tipos de entrada do diário (ETAPA 2 - TRIÂNGULO, ETAPA 7 - PLANO DE SEGURANÇA)
+export type JournalEntryType = 'normal' | 'clarity_baseline' | 'chat_summary' | 'voice_note' | 'photo_note' | 'video_note' | 'safety_plan'
 
 export interface JournalEntry {
   id: string
