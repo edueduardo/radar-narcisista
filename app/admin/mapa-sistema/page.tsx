@@ -969,11 +969,12 @@ useEffect(() => {
 
               {/* Features por Grupo */}
               <div className="space-y-4">
-                {(['IAs', 'Dados', 'Usuários', 'Sistema', 'Outros'] as AdminFeatureGroup[]).map(group => {
+                {(['IAs', 'Dados', 'Billing', 'Usuários', 'Sistema', 'Outros'] as AdminFeatureGroup[]).map(group => {
                   const features = getAdminFeaturesByGroup(group)
-                  const groupColors = {
+                  const groupColors: Record<AdminFeatureGroup, string> = {
                     'IAs': 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800',
                     'Dados': 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800',
+                    'Billing': 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800',
                     'Usuários': 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800',
                     'Sistema': 'text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800',
                     'Outros': 'text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-900/20 border-gray-200 dark:border-gray-800'
@@ -985,6 +986,7 @@ useEffect(() => {
                         <h3 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                           {group === 'IAs' && <Bot className="w-4 h-4" />}
                           {group === 'Dados' && <Database className="w-4 h-4" />}
+                          {group === 'Billing' && <CreditCard className="w-4 h-4" />}
                           {group === 'Usuários' && <Users className="w-4 h-4" />}
                           {group === 'Sistema' && <Settings className="w-4 h-4" />}
                           {group === 'Outros' && <Globe className="w-4 h-4" />}

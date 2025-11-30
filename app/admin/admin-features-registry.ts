@@ -43,10 +43,12 @@ export type AdminFeatureId =
   | 'checklist'
   | 'beta_testers'
   | 'termos_aceitos'
+  | 'planos_admin'
 
 export type AdminFeatureGroup = 
   | 'IAs'
-  | 'Dados' 
+  | 'Dados'
+  | 'Billing' 
   | 'Usuários'
   | 'Sistema'
   | 'Outros'
@@ -334,6 +336,19 @@ export const ADMIN_FEATURES: AdminFeature[] = [
     defaultOrder: 0, // Primeiro no menu (área crítica)
     relatedTables: ['terms_versions', 'terms_acceptances', 'user_terms_acceptance'],
     relatedAPIs: ['/api/terms/accept', '/api/admin/terms-acceptances']
+  },
+
+  // 💰 GRUPO: Billing (Planos e Promoções)
+  {
+    id: 'planos_admin',
+    label: '💰 Planos & Promos',
+    description: 'Gerenciar planos de assinatura, preços e promoções',
+    path: '/admin/planos',
+    icon: 'CreditCard',
+    group: 'Billing',
+    defaultOrder: 24,
+    relatedTables: ['billing_plans', 'billing_plan_promotions', 'subscriptions'],
+    relatedAPIs: ['/api/stripe/checkout', '/api/stripe/webhook']
   }
 ]
 

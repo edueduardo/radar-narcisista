@@ -668,3 +668,45 @@ Para confirmar o estado do banco:
 2. Verificar se as colunas existem nas tabelas
 3. Executar migrations pendentes se necessário
 ================================================================================
+
+================================================================================
+[11] SISTEMA DE PLANOS ADMINISTRÁVEIS (29/11/2025)
+================================================================================
+
+IMPLEMENTAÇÃO COMPLETA:
+Sistema para gerenciar planos e promoções via admin, sem editar código.
+
+NOVAS TABELAS (migration: 20241129_create_billing_plans.sql):
+- billing_plans: Planos de assinatura (B2C e B2B)
+- billing_plan_promotions: Promoções temporárias
+
+NOVOS ARQUIVOS:
+- lib/types/billing.ts: Tipos TypeScript para billing
+- lib/plan-service.ts: Serviço server-side para planos
+- app/admin/planos/page.tsx: Tela admin para gerenciar planos
+- app/api/plans/route.ts: API para frontend buscar planos
+- hooks/usePlans.ts: Hook com fallback para dados hardcoded
+
+PLANOS CONFIGURADOS:
+| Código      | Nome             | Tipo | Preço    | Público |
+|-------------|------------------|------|----------|---------|
+| visitante   | Visitante        | B2C  | Grátis   | Não     |
+| guardar     | Radar Guardar    | B2C  | Grátis   | Sim     |
+| jornada     | Radar Jornada    | B2C  | R$29,90  | Sim     |
+| defesa      | Radar Defesa     | B2C  | R$49,90  | Sim     |
+| intermedio  | Radar Essencial  | B2C  | R$19,90  | Não*    |
+| profissional| Radar Profissional| B2B | R$99,90  | Sim     |
+
+* intermedio: is_mid_bridge=true, is_public=false (para promoções especiais)
+
+FUNCIONALIDADES:
+✅ CRUD de planos via /admin/planos
+✅ CRUD de promoções com datas de validade
+✅ Labels promocionais (ex: "Black Friday 50% OFF")
+✅ Preço original riscado quando há promoção
+✅ Fallback automático para plans-config.ts se tabelas não existirem
+✅ Integração com homepage e /planos
+
+PRÓXIMO PASSO:
+Executar migration no Supabase para ativar sistema completo.
+================================================================================

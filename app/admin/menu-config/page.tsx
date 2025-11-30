@@ -114,9 +114,10 @@ export default function MenuConfigPage() {
   }
 
   const getGroupColor = (group: AdminFeatureGroup) => {
-    const colors = {
+    const colors: Record<AdminFeatureGroup, string> = {
       'IAs': 'text-purple-400 bg-purple-400/10',
       'Dados': 'text-blue-400 bg-blue-400/10',
+      'Billing': 'text-emerald-400 bg-emerald-400/10',
       'Usuários': 'text-green-400 bg-green-400/10',
       'Sistema': 'text-orange-400 bg-orange-400/10',
       'Outros': 'text-slate-400 bg-slate-400/10'

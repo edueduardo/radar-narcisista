@@ -19,6 +19,7 @@ import {
   Eye
 } from 'lucide-react'
 import { PLANS, getDisplayPlans, formatPrice, getAnnualSavings, type PlanConfig } from '@/lib/plans-config'
+import { useConsumerPlans, type PlanWithPromotion } from '@/hooks/usePlans'
 
 // TEMA 10: Página de planos com novos nomes
 // Radar Guardar, Radar Jornada, Radar Defesa
@@ -27,8 +28,13 @@ export default function PlanosPage() {
   const [periodo, setPeriodo] = useState<'mensal' | 'anual'>('mensal')
   const [carregando, setCarregando] = useState<string | null>(null)
 
-  // Usar a nova configuração de planos
-  const displayPlans = getDisplayPlans(false, true) // Inclui profissional
+  // Buscar planos do banco (com fallback para hardcoded)
+  const { plans: dbPlans, source: plansSource } = useConsumerPlans()
+  
+  // Usar planos do banco se disponíveis, senão fallback
+  const displayPlans = dbPlans.length > 0 
+    ? dbPlans.filter(p => !p.comingSoon)
+    : getDisplayPlans(false, true).filter(p => !p.comingSoon) // Inclui profissional
 
   const handleAssinar = async (plan: PlanConfig) => {
     // Mapear para IDs legados do Stripe
@@ -127,11 +133,23 @@ export default function PlanosPage() {
         {/* Cards de Planos - 3 cards verticais (sem Profissional) */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           {displayPlans.filter(p => !p.comingSoon).map((plan) => {
+            const planWithPromo = plan as PlanWithPromotion
             const isPopular = plan.popular
             const isFree = plan.price === 0
-            const priceToShow = periodo === 'anual' && plan.priceAnnual 
-              ? plan.priceAnnual / 12 
+            
+            // Usar preço efetivo se disponível (com promoção)
+            const effectiveMonthly = planWithPromo.effectivePrice ?? plan.price
+            const effectiveYearly = planWithPromo.effectivePriceAnnual ?? plan.priceAnnual
+            const priceToShow = periodo === 'anual' && effectiveYearly 
+              ? effectiveYearly / 12 
+              : effectiveMonthly
+            
+            // Preço original (para mostrar riscado)
+            const originalPrice = periodo === 'anual' && plan.priceAnnual
+              ? plan.priceAnnual / 12
               : plan.price
+            
+            const hasPromo = planWithPromo.hasPromotion && planWithPromo.showOriginalPrice && originalPrice !== priceToShow
             const savings = getAnnualSavings(plan)
             
             return (
@@ -143,6 +161,15 @@ export default function PlanosPage() {
                     : 'bg-white border-2 border-gray-100'
                 }`}
               >
+                {/* Badge de promoção */}
+                {planWithPromo.hasPromotion && planWithPromo.promotionLabel && (
+                  <div className="absolute top-4 left-4">
+                    <span className={`text-white text-xs font-bold px-2 py-1 rounded-full ${planWithPromo.promotionBadgeColor || 'bg-red-500'}`}>
+                      {planWithPromo.promotionLabel}
+                    </span>
+                  </div>
+                )}
+                
                 {/* Badge Popular */}
                 {isPopular && (
                   <div className="absolute top-4 right-4">
@@ -169,6 +196,12 @@ export default function PlanosPage() {
                     {plan.tagline}
                   </p>
                   <div className="mt-4">
+                    {/* Preço original riscado (se houver promoção) */}
+                    {hasPromo && !isFree && (
+                      <div className={`text-sm line-through ${isPopular ? 'text-white/50' : 'text-gray-400'}`}>
+                        {formatPrice(originalPrice)}
+                      </div>
+                    )}
                     <span className={`text-4xl font-bold ${isPopular ? 'text-white' : 'text-gray-900'}`}>
                       {formatPrice(priceToShow)}
                     </span>
@@ -176,7 +209,7 @@ export default function PlanosPage() {
                       <span className={isPopular ? 'text-white/70' : 'text-gray-500'}>/mês</span>
                     )}
                   </div>
-                  {periodo === 'anual' && savings > 0 && (
+                  {periodo === 'anual' && savings > 0 && !hasPromo && (
                     <p className={`text-sm mt-1 ${isPopular ? 'text-green-200' : 'text-green-600'}`}>
                       Economia de {formatPrice(savings)}/ano
                     </p>

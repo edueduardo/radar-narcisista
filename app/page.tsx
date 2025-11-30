@@ -12,6 +12,7 @@ import { initializeEasterEggs } from '../lib/easter-eggs'
 import { initializeUltraSecrets } from '../lib/easter-eggs-secret'
 import { initializeHiddenPowers } from '../lib/hidden-powers'
 import { getDisplayPlans } from '../lib/plans-config'
+import { useConsumerPlans, type PlanWithPromotion } from '../hooks/usePlans'
 
 type Theme = 'light' | 'dark' | 'high-contrast'
 
@@ -25,8 +26,13 @@ export default function HomePage() {
   const [periodo, setPeriodo] = useState<'mensal' | 'anual'>('mensal')
   const router = useRouter()
   
-  // Planos para exibir
-  const displayPlans = getDisplayPlans(false, false).filter(p => !p.comingSoon)
+  // Planos do banco de dados (com fallback para hardcoded)
+  const { plans: dbPlans, source: plansSource } = useConsumerPlans(currentLocale)
+  
+  // Usar planos do banco se disponíveis, senão fallback
+  const displayPlans = dbPlans.length > 0 
+    ? dbPlans.filter(p => !p.comingSoon)
+    : getDisplayPlans(false, false).filter(p => !p.comingSoon)
 
   // Scroll progress + botão voltar ao topo
   useEffect(() => {
@@ -726,11 +732,23 @@ export default function HomePage() {
           {/* 3 Cards de Planos */}
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-8">
             {displayPlans.map((plan) => {
+              const planWithPromo = plan as PlanWithPromotion
               const isPopular = plan.popular
               const isFree = plan.price === 0
-              const priceToShow = periodo === 'anual' && plan.priceAnnual 
-                ? plan.priceAnnual / 12 
+              
+              // Usar preço efetivo se disponível (com promoção), senão preço normal
+              const effectiveMonthly = planWithPromo.effectivePrice ?? plan.price
+              const effectiveYearly = planWithPromo.effectivePriceAnnual ?? plan.priceAnnual
+              const priceToShow = periodo === 'anual' && effectiveYearly 
+                ? effectiveYearly / 12 
+                : effectiveMonthly
+              
+              // Preço original (para mostrar riscado)
+              const originalPrice = periodo === 'anual' && plan.priceAnnual
+                ? plan.priceAnnual / 12
                 : plan.price
+              
+              const hasPromo = planWithPromo.hasPromotion && planWithPromo.showOriginalPrice && originalPrice !== priceToShow
               
               return (
                 <div 
@@ -743,6 +761,15 @@ export default function HomePage() {
                       : 'bg-white border-gray-200'
                   }`}
                 >
+                  {/* Badge de promoção */}
+                  {planWithPromo.hasPromotion && planWithPromo.promotionLabel && (
+                    <div className="absolute top-4 left-4">
+                      <span className={`text-white text-xs font-bold px-2 py-1 rounded-full ${planWithPromo.promotionBadgeColor || 'bg-red-500'}`}>
+                        {planWithPromo.promotionLabel}
+                      </span>
+                    </div>
+                  )}
+                  
                   {isPopular && (
                     <div className="absolute top-4 right-4">
                       <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1">
@@ -771,6 +798,12 @@ export default function HomePage() {
                       {plan.tagline}
                     </p>
                     <div className="mt-4">
+                      {/* Preço original riscado (se houver promoção) */}
+                      {hasPromo && !isFree && (
+                        <div className={`text-sm line-through ${isPopular ? 'text-white/50' : theme === 'dark' ? 'text-gray-500' : 'text-gray-400'}`}>
+                          R$ {originalPrice.toFixed(2).replace('.', ',')}
+                        </div>
+                      )}
                       <span className={`text-4xl font-bold ${isPopular ? 'text-white' : theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                         {isFree ? 'Grátis' : `R$ ${priceToShow.toFixed(2).replace('.', ',')}`}
                       </span>

@@ -2177,3 +2177,162 @@ BUILD STATUS
 ✅ Compilação: ~74 segundos
 
 ================================================================================
+
+================================================================================
+ETAPA 4 – SISTEMA ADMINISTRÁVEL DE PLANOS & PROMOÇÕES
+Data: 29/11/2025 19:30
+================================================================================
+
+📋 OBJETIVO:
+Criar sistema completo onde o ADMIN pode configurar planos e promoções
+via tela administrativa, sem precisar editar código.
+
+================================================================================
+ETAPA 1 – MAPEAMENTO (SEM CODAR)
+================================================================================
+
+✅ CONCLUÍDO em 29/11/2025 19:30
+
+📁 Arquivo criado: lib/docs/plans-notes.md
+   - Mapeamento completo da estrutura atual de planos
+   - 5 planos existentes: visitante, guardar, jornada, defesa, profissional
+   - Limites por plano documentados
+   - Onde os planos são consumidos (homepage, /planos, hooks)
+   - Funções auxiliares existentes
+   - Integração com Stripe documentada
+   - O que NÃO existe hoje (promoções, admin, plano intermediário)
+   - Padrão do admin existente (registry de features)
+
+RESUMO DO MAPEAMENTO:
+- Planos definidos em: lib/plans-config.ts (hardcoded)
+- Limites verificados em: lib/plan-limits.ts
+- Homepage usa: getDisplayPlans() de plans-config.ts
+- /planos usa: getDisplayPlans() de plans-config.ts
+- NÃO existe tabela de planos no banco
+- NÃO existe sistema de promoções
+- NÃO existe tela admin para planos
+
+================================================================================
+ETAPA 2 – BACKEND DE PLANOS
+================================================================================
+
+✅ CONCLUÍDO em 29/11/2025 20:00
+
+📁 Arquivos criados:
+- database/migrations/20241129_create_billing_plans.sql
+  - Tabela billing_plans com todos os campos
+  - Tabela billing_plan_promotions para promoções
+  - RLS configurado (SELECT público para planos públicos)
+  - Seed com 6 planos: visitante, guardar, jornada, defesa, intermedio, profissional
+  - Triggers para updated_at automático
+
+- lib/types/billing.ts
+  - Tipos: BillingPlan, BillingPlanPromotion
+  - Tipos derivados: AppPlan, AppPlanPromotion, AppPlanWithEffectivePrice
+  - Inputs para admin: PlanInput, PromotionInput
+  - Helpers: centsToReais, formatPriceBRL, isPromotionActiveNow
+
+- lib/plan-service.ts
+  - getPublicConsumerPlans() - planos B2C públicos com promoções
+  - getPublicProfessionalPlans() - planos B2B públicos
+  - getAdminPlans() - todos os planos para admin
+  - getPlanByCode() - busca plano por código
+  - upsertPlan() - criar/atualizar plano
+  - upsertPromotion() - criar/atualizar promoção
+  - deletePromotion() - excluir promoção
+
+================================================================================
+ETAPA 3 – TELA ADMIN
+================================================================================
+
+✅ CONCLUÍDO em 29/11/2025 20:15
+
+📁 Arquivos criados/modificados:
+- app/admin/admin-features-registry.ts
+  - Adicionado tipo 'planos_admin' em AdminFeatureId
+  - Adicionado grupo 'Billing' em AdminFeatureGroup
+  - Adicionada feature planos_admin no array ADMIN_FEATURES
+
+- app/admin/planos/page.tsx (NOVO)
+  - Tela completa para gerenciar planos e promoções
+  - Filtro por audiência (B2C/B2B)
+  - Cards expansíveis para cada plano
+  - Formulário de edição de plano (nome, preços, limites, flags)
+  - CRUD de promoções (criar, editar, excluir)
+  - Visualização de promoções ativas
+
+- app/admin/mapa-sistema/page.tsx
+  - Adicionado grupo Billing com cor emerald
+
+- app/admin/menu-config/page.tsx
+  - Adicionado grupo Billing com cor emerald
+
+✅ npm run build: PASSOU (131 páginas)
+
+================================================================================
+ETAPA 4 – INTEGRAÇÃO FRONTEND
+================================================================================
+
+✅ CONCLUÍDO em 29/11/2025 20:30
+
+📁 Arquivos criados/modificados:
+- app/api/plans/route.ts (NOVO)
+  - GET /api/plans?audience=consumer&locale=pt-BR
+  - Retorna planos do banco com promoções ativas
+  - Fallback automático se tabela não existir
+
+- hooks/usePlans.ts (NOVO)
+  - useConsumerPlans() - hook para planos B2C
+  - useProfessionalPlans() - hook para planos B2B
+  - Fallback automático para dados hardcoded
+
+- app/page.tsx (MODIFICADO)
+  - Integrado hook useConsumerPlans
+  - Exibe badge de promoção quando ativa
+  - Mostra preço original riscado em promoções
+
+- app/planos/page.tsx (MODIFICADO)
+  - Integrado hook useConsumerPlans
+  - Exibe badge de promoção quando ativa
+  - Mostra preço original riscado em promoções
+
+✅ npm run build: PASSOU (132 páginas)
+
+================================================================================
+RESUMO FINAL – SISTEMA DE PLANOS ADMINISTRÁVEIS
+================================================================================
+
+✅ TODAS AS 4 ETAPAS CONCLUÍDAS
+
+ARQUIVOS CRIADOS:
+1. lib/docs/plans-notes.md - Mapeamento da estrutura atual
+2. database/migrations/20241129_create_billing_plans.sql - Tabelas + seed
+3. lib/types/billing.ts - Tipos TypeScript
+4. lib/plan-service.ts - Serviço server-side
+5. app/admin/planos/page.tsx - Tela admin completa
+6. app/api/plans/route.ts - API para frontend
+7. hooks/usePlans.ts - Hook para consumir planos
+
+ARQUIVOS MODIFICADOS:
+1. app/admin/admin-features-registry.ts - Nova feature + grupo Billing
+2. app/admin/mapa-sistema/page.tsx - Grupo Billing
+3. app/admin/menu-config/page.tsx - Grupo Billing
+4. app/page.tsx - Integração com banco + promoções
+5. app/planos/page.tsx - Integração com banco + promoções
+
+FUNCIONALIDADES:
+✅ Tabelas billing_plans e billing_plan_promotions
+✅ Seed com 6 planos (visitante, guardar, jornada, defesa, intermedio, profissional)
+✅ Plano intermediário oculto (is_mid_bridge = true, is_public = false)
+✅ Tela /admin/planos para gerenciar planos e promoções
+✅ API /api/plans para frontend
+✅ Hook usePlans com fallback para dados hardcoded
+✅ Homepage e /planos lendo do banco
+✅ Suporte a promoções com labels e preços riscados
+
+IMPORTANTE:
+- A migration precisa ser executada no Supabase manualmente
+- Enquanto as tabelas não existirem, o sistema usa fallback (plans-config.ts)
+- Compatibilidade total com código existente mantida
+
+================================================================================
