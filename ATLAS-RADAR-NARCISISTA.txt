@@ -261,6 +261,12 @@ INTEGRAÇÃO COM CHAT (ETAPA 2 - TRIÂNGULO):
 - Chat recebe perfil de clareza do usuário
 - Implementado em: app/api/chat/route.ts (getDiaryContextForChat)
 
+INTEGRAÇÃO COM NOVA ENTRADA (ETAPA 2 - TRIÂNGULO):
+- /diario/novo aceita query string: ?from=clarity_result&clarity_test_id=UUID
+- Pré-preenche título, tags, impacto e descrição baseado no perfil de clareza
+- Salva entry_type e clarity_test_id no insert
+- Implementado em: app/diario/novo/page.tsx
+
 ANEXOS:
 - Tabela: journal_attachments
 - Tipos: IMAGE, AUDIO, PDF, VIDEO, OTHER

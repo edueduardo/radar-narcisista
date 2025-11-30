@@ -142,6 +142,15 @@ ETAPA 2 - TRIÂNGULO CLAREZA ⇄ DIÁRIO ⇄ CHAT:
 ☐ Chat deve receber contexto dos episódios recentes do diário
 ☐ Chat deve receber perfil de clareza do usuário
 ☐ Verificar logs no console do servidor (Vercel) para confirmar injeção de contexto
+☐ Acessar /diario/novo?from=clarity_result → Deve pré-preencher formulário
+☐ Formulário pré-preenchido deve ter título, tags e descrição do perfil de clareza
+
+MIGRATION OBRIGATÓRIA (executar no Supabase):
+ALTER TABLE public.journal_entries 
+ADD COLUMN IF NOT EXISTS entry_type TEXT DEFAULT 'normal';
+
+ALTER TABLE public.journal_entries 
+ADD COLUMN IF NOT EXISTS clarity_test_id UUID REFERENCES public.clarity_tests(id);
 
 ================================================================================
 FIM DO CHECKLIST DE TESTES

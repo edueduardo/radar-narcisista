@@ -57,13 +57,19 @@ const PROBLEM_TEMPLATES: Record<string, { title: string; context: string; tags: 
 function NovoDiarioPageContent() {
   const searchParams = useSearchParams()
   const tipoProblema = searchParams.get('tipo')
+  // ETAPA 2 - TRIÂNGULO: Aceitar parâmetros de origem do Teste de Clareza
+  const fromClarityResult = searchParams.get('from') === 'clarity_result'
+  const clarityTestIdParam = searchParams.get('clarity_test_id')
   
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     context: '',
     impact_score: 2,
-    tags: [] as string[]
+    tags: [] as string[],
+    // ETAPA 2 - TRIÂNGULO: Campos de integração
+    entry_type: 'normal' as string,
+    clarity_test_id: null as string | null
   })
   
   // Aplicar template se vier com ?tipo=
@@ -102,6 +108,16 @@ function NovoDiarioPageContent() {
   const { planLevel, planName, usage, diaryLimit, canCreateEntry, isLoading: isLoadingPlan } = usePlanLimits()
   const [showLimitReached, setShowLimitReached] = useState(false)
   
+  // Mapear categorias do perfil para tags do diário
+  const categoryToTags: Record<string, string[]> = {
+    invalidacao: ['minimização', 'desqualificação'],
+    gaslighting: ['gaslighting', 'negação'],
+    controle: ['controle', 'ciúmes excessivos'],
+    isolamento: ['isolamento', 'controle social'],
+    emocional: ['humilhação', 'punição emocional'],
+    fisico: ['ameaça velada', 'violência física']
+  }
+  
   // Verificar se usuário já tem entradas no diário
   useEffect(() => {
     const checkDiaryEntries = async () => {
@@ -118,15 +134,41 @@ function NovoDiarioPageContent() {
     checkDiaryEntries()
   }, [supabase])
   
-  // Mapear categorias do perfil para tags do diário
-  const categoryToTags: Record<string, string[]> = {
-    invalidacao: ['minimização', 'desqualificação'],
-    gaslighting: ['gaslighting', 'negação'],
-    controle: ['controle', 'ciúmes excessivos'],
-    isolamento: ['isolamento', 'controle social'],
-    emocional: ['humilhação', 'punição emocional'],
-    fisico: ['ameaça velada', 'violência física']
-  }
+  // ETAPA 2 - TRIÂNGULO: Pré-preencher quando vier do resultado do Teste de Clareza
+  useEffect(() => {
+    if (fromClarityResult && clarityProfile && !isLoadingProfile) {
+      const suggestedTags: string[] = []
+      clarityProfile.topCategories.forEach(cat => {
+        if (categoryToTags[cat]) {
+          suggestedTags.push(...categoryToTags[cat])
+        }
+      })
+      
+      // Determinar impacto baseado na zona (GlobalZone: 'atencao' | 'alerta' | 'vermelha')
+      let impactScore = 2
+      if (clarityProfile.globalZone === 'vermelha') {
+        impactScore = 3
+      } else if (clarityProfile.globalZone === 'alerta') {
+        impactScore = 2
+      } else if (clarityProfile.globalZone === 'atencao') {
+        impactScore = 1
+      }
+      
+      setFormData(prev => ({
+        ...prev,
+        title: `Minha situação após o Teste de Clareza`,
+        context: 'RELACIONAMENTO',
+        tags: [...new Set(suggestedTags)].slice(0, 5),
+        description: clarityProfile.userNarrative || clarityProfile.summary || '',
+        impact_score: impactScore,
+        entry_type: clarityTestIdParam ? 'clarity_baseline' : 'normal',
+        clarity_test_id: clarityTestIdParam || null
+      }))
+      
+      setUsedClarityAsBase(true)
+      setShowClarityCard(false)
+    }
+  }, [fromClarityResult, clarityProfile, isLoadingProfile, clarityTestIdParam])
   
   // Função para usar teste de clareza como base (preenche formulário)
   const useClarityAsBase = () => {
@@ -646,6 +688,7 @@ psiquiatria ou terapia.
         .single()
 
       // Create journal entry
+      // ETAPA 2 - TRIÂNGULO: Incluir entry_type e clarity_test_id se aplicável
       const { error } = await supabase.from('journal_entries').insert({
         user_id: user.id,
         title: formData.title,
@@ -653,7 +696,9 @@ psiquiatria ou terapia.
         context: formData.context || null,
         impact_score: formData.impact_score,
         tags: formData.tags,
-        from_voice: false
+        from_voice: false,
+        entry_type: formData.entry_type || 'normal',
+        clarity_test_id: formData.clarity_test_id || null
       })
 
       if (error) throw error
