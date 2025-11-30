@@ -1,0 +1,73 @@
+================================================================================
+RADAR NARCISISTA – ROADMAP
+================================================================================
+Versão: 1.0
+Última atualização: 29/11/2025
+
+================================================================================
+STATUS GERAL
+================================================================================
+
+Versão atual do produto: MVP 0.9
+Objetivo desta fase: Fechar MVP vendável B2C
+
+================================================================================
+PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
+================================================================================
+
+1) ✅ Sistema de Planos Administráveis (CONCLUÍDO 29/11/2025)
+   - Tabelas billing_plans e billing_plan_promotions
+   - Tela /admin/planos
+   - Integração homepage e /planos
+   - Promoções com labels e datas
+
+2) 🔄 Fechar Diário (fluxos + UI)
+   - Unificar rotas duplicadas
+   - Conectar com Teste de Clareza
+   - Timeline funcional
+
+3) 🔄 Fechar Chat (contexto do teste + diário)
+   - Coach IA usando contexto do teste
+   - Coach IA usando últimos diários
+   - Limites por plano funcionando
+
+4) 🔄 Polir Frontpage (UX bonitona)
+   - Promoções dinâmicas funcionando
+   - Planos lendo do banco
+   - Design responsivo
+
+================================================================================
+DEPOIS DISSO
+================================================================================
+
+5) Loja simplificada (2–3 add-ons reais)
+6) Começar teste com 5 usuárias beta
+7) Integração completa Stripe com novos planos
+8) Painel admin de usuários
+
+================================================================================
+IDEIAS FUTURAS (NÃO IMPLEMENTAR AGORA)
+================================================================================
+
+- Versão com voz (transcrição de áudio)
+- Versão com imagens (upload de prints)
+- App mobile (React Native ou PWA)
+- Radar Profissional B2B completo
+- Comunidade/fórum entre usuárias
+- Gamificação avançada
+- Integrações com calendário
+
+================================================================================
+HISTÓRICO DE CONCLUSÕES
+================================================================================
+
+[29/11/2025] Sistema de Planos Administráveis
+- Criadas tabelas billing_plans e billing_plan_promotions
+- Criada tela /admin/planos com CRUD completo
+- Integração homepage e /planos com hook usePlans
+- Suporte a promoções com labels e preços riscados
+- Fallback automático para plans-config.ts
+
+================================================================================
+FIM DO ROADMAP
+================================================================================

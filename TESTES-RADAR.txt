@@ -1,0 +1,106 @@
+================================================================================
+RADAR NARCISISTA – CHECKLIST DE TESTES
+================================================================================
+Versão: 1.0
+Última atualização: 29/11/2025
+
+================================================================================
+FLUXO 1 – TESTE DE CLAREZA
+================================================================================
+
+☐ Consigo responder as 18+1 perguntas sem erro
+☐ Vejo o resultado com zona global + eixos + categorias
+☐ A opção "Guardar como base" funciona sem erro
+☐ Depois de guardar, o Dashboard mostra recomendações baseadas nesse teste
+☐ Posso refazer o teste e ver histórico
+
+================================================================================
+FLUXO 2 – DIÁRIO
+================================================================================
+
+☐ Consigo criar um diário normal (sem teste)
+☐ Consigo criar um diário vinculado à base de clareza
+☐ O diário aparece na timeline em ordem correta
+☐ Se faço login/logout, os diários continuam lá
+☐ Posso editar um diário existente
+☐ Posso excluir um diário
+☐ A análise de IA funciona no diário
+
+================================================================================
+FLUXO 3 – CHAT / COACH IA
+================================================================================
+
+☐ Consigo abrir o chat logado
+☐ A IA fala como "Radar Narcisista", não genérico
+☐ A IA usa contexto do teste (zona, risco) na resposta
+☐ A IA usa contexto do diário recente
+☐ Limite de mensagens por plano funciona
+☐ Mensagem de limite atingido aparece corretamente
+
+================================================================================
+FLUXO 4 – FRONTPAGE / PLANOS
+================================================================================
+
+☐ Homepage abre sem erro em aba anônima
+☐ As seções principais aparecem (hero, ferramentas, planos, FAQ)
+☐ Botão de cada plano leva para onde deveria
+☐ Planos são carregados do banco (ou fallback funciona)
+☐ Promoções ativas aparecem com labels
+☐ Preço original riscado aparece quando há promoção
+
+================================================================================
+FLUXO 5 – ADMIN / PLANOS
+================================================================================
+
+☐ Consigo acessar /admin/planos como admin
+☐ Vejo lista de todos os planos (B2C e B2B)
+☐ Consigo editar nome, preço e limites de um plano
+☐ Consigo criar uma promoção com data de início/fim
+☐ Consigo ativar/desativar promoção
+☐ Alterações refletem na frontpage
+
+================================================================================
+FLUXO 6 – AUTENTICAÇÃO
+================================================================================
+
+☐ Consigo criar conta nova
+☐ Consigo fazer login
+☐ Consigo fazer logout
+☐ Consigo recuperar senha
+☐ Sessão persiste após fechar navegador
+
+================================================================================
+FLUXO 7 – LGPD / CONFIGURAÇÕES
+================================================================================
+
+☐ Consigo exportar meus dados
+☐ Consigo solicitar exclusão de conta
+☐ Aceite de termos funciona
+☐ Histórico de aceites é registrado
+
+================================================================================
+TESTES AUTOMATIZADOS (JEST)
+================================================================================
+
+☐ npm run test passa sem erros
+☐ Cobertura mínima de 50%
+
+================================================================================
+TESTES DE BUILD
+================================================================================
+
+☐ npm run build passa sem erros
+☐ Deploy na Vercel funciona
+☐ Não há erros de TypeScript
+
+================================================================================
+LEGENDA
+================================================================================
+
+☐ = Não testado / Pendente
+☑ = Testado e funcionando
+✗ = Testado e com problema
+
+================================================================================
+FIM DO CHECKLIST DE TESTES
+================================================================================

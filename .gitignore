@@ -50,3 +50,6 @@ next-env.d.ts
 # Pasta radar-clean (backup duplicado)
 /radar-clean/
 /radar-clean/**/*
+
+# Espelho do código (gerado localmente, muito grande para Git)
+ESPELHO-CODIGO-RADAR.txt
