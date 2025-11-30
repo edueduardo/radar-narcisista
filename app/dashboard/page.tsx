@@ -223,7 +223,7 @@ export default function DashboardV2Page() {
   })
   const [journeyTasks, setJourneyTasks] = useState<JourneyTask[]>([
     { id: '1', label: 'Fazer Teste de Clareza', completed: false, link: '/teste-clareza' },
-    { id: '2', label: 'Registrar 1º episódio', completed: false, link: '/diario-premium' },
+    { id: '2', label: 'Registrar 1º episódio', completed: false, link: '/diario' },
     { id: '3', label: 'Configurar Plano de Segurança', completed: false, link: '/seguranca-premium' },
   ])
   
@@ -484,8 +484,8 @@ export default function DashboardV2Page() {
         {/* Navigation */}
         <nav className="flex-1 p-4 space-y-1">
           <NavItem href="/dashboard" icon={Home} label="Início" active theme={theme} />
-          <NavItem href="/diario-premium" icon={BookOpen} label="Diário" theme={theme} />
-          <NavItem href="/timeline-premium" icon={Clock} label="Linha do Tempo" theme={theme} />
+          <NavItem href="/diario" icon={BookOpen} label="Diário" theme={theme} />
+          <NavItem href="/diario/timeline" icon={Clock} label="Linha do Tempo" theme={theme} />
           <NavItem href="/chat-premium" icon={MessageCircle} label="Coach de Clareza" theme={theme} />
           <NavItem href="/documentos-premium" icon={FileText} label="Documentos" theme={theme} />
           <NavItem href="/teste-clareza" icon={BarChart3} label="Teste de Clareza" theme={theme} />
@@ -564,7 +564,7 @@ export default function DashboardV2Page() {
         {mobileMenuOpen && (
           <nav className={`px-4 pb-4 space-y-1 ${t.bgSecondary} border-b ${t.borderLight}`}>
             <MobileNavItem href="/dashboard" icon={Home} label="Início" onClick={() => setMobileMenuOpen(false)} theme={theme} />
-            <MobileNavItem href="/diario-premium" icon={BookOpen} label="Diário" onClick={() => setMobileMenuOpen(false)} theme={theme} />
+            <MobileNavItem href="/diario" icon={BookOpen} label="Diário" onClick={() => setMobileMenuOpen(false)} theme={theme} />
             <MobileNavItem href="/chat-premium" icon={MessageCircle} label="Coach" onClick={() => setMobileMenuOpen(false)} theme={theme} />
             <MobileNavItem href="/documentos-premium" icon={FileText} label="Documentos" onClick={() => setMobileMenuOpen(false)} theme={theme} />
             <MobileNavItem href="/seguranca-premium" icon={Shield} label="Segurança" variant="danger" onClick={() => setMobileMenuOpen(false)} theme={theme} />
@@ -630,7 +630,7 @@ export default function DashboardV2Page() {
                       Conversar com Coach IA
                     </button>
                   </Link>
-                  <Link href="/diario-premium">
+                  <Link href="/diario">
                     <button className={`inline-flex items-center gap-2 px-5 py-3 ${t.bgSecondary} ${t.text} rounded-xl font-medium border ${t.border} hover:border-purple-300 transition-colors`}>
                       <BookOpen className="w-4 h-4 text-purple-500" />
                       Registrar Episódio
@@ -660,7 +660,7 @@ export default function DashboardV2Page() {
                 icon={BookOpen} 
                 title="Diário de Episódios" 
                 description="Registre o que acontece com você"
-                href="/diario-premium"
+                href="/diario"
                 color="green"
                 theme={theme}
               />
@@ -699,7 +699,7 @@ export default function DashboardV2Page() {
                 </p>
                 <div className="space-y-2">
                   <CheckItemThemed label="Teste" href="/teste-clareza" theme={theme} />
-                  <CheckItemThemed label="Escala 0-10" href="/diario-premium" theme={theme} />
+                  <CheckItemThemed label="Escala 0-10" href="/diario" theme={theme} />
                   <CheckItemThemed label="Biblioteca" href="/biblioteca" theme={theme} />
                 </div>
               </div>
@@ -719,8 +719,8 @@ export default function DashboardV2Page() {
                   Se você quer documentar o que acontece, criar uma linha do tempo ou ver padrões.
                 </p>
                 <div className="space-y-2">
-                  <CheckItemThemed label="Diário" href="/diario-premium" theme={theme} />
-                  <CheckItemThemed label="Timeline" href="/timeline-premium" theme={theme} />
+                  <CheckItemThemed label="Diário" href="/diario" theme={theme} />
+                  <CheckItemThemed label="Timeline" href="/diario/timeline" theme={theme} />
                 </div>
               </div>
 
@@ -1003,9 +1003,9 @@ export default function DashboardV2Page() {
                 </h3>
                 <div className="space-y-2">
                   <QuickLink href="/teste-clareza" icon={Target} label="Testes" />
-                  <QuickLink href="/diario-premium" icon={BookOpen} label="Diário" />
-                  <QuickLink href="/diario-premium" icon={FileText} label="Novo Registro" />
-                  <QuickLink href="/diario-premium" icon={Scale} label="Escala 0-10" />
+                  <QuickLink href="/diario" icon={BookOpen} label="Diário" />
+                  <QuickLink href="/diario" icon={FileText} label="Novo Registro" />
+                  <QuickLink href="/diario" icon={Scale} label="Escala 0-10" />
                 </div>
               </div>
 
@@ -1017,7 +1017,7 @@ export default function DashboardV2Page() {
                 </h3>
                 <div className="grid grid-cols-3 gap-3">
                   <ToolIcon icon={Eye} label="Sala" href="/sala" />
-                  <ToolIcon icon={Scale} label="Escala" href="/diario-premium" />
+                  <ToolIcon icon={Scale} label="Escala" href="/diario" />
                   <ToolIcon icon={RefreshCw} label="Espelho" href="/espelho" />
                   <ToolIcon icon={Library} label="Biblioteca" href="/biblioteca" />
                   <ToolIcon icon={RefreshCw} label="Ciclo" href="/ciclo" />
@@ -1039,14 +1039,14 @@ export default function DashboardV2Page() {
                     <Clock className="w-4 h-4 text-gray-400" />
                     Últimas Entradas
                   </h3>
-                  <Link href="/timeline-premium" className="text-xs text-violet-400 hover:underline">
+                  <Link href="/diario/timeline" className="text-xs text-violet-400 hover:underline">
                     Ver mais
                   </Link>
                 </div>
                 <div className="space-y-2">
                   {recentEntries.length === 0 ? (
                     <p className="text-sm text-gray-500 py-4 text-center">
-                      Nenhum registro ainda. <Link href="/diario-premium" className="text-violet-400 hover:underline">Criar primeiro</Link>
+                      Nenhum registro ainda. <Link href="/diario" className="text-violet-400 hover:underline">Criar primeiro</Link>
                     </p>
                   ) : (
                     recentEntries.slice(0, 3).map((entry) => (
@@ -1163,12 +1163,12 @@ export default function DashboardV2Page() {
             </div>
             {/* 4 botões - IGUAL IMAGEM BRANCA */}
             <div className="flex items-center justify-center gap-2 flex-wrap">
-              <Link href="/diario-premium">
+              <Link href="/diario">
                 <button className="px-4 py-2 bg-slate-800 text-gray-300 text-xs rounded-lg hover:bg-slate-700 transition-colors flex items-center gap-2">
                   <BookOpen className="w-3 h-3" /> Diário
                 </button>
               </Link>
-              <Link href="/timeline-premium">
+              <Link href="/diario/timeline">
                 <button className="px-4 py-2 bg-slate-800 text-gray-300 text-xs rounded-lg hover:bg-slate-700 transition-colors flex items-center gap-2">
                   <BarChart3 className="w-3 h-3" /> Dados/Rel.us
                 </button>
@@ -1208,7 +1208,7 @@ export default function DashboardV2Page() {
       <nav className={`lg:hidden fixed bottom-0 left-0 right-0 ${t.bgHeader} backdrop-blur-sm border-t ${t.borderLight} z-40`}>
         <div className="flex items-center justify-around py-2">
           <BottomNavItem href="/dashboard" icon={Home} label="Início" active theme={theme} />
-          <BottomNavItem href="/diario-premium" icon={BookOpen} label="Diário" theme={theme} />
+          <BottomNavItem href="/diario" icon={BookOpen} label="Diário" theme={theme} />
           <BottomNavItem href="/chat-premium" icon={MessageCircle} label="Coach" theme={theme} />
           <BottomNavItem href="/seguranca-premium" icon={Shield} label="Segurança" theme={theme} />
         </div>

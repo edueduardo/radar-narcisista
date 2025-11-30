@@ -221,15 +221,24 @@ RESUMO AUTOMÁTICO POR IA:
 - Salvo no campo `summary` da tabela clarity_tests
 
 --------------------------------------------------------------------------------
-[3.2] DIÁRIO
+[3.2] DIÁRIO (UNIFICADO EM 29/11/2025)
 --------------------------------------------------------------------------------
 
-ROTAS:
-- /diario → Lista de entradas
-- /diario/novo → Criar entrada
-- /diario/[id] → Visualizar entrada
-- /diario/[id]/editar → Editar entrada
-- /diario/timeline → Timeline visual
+ROTAS OFICIAIS:
+- /diario → Lista de entradas (fonte de verdade dos episódios)
+- /diario/novo → Criar entrada com tags, anexos, análise IA
+- /diario/[id] → Visualizar entrada específica
+- /diario/[id]/editar → Editar entrada específica
+- /diario/timeline → Timeline de Padrões (estatísticas, problemas detectados)
+
+ROTAS ARQUIVADAS (em app/_archive/):
+- /diario-premium → Versão experimental com design premium (ARQUIVADA)
+- /timeline-premium → Duplicata da timeline (ARQUIVADA)
+- /linha-tempo → Timeline de fases do ciclo de abuso (ARQUIVADA - será V2)
+
+REGRA DE OURO:
+"O Diário é a fonte de verdade dos episódios. A Timeline de Padrões só lê/analisa
+o que está em journal_entries + tags + clareza."
 
 TABELA: journal_entries
 - id, user_id, created_at, updated_at, deleted_at

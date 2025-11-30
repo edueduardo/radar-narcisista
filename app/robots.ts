@@ -18,7 +18,7 @@ export default function robots(): MetadataRoute.Robots {
           '/relatorios/',
           '/plano-seguranca/',
           '/plano-fuga/',
-          '/linha-tempo/',
+          '/diario/timeline/',
           '/conquistas/',
           '/certificado/',
           '/gerar-pdf/',

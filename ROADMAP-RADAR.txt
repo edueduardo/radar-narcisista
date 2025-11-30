@@ -84,6 +84,13 @@ HISTÓRICO DE CONCLUSÕES
 - Solução: Trocado para caminho relativo /admin/menu-config
 - Arquivo: app/admin/AdminClient.tsx
 
+[29/11/2025 22:10] Unificação do Diário
+- Arquivadas rotas duplicadas: /diario-premium, /timeline-premium, /linha-tempo
+- Movidas para app/_archive/
+- Rotas oficiais: /diario, /diario/novo, /diario/[id], /diario/[id]/editar, /diario/timeline
+- Atualizados todos os links no dashboard e homepage
+- Build passou: 129 páginas (antes 132)
+
 ================================================================================
 BUGS CONHECIDOS (A CORRIGIR)
 ================================================================================

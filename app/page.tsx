@@ -1177,7 +1177,7 @@ export default function HomePage() {
                   <span className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{item.fase}</span>
                 </div>
               ))}
-              <Link href="/linha-tempo" className={`block text-center font-medium mt-4 ${theme === 'dark' ? 'text-violet-400' : 'text-purple-600'}`}>
+              <Link href="/ciclo-abuso" className={`block text-center font-medium mt-4 ${theme === 'dark' ? 'text-violet-400' : 'text-purple-600'}`}>
                 Ver detalhes de cada fase →
               </Link>
             </div>

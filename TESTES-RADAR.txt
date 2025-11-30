@@ -124,6 +124,16 @@ TESTES DE BUILD:
 
 CORREÇÕES APLICADAS:
 ☑ Botão "Config Menu" agora vai para /admin/menu-config (não localhost)
+☑ Diário unificado - rotas duplicadas arquivadas em app/_archive/
+☑ Links do dashboard atualizados para rotas oficiais
+☑ Build passou com 129 páginas
+
+ROTAS OFICIAIS DO DIÁRIO:
+☑ /diario → Lista de entradas
+☑ /diario/novo → Criar entrada
+☑ /diario/[id] → Visualizar entrada
+☑ /diario/[id]/editar → Editar entrada
+☑ /diario/timeline → Timeline de Padrões
 
 ================================================================================
 FIM DO CHECKLIST DE TESTES
