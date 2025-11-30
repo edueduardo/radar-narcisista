@@ -20,7 +20,8 @@ import {
   Eye,
   ExternalLink,
   Info,
-  Sparkles
+  Sparkles,
+  MessageCircle
 } from 'lucide-react'
 import { mapAbuseTagsToProblemTags, getAbuseTagById } from '@/lib/abuse-tags-config'
 import { PROBLEMS, type ProblemTag } from '@/lib/tools-config'
@@ -570,6 +571,13 @@ export default function TimelinePage() {
                                     <span className="px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-700 flex items-center gap-1">
                                       <Sparkles className="w-3 h-3" />
                                       Perfil de Clareza
+                                    </span>
+                                  )}
+                                  {/* ETAPA 4 - Badge para entradas chat_summary */}
+                                  {entry.entry_type === 'chat_summary' && (
+                                    <span className="px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-700 flex items-center gap-1">
+                                      <MessageCircle className="w-3 h-3" />
+                                      Resumo do Chat
                                     </span>
                                   )}
                                   {/* ETAPA 3 - Destaque para mood_intensity alto */}

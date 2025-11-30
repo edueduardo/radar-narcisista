@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 1.2
-Última atualização: 30/11/2025 00:00 (UTC-5)
+Versão: 1.4
+Última atualização: 30/11/2025 09:20 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -36,6 +36,10 @@ FLUXO 3 – CHAT / COACH IA
 ☐ A IA usa contexto do diário recente
 ☐ Limite de mensagens por plano funciona
 ☐ Mensagem de limite atingido aparece corretamente
+☐ Botão "Salvar no Diário" aparece após 2+ mensagens
+☐ Modal de resumo permite editar texto, intensidade e tags
+☐ Resumo salvo aparece no Diário com badge "Resumo do Chat"
+☐ Modal de encerramento oferece opção de salvar resumo
 
 ================================================================================
 FLUXO 4 – FRONTPAGE / PLANOS
@@ -164,6 +168,46 @@ ETAPA 3 - DIÁRIO + TIMELINE + DASHBOARD CONECTADOS AO TRIÂNGULO:
 ☐ /dashboard → Estatísticas (testes, episódios, mensagens) devem ser reais
 ☐ Fluxo completo: Teste Clareza → Salvar Base → Ver entrada no Diário com badge
 ☐ Fluxo completo: Teste Clareza → Salvar Base → Ver entrada na Timeline com badge
+
+ETAPA 4 - CHAT → DIÁRIO (SALVAR RESUMO):
+☐ API /api/chat/save-summary funciona (POST com auth)
+☐ Botão "Salvar no Diário" aparece no header do chat após 2+ mensagens do usuário
+☐ Modal de resumo abre ao clicar no botão
+☐ Modal permite editar texto, ajustar intensidade (slider 0-10) e tags
+☐ Ao salvar, cria entrada no diário com entry_type = 'chat_summary'
+☐ Entrada salva aparece no /diario com badge "Resumo do Chat" (💬)
+☐ Entrada salva aparece no /diario/timeline com badge "Resumo do Chat"
+☐ Modal de encerramento de conversa oferece checkbox para salvar resumo
+☐ Se marcar checkbox e clicar "Continuar para salvar resumo", abre modal de resumo
+☐ Fluxo completo: Chat → Salvar resumo → Ver no Diário com badge
+
+================================================================================
+ETAPA 5 - EDITOR VISUAL DA FRONTPAGE:
+================================================================================
+
+☐ Migration 007_frontpage_config.sql executada no Supabase
+☐ Tabela frontpage_config criada com dados seed
+☐ API /api/admin/frontpage-editor funciona (GET retorna configs)
+☐ API /api/admin/frontpage-editor funciona (PUT atualiza config)
+☐ /admin/frontpage-editor carrega sem erro
+☐ Editor de Hero permite editar título, subtítulo e CTAs
+☐ Editor de FAQ permite adicionar/remover perguntas
+☐ Editor de Depoimentos permite adicionar/remover itens
+☐ Botão "Salvar" atualiza dados no banco
+☐ /admin/frontpage-visual carrega sem erro
+☐ Preview mostra alterações em tempo real
+☐ Preview responsivo funciona (desktop/tablet/mobile)
+☐ Alterações salvas refletem na frontpage real
+☐ Fallback funciona se tabela não existir
+
+================================================================================
+MIGRATIONS PENDENTES (EXECUTAR NO SUPABASE):
+================================================================================
+
+1. 007_frontpage_config.sql
+   - Cria tabela frontpage_config
+   - Insere dados seed (hero, faq, testimonials, etc.)
+   - Configura RLS para admins
 
 ================================================================================
 FIM DO CHECKLIST DE TESTES

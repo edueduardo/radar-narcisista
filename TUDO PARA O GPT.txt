@@ -2,7 +2,7 @@
 RADAR NARCISISTA - HISTÓRICO COMPLETO DE IMPLEMENTAÇÕES
 ================================================================================
 Gerado em: 28/11/2025
-Atualizado em: 30/11/2025 00:00 (UTC-5)
+Atualizado em: 30/11/2025 09:20 (UTC-5)
 Projeto: SaaS de apoio a vítimas de relacionamentos abusivos/narcisistas
 Stack: Next.js 16 + Supabase + OpenAI/Groq + TailwindCSS 4
 
@@ -2434,9 +2434,136 @@ ADD COLUMN IF NOT EXISTS entry_type TEXT DEFAULT 'normal';
 ALTER TABLE public.journal_entries 
 ADD COLUMN IF NOT EXISTS clarity_test_id UUID REFERENCES public.clarity_tests(id);
 
+================================================================================
+ETAPA 4 – CHAT → DIÁRIO (30/11/2025)
+================================================================================
+
+CONCEITO:
+Permite ao usuário salvar um resumo da conversa com o Coach como entrada no Diário.
+Fecha o ciclo do triângulo: Clareza → Diário ← Chat.
+
+IMPLEMENTAÇÕES CONCLUÍDAS:
+
+✅ API /api/chat/save-summary:
+- POST com autenticação obrigatória
+- Body: { summaryText, moodIntensity?, tags? }
+- Cria entrada com entry_type = 'chat_summary'
+- Título automático: "💬 Resumo da sessão com o Coach – DD/MM/YYYY"
+- Tags default: ['coach', 'reflexão', 'sessão']
+- Arquivo: app/api/chat/save-summary/route.ts
+
+✅ UI DO CHAT:
+- Botão "Salvar no Diário" aparece após 2+ mensagens do usuário
+- Modal de resumo com:
+  - Textarea para texto livre (mín. 10 caracteres)
+  - Slider de intensidade emocional (0-10)
+  - Tags editáveis (adicionar/remover)
+- Arquivo: app/chat/page.tsx
+
+✅ INTEGRAÇÃO COM MODAL DE ENCERRAMENTO:
+- Checkbox "Salvar um resumo desta conversa no meu Diário"
+- Se marcado, abre modal de resumo antes de encerrar
+- Fluxo: Encerrar → Checkbox → Modal → Salvar → Diário
+
+✅ BADGES NO DIÁRIO E TIMELINE:
+- Entradas chat_summary mostram badge "Resumo do Chat" (💬)
+- Cor: indigo (diferente de clarity_baseline que é purple)
+- Arquivos: app/diario/page.tsx, app/diario/timeline/page.tsx
+
 PENDENTE-V2:
-- Chat → Diário (salvar resumo de sessão como entrada)
 - Filtros por entry_type no Diário
 - Destaque visual diferente no ponto da Timeline
+- Geração automática de resumo pela IA (opcional)
 
+================================================================================
+ETAPA 5 – EDITOR VISUAL DA FRONTPAGE (30/11/2025)
+================================================================================
+
+CONCEITO:
+Sistema para editar textos e seções da frontpage sem código.
+Alternativa ao WordPress/Elementor, integrado ao Next.js + Supabase.
+
+MOTIVAÇÃO:
+- Usuário queria editar frontpage como no WordPress/Elementor
+- Builder.io requer Visual Studio C++ no Windows (bloqueado)
+- Solução: Editor visual próprio com preview em tempo real
+
+IMPLEMENTAÇÕES CONCLUÍDAS:
+
+✅ TABELA frontpage_config:
+- config_key: Identificador único da seção
+- config_value: JSONB com dados editáveis
+- is_active: Ativar/desativar seção
+- RLS: Leitura pública, escrita apenas admins
+- Migration: database/migrations/007_frontpage_config.sql
+
+✅ API /api/admin/frontpage-editor:
+- GET: Retorna todas as configurações
+- PUT: Atualiza uma configuração
+- POST: Cria nova configuração
+- Arquivo: app/api/admin/frontpage-editor/route.ts
+
+✅ EDITOR POR FORMULÁRIOS (/admin/frontpage-editor):
+- Seções expansíveis com formulários
+- Ativar/desativar seções
+- Editar Hero, FAQ, Depoimentos, CTA
+- Arquivo: app/admin/frontpage-editor/page.tsx
+
+✅ EDITOR VISUAL (/admin/frontpage-visual):
+- Preview em tempo real lado a lado
+- Responsivo: Desktop, Tablet, Mobile
+- Edição rápida por seção
+- Salvar todas as alterações de uma vez
+- Arquivo: app/admin/frontpage-visual/page.tsx
+
+✅ HOOK useFrontpageConfig:
+- Carrega configs do Supabase
+- Fallback para valores padrão
+- Tipos TypeScript completos
+- Arquivo: hooks/useFrontpageConfig.ts
+
+SEÇÕES EDITÁVEIS:
+| config_key    | Descrição                    |
+|---------------|------------------------------|
+| general       | Nome do site, banner promo   |
+| hero          | Título, subtítulo, CTAs      |
+| stats         | Estatísticas numéricas       |
+| faq           | Perguntas frequentes         |
+| testimonials  | Depoimentos de usuárias      |
+| cta_final     | Call-to-action final         |
+| sections_order| Ordem e visibilidade         |
+
+PENDENTE:
+- Rodar migration 007 no Supabase
+- Conectar frontpage real ao hook useFrontpageConfig
+- Editor de estatísticas completo
+- Upload de imagens
+
+================================================================================
+FERRAMENTAS FUTURAS (GUARDADAS NA MEMÓRIA - 30/11/2025)
+================================================================================
+
+PARA IMPLEMENTAR QUANDO NECESSÁRIO:
+
+1. DASHBOARD/ADMIN BUILDER:
+   - Tremor (React nativo, recomendado) - npm install @tremor/react
+   - Retool, Appsmith, Budibase (alternativas)
+
+2. SEGURANÇA:
+   - Arcjet (rate limiting, bot protection)
+   - Supabase RLS (já usa)
+
+3. CHATBOT FRONTPAGE:
+   - Crisp ou Tawk.to (fácil, grátis)
+
+4. WHATSAPP BOT (Helpdesk):
+   - Typebot + Z-API (bot visual + WhatsApp BR)
+
+5. SUPORTE/HELPDESK:
+   - Crisp (chat + tickets + FAQ, tudo em um)
+
+NOTA: Builder.io não funciona no Windows sem Visual Studio C++ (node-gyp)
+
+================================================================================
+FIM DO HISTÓRICO DE IMPLEMENTAÇÕES
 ================================================================================

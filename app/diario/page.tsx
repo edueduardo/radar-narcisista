@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { JournalEntry } from '../../types/database'
-import { ArrowLeft, FileText, BookOpen, Sparkles } from 'lucide-react'
+import { ArrowLeft, FileText, BookOpen, Sparkles, MessageCircle } from 'lucide-react'
 
 // Tipo para entradas com contagem de análises
 interface JournalEntryWithAnalysis extends JournalEntry {
@@ -262,6 +262,13 @@ export default function DiarioPage() {
                           <span className="px-2 py-1 bg-purple-900/50 text-purple-300 rounded-full text-xs font-medium border border-purple-800 flex items-center gap-1">
                             <Sparkles className="w-3 h-3" />
                             Perfil de Clareza
+                          </span>
+                        )}
+                        {/* ETAPA 4 - Badge para entradas chat_summary */}
+                        {entry.entry_type === 'chat_summary' && (
+                          <span className="px-2 py-1 bg-indigo-900/50 text-indigo-300 rounded-full text-xs font-medium border border-indigo-800 flex items-center gap-1">
+                            <MessageCircle className="w-3 h-3" />
+                            Resumo do Chat
                           </span>
                         )}
                         {entry.from_voice && (

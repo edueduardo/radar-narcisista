@@ -23,7 +23,7 @@ import { EmotionalEvolutionPanel } from "@/components/chat/EmotionalEvolutionPan
 import { ClarityEvolutionReport } from "@/components/chat/ClarityEvolutionReport"
 import { analisarEstadoEmocional, compararEvolucao, type EstadoEmocional, type EvolucaoEmocional } from "@/lib/analise-emocional"
 import type { ClarityEvolutionData } from "@/lib/types/evolution-clarity"
-import { MessageCircle, AlertTriangle, RotateCcw, MapPin, ArrowLeft, Home, Navigation, BookOpen, PenLine, Clock, Lightbulb, ExternalLink, Shield, Download, Save, FileText, Loader2, CheckCircle } from "lucide-react"
+import { MessageCircle, AlertTriangle, RotateCcw, MapPin, ArrowLeft, Home, Navigation, BookOpen, PenLine, Clock, Lightbulb, ExternalLink, Shield, Download, Save, FileText, Loader2, CheckCircle, BookMarked } from "lucide-react"
 import { PROBLEMS, TOOLS, getToolsByProblem, type ProblemTag, type ProblemConfig } from '@/lib/tools-config'
 import Link from 'next/link'
 import { ResponsibilityTermsModal, LegalWarningBanner, useTermsAcceptance } from '@/components/ResponsibilityTermsModal'
@@ -110,6 +110,13 @@ function ChatPageContent() {
   const MESSAGES_BETWEEN_WARNINGS = 8 // Mostrar aviso a cada 8 mensagens do usuário
   // Estado para modal de encerramento de conversa
   const [showEndConversationModal, setShowEndConversationModal] = useState(false)
+  // Estados para salvar resumo no diário (ETAPA 4 - Chat → Diário)
+  const [showSummaryModal, setShowSummaryModal] = useState(false)
+  const [summaryText, setSummaryText] = useState('')
+  const [summaryMood, setSummaryMood] = useState(5)
+  const [summaryTags, setSummaryTags] = useState<string[]>(['coach', 'reflexão', 'sessão'])
+  const [isSavingSummary, setIsSavingSummary] = useState(false)
+  const [wantsSaveSummaryOnEnd, setWantsSaveSummaryOnEnd] = useState(false)
   // Estado para alertas de fraude/inconsistência detectados
   const [detectedFraudFlags, setDetectedFraudFlags] = useState<Array<{type: string, severity: number, description: string}>>([])
   const [showFraudAlert, setShowFraudAlert] = useState(false)
@@ -911,6 +918,53 @@ function ChatPageContent() {
     document.body.removeChild(a)
   }
 
+  // ============================================
+  // FUNÇÃO: SALVAR RESUMO NO DIÁRIO (ETAPA 4 - Chat → Diário)
+  // ============================================
+  const handleSaveSummaryToDiary = async () => {
+    if (summaryText.trim().length < 10) {
+      alert('O resumo deve ter pelo menos 10 caracteres.')
+      return
+    }
+    
+    setIsSavingSummary(true)
+    
+    try {
+      const response = await fetch('/api/chat/save-summary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          summaryText: summaryText.trim(),
+          moodIntensity: summaryMood,
+          tags: summaryTags
+        })
+      })
+      
+      const data = await response.json()
+      
+      if (data.success) {
+        // Sucesso - fechar modal e limpar estados
+        setShowSummaryModal(false)
+        setSummaryText('')
+        setSummaryMood(5)
+        setSummaryTags(['coach', 'reflexão', 'sessão'])
+        
+        // Toast de sucesso (usando alert simples por enquanto)
+        alert('✅ Resumo salvo no seu Diário!')
+      } else {
+        alert(`❌ Erro: ${data.error || 'Falha ao salvar resumo'}`)
+      }
+    } catch (error) {
+      console.error('Erro ao salvar resumo:', error)
+      alert('❌ Erro ao salvar resumo. Tente novamente.')
+    } finally {
+      setIsSavingSummary(false)
+    }
+  }
+
+  // Verificar se pode salvar resumo (mínimo 2 mensagens do usuário)
+  const canSaveSummary = messages.filter(m => m.role === 'user').length >= 2
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50/30 to-blue-50/30">
       <div className="max-w-5xl mx-auto py-6 px-4">
@@ -992,6 +1046,24 @@ function ChatPageContent() {
                       <span className="hidden sm:inline">
                         {saveConversationStatus === 'saved' ? 'Salvo!' : 'Salvar'}
                       </span>
+                    </Button>
+                  )}
+                  
+                  {/* Botão Salvar no Diário (ETAPA 4 - Chat → Diário) */}
+                  {canSaveSummary && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowSummaryModal(true)}
+                      disabled={isSavingSummary}
+                      className="flex items-center gap-2 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200"
+                    >
+                      {isSavingSummary ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <BookMarked className="w-4 h-4" />
+                      )}
+                      <span className="hidden sm:inline">Salvar no Diário</span>
                     </Button>
                   )}
                   
@@ -1899,6 +1971,31 @@ function ChatPageContent() {
               </div>
             </div>
 
+            {/* Opção de salvar resumo no diário (ETAPA 4 - Chat → Diário) */}
+            {canSaveSummary && (
+              <div className="px-6 pb-4">
+                <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={wantsSaveSummaryOnEnd}
+                      onChange={(e) => setWantsSaveSummaryOnEnd(e.target.checked)}
+                      className="mt-1 w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                    />
+                    <div>
+                      <span className="font-medium text-indigo-900 flex items-center gap-2">
+                        <BookMarked className="w-4 h-4" />
+                        Salvar um resumo desta conversa no meu Diário
+                      </span>
+                      <p className="text-sm text-indigo-700 mt-1">
+                        Você poderá escrever suas reflexões antes de salvar.
+                      </p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            )}
+
             {/* Footer */}
             <div className="p-5 border-t border-gray-200 bg-gray-50 flex gap-3">
               <Button
@@ -1911,6 +2008,14 @@ function ChatPageContent() {
               <Button
                 onClick={async () => {
                   setShowEndConversationModal(false)
+                  
+                  // Se marcou para salvar resumo, abrir modal de resumo primeiro
+                  if (wantsSaveSummaryOnEnd) {
+                    setWantsSaveSummaryOnEnd(false)
+                    setShowSummaryModal(true)
+                    return // Não encerra ainda - usuário decide após salvar
+                  }
+                  
                   // Salvar conversa antes de encerrar
                   await saveConversation()
                   // Limpar e criar nova sessão
@@ -1936,7 +2041,137 @@ function ChatPageContent() {
                 }}
                 className="flex-1 bg-amber-500 hover:bg-amber-600 text-white"
               >
-                Entendi, encerrar
+                {wantsSaveSummaryOnEnd ? 'Continuar para salvar resumo' : 'Entendi, encerrar'}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ============================================================= */}
+      {/* MODAL DE SALVAR RESUMO NO DIÁRIO (ETAPA 4 - Chat → Diário) */}
+      {/* ============================================================= */}
+      {showSummaryModal && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[100] p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-indigo-500 to-purple-500 p-5">
+              <div className="flex items-center gap-3 text-white">
+                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                  <BookMarked className="w-5 h-5" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold">Salvar resumo no Diário</h2>
+                  <p className="text-indigo-100 text-sm">Registre suas reflexões desta conversa</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Conteúdo */}
+            <div className="p-6 space-y-4">
+              <p className="text-sm text-gray-600">
+                Este resumo ficará registrado no seu <strong>Diário de Episódios</strong>. 
+                Você pode editar o texto antes de salvar.
+              </p>
+
+              {/* Textarea para o resumo */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  O que você quer guardar desta conversa?
+                </label>
+                <textarea
+                  value={summaryText}
+                  onChange={(e) => setSummaryText(e.target.value)}
+                  placeholder="Escreva aqui suas reflexões, aprendizados ou pontos importantes desta conversa com o Coach..."
+                  className="w-full h-32 px-4 py-3 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Mínimo 10 caracteres ({summaryText.length}/10)
+                </p>
+              </div>
+
+              {/* Slider de intensidade */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Quão intenso você se sente depois desta conversa? ({summaryMood}/10)
+                </label>
+                <input
+                  type="range"
+                  min="0"
+                  max="10"
+                  value={summaryMood}
+                  onChange={(e) => setSummaryMood(parseInt(e.target.value))}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                />
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>Tranquilo</span>
+                  <span>Muito intenso</span>
+                </div>
+              </div>
+
+              {/* Tags */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Tags (clique para remover)
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {summaryTags.map((tag, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSummaryTags(summaryTags.filter((_, i) => i !== index))}
+                      className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm hover:bg-indigo-200 transition-colors"
+                    >
+                      {tag} ×
+                    </button>
+                  ))}
+                  {summaryTags.length < 5 && (
+                    <button
+                      onClick={() => {
+                        const newTag = prompt('Digite uma nova tag:')
+                        if (newTag && newTag.trim() && !summaryTags.includes(newTag.trim())) {
+                          setSummaryTags([...summaryTags, newTag.trim()])
+                        }
+                      }}
+                      className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm hover:bg-gray-200 transition-colors"
+                    >
+                      + Adicionar
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="p-5 border-t border-gray-200 bg-gray-50 flex gap-3">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowSummaryModal(false)
+                  setSummaryText('')
+                  setSummaryMood(5)
+                  setSummaryTags(['coach', 'reflexão', 'sessão'])
+                }}
+                className="flex-1"
+                disabled={isSavingSummary}
+              >
+                Cancelar
+              </Button>
+              <Button
+                onClick={handleSaveSummaryToDiary}
+                disabled={isSavingSummary || summaryText.trim().length < 10}
+                className="flex-1 bg-indigo-500 hover:bg-indigo-600 text-white"
+              >
+                {isSavingSummary ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                    Salvando...
+                  </>
+                ) : (
+                  <>
+                    <BookMarked className="w-4 h-4 mr-2" />
+                    Salvar no Diário
+                  </>
+                )}
               </Button>
             </div>
           </div>

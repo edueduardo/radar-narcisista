@@ -1,17 +1,29 @@
 ================================================================================
 RADAR NARCISISTA – ATLAS COMPLETO DO PROJETO (CÓDIGO REAL)
 ================================================================================
-Data/hora da geração: 30/11/2025 00:00 (UTC-5)
+Data/hora da geração: 30/11/2025 09:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 30/11/2025 00:00
-MUDANÇAS DESDE ÚLTIMA VERSÃO:
+ÚLTIMA ATUALIZAÇÃO: 30/11/2025 09:20
+MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 01:00 → 09:20):
 - ETAPA 2: Triângulo Clareza ⇄ Diário ⇄ Chat implementado
 - ETAPA 3: Diário/Timeline/Dashboard conectados ao triângulo
-- Badges "Perfil de Clareza" e "Intenso" no Diário e Timeline
+- ETAPA 4: Chat → Diário (salvar resumo de sessão)
+- ETAPA 5: Editor Visual da Frontpage (sem código)
+- Badges "Perfil de Clareza", "Intenso" e "Resumo do Chat" no Diário/Timeline
 - Dashboard confirmado consumindo dados reais
 - Tipos JournalEntryType adicionados em types/database.ts
+- Tabela frontpage_config para edição dinâmica da frontpage
+- Hook useFrontpageConfig.ts criado para consumir configs
+- Build passou: 133 páginas (antes 130)
+
+FERRAMENTAS FUTURAS (GUARDADAS NA MEMÓRIA):
+- Dashboard: Tremor (React nativo)
+- Segurança: Arcjet + Supabase RLS
+- Chatbot Frontpage: Crisp ou Tawk.to
+- WhatsApp Bot: Typebot + Z-API
+- Suporte/Helpdesk: Crisp
 
 ================================================================================
 [ÍNDICE]
@@ -23,12 +35,18 @@ MUDANÇAS DESDE ÚLTIMA VERSÃO:
    3.2 Diário
    3.3 Chat/Coach IA
    3.4 Dashboard
+   3.5 Editor Visual da Frontpage
 4. Esquema de banco (Supabase)
 5. Planos e monetização
 6. Idiomas (i18n)
 7. Segurança, LGPD e botão de emergência
 8. Diferença entre visão (TUDO PARA O GPT.txt) e código real
 9. Pendências técnicas e riscos
+10. Sistema de Limites por Plano
+11. Sistema de Planos Administráveis
+12. Correções de Acesso Admin
+13. Arquivos de Memória do Projeto
+14. Editor Visual da Frontpage
 
 ================================================================================
 [1] VISÃO GERAL DO PROJETO
@@ -50,7 +68,13 @@ PASTAS PRINCIPAIS:
 - app/           → Rotas e páginas (App Router do Next.js)
 - lib/           → Lógica de negócio, configs, prompts, utils
 - components/    → Componentes React reutilizáveis
-- hooks/         → Hooks customizados (useI18n, useTermsAcceptance, etc.)
+- hooks/         → Hooks customizados:
+                   - useClarityProfile.ts (perfil de clareza do usuário)
+                   - useFrontpageConfig.ts (configs editáveis da frontpage)
+                   - useI18n.ts (internacionalização)
+                   - usePlanLimits.ts (limites por plano)
+                   - usePlans.ts (lista de planos)
+                   - useUserRole.ts (role do usuário)
 - database/      → Schemas SQL e migrations
 - public/        → Assets estáticos
 - scripts/       → Scripts de build e verificação
@@ -149,13 +173,25 @@ ROTAS PRINCIPAIS (verificadas no código):
   Status: IMPLEMENTADA
 
 /admin/*
-  Arquivos: app/admin/ (34 subpastas)
+  Arquivos: app/admin/ (37 subpastas)
   Função: Painel administrativo completo com:
           - Analytics, métricas, custos IA
           - Gerenciamento de IAs, fluxos
           - Beta testers, comunidade
           - Configurações, estados
+          - Editor de Frontpage (formulários e visual)
+          - Gerenciamento de planos e promoções
   Status: IMPLEMENTADA
+  
+  Rotas Admin Principais:
+  - /admin/planos → CRUD de planos e promoções
+  - /admin/frontpage-editor → Editor por formulários
+  - /admin/frontpage-visual → Editor visual com preview
+  - /admin/usuarios → Gerenciamento de usuários
+  - /admin/custos-ia → Monitoramento de custos
+  - /admin/fluxos-ia → Fluxos de IA configuráveis
+  - /admin/mapa-ias → Mapa de IAs do sistema
+  - /admin/analytics → Analytics gerais
 
 OUTRAS ROTAS RELEVANTES:
 - /login, /cadastro → Autenticação
@@ -308,6 +344,18 @@ API: /api/chat
 - Detecta problemas no texto (gaslighting, invalidação, etc.)
 - Detecta red flags de fraude/má-fé
 - Retorna: reply, transparencia (IAs usadas, consenso)
+
+API: /api/chat/save-summary (ETAPA 4 - CHAT → DIÁRIO)
+- Recebe: summaryText (obrigatório, min 10 chars), moodIntensity (0-10), tags[]
+- Cria entrada em journal_entries com entry_type = 'chat_summary'
+- Título automático: "💬 Resumo da sessão com o Coach – DD/MM/YYYY"
+- Requer autenticação
+
+UI DO CHAT (ETAPA 4):
+- Botão "Salvar no Diário" aparece após 2+ mensagens do usuário
+- Modal de resumo: textarea, slider de intensidade, tags editáveis
+- Modal de encerramento: checkbox para salvar resumo antes de encerrar
+- Badge "Resumo do Chat" (💬) exibido no Diário e Timeline
 
 --------------------------------------------------------------------------------
 [3.4] DASHBOARD (ETAPA 3 - VISOR DO TRIÂNGULO)
@@ -688,12 +736,63 @@ DOCUMENTAÇÃO:
 - Commit: 8968c88
 
 ================================================================================
+[14] EDITOR VISUAL DA FRONTPAGE (30/11/2025)
+================================================================================
+
+CONCEITO:
+Sistema para editar textos e seções da frontpage sem código.
+Alternativa ao WordPress/Elementor, integrado ao Next.js.
+
+NOVA TABELA (migration: 007_frontpage_config.sql):
+- frontpage_config: Configurações editáveis da frontpage
+  - config_key: Identificador único (hero, faq, testimonials, etc.)
+  - config_value: JSONB com os dados da seção
+  - is_active: Ativar/desativar seção
+  - RLS: Leitura pública, escrita apenas admins
+
+NOVOS ARQUIVOS:
+- database/migrations/007_frontpage_config.sql: Schema + seed
+- app/api/admin/frontpage-editor/route.ts: API CRUD
+- app/admin/frontpage-editor/page.tsx: Editor por formulários
+- app/admin/frontpage-visual/page.tsx: Editor visual com preview
+- hooks/useFrontpageConfig.ts: Hook para consumir configs
+
+SEÇÕES EDITÁVEIS:
+| config_key    | Descrição                    |
+|---------------|------------------------------|
+| general       | Nome do site, banner promo   |
+| hero          | Título, subtítulo, CTAs      |
+| stats         | Estatísticas numéricas       |
+| faq           | Perguntas frequentes         |
+| testimonials  | Depoimentos de usuárias      |
+| cta_final     | Call-to-action final         |
+| sections_order| Ordem e visibilidade         |
+
+FUNCIONALIDADES:
+✅ Editor por formulários (/admin/frontpage-editor)
+✅ Editor visual com preview em tempo real (/admin/frontpage-visual)
+✅ Preview responsivo (desktop/tablet/mobile)
+✅ Ativar/desativar seções
+✅ Adicionar/remover itens de FAQ e depoimentos
+✅ Salvar no Supabase
+✅ Fallback para valores padrão se tabela não existir
+
+NOTA SOBRE BUILDER.IO:
+- Tentativa de instalar Builder.io falhou
+- Requer Visual Studio C++ no Windows (node-gyp)
+- Solução: Editor visual próprio criado
+
+PRÓXIMO PASSO:
+- Rodar migration 007 no Supabase
+- Conectar frontpage real ao hook useFrontpageConfig
+
+================================================================================
 FIM DO ATLAS
 ================================================================================
 Gerado em: 29/11/2025 18:10 (UTC-5)
-Atualizado em: 30/11/2025 00:00 (UTC-5)
-Tamanho aproximado: ~24KB
-Seções: 13
+Atualizado em: 30/11/2025 09:20 (UTC-5)
+Tamanho aproximado: ~28KB
+Seções: 14
 
 NOTA IMPORTANTE:
 Este documento reflete o estado do CÓDIGO no momento da geração.

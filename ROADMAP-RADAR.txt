@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 1.2
-Última atualização: 30/11/2025 00:00 (UTC-5)
+Versão: 1.4
+Última atualização: 30/11/2025 09:20 (UTC-5)
 
 ================================================================================
 STATUS GERAL
@@ -27,16 +27,20 @@ PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
    - Timeline funcional com badges
    - Badges "Perfil de Clareza" e "Intenso"
 
-3) ✅ Fechar Chat (PARCIAL 29/11/2025)
+3) ✅ Fechar Chat (CONCLUÍDO 30/11/2025)
    - Coach IA usando contexto do teste ✅
    - Coach IA usando últimos diários ✅
    - Limites por plano funcionando ✅
-   - PENDENTE-V2: Chat → Diário (salvar resumo)
+   - Chat → Diário (salvar resumo) ✅
 
-4) 🔄 Polir Frontpage (UX bonitona)
+4) ✅ Editor Visual da Frontpage (CONCLUÍDO 30/11/2025)
    - Promoções dinâmicas funcionando ✅
    - Planos lendo do banco ✅
-   - Design responsivo (em andamento)
+   - Editor por formulários (/admin/frontpage-editor) ✅
+   - Editor visual com preview (/admin/frontpage-visual) ✅
+   - Hook useFrontpageConfig.ts criado ✅
+   - Migration 007_frontpage_config.sql criada ✅
+   - PENDENTE: Rodar migration no Supabase
 
 ================================================================================
 DEPOIS DISSO
@@ -58,6 +62,13 @@ IDEIAS FUTURAS (NÃO IMPLEMENTAR AGORA)
 - Comunidade/fórum entre usuárias
 - Gamificação avançada
 - Integrações com calendário
+
+FERRAMENTAS PARA INTEGRAR (GUARDADAS NA MEMÓRIA):
+- Tremor (dashboards bonitos)
+- Arcjet (segurança, rate limiting)
+- Crisp/Tawk.to (chatbot frontpage)
+- Typebot + Z-API (WhatsApp bot)
+- Crisp (helpdesk/suporte)
 
 ================================================================================
 HISTÓRICO DE CONCLUSÕES
@@ -117,11 +128,41 @@ HISTÓRICO DE CONCLUSÕES
   - app/diario/timeline/page.tsx (badge clarity_baseline + mood_intensity)
   - ATLAS-RADAR-NARCISISTA.txt (seção Dashboard atualizada)
 
+[30/11/2025 01:00] ETAPA 4 - Chat → Diário (COMPLETA)
+- API /api/chat/save-summary criada
+- Botão "Salvar no Diário" no chat após 2+ mensagens
+- Modal de resumo com texto, intensidade e tags
+- Integração com modal de encerramento
+- Badge "Resumo do Chat" no Diário e Timeline
+- Arquivos modificados:
+  - app/api/chat/save-summary/route.ts (novo)
+  - app/chat/page.tsx (modal e botão)
+  - app/diario/page.tsx (badge)
+  - app/diario/timeline/page.tsx (badge)
+
+[30/11/2025 01:30] ETAPA 5 - Editor Visual da Frontpage (COMPLETA)
+- Migration 007_frontpage_config.sql criada
+- API /api/admin/frontpage-editor criada (CRUD)
+- Editor por formulários: /admin/frontpage-editor
+- Editor visual com preview: /admin/frontpage-visual
+- Hook useFrontpageConfig.ts criado
+- Preview responsivo (desktop/tablet/mobile)
+- PENDENTE: Rodar migration no Supabase
+- Arquivos criados:
+  - database/migrations/007_frontpage_config.sql
+  - app/api/admin/frontpage-editor/route.ts
+  - app/admin/frontpage-editor/page.tsx
+  - app/admin/frontpage-visual/page.tsx
+  - hooks/useFrontpageConfig.ts
+
 ================================================================================
 BUGS CONHECIDOS (A CORRIGIR)
 ================================================================================
 
 Nenhum bug crítico identificado no momento.
+
+MIGRATIONS PENDENTES:
+- 007_frontpage_config.sql → Rodar no Supabase Dashboard
 
 ================================================================================
 FIM DO ROADMAP
