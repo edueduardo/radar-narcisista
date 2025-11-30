@@ -122,6 +122,9 @@ TESTES DE BUILD:
 ☑ Deploy na Vercel funciona
 ☑ Não há erros de TypeScript
 
+CORREÇÕES APLICADAS:
+☑ Botão "Config Menu" agora vai para /admin/menu-config (não localhost)
+
 ================================================================================
 FIM DO CHECKLIST DE TESTES
 ================================================================================

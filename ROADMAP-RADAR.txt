@@ -79,6 +79,11 @@ HISTÓRICO DE CONCLUSÕES
 - Criado script gerar-espelho-codigo.cjs
 - Comando: npm run espelho-codigo
 
+[29/11/2025 21:25] Correção Botão Config Menu
+- Problema: Botão "Config Menu" no admin usava localhost hardcoded
+- Solução: Trocado para caminho relativo /admin/menu-config
+- Arquivo: app/admin/AdminClient.tsx
+
 ================================================================================
 BUGS CONHECIDOS (A CORRIGIR)
 ================================================================================

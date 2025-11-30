@@ -1237,11 +1237,9 @@ ${new Date().toISOString()}
           </div>
           {sidebarOpen && (
             <a
-              href="http://localhost:3000/admin/menu-config"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/admin/menu-config"
               className="flex items-center justify-center gap-2 px-3 py-2 bg-green-600 hover:bg-green-500 text-white text-sm font-medium rounded-lg transition-colors"
-              title="Abrir configuração do menu em nova aba"
+              title="Configurar ordem do menu"
             >
               <span>⚙️</span>
               <span>Config Menu</span>
