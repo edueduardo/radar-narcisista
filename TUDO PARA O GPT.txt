@@ -2,8 +2,9 @@
 RADAR NARCISISTA - HISTÓRICO COMPLETO DE IMPLEMENTAÇÕES
 ================================================================================
 Gerado em: 28/11/2025
+Atualizado em: 30/11/2025 00:00 (UTC-5)
 Projeto: SaaS de apoio a vítimas de relacionamentos abusivos/narcisistas
-Stack: Next.js + Supabase + OpenAI/Anthropic/Groq + TailwindCSS
+Stack: Next.js 16 + Supabase + OpenAI/Groq + TailwindCSS 4
 
 ================================================================================
 PARTE 1: VISÃO GERAL DO PROJETO
@@ -2376,5 +2377,66 @@ COMANDO PARA GERAR ESPELHO:
 npm run espelho-codigo
 
 REGRA: Sempre rodar "CICLO RADAR 5 TXT" para sincronizar documentação.
+
+================================================================================
+ETAPA 2 + 3 – TRIÂNGULO CLAREZA ⇄ DIÁRIO ⇄ CHAT (29/11/2025)
+================================================================================
+
+CONCEITO DO TRIÂNGULO:
+O "Triângulo de Dados" conecta as 3 fontes principais de informação do usuário:
+1. CLAREZA (Teste de Clareza) → Perfil base do usuário
+2. DIÁRIO (Episódios) → Registros de situações vividas
+3. CHAT (Coach IA) → Conversas com a IA
+
+IMPLEMENTAÇÕES CONCLUÍDAS:
+
+✅ CLAREZA → DIÁRIO:
+- Ao salvar teste como base, cria entrada automática no diário
+- entry_type = 'clarity_baseline'
+- clarity_test_id = ID do teste
+- Título: "📊 Radiografia da Relação – [Zona]"
+- Tags sugeridas baseadas nos eixos (gaslighting, medo, controle, etc.)
+- Arquivo: app/api/clarity/activate-profile/route.ts
+
+✅ DIÁRIO → CHAT:
+- Chat recebe contexto dos últimos 3 episódios mais intensos (30 dias)
+- Função: getDiaryContextForChat() em app/api/chat/route.ts
+- Contexto injetado silenciosamente no prompt
+
+✅ CLAREZA → CHAT:
+- Chat recebe perfil de clareza do usuário (zona, scores, risco)
+- Contexto injetado silenciosamente no prompt
+- IA personaliza respostas baseado no perfil
+
+✅ DIÁRIO COM BADGES:
+- Entradas clarity_baseline mostram badge "Perfil de Clareza" (✨)
+- Arquivo: app/diario/page.tsx
+
+✅ TIMELINE COM BADGES:
+- Entradas clarity_baseline mostram badge "Perfil de Clareza"
+- Entradas com mood_intensity >= 7 mostram badge "Intenso" (🔥)
+- Arquivo: app/diario/timeline/page.tsx
+
+✅ DASHBOARD COMO VISOR:
+- Consome dados reais de clarity_tests, journal_entries, ai_messages
+- Estatísticas reais: testes, episódios, mensagens, dias ativos
+- Arquivo: app/dashboard/page.tsx
+
+TIPOS TYPESCRIPT ATUALIZADOS:
+- JournalEntryType: 'normal' | 'clarity_baseline' | 'chat_summary' | ...
+- JournalEntry: entry_type?, clarity_test_id?
+- Arquivos: types/database.ts, lib/diary-types.ts
+
+MIGRATION OBRIGATÓRIA:
+ALTER TABLE public.journal_entries 
+ADD COLUMN IF NOT EXISTS entry_type TEXT DEFAULT 'normal';
+
+ALTER TABLE public.journal_entries 
+ADD COLUMN IF NOT EXISTS clarity_test_id UUID REFERENCES public.clarity_tests(id);
+
+PENDENTE-V2:
+- Chat → Diário (salvar resumo de sessão como entrada)
+- Filtros por entry_type no Diário
+- Destaque visual diferente no ponto da Timeline
 
 ================================================================================

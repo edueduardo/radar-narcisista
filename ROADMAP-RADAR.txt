@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 1.1
-Última atualização: 29/11/2025 21:15 (UTC-5)
+Versão: 1.2
+Última atualização: 30/11/2025 00:00 (UTC-5)
 
 ================================================================================
 STATUS GERAL
@@ -21,20 +21,22 @@ PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
    - Integração homepage e /planos
    - Promoções com labels e datas
 
-2) 🔄 Fechar Diário (fluxos + UI)
-   - Unificar rotas duplicadas
-   - Conectar com Teste de Clareza
-   - Timeline funcional
+2) ✅ Fechar Diário (CONCLUÍDO 29/11/2025)
+   - Rotas unificadas: /diario, /diario/novo, /diario/timeline
+   - Conectado com Teste de Clareza (entry_type, clarity_test_id)
+   - Timeline funcional com badges
+   - Badges "Perfil de Clareza" e "Intenso"
 
-3) 🔄 Fechar Chat (contexto do teste + diário)
-   - Coach IA usando contexto do teste
-   - Coach IA usando últimos diários
-   - Limites por plano funcionando
+3) ✅ Fechar Chat (PARCIAL 29/11/2025)
+   - Coach IA usando contexto do teste ✅
+   - Coach IA usando últimos diários ✅
+   - Limites por plano funcionando ✅
+   - PENDENTE-V2: Chat → Diário (salvar resumo)
 
 4) 🔄 Polir Frontpage (UX bonitona)
-   - Promoções dinâmicas funcionando
-   - Planos lendo do banco
-   - Design responsivo
+   - Promoções dinâmicas funcionando ✅
+   - Planos lendo do banco ✅
+   - Design responsivo (em andamento)
 
 ================================================================================
 DEPOIS DISSO

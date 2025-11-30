@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 1.1
-Última atualização: 29/11/2025 21:15 (UTC-5)
+Versão: 1.2
+Última atualização: 30/11/2025 00:00 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -102,7 +102,7 @@ LEGENDA
 ✗ = Testado e com problema
 
 ================================================================================
-TESTES REALIZADOS HOJE (29/11/2025)
+TESTES REALIZADOS (29-30/11/2025)
 ================================================================================
 
 FLUXO 5 – ADMIN / PLANOS:
@@ -118,7 +118,7 @@ FLUXO 6 – AUTENTICAÇÃO:
 ☑ Admin é reconhecido corretamente após correção
 
 TESTES DE BUILD:
-☑ npm run build passa sem erros (132 páginas)
+☑ npm run build passa sem erros (129 páginas)
 ☑ Deploy na Vercel funciona
 ☑ Não há erros de TypeScript
 
@@ -127,6 +127,9 @@ CORREÇÕES APLICADAS:
 ☑ Diário unificado - rotas duplicadas arquivadas em app/_archive/
 ☑ Links do dashboard atualizados para rotas oficiais
 ☑ Build passou com 129 páginas
+☑ Badge "Perfil de Clareza" implementado no Diário
+☑ Badge "Perfil de Clareza" + "Intenso" implementado na Timeline
+☑ Tipos JournalEntryType adicionados em types/database.ts
 
 ROTAS OFICIAIS DO DIÁRIO:
 ☑ /diario → Lista de entradas

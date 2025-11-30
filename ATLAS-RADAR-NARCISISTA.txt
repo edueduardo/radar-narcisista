@@ -1,16 +1,17 @@
 ================================================================================
 RADAR NARCISISTA – ATLAS COMPLETO DO PROJETO (CÓDIGO REAL)
 ================================================================================
-Data/hora da geração: 29/11/2025 21:15 (UTC-5)
+Data/hora da geração: 30/11/2025 00:00 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 29/11/2025 21:15
+ÚLTIMA ATUALIZAÇÃO: 30/11/2025 00:00
 MUDANÇAS DESDE ÚLTIMA VERSÃO:
-- Adicionada migration RLS para admins em billing_plans
-- Corrigido acesso admin (getUser em vez de getSession)
-- Sistema de Planos Administráveis 100% funcional
-- Criados arquivos ROADMAP-RADAR.txt e TESTES-RADAR.txt
+- ETAPA 2: Triângulo Clareza ⇄ Diário ⇄ Chat implementado
+- ETAPA 3: Diário/Timeline/Dashboard conectados ao triângulo
+- Badges "Perfil de Clareza" e "Intenso" no Diário e Timeline
+- Dashboard confirmado consumindo dados reais
+- Tipos JournalEntryType adicionados em types/database.ts
 
 ================================================================================
 [ÍNDICE]
@@ -690,9 +691,9 @@ DOCUMENTAÇÃO:
 FIM DO ATLAS
 ================================================================================
 Gerado em: 29/11/2025 18:10 (UTC-5)
-Atualizado em: 29/11/2025 19:07 (UTC-5)
-Tamanho aproximado: ~22KB
-Seções: 10
+Atualizado em: 30/11/2025 00:00 (UTC-5)
+Tamanho aproximado: ~24KB
+Seções: 13
 
 NOTA IMPORTANTE:
 Este documento reflete o estado do CÓDIGO no momento da geração.
