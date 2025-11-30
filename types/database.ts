@@ -40,6 +40,9 @@ export interface ClarityTest {
   from_voice: boolean
 }
 
+// Tipos de entrada do diário (ETAPA 2 - TRIÂNGULO)
+export type JournalEntryType = 'normal' | 'clarity_baseline' | 'chat_summary' | 'voice_note' | 'photo_note' | 'video_note'
+
 export interface JournalEntry {
   id: string
   user_id: string
@@ -54,6 +57,9 @@ export interface JournalEntry {
   highlight?: string
   tags?: string[]
   from_voice: boolean
+  // ETAPA 2 - TRIÂNGULO: Campos de integração Clareza ⇄ Diário
+  entry_type?: JournalEntryType
+  clarity_test_id?: string
 }
 
 export interface AiChatSession {

@@ -19,7 +19,8 @@ import {
   Shield,
   Eye,
   ExternalLink,
-  Info
+  Info,
+  Sparkles
 } from 'lucide-react'
 import { mapAbuseTagsToProblemTags, getAbuseTagById } from '@/lib/abuse-tags-config'
 import { PROBLEMS, type ProblemTag } from '@/lib/tools-config'
@@ -73,8 +74,12 @@ interface JournalEntry {
   description: string
   context: string
   impact_score: number
+  mood_intensity?: number
   tags: string[]
   created_at: string
+  // ETAPA 3 - Campos de integração Clareza ⇄ Diário
+  entry_type?: 'normal' | 'clarity_baseline' | 'chat_summary' | 'voice_note' | 'photo_note' | 'video_note'
+  clarity_test_id?: string
 }
 
 interface PatternAnalysis {
@@ -549,7 +554,7 @@ export default function TimelinePage() {
 
                             <div className="flex items-start justify-between">
                               <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-1">
+                                <div className="flex items-center gap-2 mb-1 flex-wrap">
                                   <h4 className="font-semibold text-gray-900">{entry.title}</h4>
                                   <span className={`px-2 py-0.5 rounded text-xs font-medium ${
                                     entry.impact_score >= 3 
@@ -560,6 +565,20 @@ export default function TimelinePage() {
                                   }`}>
                                     {entry.impact_score >= 3 ? 'Alto' : entry.impact_score >= 2 ? 'Médio' : 'Baixo'}
                                   </span>
+                                  {/* ETAPA 3 - Badge para entradas clarity_baseline */}
+                                  {entry.entry_type === 'clarity_baseline' && (
+                                    <span className="px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-700 flex items-center gap-1">
+                                      <Sparkles className="w-3 h-3" />
+                                      Perfil de Clareza
+                                    </span>
+                                  )}
+                                  {/* ETAPA 3 - Destaque para mood_intensity alto */}
+                                  {entry.mood_intensity && entry.mood_intensity >= 7 && (
+                                    <span className="px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-700 flex items-center gap-1">
+                                      <Flame className="w-3 h-3" />
+                                      Intenso
+                                    </span>
+                                  )}
                                 </div>
                                 <p className="text-xs text-gray-500 mb-2">{formatDate(entry.created_at)}</p>
                                 

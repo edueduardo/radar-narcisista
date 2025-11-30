@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { JournalEntry } from '../../types/database'
-import { ArrowLeft, FileText, BookOpen } from 'lucide-react'
+import { ArrowLeft, FileText, BookOpen, Sparkles } from 'lucide-react'
 
 // Tipo para entradas com contagem de análises
 interface JournalEntryWithAnalysis extends JournalEntry {
@@ -257,6 +257,13 @@ export default function DiarioPage() {
                         <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getImpactColor(entry.impact_score || 1)}`}>
                           {getImpactLabel(entry.impact_score || 1)}
                         </span>
+                        {/* ETAPA 3 - Badge para entradas clarity_baseline */}
+                        {entry.entry_type === 'clarity_baseline' && (
+                          <span className="px-2 py-1 bg-purple-900/50 text-purple-300 rounded-full text-xs font-medium border border-purple-800 flex items-center gap-1">
+                            <Sparkles className="w-3 h-3" />
+                            Perfil de Clareza
+                          </span>
+                        )}
                         {entry.from_voice && (
                           <span className="px-2 py-1 bg-blue-900/50 text-blue-300 rounded-full text-xs font-medium border border-blue-800">
                             🎤 Por voz

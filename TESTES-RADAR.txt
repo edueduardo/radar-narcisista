@@ -152,6 +152,16 @@ ADD COLUMN IF NOT EXISTS entry_type TEXT DEFAULT 'normal';
 ALTER TABLE public.journal_entries 
 ADD COLUMN IF NOT EXISTS clarity_test_id UUID REFERENCES public.clarity_tests(id);
 
+ETAPA 3 - DIÁRIO + TIMELINE + DASHBOARD CONECTADOS AO TRIÂNGULO:
+☐ /diario → Entradas clarity_baseline devem mostrar badge "Perfil de Clareza"
+☐ /diario/timeline → Entradas clarity_baseline devem mostrar badge "Perfil de Clareza"
+☐ /diario/timeline → Entradas com mood_intensity >= 7 devem mostrar badge "Intenso"
+☐ /dashboard → Deve mostrar dados reais de clareza (não mock)
+☐ /dashboard → Deve mostrar últimas entradas do diário reais
+☐ /dashboard → Estatísticas (testes, episódios, mensagens) devem ser reais
+☐ Fluxo completo: Teste Clareza → Salvar Base → Ver entrada no Diário com badge
+☐ Fluxo completo: Teste Clareza → Salvar Base → Ver entrada na Timeline com badge
+
 ================================================================================
 FIM DO CHECKLIST DE TESTES
 ================================================================================

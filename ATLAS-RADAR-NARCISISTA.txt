@@ -309,18 +309,25 @@ API: /api/chat
 - Retorna: reply, transparencia (IAs usadas, consenso)
 
 --------------------------------------------------------------------------------
-[3.4] DASHBOARD
+[3.4] DASHBOARD (ETAPA 3 - VISOR DO TRIÂNGULO)
 --------------------------------------------------------------------------------
 
 ROTA: /dashboard
 ARQUIVO: app/dashboard/page.tsx
 
 CONTEÚDO:
-- Resumo do perfil de clareza (se existir)
-- Últimas entradas do diário
+- Resumo do perfil de clareza (se existir) - usa hook useClarityProfile
+- Últimas entradas do diário - lê journal_entries reais
 - Alertas de risco (se houver)
-- Recomendações personalizadas
+- Recomendações personalizadas baseadas no perfil
 - Atalhos para ferramentas
+- Estatísticas reais: testes, episódios, mensagens, dias ativos
+
+FONTES DE DADOS REAIS:
+- clarity_tests (perfil base)
+- journal_entries (incluindo clarity_baseline)
+- ai_messages (histórico de chat)
+- safety_plans (plano de segurança)
 
 VARIANTES:
 - /dashboard-v2 → Versão alternativa
@@ -367,9 +374,10 @@ journal_entries
 - title, context, content
 - mood_intensity, highlight, tags[]
 - from_voice, deleted_at
-- NOVOS CAMPOS (migrations pendentes):
-  - entry_type (TEXT)
-  - clarity_test_id (FK → clarity_tests)
+- CAMPOS DE INTEGRAÇÃO (ETAPA 2/3 - TRIÂNGULO):
+  - entry_type (TEXT, default 'normal') - tipos: normal, clarity_baseline, chat_summary
+  - clarity_test_id (UUID, FK → clarity_tests) - referência ao teste de clareza
+  - Migration: database/migrations/20241129_add_diary_clarity_fields.sql
 
 journal_attachments
 - id (PK), journal_entry_id (FK), user_id (FK)

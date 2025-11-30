@@ -103,6 +103,18 @@ HISTÓRICO DE CONCLUSÕES
   - lib/diary-types.ts
   - app/diario/novo/page.tsx (pré-preenchimento via query string)
 
+[29/11/2025 23:15] ETAPA 3 - Diário + Timeline + Dashboard Conectados ao Triângulo (COMPLETA)
+- Diário com badge "Perfil de Clareza" para entradas clarity_baseline
+- Timeline com badge "Perfil de Clareza" + destaque "Intenso" para mood_intensity >= 7
+- Dashboard já consumia dados reais (confirmado: clarity_tests, journal_entries, ai_messages)
+- Tipo JournalEntry em types/database.ts atualizado com entry_type e clarity_test_id
+- Rotas antigas já estavam em app/_archive/ (diario-premium, timeline-premium, linha-tempo)
+- Arquivos modificados:
+  - types/database.ts (JournalEntryType adicionado)
+  - app/diario/page.tsx (badge clarity_baseline)
+  - app/diario/timeline/page.tsx (badge clarity_baseline + mood_intensity)
+  - ATLAS-RADAR-NARCISISTA.txt (seção Dashboard atualizada)
+
 ================================================================================
 BUGS CONHECIDOS (A CORRIGIR)
 ================================================================================
