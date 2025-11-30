@@ -27,6 +27,7 @@ import { MessageCircle, AlertTriangle, RotateCcw, MapPin, ArrowLeft, Home, Navig
 import { PROBLEMS, TOOLS, getToolsByProblem, type ProblemTag, type ProblemConfig } from '@/lib/tools-config'
 import Link from 'next/link'
 import { ResponsibilityTermsModal, LegalWarningBanner, useTermsAcceptance } from '@/components/ResponsibilityTermsModal'
+import { usePlanLimits } from '@/hooks/usePlanLimits'
 
 import { AiChatSession, AiMessage } from '../../types/database'
 
@@ -112,6 +113,9 @@ function ChatPageContent() {
   // Estado para alertas de fraude/inconsistência detectados
   const [detectedFraudFlags, setDetectedFraudFlags] = useState<Array<{type: string, severity: number, description: string}>>([])
   const [showFraudAlert, setShowFraudAlert] = useState(false)
+  // Estado para limite de mensagens atingido
+  const [showLimitReached, setShowLimitReached] = useState(false)
+  const { planLevel, planName, usage, chatLimit, canSendMessage, isLoading: isLoadingPlan } = usePlanLimits()
   // Estado para perfil de clareza (ETAPA 2 - Integração Coach IA ↔ Perfil)
   const [clarityProfile, setClarityProfile] = useState<{
     globalZone: string
@@ -359,6 +363,12 @@ function ChatPageContent() {
   // Modificar função sendMessage para incluir avaliação de clareza
   const sendMessage = async (messageContent: string, fromVoice = false) => {
     if (!messageContent.trim() || isLoading || !currentSession) return
+
+    // VERIFICAR LIMITE DE MENSAGENS DO PLANO
+    if (!canSendMessage && chatLimit) {
+      setShowLimitReached(true)
+      return
+    }
 
     setIsLoading(true)
     
@@ -1756,6 +1766,59 @@ function ChatPageContent() {
               >
                 ✕
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ============================================================= */}
+      {/* MODAL DE LIMITE DE MENSAGENS ATINGIDO */}
+      {/* ============================================================= */}
+      {showLimitReached && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[100] p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
+            <div className="bg-gradient-to-r from-violet-600 to-purple-600 p-5">
+              <div className="flex items-center gap-3 text-white">
+                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                  <MessageCircle className="w-5 h-5" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold">Limite de mensagens atingido</h2>
+                  <p className="text-violet-200 text-sm">Plano: {planName}</p>
+                </div>
+              </div>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-gray-700">
+                Você atingiu o limite de <strong>{chatLimit?.limit}</strong> mensagens por dia do seu plano atual.
+              </p>
+              <p className="text-gray-600 text-sm">
+                Para continuar conversando com o Coach IA, você pode:
+              </p>
+              <ul className="text-sm text-gray-600 space-y-2">
+                <li className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-violet-500" />
+                  Aguardar até amanhã (o limite reseta à meia-noite)
+                </li>
+                <li className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-violet-500" />
+                  Fazer upgrade para um plano com mais mensagens
+                </li>
+              </ul>
+              <div className="flex gap-3 pt-2">
+                <button
+                  onClick={() => setShowLimitReached(false)}
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                >
+                  Entendi
+                </button>
+                <Link
+                  href="/planos"
+                  className="flex-1 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 text-center"
+                >
+                  Ver Planos
+                </Link>
+              </div>
             </div>
           </div>
         </div>

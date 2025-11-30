@@ -15,6 +15,7 @@ import {
 import { ArrowLeft, AlertTriangle, Sparkles, X as XIcon, CheckCircle } from 'lucide-react'
 import { ResponsibilityTermsModal, useTermsAcceptance } from '@/components/ResponsibilityTermsModal'
 import { useClarityProfile } from '@/hooks/useClarityProfile'
+import { usePlanLimits } from '@/hooks/usePlanLimits'
 
 // =============================================================================
 // TEMPLATES POR TIPO DE PROBLEMA
@@ -96,6 +97,10 @@ function NovoDiarioPageContent() {
   const [showClarityCard, setShowClarityCard] = useState(true)
   const [usedClarityAsBase, setUsedClarityAsBase] = useState(false)
   const [hasDiaryEntries, setHasDiaryEntries] = useState<boolean | null>(null)
+  
+  // Hook para limites de plano
+  const { planLevel, planName, usage, diaryLimit, canCreateEntry, isLoading: isLoadingPlan } = usePlanLimits()
+  const [showLimitReached, setShowLimitReached] = useState(false)
   
   // Verificar se usuário já tem entradas no diário
   useEffect(() => {
@@ -614,6 +619,12 @@ psiquiatria ou terapia.
     
     if (!formData.title.trim()) {
       alert('Preencha título do episódio.')
+      return
+    }
+
+    // VERIFICAR LIMITE DE ENTRADAS DO PLANO
+    if (!canCreateEntry && diaryLimit) {
+      setShowLimitReached(true)
       return
     }
 
@@ -1311,6 +1322,57 @@ psiquiatria ou terapia.
           autoCheck={true}
           forceShow={hasAcceptedTerms === false}
         />
+      )}
+
+      {/* Modal de Limite de Entradas Atingido */}
+      {showLimitReached && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[100] p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
+            <div className="bg-gradient-to-r from-violet-600 to-purple-600 p-5">
+              <div className="flex items-center gap-3 text-white">
+                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                  <AlertTriangle className="w-5 h-5" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold">Limite de entradas atingido</h2>
+                  <p className="text-violet-200 text-sm">Plano: {planName}</p>
+                </div>
+              </div>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-gray-700">
+                Você atingiu o limite de <strong>{diaryLimit?.limit}</strong> entradas no diário este mês.
+              </p>
+              <p className="text-gray-600 text-sm">
+                Para continuar registrando episódios, você pode:
+              </p>
+              <ul className="text-sm text-gray-600 space-y-2">
+                <li className="flex items-center gap-2">
+                  <span className="text-violet-500">📅</span>
+                  Aguardar o próximo mês (o limite reseta no dia 1)
+                </li>
+                <li className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-violet-500" />
+                  Fazer upgrade para um plano com mais entradas
+                </li>
+              </ul>
+              <div className="flex gap-3 pt-2">
+                <button
+                  onClick={() => setShowLimitReached(false)}
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                >
+                  Entendi
+                </button>
+                <Link
+                  href="/planos"
+                  className="flex-1 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 text-center"
+                >
+                  Ver Planos
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </>
   )
