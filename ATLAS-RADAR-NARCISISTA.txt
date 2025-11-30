@@ -619,11 +619,43 @@ TESTES AUTOMATIZADOS:
 - jest.config.js configurado
 
 ================================================================================
+[10] IMPLEMENTAÇÕES RECENTES (29/11/2025 19:00)
+================================================================================
+
+GATE DE LOGIN NO RESULTADO DO TESTE:
+- Arquivo: app/teste-clareza/resultado/page.tsx
+- Comportamento: Usuário faz teste → resultado fica bloqueado
+- Se não logado → mostra tela de criar conta/login
+- Preview borrado do resultado com cadeado
+- Após autenticar → mostra resultado completo
+- Commit: 29c60fd
+
+VERIFICAÇÃO DE LIMITES POR PLANO:
+- Arquivos modificados:
+  - app/chat/page.tsx
+  - app/diario/novo/page.tsx
+- Hook usado: usePlanLimits() de hooks/usePlanLimits.ts
+- Comportamento:
+  - Chat: verifica canSendMessage antes de enviar
+  - Diário: verifica canCreateEntry antes de criar
+  - Modal de limite atingido com:
+    - Mensagem clara sobre o limite
+    - Opção de aguardar reset
+    - Botão para ver planos (upgrade)
+- Commit: f724b60
+
+DOCUMENTAÇÃO:
+- Criado: docs/RADAR-IMPLEMENTACOES.md
+- Contém: Status completo de cada etapa do MVP
+- Commit: 8968c88
+
+================================================================================
 FIM DO ATLAS
 ================================================================================
 Gerado em: 29/11/2025 18:10 (UTC-5)
-Tamanho aproximado: ~20KB
-Seções: 9
+Atualizado em: 29/11/2025 19:07 (UTC-5)
+Tamanho aproximado: ~22KB
+Seções: 10
 
 NOTA IMPORTANTE:
 Este documento reflete o estado do CÓDIGO no momento da geração.

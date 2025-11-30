@@ -2084,3 +2084,96 @@ BUILD STATUS
 ✅ Compilação: ~103 segundos
 
 ================================================================================
+
+================================================================================
+ETAPA 3 – GATE DE LOGIN NO RESULTADO + LIMITES POR PLANO
+Data: 29/11/2025 19:00
+================================================================================
+
+📋 RESUMO:
+Implementado gate de login que bloqueia resultado do teste até criar conta.
+Implementada verificação de limites por plano no chat e diário.
+
+================================================================================
+GATE DE LOGIN NO RESULTADO
+================================================================================
+
+📁 app/teste-clareza/resultado/page.tsx
+   - Estados adicionados: showAuthGate, authMode, authEmail, authPassword, etc.
+   - Função handleAuth() para criar conta ou fazer login
+   - Verificação no loadResult(): se não logado → setShowAuthGate(true)
+   - Tela de bloqueio com:
+     - Preview borrado do resultado (com cadeado)
+     - Formulário de criar conta ou login
+     - Toggle entre "Criar conta" e "Já tenho conta"
+     - Lista de benefícios (resultado salvo, diário, coach IA, gratuito)
+
+FLUXO:
+1. Usuário faz teste de clareza (18 perguntas + 1 aberta)
+2. Resultado é calculado e salvo no localStorage
+3. Ao ir para /resultado:
+   - Se NÃO está logado → mostra gate de login
+   - Se está logado → mostra resultado completo
+4. Após criar conta ou fazer login → resultado aparece
+
+================================================================================
+VERIFICAÇÃO DE LIMITES POR PLANO
+================================================================================
+
+📁 app/chat/page.tsx
+   - Import: usePlanLimits de @/hooks/usePlanLimits
+   - Estado: showLimitReached
+   - Desestruturação: { planLevel, planName, usage, chatLimit, canSendMessage }
+   - Verificação em sendMessage():
+     if (!canSendMessage && chatLimit) {
+       setShowLimitReached(true)
+       return
+     }
+   - Modal de limite atingido com:
+     - Mensagem: "Você atingiu o limite de X mensagens por dia"
+     - Opções: Aguardar amanhã ou Ver Planos
+
+📁 app/diario/novo/page.tsx
+   - Import: usePlanLimits de @/hooks/usePlanLimits
+   - Estado: showLimitReached
+   - Desestruturação: { planLevel, planName, usage, diaryLimit, canCreateEntry }
+   - Verificação em handleSubmit():
+     if (!canCreateEntry && diaryLimit) {
+       setShowLimitReached(true)
+       return
+     }
+   - Modal de limite atingido com:
+     - Mensagem: "Você atingiu o limite de X entradas este mês"
+     - Opções: Aguardar próximo mês ou Ver Planos
+
+================================================================================
+DOCUMENTAÇÃO CRIADA
+================================================================================
+
+📁 docs/RADAR-IMPLEMENTACOES.md
+   - Status completo de cada etapa do MVP
+   - ETAPA 1: Auditoria (rotas, arquivos, i18n, planos)
+   - ETAPA 2: Migrations (documentadas, não executadas)
+   - ETAPA 3: LGPD (já implementada em /configuracoes)
+   - ETAPA 4: Limites por plano (implementado chat + diário)
+   - ETAPA 5: Idiomas, Loja, Profissional (verificados)
+   - ETAPA 6: Testes manuais (pendentes)
+   - Próximos passos e arquivos modificados
+
+================================================================================
+COMMITS REALIZADOS
+================================================================================
+
+1. 29c60fd - feat: gate de login no resultado do teste
+2. f724b60 - feat: implementar verificação de limites por plano + documentação
+3. 8968c88 - docs: atualizar RADAR-IMPLEMENTACOES.md
+
+================================================================================
+BUILD STATUS
+================================================================================
+
+✅ npm run build: PASSOU SEM ERROS
+✅ Todas as 130 páginas geradas com sucesso
+✅ Compilação: ~74 segundos
+
+================================================================================
