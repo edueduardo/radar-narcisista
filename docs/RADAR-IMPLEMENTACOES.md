@@ -311,4 +311,15 @@ Fluxos a testar:
 
 ---
 
-*Última atualização: 29/11/2025*
+## ARQUIVOS MODIFICADOS NESTA SESSÃO
+
+| Arquivo | Alteração |
+|---------|-----------|
+| `app/chat/page.tsx` | Adicionado verificação de limite + modal |
+| `app/diario/novo/page.tsx` | Adicionado verificação de limite + modal |
+| `app/teste-clareza/resultado/page.tsx` | Gate de login (sessão anterior) |
+| `docs/RADAR-IMPLEMENTACOES.md` | Criado |
+
+---
+
+*Última atualização: 29/11/2025 18:45 (UTC-5)*
