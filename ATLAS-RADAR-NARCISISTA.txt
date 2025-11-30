@@ -248,11 +248,18 @@ TABELA: journal_entries
 - entry_type (normal, clarity_baseline) - NOVO
 - clarity_test_id (referência ao teste) - NOVO
 
-INTEGRAÇÃO COM TESTE DE CLAREZA:
-- Quando usuário salva teste como base, pode criar entrada automática
+INTEGRAÇÃO COM TESTE DE CLAREZA (ETAPA 2 - TRIÂNGULO):
+- Quando usuário salva teste como base, CRIA entrada automática no diário
 - entry_type = 'clarity_baseline'
 - clarity_test_id = ID do teste
-- Tags sugeridas baseadas nos eixos do teste
+- Tags sugeridas baseadas nos eixos do teste (gaslighting, medo, controle, etc.)
+- Título: "📊 Radiografia da Relação – [Zona]"
+- Implementado em: app/api/clarity/activate-profile/route.ts
+
+INTEGRAÇÃO COM CHAT (ETAPA 2 - TRIÂNGULO):
+- Chat recebe contexto dos últimos 3 episódios mais intensos (30 dias)
+- Chat recebe perfil de clareza do usuário
+- Implementado em: app/api/chat/route.ts (getDiaryContextForChat)
 
 ANEXOS:
 - Tabela: journal_attachments

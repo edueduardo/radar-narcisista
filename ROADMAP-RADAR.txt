@@ -91,6 +91,16 @@ HISTÓRICO DE CONCLUSÕES
 - Atualizados todos os links no dashboard e homepage
 - Build passou: 129 páginas (antes 132)
 
+[29/11/2025 22:35] ETAPA 2 - Triângulo Clareza ⇄ Diário ⇄ Chat
+- Clareza → Diário: Ao salvar teste como base, cria entrada automática (clarity_baseline)
+- Diário → Chat: Chat recebe contexto dos últimos 3 episódios mais intensos
+- Clareza → Chat: Chat já recebia perfil de clareza (confirmado funcionando)
+- Tipos atualizados: JournalEntryType com 6 tipos (normal, clarity_baseline, chat_summary, etc.)
+- Arquivos modificados:
+  - app/api/clarity/activate-profile/route.ts
+  - app/api/chat/route.ts
+  - lib/diary-types.ts
+
 ================================================================================
 BUGS CONHECIDOS (A CORRIGIR)
 ================================================================================

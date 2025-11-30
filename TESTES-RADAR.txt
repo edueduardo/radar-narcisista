@@ -135,6 +135,14 @@ ROTAS OFICIAIS DO DIÁRIO:
 ☑ /diario/[id]/editar → Editar entrada
 ☑ /diario/timeline → Timeline de Padrões
 
+ETAPA 2 - TRIÂNGULO CLAREZA ⇄ DIÁRIO ⇄ CHAT:
+☐ Fazer Teste de Clareza e salvar como base → Deve criar entrada no diário
+☐ Entrada criada deve ter entry_type = 'clarity_baseline'
+☐ Entrada criada deve ter clarity_test_id preenchido
+☐ Chat deve receber contexto dos episódios recentes do diário
+☐ Chat deve receber perfil de clareza do usuário
+☐ Verificar logs no console do servidor (Vercel) para confirmar injeção de contexto
+
 ================================================================================
 FIM DO CHECKLIST DE TESTES
 ================================================================================

@@ -243,6 +243,49 @@ export async function POST(request: Request) {
         .catch((err) => {
           console.error('Erro ao salvar resumo IA:', err)
         })
+      
+      // ETAPA 2 - TRIÂNGULO: Criar entrada automática no diário (clarity_baseline)
+      // Isso conecta Clareza → Diário
+      const zoneLabels: Record<string, string> = {
+        'VERDE': 'Zona Verde',
+        'ATENCAO': 'Zona de Atenção',
+        'ALERTA': 'Zona de Alerta',
+        'CRITICO': 'Zona Crítica'
+      }
+      const zoneName = zoneLabels[result.globalZone?.toUpperCase()] || 'Teste de Clareza'
+      
+      // Gerar tags baseadas nos eixos mais impactados
+      const suggestedTags: string[] = []
+      if (result.hasPhysicalRisk) suggestedTags.push('risco_fisico')
+      if (nevoaScore?.totalScore >= 20) suggestedTags.push('gaslighting', 'confusao_mental')
+      if (medoScore?.totalScore >= 20) suggestedTags.push('medo', 'ansiedade')
+      if (limitesScore?.totalScore >= 20) suggestedTags.push('controle', 'isolamento')
+      
+      // Criar entrada de diário tipo clarity_baseline
+      const diaryContent = userNarrative 
+        ? `Minha situação: ${userNarrative.substring(0, 500)}${userNarrative.length > 500 ? '...' : ''}`
+        : `Resultado do Teste de Clareza: ${zoneName} (${result.overallPercentage || 0}%)`
+      
+      supabase
+        .from('journal_entries')
+        .insert({
+          user_id: user.id,
+          title: `📊 Radiografia da Relação – ${zoneName}`,
+          context: 'RELACIONAMENTO',
+          description: diaryContent,
+          mood_intensity: Math.round((result.overallPercentage || 0) / 10), // 0-10
+          tags: suggestedTags,
+          entry_type: 'clarity_baseline',
+          clarity_test_id: finalTestId,
+          created_at: new Date().toISOString(),
+        })
+        .then(({ error: diaryError }) => {
+          if (diaryError) {
+            console.error('Erro ao criar entrada de diário (não crítico):', diaryError)
+          } else {
+            console.log('Entrada de diário clarity_baseline criada para teste:', finalTestId)
+          }
+        })
         
     } else if (testId) {
       // Verificar se o teste pertence ao usuário

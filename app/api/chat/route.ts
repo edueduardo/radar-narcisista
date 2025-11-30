@@ -207,6 +207,54 @@ async function getClarityContextForChat(userId: string): Promise<string | null> 
   }
 }
 
+// ============================================================================
+// ETAPA 2 - TRIÂNGULO: CONTEXTO DE EPISÓDIOS RECENTES DO DIÁRIO
+// ============================================================================
+async function getDiaryContextForChat(userId: string): Promise<string | null> {
+  try {
+    const cookieStore = cookies()
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+    
+    // Buscar últimos 3 episódios mais intensos (mood_intensity >= 6) dos últimos 30 dias
+    const thirtyDaysAgo = new Date()
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+    
+    const { data: recentEpisodes, error } = await supabase
+      .from('journal_entries')
+      .select('title, description, mood_intensity, tags, created_at, entry_type')
+      .eq('user_id', userId)
+      .gte('created_at', thirtyDaysAgo.toISOString())
+      .order('mood_intensity', { ascending: false })
+      .limit(3)
+    
+    if (error || !recentEpisodes || recentEpisodes.length === 0) return null
+    
+    let context = `\n\n[EPISÓDIOS RECENTES DO DIÁRIO - NÃO MENCIONAR DIRETAMENTE]\n`
+    context += `A usuária registrou ${recentEpisodes.length} episódio(s) relevante(s) nos últimos 30 dias:\n`
+    
+    recentEpisodes.forEach((ep, i) => {
+      const daysAgo = Math.floor((Date.now() - new Date(ep.created_at).getTime()) / (1000 * 60 * 60 * 24))
+      const isBaseline = ep.entry_type === 'clarity_baseline'
+      
+      context += `\n${i + 1}. ${isBaseline ? '📊 ' : ''}${ep.title || 'Sem título'} (há ${daysAgo} dias)\n`
+      context += `   - Intensidade: ${ep.mood_intensity || 0}/10\n`
+      if (ep.tags && ep.tags.length > 0) {
+        context += `   - Tags: ${ep.tags.slice(0, 5).join(', ')}\n`
+      }
+      if (ep.description) {
+        context += `   - Resumo: "${ep.description.substring(0, 150)}${ep.description.length > 150 ? '...' : ''}"\n`
+      }
+    })
+    
+    context += `\nUse esses episódios como contexto para entender melhor a situação da usuária.`
+    
+    return context
+  } catch (error) {
+    console.warn('[DIARY CONTEXT] Erro ao buscar episódios (não crítico):', error)
+    return null
+  }
+}
+
 // Função para registrar suspeita de fraude (fire and forget)
 async function logFraudSuspicion(
   userId: string,
@@ -331,6 +379,18 @@ export async function POST(request: NextRequest) {
         content: clarityContext
       })
       console.log('[API /chat] Contexto de clareza injetado para usuário:', user?.id)
+    }
+    
+    // ETAPA 2 - TRIÂNGULO: Adicionar contexto de episódios do diário
+    if (user) {
+      const diaryContext = await getDiaryContextForChat(user.id)
+      if (diaryContext) {
+        systemContexts.push({
+          role: 'system' as const,
+          content: diaryContext
+        })
+        console.log('[API /chat] Contexto de diário injetado para usuário:', user.id)
+      }
     }
     
     const enhancedHistory = [...systemContexts, ...history]

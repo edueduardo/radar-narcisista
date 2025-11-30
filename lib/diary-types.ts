@@ -8,6 +8,15 @@ import type { ProblemTag } from './tools-config'
 // ENTRADA DO DIÁRIO
 // -----------------------------------------------------------------------------
 
+// Tipos de entrada do diário (ETAPA 2 - TRIÂNGULO)
+export type JournalEntryType = 
+  | 'normal'           // Episódio comum registrado pelo usuário
+  | 'clarity_baseline' // Entrada automática do Teste de Clareza
+  | 'chat_summary'     // Resumo de sessão do Chat (futuro)
+  | 'voice_note'       // Nota de voz transcrita (futuro)
+  | 'photo_note'       // Foto com descrição IA (futuro)
+  | 'video_note'       // Vídeo com descrição IA (futuro)
+
 export interface JournalEntry {
   id: string
   user_id: string
@@ -23,6 +32,10 @@ export interface JournalEntry {
   highlight?: string | null
   tags: string[]
   from_voice?: boolean
+  
+  // ETAPA 2 - TRIÂNGULO: Campos de integração Clareza ⇄ Diário
+  entry_type?: JournalEntryType  // Tipo da entrada (default: 'normal')
+  clarity_test_id?: string | null  // Referência ao teste de clareza (se aplicável)
 }
 
 // -----------------------------------------------------------------------------
