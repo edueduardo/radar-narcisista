@@ -1,20 +1,18 @@
 RADAR NARCISISTA - ESPELHO ENXUTO (INDICE)
 ==========================================
 
-Gerado em: 30/11/2025, 21:14:49
-Total de arquivos: 373
+Gerado em: 30/11/2025, 21:47:57
+Total de arquivos: 375
 Extensoes: .ts, .tsx, .sql
 
 NOTA: Este e o indice enxuto. Para codigo completo, ver ESPELHO-CODIGO-RADAR.txt
 
 ==========================================
-NOVOS ARQUIVOS - ETAPA 9 (CURADORIA)
+NOVOS ARQUIVOS - ETAPA 10 (PLANOS/DASHBOARD)
 ==========================================
 
-lib/curadoria-config.ts
-app/api/admin/curadoria/config/route.ts
-components/admin/EditSemaforoBadge.tsx
-app/admin/curadoria/page.tsx
+lib/plan-taxonomy.ts
+lib/plan-dashboard-modules.ts
 
 ==========================================
 ESTRUTURA COMPLETA POR PASTA
@@ -362,8 +360,10 @@ ESTRUTURA COMPLETA POR PASTA
    lib\monitoramento.ts
    lib\openai.ts
    lib\pdf-generator.tsx
+   lib\plan-dashboard-modules.ts
    lib\plan-limits.ts
    lib\plan-service.ts
+   lib\plan-taxonomy.ts
    lib\plans-config.ts
    lib\prompts\coach-profissional.ts
    lib\prompts\coachPrompt.ts
@@ -399,10 +399,10 @@ ESTRUTURA COMPLETA POR PASTA
 RESUMO POR TIPO
 ==========================================
 
-Arquivos .ts:  130
+Arquivos .ts:  132
 Arquivos .tsx: 211
 Arquivos .sql: 32
-TOTAL:         373
+TOTAL:         375
 
 ==========================================
 FIM DO INDICE

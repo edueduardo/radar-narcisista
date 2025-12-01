@@ -26,6 +26,7 @@ import {
   Clock
 } from 'lucide-react'
 import { BillingPlan, BillingPlanPromotion, centsToReais, reaisToCents, formatPriceBRL } from '@/lib/types/billing'
+import { SemaforoCard } from '@/components/admin/EditSemaforoBadge'
 
 export default function AdminPlanosPage() {
   const supabase = createClientComponentClient()
@@ -234,6 +235,14 @@ export default function AdminPlanosPage() {
           </div>
         </div>
       )}
+
+      {/* Semáforo de Edição */}
+      <div className="max-w-7xl mx-auto px-4 pt-4">
+        <SemaforoCard
+          level="yellow"
+          description="Zona Amarela – Alterações aqui impactam limites, preços e o que o usuário enxerga no app. Evite mexer sem revisar o ATLAS e o ROADMAP."
+        />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Filtros */}

@@ -3052,5 +3052,54 @@ CONFIGURAÇÃO DA CURADORIA:
 BUILD: 145 páginas (antes 143)
 
 ================================================================================
+ETAPA 10 – INFRA DE PLANOS, FAMÍLIAS E MÓDULOS DE DASHBOARD
+================================================================================
+Data: 30/11/2025 21:45 (UTC-5)
+
+OBJETIVO:
+Preparar infraestrutura central de planos para os próximos passos de Dashboard.
+
+ARQUIVOS CRIADOS:
+
+1. lib/plan-taxonomy.ts
+   - type PlanFamily = 'free' | 'journey' | 'defense' | 'professional' | 'promo'
+   - PLAN_TAXONOMY: Record<PlanLevel, PlanTaxonomy>
+   - getPlanFamily(), isProfessionalPlan(), isConsumerPlan()
+   - getPlanTier(), isPlanHigherThan()
+   - getPlansByFamily(), getPlansByAudience()
+
+2. lib/plan-dashboard-modules.ts
+   - type DashboardModuleId (12 módulos definidos)
+   - interface DashboardModuleConfig
+   - DASHBOARD_MODULES: array com todos os módulos
+   - getModulesForPlan(), getLockedModulesForPlan()
+   - isModuleVisibleForPlan(), isModuleLockedForPlan()
+   - getCriticalModules(), getModulesWithLimits()
+
+MÓDULOS DE DASHBOARD DEFINIDOS:
+- onboarding (guardar+)
+- triangulo_status (guardar+) - CRÍTICO
+- teste_clareza (guardar+) - CRÍTICO
+- diario (guardar+) - CRÍTICO
+- chat_ia (guardar+) - CRÍTICO
+- plano_seguranca (jornada+) - CRÍTICO
+- evolucao (jornada+)
+- provas_evidencias (defesa+)
+- academy (jornada+)
+- fanpage_viva (guardar+)
+- conteudos_curados (guardar+)
+- clientes (profissional only)
+
+ARQUIVOS ALTERADOS:
+- app/admin/planos/page.tsx → SemaforoCard amarelo
+
+NOTA:
+- NÃO altera telas de dashboard ainda (isso é ETAPA 11+)
+- NÃO cria migrations novas
+- Apenas define estrutura para uso futuro
+
+BUILD: 145 páginas (mantido)
+
+================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES
 ================================================================================

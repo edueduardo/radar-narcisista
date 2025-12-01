@@ -133,14 +133,23 @@ PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
    - [x] admin-features-registry.ts atualizado
    - [x] Build passou: 145 páginas
 
+   ✅ ETAPA 10 - Infra de Planos, Famílias e Módulos de Dashboard (CONCLUÍDO 30/11/2025 21:45)
+   - [x] lib/plan-taxonomy.ts (PlanFamily, PLAN_TAXONOMY, funções auxiliares)
+   - [x] lib/plan-dashboard-modules.ts (DashboardModuleId, DASHBOARD_MODULES)
+   - [x] /admin/planos com SemaforoCard amarelo (zona sensível)
+   - [x] Preparação para ETAPAS 11-13 (dashboards por plano)
+   - [x] Build passou: 145 páginas
+
 ================================================================================
-DEPOIS DISSO
+PRÓXIMAS ETAPAS
 ================================================================================
 
-10) Loja simplificada (2–3 add-ons reais)
-10) Começar teste com 5 usuárias beta
-11) Integração completa Stripe com novos planos
-12) Painel admin de usuários
+11) ETAPA 11 - Redesenho do Dashboard do Usuário (usando módulos)
+12) ETAPA 12 - Dashboard Profissional
+13) ETAPA 13 - Dashboard White-label (estrutura base)
+14) Loja simplificada (2–3 add-ons reais)
+15) Começar teste com 5 usuárias beta
+16) Integração completa Stripe com novos planos
 
 ================================================================================
 IDEIAS FUTURAS (NÃO IMPLEMENTAR AGORA)

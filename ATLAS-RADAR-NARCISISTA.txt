@@ -5,15 +5,22 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 30/11/2025 21:20
-MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 20:50 → 21:20):
+ÚLTIMA ATUALIZAÇÃO: 30/11/2025 21:45
+MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 21:20 → 21:45):
+- ETAPA 10: Infra de Planos, Famílias e Módulos de Dashboard (✅ CONCLUÍDO)
+  - lib/plan-taxonomy.ts (PlanFamily, PLAN_TAXONOMY, funções auxiliares)
+  - lib/plan-dashboard-modules.ts (DashboardModuleId, DASHBOARD_MODULES)
+  - /admin/planos com SemaforoCard amarelo
+  - Preparação para ETAPAS 11-13 (dashboards)
+- Build passou: 145 páginas
+
+MUDANÇAS ANTERIORES (30/11/2025 20:50 → 21:20):
 - ETAPA 9: Painel de Curadoria + Semáforo de Edição (✅ CONCLUÍDO)
   - lib/curadoria-config.ts (get/update config)
   - /api/admin/curadoria/config (GET/PATCH)
   - components/admin/EditSemaforoBadge.tsx
   - /admin/curadoria (painel central)
   - Semáforo aplicado em 4 páginas admin
-- Build passou: 145 páginas
 
 MUDANÇAS ANTERIORES (30/11/2025 20:20 → 20:50):
 - ETAPA 8.4: FanPage Viva (✅ CONCLUÍDO)
