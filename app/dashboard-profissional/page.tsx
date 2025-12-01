@@ -638,9 +638,14 @@ export default function DashboardProfissionalPage() {
                         </td>
                         <td className="py-3 px-4 text-right">
                           {client.status === 'active' && (
-                            <button className={`p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 ${t.textMuted}`} title="Ver detalhes">
+                            <Link 
+                              href={`/dashboard-profissional/clientes/${client.id}`}
+                              className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-700 text-sm font-medium transition-colors`}
+                              title="Ver relatório"
+                            >
                               <Eye className="w-4 h-4" />
-                            </button>
+                              Relatório
+                            </Link>
                           )}
                           {client.status === 'pending' && (
                             <button 

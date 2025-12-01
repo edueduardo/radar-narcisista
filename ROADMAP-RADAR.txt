@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 2.3
-Última atualização: 01/12/2025 02:00 (UTC-5)
+Versão: 2.4
+Última atualização: 01/12/2025 03:30 (UTC-5)
 
 ================================================================================
 STATUS GERAL
@@ -206,18 +206,41 @@ PRÓXIMAS ETAPAS (PRIORIDADE)
      1. 20241201_create_professional_clients.sql
      2. 20241201_fix_professional_clients_nullable.sql
 
-🔜 ETAPA 12.1.2 - Revogação de Acesso pelo Cliente
-   - [ ] Página /configuracoes/profissionais ou similar
-   - [ ] Lista de profissionais conectados
-   - [ ] Botão para revogar acesso (status → 'revoked')
-   - [ ] Botão para pausar temporariamente (status → 'paused')
+✅ ETAPA 12.1.2 - Revogação de Acesso pelo Cliente (CONCLUÍDO 01/12/2025 03:30)
+   - [x] Página /configuracoes/profissionais
+   - [x] Lista de profissionais conectados com status visual
+   - [x] Botão para revogar acesso (status → 'revoked')
+   - [x] Botão para pausar temporariamente (status → 'paused')
+   - [x] Botão para retomar acesso (status → 'active')
+   - [x] Edição de permissões individuais (share_*)
+   - [x] API: /api/client/connections (GET)
+   - [x] API: /api/client/connections/[id] (PATCH)
+   - [x] Link na página /configuracoes
+   - [x] Build passou: 152 páginas
 
-🔜 ETAPA 12.2 - Relatórios Agregados para Profissionais
-   - [ ] Gerar relatórios PDF por cliente
-   - [ ] Métricas agregadas (padrões, frequência, etc.)
+✅ ETAPA 12.2 - Relatório Básico por Cliente V1 (CONCLUÍDO 01/12/2025 03:30)
+   - [x] Página /dashboard-profissional/clientes/[id]
+   - [x] API: /api/professional/reports/[clientId] (GET)
+   - [x] Módulos baseados em share_*:
+     - Clareza: total, última zona, evolução
+     - Diário: total, entradas/semana, intensidade média
+     - Chat: total sessões, recentes
+     - Segurança: plano existe?
+     - Alertas: total, não resolvidos
+   - [x] Botão "Imprimir / PDF" via print do navegador
+   - [x] Aviso ético no topo do relatório
+   - [x] Botão "Relatório" na tabela de clientes
+   - [x] Build passou: 152 páginas
 
-🔜 ETAPA 12.3 - Exportação em Massa
+🔜 ETAPA 12.3 - Exportação em Massa (V2)
    - [ ] Exportar todos os dados de um cliente (PDF/CSV)
+   - [ ] PDF automático gerado pelo servidor (não via print)
+
+🔜 ETAPA 12.4 - Melhorias Futuras (BACKLOG)
+   - [ ] Expiração automática de convites (7-14 dias)
+   - [ ] Notificação por email ao criar convite
+   - [ ] Perfil público do profissional (nome, especialidade)
+   - [ ] Histórico de atividade do profissional no cliente
 
 13) ETAPA 13 - Dashboard White-label (estrutura base)
 14) Loja simplificada (2–3 add-ons reais)

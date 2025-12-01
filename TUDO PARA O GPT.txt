@@ -3382,9 +3382,120 @@ PENDENTE:
 - Rodar AMBAS migrations no Supabase:
   1. 20241201_create_professional_clients.sql
   2. 20241201_fix_professional_clients_nullable.sql
-- ETAPA 12.1.2: Página para cliente revogar/pausar acesso
 
 BUILD: 150 páginas
+
+================================================================================
+ETAPA 12.1.2 – REVOGAÇÃO DE ACESSO PELO CLIENTE
+================================================================================
+Data: 01/12/2025 03:30 (UTC-5)
+
+OBJETIVO:
+Dar ao cliente controle total sobre quais profissionais têm acesso aos seus dados.
+
+ARQUIVOS CRIADOS:
+
+1. app/configuracoes/profissionais/page.tsx
+   - Página de gestão de profissionais conectados
+   - Lista todos os profissionais com status visual (ativo/pausado/revogado)
+   - Ações: revogar, pausar, retomar, editar permissões
+   - Avisos éticos sobre controle de dados
+
+2. app/api/client/connections/route.ts
+   - GET: Lista conexões do cliente com profissionais
+   - Retorna dados enriquecidos (nome do profissional)
+
+3. app/api/client/connections/[id]/route.ts
+   - PATCH: Atualizar conexão (revoke, pause, resume, update_permissions)
+   - Valida que cliente só altera suas próprias conexões
+
+ARQUIVOS MODIFICADOS:
+
+1. app/configuracoes/page.tsx
+   - Adicionado link para /configuracoes/profissionais
+   - Card visual com ícone de usuários
+
+AÇÕES DISPONÍVEIS AO CLIENTE:
+- Revogar: status → 'revoked', zera share_*
+- Pausar: status → 'paused' (só se ativo)
+- Retomar: status → 'active' (só se pausado)
+- Editar permissões: altera share_* individualmente
+
+LGPD/ÉTICA:
+- Cliente decide quem vê seus dados
+- Pode revogar a qualquer momento
+- Aviso: revogar NÃO apaga dados já compartilhados
+- Aviso: Radar NÃO substitui terapia/laudo
+
+BUILD: 152 páginas
+
+================================================================================
+ETAPA 12.2 – RELATÓRIO BÁSICO POR CLIENTE (V1)
+================================================================================
+Data: 01/12/2025 03:30 (UTC-5)
+
+OBJETIVO:
+Dar ao profissional uma visão consolidada e ética de um cliente específico.
+
+ARQUIVOS CRIADOS:
+
+1. app/dashboard-profissional/clientes/[id]/page.tsx
+   - Página de relatório detalhado por cliente
+   - Resumo: nome, data conexão, última atividade
+   - Módulos baseados em share_*
+   - Botão "Imprimir / PDF" via print do navegador
+   - Aviso ético no topo
+
+2. app/api/professional/reports/[clientId]/route.ts
+   - GET: Retorna dados agregados do cliente
+   - Verifica plano profissional
+   - Verifica vínculo ativo
+   - Só retorna dados autorizados (share_*)
+
+ARQUIVOS MODIFICADOS:
+
+1. app/dashboard-profissional/page.tsx
+   - Botão "Relatório" na tabela de clientes ativos
+   - Link para /dashboard-profissional/clientes/[id]
+
+MÓDULOS DO RELATÓRIO (baseados em share_*):
+
+1. Clareza (share_clarity_tests):
+   - Total de testes
+   - Última zona e pontuação
+   - Evolução (melhorando/piorando/estável)
+   - Histórico recente
+
+2. Diário (share_journal_entries):
+   - Total de entradas
+   - Entradas por semana
+   - Intensidade emocional média
+   - Entradas recentes (título, data, tipo)
+
+3. Chat (share_chat_summaries):
+   - Total de sessões
+   - Sessões recentes
+
+4. Segurança (share_safety_plan):
+   - Plano existe? (sim/não)
+   - Status e última atualização
+
+5. Alertas (share_risk_alerts):
+   - Total de alertas
+   - Não resolvidos
+   - Alertas recentes
+
+AVISO ÉTICO (obrigatório no relatório):
+"Este relatório é uma visão de apoio baseada em dados auto-relatados.
+Não substitui parecer técnico, diagnóstico, laudo ou perícia profissional.
+O profissional continua responsável pela interpretação e decisões clínicas."
+
+PENDENTE (V2):
+- PDF automático gerado pelo servidor
+- Exportação em massa (CSV)
+- Gráficos de evolução temporal
+
+BUILD: 152 páginas
 
 ================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES

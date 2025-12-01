@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { ThemeSelector } from '../../components/ThemeProvider'
-import { Moon, BarChart3, FileText, MessageCircle, ClipboardCheck, ArrowLeft } from 'lucide-react'
+import { Moon, BarChart3, FileText, MessageCircle, ClipboardCheck, ArrowLeft, Users, ChevronRight } from 'lucide-react'
+import Link from 'next/link'
 
 export default function ConfiguracoesPage() {
   const [settings, setSettings] = useState({
@@ -277,6 +278,29 @@ export default function ConfiguracoesPage() {
             Controle seus dados e sua experiência no Radar Narcisista
           </p>
         </div>
+
+        {/* Profissionais Conectados */}
+        <Link 
+          href="/configuracoes/profissionais"
+          className="block bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 mb-6 hover:shadow-xl transition-shadow group"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center">
+                <Users className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-purple-600 transition-colors">
+                  Profissionais Conectados
+                </h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Gerencie quais profissionais têm acesso aos seus dados
+                </p>
+              </div>
+            </div>
+            <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-purple-600 transition-colors" />
+          </div>
+        </Link>
 
         {/* Theme Settings */}
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 mb-6">

@@ -396,6 +396,92 @@ UX/Ética:
 ☐ Tela de sucesso mostra o que foi autorizado
 
 ================================================================================
+ETAPA 12.1.2 – REVOGAÇÃO DE ACESSO PELO CLIENTE
+================================================================================
+
+Página /configuracoes/profissionais:
+☐ Usuário não logado é redirecionado para login
+☐ Usuário sem conexões vê mensagem "Nenhum profissional conectado"
+☐ Lista mostra todos os profissionais conectados
+☐ Status visual correto (verde=ativo, amarelo=pausado, cinza=revogado)
+☐ Nome do profissional aparece corretamente
+
+Ação Revogar:
+☐ Botão "Revogar" aparece para conexões ativas
+☐ Modal de confirmação aparece antes de revogar
+☐ Após revogar, status muda para 'revoked'
+☐ Permissões (share_*) são zeradas ao revogar
+☐ Profissional não consegue mais ver dados do cliente
+
+Ação Pausar/Retomar:
+☐ Botão "Pausar" aparece para conexões ativas
+☐ Após pausar, status muda para 'paused'
+☐ Botão "Retomar" aparece para conexões pausadas
+☐ Após retomar, status volta para 'active'
+
+Edição de Permissões:
+☐ Botão "Permissões" expande painel de edição
+☐ Toggles funcionam para cada share_*
+☐ Alterações são salvas imediatamente
+☐ Profissional vê apenas dados autorizados
+
+API /api/client/connections:
+☐ GET retorna lista de conexões do cliente
+☐ GET retorna 401 se não autenticado
+☐ Dados do profissional são enriquecidos (nome)
+
+API /api/client/connections/[id]:
+☐ PATCH com action='revoke' funciona
+☐ PATCH com action='pause' funciona (só se ativo)
+☐ PATCH com action='resume' funciona (só se pausado)
+☐ PATCH com action='update_permissions' funciona
+☐ PATCH retorna 404 se conexão não pertence ao cliente
+
+================================================================================
+ETAPA 12.2 – RELATÓRIO BÁSICO POR CLIENTE
+================================================================================
+
+Página /dashboard-profissional/clientes/[id]:
+☐ Profissional não logado é redirecionado
+☐ Profissional sem plano profissional vê erro 403
+☐ Profissional vê relatório do cliente ativo
+☐ Profissional não vê relatório de cliente revogado/pausado
+☐ Aviso ético aparece no topo do relatório
+
+Módulos do Relatório:
+☐ Módulo Clareza aparece se share_clarity_tests = true
+☐ Módulo Diário aparece se share_journal_entries = true
+☐ Módulo Chat aparece se share_chat_summaries = true
+☐ Módulo Segurança aparece se share_safety_plan = true
+☐ Módulo Alertas aparece se share_risk_alerts = true
+☐ Módulos não autorizados NÃO aparecem
+
+Conteúdo dos Módulos:
+☐ Clareza: total testes, última zona, evolução
+☐ Diário: total entradas, entradas/semana, intensidade média
+☐ Chat: total sessões, sessões recentes
+☐ Segurança: plano existe? status
+☐ Alertas: total, não resolvidos, recentes
+
+Impressão/PDF:
+☐ Botão "Imprimir / PDF" funciona
+☐ Layout de impressão está correto
+☐ Aviso ético aparece na versão impressa
+
+API /api/professional/reports/[clientId]:
+☐ GET retorna relatório completo
+☐ GET retorna 401 se não autenticado
+☐ GET retorna 403 se não tem plano profissional
+☐ GET retorna 403 se conexão não está ativa
+☐ GET retorna 404 se cliente não existe
+☐ Dados respeitam share_* do cliente
+
+Dashboard Profissional:
+☐ Botão "Relatório" aparece para clientes ativos
+☐ Botão leva para /dashboard-profissional/clientes/[id]
+☐ Clientes pendentes/revogados não têm botão de relatório
+
+================================================================================
 MIGRATIONS PENDENTES (EXECUTAR NO SUPABASE):
 ================================================================================
 

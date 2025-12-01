@@ -1244,7 +1244,7 @@ INTEGRAÇÃO:
 [16] FLUXO DE CONVITE PROFISSIONAL/CLIENTE
 ================================================================================
 
-ETAPA 12.1 + 12.1.1 - Sistema de Clientes Profissionais
+ETAPA 12.1 + 12.1.1 + 12.1.2 + 12.2 - Sistema Completo de Clientes Profissionais
 
 TABELA: professional_clients
 - id (UUID)
@@ -1271,14 +1271,23 @@ FLUXO COMPLETO:
    - status = 'active'
    - share_* conforme escolhas
 10. Profissional vê cliente ativo no dashboard
+11. Profissional clica "Relatório" → /dashboard-profissional/clientes/[id]
+12. Cliente pode gerenciar em /configuracoes/profissionais
 
-ROTAS ENVOLVIDAS:
-- /dashboard-profissional (profissional)
-- /aceitar-convite (cliente)
+ROTAS DO PROFISSIONAL:
+- /dashboard-profissional (lista de clientes)
+- /dashboard-profissional/clientes/[id] (relatório por cliente)
 - /api/professional/clients (GET, POST)
 - /api/professional/clients/[id] (GET, PATCH, DELETE)
 - /api/professional/invite/validate (POST)
 - /api/professional/invite/accept (POST)
+- /api/professional/reports/[clientId] (GET - relatório agregado)
+
+ROTAS DO CLIENTE:
+- /aceitar-convite (aceitar convite)
+- /configuracoes/profissionais (gerenciar conexões)
+- /api/client/connections (GET - listar conexões)
+- /api/client/connections/[id] (PATCH - revogar/pausar/retomar/editar)
 
 MIGRATIONS:
 - 20241201_create_professional_clients.sql (tabela principal)
@@ -1292,15 +1301,28 @@ RLS POLICIES:
 LGPD/ÉTICA:
 - Cliente escolhe explicitamente o que compartilhar
 - Aviso claro: "Radar NÃO substitui terapia/laudo"
-- Cliente pode revogar acesso (implementação futura)
+- Cliente pode revogar acesso a qualquer momento
+- Cliente pode pausar/retomar acesso
+- Cliente pode editar permissões (share_*) individualmente
+
+RELATÓRIO DO PROFISSIONAL (V1):
+- Resumo do cliente (nome, data conexão, última atividade)
+- Módulos baseados em share_*:
+  - Clareza: total testes, última zona, evolução
+  - Diário: total entradas, entradas/semana, intensidade média
+  - Chat: total sessões, sessões recentes
+  - Segurança: plano existe? status
+  - Alertas: total, não resolvidos, recentes
+- Botão "Imprimir / PDF" via print do navegador
+- Aviso ético no topo
 
 ================================================================================
 FIM DO ATLAS – 18 SEÇÕES
 ================================================================================
 
 Gerado em: 29/11/2025 18:10 (UTC-5)
-Atualizado em: 01/12/2025 02:00 (UTC-5)
-Tamanho aproximado: ~45KB
+Atualizado em: 01/12/2025 03:30 (UTC-5)
+Tamanho aproximado: ~48KB
 Seções: 18
 
 NOTA IMPORTANTE:
