@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 4.3
-Última atualização: 01/12/2025 21:30 (UTC-5)
+Versão: 2.8
+Última atualização: 01/12/2025 21:45 (UTC-5)
 
 ================================================================================
 STATUS GERAL
@@ -496,15 +496,10 @@ BLOCO 26-30 – ORÁCULO V2 MULTIPERFIL + INFRA COMUNICAÇÃO IA (EM ANDAMENTO)
 BLOCO 31-35 – FRONT PAGE + MATRIZ MULTI-INSTÂNCIA (FUTURO)
 ================================================================================
 
-🔜 ETAPA 31 – REFORMA INTELIGENTE DA FRONT PAGE
-   - [ ] Redesenhar front page única e segmentada
-   - [ ] Seções por perfil (usuária, profissional, ONG, whitelabel)
-   - [ ] Narrativa atualizada (Radar + Oráculo + Gerador)
-
-🔜 ETAPA 32 – MATRIZ ORÁCULO MULTI-INSTÂNCIA
-   - [ ] Implementar matriz V1/V2 por perfil
-   - [ ] Instâncias separadas para whitelabel
-   - [ ] Opções no Gerador de SaaS
+🔄 ETAPA 31 – REFORMA INTELIGENTE DA FRONT PAGE (EM ANDAMENTO)
+   - Seção "Para Quem é o Radar" adicionada
+   - 4 cards segmentados: Pessoas, Profissionais, ONGs, Whitelabel
+   - Build passou: 163 páginas
 
 ================================================================================
 IDEIAS FUTURAS (NÃO IMPLEMENTAR AGORA)

@@ -694,6 +694,98 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* SEÇÃO "PARA QUEM É O RADAR" - ETAPA 31 */}
+      <section className={`py-16 md:py-20 ${theme === 'dark' ? 'bg-[#0F172A]' : 'bg-white'}`}>
+        <div className="container-app">
+          <div className="text-center mb-12">
+            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Para quem é o Radar?
+            </h2>
+            <p className={`text-lg max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+              Uma plataforma para diferentes necessidades, um objetivo comum: clareza.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {/* Card 1: Pessoas em Relacionamentos */}
+            <div className={`rounded-2xl p-6 border-2 transition-all hover:scale-[1.02] ${theme === 'dark' ? 'bg-slate-800/50 border-slate-700 hover:border-rose-500/50' : 'bg-white border-gray-200 hover:border-rose-300 shadow-lg'}`}>
+              <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 ${theme === 'dark' ? 'bg-rose-500/20' : 'bg-rose-100'}`}>
+                <Heart className={`w-7 h-7 ${theme === 'dark' ? 'text-rose-400' : 'text-rose-600'}`} />
+              </div>
+              <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                Pessoas em Relacionamentos
+              </h3>
+              <p className={`text-sm mb-4 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                Entenda se o que você vive é normal ou se há padrões abusivos. Sem julgamento.
+              </p>
+              <Link 
+                href="/teste-clareza" 
+                className={`text-sm font-medium flex items-center gap-1 ${theme === 'dark' ? 'text-rose-400 hover:text-rose-300' : 'text-rose-600 hover:text-rose-700'}`}
+              >
+                Fazer Teste de Clareza <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* Card 2: Profissionais de Saúde */}
+            <div className={`rounded-2xl p-6 border-2 transition-all hover:scale-[1.02] ${theme === 'dark' ? 'bg-slate-800/50 border-slate-700 hover:border-blue-500/50' : 'bg-white border-gray-200 hover:border-blue-300 shadow-lg'}`}>
+              <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 ${theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-100'}`}>
+                <Users className={`w-7 h-7 ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`} />
+              </div>
+              <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                Psicólogos e Terapeutas
+              </h3>
+              <p className={`text-sm mb-4 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                Gerencie clientes, acompanhe evolução e gere relatórios para laudos.
+              </p>
+              <Link 
+                href="/profissional" 
+                className={`text-sm font-medium flex items-center gap-1 ${theme === 'dark' ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}
+              >
+                Conhecer Radar Pro <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* Card 3: ONGs e Instituições */}
+            <div className={`rounded-2xl p-6 border-2 transition-all hover:scale-[1.02] ${theme === 'dark' ? 'bg-slate-800/50 border-slate-700 hover:border-green-500/50' : 'bg-white border-gray-200 hover:border-green-300 shadow-lg'}`}>
+              <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 ${theme === 'dark' ? 'bg-green-500/20' : 'bg-green-100'}`}>
+                <Globe className={`w-7 h-7 ${theme === 'dark' ? 'text-green-400' : 'text-green-600'}`} />
+              </div>
+              <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                ONGs e Instituições
+              </h3>
+              <p className={`text-sm mb-4 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                Ofereça o Radar como ferramenta de apoio para as pessoas que você atende.
+              </p>
+              <Link 
+                href="/contato" 
+                className={`text-sm font-medium flex items-center gap-1 ${theme === 'dark' ? 'text-green-400 hover:text-green-300' : 'text-green-600 hover:text-green-700'}`}
+              >
+                Falar sobre Parceria <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* Card 4: Parceiros Whitelabel */}
+            <div className={`rounded-2xl p-6 border-2 transition-all hover:scale-[1.02] ${theme === 'dark' ? 'bg-slate-800/50 border-slate-700 hover:border-violet-500/50' : 'bg-white border-gray-200 hover:border-violet-300 shadow-lg'}`}>
+              <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 ${theme === 'dark' ? 'bg-violet-500/20' : 'bg-violet-100'}`}>
+                <Sparkles className={`w-7 h-7 ${theme === 'dark' ? 'text-violet-400' : 'text-violet-600'}`} />
+              </div>
+              <h3 className={`text-xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                Parceiros Whitelabel
+              </h3>
+              <p className={`text-sm mb-4 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                Lance sua própria versão do Radar com sua marca e domínio.
+              </p>
+              <Link 
+                href="/contato" 
+                className={`text-sm font-medium flex items-center gap-1 ${theme === 'dark' ? 'text-violet-400 hover:text-violet-300' : 'text-violet-600 hover:text-violet-700'}`}
+              >
+                Solicitar Proposta <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* SEÇÃO DE PLANOS */}
       <section id="planos" className={`py-16 md:py-24 ${theme === 'dark' ? 'bg-gradient-to-b from-[#020617] to-[#0F172A]' : 'bg-gradient-to-b from-blue-50 to-white'}`}>
         <div className="container-app">

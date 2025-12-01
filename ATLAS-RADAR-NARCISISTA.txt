@@ -13,6 +13,12 @@ MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 21:00 → 21:30):
   - Build passou: 163 páginas
   - 🎉 BLOCO 26-30 CONCLUÍDO!
 
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 21:30 → 21:45):
+- ETAPA 31: REFORMA INTELIGENTE DA FRONT PAGE (EM ANDAMENTO)
+  - Seção "Para Quem é o Radar" adicionada
+  - 4 cards segmentados: Pessoas, Profissionais, ONGs, Whitelabel
+  - Build passou: 163 páginas
+
 MUDANÇAS ANTERIORES (01/12/2025 20:30 → 21:00):
 - ETAPA 29: EXPOR ORÁCULO V2 PARA OUTROS PERFIS (✅ CONCLUÍDO)
   - components/OraculoMultiperfil.tsx criado
