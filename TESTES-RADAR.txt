@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 1.6
-Última atualização: 30/11/2025 15:20 (UTC-5)
+Versão: 1.8
+Última atualização: 30/11/2025 17:50 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -282,6 +282,56 @@ FLUXO COMPLETO:
 ☐ Atualizar Plano de Segurança → Ver nova entrada no Diário
 ☐ Digitar frase de risco no Chat → Ver banner + risk_alert criado
 ☐ Fazer teste com risco físico → Ver risk_alert criado
+
+================================================================================
+ETAPA 7.4 – QA TRIÂNGULO + PLANO DE SEGURANÇA (30/11/2025)
+================================================================================
+
+OBJETIVO: Validar que a ETAPA 7.3 funciona corretamente e não abre buracos de segurança.
+
+T1 – TESTE DE CLAREZA COM RISCO FÍSICO:
+☐ Teste com categoria física >= 30% marca has_physical_risk = true
+☐ risk_alert é criado com source='clarity_test', category='PHYSICAL_VIOLENCE'
+☐ Dashboard mostra banner de risco físico
+☐ Card do Plano de Segurança reflete o status correto
+
+T2 – CHAT COM RISCO FÍSICO (REGEX):
+☐ Mensagem "ele me bateu" dispara detecção
+☐ Mensagem "me ameaçou" dispara detecção
+☐ Mensagem "medo de morrer" dispara detecção
+☐ Banner vermelho aparece no chat
+☐ risk_alert é criado com source='chat', level='HIGH'
+☐ Resposta da IA não quebra após detecção
+
+T3 – PLANO DE SEGURANÇA + DIÁRIO:
+☐ POST /api/safety-plan cria plano + entrada no diário
+☐ PATCH /api/safety-plan atualiza plano + entrada no diário
+☐ entry_type='safety_plan' está correto na entrada
+☐ Badge 🛡️ aparece no /diario
+☐ Badge 🛡️ aparece no /diario/timeline
+
+T4 – DASHBOARD (CARD + BANNERS):
+☐ Card mostra NOT_STARTED (cinza) quando não há plano
+☐ Card mostra IN_PROGRESS (amarelo) quando plano incompleto
+☐ Card mostra READY (verde) quando plano completo
+☐ Banner vermelho aparece: hasPhysicalRisk + NOT_STARTED
+☐ Banner amarelo aparece: hasPhysicalRisk + IN_PROGRESS
+☐ Banner NÃO aparece: hasPhysicalRisk + READY
+☐ Não há crash se não existir plano
+
+T5 – SEGURANÇA / RLS:
+☐ /api/safety-plan filtra por user_id do usuário logado
+☐ /api/clarity/activate-profile filtra por user_id
+☐ /api/chat/route.ts (risk_alert) filtra por user_id
+☐ Usuário A não consegue ver dados do Usuário B
+☐ Tabelas safety_plans, risk_alerts, journal_entries têm RLS ativo
+
+STATUS DOS TESTES (30/11/2025 16:45):
+- T1: [X] PASS – risk_alert criado corretamente, filtra por user_id
+- T2: [X] PASS – regex funciona, backend usa user autenticado
+- T3: [X] PASS – entry_type='safety_plan', diário criado
+- T4: [X] PASS – card/banners funcionam, sem crash
+- T5: [X] PASS – todas APIs filtram por user_id autenticado
 
 ================================================================================
 MIGRATIONS PENDENTES (EXECUTAR NO SUPABASE):

@@ -2,7 +2,7 @@
 RADAR NARCISISTA - HISTÓRICO COMPLETO DE IMPLEMENTAÇÕES
 ================================================================================
 Gerado em: 28/11/2025
-Atualizado em: 30/11/2025 15:20 (UTC-5)
+Atualizado em: 30/11/2025 17:50 (UTC-5)
 Projeto: SaaS de apoio a vítimas de relacionamentos abusivos/narcisistas
 Stack: Next.js 16 + Supabase + OpenAI/Groq + TailwindCSS 4
 
@@ -2678,6 +2678,216 @@ TABELAS UTILIZADAS (já existentes):
 - clarity_tests (campo has_physical_risk)
 
 BUILD: ✅ PASSOU (134 páginas)
+
+================================================================================
+ETAPA 7.4 – QA TRIÂNGULO + PLANO DE SEGURANÇA (30/11/2025 16:45)
+================================================================================
+
+OBJETIVO: Validar que a ETAPA 7.3 funciona corretamente e não abre buracos de segurança.
+
+TESTES EXECUTADOS (QA por inspeção de código):
+
+T1 – TESTE DE CLAREZA COM RISCO FÍSICO: ✅ PASS
+   - has_physical_risk salvo corretamente em clarity_tests
+   - risk_alert criado com source='clarity_test', category='PHYSICAL_VIOLENCE'
+   - level calculado: CRITICAL se físico >= 50%, senão HIGH
+   - Filtra por user_id do usuário autenticado
+
+T2 – CHAT COM RISCO FÍSICO (REGEX): ✅ PASS
+   - Regex PHYSICAL_RISK_REGEX cobre: "me bateu", "me agrediu", "ameaçou", "vai me matar", etc.
+   - Frontend: setShowPhysicalRiskAlert(true) + createRiskAlert()
+   - Backend: usa user.id do supabase.auth.getUser(), ignora userId do body
+   - Fluxo não bloqueia resposta da IA
+
+T3 – PLANO DE SEGURANÇA + DIÁRIO: ✅ PASS
+   - POST cria plano + entrada no diário com entry_type='safety_plan'
+   - PATCH atualiza plano + nova entrada no diário
+   - Filtra por user_id autenticado
+
+T4 – DASHBOARD (CARD + BANNERS): ✅ PASS
+   - Card mostra status NOT_STARTED/IN_PROGRESS/READY com cores corretas
+   - Banner vermelho/amarelo quando hasPhysicalRisk + plano não READY
+   - Não há crash se plano não existe
+
+T5 – SEGURANÇA / RLS: ✅ PASS
+   - /api/safety-plan: usa user.id do auth, não do body
+   - /api/clarity/activate-profile: mesma proteção
+   - /api/chat (risk_alert): usa user.id autenticado
+   - Usuário A não consegue ver dados do Usuário B
+
+OBSERVAÇÕES:
+- Jest NÃO está instalado (script existe mas dependência não)
+- Testes foram feitos por inspeção de código, não automatizados
+- Nenhum bug encontrado nos fluxos críticos
+- RLS das tabelas depende de configuração no Supabase (não verificado diretamente)
+
+ARQUIVOS ALTERADOS:
+- TESTES-RADAR.txt (seção ETAPA 7.4 + status dos testes)
+- ROADMAP-RADAR.txt (ETAPA 7.4 marcada como concluída)
+- TUDO PARA O GPT.txt (este log)
+
+BUILD: ✅ PASSOU (134 páginas)
+
+================================================================================
+ETAPA 8 – FANPAGE VIVA + CAMADA COMERCIAL (EM PLANEJAMENTO)
+================================================================================
+Data: 30/11/2025 17:50
+
+STATUS: PLANEJADO (não implementado ainda)
+
+VISÃO CONCEITUAL:
+A FanPage não é estática. Ela:
+- Absorve sinais do núcleo interno (Clareza, Diário, Chat, Plano de Segurança)
+- Absorve sinais do mundo externo (podcasts, artigos, notícias, cursos, estudos)
+- Tudo passa por filtro do Eduardo (admin) antes de publicar
+- IAs como equipe editorial, Eduardo como editor-chefe
+
+ESTRUTURA PLANEJADA:
+
+1. NOVAS TABELAS:
+   - content_items: conteúdos publicados (artigos, FAQs, notícias, lições)
+   - content_suggestions: sugestões de conteúdo (IA + manual)
+   - content_sources: fontes externas confiáveis
+   - content_collections: trilhas/coleções (Radar Academy)
+   - content_collection_items: ponte coleção ↔ conteúdo
+   - content_insights: dados agregados (Radar em Números)
+
+2. NOVAS APIS ADMIN:
+   - /api/admin/content/suggestions (CRUD sugestões)
+   - /api/admin/content/items (CRUD conteúdos)
+   - /api/admin/content/collections (CRUD coleções)
+   - /api/admin/content/insights/recompute (recalcular estatísticas)
+   - /api/admin/content/curadoria/ia-sugerir (IA Curadora)
+
+3. NOVAS PÁGINAS ADMIN:
+   - /admin/conteudos/sugestoes
+   - /admin/conteudos/publicados
+   - /admin/conteudos/collections
+   - /admin/fanpage/config
+
+4. FRONTPAGE REESTRUTURADA:
+   - Hero com CTAs comerciais (JÁ EXISTE ✅)
+   - Planos e Preços (JÁ EXISTE ✅, integrado com billing_plans)
+   - Radar em Números (NOVO - dados agregados)
+   - FAQ dinâmico (NOVO - content_items type='faq')
+   - Radar no Mundo (NOVO - content_items source_type='external_world')
+   - Radar Academy (NOVO - content_collections)
+
+5. IA CURADORA:
+   - Garimpa conteúdo externo
+   - Gera resumo editorial
+   - Sugere tags e tipo
+   - Eduardo aprova/rejeita/edita
+   - Sistema aprende com as decisões
+
+IDEIAS DIAMANTE PARA IMPLEMENTAR:
+- "Clima emocional do Radar, hoje" (temperatura emocional agregada)
+- "Linha do Tempo Global" (eventos do mundo: leis, decisões, estudos)
+- "Radar Academy" (trilhas personalizadas: "Primeiros passos", "Risco físico", "Filhos no meio")
+- "IA Aprendiz de Editor" (propõe título, tags, onde encaixar)
+
+O QUE JÁ EXISTE E SERÁ APROVEITADO:
+- Sistema de planos (billing_plans, billing_plan_promotions) ✅
+- Hook usePlans para consumir planos ✅
+- Frontpage com seção de planos integrada ✅
+- Triângulo + Plano de Segurança funcionando ✅
+- Editor Visual da Frontpage (/admin/frontpage-editor, /admin/frontpage-visual) ✅
+
+PRÓXIMOS PASSOS:
+1. ✅ Criar migration com as 6 novas tabelas (ETAPA 8.1)
+2. ✅ Criar APIs admin para CRUD de conteúdo (ETAPA 8.2)
+3. Criar páginas admin de curadoria (ETAPA 8.3)
+4. Adicionar seções dinâmicas na frontpage (ETAPA 8.4)
+5. ✅ Implementar IA Curadora (ETAPA 8.2)
+
+================================================================================
+ETAPA 8.2 – APIS ADMIN + IA CURADORA (CONTENT SYSTEM)
+================================================================================
+Data: 30/11/2025 19:15 (UTC-5)
+
+PADRÃO DE ADMIN USADO:
+- Emails admin: etailoffice@gmail.com, eduardo.mkt.davila@gmail.com
+- Roles: ADMIN ou SUPER_ADMIN em user_profiles.role
+- Função: requireAdminAPI(request) de lib/admin-auth.ts
+
+APIS CRIADAS:
+
+1. /api/admin/content/items
+   - GET: Lista content_items com filtros (visibility, content_type, source_type, search, topics, featured)
+   - POST: Cria novo content_item
+   - Paginação: page + pageSize
+
+2. /api/admin/content/items/[id]
+   - GET: Retorna item específico
+   - PATCH: Atualiza item (título, body, topics, visibility, is_featured, etc.)
+   - DELETE: Arquiva item (visibility='archived', soft delete)
+
+3. /api/admin/content/suggestions
+   - GET: Lista sugestões com filtros (status, suggestion_source, priority, search)
+   - POST: Cria sugestão manual (suggestion_source='manual')
+
+4. /api/admin/content/suggestions/[id]
+   - GET: Retorna sugestão específica
+   - PATCH: Atualiza status, reviewed_by, reviewed_at, rejection_reason
+          Se publish_now=true + status=approved → cria content_item automaticamente
+   - DELETE: Remove sugestão (hard delete)
+
+5. /api/admin/content/collections
+   - GET: Lista coleções com filtros (visibility, collection_type, featured, premium)
+   - POST: Cria nova coleção
+
+6. /api/admin/content/collections/[id]
+   - GET: Retorna coleção específica
+   - PATCH: Atualiza coleção
+   - DELETE: Arquiva coleção (visibility='archived')
+
+7. /api/admin/content/collections/[id]/items
+   - GET: Lista itens da coleção ordenados por position
+   - POST: Adiciona item à coleção com posição
+   - PATCH: Atualiza position/is_required/unlock_after_id
+   - DELETE: Remove item da coleção
+
+8. /api/admin/content/insights/recompute
+   - POST: Recalcula todas as métricas de content_insights
+   - GET: Retorna status das métricas atuais
+
+9. /api/admin/content/curadoria/ia-sugerir
+   - POST: Recebe raw_text ou original_url + source_type
+   - Usa Groq (fallback OpenAI) para gerar sugestão
+   - Cria registro em content_suggestions com status='pending'
+
+MÉTRICAS RECALCULADAS EM content_insights:
+- total_users: Total de usuários
+- tests_completed_30d: Testes de Clareza nos últimos 30 dias
+- diary_entries_30d: Registros no Diário nos últimos 30 dias
+- risk_alerts_30d: Alertas de risco nos últimos 30 dias (admin_only)
+- percent_users_physical_risk_high: % usuários com risco físico (admin_only)
+- safety_plans_created: Planos de Segurança criados
+- chat_sessions_30d: Sessões de Chat nos últimos 30 dias
+
+IA CURADORA:
+- Rota: /api/admin/content/curadoria/ia-sugerir
+- Usa MESMO client de IA do projeto (chatGroq, chatOpenAI de lib/ia-conexoes-reais.ts)
+- Prompt ético em PT-BR com regras:
+  - NÃO romantizar abuso
+  - NÃO usar linguagem sensacionalista
+  - NÃO fazer diagnósticos clínicos
+  - NÃO sugerir vingança
+  - SEMPRE focar em educação e proteção
+- Gera: título, resumo, tipo, tags, relevância (0-1), riscos/gatilhos
+- Salva em content_suggestions com suggestion_source='ai_curator'
+
+ARQUIVOS CRIADOS:
+- app/api/admin/content/items/route.ts
+- app/api/admin/content/items/[id]/route.ts
+- app/api/admin/content/suggestions/route.ts
+- app/api/admin/content/suggestions/[id]/route.ts
+- app/api/admin/content/collections/route.ts
+- app/api/admin/content/collections/[id]/route.ts
+- app/api/admin/content/collections/[id]/items/route.ts
+- app/api/admin/content/insights/recompute/route.ts
+- app/api/admin/content/curadoria/ia-sugerir/route.ts
+- lib/content-insights.ts
 
 ================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES

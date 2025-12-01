@@ -1,12 +1,22 @@
 ================================================================================
 RADAR NARCISISTA – ATLAS COMPLETO DO PROJETO (CÓDIGO REAL)
 ================================================================================
-Data/hora da geração: 30/11/2025 15:20 (UTC-5)
+Data/hora da geração: 30/11/2025 17:50 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 30/11/2025 15:20
-MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 11:30 → 15:20):
+ÚLTIMA ATUALIZAÇÃO: 30/11/2025 17:50
+MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 16:45 → 17:50):
+- ETAPA 7.4: QA Triângulo + Plano de Segurança (todos testes PASS)
+- Preparação para ETAPA 8: FanPage Viva + Camada Comercial
+- Ciclo RADAR 5 TXT executado para sincronização
+
+MUDANÇAS ANTERIORES (30/11/2025 15:20 → 16:45):
+- ETAPA 7.4: QA completo (T1-T5 PASS)
+- Verificação de segurança/RLS em todas APIs
+- Documentação atualizada
+
+MUDANÇAS ANTERIORES (30/11/2025 11:30 → 15:20):
 - ETAPA 7.3: Plano de Segurança integrado ao Triângulo
 - API REST /api/safety-plan criada (GET, POST, PATCH)
 - Card "Plano de Segurança" no Dashboard com status colorido
@@ -936,11 +946,69 @@ TABELAS UTILIZADAS:
 - clarity_tests (campo has_physical_risk)
 
 ================================================================================
-FIM DO ATLAS – 16 SEÇÕES
+[17] ETAPA 8 – FANPAGE VIVA + CAMADA COMERCIAL (PLANEJADO)
+================================================================================
+
+STATUS: EM PLANEJAMENTO (não implementado ainda)
+
+OBJETIVO:
+Transformar a frontpage em um organismo vivo que:
+- Absorve sinais do núcleo interno (Clareza, Diário, Chat, Plano de Segurança)
+- Absorve sinais do mundo externo (notícias, estudos, podcasts)
+- Tudo passa pelo filtro do Eduardo (admin) antes de publicar
+- IAs como equipe editorial, Eduardo como editor-chefe
+
+ESTRUTURA PLANEJADA:
+
+1. NOVAS TABELAS (a criar):
+   - content_items: conteúdos publicados (artigos, FAQs, notícias, lições)
+   - content_suggestions: sugestões de conteúdo (IA + manual)
+   - content_sources: fontes externas confiáveis
+   - content_collections: trilhas/coleções (Radar Academy)
+   - content_collection_items: ponte coleção ↔ conteúdo
+   - content_insights: dados agregados (Radar em Números)
+
+2. NOVAS APIS (a criar):
+   - /api/admin/content/suggestions (CRUD sugestões)
+   - /api/admin/content/items (CRUD conteúdos)
+   - /api/admin/content/collections (CRUD coleções)
+   - /api/admin/content/insights/recompute (recalcular estatísticas)
+   - /api/admin/content/curadoria/ia-sugerir (IA Curadora)
+
+3. NOVAS PÁGINAS ADMIN (a criar):
+   - /admin/conteudos/sugestoes
+   - /admin/conteudos/publicados
+   - /admin/conteudos/collections
+   - /admin/fanpage/config
+
+4. FRONTPAGE REESTRUTURADA:
+   - Hero com CTAs comerciais (já existe)
+   - Triângulo + Plano de Segurança (já existe)
+   - Planos e Preços (já existe, integrado com billing_plans)
+   - Radar em Números (novo - dados agregados)
+   - FAQ dinâmico (novo - content_items type='faq')
+   - Radar no Mundo (novo - content_items source_type='external_world')
+   - Radar Academy (novo - content_collections)
+   - Ética e Limites (já existe parcialmente)
+
+5. IA CURADORA:
+   - Garimpa conteúdo externo
+   - Gera resumo editorial
+   - Sugere tags e tipo
+   - Eduardo aprova/rejeita/edita
+   - Sistema aprende com as decisões
+
+DEPENDÊNCIAS:
+- Sistema de planos já funcional (billing_plans) ✅
+- Frontpage já tem estrutura base ✅
+- Triângulo + Plano de Segurança funcionando ✅
+
+================================================================================
+FIM DO ATLAS – 17 SEÇÕES
 ================================================================================
 
 Gerado em: 29/11/2025 18:10 (UTC-5)
-Atualizado em: 30/11/2025 15:20 (UTC-5)
+Atualizado em: 30/11/2025 17:50 (UTC-5)
 Tamanho aproximado: ~35KB
 Seções: 16
 

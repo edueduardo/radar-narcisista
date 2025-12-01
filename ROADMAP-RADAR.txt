@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 1.6
-Última atualização: 30/11/2025 15:20 (UTC-5)
+Versão: 1.8
+Última atualização: 30/11/2025 17:50 (UTC-5)
 
 ================================================================================
 STATUS GERAL
@@ -62,14 +62,70 @@ PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
    - Tipo 'safety_plan' no JournalEntryType ✅
    - Build passou: 134 páginas ✅
 
+7) ✅ ETAPA 7.4 - QA Triângulo + Plano de Segurança (CONCLUÍDO 30/11/2025 16:45)
+   - T1: Teste de Clareza com risco físico → PASS ✅
+   - T2: Chat com risco físico (regex) → PASS ✅
+   - T3: Plano de Segurança + Diário → PASS ✅
+   - T4: Dashboard Card/Banners → PASS ✅
+   - T5: Segurança/RLS (user_id) → PASS ✅
+   - Todas APIs filtram por user_id autenticado ✅
+   - Nenhum bug encontrado ✅
+   - Build passou: 134 páginas ✅
+
+8) 🔄 ETAPA 8 - FanPage Viva + Camada Comercial (EM ANDAMENTO)
+   OBJETIVO: Transformar frontpage em organismo vivo com curadoria
+   
+   ✅ ETAPA 8.1 - Infraestrutura de Banco (CONCLUÍDO 30/11/2025 18:25)
+   - [x] Tabela content_sources (fontes externas confiáveis)
+   - [x] Tabela content_items (conteúdos publicados)
+   - [x] Tabela content_suggestions (sugestões IA + manual)
+   - [x] Tabela content_collections (Radar Academy)
+   - [x] Tabela content_collection_items (ponte N:N)
+   - [x] Tabela content_insights (Radar em Números)
+   - [x] RLS: leitura pública só para visibility='public'
+   - [x] Triggers updated_at automáticos
+   - [x] Seed data: 6 métricas + 3 FAQs iniciais
+   - [x] Migration: 20241130_create_content_system.sql
+   - [x] Build passou: 134 páginas
+   
+   ✅ ETAPA 8.2 - APIs Admin + IA Curadora (CONCLUÍDO 30/11/2025 19:15)
+   - [x] /api/admin/content/items (GET, POST)
+   - [x] /api/admin/content/items/[id] (GET, PATCH, DELETE)
+   - [x] /api/admin/content/suggestions (GET, POST)
+   - [x] /api/admin/content/suggestions/[id] (GET, PATCH, DELETE)
+   - [x] /api/admin/content/collections (GET, POST)
+   - [x] /api/admin/content/collections/[id] (GET, PATCH, DELETE)
+   - [x] /api/admin/content/collections/[id]/items (GET, POST, PATCH, DELETE)
+   - [x] /api/admin/content/insights/recompute (GET, POST)
+   - [x] /api/admin/content/curadoria/ia-sugerir (POST)
+   - [x] lib/content-insights.ts (7 métricas calculadas)
+   - [x] IA Curadora usando Groq/OpenAI existente
+   - [x] Padrão admin: requireAdminAPI de lib/admin-auth.ts
+   
+   ETAPA 8.3 - Páginas Admin de Curadoria (PRÓXIMO):
+   - [ ] /admin/conteudos/sugestoes
+   - [ ] /admin/conteudos/publicados
+   - [ ] /admin/conteudos/collections
+   - [ ] /admin/fanpage/config
+   
+   ETAPA 8.4 - Blocos Dinâmicos na Frontpage:
+   - [x] Hero com CTAs comerciais (já existe)
+   - [x] Planos e Preços (já existe, integrado com billing_plans)
+   - [ ] Radar em Números (dados agregados)
+   - [ ] FAQ dinâmico (content_items type='faq')
+   - [ ] Radar no Mundo (content_items source_type='external_world')
+   - [ ] Radar Academy (content_collections)
+   
+   RISCO: Médio (muitas tabelas novas, mas não quebra o que existe)
+
 ================================================================================
 DEPOIS DISSO
 ================================================================================
 
-5) Loja simplificada (2–3 add-ons reais)
-6) Começar teste com 5 usuárias beta
-7) Integração completa Stripe com novos planos
-8) Painel admin de usuários
+9) Loja simplificada (2–3 add-ons reais)
+10) Começar teste com 5 usuárias beta
+11) Integração completa Stripe com novos planos
+12) Painel admin de usuários
 
 ================================================================================
 IDEIAS FUTURAS (NÃO IMPLEMENTAR AGORA)
