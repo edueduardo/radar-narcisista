@@ -188,6 +188,49 @@ const response = await generateChatResponse({
 ### Custos
 Monitorados em `/admin/custos-ia`. Logs em `ai_usage_logs`.
 
+### Oráculo V2 - IA de Suporte (NOVO)
+
+**Endpoint:** `POST /api/oraculo-v2`
+
+**Request:**
+```typescript
+interface OraculoRequest {
+  question: string           // Pergunta do usuário (obrigatório)
+  user_role?: string         // admin, usuaria, profissional, dev, whitelabel
+  manual_context?: string    // Contexto adicional
+  language?: string          // Idioma (default: pt-BR)
+  url_atual?: string         // Página atual
+  plan?: string              // Plano do usuário
+}
+```
+
+**Response:**
+```typescript
+interface OraculoResponse {
+  success: boolean
+  response: {
+    modo: 'analise' | 'sugestao' | 'alerta' | 'explicacao'
+    risco: 'baixo' | 'medio' | 'alto' | 'critico'
+    titulo_curto: string
+    resposta_principal: string
+    passos: string[]
+    links_sugeridos: { label: string; url: string }[]
+    mensagem_final_seguranca?: string
+  }
+  meta: {
+    latency_ms: number
+    tokens_used: number
+    model: string
+  }
+}
+```
+
+**Autenticação:** Requer sessão de admin (BLOCO 21-25)
+
+**Logs:** Todas as chamadas são registradas em `oraculo_logs`
+
+**Componente UI:** `<OraculoButton />` em `components/OraculoButton.tsx`
+
 ---
 
 ## 💳 Stripe

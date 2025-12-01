@@ -62,6 +62,7 @@ import { loadIAConfig, saveIAConfig, loadIAConfigLocal, type AdminIAConfig } fro
 import { IAS_DISPONIVEIS, isIANova, type IAConfig } from '../../lib/ia-registry'
 import { loadMenuOrder, AdminMenuItem } from '../../lib/admin-menu-config'
 import { getAdminFeature } from '@/app/admin/admin-features-registry'
+import OraculoButton from '@/components/OraculoButton'
 
 interface FrontpageConfig {
   id: string
@@ -3022,6 +3023,9 @@ ${new Date().toISOString()}
           </div>
         </div>
       )}
+
+      {/* Botão do Oráculo V2 - Flutuante */}
+      <OraculoButton context="Página principal do Admin - Configuração de IAs" />
     </div>
   )
 }

@@ -1,8 +1,9 @@
 # 🔧 Manual do Administrador - Radar Narcisista
 
-> **Versão:** 1.0  
+> **Versão:** 1.1  
 > **Última atualização:** 01/12/2025  
 > **Público:** Administradores do sistema
+> **ETAPA 22:** Oráculo V2 Integrado
 
 ---
 
@@ -14,7 +15,8 @@ O painel administrativo do Radar Narcisista permite gerenciar todos os aspectos 
 
 ## 🔮 Oráculo (Visão Executiva)
 
-O **Oráculo** (`/admin/oraculo`) é seu ponto de partida. Ele responde 7 perguntas-chave:
+### Oráculo V1 - Painel de Métricas
+O **Oráculo V1** (`/admin/oraculo`) é seu ponto de partida. Ele responde 7 perguntas-chave:
 
 1. 📈 **O produto está crescendo?** - Usuários, novos cadastros
 2. 🎯 **As pessoas estão usando?** - Testes, diário, retenção
@@ -23,6 +25,38 @@ O **Oráculo** (`/admin/oraculo`) é seu ponto de partida. Ele responde 7 pergun
 5. 🚨 **Há situações de emergência?** - Cliques em recursos de crise
 6. 💬 **O que os beta testers dizem?** - Feedbacks, rating
 7. 📊 **O que está acontecendo hoje?** - Eventos recentes
+
+### Oráculo V2 - IA de Suporte (NOVO)
+O **Oráculo V2** é uma IA de suporte interno que ajuda o admin a:
+
+- **Entender métricas** - Pergunte sobre dados do sistema
+- **Resolver problemas** - Peça ajuda com erros e bugs
+- **Tomar decisões** - Receba sugestões baseadas em dados
+- **Aprender o produto** - Tire dúvidas sobre funcionalidades
+
+**Como usar:**
+1. Clique no botão flutuante "🔮 Oráculo" no canto inferior direito
+2. Digite sua pergunta
+3. Receba resposta estruturada com passos e links
+
+**Tipos de resposta:**
+- 📊 **Análise** - Dados e métricas
+- 💡 **Sugestão** - Melhorias e otimizações
+- ⚠️ **Alerta** - Situações que requerem atenção
+- ❓ **Explicação** - Como algo funciona
+
+**Níveis de risco:**
+- 🟢 Baixo - Informação
+- 🟡 Médio - Atenção necessária
+- 🟠 Alto - Ação necessária
+- 🔴 Crítico - Ação imediata
+
+**Logs:**
+Todas as chamadas ao Oráculo V2 são registradas em `oraculo_logs` para auditoria.
+
+**Limitações (BLOCO 21-25):**
+- Disponível apenas para ADMIN
+- Outros perfis (usuária, profissional) serão liberados no BLOCO 26-30
 
 ---
 

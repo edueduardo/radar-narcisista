@@ -1,15 +1,15 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 3.4
-Última atualização: 01/12/2025 15:00 (UTC-5)
+Versão: 3.5
+Última atualização: 01/12/2025 16:00 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
 🚀 BLOCO 21-25 EM ANDAMENTO (PÓS-MVP 1.0)
-Versão atual: MVP 1.0.21 (ETAPA 21 CONCLUÍDA)
+Versão atual: MVP 1.0.22 (ETAPA 22 CONCLUÍDA)
 Objetivo desta fase: Fechar MVP vendável B2C + Iniciar BLOCO 14-20
 
 ================================================================================
@@ -374,11 +374,25 @@ BLOCO 21-25 – PÓS-MVP 1.0 (CONSOLIDAÇÃO)
    - Arquivos criados: database/migrate-user-addons.sql, lib/user-addons.ts, app/api/addons/*
    - Build passou: 161 páginas
 
-🔜 ETAPA 22 – ORÁCULO V2 INTEGRADO
-   - [ ] Rota POST /api/oraculo-v2
-   - [ ] Tabela oraculo_logs
-   - [ ] Botão "Perguntar ao Oráculo" (apenas admin neste bloco)
-   - [ ] Atualizar manuais com seção Oráculo
+✅ ETAPA 22 – ORÁCULO V2 INTEGRADO (CONCLUÍDO 01/12/2025)
+   - [x] Rota POST /api/oraculo-v2 criada
+     * Recebe: question, user_role, manual_context, url_atual, plan
+     * Retorna: JSON com modo, risco, titulo, resposta, passos, links
+     * Autenticação: apenas admin (BLOCO 21-25)
+   - [x] Tabela oraculo_logs criada
+     * Campos: user_id, user_role, question, resposta_json, flag_risco_alto
+     * Views: oraculo_usage_daily, oraculo_top_questions
+     * Função: log_oraculo_call()
+   - [x] Botão "Perguntar ao Oráculo" implementado
+     * Componente: components/OraculoButton.tsx
+     * Integrado em: /admin, /admin/oraculo
+     * UI: modal com sugestões, resposta estruturada
+   - [x] Manuais atualizados
+     * MANUAL-ADMIN.md: seção Oráculo V2 completa
+     * MANUAL-DEV.md: documentação do endpoint
+   - [x] docs/ORACULO-V2-PROMPT.md com system prompt
+   - Arquivos criados: app/api/oraculo-v2/route.ts, components/OraculoButton.tsx, database/migrate-oraculo-logs.sql
+   - Build passou: 162 páginas
 
 🔜 ETAPA 23 – SEGURANÇA TÉCNICA & OBSERVABILIDADE
    - [ ] Rate limiting em rotas sensíveis

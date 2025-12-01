@@ -2,7 +2,7 @@
 RADAR NARCISISTA - HISTÓRICO COMPLETO DE IMPLEMENTAÇÕES
 ================================================================================
 Gerado em: 28/11/2025
-Atualizado em: 01/12/2025 15:00 (UTC-5)
+Atualizado em: 01/12/2025 16:00 (UTC-5)
 Projeto: SaaS de apoio a vítimas de relacionamentos abusivos/narcisistas
 Stack: Next.js 16 + Supabase + OpenAI/Groq + TailwindCSS 4
 
@@ -3641,9 +3641,16 @@ BLOCO 21-25 – PÓS-MVP 1.0 (CONSOLIDAÇÃO)
    - lib/user-addons.ts com funções helper
    - docs/ENV-VARIABLES.md com mapeamento de variáveis
    - Build passou: 161 páginas
+✅ ETAPA 22: Oráculo V2 Integrado (01/12/2025)
+   - POST /api/oraculo-v2 criado (IA de suporte para admin)
+   - Tabela oraculo_logs (database/migrate-oraculo-logs.sql)
+   - Componente OraculoButton.tsx (botão flutuante)
+   - Integrado em /admin e /admin/oraculo
+   - docs/ORACULO-V2-PROMPT.md com system prompt
+   - Manuais atualizados (ADMIN, DEV)
+   - Build passou: 162 páginas
 
 PRÓXIMAS ETAPAS (BLOCO 21-25):
-🔜 ETAPA 22: Oráculo V2 Integrado (IA + Logs + Botão)
 🔜 ETAPA 23: Segurança Técnica & Observabilidade
 🔜 ETAPA 24: Manuais & Links Internos
 🔜 ETAPA 25: QA Técnico + Checklist Pós-MVP

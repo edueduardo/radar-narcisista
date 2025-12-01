@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 2.8
-Última atualização: 01/12/2025 15:00 (UTC-5)
+Versão: 2.9
+Última atualização: 01/12/2025 16:00 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -652,11 +652,15 @@ ETAPA 21 – BILLING SÓLIDO & ADD-ONS (CONCLUÍDO 01/12/2025):
 ☐ Testar fluxo completo de compra
 ☐ Verificar registro em user_addons após pagamento
 
-ETAPA 22 – ORÁCULO V2:
-☐ /api/oraculo-v2 responde com JSON válido
-☐ oraculo_logs registra chamadas
-☐ Botão do Oráculo funciona em telas admin
-☐ Manuais atualizados com seção Oráculo
+ETAPA 22 – ORÁCULO V2 (CONCLUÍDO 01/12/2025):
+✅ /api/oraculo-v2 responde com JSON válido
+✅ Migration oraculo_logs criada
+✅ Botão do Oráculo funciona em /admin e /admin/oraculo
+✅ Manuais atualizados (ADMIN, DEV)
+✅ docs/ORACULO-V2-PROMPT.md criado
+☐ Executar migration no Supabase
+☐ Testar chamada ao Oráculo em produção
+☐ Verificar logs em oraculo_logs
 
 ETAPA 23 – SEGURANÇA:
 ☐ Rate limiting funciona em rotas de IA

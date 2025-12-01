@@ -5,8 +5,18 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 15:00 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 14:00 → 15:00):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 16:00 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 15:00 → 16:00):
+- ETAPA 22: Oráculo V2 Integrado (✅ CONCLUÍDO)
+  - POST /api/oraculo-v2 criado
+  - Tabela oraculo_logs (database/migrate-oraculo-logs.sql)
+  - Componente OraculoButton.tsx
+  - Botão flutuante em /admin e /admin/oraculo
+  - docs/ORACULO-V2-PROMPT.md com system prompt
+  - Manuais atualizados (ADMIN, DEV)
+  - Build passou: 162 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 14:00 → 15:00):
 - ETAPA 21: Billing Sólido & Add-ons (✅ CONCLUÍDO)
   - Tabela user_addons criada (database/migrate-user-addons.sql)
   - Webhook Stripe atualizado para processar add-ons

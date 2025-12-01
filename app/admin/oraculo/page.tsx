@@ -40,6 +40,7 @@ import {
   HelpCircle,
   Star
 } from 'lucide-react'
+import OraculoButton from '@/components/OraculoButton'
 
 // Tipos
 interface OracleMetrics {
@@ -495,6 +496,9 @@ export default function OraculoPage() {
           </div>
         </div>
       </div>
+
+      {/* Botão do Oráculo V2 - IA de Suporte */}
+      <OraculoButton context="Página do Oráculo V1 - Painel de métricas e visão executiva" />
     </div>
   )
 }
