@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 2.0
-Última atualização: 01/12/2025 00:15 (UTC-5)
+Versão: 2.1
+Última atualização: 01/12/2025 00:45 (UTC-5)
 
 ================================================================================
 STATUS GERAL
@@ -171,7 +171,31 @@ PRÓXIMAS ETAPAS (PRIORIDADE)
    - [x] Mobile: scroll horizontal melhorado
    - [x] Build passou: 145 páginas
    
-🔜 ETAPA 12 - Dashboard Profissional
+✅ ETAPA 12 - Dashboard Profissional V1 (CONCLUÍDO 01/12/2025 00:45)
+   - [x] Nova rota: /dashboard-profissional
+   - [x] Gating por plano (só 'profissional' acessa)
+   - [x] Tela "Área Exclusiva" para não-autorizados
+   - [x] Header com boas-vindas e badge do plano
+   - [x] Visão geral (4 cards de métricas)
+   - [x] Painel de clientes (estrutura V1, sem dados reais)
+   - [x] Próximos passos (roadmap do produto)
+   - [x] Link "Acessar meu painel" em /profissional
+   - [x] Suporte a tema claro/escuro
+   - [x] Build passou: 146 páginas
+
+🔜 ETAPA 12.1 - Infra de Clientes Profissionais
+   - [ ] Criar tabela professional_clients no Supabase
+   - [ ] RLS: profissional só vê seus clientes
+   - [ ] API: /api/professional/clients (CRUD)
+   - [ ] Ligar painel de clientes ao banco
+
+🔜 ETAPA 12.2 - Relatórios Agregados para Profissionais
+   - [ ] Gerar relatórios PDF por cliente
+   - [ ] Métricas agregadas (padrões, frequência, etc.)
+
+🔜 ETAPA 12.3 - Exportação em Massa
+   - [ ] Exportar todos os dados de um cliente (PDF/CSV)
+
 13) ETAPA 13 - Dashboard White-label (estrutura base)
 14) Loja simplificada (2–3 add-ons reais)
 15) Começar teste com 5 usuárias beta

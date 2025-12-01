@@ -143,8 +143,16 @@ export default function ProfissionalPage() {
               <span className="text-5xl font-bold text-gray-900">R$ 99,90</span>
               <span className="text-gray-500">/mês</span>
             </div>
-            <p className="text-sm text-green-600 mb-8">
+            <p className="text-sm text-green-600 mb-4">
               ou R$ 999/ano (economia de R$ 199,80)
+            </p>
+            
+            {/* Link para quem já tem acesso */}
+            <p className="text-sm text-gray-500 mb-8">
+              Já é assinante?{' '}
+              <Link href="/dashboard-profissional" className="text-blue-600 hover:underline font-medium">
+                Acessar meu painel →
+              </Link>
             </p>
 
             {/* Waitlist Form */}

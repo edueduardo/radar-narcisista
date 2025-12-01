@@ -3227,5 +3227,48 @@ Não promete diagnóstico, terapia ou cura. Apenas organiza a jornada.
 BUILD: 145 páginas (mantido)
 
 ================================================================================
+ETAPA 12 – DASHBOARD PROFISSIONAL V1
+================================================================================
+Data: 01/12/2025 00:45 (UTC-5)
+
+OBJETIVO:
+Criar a primeira versão do Dashboard Profissional (B2B) para psicólogos, advogados
+e assistentes sociais que atendem vítimas de relacionamentos abusivos.
+
+ARQUIVOS CRIADOS/ALTERADOS:
+
+1. app/dashboard-profissional/page.tsx (NOVO)
+   - Painel completo para profissionais
+   - Gating por plano: só 'profissional' acessa
+   - Tela "Área Exclusiva" para não-autorizados
+   - Seções: Header, Visão Geral, Painel de Clientes, Próximos Passos
+
+2. app/profissional/page.tsx (ALTERADO)
+   - Adicionado link "Acessar meu painel →" para quem já é assinante
+
+FUNCIONALIDADES V1:
+- Header com boas-vindas e badge do plano
+- 4 cards de métricas: Clientes, Vagas, Relatórios (em breve), Exportações (em breve)
+- Painel de clientes com estrutura de tabela (sem dados reais - TODO V2)
+- Seção "Próximos Passos" explicando o roadmap do produto
+- Links rápidos: Dashboard Pessoal, Sobre o Plano, Configurações
+- Suporte a tema claro/escuro
+- Aviso ético: "Não substitui parecer técnico, laudo, perícia ou terapia"
+
+O QUE NÃO FOI IMPLEMENTADO (V2/V3):
+- Tabela professional_clients no banco (ETAPA 12.1)
+- Conexão real com clientes (ETAPA 12.1)
+- Relatórios agregados (ETAPA 12.2)
+- Exportação em massa (ETAPA 12.3)
+
+GATING DE ACESSO:
+- Usuário não logado → redireciona para /login
+- Usuário sem plano profissional → tela "Área Exclusiva" com CTA para /profissional
+- Usuário com plano profissional → acessa o dashboard completo
+- Temporário: admins podem acessar para teste
+
+BUILD: 146 páginas
+
+================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES
 ================================================================================
