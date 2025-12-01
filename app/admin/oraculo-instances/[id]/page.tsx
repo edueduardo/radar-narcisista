@@ -34,7 +34,10 @@ import {
   Trash2,
   AlertTriangle,
   Eye,
-  EyeOff
+  EyeOff,
+  Webhook,
+  Send,
+  Link2
 } from 'lucide-react'
 
 interface InstanceDetails {
@@ -91,6 +94,22 @@ interface ApiKeyData {
   created_at: string
 }
 
+// ETAPA 37: Interface para Webhooks
+interface WebhookData {
+  id: string
+  webhook_name: string
+  webhook_url: string
+  secret_key: string | null
+  events: string[]
+  status: 'active' | 'inactive' | 'failed'
+  total_deliveries: number
+  successful_deliveries: number
+  failed_deliveries: number
+  last_delivery_at: string | null
+  last_error: string | null
+  created_at: string
+}
+
 export default function InstanceDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params)
   const [instance, setInstance] = useState<InstanceDetails | null>(null)
@@ -109,6 +128,14 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
   const [creatingKey, setCreatingKey] = useState(false)
   const [newFullKey, setNewFullKey] = useState<string | null>(null)
   const [copiedKey, setCopiedKey] = useState(false)
+  
+  // ETAPA 37: Estados para Webhooks
+  const [webhooks, setWebhooks] = useState<WebhookData[]>([])
+  const [showWebhookModal, setShowWebhookModal] = useState(false)
+  const [newWebhookName, setNewWebhookName] = useState('')
+  const [newWebhookUrl, setNewWebhookUrl] = useState('')
+  const [creatingWebhook, setCreatingWebhook] = useState(false)
+  const [newWebhookSecret, setNewWebhookSecret] = useState<string | null>(null)
 
   useEffect(() => {
     loadInstanceDetails()
@@ -132,6 +159,9 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
       
       // ETAPA 36: Carregar API keys
       loadApiKeys()
+      
+      // ETAPA 37: Carregar webhooks
+      loadWebhooks()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erro desconhecido')
     } finally {
@@ -200,6 +230,63 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
     navigator.clipboard.writeText(key)
     setCopiedKey(true)
     setTimeout(() => setCopiedKey(false), 2000)
+  }
+
+  // ETAPA 37: Carregar webhooks
+  const loadWebhooks = async () => {
+    try {
+      const res = await fetch(`/api/admin/oraculo-instances/${resolvedParams.id}/webhooks`)
+      const data = await res.json()
+      if (res.ok) {
+        setWebhooks(data.webhooks || [])
+      }
+    } catch (err) {
+      console.error('Erro ao carregar webhooks:', err)
+    }
+  }
+
+  // ETAPA 37: Criar webhook
+  const handleCreateWebhook = async () => {
+    if (!newWebhookName.trim() || !newWebhookUrl.trim()) return
+    
+    setCreatingWebhook(true)
+    try {
+      const res = await fetch(`/api/admin/oraculo-instances/${resolvedParams.id}/webhooks`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          webhook_name: newWebhookName,
+          webhook_url: newWebhookUrl
+        })
+      })
+      const data = await res.json()
+      
+      if (!res.ok) throw new Error(data.error)
+      
+      setNewWebhookSecret(data.webhook.secret_key)
+      loadWebhooks()
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Erro ao criar webhook')
+    } finally {
+      setCreatingWebhook(false)
+    }
+  }
+
+  // ETAPA 37: Deletar webhook
+  const handleDeleteWebhook = async (webhookId: string) => {
+    if (!confirm('Deletar este webhook?')) return
+    
+    try {
+      const res = await fetch(`/api/admin/oraculo-instances/${resolvedParams.id}/webhooks?webhook_id=${webhookId}`, {
+        method: 'DELETE'
+      })
+      
+      if (!res.ok) throw new Error('Erro ao deletar')
+      
+      loadWebhooks()
+    } catch (err) {
+      alert('Erro ao deletar webhook')
+    }
   }
 
   const generateDailyHistory = () => {
@@ -630,6 +717,72 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
             </div>
           )}
         </div>
+
+        {/* ETAPA 37: Webhooks */}
+        <div className="mt-6 bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-semibold flex items-center gap-2">
+              <Webhook className="w-5 h-5 text-purple-400" />
+              Webhooks
+            </h2>
+            <button
+              onClick={() => {
+                setNewWebhookName('')
+                setNewWebhookUrl('')
+                setNewWebhookSecret(null)
+                setShowWebhookModal(true)
+              }}
+              className="flex items-center gap-2 px-3 py-1.5 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-medium transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              Novo Webhook
+            </button>
+          </div>
+          
+          {webhooks.length === 0 ? (
+            <p className="text-gray-400 text-sm">Nenhum webhook configurado</p>
+          ) : (
+            <div className="space-y-3">
+              {webhooks.map(webhook => (
+                <div key={webhook.id} className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-2 h-2 rounded-full ${
+                      webhook.status === 'active' ? 'bg-green-400' : 
+                      webhook.status === 'failed' ? 'bg-red-400' : 'bg-gray-400'
+                    }`} />
+                    <div>
+                      <p className="font-medium">{webhook.webhook_name}</p>
+                      <p className="text-xs text-gray-400 flex items-center gap-1">
+                        <Link2 className="w-3 h-3" />
+                        {webhook.webhook_url.slice(0, 40)}{webhook.webhook_url.length > 40 && '...'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="text-right text-sm">
+                      <p className="text-gray-400">
+                        <span className="text-green-400">{webhook.successful_deliveries}</span>
+                        {' / '}
+                        <span className="text-red-400">{webhook.failed_deliveries}</span>
+                        {' entregas'}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {webhook.events.length} eventos
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => handleDeleteWebhook(webhook.id)}
+                      className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/20 rounded-lg transition-colors"
+                      title="Deletar"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </main>
 
       {/* Modal Nova API Key */}
@@ -705,6 +858,98 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
                   className="px-6 py-2 bg-amber-600 hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
                 >
                   {creatingKey ? 'Criando...' : 'Criar Key'}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Novo Webhook */}
+      {showWebhookModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-md">
+            <div className="p-6 border-b border-slate-700">
+              <h2 className="text-xl font-bold flex items-center gap-2">
+                <Webhook className="w-5 h-5 text-purple-400" />
+                {newWebhookSecret ? 'Webhook Criado' : 'Novo Webhook'}
+              </h2>
+            </div>
+            
+            <div className="p-6">
+              {newWebhookSecret ? (
+                <div className="space-y-4">
+                  <div className="p-4 bg-purple-500/20 border border-purple-500/50 rounded-lg">
+                    <div className="flex items-start gap-2">
+                      <AlertTriangle className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" />
+                      <p className="text-sm text-purple-200">
+                        Guarde o secret em local seguro. Ele não será exibido novamente!
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-2">Secret Key (para validar assinatura)</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newWebhookSecret}
+                        readOnly
+                        className="flex-1 px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg font-mono text-xs"
+                      />
+                      <button
+                        onClick={() => handleCopyKey(newWebhookSecret)}
+                        className={`px-3 py-2 rounded-lg transition-colors ${
+                          copiedKey 
+                            ? 'bg-green-600 text-white' 
+                            : 'bg-slate-700 hover:bg-slate-600'
+                        }`}
+                      >
+                        {copiedKey ? <CheckCircle className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-2">Nome do Webhook</label>
+                    <input
+                      type="text"
+                      value={newWebhookName}
+                      onChange={e => setNewWebhookName(e.target.value)}
+                      placeholder="Ex: Notificações, Analytics..."
+                      className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:border-purple-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-2">URL do Webhook</label>
+                    <input
+                      type="url"
+                      value={newWebhookUrl}
+                      onChange={e => setNewWebhookUrl(e.target.value)}
+                      placeholder="https://seu-servidor.com/webhook"
+                      className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:border-purple-500"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            <div className="p-6 border-t border-slate-700 flex justify-end gap-3">
+              <button
+                onClick={() => setShowWebhookModal(false)}
+                className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+              >
+                {newWebhookSecret ? 'Fechar' : 'Cancelar'}
+              </button>
+              {!newWebhookSecret && (
+                <button
+                  onClick={handleCreateWebhook}
+                  disabled={creatingWebhook || !newWebhookName.trim() || !newWebhookUrl.trim()}
+                  className="px-6 py-2 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
+                >
+                  {creatingWebhook ? 'Criando...' : 'Criar Webhook'}
                 </button>
               )}
             </div>
