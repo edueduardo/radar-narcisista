@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 3.4
-Última atualização: 01/12/2025 20:00 (UTC-5)
+Versão: 3.5
+Última atualização: 01/12/2025 20:30 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -706,9 +706,13 @@ ETAPA 27 – ORACULO_V2_CORE (CONCLUÍDO 01/12/2025):
 ✅ Build passou: 163 páginas
 ☐ Testar chamadas ao core em produção
 
-ETAPA 28 – INFRA MULTIPERFIL (PENDENTE):
-☐ Criar tabelas oraculo_plan_settings e oraculo_usage
-☐ Testar verificação de limites
+ETAPA 28 – INFRA MULTIPERFIL (CONCLUÍDO 01/12/2025):
+✅ database/migrate-oraculo-settings.sql criado
+✅ lib/oraculo-settings.ts criado
+✅ /api/oraculo-v2 integrado com verificação de limites
+✅ Build passou: 163 páginas
+☐ Executar migration no Supabase
+☐ Testar verificação de limites em produção
 ☐ Testar bloqueio quando limite atingido
 
 ETAPA 29 – EXPOR ORÁCULO V2 (PENDENTE):

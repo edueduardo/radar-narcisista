@@ -2,9 +2,10 @@
  * API do Oráculo V2 - IA de Suporte Interno
  * ETAPA 22 - Oráculo V2 Integrado
  * ETAPA 27 - Refatorado para usar ORACULO_V2_CORE
+ * ETAPA 28 - Integrado com oraculo-settings (flags por plano/perfil)
  * 
  * BLOCO 21-25: Apenas para ADMIN
- * BLOCO 26-30: Será expandido para outros perfis
+ * BLOCO 26-30: Expandido para outros perfis via oraculo-settings
  */
 
 import { NextRequest, NextResponse } from 'next/server'
@@ -18,6 +19,7 @@ import {
   OraculoRequest as CoreRequest,
   OraculoUserRole 
 } from '@/lib/oraculo-core'
+import { canUseOraculo, registerOraculoUsage } from '@/lib/oraculo-settings'
 
 // Tipos para a API (compatibilidade com requests externos)
 interface ApiOraculoRequest {
@@ -86,22 +88,39 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // BLOCO 21-25: Apenas admin pode usar
-    // BLOCO 26-30: Será expandido para outros perfis via oraculo-settings
-    const userIsAdmin = await isAdmin(user.id)
-    if (!userIsAdmin) {
-      logger.security('Tentativa de acesso ao Oráculo por não-admin', {
-        userId: user.id,
-        route: '/api/oraculo-v2'
-      })
-      return NextResponse.json(
-        { error: 'Acesso restrito a administradores nesta versão' },
-        { status: 403 }
-      )
-    }
-
-    // Parsear request
+    // Parsear request primeiro para obter user_role e plan
     const body: ApiOraculoRequest = await request.json()
+    
+    // Determinar role e plano do usuário
+    const userRole = (body.user_role as OraculoUserRole) || 'admin'
+    const userPlan = body.plan || 'free'
+    
+    // Verificar se é admin (bypass de verificações)
+    const userIsAdmin = await isAdmin(user.id)
+    
+    // ETAPA 28: Verificar permissões via oraculo-settings
+    // Admin sempre pode usar, outros perfis dependem das configurações
+    if (!userIsAdmin) {
+      const permission = await canUseOraculo(user.id, userRole, userPlan)
+      
+      if (!permission.allowed) {
+        logger.info('Acesso ao Oráculo negado', {
+          userId: user.id,
+          userRole,
+          userPlan,
+          reason: permission.reason
+        })
+        return NextResponse.json(
+          { 
+            error: permission.reason || 'Acesso não permitido',
+            limite: permission.limite,
+            usado: permission.usado,
+            reset: permission.reset
+          },
+          { status: 403 }
+        )
+      }
+    }
     
     if (!body.question || body.question.trim().length === 0) {
       return NextResponse.json(
@@ -121,9 +140,9 @@ export async function POST(request: NextRequest) {
 
     // Preparar request para o ORACULO_V2_CORE
     const coreRequest: CoreRequest = {
-      user_role: (body.user_role as OraculoUserRole) || 'admin',
+      user_role: userRole,
       question: body.question,
-      plan: body.plan,
+      plan: userPlan,
       url_atual: body.url_atual,
       manual_context: body.manual_context,
       language: body.language || 'pt-BR'
@@ -159,6 +178,16 @@ export async function POST(request: NextRequest) {
       } catch (logError) {
         // Log error but don't fail the request
         console.error('Erro ao registrar log do Oráculo:', logError)
+      }
+    }
+    
+    // ETAPA 28: Registrar uso para controle de limites
+    // Não bloqueia se falhar, apenas loga
+    if (!userIsAdmin) {
+      try {
+        await registerOraculoUsage(user.id, userRole, userPlan)
+      } catch (usageError) {
+        console.error('Erro ao registrar uso do Oráculo:', usageError)
       }
     }
 

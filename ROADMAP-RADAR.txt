@@ -1,15 +1,15 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 4.0
-Última atualização: 01/12/2025 20:00 (UTC-5)
+Versão: 4.1
+Última atualização: 01/12/2025 20:30 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
 🚀 BLOCO 26-30 EM ANDAMENTO!
-Versão atual: MVP 1.0.27 (ETAPA 27 CONCLUÍDA)
+Versão atual: MVP 1.0.28 (ETAPA 28 CONCLUÍDA)
 Objetivo desta fase: Oráculo V2 Multiperfil + Infra de Comunicação IA
 
 ================================================================================
@@ -464,12 +464,17 @@ BLOCO 26-30 – ORÁCULO V2 MULTIPERFIL + INFRA COMUNICAÇÃO IA (EM ANDAMENTO)
    - [x] docs/ORACULO-CORE.md criado
    - Build passou: 163 páginas
 
-🔜 ETAPA 28 – INFRA MULTIPERFIL (FLAGS POR PLANO/PERFIL)
-   - [ ] Criar tabela oraculo_plan_settings
-   - [ ] Criar tabela oraculo_usage
-   - [ ] Criar lib/oraculo-settings.ts
-   - [ ] Integrar verificações na API
-   - [ ] Atualizar MANUAL-ADMIN
+✅ ETAPA 28 – INFRA MULTIPERFIL (CONCLUÍDO 01/12/2025)
+   - [x] database/migrate-oraculo-settings.sql criado
+     * Tabela oraculo_plan_settings (status, limites diário/semanal/mensal)
+     * Tabela oraculo_usage (controle de consumo)
+     * Funções: can_use_oraculo, register_oraculo_usage
+     * Dados iniciais: admin sempre habilitado, outros desabilitados
+   - [x] lib/oraculo-settings.ts criado
+     * canUseOraculo, registerOraculoUsage, getOraculoSettings
+     * listAllOraculoSettings, getOraculoUsage
+   - [x] /api/oraculo-v2 integrado com verificação de limites
+   - Build passou: 163 páginas
 
 🔜 ETAPA 29 – EXPOR ORÁCULO V2 PARA OUTROS PERFIS (FASE 1)
    - [ ] Definir perfis da Fase 1 (profissional, whitelabel)

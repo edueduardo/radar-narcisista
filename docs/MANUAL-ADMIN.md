@@ -54,9 +54,38 @@ O **Oráculo V2** é uma IA de suporte interno que ajuda o admin a:
 **Logs:**
 Todas as chamadas ao Oráculo V2 são registradas em `oraculo_logs` para auditoria.
 
-**Limitações (BLOCO 21-25):**
-- Disponível apenas para ADMIN
-- Outros perfis (usuária, profissional) serão liberados no BLOCO 26-30
+### Controle de Acesso por Plano/Perfil (ETAPA 28)
+
+O admin pode controlar quem tem acesso ao Oráculo V2 através da tabela `oraculo_plan_settings`:
+
+**Status:**
+- `0` = Desativado (não aparece nem responde)
+- `1` = Modo teste/limitado (com limites)
+- `2` = Modo completo (sem limites)
+
+**Limites por período:**
+- `limite_diario` - Perguntas por dia
+- `limite_semanal` - Perguntas por semana
+- `limite_mensal` - Perguntas por mês
+
+**Configurações padrão:**
+| Plano | Perfil | Status | Limite Diário | Limite Mensal |
+|-------|--------|--------|---------------|---------------|
+| Todos | admin | 2 (completo) | Sem limite | Sem limite |
+| free | usuaria | 0 (off) | 3 | 30 |
+| essencial | usuaria | 0 (off) | 5 | 60 |
+| premium | usuaria | 0 (off) | 10 | 150 |
+| profissional | profissional | 0 (off) | 20 | 300 |
+| enterprise | whitelabel | 0 (off) | Sem limite | Sem limite |
+
+**Como habilitar:**
+1. Acesse o Supabase
+2. Edite a tabela `oraculo_plan_settings`
+3. Altere o `status` para 1 ou 2
+4. Ajuste os limites conforme necessário
+
+**Monitoramento de uso:**
+A tabela `oraculo_usage` registra o consumo por usuário/período.
 
 ---
 

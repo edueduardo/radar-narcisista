@@ -5,8 +5,18 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 20:00 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 19:30 → 20:00):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 20:30 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 20:00 → 20:30):
+- ETAPA 28: INFRA MULTIPERFIL (✅ CONCLUÍDO)
+  - database/migrate-oraculo-settings.sql criado
+    * Tabela oraculo_plan_settings (configurações por plano/perfil)
+    * Tabela oraculo_usage (controle de uso)
+    * Funções: can_use_oraculo, register_oraculo_usage
+  - lib/oraculo-settings.ts criado (helpers)
+  - /api/oraculo-v2 integrado com verificação de limites
+  - Build passou: 163 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 19:30 → 20:00):
 - ETAPA 27: ORACULO_V2_CORE (✅ CONCLUÍDO)
   - lib/oraculo-core.ts criado (núcleo reutilizável)
   - app/api/oraculo-v2/route.ts refatorado para usar o core
