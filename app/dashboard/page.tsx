@@ -58,6 +58,29 @@ import {
 import { useClarityProfile } from '@/hooks/useClarityProfile'
 import { getClarityRecommendations, type ClarityRecommendation } from '@/lib/clarity-recommendations'
 import { getCourseRecommendations, getOnboardingText, type CourseRecommendation } from '@/lib/clarity-course-recommendations'
+// ETAPA 11.1: Trilha do Herói
+import { 
+  DASHBOARD_MODULES, 
+  HERO_STEP_LABELS, 
+  getModulesByHeroStep,
+  type HeroStep,
+  type DashboardModuleConfig 
+} from '@/lib/plan-dashboard-modules'
+import { 
+  buildUserDashboardLayout, 
+  getWelcomeMessage, 
+  getNextSuggestedAction,
+  type DashboardLayoutInput,
+  type DashboardModuleState 
+} from '@/lib/dashboard-user-layout'
+import type { PlanLevel } from '@/lib/plans-config'
+import { 
+  Compass,
+  GraduationCap,
+  FileCheck,
+  Newspaper,
+  LockKeyhole
+} from 'lucide-react'
 
 // ============================================================================
 // DASHBOARD V2 - RADAR NARCISISTA BR
@@ -249,6 +272,12 @@ export default function DashboardV2Page() {
   const [courseRecommendations, setCourseRecommendations] = useState<CourseRecommendation[]>([])
   const [onboardingText, setOnboardingText] = useState<string>('')
   
+  // ETAPA 11.1: Estado para trilha do herói
+  const [userPlanLevel, setUserPlanLevel] = useState<PlanLevel>('guardar') // Default para usuário logado
+  const [heroLayout, setHeroLayout] = useState<ReturnType<typeof buildUserDashboardLayout>>([])
+  const [welcomeMsg, setWelcomeMsg] = useState<ReturnType<typeof getWelcomeMessage> | null>(null)
+  const [nextAction, setNextAction] = useState<ReturnType<typeof getNextSuggestedAction> | null>(null)
+  
   // Gerar recomendações quando perfil carregar
   useEffect(() => {
     if (clarityProfile && hasClarityProfile) {
@@ -266,8 +295,34 @@ export default function DashboardV2Page() {
       const courses = getCourseRecommendations(clarityProfile)
       setCourseRecommendations(courses)
       setOnboardingText(getOnboardingText(clarityProfile))
+      
+      // ETAPA 11.1: Construir trilha do herói
+      const layoutInput: DashboardLayoutInput = {
+        currentPlanLevel: userPlanLevel,
+        hasClarityProfile: true,
+        hasRecentJournalEntries: triangleState.diaryCount30d > 0,
+        hasActiveSafetyPlan: safetyPlanStatus !== 'NOT_STARTED',
+        hasPhysicalRisk: clarityProfile.hasPhysicalRisk || false,
+        safetyPlanStatus: safetyPlanStatus
+      }
+      setHeroLayout(buildUserDashboardLayout(layoutInput))
+      setWelcomeMsg(getWelcomeMessage(layoutInput))
+      setNextAction(getNextSuggestedAction(layoutInput))
+    } else {
+      // Usuário sem perfil de clareza
+      const layoutInput: DashboardLayoutInput = {
+        currentPlanLevel: userPlanLevel,
+        hasClarityProfile: false,
+        hasRecentJournalEntries: triangleState.diaryCount30d > 0,
+        hasActiveSafetyPlan: safetyPlanStatus !== 'NOT_STARTED',
+        hasPhysicalRisk: false,
+        safetyPlanStatus: safetyPlanStatus
+      }
+      setHeroLayout(buildUserDashboardLayout(layoutInput))
+      setWelcomeMsg(getWelcomeMessage(layoutInput))
+      setNextAction(getNextSuggestedAction(layoutInput))
     }
-  }, [clarityProfile, hasClarityProfile])
+  }, [clarityProfile, hasClarityProfile, userPlanLevel, triangleState, safetyPlanStatus])
 
   const router = useRouter()
   const supabase = createClientComponentClient()
@@ -710,38 +765,122 @@ export default function DashboardV2Page() {
           </section>
 
           {/* ============================================================ */}
-          {/* 3. SUAS FERRAMENTAS PRINCIPAIS */}
+          {/* 3. TRILHA DO HERÓI - ETAPA 11.1 */}
           {/* ============================================================ */}
           <section className="mb-8">
-            <h3 className={`text-lg font-semibold ${t.text} mb-4`}>Suas Ferramentas Principais</h3>
-            <p className={`text-sm ${t.textMuted} mb-4`}>Acesse rápido as ferramentas mais importantes</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <ToolCard 
-                icon={Target} 
-                title="Teste de Clareza" 
-                description="Entenda sua situação em 5-10 minutos"
-                href="/teste-clareza"
-                color="violet"
-                theme={theme}
-              />
-              <ToolCard 
-                icon={BookOpen} 
-                title="Diário de Episódios" 
-                description="Registre o que acontece com você"
-                href="/diario"
-                color="green"
-                theme={theme}
-              />
-              <ToolCard 
-                icon={MessageCircle} 
-                title="Coach de Clareza" 
-                description="Apoio 24/7 para suas dúvidas"
-                href="/chat-premium"
-                color="blue"
-                theme={theme}
-              />
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className={`text-lg font-semibold ${t.text} flex items-center gap-2`}>
+                  <Compass className={`w-5 h-5 ${t.textAccent}`} />
+                  Sua Jornada de Clareza
+                </h3>
+                <p className={`text-sm ${t.textMuted}`}>5 passos para sair da confusão</p>
+              </div>
+              <RadarTag tone="accent" size="sm">
+                Plano {userPlanLevel === 'guardar' ? 'Guardar' : userPlanLevel === 'jornada' ? 'Jornada' : userPlanLevel === 'defesa' ? 'Defesa' : userPlanLevel === 'profissional' ? 'Profissional' : 'Visitante'}
+              </RadarTag>
             </div>
+            
+            {/* Timeline horizontal dos 5 passos */}
+            <div className="overflow-x-auto pb-2 mb-6">
+              <div className="flex gap-2 min-w-max">
+                {([1, 2, 3, 4, 5] as HeroStep[]).map((step) => {
+                  const stepInfo = HERO_STEP_LABELS[step]
+                  const hasModulesInStep = heroLayout.some(s => s.heroStep === step && s.modules.length > 0)
+                  const isHighlighted = heroLayout.find(s => s.heroStep === step)?.highlight
+                  
+                  return (
+                    <div 
+                      key={step}
+                      className={`flex-shrink-0 w-36 p-3 rounded-xl border transition-all ${
+                        isHighlighted 
+                          ? (theme === 'light' ? 'bg-purple-100 border-purple-300 ring-2 ring-purple-200' : 'bg-violet-950/50 border-violet-500/50 ring-2 ring-violet-500/30')
+                          : hasModulesInStep
+                            ? (theme === 'light' ? 'bg-white border-gray-200' : 'bg-slate-800/50 border-slate-700/50')
+                            : (theme === 'light' ? 'bg-gray-50 border-gray-100 opacity-60' : 'bg-slate-900/30 border-slate-800/30 opacity-60')
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                          isHighlighted 
+                            ? (theme === 'light' ? 'bg-purple-600 text-white' : 'bg-violet-500 text-white')
+                            : hasModulesInStep
+                              ? (theme === 'light' ? 'bg-purple-100 text-purple-600' : 'bg-violet-600/30 text-violet-400')
+                              : (theme === 'light' ? 'bg-gray-200 text-gray-500' : 'bg-slate-700 text-slate-500')
+                        }`}>
+                          {step}
+                        </span>
+                        <span className={`text-xs font-semibold ${isHighlighted ? t.textAccent : t.text}`}>
+                          {stepInfo.title}
+                        </span>
+                      </div>
+                      <p className={`text-xs ${t.textMuted} line-clamp-2`}>{stepInfo.description}</p>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+            
+            {/* Próxima ação sugerida */}
+            {nextAction && (
+              <Link href={nextAction.route}>
+                <div className={`p-4 rounded-xl border-2 ${
+                  theme === 'light' 
+                    ? 'bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-200 hover:border-purple-300' 
+                    : 'bg-gradient-to-r from-violet-950/50 to-indigo-950/50 border-violet-700/50 hover:border-violet-600'
+                } transition-all cursor-pointer`}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                        theme === 'light' ? 'bg-purple-100' : 'bg-violet-600/30'
+                      }`}>
+                        <Zap className={`w-5 h-5 ${theme === 'light' ? 'text-purple-600' : 'text-violet-400'}`} />
+                      </div>
+                      <div>
+                        <p className={`text-sm font-semibold ${t.text}`}>{nextAction.label}</p>
+                        <p className={`text-xs ${t.textMuted}`}>{nextAction.reason}</p>
+                      </div>
+                    </div>
+                    <ChevronRight className={`w-5 h-5 ${t.textMuted}`} />
+                  </div>
+                </div>
+              </Link>
+            )}
           </section>
+
+          {/* ============================================================ */}
+          {/* 3.1 MÓDULOS POR ETAPA DA TRILHA - ETAPA 11.1 */}
+          {/* ============================================================ */}
+          {heroLayout.map((section) => (
+            <section key={section.id} className="mb-8">
+              <div className="flex items-center gap-3 mb-4">
+                <span className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                  section.highlight 
+                    ? (theme === 'light' ? 'bg-purple-600 text-white' : 'bg-violet-500 text-white')
+                    : (theme === 'light' ? 'bg-purple-100 text-purple-600' : 'bg-violet-600/30 text-violet-400')
+                }`}>
+                  {section.heroStep}
+                </span>
+                <div>
+                  <h3 className={`text-lg font-semibold ${t.text}`}>
+                    {section.title}
+                  </h3>
+                  <p className={`text-xs ${t.textMuted}`}>{section.description}</p>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {section.modules.map((mod) => (
+                  <HeroModuleCard 
+                    key={mod.moduleId}
+                    module={mod}
+                    theme={theme}
+                    t={t}
+                  />
+                ))}
+              </div>
+            </section>
+          ))}
 
           {/* ============================================================ */}
           {/* 3.5. ESTADO DO TRIÂNGULO - ETAPA 6 */}
@@ -1721,5 +1860,108 @@ function EmergencyContact({ number, label, description }: { number: string; labe
         </div>
       </div>
     </a>
+  )
+}
+
+// ============================================================================
+// ETAPA 11.1: COMPONENTE DE MÓDULO DA TRILHA DO HERÓI
+// ============================================================================
+
+// Mapeamento de ícones para módulos
+const MODULE_ICONS: Record<string, any> = {
+  'onboarding': Compass,
+  'teste_clareza': Target,
+  'diario': BookOpen,
+  'chat_ia': MessageCircle,
+  'plano_seguranca': Shield,
+  'provas_evidencias': FileCheck,
+  'academy': GraduationCap,
+  'fanpage_viva': BarChart3,
+  'conteudos_curados': Newspaper,
+  'triangulo_status': Scale,
+  'evolucao': TrendingUp,
+  'clientes': Users,
+}
+
+function HeroModuleCard({ 
+  module, 
+  theme, 
+  t 
+}: { 
+  module: DashboardModuleState
+  theme: ThemeMode
+  t: typeof themes.light
+}) {
+  const Icon = MODULE_ICONS[module.moduleId] || Target
+  const isLight = theme === 'light'
+  
+  // Se módulo está bloqueado
+  if (module.locked) {
+    return (
+      <div className={`p-4 rounded-xl border-2 border-dashed ${
+        isLight 
+          ? 'bg-gray-50 border-gray-200' 
+          : 'bg-slate-900/30 border-slate-700/50'
+      } opacity-70`}>
+        <div className="flex items-start gap-3">
+          <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+            isLight ? 'bg-gray-100' : 'bg-slate-800'
+          }`}>
+            <LockKeyhole className={`w-5 h-5 ${isLight ? 'text-gray-400' : 'text-slate-500'}`} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h4 className={`font-medium text-sm ${isLight ? 'text-gray-500' : 'text-slate-500'}`}>
+              {module.label}
+            </h4>
+            <p className={`text-xs ${isLight ? 'text-gray-400' : 'text-slate-600'} line-clamp-2 mt-1`}>
+              {module.description}
+            </p>
+            <Link href="/planos">
+              <button className={`mt-3 px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+                isLight 
+                  ? 'bg-purple-100 text-purple-600 hover:bg-purple-200' 
+                  : 'bg-violet-600/20 text-violet-400 hover:bg-violet-600/30'
+              }`}>
+                Ver planos
+              </button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  
+  // Módulo liberado
+  return (
+    <Link href={module.route || '#'}>
+      <div className={`p-4 rounded-xl border ${
+        isLight 
+          ? 'bg-white border-gray-200 hover:border-purple-300 hover:shadow-md' 
+          : 'bg-slate-800/50 border-slate-700/50 hover:bg-slate-800 hover:border-slate-600'
+      } transition-all cursor-pointer h-full`}>
+        <div className="flex items-start gap-3">
+          <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+            module.critical 
+              ? (isLight ? 'bg-purple-100' : 'bg-violet-600/20')
+              : (isLight ? 'bg-gray-100' : 'bg-slate-700')
+          }`}>
+            <Icon className={`w-5 h-5 ${
+              module.critical 
+                ? (isLight ? 'text-purple-600' : 'text-violet-400')
+                : (isLight ? 'text-gray-600' : 'text-gray-400')
+            }`} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h4 className={`font-medium text-sm ${t.text}`}>
+              {module.label}
+            </h4>
+            <p className={`text-xs ${t.textMuted} line-clamp-2 mt-1`}>
+              {module.description}
+            </p>
+          </div>
+          <ChevronRight className={`w-4 h-4 ${t.textMuted} flex-shrink-0`} />
+        </div>
+      </div>
+    </Link>
   )
 }

@@ -155,15 +155,18 @@ PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
 PRÓXIMAS ETAPAS (PRIORIDADE)
 ================================================================================
 
-🔜 ETAPA 11.1 - Aplicar trilha visual no /dashboard
-   OBJETIVO: Reorganizar o dashboard em 5 seções (Entender, Registrar, Conversar, Proteger, Recursos)
-   INFRA PRONTA:
-   - lib/plan-dashboard-modules.ts (heroStep, minPlanLevel)
-   - lib/dashboard-user-layout.ts (buildUserDashboardLayout, getWelcomeMessage)
-   - app/dashboard/page.BACKUP_ETAPA11.tsx (backup)
-   ARQUIVOS A MODIFICAR:
-   - app/dashboard/page.tsx (reorganizar seções)
-   RISCO: Médio (visual, não regra de negócio)
+✅ ETAPA 11.1 - Aplicar trilha visual no /dashboard (CONCLUÍDO 30/11/2025 23:55)
+   - [x] Timeline horizontal dos 5 passos (Entender, Registrar, Conversar, Proteger, Recursos)
+   - [x] Cards de módulos liberados/bloqueados por plano
+   - [x] Próxima ação sugerida baseada no estado do usuário
+   - [x] Componente HeroModuleCard para renderizar módulos
+   - [x] Integração com buildUserDashboardLayout() e getWelcomeMessage()
+   - [x] Build passou: 145 páginas
+   
+🔜 ETAPA 11.2 - Ajustes finos do dashboard (opcional)
+   - Melhorar heurística de "passo atual" na timeline
+   - Ajustes de UX mobile
+   - Microcópia e textos
    
 12) ETAPA 12 - Dashboard Profissional
 13) ETAPA 13 - Dashboard White-label (estrutura base)

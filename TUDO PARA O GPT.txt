@@ -3142,5 +3142,46 @@ NOTA:
 BUILD: 145 páginas (mantido)
 
 ================================================================================
+ETAPA 11.1 – DASHBOARD USUÁRIA COM TRILHA DO HERÓI (VISUAL)
+================================================================================
+Data: 30/11/2025 23:55 (UTC-5)
+
+OBJETIVO:
+Aplicar a trilha do herói visualmente no /dashboard da usuária, usando a infra
+criada na ETAPA 11.
+
+ARQUIVOS ALTERADOS:
+
+1. app/dashboard/page.tsx
+   - Adicionados imports da infra (DASHBOARD_MODULES, HERO_STEP_LABELS, etc.)
+   - Adicionado estado para trilha do herói (heroLayout, welcomeMsg, nextAction)
+   - Adicionada seção "Sua Jornada de Clareza" com timeline horizontal dos 5 passos
+   - Adicionada seção de módulos agrupados por etapa da trilha
+   - Adicionado componente HeroModuleCard para renderizar módulos liberados/bloqueados
+   - Módulos bloqueados mostram CTA "Ver planos" apontando para /planos
+
+EXPERIÊNCIA DO USUÁRIO:
+O dashboard agora apresenta a jornada em 5 passos claros:
+1. ENTENDER → Teste de Clareza, Triângulo, Onboarding
+2. REGISTRAR → Diário, Evolução
+3. CONVERSAR → Chat IA / Coach
+4. PROTEGER → Plano de Segurança
+5. RECURSOS → Provas, Academy, Conteúdos
+
+Cada módulo aparece como:
+- LIBERADO (card ativo com link para a funcionalidade)
+- BLOQUEADO (card apagado com CTA "Ver planos")
+
+A trilha destaca visualmente:
+- O passo atual do usuário (baseado no estado: tem perfil? tem diário? tem plano?)
+- A próxima ação sugerida (ex: "Fazer Teste de Clareza" se não tem perfil)
+
+COMPONENTES CRIADOS:
+- HeroModuleCard → Renderiza card de módulo (liberado ou bloqueado)
+- MODULE_ICONS → Mapeamento de ícones por módulo
+
+BUILD: 145 páginas (mantido)
+
+================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES
 ================================================================================

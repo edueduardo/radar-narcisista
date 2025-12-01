@@ -5,12 +5,19 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 30/11/2025 23:30
-MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 22:10 → 23:30):
-- CICLO RADAR 5 TXT executado para sincronização
-- ETAPA 11.1 (trilha visual) registrada como PRÓXIMA ETAPA
-- Documentação atualizada com estado real do código
+ÚLTIMA ATUALIZAÇÃO: 30/11/2025 23:55
+MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 23:30 → 23:55):
+- ETAPA 11.1: Dashboard usuária com trilha do herói (✅ CONCLUÍDO)
+  - app/dashboard/page.tsx reorganizado em 5 seções (Entender, Registrar, Conversar, Proteger, Recursos)
+  - Timeline horizontal dos 5 passos com destaque visual
+  - Cards de módulos liberados/bloqueados por plano
+  - Próxima ação sugerida baseada no estado do usuário
+  - Componente HeroModuleCard para renderizar módulos
+  - Usa infra de plan-dashboard-modules.ts e dashboard-user-layout.ts
 - Build passou: 145 páginas
+
+MUDANÇAS ANTERIORES (30/11/2025 22:10 → 23:30):
+- CICLO RADAR 5 TXT executado para sincronização
 
 MUDANÇAS ANTERIORES (30/11/2025 21:45 → 22:10):
 - ETAPA 11: Redesenho do Dashboard do Usuário - INFRA (✅ CONCLUÍDO)
