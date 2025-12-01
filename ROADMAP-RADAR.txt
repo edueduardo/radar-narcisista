@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 1.8
-Última atualização: 30/11/2025 17:50 (UTC-5)
+Versão: 1.9
+Última atualização: 30/11/2025 23:30 (UTC-5)
 
 ================================================================================
 STATUS GERAL
@@ -152,10 +152,19 @@ PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
    incrementalmente usando buildUserDashboardLayout() sem quebrar nada.
 
 ================================================================================
-PRÓXIMAS ETAPAS
+PRÓXIMAS ETAPAS (PRIORIDADE)
 ================================================================================
 
-11.1) ETAPA 11.1 - Aplicar trilha visual no /dashboard (opcional, incremental)
+🔜 ETAPA 11.1 - Aplicar trilha visual no /dashboard
+   OBJETIVO: Reorganizar o dashboard em 5 seções (Entender, Registrar, Conversar, Proteger, Recursos)
+   INFRA PRONTA:
+   - lib/plan-dashboard-modules.ts (heroStep, minPlanLevel)
+   - lib/dashboard-user-layout.ts (buildUserDashboardLayout, getWelcomeMessage)
+   - app/dashboard/page.BACKUP_ETAPA11.tsx (backup)
+   ARQUIVOS A MODIFICAR:
+   - app/dashboard/page.tsx (reorganizar seções)
+   RISCO: Médio (visual, não regra de negócio)
+   
 12) ETAPA 12 - Dashboard Profissional
 13) ETAPA 13 - Dashboard White-label (estrutura base)
 14) Loja simplificada (2–3 add-ons reais)
