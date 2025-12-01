@@ -1,8 +1,9 @@
 # 👩‍⚕️ Manual do Profissional - Radar Narcisista
 
-> **Versão:** 1.0  
+> **Versão:** 1.1  
 > **Última atualização:** 01/12/2025  
 > **Público:** Psicólogos, Advogados, Assistentes Sociais
+> **ETAPA 24:** Manuais & Links Internos
 
 ---
 
@@ -184,6 +185,23 @@ Ao usar o Radar Narcisista como profissional, você concorda em:
 3. Manter confidencialidade
 4. Usar a ferramenta de forma ética
 5. Reportar bugs e problemas
+
+---
+
+## 📚 Links Rápidos
+
+| Funcionalidade | Link |
+|----------------|------|
+| Dashboard Profissional | `/dashboard-profissional` |
+| Configuração de Marca | `/dashboard-profissional/marca` |
+| Detalhes do Cliente | `/dashboard-profissional/clientes/[id]` |
+| Planos | `/planos` |
+| Configurações | `/configuracoes/profissionais` |
+| Contato | `/contato` |
+
+### Documentação Relacionada
+- [Manual da Usuária](/docs/MANUAL-USUARIA.md) - Para entender a experiência do cliente
+- [Manual White-Label](/docs/MANUAL-WHITELABEL.md) - Para personalização avançada
 
 ---
 

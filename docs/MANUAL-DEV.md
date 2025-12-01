@@ -354,4 +354,37 @@ npx supabase db push
 
 ---
 
+## 📚 Documentação Relacionada
+
+### Manuais
+- [Manual da Usuária](/docs/MANUAL-USUARIA.md)
+- [Manual do Profissional](/docs/MANUAL-PROFISSIONAL.md)
+- [Manual do Admin](/docs/MANUAL-ADMIN.md)
+- [Manual White-Label](/docs/MANUAL-WHITELABEL.md)
+
+### Referência Técnica
+- [Variáveis de Ambiente](/docs/ENV-VARIABLES.md)
+- [Prompt do Oráculo V2](/docs/ORACULO-V2-PROMPT.md)
+
+### Arquivos de Projeto
+- `TUDO PARA O GPT.txt` - Histórico completo de implementações
+- `ATLAS-RADAR-NARCISISTA.txt` - Mapa técnico do projeto
+- `ROADMAP-RADAR.txt` - Roadmap e etapas
+- `TESTES-RADAR.txt` - Checklist de testes
+- `LAMPADA-RADAR.txt` - Bugs, dívidas técnicas e ideias
+
+### APIs Principais
+| Endpoint | Método | Descrição |
+|----------|--------|----------|
+| `/api/health` | GET | Healthcheck do sistema |
+| `/api/oraculo-v2` | POST | IA de suporte (admin) |
+| `/api/addons` | GET | Lista add-ons do usuário |
+| `/api/addons/consume` | POST | Consome créditos |
+| `/api/stripe/webhook` | POST | Webhooks do Stripe |
+| `/api/stripe/checkout` | POST | Criar checkout |
+| `/api/chat` | POST | Chat com Coach IA |
+| `/api/evaluate-clarity` | POST | Avaliar teste de clareza |
+
+---
+
 *Este manual é atualizado regularmente. Última versão: 01/12/2025*

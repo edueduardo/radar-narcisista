@@ -1,15 +1,15 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 3.6
-Última atualização: 01/12/2025 17:00 (UTC-5)
+Versão: 3.7
+Última atualização: 01/12/2025 18:00 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
 🚀 BLOCO 21-25 EM ANDAMENTO (PÓS-MVP 1.0)
-Versão atual: MVP 1.0.23 (ETAPA 23 CONCLUÍDA)
+Versão atual: MVP 1.0.24 (ETAPA 24 CONCLUÍDA)
 Objetivo desta fase: Fechar MVP vendável B2C + Iniciar BLOCO 14-20
 
 ================================================================================
@@ -410,9 +410,15 @@ BLOCO 21-25 – PÓS-MVP 1.0 (CONSOLIDAÇÃO)
    - Arquivos criados: lib/rate-limit.ts, lib/logger.ts, app/api/health/route.ts
    - Build passou: 163 páginas
 
-🔜 ETAPA 24 – MANUAIS & LINKS INTERNOS
-   - [ ] Alinhar manuais com produto real
-   - [ ] Inserir links no app para documentação
+✅ ETAPA 24 – MANUAIS & LINKS INTERNOS (CONCLUÍDO 01/12/2025)
+   - [x] Todos os 5 manuais atualizados
+     * MANUAL-ADMIN.md: seção Segurança & Observabilidade, links úteis
+     * MANUAL-USUARIA.md: tabela de links rápidos, FAQ expandido
+     * MANUAL-PROFISSIONAL.md: links para documentação relacionada
+     * MANUAL-DEV.md: tabela de APIs principais, arquivos de projeto
+     * MANUAL-WHITELABEL.md: links para outros manuais
+   - [x] Links internos inseridos em todos os manuais
+   - Build passou: 163 páginas
 
 🔜 ETAPA 25 – QA TÉCNICO + CHECKLIST PÓS-MVP
    - [ ] Verificar migrations

@@ -216,4 +216,12 @@ Não. Todas as funcionalidades são idênticas, apenas a aparência muda.
 
 ---
 
+## 📚 Documentação Relacionada
+
+- [Manual do Profissional](/docs/MANUAL-PROFISSIONAL.md) - Funcionalidades do plano profissional
+- [Manual do Admin](/docs/MANUAL-ADMIN.md) - Para parceiros com acesso admin
+- [Manual do Desenvolvedor](/docs/MANUAL-DEV.md) - Para integrações técnicas
+
+---
+
 *Este manual é atualizado regularmente. Última versão: 01/12/2025*

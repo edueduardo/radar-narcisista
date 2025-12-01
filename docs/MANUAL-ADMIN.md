@@ -1,9 +1,9 @@
 # 🔧 Manual do Administrador - Radar Narcisista
 
-> **Versão:** 1.1  
+> **Versão:** 1.2  
 > **Última atualização:** 01/12/2025  
 > **Público:** Administradores do sistema
-> **ETAPA 22:** Oráculo V2 Integrado
+> **ETAPA 24:** Manuais & Links Internos
 
 ---
 
@@ -266,11 +266,69 @@ Todas as chamadas ao Oráculo V2 são registradas em `oraculo_logs` para auditor
 
 ---
 
+## 🛡️ Segurança & Observabilidade (NOVO)
+
+### Rate Limiting
+O sistema possui proteção contra abuso:
+- **IAs:** 10 requisições/minuto
+- **Oráculo:** 10 requisições/minuto
+- **Auth:** 5 tentativas/minuto
+- **APIs gerais:** 100 requisições/minuto
+
+Quando excedido, retorna erro 429 com header `Retry-After`.
+
+### Healthcheck
+Verifique a saúde do sistema em `/api/health`:
+```json
+{
+  "status": "healthy",
+  "version": "1.0.23",
+  "uptime": 3600,
+  "checks": {
+    "database": "ok",
+    "stripe": "ok",
+    "openai": "ok"
+  }
+}
+```
+
+Status possíveis:
+- 🟢 **healthy** - Tudo funcionando
+- 🟡 **degraded** - Algum serviço com problema
+- 🔴 **unhealthy** - Sistema fora do ar
+
+### Logs Estruturados
+Todos os logs são em formato JSON para fácil parsing:
+- Eventos de segurança (tentativas de acesso não autorizado)
+- Erros de API
+- Ações de usuário
+
+---
+
 ## 📞 Contatos
 
 - **Suporte Técnico:** dev@radarnarcisista.com.br
 - **Emergências:** Slack #emergencias
 - **Vercel Dashboard:** vercel.com/radar-narcisista-brs-projects
+
+---
+
+## 📚 Links Úteis
+
+### Documentação Interna
+- [Manual da Usuária](/docs/MANUAL-USUARIA.md)
+- [Manual do Profissional](/docs/MANUAL-PROFISSIONAL.md)
+- [Manual do Desenvolvedor](/docs/MANUAL-DEV.md)
+- [Manual White-Label](/docs/MANUAL-WHITELABEL.md)
+- [Variáveis de Ambiente](/docs/ENV-VARIABLES.md)
+- [Prompt do Oráculo V2](/docs/ORACULO-V2-PROMPT.md)
+
+### Arquivos de Referência
+- `TUDO PARA O GPT.txt` - Histórico completo
+- `ATLAS-RADAR-NARCISISTA.txt` - Mapa técnico
+- `ROADMAP-RADAR.txt` - Roadmap
+- `TESTES-RADAR.txt` - Checklist de testes
+- `LAMPADA-RADAR.txt` - Bugs e pendências
 
 ---
 

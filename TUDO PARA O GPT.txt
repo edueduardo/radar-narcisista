@@ -2,7 +2,7 @@
 RADAR NARCISISTA - HISTÓRICO COMPLETO DE IMPLEMENTAÇÕES
 ================================================================================
 Gerado em: 28/11/2025
-Atualizado em: 01/12/2025 17:00 (UTC-5)
+Atualizado em: 01/12/2025 18:00 (UTC-5)
 Projeto: SaaS de apoio a vítimas de relacionamentos abusivos/narcisistas
 Stack: Next.js 16 + Supabase + OpenAI/Groq + TailwindCSS 4
 
@@ -3655,9 +3655,13 @@ BLOCO 21-25 – PÓS-MVP 1.0 (CONSOLIDAÇÃO)
    - GET /api/health (healthcheck endpoint)
    - Rate limiting aplicado em /api/oraculo-v2
    - Build passou: 163 páginas
+✅ ETAPA 24: Manuais & Links Internos (01/12/2025)
+   - Todos os 5 manuais atualizados com links internos
+   - MANUAL-ADMIN: seção Segurança & Observabilidade
+   - MANUAL-DEV: tabela de APIs principais
+   - Build passou: 163 páginas
 
 PRÓXIMAS ETAPAS (BLOCO 21-25):
-🔜 ETAPA 24: Manuais & Links Internos
 🔜 ETAPA 25: QA Técnico + Checklist Pós-MVP
 
 PATCH ORÁCULO – BLOCO 21-25:

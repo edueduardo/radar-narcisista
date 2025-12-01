@@ -5,8 +5,18 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 17:00 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 16:00 → 17:00):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 18:00 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 17:00 → 18:00):
+- ETAPA 24: Manuais & Links Internos (✅ CONCLUÍDO)
+  - Todos os 5 manuais atualizados com links internos
+  - MANUAL-ADMIN: seção Segurança & Observabilidade
+  - MANUAL-USUARIA: tabela de links rápidos
+  - MANUAL-PROFISSIONAL: links para documentação relacionada
+  - MANUAL-DEV: tabela de APIs principais
+  - MANUAL-WHITELABEL: links para outros manuais
+  - Build passou: 163 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 16:00 → 17:00):
 - ETAPA 23: Segurança Técnica & Observabilidade (✅ CONCLUÍDO)
   - lib/rate-limit.ts (rate limiting em memória)
   - lib/logger.ts (logger estruturado JSON)

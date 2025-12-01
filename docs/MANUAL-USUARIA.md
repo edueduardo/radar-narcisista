@@ -1,8 +1,9 @@
 # 📖 Manual da Usuária - Radar Narcisista
 
-> **Versão:** 1.0  
+> **Versão:** 1.1  
 > **Última atualização:** 01/12/2025  
 > **Público:** Usuárias do aplicativo
+> **ETAPA 24:** Manuais & Links Internos
 
 ---
 
@@ -128,19 +129,39 @@ Se você precisa esconder o app rapidamente:
 
 ---
 
-## ❓ Perguntas Frequentes
+## 📜 Perguntas Frequentes
 
 ### O app é gratuito?
-Sim, as funcionalidades básicas são gratuitas. Planos pagos oferecem recursos adicionais.
+Sim, as funcionalidades básicas são gratuitas. Planos pagos oferecem recursos adicionais. Veja os planos em `/planos`.
 
 ### Meus dados são seguros?
-Sim. Usamos criptografia e seguimos a LGPD. Você pode deletar seus dados a qualquer momento.
+Sim. Usamos criptografia e seguimos a LGPD. Você pode deletar seus dados a qualquer momento em `/configuracoes`.
 
 ### Posso usar sem criar conta?
-Algumas funcionalidades sim, mas para salvar seu progresso é necessário criar conta.
+Algumas funcionalidades sim, mas para salvar seu progresso é necessário criar conta em `/cadastro`.
 
 ### O que fazer se meu parceiro descobrir o app?
 Use o Modo Seguro. Você também pode acessar pelo navegador anônimo.
+
+### Como entro em contato?
+Acesse `/contato` ou envie email para contato@radarnarcisista.com.br.
+
+---
+
+## 📚 Links Rápidos
+
+| Funcionalidade | Link |
+|----------------|------|
+| Teste de Clareza | `/teste-clareza` |
+| Diário | `/diario` |
+| Chat/Coach IA | `/chat` |
+| Plano de Segurança | `/plano-seguranca` |
+| Biblioteca | `/biblioteca` |
+| Configurações | `/configuracoes` |
+| Planos | `/planos` |
+| Loja de Add-ons | `/loja` |
+| FAQ | `/faq` |
+| Contato | `/contato` |
 
 ---
 
