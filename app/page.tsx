@@ -13,6 +13,7 @@ import { initializeUltraSecrets } from '../lib/easter-eggs-secret'
 import { initializeHiddenPowers } from '../lib/hidden-powers'
 import { getDisplayPlans } from '../lib/plans-config'
 import { useConsumerPlans, type PlanWithPromotion } from '../hooks/usePlans'
+import DynamicSections from '../components/frontpage/DynamicSections'
 
 type Theme = 'light' | 'dark' | 'high-contrast'
 
@@ -914,6 +915,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* 🌟 SEÇÕES DINÂMICAS - FanPage Viva (ETAPA 8.4) */}
+      <DynamicSections theme={theme} />
 
       {/* SEÇÃO INCLUSIVA - Homens e Mulheres */}
       <section className="py-16 md:py-20 bg-gradient-to-r from-blue-900 to-purple-900 text-white">

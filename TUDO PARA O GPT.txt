@@ -2941,8 +2941,62 @@ PRÓXIMOS PASSOS:
 1. ✅ Criar migration com as 6 novas tabelas (ETAPA 8.1)
 2. ✅ Criar APIs admin para CRUD de conteúdo (ETAPA 8.2)
 3. ✅ Criar páginas admin de curadoria (ETAPA 8.3)
-4. Adicionar seções dinâmicas na frontpage (ETAPA 8.4)
+4. ✅ Adicionar seções dinâmicas na frontpage (ETAPA 8.4)
 5. ✅ Implementar IA Curadora (ETAPA 8.2)
+
+================================================================================
+ETAPA 8.4 – FRONTPAGE VIVA (INSIGHTS + FAQ + MUNDO + ACADEMY)
+================================================================================
+Data: 30/11/2025 20:45 (UTC-5)
+
+OBJETIVO:
+Transformar a frontpage em organismo vivo que consome conteúdo dinâmico do banco.
+
+ARQUIVOS CRIADOS:
+
+1. lib/frontpage-content.ts
+   - getPublicInsights() → Métricas públicas de content_insights
+   - getPublicFaqItems() → FAQs de content_items
+   - getWorldNewsItems() → Conteúdo externo curado
+   - getAcademyCollections() → Trilhas de content_collections
+   - getFrontpageContent() → Busca tudo de uma vez
+
+2. app/api/frontpage/content/route.ts
+   - GET: Retorna todos os dados dinâmicos para a landing
+   - Cache de 5 minutos (revalidate: 300)
+
+3. components/frontpage/RadarEmNumerosSection.tsx
+   - Cards de métricas com ícones e cores dinâmicas
+   - Formatação automática (K, M, %)
+
+4. components/frontpage/FaqDinamicoSection.tsx
+   - Accordion com perguntas e respostas do banco
+   - Fallback se não houver FAQs
+
+5. components/frontpage/RadarNoMundoSection.tsx
+   - Grid de conteúdo externo curado
+   - Tags de tipo (Notícia, Podcast, Vídeo, etc.)
+   - Links externos com nova aba
+
+6. components/frontpage/RadarAcademySection.tsx
+   - Cards de trilhas/coleções
+   - Badges Premium e Destaque
+   - Contagem de lições
+
+7. components/frontpage/DynamicSections.tsx
+   - Wrapper que busca dados via API
+   - Renderiza seções condicionalmente
+
+INTEGRAÇÃO:
+- app/page.tsx atualizado com import de DynamicSections
+- Seções dinâmicas inseridas após Planos e antes de Seção Inclusiva
+
+COMPORTAMENTO:
+- Se não houver dados no banco, as seções não aparecem
+- Não quebra a landing se API falhar
+- Carregamento assíncrono após render inicial
+
+BUILD: 143 páginas (mantido)
 
 ================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES

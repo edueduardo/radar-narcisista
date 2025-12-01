@@ -5,12 +5,18 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 30/11/2025 20:20
-MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 19:50 → 20:20):
+ÚLTIMA ATUALIZAÇÃO: 30/11/2025 20:50
+MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 20:20 → 20:50):
+- ETAPA 8.4: FanPage Viva (✅ CONCLUÍDO)
+  - 5 componentes em components/frontpage/
+  - lib/frontpage-content.ts + API /api/frontpage/content
+  - app/page.tsx integrado com DynamicSections
+- Build passou: 143 páginas
+
+MUDANÇAS ANTERIORES (30/11/2025 19:50 → 20:20):
 - ETAPA 8.3: Telas Admin de Curadoria (✅ CONCLUÍDO)
   - 4 páginas criadas: sugestoes, publicados, colecoes, insights
   - admin-features-registry.ts atualizado
-- Build passou: 143 páginas (antes 139)
 
 MUDANÇAS ANTERIORES (30/11/2025 17:50 → 19:50):
 - ETAPA 8.1: Schema do Content System (6 tabelas criadas)
@@ -1125,15 +1131,50 @@ FUNCIONALIDADES POR PÁGINA:
 BUILD: 143 páginas (antes 139)
 
 ================================================================================
-ETAPA 8.4 – BLOCOS DINÂMICOS NA FRONTPAGE (PENDENTE)
+ETAPA 8.4 – BLOCOS DINÂMICOS NA FRONTPAGE (✅ CONCLUÍDO 30/11/2025 20:45)
 ================================================================================
 
-- [x] Hero com CTAs comerciais (já existe)
-- [x] Planos e Preços (já existe, integrado com billing_plans)
-- [ ] Radar em Números (dados agregados de content_insights)
-- [ ] FAQ dinâmico (content_items type='faq')
-- [ ] Radar no Mundo (content_items source_type='external_world')
-- [ ] Radar Academy (content_collections)
+SEÇÕES ESTÁTICAS (já existiam):
+- [x] Hero com CTAs comerciais
+- [x] Planos e Preços (integrado com billing_plans)
+- [x] Seção Inclusiva (Homens e Mulheres)
+- [x] Checklist de Reconhecimento
+- [x] O que é Abuso Narcisista
+- [x] Para Quem é o Radar
+- [x] Ciclo do Relacionamento
+- [x] Mitos vs Realidade
+- [x] Aprenda Mais
+- [x] CTA Final + Footer
+
+SEÇÕES DINÂMICAS (ETAPA 8.4):
+- [x] Radar em Números (content_insights via API)
+- [x] FAQ Dinâmico (content_items type='faq')
+- [x] Radar no Mundo (content_items source_type='external_*')
+- [x] Radar Academy (content_collections)
+
+ARQUIVOS CRIADOS:
+- lib/frontpage-content.ts
+  - getPublicInsights()
+  - getPublicFaqItems()
+  - getWorldNewsItems()
+  - getAcademyCollections()
+  - getFrontpageContent()
+
+- app/api/frontpage/content/route.ts
+  - GET: Retorna todos os dados dinâmicos
+  - Cache: 5 minutos
+
+- components/frontpage/
+  - RadarEmNumerosSection.tsx
+  - FaqDinamicoSection.tsx
+  - RadarNoMundoSection.tsx
+  - RadarAcademySection.tsx
+  - DynamicSections.tsx (wrapper)
+
+INTEGRAÇÃO:
+- app/page.tsx importa DynamicSections
+- Seções inseridas após Planos, antes de Seção Inclusiva
+- Se não houver dados no banco, seções não aparecem
 
 ================================================================================
 FIM DO ATLAS – 17 SEÇÕES

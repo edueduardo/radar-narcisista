@@ -110,15 +110,19 @@ PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
    - [x] admin-features-registry.ts atualizado com 4 novos IDs
    - [x] Build passou: 143 páginas
    
-   ETAPA 8.4 - Blocos Dinâmicos na Frontpage (PRÓXIMO):
+   ✅ ETAPA 8.4 - Blocos Dinâmicos na Frontpage (CONCLUÍDO 30/11/2025 20:45)
    - [x] Hero com CTAs comerciais (já existe)
    - [x] Planos e Preços (já existe, integrado com billing_plans)
-   - [ ] Radar em Números (dados agregados)
-   - [ ] FAQ dinâmico (content_items type='faq')
-   - [ ] Radar no Mundo (content_items source_type='external_world')
-   - [ ] Radar Academy (content_collections)
+   - [x] Radar em Números (content_insights via API)
+   - [x] FAQ dinâmico (content_items type='faq')
+   - [x] Radar no Mundo (content_items source_type='external_*')
+   - [x] Radar Academy (content_collections)
+   - [x] lib/frontpage-content.ts (funções de busca)
+   - [x] app/api/frontpage/content/route.ts (API pública)
+   - [x] 5 componentes em components/frontpage/
+   - [x] app/page.tsx integrado com DynamicSections
    
-   RISCO: Médio (muitas tabelas novas, mas não quebra o que existe)
+   NOTA: Seções só aparecem se houver dados no banco. Rodar migration primeiro!
 
 ================================================================================
 DEPOIS DISSO
