@@ -2,7 +2,7 @@
 RADAR NARCISISTA - HISTÓRICO COMPLETO DE IMPLEMENTAÇÕES
 ================================================================================
 Gerado em: 28/11/2025
-Atualizado em: 30/11/2025 17:50 (UTC-5)
+Atualizado em: 01/12/2025 09:35 (UTC-5)
 Projeto: SaaS de apoio a vítimas de relacionamentos abusivos/narcisistas
 Stack: Next.js 16 + Supabase + OpenAI/Groq + TailwindCSS 4
 
@@ -3578,6 +3578,45 @@ PENDENTE (V2):
 - Temas completos (cores secundárias, fontes)
 
 BUILD: 154 páginas
+
+================================================================================
+STATUS ATUAL DO MVP (01/12/2025 09:35)
+================================================================================
+
+ETAPAS CONCLUÍDAS (1-13):
+✅ ETAPA 1-7: Triângulo Clareza ⇄ Diário ⇄ Chat + Plano de Segurança
+✅ ETAPA 8: FanPage Viva + Camada Comercial (Content System)
+✅ ETAPA 9: Painel de Curadoria + Semáforo de Edição
+✅ ETAPA 10: Infra de Planos, Famílias e Módulos de Dashboard
+✅ ETAPA 11: Dashboard Usuária com Trilha do Herói
+✅ ETAPA 12: Dashboard Profissional + Clientes + Relatórios + CSV
+✅ ETAPA 13: Infra White-label V1
+
+PRÓXIMAS ETAPAS PLANEJADAS (BLOCO 14-20):
+🔜 ETAPA 14: Loja Simplificada (2-3 add-ons reais)
+🔜 ETAPA 15: Beta com 5 Usuárias
+🔜 ETAPA 16: Oráculo V1 (Analytics Consolidado)
+🔜 ETAPA 17: Limpeza/Unificação de Dashboards
+🔜 ETAPA 18: Limpeza Admin & Mapa do Sistema
+🔜 ETAPA 19: Manuais (Usuária, Profissional, Admin, Dev, White-label)
+🔜 ETAPA 20: Lâmpada Geral (Observações e Pendências)
+
+MÓDULOS CORE DO MVP (JÁ IMPLEMENTADOS):
+- Teste de Clareza (18+1 perguntas, 3 eixos, 6 categorias)
+- Diário de Episódios (com badges, filtros, timeline)
+- Chat/Coach IA (contexto de clareza + diário)
+- Dashboard Usuária (trilha do herói, 5 etapas)
+- Dashboard Profissional (clientes, relatórios, CSV, marca)
+- Plano de Segurança (integrado ao triângulo)
+- Sistema de Planos (5 níveis, Stripe)
+- Admin Completo (37+ subpastas)
+
+MÓDULOS PLANEJADOS (V2/V3):
+- Loja de Add-ons (parcialmente implementada)
+- Comunidade/Fórum
+- App Mobile (PWA ou React Native)
+- Gamificação Avançada
+- Integrações (Calendário, WhatsApp)
 
 ================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES

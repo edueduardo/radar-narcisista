@@ -2,28 +2,70 @@ RADAR NARCISISTA - ESPELHO ENXUTO
 ==================================
 
 Gerado em: 01/12/2025, 00:42:30
-Total de arquivos: 346
+Atualizado em: 01/12/2025, 09:35
+Total de arquivos: ~350+
+Estado: ETAPAS 1-13 CONCLUÍDAS
 
-ARQUIVOS CRITICOS (13):
+ARQUIVOS CRÍTICOS (VERIFICADOS - TODOS EXISTEM):
 ----------------------------------------
-❌ lib/plans-config.ts (NÃO ENCONTRADO)
-❌ lib/plan-taxonomy.ts (NÃO ENCONTRADO)
-❌ lib/plan-dashboard-modules.ts (NÃO ENCONTRADO)
-❌ lib/dashboard-user-layout.ts (NÃO ENCONTRADO)
-❌ lib/clarity-unified-config.ts (NÃO ENCONTRADO)
-❌ lib/ia-conexoes-reais.ts (NÃO ENCONTRADO)
-❌ lib/prompts/coachPrompt.ts (NÃO ENCONTRADO)
-❌ app/dashboard/page.tsx (NÃO ENCONTRADO)
-❌ app/dashboard-profissional/page.tsx (NÃO ENCONTRADO)
-❌ app/teste-clareza/page.tsx (NÃO ENCONTRADO)
-❌ app/diario/page.tsx (NÃO ENCONTRADO)
-❌ app/chat/page.tsx (NÃO ENCONTRADO)
-❌ app/plano-seguranca/page.tsx (NÃO ENCONTRADO)
+✅ lib/plans-config.ts (11KB) - Configuração de planos
+✅ lib/plan-taxonomy.ts (4KB) - Taxonomia de planos
+✅ lib/plan-dashboard-modules.ts (11KB) - Módulos do dashboard
+✅ lib/dashboard-user-layout.ts (10KB) - Layout do dashboard usuária
+✅ lib/clarity-unified-config.ts (21KB) - Config do teste de clareza
+✅ lib/ia-conexoes-reais.ts (22KB) - Conexões com IAs
+✅ lib/prompts/coachPrompt.ts - Prompts do Coach
+✅ app/dashboard/page.tsx - Dashboard principal
+✅ app/dashboard-profissional/page.tsx (35KB) - Dashboard profissional
+✅ app/teste-clareza/page.tsx - Teste de clareza
+✅ app/diario/page.tsx - Lista do diário
+✅ app/chat/page.tsx - Chat com Coach IA
+✅ app/plano-seguranca/page.tsx - Plano de segurança
 
-
-ROTAS APP/ (0):
+ROTAS PRINCIPAIS APP/:
 ----------------------------------------
+- / (page.tsx 100KB) - Landing page
+- /teste-clareza - Teste de clareza
+- /diario - Diário de episódios
+- /chat - Chat com Coach IA
+- /dashboard - Dashboard usuária
+- /dashboard-profissional - Dashboard profissional
+- /plano-seguranca - Plano de segurança
+- /planos - Página de planos
+- /loja - Loja de add-ons
+- /admin/* - Painel administrativo (37+ subpastas)
+- /aceitar-convite - Aceite de convite profissional
+- /configuracoes - Configurações do usuário
+- /configuracoes/profissionais - Gerenciar conexões
 
-
-LIB/ (0):
+LIB/ PRINCIPAIS:
 ----------------------------------------
+- plans-config.ts - Configuração de 5 planos
+- plan-taxonomy.ts - Famílias de planos
+- plan-dashboard-modules.ts - Módulos por plano
+- dashboard-user-layout.ts - Layout trilha do herói
+- clarity-unified-config.ts - 18+1 perguntas, 3 eixos
+- ia-conexoes-reais.ts - OpenAI + Groq
+- addons-config.ts (11KB) - Configuração de add-ons
+- content-insights.ts - Métricas do sistema
+- curadoria-config.ts - Semáforo de edição
+- frontpage-content.ts - Conteúdo dinâmico
+
+APIS PRINCIPAIS:
+----------------------------------------
+- /api/chat - Chat com Coach IA
+- /api/clarity/activate-profile - Salvar perfil de clareza
+- /api/safety-plan - Plano de segurança
+- /api/professional/clients - Clientes do profissional
+- /api/professional/brand - Marca white-label
+- /api/professional/reports/[id] - Relatório por cliente
+- /api/client/connections - Conexões do cliente
+- /api/admin/content/* - APIs de curadoria
+
+MIGRATIONS PENDENTES:
+----------------------------------------
+- 007_frontpage_config.sql
+- 20241130_create_content_system.sql
+- 20241201_create_professional_clients.sql
+- 20241201_fix_professional_clients_nullable.sql
+- 20241201_create_professional_brand.sql

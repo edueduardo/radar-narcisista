@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 1.9
-Última atualização: 30/11/2025 23:30 (UTC-5)
+Versão: 2.0
+Última atualização: 01/12/2025 09:35 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -571,6 +571,51 @@ MIGRATIONS PENDENTES (EXECUTAR NO SUPABASE):
    - RLS: profissional só vê/edita sua marca
    - RLS: clientes podem ver marca do profissional conectado
    - Trigger para updated_at automático
+
+================================================================================
+BLOCO 14-20 – TESTES PLANEJADOS
+================================================================================
+
+ETAPA 14 – LOJA SIMPLIFICADA:
+☐ Página /loja carrega sem erro
+☐ Add-ons aparecem com preços corretos
+☐ Botão de compra redireciona para Stripe
+☐ Webhook do Stripe processa compra
+☐ Add-on é liberado após pagamento
+
+ ETAPA 15 – BETA COM 5 USUÁRIAS:
+☐ /admin/beta-testers carrega
+☐ Consigo registrar usuária como beta
+☐ Flag beta aparece no dashboard da usuária
+☐ Feedback pode ser coletado
+
+ETAPA 16 – ORÁCULO V1:
+☐ /admin/oraculo carrega (quando existir)
+☐ Métricas são exibidas corretamente
+☐ Dados são agregados de múltiplas fontes
+
+ETAPA 17 – LIMPEZA DASHBOARDS:
+☐ Dashboard principal da usuária funciona
+☐ Dashboard profissional funciona
+☐ Links internos apontam para versões corretas
+☐ Legados marcados como tal
+
+ETAPA 18 – LIMPEZA ADMIN:
+☐ Menu admin organizado em seções
+☐ Oráculo acessível no menu
+☐ White-label acessível no menu
+
+ETAPA 19 – MANUAIS:
+☐ docs/MANUAL-USUARIA.md existe e é legível
+☐ docs/MANUAL-PROFISSIONAL.md existe
+☐ docs/MANUAL-ADMIN.md existe
+☐ docs/MANUAL-DEV.md existe
+☐ docs/MANUAL-WHITELABEL.md existe
+
+ETAPA 20 – LÂMPADA:
+☐ LAMPADA-RADAR.txt existe na raiz
+☐ Estrutura de seções está clara
+☐ /admin/lampada carrega (se implementado)
 
 ================================================================================
 FIM DO CHECKLIST DE TESTES

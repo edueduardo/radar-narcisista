@@ -5,8 +5,14 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 08:00
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 03:30 → 08:00):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 09:35 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 08:00 → 09:35):
+- CICLO RADAR 5 TXT executado para sincronização
+- Verificação de estrutura de código real vs documentação
+- Preparação para BLOCO 14-20 (Loja, Beta, Oráculo, Limpeza, Manuais, Lâmpada)
+- Nenhuma alteração de código neste ciclo (apenas documentação)
+
+MUDANÇAS ANTERIORES (01/12/2025 03:30 → 08:00):
 - ETAPA 12.3: Exportação em Massa V1 (✅ CONCLUÍDO)
   - Botão "CSV" na página de relatório do cliente
   - Exporta dados autorizados (share_*) em formato CSV
@@ -1376,13 +1382,58 @@ MIGRATION:
 - 20241201_create_professional_brand.sql
 
 ================================================================================
-FIM DO ATLAS – 19 SEÇÕES
+[18] PRÓXIMAS ETAPAS PLANEJADAS (BLOCO 14-20)
+================================================================================
+
+ESTADO ATUAL: ETAPAS 1-13 CONCLUÍDAS
+
+PRÓXIMAS ETAPAS (NÃO INICIADAS):
+
+- ETAPA 14: Loja Simplificada (2-3 add-ons reais)
+  - Planned no TUDO PARA O GPT, mas NÃO ENCONTREI IMPLEMENTAÇÃO COMPLETA no código
+  - Página /loja existe (app/loja/page.tsx - 7KB)
+  - Integração com Stripe para add-ons: AINDA NÃO IMPLEMENTADA
+  - lib/addons-config.ts existe (11KB) - configuração de add-ons
+
+- ETAPA 15: Beta com 5 Usuárias
+  - Página /admin/beta-testers existe
+  - Infra de observabilidade: PARCIALMENTE IMPLEMENTADA
+  - Coleta de feedback: AINDA NÃO IMPLEMENTADA
+
+- ETAPA 16: Oráculo V1 (Analytics Consolidado)
+  - /admin/analytics existe
+  - /admin/metricas existe
+  - /admin/insights existe
+  - Consolidação em visão única: AINDA NÃO IMPLEMENTADA
+
+- ETAPA 17: Limpeza/Unificação de Dashboards
+  - /dashboard (principal usuária - com trilha do herói)
+  - /dashboard-premium (versão premium)
+  - /dashboard-v2 (versão alternativa)
+  - /dashboard-profissional (profissionais)
+  - Unificação: AINDA NÃO IMPLEMENTADA
+
+- ETAPA 18: Limpeza Admin & Mapa do Sistema
+  - /admin/mapa-sistema existe
+  - /admin/mapa-ias existe
+  - Organização de menus: PARCIALMENTE IMPLEMENTADA
+
+- ETAPA 19: Manuais (Usuária, Profissional, Admin, Dev, White-label)
+  - Pasta docs/ existe mas está vazia ou com poucos arquivos
+  - Manuais estruturados: AINDA NÃO IMPLEMENTADOS
+
+- ETAPA 20: Lâmpada Geral (Observações e Pendências)
+  - Arquivo LAMPADA-RADAR.txt: AINDA NÃO EXISTE
+  - Rota /admin/lampada: AINDA NÃO EXISTE
+
+================================================================================
+FIM DO ATLAS – 20 SEÇÕES
 ================================================================================
 
 Gerado em: 29/11/2025 18:10 (UTC-5)
-Atualizado em: 01/12/2025 08:00 (UTC-5)
-Tamanho aproximado: ~52KB
-Seções: 19
+Atualizado em: 01/12/2025 09:35 (UTC-5)
+Tamanho aproximado: ~55KB
+Seções: 20
 
 NOTA IMPORTANTE:
 Este documento reflete o estado do CÓDIGO no momento da geração.

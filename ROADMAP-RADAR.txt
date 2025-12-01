@@ -1,15 +1,15 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 2.5
-Última atualização: 01/12/2025 08:00 (UTC-5)
+Versão: 2.6
+Última atualização: 01/12/2025 09:35 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
-Versão atual do produto: MVP 0.9
-Objetivo desta fase: Fechar MVP vendável B2C
+Versão atual do produto: MVP 0.9.13 (ETAPA 13 CONCLUÍDA)
+Objetivo desta fase: Fechar MVP vendável B2C + Iniciar BLOCO 14-20
 
 ================================================================================
 PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
@@ -270,9 +270,62 @@ PRÓXIMAS ETAPAS (PRIORIDADE)
    - [ ] Notificação por email ao criar convite
    - [ ] Histórico de atividade do profissional no cliente
 
-14) Loja simplificada (2–3 add-ons reais)
-15) Começar teste com 5 usuárias beta
-16) Integração completa Stripe com novos planos
+================================================================================
+BLOCO 14-20 (PRÓXIMAS ETAPAS)
+================================================================================
+
+🔜 ETAPA 14 – LOJA SIMPLIFICADA (2-3 ADD-ONS REAIS)
+   - [ ] Definir add-ons reais (ex: Relatório detalhado, Exportação avançada)
+   - [ ] Conectar /loja com Stripe
+   - [ ] Integrar com lib/addons-config.ts existente
+   - [ ] Atualizar ATLAS e TUDO PARA O GPT
+   - Arquivos afetados: app/loja/page.tsx, lib/addons-config.ts, /api/stripe/*
+   - Risco: Médio (integração Stripe)
+
+🔜 ETAPA 15 – BETA COM 5 USUÁRIAS
+   - [ ] Verificar /admin/beta-testers
+   - [ ] Criar tabela/flag beta_tester se necessário
+   - [ ] Adicionar observabilidade básica
+   - [ ] Coleta de feedback simples
+   - Arquivos afetados: app/admin/beta-testers/page.tsx, database/migrations/*
+   - Risco: Baixo
+
+🔜 ETAPA 16 – ORÁCULO V1 (ANALYTICS CONSOLIDADO)
+   - [ ] Consolidar /admin/analytics, /admin/metricas, /admin/insights
+   - [ ] Criar visão única de métricas
+   - [ ] Definir perguntas que o Oráculo responde
+   - Arquivos afetados: app/admin/oraculo/*, lib/content-insights.ts
+   - Risco: Médio
+
+🔜 ETAPA 17 – LIMPEZA/UNIFICAÇÃO DE DASHBOARDS
+   - [ ] Definir dashboard principal por persona
+   - [ ] Marcar legados (/dashboard-v2, /dashboard-premium)
+   - [ ] Atualizar links internos
+   - Arquivos afetados: app/dashboard*, components/dashboard/*
+   - Risco: Médio (pode quebrar navegação)
+
+🔜 ETAPA 18 – LIMPEZA ADMIN & MAPA DO SISTEMA
+   - [ ] Organizar menus do admin (Core, Labs, Legado)
+   - [ ] Conectar Oráculo e White-label no menu
+   - [ ] Atualizar /admin/mapa-sistema
+   - Arquivos afetados: app/admin/*, lib/admin-menu-config.ts
+   - Risco: Baixo
+
+🔜 ETAPA 19 – MANUAIS
+   - [ ] Criar docs/MANUAL-USUARIA.md
+   - [ ] Criar docs/MANUAL-PROFISSIONAL.md
+   - [ ] Criar docs/MANUAL-ADMIN.md
+   - [ ] Criar docs/MANUAL-DEV.md
+   - [ ] Criar docs/MANUAL-WHITELABEL.md
+   - Arquivos afetados: docs/*
+   - Risco: Baixo
+
+🔜 ETAPA 20 – LÂMPADA GERAL
+   - [ ] Criar LAMPADA-RADAR.txt
+   - [ ] Estruturar seções (bugs, confusões, decisões, ideias)
+   - [ ] Opcional: rota /admin/lampada
+   - Arquivos afetados: LAMPADA-RADAR.txt, app/admin/lampada/*
+   - Risco: Baixo
 
 ================================================================================
 IDEIAS FUTURAS (NÃO IMPLEMENTAR AGORA)
