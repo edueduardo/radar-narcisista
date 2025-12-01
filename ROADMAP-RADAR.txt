@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 2.1
-Última atualização: 01/12/2025 00:45 (UTC-5)
+Versão: 2.2
+Última atualização: 01/12/2025 01:15 (UTC-5)
 
 ================================================================================
 STATUS GERAL
@@ -183,11 +183,16 @@ PRÓXIMAS ETAPAS (PRIORIDADE)
    - [x] Suporte a tema claro/escuro
    - [x] Build passou: 146 páginas
 
-🔜 ETAPA 12.1 - Infra de Clientes Profissionais
-   - [ ] Criar tabela professional_clients no Supabase
-   - [ ] RLS: profissional só vê seus clientes
-   - [ ] API: /api/professional/clients (CRUD)
-   - [ ] Ligar painel de clientes ao banco
+✅ ETAPA 12.1 - Infra de Clientes Profissionais (CONCLUÍDO 01/12/2025 01:15)
+   - [x] Migration: 20241201_create_professional_clients.sql
+   - [x] Tabela professional_clients com RLS completo
+   - [x] API: /api/professional/clients (GET, POST)
+   - [x] API: /api/professional/clients/[id] (GET, PATCH, DELETE)
+   - [x] Dashboard consome dados reais da API
+   - [x] Modal de criação de convite funcional
+   - [x] Build passou: 147 páginas
+   
+   ⚠️ PENDENTE: Rodar migration no Supabase para ativar a tabela
 
 🔜 ETAPA 12.2 - Relatórios Agregados para Profissionais
    - [ ] Gerar relatórios PDF por cliente

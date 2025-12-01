@@ -3270,5 +3270,59 @@ GATING DE ACESSO:
 BUILD: 146 páginas
 
 ================================================================================
+ETAPA 12.1 – INFRA DE CLIENTES PROFISSIONAIS
+================================================================================
+Data: 01/12/2025 01:15 (UTC-5)
+
+OBJETIVO:
+Criar a infraestrutura de banco e API para gerenciar a relação entre
+profissionais (psicólogos, advogados) e seus clientes no Radar.
+
+ARQUIVOS CRIADOS:
+
+1. database/migrations/20241201_create_professional_clients.sql
+   - Tabela professional_clients
+   - Campos: professional_id, client_id, status, invite_code, share_*, etc.
+   - RLS: profissional vê seus clientes, cliente vê suas conexões
+   - Trigger para updated_at automático
+
+2. app/api/professional/clients/route.ts
+   - GET: Lista clientes do profissional autenticado
+   - POST: Cria convite com código único (8 caracteres)
+
+3. app/api/professional/clients/[id]/route.ts
+   - GET: Detalhes do cliente + dados compartilhados (clareza, diário, chat)
+   - PATCH: Atualizar notas/status
+   - DELETE: Remover convites pendentes
+
+ARQUIVOS ALTERADOS:
+
+4. app/dashboard-profissional/page.tsx
+   - Consome dados reais da API (não mais mock)
+   - Modal de criação de convite funcional
+   - Tabela de clientes com status, código, permissões
+   - Botão "Convidar Cliente" ativo
+
+MODELO DE CONSENTIMENTO (LGPD):
+- Profissional cria convite → gera código único
+- Cliente aceita convite → escolhe o que compartilhar
+- Cliente pode revogar a qualquer momento
+- Profissional só vê dados autorizados
+
+CAMPOS DE COMPARTILHAMENTO:
+- share_clarity_tests: Testes de Clareza
+- share_journal_entries: Diário
+- share_chat_summaries: Resumos do Chat
+- share_safety_plan: Plano de Segurança (sensível)
+- share_risk_alerts: Alertas de Risco (sensível)
+
+PENDENTE:
+- Rodar migration no Supabase para ativar a tabela
+- Criar página para cliente aceitar convite (/aceitar-convite)
+- Envio de email de convite (opcional)
+
+BUILD: 147 páginas
+
+================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES
 ================================================================================

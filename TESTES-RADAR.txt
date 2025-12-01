@@ -334,6 +334,31 @@ STATUS DOS TESTES (30/11/2025 16:45):
 - T5: [X] PASS – todas APIs filtram por user_id autenticado
 
 ================================================================================
+ETAPA 12.1 – INFRA DE CLIENTES PROFISSIONAIS
+================================================================================
+
+API /api/professional/clients:
+☐ GET retorna lista vazia se não há clientes
+☐ GET retorna 401 se não autenticado
+☐ GET retorna 403 se não tem plano profissional
+☐ POST cria convite com código único
+☐ POST retorna erro se limite de 20 clientes atingido
+
+API /api/professional/clients/[id]:
+☐ GET retorna detalhes do cliente
+☐ GET retorna dados compartilhados se cliente ativo
+☐ PATCH atualiza notas do profissional
+☐ DELETE remove convite pendente
+☐ DELETE retorna erro se cliente não é pendente
+
+Dashboard Profissional:
+☐ Botão "Convidar Cliente" abre modal
+☐ Modal gera código de convite
+☐ Código aparece na tabela de clientes
+☐ Botão de remover convite funciona
+☐ Tabela mostra permissões do cliente ativo
+
+================================================================================
 MIGRATIONS PENDENTES (EXECUTAR NO SUPABASE):
 ================================================================================
 
@@ -341,6 +366,12 @@ MIGRATIONS PENDENTES (EXECUTAR NO SUPABASE):
    - Cria tabela frontpage_config
    - Insere dados seed (hero, faq, testimonials, etc.)
    - Configura RLS para admins
+
+2. 20241201_create_professional_clients.sql (NOVO)
+   - Cria tabela professional_clients
+   - Campos: professional_id, client_id, status, invite_code, share_*, etc.
+   - RLS: profissional vê seus clientes, cliente vê suas conexões
+   - Trigger para updated_at automático
 
 ================================================================================
 FIM DO CHECKLIST DE TESTES

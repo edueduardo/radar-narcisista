@@ -1,22 +1,22 @@
 'use client'
 
 /**
- * ETAPA 12: Dashboard Profissional V1
+ * ETAPA 12 + 12.1: Dashboard Profissional
  * 
- * Painel inicial para profissionais (psicólogos, advogados, assistentes sociais).
- * Esta é a V1 - estrutura básica com UI mockada.
+ * Painel para profissionais (psicólogos, advogados, assistentes sociais).
  * 
- * FUNCIONALIDADES V1:
+ * FUNCIONALIDADES:
  * - Gating por plano (só profissional acessa)
  * - Header com boas-vindas
  * - Visão geral (cards de métricas)
- * - Painel de clientes (estrutura, sem dados reais)
+ * - Painel de clientes conectado ao banco (professional_clients)
  * - Próximos passos (roadmap do produto)
  * 
- * TODO V2:
- * - Ligar painel de clientes ao banco (tabela professional_clients)
- * - Relatórios agregados
- * - Exportação em massa
+ * ETAPA 12.1:
+ * - Tabela professional_clients criada
+ * - API /api/professional/clients (GET, POST)
+ * - API /api/professional/clients/[id] (GET, PATCH, DELETE)
+ * - Dashboard consome dados reais da API
  */
 
 import { useEffect, useState, useCallback } from 'react'
@@ -56,20 +56,38 @@ import { PLANS, type PlanLevel } from '@/lib/plans-config'
 
 interface ProfessionalClient {
   id: string
-  name: string
-  status: 'active' | 'pending' | 'paused'
-  lastActivity: string | null
-  riskLevel: 'low' | 'medium' | 'high' | null
+  client_id: string
+  client_name: string
+  client_email: string | null
+  status: 'pending' | 'active' | 'paused' | 'revoked'
+  invite_code: string | null
+  share_clarity_tests: boolean
+  share_journal_entries: boolean
+  share_chat_summaries: boolean
+  share_safety_plan: boolean
+  share_risk_alerts: boolean
+  client_display_name: string | null
+  professional_notes: string | null
+  created_at: string
+  updated_at: string
+  last_activity_at: string | null
 }
 
 // =============================================================================
-// DADOS MOCK (V1 - TODO: ligar ao banco em V2)
+// FUNÇÕES AUXILIARES
 // =============================================================================
 
-const MOCK_CLIENTS: ProfessionalClient[] = [
-  // Array vazio por padrão - profissional começa sem clientes
-  // Quando a infra de clientes for criada (V2), isso será substituído por dados reais
-]
+async function fetchClients(): Promise<ProfessionalClient[]> {
+  try {
+    const response = await fetch('/api/professional/clients')
+    if (!response.ok) return []
+    const data = await response.json()
+    return data.clients || []
+  } catch (error) {
+    console.error('Erro ao buscar clientes:', error)
+    return []
+  }
+}
 
 // =============================================================================
 // COMPONENTE PRINCIPAL
@@ -87,8 +105,13 @@ export default function DashboardProfissionalPage() {
   const [userPlan, setUserPlan] = useState<PlanLevel>('guardar')
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
   
-  // Clientes (mock V1)
-  const [clients] = useState<ProfessionalClient[]>(MOCK_CLIENTS)
+  // Clientes (dados reais da API)
+  const [clients, setClients] = useState<ProfessionalClient[]>([])
+  const [loadingClients, setLoadingClients] = useState(false)
+  const [inviteModalOpen, setInviteModalOpen] = useState(false)
+  const [newClientName, setNewClientName] = useState('')
+  const [creatingInvite, setCreatingInvite] = useState(false)
+  const [lastInviteCode, setLastInviteCode] = useState<string | null>(null)
   
   // Métricas (mock V1)
   const clientLimit = PLANS.profissional.limits.clientes || 20
@@ -150,6 +173,28 @@ export default function DashboardProfissionalPage() {
   }, [supabase, router])
   
   // ==========================================================================
+  // CARREGAR CLIENTES
+  // ==========================================================================
+  
+  useEffect(() => {
+    if (authorized) {
+      loadClients()
+    }
+  }, [authorized])
+  
+  const loadClients = async () => {
+    setLoadingClients(true)
+    try {
+      const clientsData = await fetchClients()
+      setClients(clientsData)
+    } catch (error) {
+      console.error('Erro ao carregar clientes:', error)
+    } finally {
+      setLoadingClients(false)
+    }
+  }
+  
+  // ==========================================================================
   // HANDLERS
   // ==========================================================================
   
@@ -160,6 +205,53 @@ export default function DashboardProfissionalPage() {
   const handleLogout = async () => {
     await supabase.auth.signOut()
     router.push('/')
+  }
+  
+  const handleCreateInvite = async () => {
+    if (!newClientName.trim()) return
+    
+    setCreatingInvite(true)
+    try {
+      const response = await fetch('/api/professional/clients', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ clientDisplayName: newClientName.trim() })
+      })
+      
+      const data = await response.json()
+      
+      if (data.success) {
+        setLastInviteCode(data.invite.code)
+        setNewClientName('')
+        // Recarregar lista de clientes
+        loadClients()
+      } else {
+        alert(data.error || 'Erro ao criar convite')
+      }
+    } catch (error) {
+      console.error('Erro ao criar convite:', error)
+      alert('Erro ao criar convite')
+    } finally {
+      setCreatingInvite(false)
+    }
+  }
+  
+  const handleDeleteInvite = async (clientId: string) => {
+    if (!confirm('Tem certeza que deseja remover este convite?')) return
+    
+    try {
+      const response = await fetch(`/api/professional/clients/${clientId}`, {
+        method: 'DELETE'
+      })
+      
+      if (response.ok) {
+        loadClients()
+      } else {
+        alert('Erro ao remover convite')
+      }
+    } catch (error) {
+      console.error('Erro ao remover convite:', error)
+    }
   }
   
   // ==========================================================================
@@ -325,9 +417,8 @@ export default function DashboardProfissionalPage() {
               </div>
               <div className="flex gap-3">
                 <button
+                  onClick={() => setInviteModalOpen(true)}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors"
-                  disabled
-                  title="Em breve"
                 >
                   <UserPlus className="w-4 h-4" />
                   Convidar Cliente
@@ -419,7 +510,58 @@ export default function DashboardProfissionalPage() {
           </div>
           
           <div className={`${t.bgCard} border ${t.border} rounded-xl overflow-hidden ${t.cardShadow}`}>
-            {clients.length === 0 ? (
+            {/* Modal de Convite */}
+            {inviteModalOpen && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                <div className={`${t.bgCard} rounded-2xl p-6 max-w-md w-full`}>
+                  <h3 className={`text-lg font-semibold ${t.text} mb-4`}>Convidar Cliente</h3>
+                  
+                  {lastInviteCode ? (
+                    <div className="text-center">
+                      <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
+                      <p className={`${t.text} mb-2`}>Convite criado!</p>
+                      <p className={`text-2xl font-mono font-bold ${t.textAccent} mb-4`}>{lastInviteCode}</p>
+                      <p className={`text-sm ${t.textMuted} mb-4`}>
+                        Compartilhe este código com seu cliente para que ele possa se conectar.
+                      </p>
+                      <button
+                        onClick={() => { setInviteModalOpen(false); setLastInviteCode(null) }}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-xl"
+                      >
+                        Fechar
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <input
+                        type="text"
+                        value={newClientName}
+                        onChange={(e) => setNewClientName(e.target.value)}
+                        placeholder="Nome do cliente (opcional)"
+                        className={`w-full px-4 py-3 border ${t.border} rounded-xl mb-4 ${t.bgCard} ${t.text}`}
+                      />
+                      <div className="flex gap-3">
+                        <button
+                          onClick={() => setInviteModalOpen(false)}
+                          className={`flex-1 px-4 py-2 ${t.border} border rounded-xl ${t.text}`}
+                        >
+                          Cancelar
+                        </button>
+                        <button
+                          onClick={handleCreateInvite}
+                          disabled={creatingInvite}
+                          className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-xl disabled:opacity-50"
+                        >
+                          {creatingInvite ? 'Criando...' : 'Criar Convite'}
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
+            
+            {clients.length === 0 && !loadingClients ? (
               /* Estado vazio */
               <div className="p-12 text-center">
                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -429,75 +571,86 @@ export default function DashboardProfissionalPage() {
                   Nenhum cliente conectado ainda
                 </h4>
                 <p className={`${t.textMuted} mb-6 max-w-md mx-auto`}>
-                  Quando você convidar clientes e eles aceitarem compartilhar informações, 
-                  eles aparecerão aqui.
+                  Convide clientes para compartilharem informações do Radar com você.
+                  Eles escolhem o que querem compartilhar.
                 </p>
                 <button
+                  onClick={() => setInviteModalOpen(true)}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors"
-                  disabled
-                  title="Em breve"
                 >
                   <UserPlus className="w-4 h-4" />
                   Convidar Primeiro Cliente
                 </button>
-                <p className={`text-xs ${t.textMuted} mt-4`}>
-                  <Clock className="w-3 h-3 inline mr-1" />
-                  Funcionalidade em desenvolvimento
-                </p>
+              </div>
+            ) : loadingClients ? (
+              <div className="p-12 text-center">
+                <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-4" />
+                <p className={t.textMuted}>Carregando clientes...</p>
               </div>
             ) : (
-              /* Tabela de clientes (quando houver) */
+              /* Tabela de clientes */
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead className={`${theme === 'light' ? 'bg-gray-50' : 'bg-slate-700'}`}>
                     <tr>
                       <th className={`text-left py-3 px-4 text-sm font-medium ${t.textMuted}`}>Cliente</th>
                       <th className={`text-left py-3 px-4 text-sm font-medium ${t.textMuted}`}>Status</th>
-                      <th className={`text-left py-3 px-4 text-sm font-medium ${t.textMuted}`}>Última Atividade</th>
-                      <th className={`text-left py-3 px-4 text-sm font-medium ${t.textMuted}`}>Risco</th>
+                      <th className={`text-left py-3 px-4 text-sm font-medium ${t.textMuted}`}>Código</th>
+                      <th className={`text-left py-3 px-4 text-sm font-medium ${t.textMuted}`}>Permissões</th>
                       <th className={`text-right py-3 px-4 text-sm font-medium ${t.textMuted}`}>Ações</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100 dark:divide-slate-700">
                     {clients.map((client) => (
                       <tr key={client.id} className="hover:bg-gray-50 dark:hover:bg-slate-700/50">
-                        <td className={`py-3 px-4 ${t.text} font-medium`}>{client.name}</td>
+                        <td className={`py-3 px-4 ${t.text} font-medium`}>
+                          {client.client_name || client.client_display_name || 'Cliente'}
+                          {client.client_email && (
+                            <span className={`block text-xs ${t.textMuted}`}>{client.client_email}</span>
+                          )}
+                        </td>
                         <td className="py-3 px-4">
                           <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
                             client.status === 'active' 
                               ? 'bg-green-100 text-green-700'
                               : client.status === 'pending'
                                 ? 'bg-amber-100 text-amber-700'
-                                : 'bg-gray-100 text-gray-600'
+                                : client.status === 'revoked'
+                                  ? 'bg-red-100 text-red-700'
+                                  : 'bg-gray-100 text-gray-600'
                           }`}>
-                            {client.status === 'active' ? 'Ativo' : client.status === 'pending' ? 'Pendente' : 'Pausado'}
+                            {client.status === 'active' ? 'Ativo' : 
+                             client.status === 'pending' ? 'Pendente' : 
+                             client.status === 'revoked' ? 'Revogado' : 'Pausado'}
                           </span>
                         </td>
-                        <td className={`py-3 px-4 ${t.textMuted} text-sm`}>
-                          {client.lastActivity || '—'}
+                        <td className={`py-3 px-4 ${t.textMuted} text-sm font-mono`}>
+                          {client.invite_code || '—'}
                         </td>
-                        <td className="py-3 px-4">
-                          {client.riskLevel ? (
-                            <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                              client.riskLevel === 'high'
-                                ? 'bg-red-100 text-red-700'
-                                : client.riskLevel === 'medium'
-                                  ? 'bg-amber-100 text-amber-700'
-                                  : 'bg-green-100 text-green-700'
-                            }`}>
-                              {client.riskLevel === 'high' ? 'Alto' : client.riskLevel === 'medium' ? 'Médio' : 'Baixo'}
-                            </span>
-                          ) : (
-                            <span className={`text-sm ${t.textMuted}`}>—</span>
-                          )}
+                        <td className={`py-3 px-4 text-xs ${t.textMuted}`}>
+                          {client.status === 'active' ? (
+                            <div className="flex flex-wrap gap-1">
+                              {client.share_clarity_tests && <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded">Clareza</span>}
+                              {client.share_journal_entries && <span className="px-1.5 py-0.5 bg-purple-100 text-purple-700 rounded">Diário</span>}
+                              {client.share_chat_summaries && <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded">Chat</span>}
+                            </div>
+                          ) : '—'}
                         </td>
                         <td className="py-3 px-4 text-right">
-                          <button className={`p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 ${t.textMuted}`} title="Ver detalhes">
-                            <Eye className="w-4 h-4" />
-                          </button>
-                          <button className={`p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 ${t.textMuted}`} title="Gerar resumo">
-                            <FileDown className="w-4 h-4" />
-                          </button>
+                          {client.status === 'active' && (
+                            <button className={`p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-600 ${t.textMuted}`} title="Ver detalhes">
+                              <Eye className="w-4 h-4" />
+                            </button>
+                          )}
+                          {client.status === 'pending' && (
+                            <button 
+                              onClick={() => handleDeleteInvite(client.id)}
+                              className={`p-2 rounded-lg hover:bg-red-100 text-red-500`} 
+                              title="Remover convite"
+                            >
+                              ✕
+                            </button>
+                          )}
                         </td>
                       </tr>
                     ))}

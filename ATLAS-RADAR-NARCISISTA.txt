@@ -5,31 +5,34 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 00:45
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 00:15 → 00:45):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 01:15
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 00:45 → 01:15):
+- ETAPA 12.1: Infra de Clientes Profissionais (✅ CONCLUÍDO)
+  - Migration: database/migrations/20241201_create_professional_clients.sql
+    * Tabela professional_clients com RLS completo
+    * Campos: professional_id, client_id, status, invite_code, share_*, etc.
+    * Policies: profissional vê seus clientes, cliente vê suas conexões
+  - API: /api/professional/clients (GET, POST)
+    * GET: Lista clientes do profissional
+    * POST: Cria convite com código único
+  - API: /api/professional/clients/[id] (GET, PATCH, DELETE)
+    * GET: Detalhes do cliente + dados compartilhados
+    * PATCH: Atualizar notas/status
+    * DELETE: Remover convites pendentes
+  - Dashboard Profissional atualizado:
+    * Consome dados reais da API
+    * Modal de criação de convite funcional
+    * Tabela de clientes com status, código, permissões
+    * Botão "Convidar Cliente" ativo
+- Build passou: 147 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 00:15 → 00:45):
 - ETAPA 12: Dashboard Profissional V1 (✅ CONCLUÍDO)
   - Nova rota: /dashboard-profissional
-  - Arquivo: app/dashboard-profissional/page.tsx
-  - Gating por plano: só usuários com plano 'profissional' acessam
-  - Tela de "Área Exclusiva" para não-autorizados com CTA para /profissional
-  - Seções implementadas:
-    * Header com boas-vindas e badge do plano
-    * Visão geral (4 cards: Clientes, Vagas, Relatórios, Exportações)
-    * Painel de clientes (estrutura V1, sem dados reais - TODO V2)
-    * Próximos passos (roadmap do produto)
-    * Links rápidos (Dashboard Pessoal, Sobre o Plano, Configurações)
-  - Link "Acessar meu painel" adicionado em /profissional
-  - Suporte a tema claro/escuro
-  - Aviso ético: "Não substitui parecer técnico, laudo, perícia ou terapia"
-- Build passou: 146 páginas
+  - Gating por plano, tela "Área Exclusiva", seções básicas
 
 MUDANÇAS ANTERIORES (30/11/2025 23:55 → 01/12/2025 00:15):
 - ETAPA 11.2: Ajustes finos do dashboard (✅ CONCLUÍDO)
-  - Heurística inteligente do "passo atual" (getCurrentHeroStep)
-  - Badge "Você está aqui" no passo atual
-  - Passos completados com ✓ verde
-  - Microcópias refinadas
-  - Mobile: scroll horizontal melhorado
 
 MUDANÇAS ANTERIORES (30/11/2025 23:30 → 23:55):
 - ETAPA 11.1: Dashboard usuária com trilha do herói (✅ CONCLUÍDO)
