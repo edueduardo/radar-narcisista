@@ -85,10 +85,36 @@ export default function AddonsStore({
     try {
       if (onPurchase) {
         onPurchase(addon)
-      } else {
-        // Redirecionar para checkout (implementar depois)
-        alert(`Compra de "${addon.name}" será implementada em breve!`)
+        return
       }
+      
+      // Chamar API de checkout para add-ons
+      const response = await fetch('/api/stripe/addon-checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ addonId: addon.id }),
+      })
+      
+      const data = await response.json()
+      
+      if (!response.ok) {
+        // Se não autenticado, redirecionar para login
+        if (response.status === 401) {
+          window.location.href = `/login?redirect=/loja&addon=${addon.id}`
+          return
+        }
+        throw new Error(data.error || 'Erro ao processar pagamento')
+      }
+      
+      // Redirecionar para checkout do Stripe
+      if (data.url) {
+        window.location.href = data.url
+      }
+    } catch (error: any) {
+      console.error('Erro na compra:', error)
+      alert(error.message || 'Erro ao processar compra. Tente novamente.')
     } finally {
       setPurchasingId(null)
     }

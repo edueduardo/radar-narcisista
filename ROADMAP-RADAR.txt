@@ -1,14 +1,14 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 2.6
-Última atualização: 01/12/2025 09:35 (UTC-5)
+Versão: 2.7
+Última atualização: 01/12/2025 11:00 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
-Versão atual do produto: MVP 0.9.13 (ETAPA 13 CONCLUÍDA)
+Versão atual do produto: MVP 0.9.14 (ETAPA 14 CONCLUÍDA)
 Objetivo desta fase: Fechar MVP vendável B2C + Iniciar BLOCO 14-20
 
 ================================================================================
@@ -274,13 +274,16 @@ PRÓXIMAS ETAPAS (PRIORIDADE)
 BLOCO 14-20 (PRÓXIMAS ETAPAS)
 ================================================================================
 
-🔜 ETAPA 14 – LOJA SIMPLIFICADA (2-3 ADD-ONS REAIS)
-   - [ ] Definir add-ons reais (ex: Relatório detalhado, Exportação avançada)
-   - [ ] Conectar /loja com Stripe
-   - [ ] Integrar com lib/addons-config.ts existente
-   - [ ] Atualizar ATLAS e TUDO PARA O GPT
-   - Arquivos afetados: app/loja/page.tsx, lib/addons-config.ts, /api/stripe/*
-   - Risco: Médio (integração Stripe)
+✅ ETAPA 14 – LOJA SIMPLIFICADA (CONCLUÍDO 01/12/2025)
+   - [x] Definir add-ons reais: Relatório Completo (R$19,90), Kit Segurança (R$14,90)
+   - [x] Conectar /loja com Stripe via /api/stripe/addon-checkout
+   - [x] Integrar com lib/addons-config.ts (stripePriceId, popular)
+   - [x] Criar página /loja/sucesso com Suspense
+   - [x] Atualizar AddonsStore com checkout real
+   - [x] Atualizar ATLAS e ROADMAP
+   - Arquivos criados: app/api/stripe/addon-checkout/route.ts, app/loja/sucesso/page.tsx
+   - Arquivos modificados: components/AddonsStore.tsx, lib/addons-config.ts
+   - Risco: Médio (integração Stripe) → MITIGADO
 
 🔜 ETAPA 15 – BETA COM 5 USUÁRIAS
    - [ ] Verificar /admin/beta-testers

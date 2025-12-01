@@ -5,8 +5,26 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 09:35 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 08:00 → 09:35):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 11:00 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 09:35 → 11:00):
+- ETAPA 14: Loja Simplificada (✅ CONCLUÍDO)
+  - API /api/stripe/addon-checkout (POST)
+    * Checkout de pagamento único para add-ons
+    * Suporta card, boleto, pix
+    * Cria produtos dinâmicos se Price ID não configurado
+    * Metadata com userId, addonId, credits, validityDays
+  - Página /loja/sucesso
+    * Confirmação de compra com detalhes do add-on
+    * Suspense boundary para SSR
+  - Componente AddonsStore atualizado
+    * Integração real com API de checkout
+    * Redirect para login se não autenticado
+  - lib/addons-config.ts
+    * Add-ons "Relatório Completo" e "Kit Segurança" marcados como popular
+    * Campos stripePriceId adicionados
+  - Build passou: 156 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 08:00 → 09:35):
 - CICLO RADAR 5 TXT executado para sincronização
 - Verificação de estrutura de código real vs documentação
 - Preparação para BLOCO 14-20 (Loja, Beta, Oráculo, Limpeza, Manuais, Lâmpada)

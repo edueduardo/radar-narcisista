@@ -2,7 +2,7 @@
 RADAR NARCISISTA - HISTÓRICO COMPLETO DE IMPLEMENTAÇÕES
 ================================================================================
 Gerado em: 28/11/2025
-Atualizado em: 01/12/2025 09:35 (UTC-5)
+Atualizado em: 01/12/2025 11:00 (UTC-5)
 Projeto: SaaS de apoio a vítimas de relacionamentos abusivos/narcisistas
 Stack: Next.js 16 + Supabase + OpenAI/Groq + TailwindCSS 4
 
@@ -3580,10 +3580,10 @@ PENDENTE (V2):
 BUILD: 154 páginas
 
 ================================================================================
-STATUS ATUAL DO MVP (01/12/2025 09:35)
+STATUS ATUAL DO MVP (01/12/2025 11:00)
 ================================================================================
 
-ETAPAS CONCLUÍDAS (1-13):
+ETAPAS CONCLUÍDAS (1-14):
 ✅ ETAPA 1-7: Triângulo Clareza ⇄ Diário ⇄ Chat + Plano de Segurança
 ✅ ETAPA 8: FanPage Viva + Camada Comercial (Content System)
 ✅ ETAPA 9: Painel de Curadoria + Semáforo de Edição
@@ -3591,9 +3591,13 @@ ETAPAS CONCLUÍDAS (1-13):
 ✅ ETAPA 11: Dashboard Usuária com Trilha do Herói
 ✅ ETAPA 12: Dashboard Profissional + Clientes + Relatórios + CSV
 ✅ ETAPA 13: Infra White-label V1
+✅ ETAPA 14: Loja Simplificada (01/12/2025)
+   - API /api/stripe/addon-checkout (pagamento único)
+   - Página /loja/sucesso
+   - Add-ons: Relatório Completo (R$19,90), Kit Segurança (R$14,90)
+   - Integração real com Stripe (card, boleto, pix)
 
-PRÓXIMAS ETAPAS PLANEJADAS (BLOCO 14-20):
-🔜 ETAPA 14: Loja Simplificada (2-3 add-ons reais)
+PRÓXIMAS ETAPAS PLANEJADAS (BLOCO 15-20):
 🔜 ETAPA 15: Beta com 5 Usuárias
 🔜 ETAPA 16: Oráculo V1 (Analytics Consolidado)
 🔜 ETAPA 17: Limpeza/Unificação de Dashboards
@@ -3609,10 +3613,11 @@ MÓDULOS CORE DO MVP (JÁ IMPLEMENTADOS):
 - Dashboard Profissional (clientes, relatórios, CSV, marca)
 - Plano de Segurança (integrado ao triângulo)
 - Sistema de Planos (5 níveis, Stripe)
+- Loja de Add-ons (checkout Stripe funcional)
 - Admin Completo (37+ subpastas)
 
 MÓDULOS PLANEJADOS (V2/V3):
-- Loja de Add-ons (parcialmente implementada)
+- Webhook Stripe para entrega automática de add-ons
 - Comunidade/Fórum
 - App Mobile (PWA ou React Native)
 - Gamificação Avançada

@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 2.0
-Última atualização: 01/12/2025 09:35 (UTC-5)
+Versão: 2.1
+Última atualização: 01/12/2025 11:00 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -576,12 +576,14 @@ MIGRATIONS PENDENTES (EXECUTAR NO SUPABASE):
 BLOCO 14-20 – TESTES PLANEJADOS
 ================================================================================
 
-ETAPA 14 – LOJA SIMPLIFICADA:
-☐ Página /loja carrega sem erro
-☐ Add-ons aparecem com preços corretos
-☐ Botão de compra redireciona para Stripe
-☐ Webhook do Stripe processa compra
-☐ Add-on é liberado após pagamento
+ETAPA 14 – LOJA SIMPLIFICADA (CONCLUÍDO 01/12/2025):
+✅ Página /loja carrega sem erro
+✅ Add-ons aparecem com preços corretos
+✅ Botão de compra redireciona para Stripe (via /api/stripe/addon-checkout)
+✅ Página /loja/sucesso mostra confirmação
+☐ Webhook do Stripe processa compra (pendente: criar webhook handler)
+☐ Add-on é liberado após pagamento (pendente: tabela user_addons)
+NOTA: Checkout funciona, mas entrega do add-on requer webhook e tabela no banco
 
  ETAPA 15 – BETA COM 5 USUÁRIAS:
 ☐ /admin/beta-testers carrega

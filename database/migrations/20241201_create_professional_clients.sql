@@ -95,6 +95,14 @@ CREATE TRIGGER trigger_professional_clients_updated_at
 -- Habilitar RLS
 ALTER TABLE public.professional_clients ENABLE ROW LEVEL SECURITY;
 
+-- Remover policies existentes (para evitar erro de duplicação)
+DROP POLICY IF EXISTS "professional_can_view_own_clients" ON public.professional_clients;
+DROP POLICY IF EXISTS "professional_can_create_invites" ON public.professional_clients;
+DROP POLICY IF EXISTS "professional_can_update_own_clients" ON public.professional_clients;
+DROP POLICY IF EXISTS "client_can_view_own_connections" ON public.professional_clients;
+DROP POLICY IF EXISTS "client_can_update_own_connection" ON public.professional_clients;
+DROP POLICY IF EXISTS "professional_can_delete_pending_invites" ON public.professional_clients;
+
 -- Policy 1: Profissional pode ver seus próprios clientes
 CREATE POLICY "professional_can_view_own_clients"
   ON public.professional_clients
