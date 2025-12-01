@@ -5,8 +5,16 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 16:00 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 15:00 → 16:00):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 17:00 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 16:00 → 17:00):
+- ETAPA 23: Segurança Técnica & Observabilidade (✅ CONCLUÍDO)
+  - lib/rate-limit.ts (rate limiting em memória)
+  - lib/logger.ts (logger estruturado JSON)
+  - GET /api/health (healthcheck endpoint)
+  - Rate limiting aplicado em /api/oraculo-v2
+  - Build passou: 163 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 15:00 → 16:00):
 - ETAPA 22: Oráculo V2 Integrado (✅ CONCLUÍDO)
   - POST /api/oraculo-v2 criado
   - Tabela oraculo_logs (database/migrate-oraculo-logs.sql)

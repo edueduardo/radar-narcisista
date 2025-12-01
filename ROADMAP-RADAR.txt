@@ -1,15 +1,15 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 3.5
-Última atualização: 01/12/2025 16:00 (UTC-5)
+Versão: 3.6
+Última atualização: 01/12/2025 17:00 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
 🚀 BLOCO 21-25 EM ANDAMENTO (PÓS-MVP 1.0)
-Versão atual: MVP 1.0.22 (ETAPA 22 CONCLUÍDA)
+Versão atual: MVP 1.0.23 (ETAPA 23 CONCLUÍDA)
 Objetivo desta fase: Fechar MVP vendável B2C + Iniciar BLOCO 14-20
 
 ================================================================================
@@ -394,10 +394,21 @@ BLOCO 21-25 – PÓS-MVP 1.0 (CONSOLIDAÇÃO)
    - Arquivos criados: app/api/oraculo-v2/route.ts, components/OraculoButton.tsx, database/migrate-oraculo-logs.sql
    - Build passou: 162 páginas
 
-🔜 ETAPA 23 – SEGURANÇA TÉCNICA & OBSERVABILIDADE
-   - [ ] Rate limiting em rotas sensíveis
-   - [ ] Logger estruturado
-   - [ ] Endpoint /api/health
+✅ ETAPA 23 – SEGURANÇA TÉCNICA & OBSERVABILIDADE (CONCLUÍDO 01/12/2025)
+   - [x] Rate limiting implementado
+     * lib/rate-limit.ts com armazenamento em memória
+     * Configurações pré-definidas: AI (10/min), AUTH (5/min), API (100/min)
+     * Aplicado em /api/oraculo-v2
+   - [x] Logger estruturado
+     * lib/logger.ts com formato JSON
+     * Níveis: debug, info, warn, error
+     * Métodos: request, response, apiError, userAction, security
+   - [x] Endpoint /api/health
+     * Verifica: database, stripe, openai
+     * Status: healthy, degraded, unhealthy
+     * Retorna: version, uptime, timestamp
+   - Arquivos criados: lib/rate-limit.ts, lib/logger.ts, app/api/health/route.ts
+   - Build passou: 163 páginas
 
 🔜 ETAPA 24 – MANUAIS & LINKS INTERNOS
    - [ ] Alinhar manuais com produto real

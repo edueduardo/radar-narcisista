@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 2.9
-Última atualização: 01/12/2025 16:00 (UTC-5)
+Versão: 3.0
+Última atualização: 01/12/2025 17:00 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -662,11 +662,13 @@ ETAPA 22 – ORÁCULO V2 (CONCLUÍDO 01/12/2025):
 ☐ Testar chamada ao Oráculo em produção
 ☐ Verificar logs em oraculo_logs
 
-ETAPA 23 – SEGURANÇA:
-☐ Rate limiting funciona em rotas de IA
-☐ Rate limiting funciona em login/signup
-☐ Logger estruturado registra erros
-☐ /api/health retorna status do sistema
+ETAPA 23 – SEGURANÇA (CONCLUÍDO 01/12/2025):
+✅ Rate limiting implementado (lib/rate-limit.ts)
+✅ Rate limiting aplicado em /api/oraculo-v2
+✅ Logger estruturado criado (lib/logger.ts)
+✅ /api/health retorna status do sistema
+☐ Aplicar rate limiting em outras rotas sensíveis
+☐ Configurar Sentry para monitoramento de erros
 
 ETAPA 24 – MANUAIS:
 ☐ Manuais alinhados com produto real

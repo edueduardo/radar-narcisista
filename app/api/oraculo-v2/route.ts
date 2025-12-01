@@ -11,6 +11,8 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import OpenAI from 'openai'
+import { withRateLimit, RATE_LIMITS, getRateLimitHeaders } from '@/lib/rate-limit'
+import { logger } from '@/lib/logger'
 
 // Tipos
 interface OraculoRequest {
@@ -97,15 +99,40 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
+      logger.security('Tentativa de acesso ao Oráculo sem autenticação', {
+        route: '/api/oraculo-v2',
+        ip: request.headers.get('x-forwarded-for') || 'unknown'
+      })
       return NextResponse.json(
         { error: 'Não autenticado' },
         { status: 401 }
       )
     }
 
+    // Rate limiting
+    const rateLimit = withRateLimit(request, RATE_LIMITS.ORACULO, user.id)
+    if (!rateLimit.success) {
+      logger.warn('Rate limit excedido no Oráculo', {
+        userId: user.id,
+        route: '/api/oraculo-v2',
+        retryAfter: rateLimit.retryAfter
+      })
+      return NextResponse.json(
+        { error: 'Muitas requisições. Tente novamente em alguns segundos.' },
+        { 
+          status: 429,
+          headers: getRateLimitHeaders(rateLimit)
+        }
+      )
+    }
+
     // BLOCO 21-25: Apenas admin pode usar
     const userIsAdmin = await isAdmin(user.id)
     if (!userIsAdmin) {
+      logger.security('Tentativa de acesso ao Oráculo por não-admin', {
+        userId: user.id,
+        route: '/api/oraculo-v2'
+      })
       return NextResponse.json(
         { error: 'Acesso restrito a administradores nesta versão' },
         { status: 403 }
