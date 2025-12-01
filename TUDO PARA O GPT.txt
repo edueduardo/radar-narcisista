@@ -2999,5 +2999,58 @@ COMPORTAMENTO:
 BUILD: 143 páginas (mantido)
 
 ================================================================================
+ETAPA 9 – PAINEL DE CURADORIA + SEMÁFORO DE EDIÇÃO
+================================================================================
+Data: 30/11/2025 21:15 (UTC-5)
+
+OBJETIVO:
+Criar central de controle da IA Curadora e sistema visual de semáforo de edição.
+
+ARQUIVOS CRIADOS:
+
+1. lib/curadoria-config.ts
+   - getCuradoriaConfig() → Busca config da curadoria
+   - updateCuradoriaConfig() → Atualiza config (merge parcial)
+   - isCuradoriaEnabled() → Verifica se IA está ativa
+   - isContentTypeAllowed() → Verifica se tipo está permitido
+   - Usa tabela frontpage_config (key='curadoria_config')
+
+2. app/api/admin/curadoria/config/route.ts
+   - GET: Retorna configuração atual
+   - PATCH: Atualiza configuração (merge parcial)
+   - Autenticação via requireAdminAPI
+
+3. components/admin/EditSemaforoBadge.tsx
+   - EditSemaforoBadge: Badge visual (verde/amarelo/vermelho)
+   - SemaforoCard: Card com badge + descrição
+   - SemaforoExplanation: Explicação completa do sistema
+
+4. app/admin/curadoria/page.tsx
+   - Bloco 1: Resumo da Curadoria (contadores + links)
+   - Bloco 2: Configuração da IA Curadora (on/off + tipos)
+   - Bloco 3: Explicação do Semáforo + tabela de módulos
+
+ARQUIVOS ALTERADOS:
+
+- app/admin/conteudos/sugestoes/page.tsx → SemaforoCard amarelo
+- app/admin/conteudos/publicados/page.tsx → SemaforoCard verde
+- app/admin/conteudos/colecoes/page.tsx → SemaforoCard verde
+- app/admin/conteudos/insights/page.tsx → SemaforoCard amarelo
+- app/admin/admin-features-registry.ts → Novo ID 'curadoria_central'
+
+SISTEMA DE SEMÁFORO:
+- Zona Verde: Conteúdos, FAQs, Academy (pode editar livremente)
+- Zona Amarela: Sugestões IA, métricas, planos (editar com cautela)
+- Zona Vermelha: Triângulo, Plano de Segurança, prompts IA (não mexer)
+
+CONFIGURAÇÃO DA CURADORIA:
+- enabled: boolean (on/off da IA Curadora)
+- allowed_types: { article, faq, video, story, image }
+- Armazenado em frontpage_config (key='curadoria_config')
+- IA Curadora NUNCA roda automaticamente
+
+BUILD: 145 páginas (antes 143)
+
+================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES
 ================================================================================

@@ -17,6 +17,7 @@ import {
   Layers,
   Trash2
 } from 'lucide-react'
+import { SemaforoCard } from '@/components/admin/EditSemaforoBadge'
 
 // ============================================================================
 // ADMIN: COLEÇÕES / TRILHAS (RADAR ACADEMY)
@@ -235,6 +236,14 @@ export default function ColecoesPage() {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Semáforo de Edição */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <SemaforoCard
+          level="green"
+          description="Zona Verde – Organização da Radar Academy. Você está apenas montando trilhas de conteúdo."
+        />
       </div>
 
       {/* Content */}

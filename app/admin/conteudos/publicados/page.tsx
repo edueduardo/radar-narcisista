@@ -18,6 +18,7 @@ import {
   Save,
   X
 } from 'lucide-react'
+import { SemaforoCard } from '@/components/admin/EditSemaforoBadge'
 
 // ============================================================================
 // ADMIN: CONTEÚDOS PUBLICADOS
@@ -255,6 +256,14 @@ export default function PublicadosPage() {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Semáforo de Edição */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <SemaforoCard
+          level="green"
+          description="Zona Verde – Conteúdo publicado da FanPage Viva. Você pode editar textos, títulos, resumos e estrutura de forma segura, sem mexer na lógica crítica do sistema."
+        />
       </div>
 
       {/* Filters */}

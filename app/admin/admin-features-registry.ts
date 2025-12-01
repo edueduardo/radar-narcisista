@@ -48,6 +48,7 @@ export type AdminFeatureId =
   | 'conteudos_publicados'
   | 'conteudos_colecoes'
   | 'conteudos_insights'
+  | 'curadoria_central'
 
 export type AdminFeatureGroup = 
   | 'IAs'
@@ -400,6 +401,20 @@ export const ADMIN_FEATURES: AdminFeature[] = [
     defaultOrder: 28,
     relatedTables: ['content_insights'],
     relatedAPIs: ['/api/admin/content/insights/recompute']
+  },
+
+  // 🎛️ GRUPO: Sistema (ETAPA 9 - Painel de Curadoria)
+  {
+    id: 'curadoria_central',
+    label: '🎛️ Curadoria Central',
+    description: 'Painel central de controle da IA Curadora e semáforo de edição',
+    path: '/admin/curadoria',
+    icon: 'Settings',
+    group: 'Sistema',
+    defaultOrder: 1, // Logo após checklist
+    relatedTables: ['frontpage_config'],
+    relatedAPIs: ['/api/admin/curadoria/config'],
+    relatedIAs: ['ia_curadora']
   }
 ]
 

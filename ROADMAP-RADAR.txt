@@ -124,11 +124,20 @@ PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
    
    NOTA: Seções só aparecem se houver dados no banco. Rodar migration primeiro!
 
+   ✅ ETAPA 9 - Painel de Curadoria + Semáforo de Edição (CONCLUÍDO 30/11/2025 21:15)
+   - [x] lib/curadoria-config.ts (get/update config)
+   - [x] /api/admin/curadoria/config (GET/PATCH)
+   - [x] components/admin/EditSemaforoBadge.tsx (badge + card + explanation)
+   - [x] /admin/curadoria (painel central)
+   - [x] Semáforo aplicado em 4 páginas admin
+   - [x] admin-features-registry.ts atualizado
+   - [x] Build passou: 145 páginas
+
 ================================================================================
 DEPOIS DISSO
 ================================================================================
 
-9) Loja simplificada (2–3 add-ons reais)
+10) Loja simplificada (2–3 add-ons reais)
 10) Começar teste com 5 usuárias beta
 11) Integração completa Stripe com novos planos
 12) Painel admin de usuários

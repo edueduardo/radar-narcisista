@@ -1,52 +1,26 @@
-╔════════════════════════════════════════════════════════════════════════════╗
-║              RADAR NARCISISTA - ESPELHO ENXUTO (ÍNDICE)                   ║
-╚════════════════════════════════════════════════════════════════════════════╝
+RADAR NARCISISTA - ESPELHO ENXUTO (INDICE)
+==========================================
 
-Gerado em: 30/11/2025, 20:48:10
-Total de arquivos: 369
-Extensões: .ts, .tsx, .sql
+Gerado em: 30/11/2025, 21:14:49
+Total de arquivos: 373
+Extensoes: .ts, .tsx, .sql
 
-NOTA: Este é o índice enxuto. Para código completo, ver ESPELHO-CODIGO-RADAR.txt
+NOTA: Este e o indice enxuto. Para codigo completo, ver ESPELHO-CODIGO-RADAR.txt
 
-════════════════════════════════════════════════════════════════════════════
-NOVOS ARQUIVOS - ETAPA 8 (FANPAGE VIVA)
-════════════════════════════════════════════════════════════════════════════
+==========================================
+NOVOS ARQUIVOS - ETAPA 9 (CURADORIA)
+==========================================
 
-ETAPA 8.1 - Schema:
-  database/migrations/20241130_create_content_system.sql
+lib/curadoria-config.ts
+app/api/admin/curadoria/config/route.ts
+components/admin/EditSemaforoBadge.tsx
+app/admin/curadoria/page.tsx
 
-ETAPA 8.2 - APIs Admin:
-  app/api/admin/content/items/route.ts
-  app/api/admin/content/items/[id]/route.ts
-  app/api/admin/content/suggestions/route.ts
-  app/api/admin/content/suggestions/[id]/route.ts
-  app/api/admin/content/collections/route.ts
-  app/api/admin/content/collections/[id]/route.ts
-  app/api/admin/content/collections/[id]/items/route.ts
-  app/api/admin/content/insights/recompute/route.ts
-  app/api/admin/content/curadoria/ia-sugerir/route.ts
-  lib/content-insights.ts
-
-ETAPA 8.3 - Páginas Admin:
-  app/admin/conteudos/sugestoes/page.tsx
-  app/admin/conteudos/publicados/page.tsx
-  app/admin/conteudos/colecoes/page.tsx
-  app/admin/conteudos/insights/page.tsx
-
-ETAPA 8.4 - FanPage Viva:
-  lib/frontpage-content.ts
-  app/api/frontpage/content/route.ts
-  components/frontpage/RadarEmNumerosSection.tsx
-  components/frontpage/FaqDinamicoSection.tsx
-  components/frontpage/RadarNoMundoSection.tsx
-  components/frontpage/RadarAcademySection.tsx
-  components/frontpage/DynamicSections.tsx
-
-════════════════════════════════════════════════════════════════════════════
+==========================================
 ESTRUTURA COMPLETA POR PASTA
-════════════════════════════════════════════════════════════════════════════
+==========================================
 
-📁 ./
+./
    SQL_1_SEGURO_user_terms.sql
    SQL_2_SEGURO_terms_custody.sql
    SQL_3_SEGURO_fraud_logs.sql
@@ -73,6 +47,7 @@ ESTRUTURA COMPLETA POR PASTA
    app\admin\conteudos\insights\page.tsx
    app\admin\conteudos\publicados\page.tsx
    app\admin\conteudos\sugestoes\page.tsx
+   app\admin\curadoria\page.tsx
    app\admin\custos-ia\page.tsx
    app\admin\easter-eggs\page.tsx
    app\admin\estados\page.tsx
@@ -122,6 +97,7 @@ ESTRUTURA COMPLETA POR PASTA
    app\api\admin\content\items\route.ts
    app\api\admin\content\suggestions\[id]\route.ts
    app\api\admin\content\suggestions\route.ts
+   app\api\admin\curadoria\config\route.ts
    app\api\admin\episodes\hash\route.ts
    app\api\admin\frontpage-config\route.ts
    app\api\admin\frontpage-editor\route.ts
@@ -276,6 +252,7 @@ ESTRUTURA COMPLETA POR PASTA
    components\ThemeProvider.tsx
    components\Toast.tsx
    components\UpgradeLimitModal.tsx
+   components\admin\EditSemaforoBadge.tsx
    components\analysis\AIStepsExplanation.tsx
    components\chat\AITransparencyPanel.tsx
    components\chat\ClarityEvolutionChart.tsx
@@ -363,6 +340,7 @@ ESTRUTURA COMPLETA POR PASTA
    lib\clarityIndex.ts
    lib\clarityTestConfig.ts
    lib\content-insights.ts
+   lib\curadoria-config.ts
    lib\diary-types.ts
    lib\easter-eggs-secret.ts
    lib\easter-eggs.ts
@@ -417,15 +395,15 @@ ESTRUTURA COMPLETA POR PASTA
    tailwind.config.ts
    types\database.ts
 
-════════════════════════════════════════════════════════════════════════════
+==========================================
 RESUMO POR TIPO
-════════════════════════════════════════════════════════════════════════════
+==========================================
 
-Arquivos .ts:  128
-Arquivos .tsx: 209
+Arquivos .ts:  130
+Arquivos .tsx: 211
 Arquivos .sql: 32
-TOTAL:         369
+TOTAL:         373
 
-════════════════════════════════════════════════════════════════════════════
-FIM DO ÍNDICE
-════════════════════════════════════════════════════════════════════════════
+==========================================
+FIM DO INDICE
+==========================================

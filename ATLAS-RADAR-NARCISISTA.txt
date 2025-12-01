@@ -5,13 +5,21 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 30/11/2025 20:50
-MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 20:20 → 20:50):
+ÚLTIMA ATUALIZAÇÃO: 30/11/2025 21:20
+MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 20:50 → 21:20):
+- ETAPA 9: Painel de Curadoria + Semáforo de Edição (✅ CONCLUÍDO)
+  - lib/curadoria-config.ts (get/update config)
+  - /api/admin/curadoria/config (GET/PATCH)
+  - components/admin/EditSemaforoBadge.tsx
+  - /admin/curadoria (painel central)
+  - Semáforo aplicado em 4 páginas admin
+- Build passou: 145 páginas
+
+MUDANÇAS ANTERIORES (30/11/2025 20:20 → 20:50):
 - ETAPA 8.4: FanPage Viva (✅ CONCLUÍDO)
   - 5 componentes em components/frontpage/
   - lib/frontpage-content.ts + API /api/frontpage/content
   - app/page.tsx integrado com DynamicSections
-- Build passou: 143 páginas
 
 MUDANÇAS ANTERIORES (30/11/2025 19:50 → 20:20):
 - ETAPA 8.3: Telas Admin de Curadoria (✅ CONCLUÍDO)

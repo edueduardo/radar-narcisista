@@ -22,6 +22,7 @@ import {
   FileText,
   ArrowLeft
 } from 'lucide-react'
+import { SemaforoCard } from '@/components/admin/EditSemaforoBadge'
 
 // ============================================================================
 // ADMIN: SUGESTÕES DE CONTEÚDO
@@ -246,6 +247,14 @@ export default function SugestoesPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Semáforo de Edição */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <SemaforoCard
+          level="yellow"
+          description="Zona Amarela – Você está lidando com sugestões da IA. Pode editar/aceitar/rejeitar, mas mantenha os limites éticos do projeto."
+        />
       </div>
 
       {/* Filters */}

@@ -16,6 +16,7 @@ import {
   Eye,
   EyeOff
 } from 'lucide-react'
+import { SemaforoCard } from '@/components/admin/EditSemaforoBadge'
 
 // ============================================================================
 // ADMIN: RADAR EM NÚMEROS (INSIGHTS)
@@ -176,6 +177,14 @@ export default function InsightsPage() {
           </div>
         </div>
       )}
+
+      {/* Semáforo de Edição */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <SemaforoCard
+          level="yellow"
+          description="Zona Amarela – Métricas derivadas de dados reais. Recalcule com responsabilidade e respeite privacidade."
+        />
+      </div>
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
