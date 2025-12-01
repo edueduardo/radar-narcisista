@@ -206,15 +206,38 @@ Benefício: Valor agregado para profissionais, diferencial.
 Dependências: Validação jurídica, templates.
 Estimativa: 2 semanas.
 
-[I007] ORÁCULO V2 MULTIPERFIL (BLOCO 26-30)
+[I007] 💡 ORÁCULO V2 MULTIPERFIL (BLOCO 26-30) – PATCH OFICIAL
 ----------------------------------------------------------------------
-Prioridade: MÉDIA
-Descrição: Expandir o uso do ORÁCULO V2 para TODOS os perfis:
-           usuária, profissional, admin, dev, whitelabel.
+Prioridade: ALTA (para o BLOCO 26-30)
+Status: ⏳ FUTURO EXPLÍCITO (não implementar antes do BLOCO 26)
+
+Descrição: 
+  Expandir o uso do ORÁCULO V2 para TODOS os perfis:
+  - user_role = "usuaria"
+  - user_role = "profissional"
+  - user_role = "admin" (já funciona no BLOCO 21-25)
+  - user_role = "dev"
+  - user_role = "whitelabel"
+
 Benefício: IA de suporte unificada para todo o produto.
-Dependências: ETAPA 22 (Oráculo V2 para admin) concluída.
+
+Dependências: 
+  - ✅ ETAPA 22 (Oráculo V2 para admin) concluída
+  - ⏳ Feature flags por perfil/plano
+  - ⏳ Controle de risco por perfil
+  - ⏳ Atualização de manuais
+
 Estimativa: BLOCO 26-30.
-Nota: Unificar em módulo ORACULO_V2_CORE reutilizável pelo GERADOR DE SAAS.
+
+Módulo ORACULO_V2_CORE:
+  - Unificar em módulo reutilizável
+  - Acoplável ao GERADOR DE SAAS
+  - Todo SaaS gerado pode nascer com Oráculo embutido
+
+IMPORTANTE (PATCH ORÁCULO):
+  - Ver docs/PATCH-ORACULO.md para regras completas
+  - BLOCO 21-25: Oráculo V2 é SÓ PARA ADMIN
+  - BLOCO 26-30: Abertura para outros perfis
 
 ================================================================================
 ⚠️ DÍVIDAS TÉCNICAS

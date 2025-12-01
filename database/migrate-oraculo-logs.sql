@@ -45,7 +45,6 @@ CREATE INDEX IF NOT EXISTS idx_oraculo_logs_modo ON public.oraculo_logs(resposta
 ALTER TABLE public.oraculo_logs ENABLE ROW LEVEL SECURITY;
 
 -- Política: Apenas admins podem ver logs (via service_role ou admin check)
--- Em produção, usar verificação de role do usuário
 DROP POLICY IF EXISTS "Admins can view oraculo logs" ON public.oraculo_logs;
 CREATE POLICY "Admins can view oraculo logs" ON public.oraculo_logs
   FOR SELECT
@@ -80,13 +79,19 @@ FROM public.oraculo_logs
 GROUP BY DATE(created_at)
 ORDER BY data DESC;
 
--- View: Perguntas mais frequentes (agrupadas por similaridade)
+-- View: Perguntas mais frequentes (agrupadas por modo)
 CREATE OR REPLACE VIEW public.oraculo_top_questions AS
 SELECT 
   resposta_modo,
   COUNT(*) as total,
-  array_agg(DISTINCT question ORDER BY question LIMIT 5) as exemplos
-FROM public.oraculo_logs
+  (SELECT array_agg(q) FROM (
+    SELECT DISTINCT question as q 
+    FROM public.oraculo_logs ol2 
+    WHERE ol2.resposta_modo = ol.resposta_modo 
+    ORDER BY q 
+    LIMIT 5
+  ) sub) as exemplos
+FROM public.oraculo_logs ol
 GROUP BY resposta_modo
 ORDER BY total DESC;
 

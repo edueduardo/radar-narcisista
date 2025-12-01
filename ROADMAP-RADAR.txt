@@ -434,12 +434,43 @@ BLOCO 21-25 – PÓS-MVP 1.0 (CONSOLIDAÇÃO)
 🎉 BLOCO 21-25 CONCLUÍDO! MVP 1.0.25 PRONTO!
 
 ================================================================================
-PATCH ORÁCULO – BLOCO 21-25
+PATCH ORÁCULO – BLOCO 21-25 (VER docs/PATCH-ORACULO.md)
 ================================================================================
 
 - ORÁCULO V1 = painel /admin/oraculo → só ADMIN (já existe)
 - ORÁCULO V2 = IA de suporte → NESTE BLOCO é apenas para ADMIN
 - Abertura para outros perfis (usuária/profissional/dev/whitelabel) = BLOCO 26-30
+- Qualquer texto antigo que diga o contrário: IGNORAR, este PATCH tem prioridade
+
+================================================================================
+BLOCO 26-30 – ORÁCULO V2 MULTIPERFIL + CORE COMPARTILHADO (FUTURO)
+================================================================================
+
+⚠️ NÃO IMPLEMENTAR ANTES DE CONCLUIR BLOCO 21-25
+
+🔜 ETAPA 26 – ORÁCULO V2 MULTIPERFIL
+   - [ ] Abrir Oráculo V2 para user_role = "usuaria"
+   - [ ] Abrir Oráculo V2 para user_role = "profissional"
+   - [ ] Abrir Oráculo V2 para user_role = "dev"
+   - [ ] Abrir Oráculo V2 para user_role = "whitelabel"
+   - [ ] Feature flags por plano/perfil
+   - [ ] Controle de risco por perfil
+   - [ ] Atualização de manuais
+
+🔜 ETAPA 27 – ORACULO_V2_CORE (MÓDULO COMPARTILHADO)
+   - [ ] Extrair núcleo do Oráculo V2 em módulo reutilizável
+   - [ ] Documentar API do módulo
+   - [ ] Preparar para integração com GERADOR DE SAAS
+
+🔜 ETAPA 28 – INTEGRAÇÃO GERADOR DE SAAS
+   - [ ] Todo SaaS gerado pode nascer com ORACULO_V2_CORE
+   - [ ] Mapeamento de perfis (usuário final, admin, parceiro, dev)
+   - [ ] Flags para ligar/desligar Oráculo por plano
+
+🔜 ETAPAS 29-30 – A DEFINIR
+   - [ ] Testes automatizados
+   - [ ] Monitoramento (Sentry)
+   - [ ] Performance e otimizações
 
 ================================================================================
 IDEIAS FUTURAS (NÃO IMPLEMENTAR AGORA)

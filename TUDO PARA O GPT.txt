@@ -3668,12 +3668,36 @@ BLOCO 21-25 – PÓS-MVP 1.0 (CONSOLIDAÇÃO)
 
 🎉 BLOCO 21-25 CONCLUÍDO! MVP 1.0.25 PRONTO!
 
-PRÓXIMOS PASSOS (BLOCO 26-30):
+================================================================================
+PATCH ORÁCULO – CORREÇÃO CONCEITUAL (PRIORIDADE MÁXIMA)
+================================================================================
 
-PATCH ORÁCULO – BLOCO 21-25:
+⚠️ Este PATCH tem prioridade sobre qualquer texto antigo que diga o contrário.
+Ver documento completo: docs/PATCH-ORACULO.md
+
+BLOCO 21-25 (ATUAL):
 - ORÁCULO V1 = painel /admin/oraculo → só ADMIN (já existe)
 - ORÁCULO V2 = IA de suporte → NESTE BLOCO é apenas para ADMIN
-- Abertura para outros perfis = BLOCO 26-30 (futuro)
+- Qualquer menção a Oráculo V2 para usuária/profissional/dev/whitelabel = FUTURO
+
+BLOCO 26-30 (FUTURO EXPLÍCITO):
+- ORÁCULO V2 MULTIPERFIL para TODOS os perfis:
+  usuária, profissional, admin, dev, whitelabel
+- ORACULO_V2_CORE como módulo compartilhado
+- Acoplável a todos os SaaS gerados pelo GERADOR DE SAAS
+
+REGRA PARA WINDSURF/CHATGPT:
+Se texto antigo disser "Oráculo para usuária/profissional AGORA"
+→ ENTENDER COMO: "FUTURO BLOCO 26-30, NÃO IMPLEMENTADO EM 21-25"
+
+================================================================================
+PRÓXIMOS PASSOS (BLOCO 26-30)
+================================================================================
+
+🔜 ETAPA 26: Oráculo V2 Multiperfil
+🔜 ETAPA 27: ORACULO_V2_CORE (módulo compartilhado)
+🔜 ETAPA 28: Integração Gerador de SaaS
+🔜 ETAPAS 29-30: A definir
 
 MÓDULOS CORE DO MVP (JÁ IMPLEMENTADOS):
 - Teste de Clareza (18+1 perguntas, 3 eixos, 6 categorias)
