@@ -482,6 +482,70 @@ Dashboard Profissional:
 ☐ Clientes pendentes/revogados não têm botão de relatório
 
 ================================================================================
+ETAPA 12.3 – EXPORTAÇÃO EM MASSA V1 (CSV)
+================================================================================
+
+Botão CSV na página de relatório:
+☐ Botão "CSV" aparece ao lado de "Imprimir / PDF"
+☐ Clique no botão inicia download do arquivo
+☐ Nome do arquivo: radar-cliente-[nome]-[data].csv
+
+Conteúdo do CSV:
+☐ Header com nome do cliente e data
+☐ Aviso ético presente no arquivo
+☐ Resumo do cliente (nome, conexão, última atividade)
+☐ Permissões autorizadas listadas
+☐ Módulos aparecem apenas se share_* = true
+☐ Dados de clareza (se autorizado)
+☐ Dados de diário (se autorizado)
+☐ Dados de chat (se autorizado)
+☐ Dados de segurança (se autorizado)
+☐ Dados de alertas (se autorizado)
+
+Segurança:
+☐ CSV só é gerado se profissional tem acesso ao cliente
+☐ Dados não autorizados NÃO aparecem no CSV
+
+================================================================================
+ETAPA 13 – INFRA WHITE-LABEL V1
+================================================================================
+
+Página /dashboard-profissional/marca:
+☐ Página carrega corretamente
+☐ Profissional não logado é redirecionado
+☐ Profissional sem plano profissional é redirecionado
+
+Formulário de marca:
+☐ Campo "Nome Público" funciona
+☐ Campo "Tagline" funciona
+☐ Cores predefinidas funcionam (clique seleciona)
+☐ Color picker funciona
+☐ Campo de cor hex aceita entrada manual
+☐ Campo "URL do Logo" funciona
+☐ Preview do logo aparece se URL válida
+☐ Toggle "Powered by Radar" funciona
+☐ Preview em tempo real atualiza
+
+Salvar configuração:
+☐ Botão "Salvar" envia dados para API
+☐ Mensagem de sucesso aparece
+☐ Dados são persistidos (recarregar página mantém valores)
+☐ Validação de cor hex funciona (rejeita formato inválido)
+
+API /api/professional/brand:
+☐ GET retorna configuração existente
+☐ GET retorna defaults se não existe
+☐ GET retorna 401 se não autenticado
+☐ GET retorna 403 se não tem plano profissional
+☐ POST cria nova configuração
+☐ POST atualiza configuração existente
+☐ POST valida formato de cor hex
+
+Dashboard Profissional:
+☐ Link "Configurar Marca" aparece nos links rápidos
+☐ Link leva para /dashboard-profissional/marca
+
+================================================================================
 MIGRATIONS PENDENTES (EXECUTAR NO SUPABASE):
 ================================================================================
 
@@ -500,6 +564,13 @@ MIGRATIONS PENDENTES (EXECUTAR NO SUPABASE):
    - Torna client_id nullable (necessário para convites pendentes)
    - Ajusta constraint unique
    - Adiciona policy para validação pública de códigos
+
+4. 20241201_create_professional_brand.sql (ETAPA 13)
+   - Cria tabela professional_brand
+   - Campos: display_name, brand_color, logo_url, tagline, show_radar_branding
+   - RLS: profissional só vê/edita sua marca
+   - RLS: clientes podem ver marca do profissional conectado
+   - Trigger para updated_at automático
 
 ================================================================================
 FIM DO CHECKLIST DE TESTES

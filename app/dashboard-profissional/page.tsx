@@ -729,13 +729,20 @@ export default function DashboardProfissionalPage() {
         {/* LINKS RÁPIDOS */}
         {/* ================================================================ */}
         <section>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <Link
               href="/dashboard"
               className={`${t.bgCard} border ${t.border} rounded-xl p-4 ${t.cardShadow} hover:border-blue-300 transition-colors flex items-center gap-3`}
             >
               <Home className="w-5 h-5 text-blue-600" />
               <span className={`font-medium ${t.text}`}>Dashboard Pessoal</span>
+            </Link>
+            <Link
+              href="/dashboard-profissional/marca"
+              className={`${t.bgCard} border ${t.border} rounded-xl p-4 ${t.cardShadow} hover:border-purple-300 transition-colors flex items-center gap-3`}
+            >
+              <Sparkles className="w-5 h-5 text-purple-600" />
+              <span className={`font-medium ${t.text}`}>Configurar Marca</span>
             </Link>
             <Link
               href="/profissional"

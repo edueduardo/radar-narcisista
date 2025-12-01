@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 2.4
-Última atualização: 01/12/2025 03:30 (UTC-5)
+Versão: 2.5
+Última atualização: 01/12/2025 08:00 (UTC-5)
 
 ================================================================================
 STATUS GERAL
@@ -232,17 +232,44 @@ PRÓXIMAS ETAPAS (PRIORIDADE)
    - [x] Botão "Relatório" na tabela de clientes
    - [x] Build passou: 152 páginas
 
-🔜 ETAPA 12.3 - Exportação em Massa (V2)
-   - [ ] Exportar todos os dados de um cliente (PDF/CSV)
-   - [ ] PDF automático gerado pelo servidor (não via print)
+✅ ETAPA 12.3 - Exportação em Massa V1 (CONCLUÍDO 01/12/2025 08:00)
+   - [x] Botão "CSV" na página de relatório do cliente
+   - [x] Exporta dados autorizados (share_*) em formato CSV
+   - [x] Inclui aviso ético no arquivo exportado
+   - [x] Nome do arquivo: radar-cliente-[nome]-[data].csv
+   - [x] Build passou: 154 páginas
 
-🔜 ETAPA 12.4 - Melhorias Futuras (BACKLOG)
+✅ ETAPA 13 - Infra White-label V1 (CONCLUÍDO 01/12/2025 08:00)
+   - [x] Migration: 20241201_create_professional_brand.sql
+   - [x] Tabela professional_brand com RLS
+   - [x] API: /api/professional/brand (GET, POST)
+   - [x] Página: /dashboard-profissional/marca
+   - [x] Campos: display_name, brand_color, logo_url, tagline
+   - [x] Cores predefinidas + color picker
+   - [x] Preview em tempo real
+   - [x] Toggle "Powered by Radar Narcisista"
+   - [x] Link no dashboard profissional
+   - [x] Build passou: 154 páginas
+   
+   ⚠️ PENDENTE: Rodar migration no Supabase:
+     - 20241201_create_professional_brand.sql
+
+🔜 ETAPA 13.1 - White-label V2 (BACKLOG)
+   - [ ] Upload de logo direto (Supabase Storage)
+   - [ ] Domínio/URL personalizada
+   - [ ] Aplicar marca no convite e relatório
+   - [ ] Temas completos (cores secundárias, fontes)
+
+🔜 ETAPA 12.4 - Exportação V2 (BACKLOG)
+   - [ ] PDF automático gerado pelo servidor
+   - [ ] Exportação em lote de múltiplos clientes
+   - [ ] Agendamento de relatórios
+
+🔜 ETAPA 12.5 - Melhorias Profissional (BACKLOG)
    - [ ] Expiração automática de convites (7-14 dias)
    - [ ] Notificação por email ao criar convite
-   - [ ] Perfil público do profissional (nome, especialidade)
    - [ ] Histórico de atividade do profissional no cliente
 
-13) ETAPA 13 - Dashboard White-label (estrutura base)
 14) Loja simplificada (2–3 add-ons reais)
 15) Começar teste com 5 usuárias beta
 16) Integração completa Stripe com novos planos

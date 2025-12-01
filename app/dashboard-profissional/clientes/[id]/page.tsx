@@ -40,7 +40,8 @@ import {
   User,
   Info,
   Eye,
-  EyeOff
+  EyeOff,
+  Download
 } from 'lucide-react'
 
 // =============================================================================
@@ -178,6 +179,141 @@ export default function ClienteRelatorioPage() {
     window.print()
   }
   
+  /**
+   * ETAPA 12.3: Exportar dados do cliente em CSV
+   * Gera um arquivo CSV com os dados autorizados pelo cliente
+   */
+  const handleExportCSV = () => {
+    if (!report) return
+    
+    const lines: string[] = []
+    const now = new Date().toISOString()
+    
+    // Header do CSV
+    lines.push('RADAR NARCISISTA - EXPORTAÇÃO DE DADOS DO CLIENTE')
+    lines.push(`Cliente: ${report.client.name}`)
+    lines.push(`Exportado em: ${now}`)
+    lines.push('')
+    lines.push('AVISO: Este material é um apoio para o profissional. Não substitui parecer técnico, diagnóstico, laudo ou perícia.')
+    lines.push('')
+    
+    // Resumo do cliente
+    lines.push('=== RESUMO DO CLIENTE ===')
+    lines.push(`Nome,${report.client.name}`)
+    lines.push(`Conectado desde,${formatDate(report.client.connectedSince)}`)
+    lines.push(`Última atividade,${formatDate(report.client.lastActivity)}`)
+    lines.push('')
+    
+    // Permissões
+    lines.push('=== PERMISSÕES AUTORIZADAS ===')
+    lines.push(`Clareza,${report.permissions.share_clarity_tests ? 'Sim' : 'Não'}`)
+    lines.push(`Diário,${report.permissions.share_journal_entries ? 'Sim' : 'Não'}`)
+    lines.push(`Chat,${report.permissions.share_chat_summaries ? 'Sim' : 'Não'}`)
+    lines.push(`Segurança,${report.permissions.share_safety_plan ? 'Sim' : 'Não'}`)
+    lines.push(`Alertas,${report.permissions.share_risk_alerts ? 'Sim' : 'Não'}`)
+    lines.push('')
+    
+    // Módulo Clareza
+    if (report.modules.clarity) {
+      lines.push('=== TESTE DE CLAREZA ===')
+      lines.push(`Total de testes,${report.modules.clarity.totalTests}`)
+      if (report.modules.clarity.latestTest) {
+        lines.push(`Última zona,${report.modules.clarity.latestTest.zone}`)
+        lines.push(`Última pontuação,${report.modules.clarity.latestTest.score}`)
+        lines.push(`Data último teste,${formatDate(report.modules.clarity.latestTest.date)}`)
+      }
+      if (report.modules.clarity.evolution) {
+        lines.push(`Evolução,${report.modules.clarity.evolution.direction}`)
+        lines.push(`Variação,${report.modules.clarity.evolution.change}`)
+      }
+      if (report.modules.clarity.recentTests.length > 0) {
+        lines.push('')
+        lines.push('Histórico de testes:')
+        lines.push('Data,Zona,Pontuação')
+        report.modules.clarity.recentTests.forEach(t => {
+          lines.push(`${formatDate(t.date)},${t.zone},${t.score}`)
+        })
+      }
+      lines.push('')
+    }
+    
+    // Módulo Diário
+    if (report.modules.journal) {
+      lines.push('=== DIÁRIO ===')
+      lines.push(`Total de entradas,${report.modules.journal.totalEntries}`)
+      lines.push(`Entradas por semana,${report.modules.journal.entriesPerWeek.toFixed(1)}`)
+      if (report.modules.journal.averageIntensity !== null) {
+        lines.push(`Intensidade média,${report.modules.journal.averageIntensity.toFixed(1)}`)
+      }
+      if (report.modules.journal.recentEntries.length > 0) {
+        lines.push('')
+        lines.push('Entradas recentes:')
+        lines.push('Data,Título,Tipo,Intensidade')
+        report.modules.journal.recentEntries.forEach(e => {
+          const title = e.title.replace(/,/g, ';').replace(/\n/g, ' ')
+          lines.push(`${formatDate(e.date)},"${title}",${e.type},${e.intensity || 'N/A'}`)
+        })
+      }
+      lines.push('')
+    }
+    
+    // Módulo Chat
+    if (report.modules.chat) {
+      lines.push('=== CHAT ===')
+      lines.push(`Total de sessões,${report.modules.chat.totalSessions}`)
+      if (report.modules.chat.recentSessions.length > 0) {
+        lines.push('')
+        lines.push('Sessões recentes:')
+        lines.push('Data,Nome,Última atividade')
+        report.modules.chat.recentSessions.forEach(s => {
+          lines.push(`${formatDate(s.date)},${s.name},${formatDateTime(s.lastActivity)}`)
+        })
+      }
+      lines.push('')
+    }
+    
+    // Módulo Segurança
+    if (report.modules.safetyPlan) {
+      lines.push('=== PLANO DE SEGURANÇA ===')
+      lines.push(`Possui plano,${report.modules.safetyPlan.exists ? 'Sim' : 'Não'}`)
+      if (report.modules.safetyPlan.status) {
+        lines.push(`Status,${report.modules.safetyPlan.status}`)
+      }
+      if (report.modules.safetyPlan.lastUpdated) {
+        lines.push(`Última atualização,${formatDate(report.modules.safetyPlan.lastUpdated)}`)
+      }
+      lines.push('')
+    }
+    
+    // Módulo Alertas
+    if (report.modules.riskAlerts) {
+      lines.push('=== ALERTAS DE RISCO ===')
+      lines.push(`Total de alertas,${report.modules.riskAlerts.totalAlerts}`)
+      lines.push(`Não resolvidos,${report.modules.riskAlerts.unresolvedCount}`)
+      if (report.modules.riskAlerts.recentAlerts.length > 0) {
+        lines.push('')
+        lines.push('Alertas recentes:')
+        lines.push('Data,Tipo,Severidade,Resolvido')
+        report.modules.riskAlerts.recentAlerts.forEach(a => {
+          lines.push(`${formatDate(a.date)},${a.type},${a.severity},${a.resolved ? 'Sim' : 'Não'}`)
+        })
+      }
+      lines.push('')
+    }
+    
+    // Gerar e baixar arquivo
+    const csvContent = lines.join('\n')
+    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `radar-cliente-${report.client.name.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.csv`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
+  
   // ==========================================================================
   // HELPERS
   // ==========================================================================
@@ -284,7 +420,7 @@ export default function ClienteRelatorioPage() {
             <span className="text-sm">Voltar ao Dashboard</span>
           </Link>
           
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
               <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                 Relatório: {report.client.name}
@@ -293,13 +429,23 @@ export default function ClienteRelatorioPage() {
                 Gerado em {formatDateTime(generatedAt)}
               </p>
             </div>
-            <button
-              onClick={handlePrint}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
-            >
-              <Printer className="w-4 h-4" />
-              Imprimir / PDF
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleExportCSV}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors"
+                title="Exportar dados em CSV"
+              >
+                <Download className="w-4 h-4" />
+                CSV
+              </button>
+              <button
+                onClick={handlePrint}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
+              >
+                <Printer className="w-4 h-4" />
+                Imprimir / PDF
+              </button>
+            </div>
           </div>
         </div>
         

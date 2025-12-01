@@ -5,8 +5,25 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 02:00
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 01:15 → 02:00):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 08:00
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 03:30 → 08:00):
+- ETAPA 12.3: Exportação em Massa V1 (✅ CONCLUÍDO)
+  - Botão "CSV" na página de relatório do cliente
+  - Exporta dados autorizados (share_*) em formato CSV
+  - Inclui aviso ético no arquivo exportado
+- ETAPA 13: Infra White-label V1 (✅ CONCLUÍDO)
+  - Tabela professional_brand (migration criada)
+  - API /api/professional/brand (GET, POST)
+  - Página /dashboard-profissional/marca
+  - Campos: display_name, brand_color, logo_url, tagline
+  - Preview em tempo real
+- Build passou: 154 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 02:00 → 03:30):
+- ETAPA 12.1.2: Revogação de Acesso pelo Cliente (✅ CONCLUÍDO)
+- ETAPA 12.2: Relatório Básico por Cliente V1 (✅ CONCLUÍDO)
+
+MUDANÇAS ANTERIORES (01/12/2025 01:15 → 02:00):
 - ETAPA 12.1.1: Página de Aceite de Convite (✅ CONCLUÍDO)
   - Nova rota: /aceitar-convite
     * Suporta ?codigo=XXXXXXXX na URL
@@ -1314,16 +1331,58 @@ RELATÓRIO DO PROFISSIONAL (V1):
   - Segurança: plano existe? status
   - Alertas: total, não resolvidos, recentes
 - Botão "Imprimir / PDF" via print do navegador
+- Botão "CSV" para exportação de dados (ETAPA 12.3)
 - Aviso ético no topo
 
 ================================================================================
-FIM DO ATLAS – 18 SEÇÕES
+[17] INFRA WHITE-LABEL PROFISSIONAL (V1)
+================================================================================
+
+ETAPA 13 - Personalização de Marca para Profissionais
+
+TABELA: professional_brand
+- id (UUID)
+- professional_id (UUID → auth.users, UNIQUE)
+- display_name (TEXT) - Nome público do profissional/clínica
+- brand_color (TEXT) - Cor principal em hex (#RRGGBB)
+- logo_url (TEXT) - URL do logo
+- tagline (TEXT) - Especialidade/slogan
+- show_radar_branding (BOOLEAN) - Mostrar "Powered by Radar"
+- created_at, updated_at (TIMESTAMPTZ)
+
+ROTAS:
+- /dashboard-profissional/marca (configuração de marca)
+- /api/professional/brand (GET, POST)
+
+FUNCIONALIDADES V1:
+- Profissional configura nome público
+- Escolhe cor principal (predefinidas ou custom)
+- Adiciona tagline/especialidade
+- Cola URL de logo (upload será V2)
+- Preview em tempo real
+- Toggle "Powered by Radar Narcisista"
+
+RLS:
+- Profissional só vê/edita sua própria marca
+- Clientes podem ver marca do profissional conectado
+
+PENDENTE (V2):
+- Upload de logo direto
+- Domínio/URL personalizada
+- Temas completos (cores secundárias, fontes)
+- Aplicar marca no convite e relatório
+
+MIGRATION:
+- 20241201_create_professional_brand.sql
+
+================================================================================
+FIM DO ATLAS – 19 SEÇÕES
 ================================================================================
 
 Gerado em: 29/11/2025 18:10 (UTC-5)
-Atualizado em: 01/12/2025 03:30 (UTC-5)
-Tamanho aproximado: ~48KB
-Seções: 18
+Atualizado em: 01/12/2025 08:00 (UTC-5)
+Tamanho aproximado: ~52KB
+Seções: 19
 
 NOTA IMPORTANTE:
 Este documento reflete o estado do CÓDIGO no momento da geração.
@@ -1336,6 +1395,7 @@ MIGRATIONS PENDENTES:
 - 20241130_create_content_system.sql
 - 20241201_create_professional_clients.sql (ETAPA 12.1)
 - 20241201_fix_professional_clients_nullable.sql (ETAPA 12.1.1)
+- 20241201_create_professional_brand.sql (ETAPA 13)
 
 Para confirmar o estado do banco:
 1. Acessar Supabase Dashboard

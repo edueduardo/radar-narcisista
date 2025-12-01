@@ -3492,10 +3492,92 @@ O profissional continua responsável pela interpretação e decisões clínicas.
 
 PENDENTE (V2):
 - PDF automático gerado pelo servidor
-- Exportação em massa (CSV)
 - Gráficos de evolução temporal
 
 BUILD: 152 páginas
+
+================================================================================
+ETAPA 12.3 – EXPORTAÇÃO EM MASSA V1
+================================================================================
+Data: 01/12/2025 08:00 (UTC-5)
+
+OBJETIVO:
+Permitir que o profissional exporte os dados autorizados de um cliente em CSV.
+
+ARQUIVOS MODIFICADOS:
+
+1. app/dashboard-profissional/clientes/[id]/page.tsx
+   - Adicionado botão "CSV" ao lado do botão "Imprimir / PDF"
+   - Função handleExportCSV() gera arquivo CSV no cliente
+   - Exporta apenas dados autorizados (share_*)
+   - Inclui aviso ético no arquivo
+
+CONTEÚDO DO CSV:
+- Header com nome do cliente e data de exportação
+- Aviso ético obrigatório
+- Resumo do cliente (nome, conexão, última atividade)
+- Permissões autorizadas
+- Módulos (se autorizados):
+  - Clareza: total, última zona, evolução, histórico
+  - Diário: total, entradas/semana, intensidade, entradas recentes
+  - Chat: total sessões, sessões recentes
+  - Segurança: plano existe? status
+  - Alertas: total, não resolvidos, alertas recentes
+
+NOME DO ARQUIVO:
+radar-cliente-[nome-do-cliente]-[data].csv
+
+BUILD: 154 páginas
+
+================================================================================
+ETAPA 13 – INFRA WHITE-LABEL PROFISSIONAL (V1)
+================================================================================
+Data: 01/12/2025 08:00 (UTC-5)
+
+OBJETIVO:
+Permitir que profissionais personalizem sua marca no sistema.
+
+ARQUIVOS CRIADOS:
+
+1. database/migrations/20241201_create_professional_brand.sql
+   - Tabela professional_brand
+   - Campos: display_name, brand_color, logo_url, tagline, show_radar_branding
+   - RLS: profissional só vê/edita sua marca
+   - RLS: clientes podem ver marca do profissional conectado
+
+2. app/api/professional/brand/route.ts
+   - GET: Retorna configuração de marca (ou defaults)
+   - POST: Cria ou atualiza configuração de marca
+   - Valida cor hex (#RRGGBB)
+   - Requer plano profissional
+
+3. app/dashboard-profissional/marca/page.tsx
+   - Formulário de configuração de marca
+   - Campos: nome público, tagline, cor principal, URL do logo
+   - Cores predefinidas (6 opções) + color picker
+   - Preview em tempo real
+   - Toggle "Powered by Radar Narcisista"
+
+ARQUIVOS MODIFICADOS:
+
+1. app/dashboard-profissional/page.tsx
+   - Adicionado link "Configurar Marca" nos links rápidos
+   - Grid de 4 colunas (era 3)
+
+CAMPOS DA MARCA:
+- display_name: Nome público (ex: "Clínica X", "Dra. Fulana")
+- brand_color: Cor principal em hex (#7C3AED padrão)
+- logo_url: URL do logo (upload será V2)
+- tagline: Especialidade/slogan
+- show_radar_branding: Mostrar "Powered by Radar Narcisista"
+
+PENDENTE (V2):
+- Upload de logo direto (Supabase Storage)
+- Domínio/URL personalizada
+- Aplicar marca no convite e relatório
+- Temas completos (cores secundárias, fontes)
+
+BUILD: 154 páginas
 
 ================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES
