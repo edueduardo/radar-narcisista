@@ -1,16 +1,19 @@
 /**
  * ORACULO_V2_CORE - Núcleo Reutilizável do Oráculo V2
  * ETAPA 27 - BLOCO 26-30
+ * ETAPA 32 - Suporte a Multi-instâncias
  * 
  * Este módulo centraliza toda a lógica do Oráculo V2:
  * - Construção de prompts
  * - Chamada à IA
  * - Formatação de respostas
+ * - Suporte a múltiplas instâncias (whitelabel)
  * 
  * Preparado para:
  * - Múltiplos perfis (admin, usuaria, profissional, dev, whitelabel)
  * - Integração com Gerador de SaaS
  * - Reutilização em outros produtos
+ * - Instâncias whitelabel com configurações personalizadas
  */
 
 import OpenAI from 'openai'
@@ -30,6 +33,26 @@ export interface OraculoRequest {
   url_atual?: string
   manual_context?: string
   language?: string
+  // ETAPA 32: Suporte a instâncias
+  instance_slug?: string
+}
+
+// ETAPA 32: Configuração de instância para o Oráculo
+export interface OraculoInstanceConfig {
+  instance_slug: string
+  instance_name: string
+  modelo_ia: string
+  temperatura: number
+  max_tokens: number
+  nome_assistente: string
+  tom_comunicacao: 'acolhedor' | 'profissional' | 'tecnico' | 'casual'
+  prompt_base_override?: string | null
+  prompt_adicional?: string | null
+  prompt_perfil?: string | null
+  contexto_produto?: string | null
+  contexto_empresa?: string | null
+  cor_primaria?: string
+  cor_secundaria?: string
 }
 
 export interface OraculoResponse {
@@ -208,7 +231,66 @@ export function parseOraculoResponse(responseText: string): OraculoResponse {
 }
 
 /**
+ * ETAPA 32: Constrói prompt customizado para uma instância
+ */
+export function buildInstancePrompt(
+  userRole: OraculoUserRole,
+  instanceConfig?: OraculoInstanceConfig
+): string {
+  // Se não há config de instância, usa o padrão
+  if (!instanceConfig) {
+    return buildSystemPrompt(userRole)
+  }
+
+  // Usar prompt base override se existir, senão usa o padrão
+  let basePrompt = instanceConfig.prompt_base_override || PROMPT_BASE
+
+  // Substituir nome do assistente
+  if (instanceConfig.nome_assistente) {
+    basePrompt = basePrompt.replace(/ORÁCULO V2/g, instanceConfig.nome_assistente)
+  }
+
+  // Adicionar contexto do produto
+  if (instanceConfig.contexto_produto) {
+    basePrompt = basePrompt.replace(
+      'CONTEXTO DO PRODUTO:',
+      `CONTEXTO DO PRODUTO:\n${instanceConfig.contexto_produto}\n\nDETALHES TÉCNICOS:`
+    )
+  }
+
+  // Adicionar contexto da empresa
+  if (instanceConfig.contexto_empresa) {
+    basePrompt += `\n\nCONTEXTO DA EMPRESA:\n${instanceConfig.contexto_empresa}`
+  }
+
+  // Adicionar prompt do perfil
+  let perfilPrompt = PROMPT_POR_PERFIL[userRole]
+  if (instanceConfig.prompt_perfil) {
+    perfilPrompt += `\n\nINSTRUÇÕES ADICIONAIS DO PERFIL:\n${instanceConfig.prompt_perfil}`
+  }
+
+  // Adicionar prompt adicional da instância
+  if (instanceConfig.prompt_adicional) {
+    perfilPrompt += `\n\nINSTRUÇÕES DA INSTÂNCIA:\n${instanceConfig.prompt_adicional}`
+  }
+
+  // Ajustar tom de comunicação
+  const tomDescricao: Record<string, string> = {
+    acolhedor: 'Use um tom acolhedor, empático e cuidadoso.',
+    profissional: 'Use um tom profissional, objetivo e respeitoso.',
+    tecnico: 'Use um tom técnico, preciso e detalhado.',
+    casual: 'Use um tom casual, amigável e descontraído.'
+  }
+  if (instanceConfig.tom_comunicacao && tomDescricao[instanceConfig.tom_comunicacao]) {
+    perfilPrompt += `\n\nTOM DE COMUNICAÇÃO: ${tomDescricao[instanceConfig.tom_comunicacao]}`
+  }
+
+  return basePrompt + '\n' + perfilPrompt
+}
+
+/**
  * Função principal: chama a IA e retorna resposta formatada
+ * ETAPA 32: Agora suporta configuração de instância
  */
 export async function callOraculo(
   request: OraculoRequest,
@@ -217,6 +299,7 @@ export async function callOraculo(
     model?: string
     temperature?: number
     maxTokens?: number
+    instanceConfig?: OraculoInstanceConfig
   }
 ): Promise<OraculoResult> {
   const startTime = Date.now()
@@ -233,13 +316,16 @@ export async function callOraculo(
     // Criar cliente OpenAI
     const openai = new OpenAI({ apiKey: openaiApiKey })
 
-    // Configurações
-    const model = options?.model || 'gpt-4o-mini'
-    const temperature = options?.temperature ?? 0.7
-    const maxTokens = options?.maxTokens || 1000
+    // ETAPA 32: Usar configurações da instância se disponível
+    const instanceConfig = options?.instanceConfig
+    const model = instanceConfig?.modelo_ia || options?.model || 'gpt-4o-mini'
+    const temperature = instanceConfig?.temperatura ?? options?.temperature ?? 0.7
+    const maxTokens = instanceConfig?.max_tokens || options?.maxTokens || 1000
 
-    // Construir prompts
-    const systemPrompt = buildSystemPrompt(request.user_role)
+    // Construir prompts (ETAPA 32: suporte a instâncias)
+    const systemPrompt = instanceConfig 
+      ? buildInstancePrompt(request.user_role, instanceConfig)
+      : buildSystemPrompt(request.user_role)
     const userContext = buildUserContext(request)
 
     // Chamar OpenAI
@@ -298,7 +384,8 @@ export const ORACULO_V2_CORE = {
   callOraculo,
   buildSystemPrompt,
   buildUserContext,
-  parseOraculoResponse
+  parseOraculoResponse,
+  buildInstancePrompt
 }
 
 export default ORACULO_V2_CORE
