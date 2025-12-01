@@ -40,7 +40,10 @@ import {
   Link2,
   CreditCard,
   Crown,
-  FileText
+  FileText,
+  List,
+  AlertCircle,
+  Timer
 } from 'lucide-react'
 
 interface InstanceDetails {
@@ -143,6 +146,28 @@ interface BillingUsageData {
   total_api_calls: number
 }
 
+// ETAPA 39: Interfaces para Logs
+interface LogData {
+  id: string
+  request_id: string
+  user_role: string | null
+  question: string | null
+  tokens_total: number
+  response_time_ms: number | null
+  status: 'success' | 'error' | 'rate_limited' | 'quota_exceeded'
+  error_message: string | null
+  created_at: string
+}
+
+interface LogsSummary {
+  total_requests: number
+  successful_requests: number
+  failed_requests: number
+  total_tokens: number
+  avg_response_time_ms: number
+  requests_per_day: number
+}
+
 export default function InstanceDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params)
   const [instance, setInstance] = useState<InstanceDetails | null>(null)
@@ -174,6 +199,10 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
   const [subscription, setSubscription] = useState<SubscriptionData | null>(null)
   const [plans, setPlans] = useState<PlanData[]>([])
   const [billingUsage, setBillingUsage] = useState<BillingUsageData | null>(null)
+  
+  // ETAPA 39: Estados para Logs
+  const [recentLogs, setRecentLogs] = useState<LogData[]>([])
+  const [logsSummary, setLogsSummary] = useState<LogsSummary | null>(null)
 
   useEffect(() => {
     loadInstanceDetails()
@@ -203,6 +232,9 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
       
       // ETAPA 38: Carregar billing
       loadBilling()
+      
+      // ETAPA 39: Carregar logs
+      loadLogs()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erro desconhecido')
     } finally {
@@ -342,6 +374,27 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
       }
     } catch (err) {
       console.error('Erro ao carregar billing:', err)
+    }
+  }
+
+  // ETAPA 39: Carregar logs
+  const loadLogs = async () => {
+    try {
+      // Carregar logs recentes
+      const logsRes = await fetch(`/api/admin/oraculo-instances/${resolvedParams.id}/logs?limit=10`)
+      const logsData = await logsRes.json()
+      if (logsRes.ok) {
+        setRecentLogs(logsData.logs || [])
+      }
+      
+      // Carregar resumo
+      const summaryRes = await fetch(`/api/admin/oraculo-instances/${resolvedParams.id}/logs?view=summary&days=30`)
+      const summaryData = await summaryRes.json()
+      if (summaryRes.ok) {
+        setLogsSummary(summaryData.summary || null)
+      }
+    } catch (err) {
+      console.error('Erro ao carregar logs:', err)
     }
   }
 
@@ -933,6 +986,69 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
             </div>
           ) : (
             <p className="text-gray-400 text-sm">Carregando informações de billing...</p>
+          )}
+        </div>
+
+        {/* ETAPA 39: Logs de Uso */}
+        <div className="mt-6 bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-semibold flex items-center gap-2">
+              <List className="w-5 h-5 text-blue-400" />
+              Logs de Uso (30 dias)
+            </h2>
+          </div>
+          
+          {/* Resumo */}
+          {logsSummary && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+              <div className="p-3 bg-slate-700/50 rounded-lg text-center">
+                <p className="text-2xl font-bold text-blue-400">{logsSummary.total_requests}</p>
+                <p className="text-xs text-gray-400">Total Requests</p>
+              </div>
+              <div className="p-3 bg-slate-700/50 rounded-lg text-center">
+                <p className="text-2xl font-bold text-green-400">{logsSummary.successful_requests}</p>
+                <p className="text-xs text-gray-400">Sucesso</p>
+              </div>
+              <div className="p-3 bg-slate-700/50 rounded-lg text-center">
+                <p className="text-2xl font-bold text-red-400">{logsSummary.failed_requests}</p>
+                <p className="text-xs text-gray-400">Erros</p>
+              </div>
+              <div className="p-3 bg-slate-700/50 rounded-lg text-center">
+                <p className="text-2xl font-bold text-cyan-400">{logsSummary.avg_response_time_ms}ms</p>
+                <p className="text-xs text-gray-400">Tempo Médio</p>
+              </div>
+            </div>
+          )}
+          
+          {/* Lista de logs recentes */}
+          {recentLogs.length === 0 ? (
+            <p className="text-gray-400 text-sm">Nenhum log registrado</p>
+          ) : (
+            <div className="space-y-2">
+              <p className="text-sm text-gray-400 mb-2">Últimas requisições:</p>
+              {recentLogs.map(log => (
+                <div key={log.id} className="flex items-center justify-between p-2 bg-slate-700/30 rounded-lg text-sm">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-2 h-2 rounded-full ${
+                      log.status === 'success' ? 'bg-green-400' : 
+                      log.status === 'error' ? 'bg-red-400' : 
+                      log.status === 'rate_limited' ? 'bg-yellow-400' : 'bg-orange-400'
+                    }`} />
+                    <span className="text-gray-300 truncate max-w-[200px]">
+                      {log.question?.slice(0, 40) || 'Sem pergunta'}{log.question && log.question.length > 40 ? '...' : ''}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-4 text-xs text-gray-400">
+                    <span className="flex items-center gap-1">
+                      <Timer className="w-3 h-3" />
+                      {log.response_time_ms || 0}ms
+                    </span>
+                    <span>{log.tokens_total} tokens</span>
+                    <span>{new Date(log.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </main>

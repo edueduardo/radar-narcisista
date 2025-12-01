@@ -2,6 +2,7 @@
  * API Pública do Oráculo para Whitelabel
  * ETAPA 34 - Integração com Gerador de SaaS
  * ETAPA 36 - Sistema de API Keys
+ * ETAPA 39 - Logs Detalhados de Uso
  * 
  * Esta API permite que instâncias whitelabel consumam o Oráculo
  * sem precisar de autenticação Supabase, usando API keys
@@ -12,6 +13,7 @@ import { createClient } from '@supabase/supabase-js'
 import { callOraculo, OraculoUserRole, OraculoInstanceConfig } from '@/lib/oraculo-core'
 import { getInstanceConfig, registerInstanceUsage } from '@/lib/oraculo-instances'
 import { validateApiKey as validateKey, logApiKeyUsage, ApiKeyValidation } from '@/lib/oraculo-api-keys'
+import { createUsageLog } from '@/lib/oraculo-usage-logs'
 
 // Rate limiting simples em memória
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
@@ -210,6 +212,9 @@ export async function POST(request: NextRequest) {
       }
     )
     
+    // Calcular latência
+    const latencyMs = Date.now() - startTime
+    
     // Registrar uso
     if (result.success && result.meta) {
       await registerInstanceUsage(
@@ -219,8 +224,28 @@ export async function POST(request: NextRequest) {
       )
     }
     
+    // ETAPA 39: Registrar log detalhado
+    await createUsageLog({
+      instance_id: instanceConfig.instance_id,
+      user_role: userRole,
+      question: body.question,
+      response_text: result.success ? result.response?.resposta_principal : undefined,
+      tokens_input: result.meta?.tokens_input || 0,
+      tokens_output: result.meta?.tokens_output || 0,
+      response_time_ms: latencyMs,
+      model_used: result.meta?.model || instanceConfig.modelo_ia,
+      temperature: instanceConfig.temperatura,
+      status: result.success ? 'success' : 'error',
+      error_message: result.success ? undefined : result.error,
+      origin_domain: origin || undefined,
+      user_agent: request.headers.get('user-agent') || undefined,
+      metadata: {
+        instance_slug: instanceSlug,
+        has_api_key: !!apiKeyValidation
+      }
+    })
+    
     // Log para debug
-    const latencyMs = Date.now() - startTime
     console.log(`[ORACULO-PUBLIC] ${instanceSlug} | ${userRole} | ${latencyMs}ms | ${result.success ? 'OK' : 'ERROR'}`)
     
     if (!result.success) {
