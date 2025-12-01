@@ -2,7 +2,7 @@
 RADAR NARCISISTA - HISTÓRICO COMPLETO DE IMPLEMENTAÇÕES
 ================================================================================
 Gerado em: 28/11/2025
-Atualizado em: 01/12/2025 14:00 (UTC-5)
+Atualizado em: 01/12/2025 15:00 (UTC-5)
 Projeto: SaaS de apoio a vítimas de relacionamentos abusivos/narcisistas
 Stack: Next.js 16 + Supabase + OpenAI/Groq + TailwindCSS 4
 
@@ -3580,12 +3580,12 @@ PENDENTE (V2):
 BUILD: 154 páginas
 
 ================================================================================
-STATUS ATUAL DO MVP (01/12/2025 14:00)
+STATUS ATUAL DO MVP (01/12/2025 15:00)
 ================================================================================
 
-🎉 MVP 1.0 CONCLUÍDO! BLOCO 14-20 FINALIZADO!
+🚀 BLOCO 21-25 EM ANDAMENTO (PÓS-MVP 1.0)
 
-ETAPAS CONCLUÍDAS (1-20):
+ETAPAS CONCLUÍDAS (1-21):
 ✅ ETAPA 1-7: Triângulo Clareza ⇄ Diário ⇄ Chat + Plano de Segurança
 ✅ ETAPA 8: FanPage Viva + Camada Comercial (Content System)
 ✅ ETAPA 9: Painel de Curadoria + Semáforo de Edição
@@ -3628,10 +3628,30 @@ ETAPAS CONCLUÍDAS (1-20):
    - 6 seções: Bugs, Confusões, Decisões, Ideias, Dívidas Técnicas, Notas
    - Métricas de saúde do projeto
 
-PRÓXIMAS ETAPAS (PÓS-MVP):
-🔜 Testes com beta testers reais
-🔜 Correção de bugs críticos (webhook Stripe, tabela user_addons)
-🔜 Implementar dívidas técnicas (testes, logs, monitoramento)
+🎉 BLOCO 14-20 CONCLUÍDO! MVP 1.0 PRONTO!
+
+================================================================================
+BLOCO 21-25 – PÓS-MVP 1.0 (CONSOLIDAÇÃO)
+================================================================================
+
+✅ ETAPA 21: Billing Sólido & Add-ons (01/12/2025)
+   - Tabela user_addons criada (database/migrate-user-addons.sql)
+   - Webhook Stripe atualizado para processar add-ons
+   - APIs /api/addons e /api/addons/consume criadas
+   - lib/user-addons.ts com funções helper
+   - docs/ENV-VARIABLES.md com mapeamento de variáveis
+   - Build passou: 161 páginas
+
+PRÓXIMAS ETAPAS (BLOCO 21-25):
+🔜 ETAPA 22: Oráculo V2 Integrado (IA + Logs + Botão)
+🔜 ETAPA 23: Segurança Técnica & Observabilidade
+🔜 ETAPA 24: Manuais & Links Internos
+🔜 ETAPA 25: QA Técnico + Checklist Pós-MVP
+
+PATCH ORÁCULO – BLOCO 21-25:
+- ORÁCULO V1 = painel /admin/oraculo → só ADMIN (já existe)
+- ORÁCULO V2 = IA de suporte → NESTE BLOCO é apenas para ADMIN
+- Abertura para outros perfis = BLOCO 26-30 (futuro)
 
 MÓDULOS CORE DO MVP (JÁ IMPLEMENTADOS):
 - Teste de Clareza (18+1 perguntas, 3 eixos, 6 categorias)

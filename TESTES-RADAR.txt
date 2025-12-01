@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 2.7
-Última atualização: 01/12/2025 14:00 (UTC-5)
+Versão: 2.8
+Última atualização: 01/12/2025 15:00 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -636,6 +636,42 @@ ETAPA 20 – LÂMPADA (CONCLUÍDO 01/12/2025):
 ☐ Revisar periodicamente e atualizar
 
 🎉 BLOCO 14-20 CONCLUÍDO! MVP 1.0 PRONTO!
+
+================================================================================
+BLOCO 21-25 – PÓS-MVP 1.0
+================================================================================
+
+ETAPA 21 – BILLING SÓLIDO & ADD-ONS (CONCLUÍDO 01/12/2025):
+✅ Migration user_addons criada
+✅ Webhook Stripe processa add-ons
+✅ API /api/addons retorna add-ons do usuário
+✅ API /api/addons/consume consome créditos
+✅ Build passou (161 páginas)
+☐ Executar migration no Supabase
+☐ Criar Price IDs no Stripe Dashboard
+☐ Testar fluxo completo de compra
+☐ Verificar registro em user_addons após pagamento
+
+ETAPA 22 – ORÁCULO V2:
+☐ /api/oraculo-v2 responde com JSON válido
+☐ oraculo_logs registra chamadas
+☐ Botão do Oráculo funciona em telas admin
+☐ Manuais atualizados com seção Oráculo
+
+ETAPA 23 – SEGURANÇA:
+☐ Rate limiting funciona em rotas de IA
+☐ Rate limiting funciona em login/signup
+☐ Logger estruturado registra erros
+☐ /api/health retorna status do sistema
+
+ETAPA 24 – MANUAIS:
+☐ Manuais alinhados com produto real
+☐ Links no app apontam para documentação
+
+ETAPA 25 – QA:
+☐ Migrations aplicadas sem erro
+☐ Testes automatizados passam
+☐ Fluxos principais testados manualmente
 
 ================================================================================
 FIM DO CHECKLIST DE TESTES

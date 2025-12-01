@@ -1,8 +1,8 @@
 ================================================================================
 💡 LÂMPADA RADAR - OBSERVAÇÕES E PENDÊNCIAS
 ================================================================================
-Versão: 1.0
-Última atualização: 01/12/2025 13:30 (UTC-5)
+Versão: 1.1
+Última atualização: 01/12/2025 15:00 (UTC-5)
 Responsável: Equipe Radar Narcisista
 
 ================================================================================
@@ -25,24 +25,37 @@ REGRA: Antes de implementar algo novo, consulte este arquivo!
 
 [B001] Webhook Stripe para add-ons
 ----------------------------------------------------------------------
-Status: 🟡 PENDENTE
+Status: ✅ RESOLVIDO (ETAPA 21)
 Prioridade: ALTA
-Descrição: O webhook de pagamento de add-ons não está criando registros
+Descrição: O webhook de pagamento de add-ons não estava criando registros
            na tabela user_addons após pagamento bem-sucedido.
-Impacto: Usuários pagam mas não recebem o add-on automaticamente.
-Workaround: Ativar manualmente via Supabase.
-Arquivos: app/api/stripe/webhook/route.ts
-Criado em: 01/12/2025
+Solução: Webhook atualizado em lib/stripe.ts para detectar mode: 'payment'
+         e chamar processAddonPurchase() que insere em user_addons.
+Arquivos: lib/stripe.ts
+Resolvido em: 01/12/2025
 
 [B002] Tabela user_addons não existe
 ----------------------------------------------------------------------
+Status: ✅ RESOLVIDO (ETAPA 21)
+Prioridade: ALTA
+Descrição: A tabela user_addons precisava ser criada no Supabase para
+           armazenar add-ons comprados pelos usuários.
+Solução: Migration criada em database/migrate-user-addons.sql com:
+         - Tabela user_addons com campos completos
+         - RLS para segurança
+         - Funções has_active_addon, get_addon_credits, consume_addon_credit
+Arquivos: database/migrate-user-addons.sql
+Resolvido em: 01/12/2025
+
+[B004] Migration user_addons pendente de execução
+----------------------------------------------------------------------
 Status: 🟡 PENDENTE
 Prioridade: ALTA
-Descrição: A tabela user_addons precisa ser criada no Supabase para
-           armazenar add-ons comprados pelos usuários.
-Impacto: Não há como rastrear quais add-ons cada usuário comprou.
-Workaround: Nenhum.
-Arquivos: database/migrations/
+Descrição: A migration database/migrate-user-addons.sql foi criada mas
+           ainda não foi executada no Supabase de produção.
+Impacto: Webhook vai falhar ao tentar inserir em user_addons.
+Workaround: Executar migration manualmente no Supabase SQL Editor.
+Arquivos: database/migrate-user-addons.sql
 Criado em: 01/12/2025
 
 [B003] Cache de menu admin no localStorage
@@ -130,6 +143,17 @@ Decisão:
   - Legados redirecionam automaticamente
 Motivo: Evitar confusão e manter UX consistente.
 
+[D006] Estrutura de billing de add-ons
+----------------------------------------------------------------------
+Data: 01/12/2025
+Decisão:
+  - Tabela user_addons com addon_key correspondendo ao id em addons-config.ts
+  - Webhook Stripe detecta mode: 'payment' para add-ons
+  - Créditos gerenciados por credits_total e credits_remaining
+  - Expiração via expires_at (NULL = permanente)
+Motivo: Fluxo consistente entre Stripe, banco e app.
+Arquivos: database/migrate-user-addons.sql, lib/stripe.ts, lib/user-addons.ts
+
 ================================================================================
 💡 IDEIAS PARA O FUTURO (NÃO IMPLEMENTAR AGORA)
 ================================================================================
@@ -181,6 +205,16 @@ Descrição: Gerar relatório formatado para uso em processos.
 Benefício: Valor agregado para profissionais, diferencial.
 Dependências: Validação jurídica, templates.
 Estimativa: 2 semanas.
+
+[I007] ORÁCULO V2 MULTIPERFIL (BLOCO 26-30)
+----------------------------------------------------------------------
+Prioridade: MÉDIA
+Descrição: Expandir o uso do ORÁCULO V2 para TODOS os perfis:
+           usuária, profissional, admin, dev, whitelabel.
+Benefício: IA de suporte unificada para todo o produto.
+Dependências: ETAPA 22 (Oráculo V2 para admin) concluída.
+Estimativa: BLOCO 26-30.
+Nota: Unificar em módulo ORACULO_V2_CORE reutilizável pelo GERADOR DE SAAS.
 
 ================================================================================
 ⚠️ DÍVIDAS TÉCNICAS
@@ -263,14 +297,14 @@ Nota:
 📊 MÉTRICAS DE SAÚDE DO PROJETO
 ================================================================================
 
-Última verificação: 01/12/2025 13:30
+Última verificação: 01/12/2025 15:00
 
 | Métrica                  | Valor    | Status |
 |--------------------------|----------|--------|
-| Etapas concluídas        | 19/20    | ✅     |
+| Etapas concluídas        | 21/25    | ✅     |
 | Build passando           | Sim      | ✅     |
-| Páginas geradas          | 159      | ✅     |
-| Bugs críticos            | 2        | 🟡     |
+| Páginas geradas          | 161      | ✅     |
+| Bugs críticos            | 1        | 🟡     |
 | Dívidas técnicas         | 5        | 🟡     |
 | Documentação atualizada  | Sim      | ✅     |
 | Último deploy            | Hoje     | ✅     |
@@ -278,6 +312,13 @@ Nota:
 ================================================================================
 🔄 HISTÓRICO DE ATUALIZAÇÕES DESTE ARQUIVO
 ================================================================================
+
+01/12/2025 15:00 - ETAPA 21 (Billing Sólido & Add-ons)
+  - B001 e B002 resolvidos (webhook e tabela user_addons)
+  - B004 adicionado (migration pendente de execução)
+  - D006 adicionada (estrutura de billing de add-ons)
+  - I007 adicionada (Oráculo V2 Multiperfil para BLOCO 26-30)
+  - Métricas atualizadas: 21/25 etapas, 161 páginas
 
 01/12/2025 13:30 - Criação inicial (ETAPA 20)
   - Estrutura base com 6 seções

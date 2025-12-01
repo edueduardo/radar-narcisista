@@ -5,8 +5,17 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 14:00 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 13:30 → 14:00):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 15:00 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 14:00 → 15:00):
+- ETAPA 21: Billing Sólido & Add-ons (✅ CONCLUÍDO)
+  - Tabela user_addons criada (database/migrate-user-addons.sql)
+  - Webhook Stripe atualizado para processar add-ons
+  - APIs /api/addons e /api/addons/consume criadas
+  - lib/user-addons.ts com funções helper
+  - docs/ENV-VARIABLES.md com mapeamento de variáveis
+  - Build passou: 161 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 13:30 → 14:00):
 - ETAPA 20: Lâmpada Geral (✅ CONCLUÍDO)
   - LAMPADA-RADAR.txt criado na raiz
   - 6 seções: Bugs, Confusões, Decisões, Ideias, Dívidas Técnicas, Notas

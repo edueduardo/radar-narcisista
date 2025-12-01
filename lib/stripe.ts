@@ -266,15 +266,40 @@ export async function reativarAssinatura(subscriptionId: string) {
 // WEBHOOK HANDLERS
 // ============================================
 
+import { createClient } from '@supabase/supabase-js'
+
+// Cliente Supabase com service_role para operações administrativas
+const getSupabaseAdmin = () => {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  
+  if (!supabaseUrl || !supabaseServiceKey) {
+    console.error('Supabase não configurado para webhooks')
+    return null
+  }
+  
+  return createClient(supabaseUrl, supabaseServiceKey)
+}
+
 export const webhookHandlers = {
   'checkout.session.completed': async (session: Stripe.Checkout.Session) => {
     console.log('✅ Checkout completado:', session.id)
-    // Atualizar usuário no banco com plano ativo
-    const userId = session.client_reference_id
-    const planoId = session.metadata?.planoId
     
-    // TODO: Atualizar no Supabase
-    console.log(`Usuário ${userId} assinou plano ${planoId}`)
+    const userId = session.client_reference_id
+    const metadata = session.metadata || {}
+    
+    // Verificar se é checkout de ADD-ON (mode: 'payment')
+    if (session.mode === 'payment' && metadata.addonId) {
+      console.log(`📦 Processando add-on: ${metadata.addonId} para usuário ${userId}`)
+      await processAddonPurchase(session)
+      return
+    }
+    
+    // Checkout de ASSINATURA (mode: 'subscription')
+    const planoId = metadata.planoId
+    console.log(`💳 Usuário ${userId} assinou plano ${planoId}`)
+    
+    // TODO: Atualizar plano do usuário no Supabase
   },
 
   'customer.subscription.updated': async (subscription: Stripe.Subscription) => {
@@ -291,6 +316,77 @@ export const webhookHandlers = {
     console.log('⚠️ Pagamento falhou:', invoice.id)
     // Notificar usuário
   },
+}
+
+// ============================================
+// PROCESSAMENTO DE ADD-ONS
+// ============================================
+
+/**
+ * Processa compra de add-on e registra no banco
+ */
+async function processAddonPurchase(session: Stripe.Checkout.Session) {
+  const supabase = getSupabaseAdmin()
+  if (!supabase) {
+    console.error('❌ Supabase não disponível para processar add-on')
+    return
+  }
+  
+  const userId = session.client_reference_id
+  const metadata = session.metadata || {}
+  
+  if (!userId || !metadata.addonId) {
+    console.error('❌ Dados incompletos para processar add-on:', { userId, metadata })
+    return
+  }
+  
+  // Calcular data de expiração
+  let expiresAt: string | null = null
+  if (metadata.validityDays && parseInt(metadata.validityDays) > 0) {
+    const expDate = new Date()
+    expDate.setDate(expDate.getDate() + parseInt(metadata.validityDays))
+    expiresAt = expDate.toISOString()
+  }
+  
+  // Preparar dados do add-on
+  const addonData = {
+    user_id: userId,
+    addon_key: metadata.addonId,
+    stripe_price_id: session.line_items?.data?.[0]?.price?.id || null,
+    stripe_payment_id: session.payment_intent as string || null,
+    stripe_session_id: session.id,
+    status: 'active',
+    credits_total: metadata.credits ? parseInt(metadata.credits) : null,
+    credits_remaining: metadata.credits ? parseInt(metadata.credits) : null,
+    expires_at: expiresAt,
+    metadata: {
+      addonName: metadata.addonName,
+      addonType: metadata.addonType,
+      addonCategory: metadata.addonCategory,
+      amountPaid: session.amount_total,
+      currency: session.currency,
+    }
+  }
+  
+  // Inserir no banco
+  const { data, error } = await supabase
+    .from('user_addons')
+    .insert(addonData)
+    .select()
+    .single()
+  
+  if (error) {
+    console.error('❌ Erro ao registrar add-on:', error)
+    return
+  }
+  
+  console.log(`✅ Add-on registrado com sucesso:`, {
+    id: data.id,
+    addon_key: data.addon_key,
+    user_id: data.user_id,
+    credits: data.credits_total,
+    expires_at: data.expires_at
+  })
 }
 
 // ============================================

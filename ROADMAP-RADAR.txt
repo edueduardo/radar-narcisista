@@ -1,14 +1,15 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 3.3
-Última atualização: 01/12/2025 14:00 (UTC-5)
+Versão: 3.4
+Última atualização: 01/12/2025 15:00 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
-🎉 MVP 1.0 CONCLUÍDO! (ETAPA 20 CONCLUÍDA - BLOCO 14-20 FINALIZADO)
+🚀 BLOCO 21-25 EM ANDAMENTO (PÓS-MVP 1.0)
+Versão atual: MVP 1.0.21 (ETAPA 21 CONCLUÍDA)
 Objetivo desta fase: Fechar MVP vendável B2C + Iniciar BLOCO 14-20
 
 ================================================================================
@@ -352,6 +353,54 @@ BLOCO 14-20 (PRÓXIMAS ETAPAS)
    - Risco: Baixo → MITIGADO
 
 🎉 BLOCO 14-20 CONCLUÍDO! MVP 1.0 PRONTO PARA LANÇAMENTO!
+
+================================================================================
+BLOCO 21-25 – PÓS-MVP 1.0 (CONSOLIDAÇÃO)
+================================================================================
+
+✅ ETAPA 21 – BILLING SÓLIDO & ADD-ONS (CONCLUÍDO 01/12/2025)
+   - [x] Tabela user_addons criada no Supabase
+     * Campos: id, user_id, addon_key, stripe_price_id, status, credits_*, expires_at
+     * RLS: usuário só vê seus próprios add-ons
+     * Funções: has_active_addon, get_addon_credits, consume_addon_credit
+   - [x] Webhook Stripe atualizado para processar add-ons
+     * Detecta mode: 'payment' vs 'subscription'
+     * Registra compra em user_addons automaticamente
+   - [x] APIs criadas:
+     * GET /api/addons - lista add-ons do usuário
+     * POST /api/addons/consume - consome créditos
+   - [x] lib/user-addons.ts com funções helper
+   - [x] docs/ENV-VARIABLES.md com mapeamento de variáveis
+   - Arquivos criados: database/migrate-user-addons.sql, lib/user-addons.ts, app/api/addons/*
+   - Build passou: 161 páginas
+
+🔜 ETAPA 22 – ORÁCULO V2 INTEGRADO
+   - [ ] Rota POST /api/oraculo-v2
+   - [ ] Tabela oraculo_logs
+   - [ ] Botão "Perguntar ao Oráculo" (apenas admin neste bloco)
+   - [ ] Atualizar manuais com seção Oráculo
+
+🔜 ETAPA 23 – SEGURANÇA TÉCNICA & OBSERVABILIDADE
+   - [ ] Rate limiting em rotas sensíveis
+   - [ ] Logger estruturado
+   - [ ] Endpoint /api/health
+
+🔜 ETAPA 24 – MANUAIS & LINKS INTERNOS
+   - [ ] Alinhar manuais com produto real
+   - [ ] Inserir links no app para documentação
+
+🔜 ETAPA 25 – QA TÉCNICO + CHECKLIST PÓS-MVP
+   - [ ] Verificar migrations
+   - [ ] Testes automatizados mínimos
+   - [ ] Teste manual dos fluxos principais
+
+================================================================================
+PATCH ORÁCULO – BLOCO 21-25
+================================================================================
+
+- ORÁCULO V1 = painel /admin/oraculo → só ADMIN (já existe)
+- ORÁCULO V2 = IA de suporte → NESTE BLOCO é apenas para ADMIN
+- Abertura para outros perfis (usuária/profissional/dev/whitelabel) = BLOCO 26-30
 
 ================================================================================
 IDEIAS FUTURAS (NÃO IMPLEMENTAR AGORA)
