@@ -11,9 +11,9 @@
     "backup-env": "node -e \"require('./lib/env-backup.ts').criarBackupEnv()\"",
     "repair-env": "node -e \"require('./lib/env-backup.ts').repararEnvAutomatico()\"",
     "lint": "eslint",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "espelho-codigo": "node scripts/gerar-espelho-codigo.cjs"
   },
   "dependencies": {
@@ -45,17 +45,22 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.17",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
     "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^20",
     "@types/pdfkit": "^0.17.3",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4.5.2",
     "autoprefixer": "^10.4.22",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.0.3",
+    "jsdom": "^26.1.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.0.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.3"
   }
 }

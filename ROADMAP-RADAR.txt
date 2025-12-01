@@ -1,16 +1,16 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 2.8
-Última atualização: 01/12/2025 21:45 (UTC-5)
+Versão: 3.9
+Última atualização: 01/12/2025 22:40 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
-🎉 BLOCO 26-30 CONCLUÍDO!
-Versão atual: MVP 1.0.30 (ETAPA 30 CONCLUÍDA)
-Objetivo desta fase: Oráculo V2 Multiperfil + Infra de Comunicação IA
+🎉 BLOCO 36-39 CONCLUÍDO!
+Versão atual: MVP 1.0.39 (ETAPA 39 CONCLUÍDA)
+Objetivo desta fase: Oráculo Multi-instância Whitelabel Completo
 
 ================================================================================
 PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
@@ -493,13 +493,105 @@ BLOCO 26-30 – ORÁCULO V2 MULTIPERFIL + INFRA COMUNICAÇÃO IA (EM ANDAMENTO)
    - 🎉 BLOCO 26-30 CONCLUÍDO!
 
 ================================================================================
-BLOCO 31-35 – FRONT PAGE + MATRIZ MULTI-INSTÂNCIA (FUTURO)
+BLOCO 31-35 – FRONT PAGE + MATRIZ MULTI-INSTÂNCIA
 ================================================================================
 
-🔄 ETAPA 31 – REFORMA INTELIGENTE DA FRONT PAGE (EM ANDAMENTO)
-   - Seção "Para Quem é o Radar" adicionada
-   - 4 cards segmentados: Pessoas, Profissionais, ONGs, Whitelabel
+✅ ETAPA 31 – REFORMA INTELIGENTE DA FRONT PAGE (CONCLUÍDO 01/12/2025)
+   - [x] Seção "Para Quem é o Radar" adicionada
+   - [x] 4 cards segmentados: Pessoas, Profissionais, ONGs, Whitelabel
+   - [x] Seção "Radar em Números" com estatísticas
+   - [x] Seção "Histórias de Clareza" com depoimentos
+   - [x] Seção "FAQ Rápido" com perguntas frequentes
    - Build passou: 163 páginas
+
+✅ ETAPA 32 – INFRAESTRUTURA MULTI-INSTÂNCIA (CONCLUÍDO 01/12/2025)
+   - [x] Migration database/migrate-oraculo-instances.sql
+   - [x] Tabelas: oraculo_instances, oraculo_instance_roles, oraculo_instance_usage
+   - [x] lib/oraculo-instances.ts com CRUD completo
+   - [x] Suporte a configurações por instância (modelo, temperatura, prompts)
+   - Build passou: 163 páginas
+
+✅ ETAPA 33 – PAINEL ADMIN MULTI-INSTÂNCIA (CONCLUÍDO 01/12/2025)
+   - [x] Página /admin/oraculo-instances
+   - [x] Listagem, criação, edição e exclusão de instâncias
+   - [x] API /api/admin/oraculo-instances (GET, POST)
+   - [x] API /api/admin/oraculo-instances/[id] (GET, PUT, DELETE)
+   - Build passou: 164 páginas
+
+✅ ETAPA 34 – API PÚBLICA + GERADOR DE SAAS (CONCLUÍDO 01/12/2025)
+   - [x] API /api/oraculo-public para consumo whitelabel
+   - [x] lib/oraculo-saas-generator.ts com templates
+   - [x] Validação de domínio e rate limiting
+   - [x] docs/INTEGRACAO-ORACULO-WHITELABEL.md
+   - Build passou: 165 páginas
+
+✅ ETAPA 35 – DASHBOARD DE MÉTRICAS POR INSTÂNCIA (CONCLUÍDO 01/12/2025)
+   - [x] Página /admin/oraculo-instances/[id] com métricas
+   - [x] API /api/admin/oraculo-instances/[id]/metrics
+   - [x] Gráficos de uso diário/mensal
+   - [x] Roles configurados por instância
+   - Build passou: 166 páginas
+
+================================================================================
+BLOCO 36-39 – WHITELABEL COMPLETO
+================================================================================
+
+✅ ETAPA 36 – SISTEMA DE API KEYS (CONCLUÍDO 01/12/2025)
+   - [x] Migration database/migrate-oraculo-api-keys.sql
+   - [x] Tabelas: oraculo_api_keys, oraculo_api_key_logs
+   - [x] lib/oraculo-api-keys.ts com CRUD e validação
+   - [x] API /api/admin/oraculo-instances/[id]/keys
+   - [x] UI de gerenciamento de keys na página de instância
+   - [x] Validação de API key na API pública
+   - Build passou: 166 páginas
+
+✅ ETAPA 37 – SISTEMA DE WEBHOOKS (CONCLUÍDO 01/12/2025)
+   - [x] Migration database/migrate-oraculo-webhooks.sql
+   - [x] Tabelas: oraculo_webhooks, oraculo_webhook_deliveries
+   - [x] lib/oraculo-webhooks.ts com disparo de eventos
+   - [x] API /api/admin/oraculo-instances/[id]/webhooks
+   - [x] UI de gerenciamento de webhooks
+   - [x] Assinatura HMAC-SHA256 para segurança
+   - Build passou: 166 páginas
+
+✅ ETAPA 38 – SISTEMA DE BILLING POR INSTÂNCIA (CONCLUÍDO 01/12/2025)
+   - [x] Migration database/migrate-oraculo-billing.sql
+   - [x] Tabelas: oraculo_instance_plans, oraculo_instance_subscriptions, oraculo_instance_invoices
+   - [x] lib/oraculo-billing.ts com integração Stripe
+   - [x] API /api/admin/oraculo-instances/[id]/billing
+   - [x] Planos: Free, Starter (R$49), Pro (R$149), Enterprise (R$499)
+   - [x] UI de billing com barras de progresso
+   - Build passou: 166 páginas
+
+✅ ETAPA 39 – LOGS DETALHADOS DE USO (CONCLUÍDO 01/12/2025)
+   - [x] Migration database/migrate-oraculo-usage-logs.sql
+   - [x] Tabela oraculo_usage_logs com métricas completas
+   - [x] lib/oraculo-usage-logs.ts com estatísticas
+   - [x] API /api/admin/oraculo-instances/[id]/logs
+   - [x] Integração na API pública (logging automático)
+   - [x] UI de logs com resumo e lista recente
+   - Build passou: 166 páginas
+
+🎉 BLOCO 36-39 CONCLUÍDO! ORÁCULO WHITELABEL COMPLETO!
+
+================================================================================
+BLOCO 40-45 – DOCUMENTAÇÃO + TESTES + ANALYTICS (EM ANDAMENTO)
+================================================================================
+
+🔄 ETAPA 40 – DOCUMENTAÇÃO INTERATIVA DA API (EM ANDAMENTO)
+   - [ ] Página /docs/api com documentação interativa
+   - [ ] Exemplos de código em múltiplas linguagens
+   - [ ] Playground para testar endpoints
+
+🔜 ETAPA 41 – TESTES AUTOMATIZADOS (PRÓXIMO)
+   - [ ] Testes unitários para libs principais
+   - [ ] Testes de integração para APIs
+   - [ ] CI/CD com GitHub Actions
+
+🔜 ETAPA 42 – DASHBOARD ANALYTICS AVANÇADO (BACKLOG)
+   - [ ] Gráficos interativos com Tremor
+   - [ ] Exportação de relatórios
+   - [ ] Alertas automáticos
 
 ================================================================================
 IDEIAS FUTURAS (NÃO IMPLEMENTAR AGORA)
