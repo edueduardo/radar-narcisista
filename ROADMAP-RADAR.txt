@@ -1,15 +1,15 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 3.9
-Última atualização: 01/12/2025 19:30 (UTC-5)
+Versão: 4.0
+Última atualização: 01/12/2025 20:00 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
 🚀 BLOCO 26-30 EM ANDAMENTO!
-Versão atual: MVP 1.0.26 (ETAPA 26 EM ANDAMENTO)
+Versão atual: MVP 1.0.27 (ETAPA 27 CONCLUÍDA)
 Objetivo desta fase: Oráculo V2 Multiperfil + Infra de Comunicação IA
 
 ================================================================================
@@ -448,20 +448,21 @@ BLOCO 26-30 – ORÁCULO V2 MULTIPERFIL + INFRA COMUNICAÇÃO IA (EM ANDAMENTO)
 
 ✅ BLOCO 21-25 CONCLUÍDO! Iniciando BLOCO 26-30.
 
-🔄 ETAPA 26 – TEMPLATE DE RESUMO + CHECKLIST + REGRAS (EM ANDAMENTO)
+✅ ETAPA 26 – TEMPLATE DE RESUMO + CHECKLIST + REGRAS (CONCLUÍDO 01/12/2025)
    - [x] docs/FORMATO-RESUMO-ETAPAS.md atualizado (v2.0)
    - [x] docs/CHECKLIST-RESUMO-IA.md criado
    - [x] docs/PATCHES-ORACULO-COMPLETO.md criado
    - [x] scripts/validar-resumo-ia.ts criado
-   - [ ] Atualizar documentação principal
-   - [ ] Commit e push
+   - [x] Documentação principal atualizada
+   - [x] Commit: 6b93a37
 
-🔜 ETAPA 27 – ORACULO_V2_CORE (NÚCLEO REUTILIZÁVEL)
-   - [ ] Criar lib/oraculo-core.ts
-   - [ ] Mover construção de prompt para o core
-   - [ ] Mover chamada de IA para o core
-   - [ ] Atualizar /api/oraculo-v2 para usar o core
-   - [ ] Documentar em docs/ORACULO-CORE.md
+✅ ETAPA 27 – ORACULO_V2_CORE (CONCLUÍDO 01/12/2025)
+   - [x] lib/oraculo-core.ts criado (núcleo reutilizável)
+   - [x] Prompts por perfil: admin, usuaria, profissional, dev, whitelabel
+   - [x] Funções: callOraculo, buildSystemPrompt, buildUserContext, parseOraculoResponse
+   - [x] /api/oraculo-v2 refatorado para usar o core
+   - [x] docs/ORACULO-CORE.md criado
+   - Build passou: 163 páginas
 
 🔜 ETAPA 28 – INFRA MULTIPERFIL (FLAGS POR PLANO/PERFIL)
    - [ ] Criar tabela oraculo_plan_settings

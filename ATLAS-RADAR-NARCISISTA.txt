@@ -5,9 +5,17 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 19:30 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 18:30 → 19:30):
-- ETAPA 26: Template de Resumo + Checklist + Regras (🔄 EM ANDAMENTO)
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 20:00 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 19:30 → 20:00):
+- ETAPA 27: ORACULO_V2_CORE (✅ CONCLUÍDO)
+  - lib/oraculo-core.ts criado (núcleo reutilizável)
+  - app/api/oraculo-v2/route.ts refatorado para usar o core
+  - docs/ORACULO-CORE.md criado (documentação técnica)
+  - Prompts por perfil: admin, usuaria, profissional, dev, whitelabel
+  - Build passou: 163 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 18:30 → 19:30):
+- ETAPA 26: Template de Resumo + Checklist + Regras (✅ CONCLUÍDO)
   - docs/FORMATO-RESUMO-ETAPAS.md atualizado (v2.0)
   - docs/CHECKLIST-RESUMO-IA.md criado
   - docs/PATCHES-ORACULO-COMPLETO.md criado (unifica todos os patches)

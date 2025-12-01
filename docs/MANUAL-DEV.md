@@ -365,6 +365,8 @@ npx supabase db push
 ### Referência Técnica
 - [Variáveis de Ambiente](/docs/ENV-VARIABLES.md)
 - [Prompt do Oráculo V2](/docs/ORACULO-V2-PROMPT.md)
+- [ORACULO_V2_CORE](/docs/ORACULO-CORE.md) - Núcleo reutilizável do Oráculo
+- [Patches do Oráculo](/docs/PATCHES-ORACULO-COMPLETO.md) - Decisões e regras
 
 ### Arquivos de Projeto
 - `TUDO PARA O GPT.txt` - Histórico completo de implementações
@@ -384,6 +386,38 @@ npx supabase db push
 | `/api/stripe/checkout` | POST | Criar checkout |
 | `/api/chat` | POST | Chat com Coach IA |
 | `/api/evaluate-clarity` | POST | Avaliar teste de clareza |
+
+---
+
+---
+
+## 🔮 ORACULO_V2_CORE
+
+O núcleo reutilizável do Oráculo V2 está em `lib/oraculo-core.ts`.
+
+### Uso Básico
+```typescript
+import { callOraculo } from '@/lib/oraculo-core'
+
+const result = await callOraculo({
+  user_role: 'admin',
+  question: 'Como funciona o rate limiting?',
+  plan: 'enterprise'
+}, process.env.OPENAI_API_KEY!)
+
+if (result.success) {
+  console.log(result.response?.resposta_principal)
+}
+```
+
+### Perfis Suportados
+- `admin` - Administrador/dono do produto
+- `usuaria` - Usuária final
+- `profissional` - Psicólogo, advogado, etc.
+- `dev` - Desenvolvedor
+- `whitelabel` - Parceiro whitelabel
+
+Ver documentação completa: [docs/ORACULO-CORE.md](/docs/ORACULO-CORE.md)
 
 ---
 

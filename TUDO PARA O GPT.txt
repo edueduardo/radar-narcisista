@@ -2,7 +2,7 @@
 RADAR NARCISISTA - HISTÓRICO COMPLETO DE IMPLEMENTAÇÕES
 ================================================================================
 Gerado em: 28/11/2025
-Atualizado em: 01/12/2025 18:30 (UTC-5)
+Atualizado em: 01/12/2025 20:00 (UTC-5)
 Projeto: SaaS de apoio a vítimas de relacionamentos abusivos/narcisistas
 Stack: Next.js 16 + Supabase + OpenAI/Groq + TailwindCSS 4
 
@@ -3694,13 +3694,17 @@ Se texto antigo disser "Oráculo para usuária/profissional AGORA"
 BLOCO 26-30 – ORÁCULO V2 MULTIPERFIL + INFRA COMUNICAÇÃO IA (EM ANDAMENTO)
 ================================================================================
 
-🔄 ETAPA 26: Template de Resumo + Checklist + Regras (EM ANDAMENTO)
+✅ ETAPA 26: Template de Resumo + Checklist + Regras (01/12/2025)
    - docs/FORMATO-RESUMO-ETAPAS.md atualizado (v2.0)
    - docs/CHECKLIST-RESUMO-IA.md criado
    - docs/PATCHES-ORACULO-COMPLETO.md criado
    - scripts/validar-resumo-ia.ts criado
 
-🔜 ETAPA 27: ORACULO_V2_CORE (núcleo reutilizável)
+✅ ETAPA 27: ORACULO_V2_CORE (01/12/2025)
+   - lib/oraculo-core.ts criado (núcleo reutilizável)
+   - Prompts por perfil: admin, usuaria, profissional, dev, whitelabel
+   - /api/oraculo-v2 refatorado para usar o core
+   - docs/ORACULO-CORE.md criado
 🔜 ETAPA 28: Infra multiperfil (flags por plano/perfil)
 🔜 ETAPA 29: Expor Oráculo V2 para outros perfis (Fase 1)
 🔜 ETAPA 30: Integração Gerador de SaaS + QA

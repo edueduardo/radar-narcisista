@@ -1,8 +1,8 @@
 ================================================================================
 💡 LÂMPADA RADAR - OBSERVAÇÕES E PENDÊNCIAS
 ================================================================================
-Versão: 1.3
-Última atualização: 01/12/2025 19:30 (UTC-5)
+Versão: 1.4
+Última atualização: 01/12/2025 20:00 (UTC-5)
 Responsável: Equipe Radar Narcisista
 
 ================================================================================
@@ -320,11 +320,11 @@ Nota:
 📊 MÉTRICAS DE SAÚDE DO PROJETO
 ================================================================================
 
-Última verificação: 01/12/2025 19:30
+Última verificação: 01/12/2025 20:00
 
 | Métrica                  | Valor    | Status |
 |--------------------------|----------|--------|
-| Etapas concluídas        | 25/32    | ✅     |
+| Etapas concluídas        | 27/32    | ✅     |
 | Bloco atual              | 26-30    | 🔄     |
 | Build passando           | Sim      | ✅     |
 | Páginas geradas          | 163      | ✅     |
@@ -337,13 +337,19 @@ Nota:
 🔄 HISTÓRICO DE ATUALIZAÇÕES DESTE ARQUIVO
 ================================================================================
 
+01/12/2025 20:00 - ETAPA 27 (ORACULO_V2_CORE)
+  - lib/oraculo-core.ts criado (núcleo reutilizável)
+  - Prompts por perfil: admin, usuaria, profissional, dev, whitelabel
+  - /api/oraculo-v2 refatorado para usar o core
+  - docs/ORACULO-CORE.md criado
+  - Métricas atualizadas: 27/32 etapas
+
 01/12/2025 19:30 - ETAPA 26 (Template de Resumo + Checklist + Regras)
   - BLOCO 26-30 INICIADO!
   - docs/FORMATO-RESUMO-ETAPAS.md atualizado (v2.0)
   - docs/CHECKLIST-RESUMO-IA.md criado
   - docs/PATCHES-ORACULO-COMPLETO.md criado
   - scripts/validar-resumo-ia.ts criado
-  - Métricas atualizadas: 25/32 etapas
 
 01/12/2025 18:00 - ETAPA 25 (QA Técnico + Checklist Pós-MVP)
   - CHECKLIST-POS-MVP.md criado
