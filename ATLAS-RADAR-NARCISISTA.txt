@@ -1,12 +1,22 @@
 ================================================================================
 RADAR NARCISISTA – ATLAS COMPLETO DO PROJETO (CÓDIGO REAL)
 ================================================================================
-Data/hora da geração: 30/11/2025 17:50 (UTC-5)
+Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 30/11/2025 17:50
-MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 16:45 → 17:50):
+ÚLTIMA ATUALIZAÇÃO: 30/11/2025 20:20
+MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 19:50 → 20:20):
+- ETAPA 8.3: Telas Admin de Curadoria (✅ CONCLUÍDO)
+  - 4 páginas criadas: sugestoes, publicados, colecoes, insights
+  - admin-features-registry.ts atualizado
+- Build passou: 143 páginas (antes 139)
+
+MUDANÇAS ANTERIORES (30/11/2025 17:50 → 19:50):
+- ETAPA 8.1: Schema do Content System (6 tabelas criadas)
+- ETAPA 8.2: 9 APIs Admin + IA Curadora implementadas
+
+MUDANÇAS ANTERIORES (30/11/2025 16:45 → 17:50):
 - ETAPA 7.4: QA Triângulo + Plano de Segurança (todos testes PASS)
 - Preparação para ETAPA 8: FanPage Viva + Camada Comercial
 - Ciclo RADAR 5 TXT executado para sincronização
@@ -946,10 +956,10 @@ TABELAS UTILIZADAS:
 - clarity_tests (campo has_physical_risk)
 
 ================================================================================
-[17] ETAPA 8 – FANPAGE VIVA + CAMADA COMERCIAL (PLANEJADO)
+[17] ETAPA 8 – FANPAGE VIVA + CAMADA COMERCIAL (EM ANDAMENTO)
 ================================================================================
 
-STATUS: EM PLANEJAMENTO (não implementado ainda)
+STATUS: PARCIALMENTE IMPLEMENTADO (ETAPA 8.1 + 8.2 CONCLUÍDAS)
 
 OBJETIVO:
 Transformar a frontpage em um organismo vivo que:
@@ -958,59 +968,181 @@ Transformar a frontpage em um organismo vivo que:
 - Tudo passa pelo filtro do Eduardo (admin) antes de publicar
 - IAs como equipe editorial, Eduardo como editor-chefe
 
-ESTRUTURA PLANEJADA:
+================================================================================
+ETAPA 8.1 – SCHEMA DO CONTENT SYSTEM (✅ CONCLUÍDO 30/11/2025 18:25)
+================================================================================
 
-1. NOVAS TABELAS (a criar):
-   - content_items: conteúdos publicados (artigos, FAQs, notícias, lições)
-   - content_suggestions: sugestões de conteúdo (IA + manual)
-   - content_sources: fontes externas confiáveis
-   - content_collections: trilhas/coleções (Radar Academy)
-   - content_collection_items: ponte coleção ↔ conteúdo
-   - content_insights: dados agregados (Radar em Números)
+MIGRATION: database/migrations/20241130_create_content_system.sql
 
-2. NOVAS APIS (a criar):
-   - /api/admin/content/suggestions (CRUD sugestões)
-   - /api/admin/content/items (CRUD conteúdos)
-   - /api/admin/content/collections (CRUD coleções)
-   - /api/admin/content/insights/recompute (recalcular estatísticas)
-   - /api/admin/content/curadoria/ia-sugerir (IA Curadora)
+TABELAS CRIADAS:
+1. content_sources - Fontes externas confiáveis (blogs, podcasts, etc.)
+2. content_items - Conteúdos publicados (artigos, FAQs, notícias, lições)
+3. content_suggestions - Sugestões de conteúdo (IA + manual)
+4. content_collections - Trilhas/coleções (Radar Academy)
+5. content_collection_items - Ponte N:N coleção ↔ conteúdo
+6. content_insights - Métricas agregadas (Radar em Números)
 
-3. NOVAS PÁGINAS ADMIN (a criar):
-   - /admin/conteudos/sugestoes
-   - /admin/conteudos/publicados
-   - /admin/conteudos/collections
-   - /admin/fanpage/config
+RLS CONFIGURADO:
+- Leitura pública apenas para visibility='public'
+- Escrita apenas para admins autenticados
 
-4. FRONTPAGE REESTRUTURADA:
-   - Hero com CTAs comerciais (já existe)
-   - Triângulo + Plano de Segurança (já existe)
-   - Planos e Preços (já existe, integrado com billing_plans)
-   - Radar em Números (novo - dados agregados)
-   - FAQ dinâmico (novo - content_items type='faq')
-   - Radar no Mundo (novo - content_items source_type='external_world')
-   - Radar Academy (novo - content_collections)
-   - Ética e Limites (já existe parcialmente)
+SEED DATA:
+- 6 métricas iniciais em content_insights
+- 3 FAQs iniciais em content_items
 
-5. IA CURADORA:
-   - Garimpa conteúdo externo
-   - Gera resumo editorial
-   - Sugere tags e tipo
-   - Eduardo aprova/rejeita/edita
-   - Sistema aprende com as decisões
+================================================================================
+ETAPA 8.2 – APIS ADMIN + IA CURADORA (✅ CONCLUÍDO 30/11/2025 19:15)
+================================================================================
 
-DEPENDÊNCIAS:
-- Sistema de planos já funcional (billing_plans) ✅
-- Frontpage já tem estrutura base ✅
-- Triângulo + Plano de Segurança funcionando ✅
+PADRÃO DE ADMIN:
+- Usa requireAdminAPI() de lib/admin-auth.ts
+- Emails admin: etailoffice@gmail.com, eduardo.mkt.davila@gmail.com
+- Roles: ADMIN ou SUPER_ADMIN em user_profiles.role
+
+APIS CRIADAS (9 endpoints):
+
+1. /api/admin/content/items (GET, POST)
+   - Lista com filtros: visibility, content_type, source_type, search, topics, featured
+   - Cria novo content_item
+   - Arquivo: app/api/admin/content/items/route.ts
+
+2. /api/admin/content/items/[id] (GET, PATCH, DELETE)
+   - Detalhe, atualização, arquivamento (soft delete)
+   - Arquivo: app/api/admin/content/items/[id]/route.ts
+
+3. /api/admin/content/suggestions (GET, POST)
+   - Lista com filtros: status, suggestion_source, priority, search
+   - Cria sugestão manual
+   - Arquivo: app/api/admin/content/suggestions/route.ts
+
+4. /api/admin/content/suggestions/[id] (GET, PATCH, DELETE)
+   - Detalhe, atualização, remoção
+   - PATCH com publish_now=true cria content_item automaticamente
+   - Arquivo: app/api/admin/content/suggestions/[id]/route.ts
+
+5. /api/admin/content/collections (GET, POST)
+   - Lista com filtros: visibility, collection_type, featured, premium
+   - Cria nova coleção
+   - Arquivo: app/api/admin/content/collections/route.ts
+
+6. /api/admin/content/collections/[id] (GET, PATCH, DELETE)
+   - Detalhe, atualização, arquivamento
+   - Arquivo: app/api/admin/content/collections/[id]/route.ts
+
+7. /api/admin/content/collections/[id]/items (GET, POST, PATCH, DELETE)
+   - Gerencia itens dentro de uma coleção
+   - Arquivo: app/api/admin/content/collections/[id]/items/route.ts
+
+8. /api/admin/content/insights/recompute (GET, POST)
+   - GET: Status das métricas atuais
+   - POST: Recalcula todas as métricas
+   - Arquivo: app/api/admin/content/insights/recompute/route.ts
+
+9. /api/admin/content/curadoria/ia-sugerir (POST)
+   - Recebe raw_text ou original_url + source_type
+   - Usa Groq (fallback OpenAI) para gerar sugestão
+   - Cria registro em content_suggestions com status='pending'
+   - Arquivo: app/api/admin/content/curadoria/ia-sugerir/route.ts
+
+LIB AUXILIAR:
+- lib/content-insights.ts
+  - recomputeContentInsights(): Calcula 7 métricas
+  - getPublicInsights(): Busca métricas públicas
+
+MÉTRICAS CALCULADAS:
+| Métrica                        | Categoria   | Visibilidade |
+|--------------------------------|-------------|--------------|
+| total_users                    | general     | public       |
+| tests_completed_30d            | engagement  | public       |
+| diary_entries_30d              | engagement  | public       |
+| chat_sessions_30d              | engagement  | public       |
+| safety_plans_created           | safety      | public       |
+| risk_alerts_30d                | safety      | admin_only   |
+| percent_users_physical_risk_high | safety    | admin_only   |
+
+IA CURADORA:
+- Usa chatGroq e chatOpenAI de lib/ia-conexoes-reais.ts
+- Prompt ético em PT-BR com regras:
+  - NÃO romantizar abuso
+  - NÃO usar linguagem sensacionalista
+  - NÃO fazer diagnósticos clínicos
+  - NÃO sugerir vingança
+  - SEMPRE focar em educação e proteção
+- Gera: título, resumo, tipo, tags, relevância (0-1), riscos/gatilhos
+- Salva em content_suggestions com suggestion_source='ai_curator'
+
+================================================================================
+ETAPA 8.3 – TELAS ADMIN DE CURADORIA (✅ CONCLUÍDO 30/11/2025 20:15)
+================================================================================
+
+PÁGINAS CRIADAS:
+- [x] /admin/conteudos/sugestoes - Gerenciar sugestões da IA Curadora
+- [x] /admin/conteudos/publicados - Gerenciar conteúdos publicados
+- [x] /admin/conteudos/colecoes - Gerenciar coleções/trilhas (Radar Academy)
+- [x] /admin/conteudos/insights - Visualizar e recalcular métricas (Radar em Números)
+
+ARQUIVOS CRIADOS:
+- app/admin/conteudos/sugestoes/page.tsx
+- app/admin/conteudos/publicados/page.tsx
+- app/admin/conteudos/colecoes/page.tsx
+- app/admin/conteudos/insights/page.tsx
+
+REGISTRO ADMIN ATUALIZADO:
+- app/admin/admin-features-registry.ts
+  - Adicionados 4 novos IDs: conteudos_sugestoes, conteudos_publicados, conteudos_colecoes, conteudos_insights
+  - Grupo: Dados
+  - Ordem: 25-28
+
+FUNCIONALIDADES POR PÁGINA:
+
+1. /admin/conteudos/sugestoes:
+   - Lista sugestões com filtros (status, fonte, busca)
+   - Painel de detalhes com ações (aprovar, publicar, rejeitar)
+   - Modal IA Curadora para analisar novos conteúdos
+   - Integração com /api/admin/content/suggestions
+
+2. /admin/conteudos/publicados:
+   - Tabela de conteúdos com filtros (visibilidade, tipo, busca)
+   - Modal de edição com campos: título, resumo, corpo (Markdown), tags
+   - Criar novo conteúdo
+   - Arquivar conteúdo (soft delete)
+   - Integração com /api/admin/content/items
+
+3. /admin/conteudos/colecoes:
+   - Lista de coleções com seleção
+   - Painel de detalhes com itens da coleção
+   - Adicionar/remover itens
+   - Criar/editar coleções
+   - Integração com /api/admin/content/collections
+
+4. /admin/conteudos/insights:
+   - Cards de métricas públicas e admin-only
+   - Botão "Recalcular Métricas"
+   - Formatação de valores (K, M, %)
+   - Timestamp de última atualização
+   - Integração com /api/admin/content/insights/recompute
+
+BUILD: 143 páginas (antes 139)
+
+================================================================================
+ETAPA 8.4 – BLOCOS DINÂMICOS NA FRONTPAGE (PENDENTE)
+================================================================================
+
+- [x] Hero com CTAs comerciais (já existe)
+- [x] Planos e Preços (já existe, integrado com billing_plans)
+- [ ] Radar em Números (dados agregados de content_insights)
+- [ ] FAQ dinâmico (content_items type='faq')
+- [ ] Radar no Mundo (content_items source_type='external_world')
+- [ ] Radar Academy (content_collections)
 
 ================================================================================
 FIM DO ATLAS – 17 SEÇÕES
 ================================================================================
 
 Gerado em: 29/11/2025 18:10 (UTC-5)
-Atualizado em: 30/11/2025 17:50 (UTC-5)
-Tamanho aproximado: ~35KB
-Seções: 16
+Atualizado em: 30/11/2025 19:50 (UTC-5)
+Tamanho aproximado: ~40KB
+Seções: 17
 
 NOTA IMPORTANTE:
 Este documento reflete o estado do CÓDIGO no momento da geração.
@@ -1018,8 +1150,12 @@ O estado real do banco de dados Supabase NÃO PODE SER CONFIRMADO
 a partir do código. As migrations listadas como "pendentes" podem
 já ter sido executadas manualmente.
 
+MIGRATIONS PENDENTES:
+- 007_frontpage_config.sql
+- 20241130_create_content_system.sql
+
 Para confirmar o estado do banco:
 1. Acessar Supabase Dashboard
-2. Verificar se as colunas existem nas tabelas
+2. Verificar se as tabelas/colunas existem
 3. Executar migrations pendentes se necessário
 ================================================================================

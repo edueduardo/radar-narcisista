@@ -44,6 +44,10 @@ export type AdminFeatureId =
   | 'beta_testers'
   | 'termos_aceitos'
   | 'planos_admin'
+  | 'conteudos_sugestoes'
+  | 'conteudos_publicados'
+  | 'conteudos_colecoes'
+  | 'conteudos_insights'
 
 export type AdminFeatureGroup = 
   | 'IAs'
@@ -349,6 +353,53 @@ export const ADMIN_FEATURES: AdminFeature[] = [
     defaultOrder: 24,
     relatedTables: ['billing_plans', 'billing_plan_promotions', 'subscriptions'],
     relatedAPIs: ['/api/stripe/checkout', '/api/stripe/webhook']
+  },
+
+  // 📝 GRUPO: Conteúdos (ETAPA 8.3 - FanPage Viva)
+  {
+    id: 'conteudos_sugestoes',
+    label: '💡 Sugestões',
+    description: 'Gerenciar sugestões de conteúdo da IA Curadora e manuais',
+    path: '/admin/conteudos/sugestoes',
+    icon: 'Lightbulb',
+    group: 'Dados',
+    defaultOrder: 25,
+    relatedTables: ['content_suggestions'],
+    relatedAPIs: ['/api/admin/content/suggestions', '/api/admin/content/curadoria/ia-sugerir'],
+    relatedIAs: ['ia_curadora']
+  },
+  {
+    id: 'conteudos_publicados',
+    label: '📄 Publicados',
+    description: 'Gerenciar conteúdos publicados (artigos, FAQs, notícias)',
+    path: '/admin/conteudos/publicados',
+    icon: 'FileText',
+    group: 'Dados',
+    defaultOrder: 26,
+    relatedTables: ['content_items'],
+    relatedAPIs: ['/api/admin/content/items']
+  },
+  {
+    id: 'conteudos_colecoes',
+    label: '📚 Coleções',
+    description: 'Gerenciar trilhas e coleções (Radar Academy)',
+    path: '/admin/conteudos/colecoes',
+    icon: 'Layers',
+    group: 'Dados',
+    defaultOrder: 27,
+    relatedTables: ['content_collections', 'content_collection_items'],
+    relatedAPIs: ['/api/admin/content/collections']
+  },
+  {
+    id: 'conteudos_insights',
+    label: '📊 Radar em Números',
+    description: 'Visualizar e recalcular métricas agregadas',
+    path: '/admin/conteudos/insights',
+    icon: 'BarChart3',
+    group: 'Dados',
+    defaultOrder: 28,
+    relatedTables: ['content_insights'],
+    relatedAPIs: ['/api/admin/content/insights/recompute']
   }
 ]
 

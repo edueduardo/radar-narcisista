@@ -102,13 +102,15 @@ PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
    - [x] IA Curadora usando Groq/OpenAI existente
    - [x] Padrão admin: requireAdminAPI de lib/admin-auth.ts
    
-   ETAPA 8.3 - Páginas Admin de Curadoria (PRÓXIMO):
-   - [ ] /admin/conteudos/sugestoes
-   - [ ] /admin/conteudos/publicados
-   - [ ] /admin/conteudos/collections
-   - [ ] /admin/fanpage/config
+   ✅ ETAPA 8.3 - Páginas Admin de Curadoria (CONCLUÍDO 30/11/2025 20:15)
+   - [x] /admin/conteudos/sugestoes (gerenciar sugestões IA Curadora)
+   - [x] /admin/conteudos/publicados (gerenciar content_items)
+   - [x] /admin/conteudos/colecoes (gerenciar trilhas/coleções)
+   - [x] /admin/conteudos/insights (Radar em Números - métricas)
+   - [x] admin-features-registry.ts atualizado com 4 novos IDs
+   - [x] Build passou: 143 páginas
    
-   ETAPA 8.4 - Blocos Dinâmicos na Frontpage:
+   ETAPA 8.4 - Blocos Dinâmicos na Frontpage (PRÓXIMO):
    - [x] Hero com CTAs comerciais (já existe)
    - [x] Planos e Preços (já existe, integrado com billing_plans)
    - [ ] Radar em Números (dados agregados)

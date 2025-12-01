@@ -2890,5 +2890,60 @@ ARQUIVOS CRIADOS:
 - lib/content-insights.ts
 
 ================================================================================
+ETAPA 8.3 – TELAS ADMIN DE CURADORIA (CONTENT SYSTEM)
+================================================================================
+Data: 30/11/2025 20:15 (UTC-5)
+
+PÁGINAS ADMIN CRIADAS:
+
+1. /admin/conteudos/sugestoes
+   - Lista sugestões com filtros (status, fonte, busca)
+   - Painel de detalhes com ações (aprovar, publicar, rejeitar)
+   - Modal IA Curadora para analisar novos conteúdos
+   - Integração com /api/admin/content/suggestions
+
+2. /admin/conteudos/publicados
+   - Tabela de conteúdos com filtros (visibilidade, tipo, busca)
+   - Modal de edição: título, resumo, corpo (Markdown), tags
+   - Criar novo conteúdo
+   - Arquivar conteúdo (soft delete)
+   - Integração com /api/admin/content/items
+
+3. /admin/conteudos/colecoes
+   - Lista de coleções com seleção
+   - Painel de detalhes com itens da coleção
+   - Adicionar/remover itens
+   - Criar/editar coleções
+   - Integração com /api/admin/content/collections
+
+4. /admin/conteudos/insights
+   - Cards de métricas públicas e admin-only
+   - Botão "Recalcular Métricas"
+   - Formatação de valores (K, M, %)
+   - Timestamp de última atualização
+   - Integração com /api/admin/content/insights/recompute
+
+ARQUIVOS CRIADOS:
+- app/admin/conteudos/sugestoes/page.tsx
+- app/admin/conteudos/publicados/page.tsx
+- app/admin/conteudos/colecoes/page.tsx
+- app/admin/conteudos/insights/page.tsx
+
+REGISTRO ADMIN ATUALIZADO:
+- app/admin/admin-features-registry.ts
+  - Novos IDs: conteudos_sugestoes, conteudos_publicados, conteudos_colecoes, conteudos_insights
+  - Grupo: Dados
+  - Ordem: 25-28
+
+BUILD: 143 páginas (antes 139)
+
+PRÓXIMOS PASSOS:
+1. ✅ Criar migration com as 6 novas tabelas (ETAPA 8.1)
+2. ✅ Criar APIs admin para CRUD de conteúdo (ETAPA 8.2)
+3. ✅ Criar páginas admin de curadoria (ETAPA 8.3)
+4. Adicionar seções dinâmicas na frontpage (ETAPA 8.4)
+5. ✅ Implementar IA Curadora (ETAPA 8.2)
+
+================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES
 ================================================================================
