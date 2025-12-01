@@ -140,11 +140,22 @@ PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
    - [x] Preparação para ETAPAS 11-13 (dashboards por plano)
    - [x] Build passou: 145 páginas
 
+   ✅ ETAPA 11 - Redesenho do Dashboard do Usuário - INFRA (CONCLUÍDO 30/11/2025 22:10)
+   - [x] lib/plan-dashboard-modules.ts atualizado com heroStep e minPlanLevel
+   - [x] lib/dashboard-user-layout.ts criado
+   - [x] Funções: buildUserDashboardLayout, getWelcomeMessage, getNextSuggestedAction
+   - [x] Trilha do herói: 5 etapas (Entender, Registrar, Conversar, Proteger, Recursos)
+   - [x] Backup: app/dashboard/page.BACKUP_ETAPA11.tsx
+   - [x] Build passou: 145 páginas
+   
+   NOTA: A infra está pronta. O visual do /dashboard pode ser atualizado
+   incrementalmente usando buildUserDashboardLayout() sem quebrar nada.
+
 ================================================================================
 PRÓXIMAS ETAPAS
 ================================================================================
 
-11) ETAPA 11 - Redesenho do Dashboard do Usuário (usando módulos)
+11.1) ETAPA 11.1 - Aplicar trilha visual no /dashboard (opcional, incremental)
 12) ETAPA 12 - Dashboard Profissional
 13) ETAPA 13 - Dashboard White-label (estrutura base)
 14) Loja simplificada (2–3 add-ons reais)

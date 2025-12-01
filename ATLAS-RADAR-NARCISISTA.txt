@@ -5,14 +5,20 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 30/11/2025 21:45
-MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 21:20 → 21:45):
+ÚLTIMA ATUALIZAÇÃO: 30/11/2025 22:10
+MUDANÇAS DESDE ÚLTIMA VERSÃO (30/11/2025 21:45 → 22:10):
+- ETAPA 11: Redesenho do Dashboard do Usuário - INFRA (✅ CONCLUÍDO)
+  - lib/plan-dashboard-modules.ts atualizado com heroStep e minPlanLevel
+  - lib/dashboard-user-layout.ts criado (buildUserDashboardLayout, getWelcomeMessage, etc.)
+  - Backup do dashboard: app/dashboard/page.BACKUP_ETAPA11.tsx
+  - Trilha do herói: 5 etapas (Entender, Registrar, Conversar, Proteger, Recursos)
+- Build passou: 145 páginas
+
+MUDANÇAS ANTERIORES (30/11/2025 21:20 → 21:45):
 - ETAPA 10: Infra de Planos, Famílias e Módulos de Dashboard (✅ CONCLUÍDO)
   - lib/plan-taxonomy.ts (PlanFamily, PLAN_TAXONOMY, funções auxiliares)
   - lib/plan-dashboard-modules.ts (DashboardModuleId, DASHBOARD_MODULES)
   - /admin/planos com SemaforoCard amarelo
-  - Preparação para ETAPAS 11-13 (dashboards)
-- Build passou: 145 páginas
 
 MUDANÇAS ANTERIORES (30/11/2025 20:50 → 21:20):
 - ETAPA 9: Painel de Curadoria + Semáforo de Edição (✅ CONCLUÍDO)

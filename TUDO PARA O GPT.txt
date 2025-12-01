@@ -3101,5 +3101,46 @@ NOTA:
 BUILD: 145 páginas (mantido)
 
 ================================================================================
+ETAPA 11 – REDESENHO DO DASHBOARD DO USUÁRIO (INFRA)
+================================================================================
+Data: 30/11/2025 22:10 (UTC-5)
+
+OBJETIVO:
+Preparar infraestrutura para reorganizar o dashboard em "trilha do herói".
+
+ARQUIVOS CRIADOS:
+
+1. lib/dashboard-user-layout.ts
+   - buildUserDashboardLayout() → Monta seções do dashboard por plano
+   - getWelcomeMessage() → Mensagem de boas-vindas contextual
+   - getNextSuggestedAction() → Próxima ação sugerida
+   - getSuggestedUpgrade() → Sugestão de upgrade de plano
+
+ARQUIVOS ALTERADOS:
+
+1. lib/plan-dashboard-modules.ts
+   - Adicionado heroStep (1-5) para cada módulo
+   - Adicionado minPlanLevel para cada módulo
+   - Adicionado HERO_STEP_LABELS com títulos/descrições
+   - Adicionado getModulesByHeroStep() e getHeroStepLabel()
+
+TRILHA DO HERÓI (5 ETAPAS):
+1. ENTENDER → Teste de Clareza, Triângulo, Onboarding
+2. REGISTRAR → Diário, Evolução
+3. CONVERSAR → Chat IA / Coach
+4. PROTEGER → Plano de Segurança
+5. RECURSOS → Provas, Academy, Conteúdos
+
+BACKUP CRIADO:
+- app/dashboard/page.BACKUP_ETAPA11.tsx
+
+NOTA:
+- A infra está pronta, mas o visual do /dashboard NÃO foi alterado ainda
+- O dashboard atual continua funcionando normalmente
+- A função buildUserDashboardLayout() pode ser usada incrementalmente
+
+BUILD: 145 páginas (mantido)
+
+================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES
 ================================================================================
