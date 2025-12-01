@@ -5,8 +5,17 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 13:00 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 12:30 → 13:00):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 13:30 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 13:00 → 13:30):
+- ETAPA 19: Manuais (✅ CONCLUÍDO)
+  - docs/MANUAL-USUARIA.md - Guia completo para usuárias
+  - docs/MANUAL-PROFISSIONAL.md - Guia para psicólogos/advogados
+  - docs/MANUAL-ADMIN.md - Guia para administradores
+  - docs/MANUAL-DEV.md - Guia para desenvolvedores
+  - docs/MANUAL-WHITELABEL.md - Guia para parceiros white-label
+  - Build passou: 159 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 12:30 → 13:00):
 - ETAPA 18: Limpeza Admin & Mapa do Sistema (✅ CONCLUÍDO)
   - Oráculo agora é o PRIMEIRO item do menu (defaultOrder: 0)
   - Curadoria Central logo após (defaultOrder: 2)

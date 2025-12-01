@@ -1,14 +1,14 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 3.1
-Última atualização: 01/12/2025 13:00 (UTC-5)
+Versão: 3.2
+Última atualização: 01/12/2025 13:30 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
-Versão atual do produto: MVP 0.9.18 (ETAPA 18 CONCLUÍDA)
+Versão atual do produto: MVP 0.9.19 (ETAPA 19 CONCLUÍDA)
 Objetivo desta fase: Fechar MVP vendável B2C + Iniciar BLOCO 14-20
 
 ================================================================================
@@ -329,14 +329,14 @@ BLOCO 14-20 (PRÓXIMAS ETAPAS)
    - Arquivos modificados: app/admin/admin-features-registry.ts, components/AdminSidebar.tsx
    - Risco: Baixo → MITIGADO
 
-🔜 ETAPA 19 – MANUAIS
-   - [ ] Criar docs/MANUAL-USUARIA.md
-   - [ ] Criar docs/MANUAL-PROFISSIONAL.md
-   - [ ] Criar docs/MANUAL-ADMIN.md
-   - [ ] Criar docs/MANUAL-DEV.md
-   - [ ] Criar docs/MANUAL-WHITELABEL.md
-   - Arquivos afetados: docs/*
-   - Risco: Baixo
+✅ ETAPA 19 – MANUAIS (CONCLUÍDO 01/12/2025)
+   - [x] docs/MANUAL-USUARIA.md - Guia completo para usuárias
+   - [x] docs/MANUAL-PROFISSIONAL.md - Guia para psicólogos/advogados
+   - [x] docs/MANUAL-ADMIN.md - Guia para administradores
+   - [x] docs/MANUAL-DEV.md - Guia para desenvolvedores
+   - [x] docs/MANUAL-WHITELABEL.md - Guia para parceiros white-label
+   - Arquivos criados: 5 manuais em docs/
+   - Risco: Baixo → MITIGADO
 
 🔜 ETAPA 20 – LÂMPADA GERAL
    - [ ] Criar LAMPADA-RADAR.txt

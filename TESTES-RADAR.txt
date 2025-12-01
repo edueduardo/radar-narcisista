@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 2.5
-Última atualização: 01/12/2025 13:00 (UTC-5)
+Versão: 2.6
+Última atualização: 01/12/2025 13:30 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -621,12 +621,13 @@ ETAPA 18 – LIMPEZA ADMIN (CONCLUÍDO 01/12/2025):
 ✅ Ícones adicionados ao AdminSidebar
 ☐ Testar menu em produção
 
-ETAPA 19 – MANUAIS:
-☐ docs/MANUAL-USUARIA.md existe e é legível
-☐ docs/MANUAL-PROFISSIONAL.md existe
-☐ docs/MANUAL-ADMIN.md existe
-☐ docs/MANUAL-DEV.md existe
-☐ docs/MANUAL-WHITELABEL.md existe
+ETAPA 19 – MANUAIS (CONCLUÍDO 01/12/2025):
+✅ docs/MANUAL-USUARIA.md existe e é legível
+✅ docs/MANUAL-PROFISSIONAL.md existe
+✅ docs/MANUAL-ADMIN.md existe
+✅ docs/MANUAL-DEV.md existe
+✅ docs/MANUAL-WHITELABEL.md existe
+☐ Revisar conteúdo com stakeholders
 
 ETAPA 20 – LÂMPADA:
 ☐ LAMPADA-RADAR.txt existe na raiz

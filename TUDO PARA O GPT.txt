@@ -2,7 +2,7 @@
 RADAR NARCISISTA - HISTÓRICO COMPLETO DE IMPLEMENTAÇÕES
 ================================================================================
 Gerado em: 28/11/2025
-Atualizado em: 01/12/2025 13:00 (UTC-5)
+Atualizado em: 01/12/2025 13:30 (UTC-5)
 Projeto: SaaS de apoio a vítimas de relacionamentos abusivos/narcisistas
 Stack: Next.js 16 + Supabase + OpenAI/Groq + TailwindCSS 4
 
@@ -3580,10 +3580,10 @@ PENDENTE (V2):
 BUILD: 154 páginas
 
 ================================================================================
-STATUS ATUAL DO MVP (01/12/2025 13:00)
+STATUS ATUAL DO MVP (01/12/2025 13:30)
 ================================================================================
 
-ETAPAS CONCLUÍDAS (1-18):
+ETAPAS CONCLUÍDAS (1-19):
 ✅ ETAPA 1-7: Triângulo Clareza ⇄ Diário ⇄ Chat + Plano de Segurança
 ✅ ETAPA 8: FanPage Viva + Camada Comercial (Content System)
 ✅ ETAPA 9: Painel de Curadoria + Semáforo de Edição
@@ -3615,9 +3615,14 @@ ETAPAS CONCLUÍDAS (1-18):
    - Curadoria Central logo após
    - Termos Aceitos movido para o final
    - Ícones adicionados ao AdminSidebar
+✅ ETAPA 19: Manuais (01/12/2025)
+   - docs/MANUAL-USUARIA.md - Guia completo para usuárias
+   - docs/MANUAL-PROFISSIONAL.md - Guia para psicólogos/advogados
+   - docs/MANUAL-ADMIN.md - Guia para administradores
+   - docs/MANUAL-DEV.md - Guia para desenvolvedores
+   - docs/MANUAL-WHITELABEL.md - Guia para parceiros white-label
 
-PRÓXIMAS ETAPAS PLANEJADAS (BLOCO 19-20):
-🔜 ETAPA 19: Manuais (Usuária, Profissional, Admin, Dev, White-label)
+PRÓXIMAS ETAPAS PLANEJADAS:
 🔜 ETAPA 20: Lâmpada Geral (Observações e Pendências)
 
 MÓDULOS CORE DO MVP (JÁ IMPLEMENTADOS):
