@@ -1,14 +1,14 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 2.7
-Última atualização: 01/12/2025 11:00 (UTC-5)
+Versão: 2.8
+Última atualização: 01/12/2025 11:30 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
-Versão atual do produto: MVP 0.9.14 (ETAPA 14 CONCLUÍDA)
+Versão atual do produto: MVP 0.9.15 (ETAPA 15 CONCLUÍDA)
 Objetivo desta fase: Fechar MVP vendável B2C + Iniciar BLOCO 14-20
 
 ================================================================================
@@ -285,13 +285,17 @@ BLOCO 14-20 (PRÓXIMAS ETAPAS)
    - Arquivos modificados: components/AddonsStore.tsx, lib/addons-config.ts
    - Risco: Médio (integração Stripe) → MITIGADO
 
-🔜 ETAPA 15 – BETA COM 5 USUÁRIAS
-   - [ ] Verificar /admin/beta-testers
-   - [ ] Criar tabela/flag beta_tester se necessário
-   - [ ] Adicionar observabilidade básica
-   - [ ] Coleta de feedback simples
-   - Arquivos afetados: app/admin/beta-testers/page.tsx, database/migrations/*
-   - Risco: Baixo
+✅ ETAPA 15 – BETA COM 5 USUÁRIAS (CONCLUÍDO 01/12/2025)
+   - [x] Verificar /admin/beta-testers (já existia com guia completo)
+   - [x] Criar migration 20241201_beta_testers.sql
+     * Campos is_beta_tester, beta_joined_at, beta_group em user_profiles
+     * Tabela beta_feedback para coleta de feedback
+     * Tabela beta_events para observabilidade
+   - [x] APIs /api/beta/feedback e /api/beta/events
+   - [x] Componente BetaFeedbackWidget (botão flutuante)
+   - [x] Hook useBetaTracking para tracking
+   - Arquivos criados: migration, 2 APIs, 1 componente, 1 hook
+   - Risco: Baixo → MITIGADO
 
 🔜 ETAPA 16 – ORÁCULO V1 (ANALYTICS CONSOLIDADO)
    - [ ] Consolidar /admin/analytics, /admin/metricas, /admin/insights

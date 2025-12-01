@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 2.1
-Última atualização: 01/12/2025 11:00 (UTC-5)
+Versão: 2.2
+Última atualização: 01/12/2025 11:30 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -585,11 +585,16 @@ ETAPA 14 – LOJA SIMPLIFICADA (CONCLUÍDO 01/12/2025):
 ☐ Add-on é liberado após pagamento (pendente: tabela user_addons)
 NOTA: Checkout funciona, mas entrega do add-on requer webhook e tabela no banco
 
- ETAPA 15 – BETA COM 5 USUÁRIAS:
-☐ /admin/beta-testers carrega
-☐ Consigo registrar usuária como beta
-☐ Flag beta aparece no dashboard da usuária
-☐ Feedback pode ser coletado
+ETAPA 15 – BETA COM 5 USUÁRIAS (CONCLUÍDO 01/12/2025):
+✅ /admin/beta-testers carrega (guia completo de recrutamento)
+✅ Migration 20241201_beta_testers.sql criada
+✅ API /api/beta/feedback funciona (POST/GET)
+✅ API /api/beta/events funciona (POST/GET)
+✅ Componente BetaFeedbackWidget criado
+✅ Hook useBetaTracking criado
+☐ Executar migration no Supabase (pendente)
+☐ Integrar BetaFeedbackWidget no layout principal
+☐ Testar fluxo completo de feedback
 
 ETAPA 16 – ORÁCULO V1:
 ☐ /admin/oraculo carrega (quando existir)

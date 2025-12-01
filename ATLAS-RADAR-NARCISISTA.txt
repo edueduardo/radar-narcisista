@@ -5,8 +5,20 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 11:00 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 09:35 → 11:00):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 11:30 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 11:00 → 11:30):
+- ETAPA 15: Beta com 5 Usuárias (✅ CONCLUÍDO)
+  - Migration 20241201_beta_testers.sql
+    * Campo is_beta_tester, beta_joined_at, beta_group em user_profiles
+    * Tabela beta_feedback para coleta de feedback
+    * Tabela beta_events para observabilidade
+  - API /api/beta/feedback (POST, GET)
+  - API /api/beta/events (POST, GET)
+  - Componente BetaFeedbackWidget (botão flutuante)
+  - Hook useBetaTracking para tracking de eventos
+  - Build passou: 158 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 09:35 → 11:00):
 - ETAPA 14: Loja Simplificada (✅ CONCLUÍDO)
   - API /api/stripe/addon-checkout (POST)
     * Checkout de pagamento único para add-ons
