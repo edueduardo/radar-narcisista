@@ -3318,10 +3318,73 @@ CAMPOS DE COMPARTILHAMENTO:
 
 PENDENTE:
 - Rodar migration no Supabase para ativar a tabela
-- Criar página para cliente aceitar convite (/aceitar-convite)
-- Envio de email de convite (opcional)
 
 BUILD: 147 páginas
+
+================================================================================
+ETAPA 12.1.1 – PÁGINA DE ACEITE DE CONVITE
+================================================================================
+Data: 01/12/2025 02:00 (UTC-5)
+
+OBJETIVO:
+Criar a página para o cliente aceitar convite de um profissional,
+fechando o fluxo: Profissional gera código → Cliente aceita → Vínculo ACTIVE.
+
+ARQUIVOS CRIADOS:
+
+1. app/aceitar-convite/page.tsx
+   - Página completa de aceite de convite
+   - Suporta ?codigo=XXXXXXXX na URL
+   - Fluxo para usuário não logado: mostra login/cadastro
+   - Fluxo para usuário logado: valida código e mostra permissões
+   - Cliente escolhe o que compartilhar (share_*)
+   - Avisos éticos: "Radar NÃO substitui terapia/laudo"
+
+2. app/api/professional/invite/validate/route.ts
+   - POST: Valida código de convite
+   - Retorna dados do profissional e permissões sugeridas
+   - Não requer autenticação (para validação antes do login)
+
+3. app/api/professional/invite/accept/route.ts
+   - POST: Aceita convite e define permissões
+   - Requer autenticação
+   - Atualiza client_id, status='active', share_*
+   - Verifica que cliente não é o próprio profissional
+   - Verifica que não há conexão duplicada
+
+4. database/migrations/20241201_fix_professional_clients_nullable.sql
+   - Torna client_id nullable (necessário para convites pendentes)
+   - Ajusta constraint unique
+   - Adiciona policy para validação pública de códigos
+
+FLUXO COMPLETO:
+1. Profissional cria convite → gera código (ex: "A1B2C3D4")
+2. Cliente acessa /aceitar-convite?codigo=A1B2C3D4
+3. Se não logado → mostra opções login/cadastro com redirect
+4. Se logado → valida código via API
+5. Cliente vê nome do profissional e escolhe permissões
+6. Cliente confirma → API atualiza status='active'
+7. Profissional vê cliente ativo no dashboard
+
+PERMISSÕES DISPONÍVEIS:
+- share_clarity_tests: Teste de Clareza
+- share_journal_entries: Diário
+- share_chat_summaries: Resumos do Chat
+- share_safety_plan: Plano de Segurança (sensível)
+- share_risk_alerts: Alertas de Risco (sensível)
+
+LGPD/ÉTICA:
+- Cliente escolhe explicitamente o que compartilhar
+- Aviso claro: "Radar NÃO substitui terapia/laudo"
+- Menção à possibilidade de revogar acesso no futuro
+
+PENDENTE:
+- Rodar AMBAS migrations no Supabase:
+  1. 20241201_create_professional_clients.sql
+  2. 20241201_fix_professional_clients_nullable.sql
+- ETAPA 12.1.2: Página para cliente revogar/pausar acesso
+
+BUILD: 150 páginas
 
 ================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES

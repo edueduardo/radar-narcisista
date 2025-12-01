@@ -208,16 +208,17 @@ export async function POST(request: NextRequest) {
     const inviteCode = generateInviteCode() // Ex: "A1B2C3D4"
     
     // Criar registro de convite
+    // NOTA: client_id fica NULL até o cliente aceitar o convite
     const { data: newClient, error: insertError } = await supabase
       .from('professional_clients')
       .insert({
         professional_id: user.id,
-        client_id: user.id, // Temporário - será atualizado quando cliente aceitar
+        // client_id será preenchido quando o cliente aceitar
         status: 'pending',
         invite_code: inviteCode,
         invite_sent_at: new Date().toISOString(),
         client_display_name: clientDisplayName || null,
-        // Permissões padrão (cliente pode alterar depois)
+        // Permissões padrão sugeridas (cliente pode alterar no aceite)
         share_clarity_tests: true,
         share_journal_entries: true,
         share_chat_summaries: true,

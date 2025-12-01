@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 2.2
-Última atualização: 01/12/2025 01:15 (UTC-5)
+Versão: 2.3
+Última atualização: 01/12/2025 02:00 (UTC-5)
 
 ================================================================================
 STATUS GERAL
@@ -191,8 +191,26 @@ PRÓXIMAS ETAPAS (PRIORIDADE)
    - [x] Dashboard consome dados reais da API
    - [x] Modal de criação de convite funcional
    - [x] Build passou: 147 páginas
+
+✅ ETAPA 12.1.1 - Página de Aceite de Convite (CONCLUÍDO 01/12/2025 02:00)
+   - [x] Nova rota: /aceitar-convite (suporta ?codigo=XXXXXXXX)
+   - [x] API: /api/professional/invite/validate (POST)
+   - [x] API: /api/professional/invite/accept (POST)
+   - [x] Migration de correção: 20241201_fix_professional_clients_nullable.sql
+   - [x] Fluxo completo: não logado → login/cadastro → aceite
+   - [x] Cliente escolhe permissões (share_*)
+   - [x] Avisos éticos: "Radar NÃO substitui terapia/laudo"
+   - [x] Build passou: 150 páginas
    
-   ⚠️ PENDENTE: Rodar migration no Supabase para ativar a tabela
+   ⚠️ PENDENTE: Rodar AMBAS migrations no Supabase:
+     1. 20241201_create_professional_clients.sql
+     2. 20241201_fix_professional_clients_nullable.sql
+
+🔜 ETAPA 12.1.2 - Revogação de Acesso pelo Cliente
+   - [ ] Página /configuracoes/profissionais ou similar
+   - [ ] Lista de profissionais conectados
+   - [ ] Botão para revogar acesso (status → 'revoked')
+   - [ ] Botão para pausar temporariamente (status → 'paused')
 
 🔜 ETAPA 12.2 - Relatórios Agregados para Profissionais
    - [ ] Gerar relatórios PDF por cliente

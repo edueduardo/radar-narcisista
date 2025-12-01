@@ -359,6 +359,43 @@ Dashboard Profissional:
 ☐ Tabela mostra permissões do cliente ativo
 
 ================================================================================
+ETAPA 12.1.1 – PÁGINA DE ACEITE DE CONVITE
+================================================================================
+
+Página /aceitar-convite:
+☐ Usuário não logado vê opções login/cadastro
+☐ Código da URL (?codigo=XXX) é preservado após login
+☐ Usuário logado pode digitar código manualmente
+☐ Código inválido mostra mensagem de erro clara
+☐ Código já usado mostra mensagem apropriada
+
+API /api/professional/invite/validate:
+☐ POST com código válido retorna dados do profissional
+☐ POST com código inválido retorna erro 404
+☐ POST com código já aceito retorna erro 400
+☐ Não requer autenticação
+
+API /api/professional/invite/accept:
+☐ POST sem autenticação retorna 401
+☐ POST com código válido atualiza status para 'active'
+☐ POST preenche client_id com usuário logado
+☐ POST salva permissões escolhidas (share_*)
+☐ POST impede aceitar próprio convite
+☐ POST impede conexão duplicada com mesmo profissional
+
+Fluxo completo:
+☐ Profissional cria convite → código gerado
+☐ Cliente acessa /aceitar-convite?codigo=XXXXXXXX
+☐ Cliente não logado → login → volta para aceite
+☐ Cliente logado → valida → escolhe permissões → confirma
+☐ Profissional vê cliente ativo no dashboard
+
+UX/Ética:
+☐ Aviso "Radar NÃO substitui terapia/laudo" visível
+☐ Cliente pode desmarcar permissões sensíveis
+☐ Tela de sucesso mostra o que foi autorizado
+
+================================================================================
 MIGRATIONS PENDENTES (EXECUTAR NO SUPABASE):
 ================================================================================
 
@@ -367,11 +404,16 @@ MIGRATIONS PENDENTES (EXECUTAR NO SUPABASE):
    - Insere dados seed (hero, faq, testimonials, etc.)
    - Configura RLS para admins
 
-2. 20241201_create_professional_clients.sql (NOVO)
+2. 20241201_create_professional_clients.sql (ETAPA 12.1)
    - Cria tabela professional_clients
    - Campos: professional_id, client_id, status, invite_code, share_*, etc.
    - RLS: profissional vê seus clientes, cliente vê suas conexões
    - Trigger para updated_at automático
+
+3. 20241201_fix_professional_clients_nullable.sql (ETAPA 12.1.1)
+   - Torna client_id nullable (necessário para convites pendentes)
+   - Ajusta constraint unique
+   - Adiciona policy para validação pública de códigos
 
 ================================================================================
 FIM DO CHECKLIST DE TESTES
