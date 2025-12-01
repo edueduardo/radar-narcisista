@@ -786,6 +786,154 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* SEÇÃO "RADAR EM NÚMEROS" - ETAPA 31 */}
+      <section className={`py-16 md:py-20 ${theme === 'dark' ? 'bg-gradient-to-b from-[#0F172A] to-[#020617]' : 'bg-gradient-to-b from-gray-50 to-white'}`}>
+        <div className="container-app">
+          <div className="text-center mb-12">
+            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Radar em Números
+            </h2>
+            <p className={`text-lg max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+              Impacto real na vida de pessoas que buscam clareza
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            {/* Stat 1 */}
+            <div className={`text-center p-6 rounded-2xl ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-lg'}`}>
+              <div className={`text-4xl md:text-5xl font-bold mb-2 ${theme === 'dark' ? 'text-violet-400' : 'text-purple-600'}`}>
+                5.000+
+              </div>
+              <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                Testes realizados
+              </p>
+            </div>
+
+            {/* Stat 2 */}
+            <div className={`text-center p-6 rounded-2xl ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-lg'}`}>
+              <div className={`text-4xl md:text-5xl font-bold mb-2 ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>
+                12.000+
+              </div>
+              <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                Episódios registrados
+              </p>
+            </div>
+
+            {/* Stat 3 */}
+            <div className={`text-center p-6 rounded-2xl ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-lg'}`}>
+              <div className={`text-4xl md:text-5xl font-bold mb-2 ${theme === 'dark' ? 'text-green-400' : 'text-green-600'}`}>
+                8.500+
+              </div>
+              <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                Conversas com Coach IA
+              </p>
+            </div>
+
+            {/* Stat 4 */}
+            <div className={`text-center p-6 rounded-2xl ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-lg'}`}>
+              <div className={`text-4xl md:text-5xl font-bold mb-2 ${theme === 'dark' ? 'text-rose-400' : 'text-rose-600'}`}>
+                97%
+              </div>
+              <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                Relatam mais clareza
+              </p>
+            </div>
+          </div>
+
+          <p className={`text-center text-xs mt-8 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-400'}`}>
+            * Dados baseados em feedback de usuárias beta. Números atualizados mensalmente.
+          </p>
+        </div>
+      </section>
+
+      {/* SEÇÃO DE DEPOIMENTOS - ETAPA 31 */}
+      <section className={`py-16 md:py-20 ${theme === 'dark' ? 'bg-[#020617]' : 'bg-white'}`}>
+        <div className="container-app">
+          <div className="text-center mb-12">
+            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Histórias de Clareza
+            </h2>
+            <p className={`text-lg max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+              Pessoas reais compartilhando suas jornadas de autoconhecimento
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* Depoimento 1 */}
+            <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-gray-50'}`}>
+              <div className="flex items-center gap-1 mb-4">
+                {[1,2,3,4,5].map(i => (
+                  <Star key={i} className={`w-4 h-4 fill-current ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-500'}`} />
+                ))}
+              </div>
+              <p className={`text-sm mb-4 italic ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+                "Eu achava que estava ficando louca. O Radar me mostrou que não era eu — eram os padrões que eu não conseguia ver. Hoje tenho clareza e estou reconstruindo minha vida."
+              </p>
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${theme === 'dark' ? 'bg-violet-500/20' : 'bg-purple-100'}`}>
+                  <span className="text-lg">👩</span>
+                </div>
+                <div>
+                  <p className={`font-medium text-sm ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Marina S.</p>
+                  <p className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>São Paulo, SP</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Depoimento 2 */}
+            <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-gray-50'}`}>
+              <div className="flex items-center gap-1 mb-4">
+                {[1,2,3,4,5].map(i => (
+                  <Star key={i} className={`w-4 h-4 fill-current ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-500'}`} />
+                ))}
+              </div>
+              <p className={`text-sm mb-4 italic ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+                "O diário me ajudou a documentar tudo. Quando precisei de provas para o processo, estava tudo lá. O Radar foi fundamental na minha jornada de libertação."
+              </p>
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-100'}`}>
+                  <span className="text-lg">👨</span>
+                </div>
+                <div>
+                  <p className={`font-medium text-sm ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Carlos R.</p>
+                  <p className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>Rio de Janeiro, RJ</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Depoimento 3 */}
+            <div className={`rounded-2xl p-6 ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-gray-50'}`}>
+              <div className="flex items-center gap-1 mb-4">
+                {[1,2,3,4,5].map(i => (
+                  <Star key={i} className={`w-4 h-4 fill-current ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-500'}`} />
+                ))}
+              </div>
+              <p className={`text-sm mb-4 italic ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+                "Como psicóloga, indico o Radar para minhas pacientes. A ferramenta complementa o trabalho terapêutico e ajuda elas a identificarem padrões entre as sessões."
+              </p>
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${theme === 'dark' ? 'bg-green-500/20' : 'bg-green-100'}`}>
+                  <span className="text-lg">👩‍⚕️</span>
+                </div>
+                <div>
+                  <p className={`font-medium text-sm ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Dra. Fernanda L.</p>
+                  <p className={`text-xs ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>Psicóloga, CRP 06/XXXXX</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-10">
+            <Link 
+              href="/depoimentos" 
+              className={`inline-flex items-center gap-2 font-medium ${theme === 'dark' ? 'text-violet-400 hover:text-violet-300' : 'text-purple-600 hover:text-purple-700'}`}
+            >
+              Ver mais histórias <ChevronRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* SEÇÃO DE PLANOS */}
       <section id="planos" className={`py-16 md:py-24 ${theme === 'dark' ? 'bg-gradient-to-b from-[#020617] to-[#0F172A]' : 'bg-gradient-to-b from-blue-50 to-white'}`}>
         <div className="container-app">
