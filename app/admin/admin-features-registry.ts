@@ -39,6 +39,7 @@ export type AdminFeatureId =
   | 'frontpage_editor'
   | 'frontpage_visual'
   | 'builder_io'
+  | 'analytics_dashboard'
   | 'oraculo_instances'
   | 'easter_eggs'
   | 'mapa_sistema'
@@ -337,6 +338,16 @@ export const ADMIN_FEATURES: AdminFeature[] = [
     group: 'Sistema',
     defaultOrder: 19.3,
     relatedTables: ['frontpage_config']
+  },
+  {
+    id: 'analytics_dashboard',
+    label: '📊 Analytics Dashboard',
+    description: 'Métricas e gráficos avançados do Oráculo',
+    path: '/admin/analytics-dashboard',
+    icon: 'BarChart3',
+    group: 'Dados',
+    defaultOrder: 3,
+    relatedTables: ['oraculo_usage_logs', 'oraculo_instances']
   },
   {
     id: 'oraculo_instances',
