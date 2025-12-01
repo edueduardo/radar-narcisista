@@ -3,13 +3,12 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-// Esta página agora redireciona para /dashboard-v2
-// A dashboard premium está em /dashboard-v2
+// ETAPA 17: Redireciona para /dashboard (unificado)
 export default function AppPage() {
   const router = useRouter()
 
   useEffect(() => {
-    router.replace('/dashboard-v2')
+    router.replace('/dashboard')
   }, [router])
 
   return (

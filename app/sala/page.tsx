@@ -82,7 +82,7 @@ export default function SalaPage() {
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link href="/dashboard-v2">
+              <Link href="/dashboard">
                 <button className="p-2 text-gray-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
                   <ArrowLeft className="w-5 h-5" />
                 </button>

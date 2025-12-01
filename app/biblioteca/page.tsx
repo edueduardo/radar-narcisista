@@ -84,7 +84,7 @@ export default function BibliotecaPage() {
       <header className="sticky top-0 z-40 bg-[#0F172A]/95 backdrop-blur-sm border-b border-slate-800/50">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
-            <Link href="/dashboard-v2">
+            <Link href="/dashboard">
               <button className="p-2 text-gray-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
                 <ArrowLeft className="w-5 h-5" />
               </button>

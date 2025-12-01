@@ -1,14 +1,14 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 2.9
-Última atualização: 01/12/2025 12:00 (UTC-5)
+Versão: 3.0
+Última atualização: 01/12/2025 12:30 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
-Versão atual do produto: MVP 0.9.16 (ETAPA 16 CONCLUÍDA)
+Versão atual do produto: MVP 0.9.17 (ETAPA 17 CONCLUÍDA)
 Objetivo desta fase: Fechar MVP vendável B2C + Iniciar BLOCO 14-20
 
 ================================================================================
@@ -307,12 +307,17 @@ BLOCO 14-20 (PRÓXIMAS ETAPAS)
    - Arquivos modificados: app/admin/admin-features-registry.ts
    - Risco: Médio → MITIGADO
 
-🔜 ETAPA 17 – LIMPEZA/UNIFICAÇÃO DE DASHBOARDS
-   - [ ] Definir dashboard principal por persona
-   - [ ] Marcar legados (/dashboard-v2, /dashboard-premium)
-   - [ ] Atualizar links internos
-   - Arquivos afetados: app/dashboard*, components/dashboard/*
-   - Risco: Médio (pode quebrar navegação)
+✅ ETAPA 17 – LIMPEZA/UNIFICAÇÃO DE DASHBOARDS (CONCLUÍDO 01/12/2025)
+   - [x] Mapear dashboards existentes (4 encontrados)
+   - [x] Definir dashboard principal por persona:
+     * Usuária: /dashboard (Trilha do Herói)
+     * Profissional: /dashboard-profissional
+   - [x] Legados já redirecionam: /dashboard-v2, /dashboard-premium
+   - [x] Atualizar links internos em 9 arquivos
+   - [x] Admin redireciona para /admin após login
+   - Arquivos modificados: app/app, app/login, app/biblioteca, app/espelho, app/sala,
+     app/chat-premium, app/seguranca-premium, app/documentos-premium, app/configuracoes-premium
+   - Risco: Médio → MITIGADO
 
 🔜 ETAPA 18 – LIMPEZA ADMIN & MAPA DO SISTEMA
    - [ ] Organizar menus do admin (Core, Labs, Legado)

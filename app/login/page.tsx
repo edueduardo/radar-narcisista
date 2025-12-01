@@ -16,7 +16,7 @@ function LoginContent() {
   const [error, setError] = useState('')
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirect = searchParams.get('redirect') || '/dashboard-v2'
+  const redirect = searchParams.get('redirect') || '/dashboard'
   const supabase = createClientComponentClient()
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -45,8 +45,8 @@ function LoginContent() {
       console.log('É admin?', isAdmin)
 
       if (isAdmin) {
-        console.log('Usuário admin, redirecionando para /dashboard-v2...')
-        window.location.href = '/dashboard-v2'
+        console.log('Usuário admin, redirecionando para /admin...')
+        window.location.href = '/admin'
       } else {
         console.log('Usuário não admin, redirecionando para', redirect)
         window.location.href = redirect

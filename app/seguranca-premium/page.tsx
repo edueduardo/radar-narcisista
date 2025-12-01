@@ -190,7 +190,7 @@ export default function SegurancaPremiumPage() {
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link href="/dashboard-premium">
+              <Link href="/dashboard">
                 <button className="p-2 text-red-300 hover:text-white hover:bg-red-900/50 rounded-lg transition-colors">
                   <ArrowLeft className="w-5 h-5" />
                 </button>

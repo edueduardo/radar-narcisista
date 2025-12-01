@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 2.3
-Última atualização: 01/12/2025 12:00 (UTC-5)
+Versão: 2.4
+Última atualização: 01/12/2025 12:30 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -605,11 +605,13 @@ ETAPA 16 – ORÁCULO V1 (CONCLUÍDO 01/12/2025):
 ☐ Conectar com dados reais de MRR (Stripe)
 ☐ Adicionar gráficos de tendência
 
-ETAPA 17 – LIMPEZA DASHBOARDS:
-☐ Dashboard principal da usuária funciona
-☐ Dashboard profissional funciona
-☐ Links internos apontam para versões corretas
-☐ Legados marcados como tal
+ETAPA 17 – LIMPEZA DASHBOARDS (CONCLUÍDO 01/12/2025):
+✅ Dashboard principal da usuária: /dashboard (Trilha do Herói)
+✅ Dashboard profissional: /dashboard-profissional
+✅ Legados redirecionam: /dashboard-v2, /dashboard-premium
+✅ Links atualizados em 9 arquivos
+✅ Admin redireciona para /admin após login
+☐ Testar navegação completa em produção
 
 ETAPA 18 – LIMPEZA ADMIN:
 ☐ Menu admin organizado em seções

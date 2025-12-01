@@ -5,8 +5,18 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 12:00 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 11:30 → 12:00):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 12:30 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 12:00 → 12:30):
+- ETAPA 17: Limpeza/Unificação de Dashboards (✅ CONCLUÍDO)
+  - Mapeamento: /dashboard (principal), /dashboard-profissional (profissional)
+  - Legados já redirecionam: /dashboard-v2, /dashboard-premium
+  - Links atualizados em 9 arquivos:
+    * /app, /login, /biblioteca, /espelho, /sala
+    * /chat-premium, /seguranca-premium, /documentos-premium, /configuracoes-premium
+  - Admin agora redireciona para /admin após login
+  - Build passou: 159 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 11:30 → 12:00):
 - ETAPA 16: Oráculo V1 (✅ CONCLUÍDO)
   - Página /admin/oraculo criada
   - Responde 7 perguntas-chave do negócio:
