@@ -381,6 +381,13 @@ export default function OraculoInstancesPage() {
                     </div>
                     
                     <div className="flex items-center gap-2">
+                      <Link
+                        href={`/admin/oraculo-instances/${instance.id}`}
+                        className="p-2 text-gray-400 hover:text-white hover:bg-slate-700 rounded-lg transition-colors"
+                        title="Ver métricas"
+                      >
+                        <BarChart3 className="w-4 h-4" />
+                      </Link>
                       <button
                         onClick={() => handleEdit(instance)}
                         className="p-2 text-gray-400 hover:text-white hover:bg-slate-700 rounded-lg transition-colors"
