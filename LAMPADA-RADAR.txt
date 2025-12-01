@@ -1,0 +1,293 @@
+================================================================================
+💡 LÂMPADA RADAR - OBSERVAÇÕES E PENDÊNCIAS
+================================================================================
+Versão: 1.0
+Última atualização: 01/12/2025 13:30 (UTC-5)
+Responsável: Equipe Radar Narcisista
+
+================================================================================
+📋 O QUE É ESTE ARQUIVO?
+================================================================================
+
+A "Lâmpada" é um documento vivo que consolida:
+- 🐛 BUGS conhecidos que ainda não foram corrigidos
+- 🤔 CONFUSÕES que precisam ser esclarecidas
+- ⚖️ DECISÕES técnicas ou de produto tomadas
+- 💡 IDEIAS para o futuro (não implementar agora)
+- ⚠️ DÍVIDAS TÉCNICAS acumuladas
+- 📝 NOTAS importantes para não esquecer
+
+REGRA: Antes de implementar algo novo, consulte este arquivo!
+
+================================================================================
+🐛 BUGS CONHECIDOS
+================================================================================
+
+[B001] Webhook Stripe para add-ons
+----------------------------------------------------------------------
+Status: 🟡 PENDENTE
+Prioridade: ALTA
+Descrição: O webhook de pagamento de add-ons não está criando registros
+           na tabela user_addons após pagamento bem-sucedido.
+Impacto: Usuários pagam mas não recebem o add-on automaticamente.
+Workaround: Ativar manualmente via Supabase.
+Arquivos: app/api/stripe/webhook/route.ts
+Criado em: 01/12/2025
+
+[B002] Tabela user_addons não existe
+----------------------------------------------------------------------
+Status: 🟡 PENDENTE
+Prioridade: ALTA
+Descrição: A tabela user_addons precisa ser criada no Supabase para
+           armazenar add-ons comprados pelos usuários.
+Impacto: Não há como rastrear quais add-ons cada usuário comprou.
+Workaround: Nenhum.
+Arquivos: database/migrations/
+Criado em: 01/12/2025
+
+[B003] Cache de menu admin no localStorage
+----------------------------------------------------------------------
+Status: 🟢 BAIXA PRIORIDADE
+Prioridade: BAIXA
+Descrição: O menu admin salva ordem no localStorage, mas novas features
+           podem não aparecer automaticamente para admins existentes.
+Impacto: Admin pode não ver novas telas até limpar cache.
+Workaround: Botão "Limpar cache de IA" no sidebar.
+Arquivos: lib/admin-menu-config.ts
+Criado em: 01/12/2025
+
+================================================================================
+🤔 CONFUSÕES A ESCLARECER
+================================================================================
+
+[C001] Diferença entre /dashboard e /dashboard-v2
+----------------------------------------------------------------------
+Status: ✅ RESOLVIDO (ETAPA 17)
+Descrição: Havia confusão sobre qual dashboard era o principal.
+Decisão: /dashboard é o principal (Trilha do Herói).
+         /dashboard-v2 e /dashboard-premium redirecionam para /dashboard.
+
+[C002] Onde ficam as configurações de IA?
+----------------------------------------------------------------------
+Status: ✅ DOCUMENTADO
+Descrição: Múltiplas telas de configuração de IA causavam confusão.
+Decisão: 
+  - /admin = Config IAs (visão geral)
+  - /admin/configurar-ias = API Keys
+  - /admin/gerenciar-ias = Adicionar novas IAs
+  - /admin/custos-ia = Monitorar gastos
+  - /admin/mapa-ias = Saúde das IAs
+
+[C003] Qual é a fonte da verdade do projeto?
+----------------------------------------------------------------------
+Status: ✅ DOCUMENTADO
+Descrição: Dúvida sobre qual arquivo consultar primeiro.
+Decisão:
+  1. TUDO PARA O GPT.txt - Histórico completo
+  2. ATLAS-RADAR-NARCISISTA.txt - Mapa técnico
+  3. ROADMAP-RADAR.txt - Roadmap e etapas
+  4. TESTES-RADAR.txt - Checklist de testes
+  5. LAMPADA-RADAR.txt - Este arquivo (observações)
+
+================================================================================
+⚖️ DECISÕES TOMADAS
+================================================================================
+
+[D001] Stack tecnológica
+----------------------------------------------------------------------
+Data: 28/11/2025
+Decisão: Next.js 16 + Supabase + Stripe + TailwindCSS 4
+Motivo: Stack moderna, serverless, fácil de escalar.
+Alternativas descartadas: Firebase, Prisma, MongoDB.
+
+[D002] Modelo de negócio
+----------------------------------------------------------------------
+Data: 28/11/2025
+Decisão: Freemium B2C + Plano Profissional B2B
+Motivo: Alcançar vítimas (gratuito) + monetizar via profissionais.
+Planos: Gratuito, Essencial, Avançado, Premium, Profissional.
+
+[D003] Oráculo como primeiro item do menu admin
+----------------------------------------------------------------------
+Data: 01/12/2025
+Decisão: Oráculo (defaultOrder: 0) é o primeiro item do menu.
+Motivo: Visão executiva deve ser o ponto de entrada do admin.
+Arquivos: app/admin/admin-features-registry.ts
+
+[D004] Termos Aceitos no final do menu
+----------------------------------------------------------------------
+Data: 01/12/2025
+Decisão: Termos Aceitos (defaultOrder: 50) fica no final.
+Motivo: Área sensível, não deve ser acessada acidentalmente.
+Arquivos: app/admin/admin-features-registry.ts
+
+[D005] Dashboards unificados
+----------------------------------------------------------------------
+Data: 01/12/2025
+Decisão: 
+  - Usuária: /dashboard (Trilha do Herói)
+  - Profissional: /dashboard-profissional
+  - Legados redirecionam automaticamente
+Motivo: Evitar confusão e manter UX consistente.
+
+================================================================================
+💡 IDEIAS PARA O FUTURO (NÃO IMPLEMENTAR AGORA)
+================================================================================
+
+[I001] App mobile nativo
+----------------------------------------------------------------------
+Prioridade: MÉDIA
+Descrição: Criar app React Native para iOS e Android.
+Benefício: Melhor UX, notificações push, modo offline.
+Dependências: MVP estável, validação de mercado.
+Estimativa: 3-6 meses.
+
+[I002] Integração com WhatsApp
+----------------------------------------------------------------------
+Prioridade: ALTA
+Descrição: Permitir que usuárias interajam via WhatsApp.
+Benefício: Canal mais acessível, menor barreira de entrada.
+Dependências: API do WhatsApp Business, custos.
+Estimativa: 1-2 meses.
+
+[I003] Gamificação avançada
+----------------------------------------------------------------------
+Prioridade: BAIXA
+Descrição: Adicionar conquistas, níveis, recompensas.
+Benefício: Aumentar engajamento e retenção.
+Dependências: Métricas de uso estáveis.
+Estimativa: 1 mês.
+
+[I004] Comunidade moderada
+----------------------------------------------------------------------
+Prioridade: MÉDIA
+Descrição: Fórum/chat entre usuárias com moderação.
+Benefício: Suporte entre pares, senso de comunidade.
+Dependências: Sistema de moderação, políticas claras.
+Estimativa: 2-3 meses.
+
+[I005] IA de voz
+----------------------------------------------------------------------
+Prioridade: BAIXA
+Descrição: Permitir interação por voz com o Coach.
+Benefício: Acessibilidade, conveniência.
+Dependências: Whisper API, custos de transcrição.
+Estimativa: 1 mês.
+
+[I006] Relatório para advogados
+----------------------------------------------------------------------
+Prioridade: ALTA
+Descrição: Gerar relatório formatado para uso em processos.
+Benefício: Valor agregado para profissionais, diferencial.
+Dependências: Validação jurídica, templates.
+Estimativa: 2 semanas.
+
+================================================================================
+⚠️ DÍVIDAS TÉCNICAS
+================================================================================
+
+[T001] Testes automatizados
+----------------------------------------------------------------------
+Status: 🟡 PENDENTE
+Descrição: Não há testes unitários ou E2E implementados.
+Impacto: Risco de regressões em deploys.
+Solução: Implementar Jest + Playwright.
+Estimativa: 1 semana.
+
+[T002] Documentação de APIs
+----------------------------------------------------------------------
+Status: 🟡 PENDENTE
+Descrição: APIs não têm documentação Swagger/OpenAPI.
+Impacto: Dificulta integrações e onboarding de devs.
+Solução: Adicionar swagger-ui ou similar.
+Estimativa: 2-3 dias.
+
+[T003] Logs estruturados
+----------------------------------------------------------------------
+Status: 🟡 PENDENTE
+Descrição: Logs são console.log simples, sem estrutura.
+Impacto: Difícil debugar em produção.
+Solução: Implementar Pino ou Winston.
+Estimativa: 1 dia.
+
+[T004] Monitoramento de erros
+----------------------------------------------------------------------
+Status: 🟡 PENDENTE
+Descrição: Não há Sentry ou similar configurado.
+Impacto: Erros em produção podem passar despercebidos.
+Solução: Configurar Sentry.
+Estimativa: 2 horas.
+
+[T005] Rate limiting
+----------------------------------------------------------------------
+Status: 🟡 PENDENTE
+Descrição: APIs não têm rate limiting implementado.
+Impacto: Vulnerável a abuso e DDoS.
+Solução: Implementar rate limiting no middleware.
+Estimativa: 1 dia.
+
+================================================================================
+📝 NOTAS IMPORTANTES
+================================================================================
+
+[N001] Credenciais de produção
+----------------------------------------------------------------------
+Data: 01/12/2025
+Nota: Todas as credenciais de produção estão no Vercel.
+      NUNCA commitar .env.local com chaves reais.
+      Stripe está em modo TESTE até lançamento.
+
+[N002] Backup do banco
+----------------------------------------------------------------------
+Data: 01/12/2025
+Nota: Supabase faz backup automático diário.
+      Para restore, acessar Supabase Dashboard > Backups.
+
+[N003] Deploy automático
+----------------------------------------------------------------------
+Data: 01/12/2025
+Nota: Push para main = deploy automático no Vercel.
+      Verificar build antes de fazer push.
+      URL: https://vercel.com/radar-narcisista-brs-projects
+
+[N004] Contatos de emergência
+----------------------------------------------------------------------
+Data: 01/12/2025
+Nota: 
+  - Eduardo (dev): [email]
+  - Suporte Vercel: vercel.com/support
+  - Suporte Supabase: supabase.com/support
+  - Suporte Stripe: stripe.com/support
+
+================================================================================
+📊 MÉTRICAS DE SAÚDE DO PROJETO
+================================================================================
+
+Última verificação: 01/12/2025 13:30
+
+| Métrica                  | Valor    | Status |
+|--------------------------|----------|--------|
+| Etapas concluídas        | 19/20    | ✅     |
+| Build passando           | Sim      | ✅     |
+| Páginas geradas          | 159      | ✅     |
+| Bugs críticos            | 2        | 🟡     |
+| Dívidas técnicas         | 5        | 🟡     |
+| Documentação atualizada  | Sim      | ✅     |
+| Último deploy            | Hoje     | ✅     |
+
+================================================================================
+🔄 HISTÓRICO DE ATUALIZAÇÕES DESTE ARQUIVO
+================================================================================
+
+01/12/2025 13:30 - Criação inicial (ETAPA 20)
+  - Estrutura base com 6 seções
+  - 3 bugs conhecidos documentados
+  - 3 confusões esclarecidas
+  - 5 decisões registradas
+  - 6 ideias para o futuro
+  - 5 dívidas técnicas mapeadas
+  - 4 notas importantes
+
+================================================================================
+FIM DO ARQUIVO LÂMPADA
+================================================================================

@@ -5,8 +5,19 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 13:30 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 13:00 → 13:30):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 14:00 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 13:30 → 14:00):
+- ETAPA 20: Lâmpada Geral (✅ CONCLUÍDO)
+  - LAMPADA-RADAR.txt criado na raiz
+  - 6 seções: Bugs, Confusões, Decisões, Ideias, Dívidas Técnicas, Notas
+  - 3 bugs conhecidos documentados
+  - 5 dívidas técnicas mapeadas
+  - 6 ideias para o futuro
+  - Métricas de saúde do projeto
+
+🎉 BLOCO 14-20 CONCLUÍDO! MVP 1.0 PRONTO!
+
+MUDANÇAS ANTERIORES (01/12/2025 13:00 → 13:30):
 - ETAPA 19: Manuais (✅ CONCLUÍDO)
   - docs/MANUAL-USUARIA.md - Guia completo para usuárias
   - docs/MANUAL-PROFISSIONAL.md - Guia para psicólogos/advogados

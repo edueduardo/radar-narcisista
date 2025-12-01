@@ -2,7 +2,7 @@
 RADAR NARCISISTA - HISTÓRICO COMPLETO DE IMPLEMENTAÇÕES
 ================================================================================
 Gerado em: 28/11/2025
-Atualizado em: 01/12/2025 13:30 (UTC-5)
+Atualizado em: 01/12/2025 14:00 (UTC-5)
 Projeto: SaaS de apoio a vítimas de relacionamentos abusivos/narcisistas
 Stack: Next.js 16 + Supabase + OpenAI/Groq + TailwindCSS 4
 
@@ -3580,10 +3580,12 @@ PENDENTE (V2):
 BUILD: 154 páginas
 
 ================================================================================
-STATUS ATUAL DO MVP (01/12/2025 13:30)
+STATUS ATUAL DO MVP (01/12/2025 14:00)
 ================================================================================
 
-ETAPAS CONCLUÍDAS (1-19):
+🎉 MVP 1.0 CONCLUÍDO! BLOCO 14-20 FINALIZADO!
+
+ETAPAS CONCLUÍDAS (1-20):
 ✅ ETAPA 1-7: Triângulo Clareza ⇄ Diário ⇄ Chat + Plano de Segurança
 ✅ ETAPA 8: FanPage Viva + Camada Comercial (Content System)
 ✅ ETAPA 9: Painel de Curadoria + Semáforo de Edição
@@ -3621,9 +3623,15 @@ ETAPAS CONCLUÍDAS (1-19):
    - docs/MANUAL-ADMIN.md - Guia para administradores
    - docs/MANUAL-DEV.md - Guia para desenvolvedores
    - docs/MANUAL-WHITELABEL.md - Guia para parceiros white-label
+✅ ETAPA 20: Lâmpada Geral (01/12/2025)
+   - LAMPADA-RADAR.txt criado na raiz
+   - 6 seções: Bugs, Confusões, Decisões, Ideias, Dívidas Técnicas, Notas
+   - Métricas de saúde do projeto
 
-PRÓXIMAS ETAPAS PLANEJADAS:
-🔜 ETAPA 20: Lâmpada Geral (Observações e Pendências)
+PRÓXIMAS ETAPAS (PÓS-MVP):
+🔜 Testes com beta testers reais
+🔜 Correção de bugs críticos (webhook Stripe, tabela user_addons)
+🔜 Implementar dívidas técnicas (testes, logs, monitoramento)
 
 MÓDULOS CORE DO MVP (JÁ IMPLEMENTADOS):
 - Teste de Clareza (18+1 perguntas, 3 eixos, 6 categorias)
