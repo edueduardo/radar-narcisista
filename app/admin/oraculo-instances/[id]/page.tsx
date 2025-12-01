@@ -37,7 +37,10 @@ import {
   EyeOff,
   Webhook,
   Send,
-  Link2
+  Link2,
+  CreditCard,
+  Crown,
+  FileText
 } from 'lucide-react'
 
 interface InstanceDetails {
@@ -110,6 +113,36 @@ interface WebhookData {
   created_at: string
 }
 
+// ETAPA 38: Interfaces para Billing
+interface PlanData {
+  id: string
+  plan_slug: string
+  plan_name: string
+  description: string | null
+  max_queries_per_month: number
+  max_tokens_per_month: number
+  max_api_keys: number
+  max_webhooks: number
+  price_cents: number
+  features: string[]
+}
+
+interface SubscriptionData {
+  id: string
+  plan_id: string
+  status: 'active' | 'canceled' | 'past_due' | 'trialing' | 'paused'
+  queries_used: number
+  tokens_used: number
+  current_period_end: string | null
+  plan?: PlanData
+}
+
+interface BillingUsageData {
+  total_queries: number
+  total_tokens: number
+  total_api_calls: number
+}
+
 export default function InstanceDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params)
   const [instance, setInstance] = useState<InstanceDetails | null>(null)
@@ -136,6 +169,11 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
   const [newWebhookUrl, setNewWebhookUrl] = useState('')
   const [creatingWebhook, setCreatingWebhook] = useState(false)
   const [newWebhookSecret, setNewWebhookSecret] = useState<string | null>(null)
+  
+  // ETAPA 38: Estados para Billing
+  const [subscription, setSubscription] = useState<SubscriptionData | null>(null)
+  const [plans, setPlans] = useState<PlanData[]>([])
+  const [billingUsage, setBillingUsage] = useState<BillingUsageData | null>(null)
 
   useEffect(() => {
     loadInstanceDetails()
@@ -162,6 +200,9 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
       
       // ETAPA 37: Carregar webhooks
       loadWebhooks()
+      
+      // ETAPA 38: Carregar billing
+      loadBilling()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erro desconhecido')
     } finally {
@@ -286,6 +327,21 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
       loadWebhooks()
     } catch (err) {
       alert('Erro ao deletar webhook')
+    }
+  }
+
+  // ETAPA 38: Carregar billing
+  const loadBilling = async () => {
+    try {
+      const res = await fetch(`/api/admin/oraculo-instances/${resolvedParams.id}/billing`)
+      const data = await res.json()
+      if (res.ok) {
+        setSubscription(data.subscription || null)
+        setPlans(data.plans || [])
+        setBillingUsage(data.usage || null)
+      }
+    } catch (err) {
+      console.error('Erro ao carregar billing:', err)
     }
   }
 
@@ -781,6 +837,102 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
                 </div>
               ))}
             </div>
+          )}
+        </div>
+
+        {/* ETAPA 38: Billing */}
+        <div className="mt-6 bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-semibold flex items-center gap-2">
+              <CreditCard className="w-5 h-5 text-emerald-400" />
+              Plano & Billing
+            </h2>
+          </div>
+          
+          {subscription ? (
+            <div className="space-y-4">
+              {/* Plano atual */}
+              <div className="flex items-center justify-between p-4 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 border border-emerald-500/30 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <Crown className="w-6 h-6 text-emerald-400" />
+                  <div>
+                    <p className="font-semibold text-lg">{subscription.plan?.plan_name || 'Free'}</p>
+                    <p className="text-sm text-gray-400">{subscription.plan?.description}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-2xl font-bold text-emerald-400">
+                    {subscription.plan?.price_cents === 0 ? 'Grátis' : `R$ ${(subscription.plan?.price_cents || 0) / 100}/mês`}
+                  </p>
+                  <p className={`text-xs ${subscription.status === 'active' ? 'text-green-400' : 'text-yellow-400'}`}>
+                    {subscription.status === 'active' ? 'Ativo' : subscription.status}
+                  </p>
+                </div>
+              </div>
+              
+              {/* Uso atual */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-3 bg-slate-700/50 rounded-lg">
+                  <div className="flex items-center gap-2 text-gray-400 text-sm mb-1">
+                    <Zap className="w-4 h-4" />
+                    Queries
+                  </div>
+                  <p className="text-xl font-bold">
+                    {subscription.queries_used}
+                    <span className="text-sm text-gray-400 font-normal">
+                      {' / '}{subscription.plan?.max_queries_per_month === -1 ? '∞' : subscription.plan?.max_queries_per_month}
+                    </span>
+                  </p>
+                  {subscription.plan?.max_queries_per_month !== -1 && (
+                    <div className="mt-2 h-1.5 bg-slate-600 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-emerald-500 rounded-full"
+                        style={{ width: `${Math.min(100, (subscription.queries_used / (subscription.plan?.max_queries_per_month || 1)) * 100)}%` }}
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="p-3 bg-slate-700/50 rounded-lg">
+                  <div className="flex items-center gap-2 text-gray-400 text-sm mb-1">
+                    <FileText className="w-4 h-4" />
+                    Tokens
+                  </div>
+                  <p className="text-xl font-bold">
+                    {(subscription.tokens_used / 1000).toFixed(1)}k
+                    <span className="text-sm text-gray-400 font-normal">
+                      {' / '}{subscription.plan?.max_tokens_per_month === -1 ? '∞' : `${(subscription.plan?.max_tokens_per_month || 0) / 1000}k`}
+                    </span>
+                  </p>
+                  {subscription.plan?.max_tokens_per_month !== -1 && (
+                    <div className="mt-2 h-1.5 bg-slate-600 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-cyan-500 rounded-full"
+                        style={{ width: `${Math.min(100, (subscription.tokens_used / (subscription.plan?.max_tokens_per_month || 1)) * 100)}%` }}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {/* Outros planos */}
+              {plans.length > 1 && (
+                <div className="pt-4 border-t border-slate-700">
+                  <p className="text-sm text-gray-400 mb-3">Fazer upgrade:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {plans.filter(p => p.price_cents > (subscription.plan?.price_cents || 0)).map(plan => (
+                      <button
+                        key={plan.id}
+                        className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm transition-colors"
+                      >
+                        {plan.plan_name} - R$ {plan.price_cents / 100}/mês
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <p className="text-gray-400 text-sm">Carregando informações de billing...</p>
           )}
         </div>
       </main>
