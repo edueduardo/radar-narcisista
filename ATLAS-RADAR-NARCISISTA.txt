@@ -5,8 +5,17 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 12:30 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 12:00 → 12:30):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 13:00 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 12:30 → 13:00):
+- ETAPA 18: Limpeza Admin & Mapa do Sistema (✅ CONCLUÍDO)
+  - Oráculo agora é o PRIMEIRO item do menu (defaultOrder: 0)
+  - Curadoria Central logo após (defaultOrder: 2)
+  - Termos Aceitos movido para o final (defaultOrder: 50)
+  - Ícones adicionados ao AdminSidebar: CreditCard, Lightbulb, FileText, Layers, UserPlus, Skull, Network, TrendingUp, MessageCircle
+  - Removida entrada duplicada de termos_aceitos no registry
+  - Build passou: 159 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 12:00 → 12:30):
 - ETAPA 17: Limpeza/Unificação de Dashboards (✅ CONCLUÍDO)
   - Mapeamento: /dashboard (principal), /dashboard-profissional (profissional)
   - Legados já redirecionam: /dashboard-v2, /dashboard-premium

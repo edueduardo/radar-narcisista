@@ -33,6 +33,15 @@ import {
   Rocket,
   CheckSquare,
   GitBranch,
+  CreditCard,
+  Lightbulb,
+  FileText,
+  Layers,
+  UserPlus,
+  Skull,
+  Network,
+  TrendingUp,
+  MessageCircle,
 } from 'lucide-react'
 import { loadMenuOrder, type AdminMenuItem } from '@/lib/admin-menu-config'
 
@@ -74,6 +83,15 @@ const iconMap: Record<string, any> = {
   Rocket,
   CheckSquare,
   GitBranch,
+  CreditCard,
+  Lightbulb,
+  FileText,
+  Layers,
+  UserPlus,
+  Skull,
+  Network,
+  TrendingUp,
+  MessageCircle,
 }
 
 function buildSidebarItemsFromMenu(menu: AdminMenuItem[]): SidebarItem[] {

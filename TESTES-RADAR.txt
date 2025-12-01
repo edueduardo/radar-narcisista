@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 2.4
-Última atualização: 01/12/2025 12:30 (UTC-5)
+Versão: 2.5
+Última atualização: 01/12/2025 13:00 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -613,10 +613,13 @@ ETAPA 17 – LIMPEZA DASHBOARDS (CONCLUÍDO 01/12/2025):
 ✅ Admin redireciona para /admin após login
 ☐ Testar navegação completa em produção
 
-ETAPA 18 – LIMPEZA ADMIN:
-☐ Menu admin organizado em seções
-☐ Oráculo acessível no menu
-☐ White-label acessível no menu
+ETAPA 18 – LIMPEZA ADMIN (CONCLUÍDO 01/12/2025):
+✅ Menu admin reorganizado
+✅ Oráculo é o PRIMEIRO item do menu
+✅ Curadoria Central logo após
+✅ Termos Aceitos movido para o final
+✅ Ícones adicionados ao AdminSidebar
+☐ Testar menu em produção
 
 ETAPA 19 – MANUAIS:
 ☐ docs/MANUAL-USUARIA.md existe e é legível

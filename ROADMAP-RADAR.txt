@@ -1,14 +1,14 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 3.0
-Última atualização: 01/12/2025 12:30 (UTC-5)
+Versão: 3.1
+Última atualização: 01/12/2025 13:00 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
-Versão atual do produto: MVP 0.9.17 (ETAPA 17 CONCLUÍDA)
+Versão atual do produto: MVP 0.9.18 (ETAPA 18 CONCLUÍDA)
 Objetivo desta fase: Fechar MVP vendável B2C + Iniciar BLOCO 14-20
 
 ================================================================================
@@ -319,12 +319,15 @@ BLOCO 14-20 (PRÓXIMAS ETAPAS)
      app/chat-premium, app/seguranca-premium, app/documentos-premium, app/configuracoes-premium
    - Risco: Médio → MITIGADO
 
-🔜 ETAPA 18 – LIMPEZA ADMIN & MAPA DO SISTEMA
-   - [ ] Organizar menus do admin (Core, Labs, Legado)
-   - [ ] Conectar Oráculo e White-label no menu
-   - [ ] Atualizar /admin/mapa-sistema
-   - Arquivos afetados: app/admin/*, lib/admin-menu-config.ts
-   - Risco: Baixo
+✅ ETAPA 18 – LIMPEZA ADMIN & MAPA DO SISTEMA (CONCLUÍDO 01/12/2025)
+   - [x] Reorganizar ordem do menu admin
+     * Oráculo agora é o PRIMEIRO item (defaultOrder: 0)
+     * Curadoria Central logo após (defaultOrder: 2)
+     * Termos Aceitos movido para o final (defaultOrder: 50)
+   - [x] Adicionar ícones faltantes ao AdminSidebar
+   - [x] Remover entrada duplicada no registry
+   - Arquivos modificados: app/admin/admin-features-registry.ts, components/AdminSidebar.tsx
+   - Risco: Baixo → MITIGADO
 
 🔜 ETAPA 19 – MANUAIS
    - [ ] Criar docs/MANUAL-USUARIA.md

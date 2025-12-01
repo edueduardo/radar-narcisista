@@ -213,7 +213,7 @@ export const ADMIN_FEATURES: AdminFeature[] = [
     relatedTables: ['emotion_states', 'classifications']
   },
 
-  // 🧪 GRUPO: Sistema (Testes e Analytics)
+  // 🔮 GRUPO: Oráculo (Visão Executiva - PRIMEIRO NO MENU)
   {
     id: 'oraculo',
     label: '🔮 Oráculo',
@@ -221,10 +221,12 @@ export const ADMIN_FEATURES: AdminFeature[] = [
     path: '/admin/oraculo',
     icon: 'Eye',
     group: 'Sistema',
-    defaultOrder: 13,
+    defaultOrder: 0, // PRIMEIRO no menu - visão executiva
     relatedTables: ['user_profiles', 'clarity_tests', 'journal_entries', 'beta_feedback', 'beta_events'],
     relatedAPIs: ['/api/beta/feedback', '/api/beta/events']
   },
+
+  // 🧪 GRUPO: Sistema (Testes e Analytics)
   {
     id: 'quiz_ia',
     label: '🧠 Quiz IA',
@@ -342,18 +344,6 @@ export const ADMIN_FEATURES: AdminFeature[] = [
     defaultOrder: 23,
     relatedTables: ['beta_testers', 'beta_feedback']
   },
-  // 💀 ÁREA SENSÍVEL: TERMOS ACEITOS (Cadeia de Custódia)
-  {
-    id: 'termos_aceitos',
-    label: '💀 TERMOS ACEITOS',
-    description: 'Cadeia de custódia - Registro de aceites de termos com hash SHA-256 para prova pericial',
-    path: '/admin/termos-aceitos',
-    icon: 'Skull',
-    group: 'Sistema',
-    defaultOrder: 0, // Primeiro no menu (área crítica)
-    relatedTables: ['terms_versions', 'terms_acceptances', 'user_terms_acceptance'],
-    relatedAPIs: ['/api/terms/accept', '/api/admin/terms-acceptances']
-  },
 
   // 💰 GRUPO: Billing (Planos e Promoções)
   {
@@ -415,18 +405,31 @@ export const ADMIN_FEATURES: AdminFeature[] = [
     relatedAPIs: ['/api/admin/content/insights/recompute']
   },
 
-  // 🎛️ GRUPO: Sistema (ETAPA 9 - Painel de Curadoria)
+  // 🏛️ GRUPO: Sistema (ETAPA 9 - Painel de Curadoria)
   {
     id: 'curadoria_central',
-    label: '🎛️ Curadoria Central',
+    label: '🏛️ Curadoria Central',
     description: 'Painel central de controle da IA Curadora e semáforo de edição',
     path: '/admin/curadoria',
     icon: 'Settings',
     group: 'Sistema',
-    defaultOrder: 1, // Logo após checklist
+    defaultOrder: 2, // Logo após Oráculo
     relatedTables: ['frontpage_config'],
     relatedAPIs: ['/api/admin/curadoria/config'],
     relatedIAs: ['ia_curadora']
+  },
+
+  // 💀 ÁREA SENSÍVEL: TERMOS ACEITOS (Cadeia de Custódia)
+  {
+    id: 'termos_aceitos',
+    label: '💀 TERMOS ACEITOS',
+    description: 'Cadeia de custódia - Registro de aceites de termos com hash SHA-256 para prova pericial',
+    path: '/admin/termos-aceitos',
+    icon: 'Skull',
+    group: 'Sistema',
+    defaultOrder: 50, // Final do menu (área sensível)
+    relatedTables: ['terms_versions', 'terms_acceptances', 'user_terms_acceptance'],
+    relatedAPIs: ['/api/terms/accept', '/api/admin/terms-acceptances']
   }
 ]
 
