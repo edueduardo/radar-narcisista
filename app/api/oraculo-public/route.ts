@@ -1,6 +1,7 @@
 /**
  * API Pública do Oráculo para Whitelabel
  * ETAPA 34 - Integração com Gerador de SaaS
+ * ETAPA 36 - Sistema de API Keys
  * 
  * Esta API permite que instâncias whitelabel consumam o Oráculo
  * sem precisar de autenticação Supabase, usando API keys
@@ -10,6 +11,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { callOraculo, OraculoUserRole, OraculoInstanceConfig } from '@/lib/oraculo-core'
 import { getInstanceConfig, registerInstanceUsage } from '@/lib/oraculo-instances'
+import { validateApiKey as validateKey, logApiKeyUsage, ApiKeyValidation } from '@/lib/oraculo-api-keys'
 
 // Rate limiting simples em memória
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
@@ -39,26 +41,9 @@ function getSupabaseAdmin() {
   return createClient(supabaseUrl, supabaseServiceKey)
 }
 
-// Validar API key
-async function validateApiKey(apiKey: string, instanceSlug: string): Promise<boolean> {
-  const supabase = getSupabaseAdmin()
-  if (!supabase) return false
-  
-  // Por enquanto, aceitar qualquer key que comece com o slug
-  // TODO: Implementar tabela de API keys
-  if (apiKey.startsWith(`${instanceSlug}-`)) {
-    return true
-  }
-  
-  // Verificar se é uma key válida no banco
-  const { data } = await supabase
-    .from('oraculo_api_keys')
-    .select('id, instance_id')
-    .eq('api_key', apiKey)
-    .eq('status', 'active')
-    .single()
-  
-  return !!data
+// ETAPA 36: Validar API key usando o novo sistema
+async function validateApiKeyFull(apiKey: string): Promise<ApiKeyValidation> {
+  return validateKey(apiKey)
 }
 
 // Validar domínio
@@ -89,16 +74,41 @@ function validateDomain(origin: string | null, allowedDomains: string[] | null):
 
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
+  let apiKeyValidation: ApiKeyValidation | null = null
   
   try {
     // Extrair headers
     const apiKey = request.headers.get('x-api-key') || request.headers.get('authorization')?.replace('Bearer ', '')
     const origin = request.headers.get('origin')
-    const instanceSlug = request.nextUrl.searchParams.get('instance') || 'radar-narcisista'
+    const clientIp = request.headers.get('x-forwarded-for') || 'unknown'
+    let instanceSlug = request.nextUrl.searchParams.get('instance') || 'radar-narcisista'
+    
+    // ETAPA 36: Validar API key se fornecida
+    let rateLimit = 30 // padrão
+    if (apiKey) {
+      apiKeyValidation = await validateApiKeyFull(apiKey)
+      
+      if (!apiKeyValidation.is_valid) {
+        return NextResponse.json(
+          { error: apiKeyValidation.error_message || 'API key inválida' },
+          { status: 401 }
+        )
+      }
+      
+      // Usar instância da API key
+      if (apiKeyValidation.instance_slug) {
+        instanceSlug = apiKeyValidation.instance_slug
+      }
+      
+      // Usar rate limit da API key
+      if (apiKeyValidation.rate_limit_per_minute) {
+        rateLimit = apiKeyValidation.rate_limit_per_minute
+      }
+    }
     
     // Rate limiting por IP/API key
-    const clientId = apiKey || request.headers.get('x-forwarded-for') || 'unknown'
-    if (!checkRateLimit(clientId, 30, 60000)) {
+    const clientId = apiKey || clientIp
+    if (!checkRateLimit(clientId, rateLimit, 60000)) {
       return NextResponse.json(
         { error: 'Rate limit excedido. Tente novamente em 1 minuto.' },
         { status: 429 }
@@ -107,7 +117,15 @@ export async function POST(request: NextRequest) {
     
     // Buscar configuração da instância
     const body = await request.json()
-    const userRole = (body.user_role as OraculoUserRole) || 'usuaria'
+    let userRole = (body.user_role as OraculoUserRole) || 'usuaria'
+    
+    // ETAPA 36: Verificar se o role é permitido pela API key
+    if (apiKeyValidation?.allowed_roles && !apiKeyValidation.allowed_roles.includes(userRole)) {
+      return NextResponse.json(
+        { error: `Role '${userRole}' não permitido para esta API key` },
+        { status: 403 }
+      )
+    }
     
     const instanceConfig = await getInstanceConfig(instanceSlug, userRole)
     
@@ -118,9 +136,9 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    // Validar domínio (se configurado)
+    // Validar domínio (se configurado e não usando API key)
     const supabase = getSupabaseAdmin()
-    if (supabase) {
+    if (supabase && !apiKey) {
       const { data: instance } = await supabase
         .from('oraculo_instances')
         .select('dominios_permitidos')

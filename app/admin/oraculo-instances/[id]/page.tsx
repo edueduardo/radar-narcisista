@@ -3,6 +3,7 @@
 /**
  * Dashboard de Métricas por Instância do Oráculo
  * ETAPA 35 - Métricas detalhadas por instância
+ * ETAPA 36 - Gerenciamento de API Keys
  */
 
 import { useState, useEffect, use } from 'react'
@@ -26,7 +27,14 @@ import {
   Globe,
   CheckCircle,
   XCircle,
-  Pause
+  Pause,
+  Key,
+  Plus,
+  Copy,
+  Trash2,
+  AlertTriangle,
+  Eye,
+  EyeOff
 } from 'lucide-react'
 
 interface InstanceDetails {
@@ -70,6 +78,19 @@ interface DailyUsage {
   custo_cents: number
 }
 
+// ETAPA 36: Interface para API Keys
+interface ApiKeyData {
+  id: string
+  key_name: string
+  api_key: string
+  key_prefix: string
+  status: 'active' | 'revoked' | 'expired'
+  rate_limit_per_minute: number
+  total_requests: number
+  last_used_at: string | null
+  created_at: string
+}
+
 export default function InstanceDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params)
   const [instance, setInstance] = useState<InstanceDetails | null>(null)
@@ -80,6 +101,14 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [refreshing, setRefreshing] = useState(false)
+  
+  // ETAPA 36: Estados para API Keys
+  const [apiKeys, setApiKeys] = useState<ApiKeyData[]>([])
+  const [showKeyModal, setShowKeyModal] = useState(false)
+  const [newKeyName, setNewKeyName] = useState('')
+  const [creatingKey, setCreatingKey] = useState(false)
+  const [newFullKey, setNewFullKey] = useState<string | null>(null)
+  const [copiedKey, setCopiedKey] = useState(false)
 
   useEffect(() => {
     loadInstanceDetails()
@@ -100,11 +129,77 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
       
       // Gerar histórico simulado para demonstração
       generateDailyHistory()
+      
+      // ETAPA 36: Carregar API keys
+      loadApiKeys()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erro desconhecido')
     } finally {
       setLoading(false)
     }
+  }
+
+  // ETAPA 36: Carregar API keys
+  const loadApiKeys = async () => {
+    try {
+      const res = await fetch(`/api/admin/oraculo-instances/${resolvedParams.id}/keys`)
+      const data = await res.json()
+      if (res.ok) {
+        setApiKeys(data.keys || [])
+      }
+    } catch (err) {
+      console.error('Erro ao carregar API keys:', err)
+    }
+  }
+
+  // ETAPA 36: Criar nova API key
+  const handleCreateKey = async () => {
+    if (!newKeyName.trim()) return
+    
+    setCreatingKey(true)
+    try {
+      const res = await fetch(`/api/admin/oraculo-instances/${resolvedParams.id}/keys`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key_name: newKeyName })
+      })
+      const data = await res.json()
+      
+      if (!res.ok) throw new Error(data.error)
+      
+      setNewFullKey(data.full_key)
+      loadApiKeys()
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Erro ao criar key')
+    } finally {
+      setCreatingKey(false)
+    }
+  }
+
+  // ETAPA 36: Revogar API key
+  const handleRevokeKey = async (keyId: string) => {
+    if (!confirm('Revogar esta API key? Ela não poderá mais ser usada.')) return
+    
+    try {
+      const res = await fetch(`/api/admin/oraculo-instances/${resolvedParams.id}/keys`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key_id: keyId })
+      })
+      
+      if (!res.ok) throw new Error('Erro ao revogar')
+      
+      loadApiKeys()
+    } catch (err) {
+      alert('Erro ao revogar API key')
+    }
+  }
+
+  // ETAPA 36: Copiar key
+  const handleCopyKey = (key: string) => {
+    navigator.clipboard.writeText(key)
+    setCopiedKey(true)
+    setTimeout(() => setCopiedKey(false), 2000)
   }
 
   const generateDailyHistory = () => {
@@ -473,7 +568,149 @@ export default function InstanceDetailsPage({ params }: { params: Promise<{ id: 
             </p>
           </div>
         </div>
+
+        {/* ETAPA 36: API Keys */}
+        <div className="mt-6 bg-slate-800/50 border border-slate-700 rounded-xl p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-semibold flex items-center gap-2">
+              <Key className="w-5 h-5 text-amber-400" />
+              API Keys
+            </h2>
+            <button
+              onClick={() => {
+                setNewKeyName('')
+                setNewFullKey(null)
+                setShowKeyModal(true)
+              }}
+              className="flex items-center gap-2 px-3 py-1.5 bg-amber-600 hover:bg-amber-700 rounded-lg text-sm font-medium transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              Nova Key
+            </button>
+          </div>
+          
+          {apiKeys.length === 0 ? (
+            <p className="text-gray-400 text-sm">Nenhuma API key criada</p>
+          ) : (
+            <div className="space-y-3">
+              {apiKeys.map(key => (
+                <div key={key.id} className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-2 h-2 rounded-full ${
+                      key.status === 'active' ? 'bg-green-400' : 
+                      key.status === 'revoked' ? 'bg-red-400' : 'bg-yellow-400'
+                    }`} />
+                    <div>
+                      <p className="font-medium">{key.key_name}</p>
+                      <p className="text-xs text-gray-400 font-mono">{key.api_key}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="text-right text-sm">
+                      <p className="text-gray-400">{key.total_requests} requests</p>
+                      <p className="text-xs text-gray-500">
+                        {key.last_used_at 
+                          ? `Último uso: ${new Date(key.last_used_at).toLocaleDateString('pt-BR')}`
+                          : 'Nunca usada'
+                        }
+                      </p>
+                    </div>
+                    {key.status === 'active' && (
+                      <button
+                        onClick={() => handleRevokeKey(key.id)}
+                        className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/20 rounded-lg transition-colors"
+                        title="Revogar"
+                      >
+                        <XCircle className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </main>
+
+      {/* Modal Nova API Key */}
+      {showKeyModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-md">
+            <div className="p-6 border-b border-slate-700">
+              <h2 className="text-xl font-bold flex items-center gap-2">
+                <Key className="w-5 h-5 text-amber-400" />
+                {newFullKey ? 'API Key Criada' : 'Nova API Key'}
+              </h2>
+            </div>
+            
+            <div className="p-6">
+              {newFullKey ? (
+                <div className="space-y-4">
+                  <div className="p-4 bg-amber-500/20 border border-amber-500/50 rounded-lg">
+                    <div className="flex items-start gap-2">
+                      <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                      <p className="text-sm text-amber-200">
+                        Guarde esta chave em local seguro. Ela não será exibida novamente!
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-2">Sua API Key</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newFullKey}
+                        readOnly
+                        className="flex-1 px-3 py-2 bg-slate-900 border border-slate-600 rounded-lg font-mono text-sm"
+                      />
+                      <button
+                        onClick={() => handleCopyKey(newFullKey)}
+                        className={`px-3 py-2 rounded-lg transition-colors ${
+                          copiedKey 
+                            ? 'bg-green-600 text-white' 
+                            : 'bg-slate-700 hover:bg-slate-600'
+                        }`}
+                      >
+                        {copiedKey ? <CheckCircle className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <label className="block text-sm text-gray-400 mb-2">Nome da Key</label>
+                  <input
+                    type="text"
+                    value={newKeyName}
+                    onChange={e => setNewKeyName(e.target.value)}
+                    placeholder="Ex: Produção, Desenvolvimento, App Mobile..."
+                    className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg focus:outline-none focus:border-amber-500"
+                  />
+                </div>
+              )}
+            </div>
+            
+            <div className="p-6 border-t border-slate-700 flex justify-end gap-3">
+              <button
+                onClick={() => setShowKeyModal(false)}
+                className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+              >
+                {newFullKey ? 'Fechar' : 'Cancelar'}
+              </button>
+              {!newFullKey && (
+                <button
+                  onClick={handleCreateKey}
+                  disabled={creatingKey || !newKeyName.trim()}
+                  className="px-6 py-2 bg-amber-600 hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
+                >
+                  {creatingKey ? 'Criando...' : 'Criar Key'}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
