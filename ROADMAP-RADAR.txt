@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 1.9
-Última atualização: 30/11/2025 23:30 (UTC-5)
+Versão: 2.0
+Última atualização: 01/12/2025 00:15 (UTC-5)
 
 ================================================================================
 STATUS GERAL
@@ -163,12 +163,15 @@ PRÓXIMAS ETAPAS (PRIORIDADE)
    - [x] Integração com buildUserDashboardLayout() e getWelcomeMessage()
    - [x] Build passou: 145 páginas
    
-🔜 ETAPA 11.2 - Ajustes finos do dashboard (opcional)
-   - Melhorar heurística de "passo atual" na timeline
-   - Ajustes de UX mobile
-   - Microcópia e textos
+✅ ETAPA 11.2 - Ajustes finos do dashboard (CONCLUÍDO 01/12/2025 00:15)
+   - [x] Heurística inteligente do "passo atual" (getCurrentHeroStep)
+   - [x] Badge "Você está aqui" no passo atual
+   - [x] Passos completados com ✓ verde
+   - [x] Microcópias refinadas (linguagem acolhedora)
+   - [x] Mobile: scroll horizontal melhorado
+   - [x] Build passou: 145 páginas
    
-12) ETAPA 12 - Dashboard Profissional
+🔜 ETAPA 12 - Dashboard Profissional
 13) ETAPA 13 - Dashboard White-label (estrutura base)
 14) Loja simplificada (2–3 add-ons reais)
 15) Começar teste com 5 usuárias beta

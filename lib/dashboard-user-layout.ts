@@ -55,6 +55,65 @@ export interface DashboardLayoutInput {
   hasActiveSafetyPlan: boolean
   hasPhysicalRisk: boolean
   safetyPlanStatus: 'NOT_STARTED' | 'IN_PROGRESS' | 'READY'
+  // ETAPA 11.2: Dados adicionais para heurística do passo atual
+  chatSessionCount?: number      // Quantas sessões de chat teve
+  journalEntryCount?: number     // Total de entradas no diário
+}
+
+// =============================================================================
+// ETAPA 11.2: HEURÍSTICA DO PASSO ATUAL
+// =============================================================================
+
+/**
+ * Calcula o "passo atual" da usuária na trilha do herói
+ * baseado no uso real das funcionalidades.
+ * 
+ * HEURÍSTICA:
+ * 1. Sem teste de clareza → Passo 1 (Entender)
+ * 2. Com teste, mas poucos registros no diário (<3) → Passo 2 (Registrar)
+ * 3. Com diário ativo, mas pouco uso de chat (<2) → Passo 3 (Conversar)
+ * 4. Com chat ativo, mas sem plano de segurança → Passo 4 (Proteger)
+ * 5. Tudo ativo → Passo 5 (Recursos)
+ * 
+ * EXCEÇÃO: Se há risco físico e plano não está pronto → força Passo 4
+ */
+export function getCurrentHeroStep(input: DashboardLayoutInput): HeroStep {
+  const { 
+    hasClarityProfile, 
+    hasRecentJournalEntries,
+    hasPhysicalRisk,
+    safetyPlanStatus,
+    chatSessionCount = 0,
+    journalEntryCount = 0
+  } = input
+  
+  // PRIORIDADE MÁXIMA: Risco físico sem plano de segurança pronto
+  if (hasPhysicalRisk && safetyPlanStatus !== 'READY') {
+    return 4 // Proteger
+  }
+  
+  // Passo 1: Não fez teste de clareza
+  if (!hasClarityProfile) {
+    return 1 // Entender
+  }
+  
+  // Passo 2: Fez teste, mas tem poucos registros no diário
+  if (journalEntryCount < 3 || !hasRecentJournalEntries) {
+    return 2 // Registrar
+  }
+  
+  // Passo 3: Tem diário ativo, mas pouco uso de chat
+  if (chatSessionCount < 2) {
+    return 3 // Conversar
+  }
+  
+  // Passo 4: Tem chat ativo, mas não tem plano de segurança
+  if (safetyPlanStatus === 'NOT_STARTED') {
+    return 4 // Proteger
+  }
+  
+  // Passo 5: Tudo ativo - usuária avançada
+  return 5 // Recursos
 }
 
 // =============================================================================
@@ -79,14 +138,14 @@ const HERO_STEP_TO_SECTION: Record<HeroStep, DashboardSectionId> = {
 export function buildUserDashboardLayout(input: DashboardLayoutInput): DashboardSection[] {
   const { 
     currentPlanLevel, 
-    hasClarityProfile, 
-    hasRecentJournalEntries,
-    hasActiveSafetyPlan,
     hasPhysicalRisk,
     safetyPlanStatus
   } = input
   
   const modulesByStep = getModulesByHeroStep(currentPlanLevel)
+  
+  // ETAPA 11.2: Calcular o passo atual da usuária
+  const currentStep = getCurrentHeroStep(input)
   
   const sections: DashboardSection[] = []
   
@@ -95,13 +154,13 @@ export function buildUserDashboardLayout(input: DashboardLayoutInput): Dashboard
     const stepLabel = HERO_STEP_LABELS[step]
     const { visible, locked } = modulesByStep[step]
     
-    // Determinar se a seção deve ter destaque
+    // ETAPA 11.2: Destacar o passo atual da usuária
+    // Prioridade: risco físico > passo atual calculado
     let highlight = false
     if (step === 4 && hasPhysicalRisk && safetyPlanStatus !== 'READY') {
       highlight = true // Destacar seção de proteção se há risco físico
-    }
-    if (step === 1 && !hasClarityProfile) {
-      highlight = true // Destacar seção de entender se não tem perfil
+    } else if (step === currentStep) {
+      highlight = true // Destacar o passo atual da jornada
     }
     
     // Montar módulos

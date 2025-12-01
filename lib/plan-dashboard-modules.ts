@@ -35,12 +35,13 @@ export type DashboardModuleId =
 // Etapas da trilha do herói
 export type HeroStep = 1 | 2 | 3 | 4 | 5
 
+// ETAPA 11.2: Microcópias refinadas - linguagem acolhedora, sem promessas de terapia
 export const HERO_STEP_LABELS: Record<HeroStep, { title: string; description: string }> = {
-  1: { title: 'Entender', description: 'Compreenda sua situação com clareza' },
-  2: { title: 'Registrar', description: 'Documente o que acontece no dia a dia' },
-  3: { title: 'Conversar', description: 'Receba apoio e organize suas ideias' },
-  4: { title: 'Proteger', description: 'Cuide da sua segurança' },
-  5: { title: 'Recursos', description: 'Acesse provas, conteúdos e ferramentas extras' },
+  1: { title: 'Entender', description: 'Veja sua situação com mais clareza' },
+  2: { title: 'Registrar', description: 'Guarde o que acontece, no seu tempo' },
+  3: { title: 'Conversar', description: 'Organize ideias com apoio da IA' },
+  4: { title: 'Proteger', description: 'Prepare-se para emergências' },
+  5: { title: 'Recursos', description: 'Provas, conteúdos e ferramentas' },
 }
 
 // =============================================================================

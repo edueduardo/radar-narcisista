@@ -3183,5 +3183,49 @@ COMPONENTES CRIADOS:
 BUILD: 145 páginas (mantido)
 
 ================================================================================
+ETAPA 11.2 – AJUSTES FINOS DO DASHBOARD (TRILHA DO HERÓI)
+================================================================================
+Data: 01/12/2025 00:15 (UTC-5)
+
+OBJETIVO:
+Aperfeiçoar a trilha do herói no dashboard com heurística inteligente e UX mobile.
+
+ARQUIVOS ALTERADOS:
+
+1. lib/dashboard-user-layout.ts
+   - Adicionada função getCurrentHeroStep() com heurística baseada em uso real
+   - DashboardLayoutInput agora aceita chatSessionCount e journalEntryCount
+   - buildUserDashboardLayout() usa getCurrentHeroStep() para destacar passo atual
+
+2. lib/plan-dashboard-modules.ts
+   - Microcópias refinadas em HERO_STEP_LABELS (linguagem acolhedora)
+
+3. app/dashboard/page.tsx
+   - Estado currentHeroStep para rastrear passo atual
+   - Timeline com badge "Você está aqui" no passo atual
+   - Passos completados mostram ✓ verde
+   - Mobile: scroll horizontal com -mx-4 px-4 para edge-to-edge
+
+HEURÍSTICA DO PASSO ATUAL:
+1. Sem teste de clareza → Passo 1 (Entender)
+2. Poucos registros no diário (<3) → Passo 2 (Registrar)
+3. Pouco uso de chat (<2 sessões) → Passo 3 (Conversar)
+4. Sem plano de segurança → Passo 4 (Proteger)
+5. Tudo ativo → Passo 5 (Recursos)
+EXCEÇÃO: Risco físico sem plano pronto → força Passo 4 (Proteger)
+
+EXPERIÊNCIA DO USUÁRIO:
+O dashboard agora guia a usuária através de 5 etapas claras, mostrando:
+- Onde ela está na jornada (badge "Você está aqui")
+- O que já completou (✓ verde)
+- O que vem a seguir (próxima ação sugerida)
+- O que está bloqueado pelo plano (CTA "Ver planos")
+
+NOTA: A heurística é simples e baseada em dados já existentes no código.
+Não promete diagnóstico, terapia ou cura. Apenas organiza a jornada.
+
+BUILD: 145 páginas (mantido)
+
+================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES
 ================================================================================

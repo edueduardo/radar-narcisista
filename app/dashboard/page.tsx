@@ -70,6 +70,7 @@ import {
   buildUserDashboardLayout, 
   getWelcomeMessage, 
   getNextSuggestedAction,
+  getCurrentHeroStep,
   type DashboardLayoutInput,
   type DashboardModuleState 
 } from '@/lib/dashboard-user-layout'
@@ -277,6 +278,8 @@ export default function DashboardV2Page() {
   const [heroLayout, setHeroLayout] = useState<ReturnType<typeof buildUserDashboardLayout>>([])
   const [welcomeMsg, setWelcomeMsg] = useState<ReturnType<typeof getWelcomeMessage> | null>(null)
   const [nextAction, setNextAction] = useState<ReturnType<typeof getNextSuggestedAction> | null>(null)
+  // ETAPA 11.2: Passo atual calculado
+  const [currentHeroStep, setCurrentHeroStep] = useState<HeroStep>(1)
   
   // Gerar recomendações quando perfil carregar
   useEffect(() => {
@@ -296,18 +299,22 @@ export default function DashboardV2Page() {
       setCourseRecommendations(courses)
       setOnboardingText(getOnboardingText(clarityProfile))
       
-      // ETAPA 11.1: Construir trilha do herói
+      // ETAPA 11.1 + 11.2: Construir trilha do herói com heurística melhorada
       const layoutInput: DashboardLayoutInput = {
         currentPlanLevel: userPlanLevel,
         hasClarityProfile: true,
         hasRecentJournalEntries: triangleState.diaryCount30d > 0,
         hasActiveSafetyPlan: safetyPlanStatus !== 'NOT_STARTED',
         hasPhysicalRisk: clarityProfile.hasPhysicalRisk || false,
-        safetyPlanStatus: safetyPlanStatus
+        safetyPlanStatus: safetyPlanStatus,
+        // ETAPA 11.2: Dados adicionais para heurística
+        chatSessionCount: triangleState.chatSummaryCount30d || 0,
+        journalEntryCount: triangleState.diaryCount30d || 0
       }
       setHeroLayout(buildUserDashboardLayout(layoutInput))
       setWelcomeMsg(getWelcomeMessage(layoutInput))
       setNextAction(getNextSuggestedAction(layoutInput))
+      setCurrentHeroStep(getCurrentHeroStep(layoutInput))
     } else {
       // Usuário sem perfil de clareza
       const layoutInput: DashboardLayoutInput = {
@@ -316,11 +323,15 @@ export default function DashboardV2Page() {
         hasRecentJournalEntries: triangleState.diaryCount30d > 0,
         hasActiveSafetyPlan: safetyPlanStatus !== 'NOT_STARTED',
         hasPhysicalRisk: false,
-        safetyPlanStatus: safetyPlanStatus
+        safetyPlanStatus: safetyPlanStatus,
+        // ETAPA 11.2: Dados adicionais para heurística
+        chatSessionCount: triangleState.chatSummaryCount30d || 0,
+        journalEntryCount: triangleState.diaryCount30d || 0
       }
       setHeroLayout(buildUserDashboardLayout(layoutInput))
       setWelcomeMsg(getWelcomeMessage(layoutInput))
       setNextAction(getNextSuggestedAction(layoutInput))
+      setCurrentHeroStep(getCurrentHeroStep(layoutInput))
     }
   }, [clarityProfile, hasClarityProfile, userPlanLevel, triangleState, safetyPlanStatus])
 
@@ -781,40 +792,59 @@ export default function DashboardV2Page() {
               </RadarTag>
             </div>
             
-            {/* Timeline horizontal dos 5 passos */}
-            <div className="overflow-x-auto pb-2 mb-6">
+            {/* ETAPA 11.2: Timeline horizontal dos 5 passos com indicador de passo atual */}
+            <div className="overflow-x-auto pb-2 mb-6 -mx-4 px-4 sm:mx-0 sm:px-0">
               <div className="flex gap-2 min-w-max">
                 {([1, 2, 3, 4, 5] as HeroStep[]).map((step) => {
                   const stepInfo = HERO_STEP_LABELS[step]
                   const hasModulesInStep = heroLayout.some(s => s.heroStep === step && s.modules.length > 0)
-                  const isHighlighted = heroLayout.find(s => s.heroStep === step)?.highlight
+                  const isCurrentStep = step === currentHeroStep
+                  const isCompleted = step < currentHeroStep
+                  const isFuture = step > currentHeroStep
                   
                   return (
                     <div 
                       key={step}
-                      className={`flex-shrink-0 w-36 p-3 rounded-xl border transition-all ${
-                        isHighlighted 
-                          ? (theme === 'light' ? 'bg-purple-100 border-purple-300 ring-2 ring-purple-200' : 'bg-violet-950/50 border-violet-500/50 ring-2 ring-violet-500/30')
-                          : hasModulesInStep
-                            ? (theme === 'light' ? 'bg-white border-gray-200' : 'bg-slate-800/50 border-slate-700/50')
-                            : (theme === 'light' ? 'bg-gray-50 border-gray-100 opacity-60' : 'bg-slate-900/30 border-slate-800/30 opacity-60')
+                      className={`flex-shrink-0 w-32 sm:w-36 p-3 rounded-xl border transition-all relative ${
+                        isCurrentStep 
+                          ? (theme === 'light' 
+                              ? 'bg-purple-100 border-purple-400 ring-2 ring-purple-300 shadow-md' 
+                              : 'bg-violet-950/60 border-violet-500 ring-2 ring-violet-500/40 shadow-lg shadow-violet-500/10')
+                          : isCompleted
+                            ? (theme === 'light' ? 'bg-green-50 border-green-200' : 'bg-green-950/30 border-green-700/50')
+                            : hasModulesInStep && !isFuture
+                              ? (theme === 'light' ? 'bg-white border-gray-200' : 'bg-slate-800/50 border-slate-700/50')
+                              : (theme === 'light' ? 'bg-gray-50 border-gray-100 opacity-50' : 'bg-slate-900/30 border-slate-800/30 opacity-50')
                       }`}
                     >
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                          isHighlighted 
-                            ? (theme === 'light' ? 'bg-purple-600 text-white' : 'bg-violet-500 text-white')
-                            : hasModulesInStep
-                              ? (theme === 'light' ? 'bg-purple-100 text-purple-600' : 'bg-violet-600/30 text-violet-400')
-                              : (theme === 'light' ? 'bg-gray-200 text-gray-500' : 'bg-slate-700 text-slate-500')
+                      {/* Badge "Você está aqui" para passo atual */}
+                      {isCurrentStep && (
+                        <div className={`absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full text-[10px] font-bold whitespace-nowrap ${
+                          theme === 'light' ? 'bg-purple-600 text-white' : 'bg-violet-500 text-white'
                         }`}>
-                          {step}
+                          Você está aqui
+                        </div>
+                      )}
+                      
+                      <div className="flex items-center gap-2 mb-1 mt-1">
+                        <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                          isCurrentStep 
+                            ? (theme === 'light' ? 'bg-purple-600 text-white' : 'bg-violet-500 text-white')
+                            : isCompleted
+                              ? (theme === 'light' ? 'bg-green-500 text-white' : 'bg-green-600 text-white')
+                              : hasModulesInStep
+                                ? (theme === 'light' ? 'bg-purple-100 text-purple-600' : 'bg-violet-600/30 text-violet-400')
+                                : (theme === 'light' ? 'bg-gray-200 text-gray-500' : 'bg-slate-700 text-slate-500')
+                        }`}>
+                          {isCompleted ? '✓' : step}
                         </span>
-                        <span className={`text-xs font-semibold ${isHighlighted ? t.textAccent : t.text}`}>
+                        <span className={`text-xs font-semibold truncate ${
+                          isCurrentStep ? t.textAccent : isCompleted ? (theme === 'light' ? 'text-green-700' : 'text-green-400') : t.text
+                        }`}>
                           {stepInfo.title}
                         </span>
                       </div>
-                      <p className={`text-xs ${t.textMuted} line-clamp-2`}>{stepInfo.description}</p>
+                      <p className={`text-[11px] leading-tight ${t.textMuted} line-clamp-2`}>{stepInfo.description}</p>
                     </div>
                   )
                 })}
