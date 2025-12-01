@@ -1685,6 +1685,86 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* FAQ RÁPIDO - ETAPA 31 */}
+      <section className={`py-16 md:py-20 ${theme === 'dark' ? 'bg-[#0F172A]' : 'bg-gray-50'}`}>
+        <div className="container-app">
+          <div className="text-center mb-12">
+            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Perguntas Frequentes
+            </h2>
+            <p className={`text-lg max-w-2xl mx-auto ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+              Tire suas dúvidas sobre o Radar Narcisista
+            </p>
+          </div>
+
+          <div className="max-w-3xl mx-auto space-y-4">
+            {/* FAQ 1 */}
+            <details className={`group rounded-2xl ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-md'}`}>
+              <summary className={`flex items-center justify-between p-6 cursor-pointer list-none ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                <span className="font-semibold text-left">O Radar faz diagnóstico de narcisismo?</span>
+                <ChevronRight className="w-5 h-5 transition-transform group-open:rotate-90" />
+              </summary>
+              <div className={`px-6 pb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p><strong>Não.</strong> O Radar é uma ferramenta de autoconhecimento e apoio. Não fazemos diagnósticos de transtornos de personalidade. Nosso objetivo é ajudar você a identificar padrões de comportamento e encontrar clareza sobre sua situação. Para diagnósticos, consulte um profissional de saúde mental.</p>
+              </div>
+            </details>
+
+            {/* FAQ 2 */}
+            <details className={`group rounded-2xl ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-md'}`}>
+              <summary className={`flex items-center justify-between p-6 cursor-pointer list-none ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                <span className="font-semibold text-left">Meus dados estão seguros?</span>
+                <ChevronRight className="w-5 h-5 transition-transform group-open:rotate-90" />
+              </summary>
+              <div className={`px-6 pb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p><strong>Sim.</strong> Usamos criptografia de ponta a ponta e seguimos as melhores práticas de segurança. Seus dados são armazenados de forma segura e nunca são compartilhados com terceiros. Você pode excluir sua conta e todos os dados a qualquer momento.</p>
+              </div>
+            </details>
+
+            {/* FAQ 3 */}
+            <details className={`group rounded-2xl ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-md'}`}>
+              <summary className={`flex items-center justify-between p-6 cursor-pointer list-none ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                <span className="font-semibold text-left">O Radar é só para mulheres?</span>
+                <ChevronRight className="w-5 h-5 transition-transform group-open:rotate-90" />
+              </summary>
+              <div className={`px-6 pb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p><strong>Não.</strong> O Radar é para todas as pessoas, independente de gênero. Homens também podem ser vítimas de relacionamentos abusivos e merecem apoio. Nossa linguagem é inclusiva e nossas ferramentas funcionam para qualquer pessoa.</p>
+              </div>
+            </details>
+
+            {/* FAQ 4 */}
+            <details className={`group rounded-2xl ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-md'}`}>
+              <summary className={`flex items-center justify-between p-6 cursor-pointer list-none ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                <span className="font-semibold text-left">Posso usar o Radar sem criar conta?</span>
+                <ChevronRight className="w-5 h-5 transition-transform group-open:rotate-90" />
+              </summary>
+              <div className={`px-6 pb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p><strong>Sim.</strong> O Teste de Clareza pode ser feito sem cadastro e é 100% anônimo. Se quiser salvar seus resultados, acessar o Diário, o Coach IA e outras ferramentas, você pode criar uma conta gratuita.</p>
+              </div>
+            </details>
+
+            {/* FAQ 5 */}
+            <details className={`group rounded-2xl ${theme === 'dark' ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white shadow-md'}`}>
+              <summary className={`flex items-center justify-between p-6 cursor-pointer list-none ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                <span className="font-semibold text-left">O que é o Coach IA?</span>
+                <ChevronRight className="w-5 h-5 transition-transform group-open:rotate-90" />
+              </summary>
+              <div className={`px-6 pb-6 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p>O Coach IA é um assistente virtual treinado para oferecer apoio empático 24/7. Ele usa inteligência artificial para ajudar você a organizar pensamentos, identificar padrões e encontrar caminhos. <strong>Não substitui terapia</strong>, mas pode ser um complemento valioso no seu processo de autoconhecimento.</p>
+              </div>
+            </details>
+          </div>
+
+          <div className="text-center mt-10">
+            <Link 
+              href="/faq" 
+              className={`inline-flex items-center gap-2 font-medium ${theme === 'dark' ? 'text-violet-400 hover:text-violet-300' : 'text-purple-600 hover:text-purple-700'}`}
+            >
+              Ver todas as perguntas <ChevronRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* 🏆 EXCLUSIVO - Frase de Impacto Final */}
       <section className="py-16 bg-gradient-to-r from-gray-900 to-gray-800 text-white text-center">
         <div className="container-app">
