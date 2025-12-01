@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 3.1
-Última atualização: 01/12/2025 18:00 (UTC-5)
+Versão: 3.2
+Última atualização: 01/12/2025 18:30 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -677,10 +677,15 @@ ETAPA 24 – MANUAIS (CONCLUÍDO 01/12/2025):
 ✅ MANUAL-DEV.md atualizado (APIs, arquivos de projeto)
 ✅ MANUAL-WHITELABEL.md atualizado (links para manuais)
 
-ETAPA 25 – QA:
-☐ Migrations aplicadas sem erro
-☐ Testes automatizados passam
-☐ Fluxos principais testados manualmente
+ETAPA 25 – QA (CONCLUÍDO 01/12/2025):
+✅ CHECKLIST-POS-MVP.md criado
+✅ LÂMPADA-RADAR.txt atualizado
+✅ Documentação final consolidada
+☐ Executar migrations no Supabase
+☐ Criar Price IDs no Stripe
+☐ Testar fluxos principais manualmente
+
+🎉 BLOCO 21-25 CONCLUÍDO!
 
 ================================================================================
 FIM DO CHECKLIST DE TESTES

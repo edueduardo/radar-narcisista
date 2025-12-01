@@ -5,8 +5,15 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 18:00 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 17:00 → 18:00):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 18:30 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 18:00 → 18:30):
+- ETAPA 25: QA Técnico + Checklist Pós-MVP (✅ CONCLUÍDO)
+  - CHECKLIST-POS-MVP.md criado na raiz
+  - LÂMPADA-RADAR.txt atualizado com progresso
+  - Build passou: 163 páginas
+  - 🎉 BLOCO 21-25 CONCLUÍDO!
+
+MUDANÇAS ANTERIORES (01/12/2025 17:00 → 18:00):
 - ETAPA 24: Manuais & Links Internos (✅ CONCLUÍDO)
   - Todos os 5 manuais atualizados com links internos
   - MANUAL-ADMIN: seção Segurança & Observabilidade

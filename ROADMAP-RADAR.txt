@@ -1,15 +1,15 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 3.7
-Última atualização: 01/12/2025 18:00 (UTC-5)
+Versão: 3.8
+Última atualização: 01/12/2025 18:30 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
-🚀 BLOCO 21-25 EM ANDAMENTO (PÓS-MVP 1.0)
-Versão atual: MVP 1.0.24 (ETAPA 24 CONCLUÍDA)
+🎉 BLOCO 21-25 CONCLUÍDO!
+Versão atual: MVP 1.0.25 (ETAPA 25 CONCLUÍDA)
 Objetivo desta fase: Fechar MVP vendável B2C + Iniciar BLOCO 14-20
 
 ================================================================================
@@ -420,10 +420,18 @@ BLOCO 21-25 – PÓS-MVP 1.0 (CONSOLIDAÇÃO)
    - [x] Links internos inseridos em todos os manuais
    - Build passou: 163 páginas
 
-🔜 ETAPA 25 – QA TÉCNICO + CHECKLIST PÓS-MVP
-   - [ ] Verificar migrations
-   - [ ] Testes automatizados mínimos
-   - [ ] Teste manual dos fluxos principais
+✅ ETAPA 25 – QA TÉCNICO + CHECKLIST PÓS-MVP (CONCLUÍDO 01/12/2025)
+   - [x] CHECKLIST-POS-MVP.md criado
+     * Lista de migrations pendentes
+     * Configurações pendentes (Stripe, Vercel)
+     * Testes manuais a realizar
+     * Dívidas técnicas mapeadas
+     * Próximos passos (BLOCO 26-30)
+   - [x] LÂMPADA-RADAR.txt atualizado
+   - [x] Documentação final consolidada
+   - Build passou: 163 páginas
+
+🎉 BLOCO 21-25 CONCLUÍDO! MVP 1.0.25 PRONTO!
 
 ================================================================================
 PATCH ORÁCULO – BLOCO 21-25

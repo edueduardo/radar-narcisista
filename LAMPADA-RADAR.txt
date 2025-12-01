@@ -1,8 +1,8 @@
 ================================================================================
 💡 LÂMPADA RADAR - OBSERVAÇÕES E PENDÊNCIAS
 ================================================================================
-Versão: 1.1
-Última atualização: 01/12/2025 15:00 (UTC-5)
+Versão: 1.2
+Última atualização: 01/12/2025 18:00 (UTC-5)
 Responsável: Equipe Radar Narcisista
 
 ================================================================================
@@ -297,14 +297,14 @@ Nota:
 📊 MÉTRICAS DE SAÚDE DO PROJETO
 ================================================================================
 
-Última verificação: 01/12/2025 15:00
+Última verificação: 01/12/2025 18:00
 
 | Métrica                  | Valor    | Status |
 |--------------------------|----------|--------|
-| Etapas concluídas        | 21/25    | ✅     |
+| Etapas concluídas        | 24/25    | ✅     |
 | Build passando           | Sim      | ✅     |
-| Páginas geradas          | 161      | ✅     |
-| Bugs críticos            | 1        | 🟡     |
+| Páginas geradas          | 163      | ✅     |
+| Bugs críticos            | 0        | ✅     |
 | Dívidas técnicas         | 5        | 🟡     |
 | Documentação atualizada  | Sim      | ✅     |
 | Último deploy            | Hoje     | ✅     |
@@ -312,6 +312,21 @@ Nota:
 ================================================================================
 🔄 HISTÓRICO DE ATUALIZAÇÕES DESTE ARQUIVO
 ================================================================================
+
+01/12/2025 18:00 - ETAPA 25 (QA Técnico + Checklist Pós-MVP)
+  - CHECKLIST-POS-MVP.md criado
+  - Métricas atualizadas: 24/25 etapas, 163 páginas
+  - BLOCO 21-25 quase concluído
+
+01/12/2025 17:00 - ETAPA 24 (Manuais & Links Internos)
+  - Todos os 5 manuais atualizados com links
+
+01/12/2025 16:00 - ETAPA 23 (Segurança Técnica)
+  - Rate limiting e logger implementados
+  - /api/health criado
+
+01/12/2025 15:30 - ETAPA 22 (Oráculo V2)
+  - API e componente do Oráculo V2 criados
 
 01/12/2025 15:00 - ETAPA 21 (Billing Sólido & Add-ons)
   - B001 e B002 resolvidos (webhook e tabela user_addons)
