@@ -17,6 +17,8 @@
     "espelho-codigo": "node scripts/gerar-espelho-codigo.cjs"
   },
   "dependencies": {
+    "@builder.io/react": "^9.0.0",
+    "@builder.io/sdk": "^6.1.3",
     "@radix-ui/react-progress": "^1.1.8",
     "@radix-ui/react-scroll-area": "^1.2.10",
     "@radix-ui/react-slot": "^1.2.4",

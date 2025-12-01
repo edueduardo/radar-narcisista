@@ -36,6 +36,10 @@ export type AdminFeatureId =
   | 'usuarios'
   | 'chat_admin'
   | 'frontpages'
+  | 'frontpage_editor'
+  | 'frontpage_visual'
+  | 'builder_io'
+  | 'oraculo_instances'
   | 'easter_eggs'
   | 'mapa_sistema'
   | 'mapa_ias'
@@ -303,6 +307,46 @@ export const ADMIN_FEATURES: AdminFeature[] = [
     group: 'Sistema',
     defaultOrder: 19,
     relatedTables: ['frontpage_configs']
+  },
+  {
+    id: 'frontpage_editor',
+    label: '📝 Editor Frontpage',
+    description: 'Editor de frontpage por formulários',
+    path: '/admin/frontpage-editor',
+    icon: 'FileEdit',
+    group: 'Sistema',
+    defaultOrder: 19.1,
+    relatedTables: ['frontpage_config']
+  },
+  {
+    id: 'frontpage_visual',
+    label: '🎨 Editor Visual',
+    description: 'Editor visual da frontpage com preview',
+    path: '/admin/frontpage-visual',
+    icon: 'Palette',
+    group: 'Sistema',
+    defaultOrder: 19.2,
+    relatedTables: ['frontpage_config']
+  },
+  {
+    id: 'builder_io',
+    label: '🏗️ Builder.io',
+    description: 'Editor drag & drop profissional',
+    path: '/admin/builder',
+    icon: 'Blocks',
+    group: 'Sistema',
+    defaultOrder: 19.3,
+    relatedTables: ['frontpage_config']
+  },
+  {
+    id: 'oraculo_instances',
+    label: '🌐 Oráculo Instâncias',
+    description: 'Gerenciar instâncias whitelabel do Oráculo',
+    path: '/admin/oraculo-instances',
+    icon: 'Globe2',
+    group: 'IAs',
+    defaultOrder: 0.5,
+    relatedTables: ['oraculo_instances', 'oraculo_api_keys', 'oraculo_webhooks']
   },
   {
     id: 'easter_eggs',
