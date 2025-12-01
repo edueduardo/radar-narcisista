@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 3.5
-Última atualização: 01/12/2025 20:30 (UTC-5)
+Versão: 3.6
+Última atualização: 01/12/2025 21:00 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -715,10 +715,13 @@ ETAPA 28 – INFRA MULTIPERFIL (CONCLUÍDO 01/12/2025):
 ☐ Testar verificação de limites em produção
 ☐ Testar bloqueio quando limite atingido
 
-ETAPA 29 – EXPOR ORÁCULO V2 (PENDENTE):
-☐ Testar Oráculo como profissional
-☐ Testar Oráculo como whitelabel
-☐ Verificar limites por perfil
+ETAPA 29 – EXPOR ORÁCULO V2 (CONCLUÍDO 01/12/2025):
+✅ components/OraculoMultiperfil.tsx criado
+✅ components/OraculoHint.tsx criado
+✅ Build passou: 163 páginas
+☐ Testar Oráculo como profissional (após habilitar no Supabase)
+☐ Testar Oráculo como whitelabel (após habilitar no Supabase)
+☐ Verificar limites por perfil em produção
 
 ETAPA 30 – QA MULTIPERFIL (PENDENTE):
 ☐ Testes automatizados do core

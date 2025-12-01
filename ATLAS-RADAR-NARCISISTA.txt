@@ -5,13 +5,21 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 20:30 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 20:00 → 20:30):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 21:00 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 20:30 → 21:00):
+- ETAPA 29: EXPOR ORÁCULO V2 PARA OUTROS PERFIS (✅ CONCLUÍDO)
+  - components/OraculoMultiperfil.tsx criado
+    * Suporta: admin, usuaria, profissional, dev, whitelabel
+    * Cores e sugestões customizadas por perfil
+    * Mostra info de uso/limite
+  - components/OraculoHint.tsx criado
+    * Dicas contextuais inline/banner/card
+    * Permite perguntar diretamente
+  - Build passou: 163 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 20:00 → 20:30):
 - ETAPA 28: INFRA MULTIPERFIL (✅ CONCLUÍDO)
   - database/migrate-oraculo-settings.sql criado
-    * Tabela oraculo_plan_settings (configurações por plano/perfil)
-    * Tabela oraculo_usage (controle de uso)
-    * Funções: can_use_oraculo, register_oraculo_usage
   - lib/oraculo-settings.ts criado (helpers)
   - /api/oraculo-v2 integrado com verificação de limites
   - Build passou: 163 páginas

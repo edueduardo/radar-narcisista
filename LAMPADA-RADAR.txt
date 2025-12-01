@@ -1,8 +1,8 @@
 ================================================================================
 💡 LÂMPADA RADAR - OBSERVAÇÕES E PENDÊNCIAS
 ================================================================================
-Versão: 1.5
-Última atualização: 01/12/2025 20:30 (UTC-5)
+Versão: 1.6
+Última atualização: 01/12/2025 21:00 (UTC-5)
 Responsável: Equipe Radar Narcisista
 
 ================================================================================
@@ -320,11 +320,11 @@ Nota:
 📊 MÉTRICAS DE SAÚDE DO PROJETO
 ================================================================================
 
-Última verificação: 01/12/2025 20:30
+Última verificação: 01/12/2025 21:00
 
 | Métrica                  | Valor    | Status |
 |--------------------------|----------|--------|
-| Etapas concluídas        | 28/32    | ✅     |
+| Etapas concluídas        | 29/32    | ✅     |
 | Bloco atual              | 26-30    | 🔄     |
 | Build passando           | Sim      | ✅     |
 | Páginas geradas          | 163      | ✅     |
@@ -337,11 +337,16 @@ Nota:
 🔄 HISTÓRICO DE ATUALIZAÇÕES DESTE ARQUIVO
 ================================================================================
 
+01/12/2025 21:00 - ETAPA 29 (EXPOR ORÁCULO V2 PARA OUTROS PERFIS)
+  - components/OraculoMultiperfil.tsx criado
+  - components/OraculoHint.tsx criado
+  - Suporta todos os perfis: admin, usuaria, profissional, dev, whitelabel
+  - Métricas atualizadas: 29/32 etapas
+
 01/12/2025 20:30 - ETAPA 28 (INFRA MULTIPERFIL)
   - database/migrate-oraculo-settings.sql criado
   - lib/oraculo-settings.ts criado
   - /api/oraculo-v2 integrado com verificação de limites
-  - Métricas atualizadas: 28/32 etapas
 
 01/12/2025 20:00 - ETAPA 27 (ORACULO_V2_CORE)
   - lib/oraculo-core.ts criado (núcleo reutilizável)
