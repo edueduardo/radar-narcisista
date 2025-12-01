@@ -1,8 +1,55 @@
 # 🔮 PATCH ORÁCULO – CORREÇÃO CONCEITUAL
 
-> **Versão:** 1.0  
+> **Versão:** 1.1  
 > **Criado em:** 01/12/2025  
 > **Prioridade:** MÁXIMA – Este documento tem prioridade sobre qualquer texto antigo
+
+---
+
+## 📢 REGRAS DE COMUNICAÇÃO WINDSURF ↔ CHATGPT
+
+### Fluxo de Trabalho
+
+1. **ANTES de iniciar qualquer ETAPA/PROMPT:**
+   - Windsurf apresenta SUGESTÕES, IDEIAS e OPINIÕES
+   - ChatGPT analisa e decide o que implementar
+   - Só depois inicia a execução do prompt
+
+2. **No RESUMO FINAL de cada implementação:**
+   - Incluir seção "OPINIÃO DO WINDSURF PARA O CHATGPT"
+   - Listar melhorias identificadas (sem usar "opcional")
+   - Próximas ações em bullet points (sem usar "ou")
+
+### Regras de Escrita
+
+| ❌ NÃO USAR | ✅ USAR |
+|-------------|---------|
+| "Opcional", "opcionalmente" | Listar diretamente |
+| "Ou" nas sugestões | Bullet points separados |
+| "Melhorias opcionais" | "Melhorias identificadas" |
+| "Você pode fazer X ou Y" | "• Fazer X" e "• Fazer Y" |
+
+### Estrutura do Resumo Final
+
+```
+# RESUMO DA IMPLEMENTAÇÃO
+[descrição do que foi feito]
+
+## ⚠️ OPINIÃO DO WINDSURF PARA O CHATGPT
+[sugestões, ideias e opiniões para análise]
+
+## MELHORIAS IDENTIFICADAS
+• [melhoria 1]
+• [melhoria 2]
+• [melhoria 3]
+
+## PRÓXIMA AÇÃO SUGERIDA
+• [ação 1]
+• [ação 2]
+• [ação 3]
+
+ChatGPT: Analise e implemente conforme necessário ao projeto.
+```
 
 ---
 
