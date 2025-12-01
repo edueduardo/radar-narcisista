@@ -3691,13 +3691,23 @@ Se texto antigo disser "Oráculo para usuária/profissional AGORA"
 → ENTENDER COMO: "FUTURO BLOCO 26-30, NÃO IMPLEMENTADO EM 21-25"
 
 ================================================================================
-PRÓXIMOS PASSOS (BLOCO 26-30)
+BLOCO 26-30 – ORÁCULO V2 MULTIPERFIL + INFRA COMUNICAÇÃO IA (EM ANDAMENTO)
 ================================================================================
 
-🔜 ETAPA 26: Oráculo V2 Multiperfil
-🔜 ETAPA 27: ORACULO_V2_CORE (módulo compartilhado)
-🔜 ETAPA 28: Integração Gerador de SaaS
-🔜 ETAPAS 29-30: A definir
+🔄 ETAPA 26: Template de Resumo + Checklist + Regras (EM ANDAMENTO)
+   - docs/FORMATO-RESUMO-ETAPAS.md atualizado (v2.0)
+   - docs/CHECKLIST-RESUMO-IA.md criado
+   - docs/PATCHES-ORACULO-COMPLETO.md criado
+   - scripts/validar-resumo-ia.ts criado
+
+🔜 ETAPA 27: ORACULO_V2_CORE (núcleo reutilizável)
+🔜 ETAPA 28: Infra multiperfil (flags por plano/perfil)
+🔜 ETAPA 29: Expor Oráculo V2 para outros perfis (Fase 1)
+🔜 ETAPA 30: Integração Gerador de SaaS + QA
+
+BLOCO 31-35 (FUTURO):
+🔜 ETAPA 31: Reforma inteligente da Front Page
+🔜 ETAPA 32: Matriz Oráculo multi-instância
 
 MÓDULOS CORE DO MVP (JÁ IMPLEMENTADOS):
 - Teste de Clareza (18+1 perguntas, 3 eixos, 6 categorias)

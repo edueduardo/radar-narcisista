@@ -1,16 +1,16 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 3.8
-Última atualização: 01/12/2025 18:30 (UTC-5)
+Versão: 3.9
+Última atualização: 01/12/2025 19:30 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
-🎉 BLOCO 21-25 CONCLUÍDO!
-Versão atual: MVP 1.0.25 (ETAPA 25 CONCLUÍDA)
-Objetivo desta fase: Fechar MVP vendável B2C + Iniciar BLOCO 14-20
+🚀 BLOCO 26-30 EM ANDAMENTO!
+Versão atual: MVP 1.0.26 (ETAPA 26 EM ANDAMENTO)
+Objetivo desta fase: Oráculo V2 Multiperfil + Infra de Comunicação IA
 
 ================================================================================
 PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
@@ -443,34 +443,58 @@ PATCH ORÁCULO – BLOCO 21-25 (VER docs/PATCH-ORACULO.md)
 - Qualquer texto antigo que diga o contrário: IGNORAR, este PATCH tem prioridade
 
 ================================================================================
-BLOCO 26-30 – ORÁCULO V2 MULTIPERFIL + CORE COMPARTILHADO (FUTURO)
+BLOCO 26-30 – ORÁCULO V2 MULTIPERFIL + INFRA COMUNICAÇÃO IA (EM ANDAMENTO)
 ================================================================================
 
-⚠️ NÃO IMPLEMENTAR ANTES DE CONCLUIR BLOCO 21-25
+✅ BLOCO 21-25 CONCLUÍDO! Iniciando BLOCO 26-30.
 
-🔜 ETAPA 26 – ORÁCULO V2 MULTIPERFIL
-   - [ ] Abrir Oráculo V2 para user_role = "usuaria"
-   - [ ] Abrir Oráculo V2 para user_role = "profissional"
-   - [ ] Abrir Oráculo V2 para user_role = "dev"
-   - [ ] Abrir Oráculo V2 para user_role = "whitelabel"
-   - [ ] Feature flags por plano/perfil
-   - [ ] Controle de risco por perfil
-   - [ ] Atualização de manuais
+🔄 ETAPA 26 – TEMPLATE DE RESUMO + CHECKLIST + REGRAS (EM ANDAMENTO)
+   - [x] docs/FORMATO-RESUMO-ETAPAS.md atualizado (v2.0)
+   - [x] docs/CHECKLIST-RESUMO-IA.md criado
+   - [x] docs/PATCHES-ORACULO-COMPLETO.md criado
+   - [x] scripts/validar-resumo-ia.ts criado
+   - [ ] Atualizar documentação principal
+   - [ ] Commit e push
 
-🔜 ETAPA 27 – ORACULO_V2_CORE (MÓDULO COMPARTILHADO)
-   - [ ] Extrair núcleo do Oráculo V2 em módulo reutilizável
-   - [ ] Documentar API do módulo
-   - [ ] Preparar para integração com GERADOR DE SAAS
+🔜 ETAPA 27 – ORACULO_V2_CORE (NÚCLEO REUTILIZÁVEL)
+   - [ ] Criar lib/oraculo-core.ts
+   - [ ] Mover construção de prompt para o core
+   - [ ] Mover chamada de IA para o core
+   - [ ] Atualizar /api/oraculo-v2 para usar o core
+   - [ ] Documentar em docs/ORACULO-CORE.md
 
-🔜 ETAPA 28 – INTEGRAÇÃO GERADOR DE SAAS
-   - [ ] Todo SaaS gerado pode nascer com ORACULO_V2_CORE
-   - [ ] Mapeamento de perfis (usuário final, admin, parceiro, dev)
-   - [ ] Flags para ligar/desligar Oráculo por plano
+🔜 ETAPA 28 – INFRA MULTIPERFIL (FLAGS POR PLANO/PERFIL)
+   - [ ] Criar tabela oraculo_plan_settings
+   - [ ] Criar tabela oraculo_usage
+   - [ ] Criar lib/oraculo-settings.ts
+   - [ ] Integrar verificações na API
+   - [ ] Atualizar MANUAL-ADMIN
 
-🔜 ETAPAS 29-30 – A DEFINIR
-   - [ ] Testes automatizados
-   - [ ] Monitoramento (Sentry)
-   - [ ] Performance e otimizações
+🔜 ETAPA 29 – EXPOR ORÁCULO V2 PARA OUTROS PERFIS (FASE 1)
+   - [ ] Definir perfis da Fase 1 (profissional, whitelabel)
+   - [ ] Criar componentes de UI específicos
+   - [ ] Integrar na UI do dashboard
+   - [ ] Atualizar MANUAIS (PROFISSIONAL, WHITELABEL, ADMIN)
+
+🔜 ETAPA 30 – INTEGRAÇÃO GERADOR DE SAAS + QA
+   - [ ] Criar docs/ORACULO-CORE-SAAS.md
+   - [ ] Testes mínimos para ORACULO_V2_CORE
+   - [ ] QA do Oráculo multiperfil
+   - [ ] Atualizar TESTES-RADAR.txt
+
+================================================================================
+BLOCO 31-35 – FRONT PAGE + MATRIZ MULTI-INSTÂNCIA (FUTURO)
+================================================================================
+
+🔜 ETAPA 31 – REFORMA INTELIGENTE DA FRONT PAGE
+   - [ ] Redesenhar front page única e segmentada
+   - [ ] Seções por perfil (usuária, profissional, ONG, whitelabel)
+   - [ ] Narrativa atualizada (Radar + Oráculo + Gerador)
+
+🔜 ETAPA 32 – MATRIZ ORÁCULO MULTI-INSTÂNCIA
+   - [ ] Implementar matriz V1/V2 por perfil
+   - [ ] Instâncias separadas para whitelabel
+   - [ ] Opções no Gerador de SaaS
 
 ================================================================================
 IDEIAS FUTURAS (NÃO IMPLEMENTAR AGORA)

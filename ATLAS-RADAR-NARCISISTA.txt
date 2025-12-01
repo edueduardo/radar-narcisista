@@ -5,8 +5,16 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 18:30 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 18:00 → 18:30):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 19:30 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 18:30 → 19:30):
+- ETAPA 26: Template de Resumo + Checklist + Regras (🔄 EM ANDAMENTO)
+  - docs/FORMATO-RESUMO-ETAPAS.md atualizado (v2.0)
+  - docs/CHECKLIST-RESUMO-IA.md criado
+  - docs/PATCHES-ORACULO-COMPLETO.md criado (unifica todos os patches)
+  - scripts/validar-resumo-ia.ts criado
+  - BLOCO 26-30 INICIADO!
+
+MUDANÇAS ANTERIORES (01/12/2025 18:00 → 18:30):
 - ETAPA 25: QA Técnico + Checklist Pós-MVP (✅ CONCLUÍDO)
   - CHECKLIST-POS-MVP.md criado na raiz
   - LÂMPADA-RADAR.txt atualizado com progresso

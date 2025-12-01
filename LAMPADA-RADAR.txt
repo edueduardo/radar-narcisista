@@ -1,8 +1,8 @@
 ================================================================================
 💡 LÂMPADA RADAR - OBSERVAÇÕES E PENDÊNCIAS
 ================================================================================
-Versão: 1.2
-Última atualização: 01/12/2025 18:00 (UTC-5)
+Versão: 1.3
+Última atualização: 01/12/2025 19:30 (UTC-5)
 Responsável: Equipe Radar Narcisista
 
 ================================================================================
@@ -320,11 +320,12 @@ Nota:
 📊 MÉTRICAS DE SAÚDE DO PROJETO
 ================================================================================
 
-Última verificação: 01/12/2025 18:00
+Última verificação: 01/12/2025 19:30
 
 | Métrica                  | Valor    | Status |
 |--------------------------|----------|--------|
-| Etapas concluídas        | 24/25    | ✅     |
+| Etapas concluídas        | 25/32    | ✅     |
+| Bloco atual              | 26-30    | 🔄     |
 | Build passando           | Sim      | ✅     |
 | Páginas geradas          | 163      | ✅     |
 | Bugs críticos            | 0        | ✅     |
@@ -336,10 +337,18 @@ Nota:
 🔄 HISTÓRICO DE ATUALIZAÇÕES DESTE ARQUIVO
 ================================================================================
 
+01/12/2025 19:30 - ETAPA 26 (Template de Resumo + Checklist + Regras)
+  - BLOCO 26-30 INICIADO!
+  - docs/FORMATO-RESUMO-ETAPAS.md atualizado (v2.0)
+  - docs/CHECKLIST-RESUMO-IA.md criado
+  - docs/PATCHES-ORACULO-COMPLETO.md criado
+  - scripts/validar-resumo-ia.ts criado
+  - Métricas atualizadas: 25/32 etapas
+
 01/12/2025 18:00 - ETAPA 25 (QA Técnico + Checklist Pós-MVP)
   - CHECKLIST-POS-MVP.md criado
   - Métricas atualizadas: 24/25 etapas, 163 páginas
-  - BLOCO 21-25 quase concluído
+  - 🎉 BLOCO 21-25 CONCLUÍDO!
 
 01/12/2025 17:00 - ETAPA 24 (Manuais & Links Internos)
   - Todos os 5 manuais atualizados com links
