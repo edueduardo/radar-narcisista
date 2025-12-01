@@ -49,6 +49,7 @@ export type AdminFeatureId =
   | 'conteudos_colecoes'
   | 'conteudos_insights'
   | 'curadoria_central'
+  | 'oraculo'
 
 export type AdminFeatureGroup = 
   | 'IAs'
@@ -214,13 +215,24 @@ export const ADMIN_FEATURES: AdminFeature[] = [
 
   // 🧪 GRUPO: Sistema (Testes e Analytics)
   {
+    id: 'oraculo',
+    label: '🔮 Oráculo',
+    description: 'Visão consolidada de métricas - responde perguntas-chave do negócio',
+    path: '/admin/oraculo',
+    icon: 'Eye',
+    group: 'Sistema',
+    defaultOrder: 13,
+    relatedTables: ['user_profiles', 'clarity_tests', 'journal_entries', 'beta_feedback', 'beta_events'],
+    relatedAPIs: ['/api/beta/feedback', '/api/beta/events']
+  },
+  {
     id: 'quiz_ia',
     label: '🧠 Quiz IA',
     description: 'Gerador de quiz com IA',
     path: '/admin/quiz-generator',
     icon: 'TestTube',
     group: 'Sistema',
-    defaultOrder: 13,
+    defaultOrder: 14,
     relatedIAs: ['quiz_generator_v1'],
     relatedAPIs: ['/api/ai/quiz']
   },

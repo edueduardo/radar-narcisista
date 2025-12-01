@@ -2,7 +2,7 @@
 RADAR NARCISISTA - HISTÓRICO COMPLETO DE IMPLEMENTAÇÕES
 ================================================================================
 Gerado em: 28/11/2025
-Atualizado em: 01/12/2025 11:30 (UTC-5)
+Atualizado em: 01/12/2025 12:00 (UTC-5)
 Projeto: SaaS de apoio a vítimas de relacionamentos abusivos/narcisistas
 Stack: Next.js 16 + Supabase + OpenAI/Groq + TailwindCSS 4
 
@@ -3580,10 +3580,10 @@ PENDENTE (V2):
 BUILD: 154 páginas
 
 ================================================================================
-STATUS ATUAL DO MVP (01/12/2025 11:30)
+STATUS ATUAL DO MVP (01/12/2025 12:00)
 ================================================================================
 
-ETAPAS CONCLUÍDAS (1-15):
+ETAPAS CONCLUÍDAS (1-16):
 ✅ ETAPA 1-7: Triângulo Clareza ⇄ Diário ⇄ Chat + Plano de Segurança
 ✅ ETAPA 8: FanPage Viva + Camada Comercial (Content System)
 ✅ ETAPA 9: Painel de Curadoria + Semáforo de Edição
@@ -3601,9 +3601,12 @@ ETAPAS CONCLUÍDAS (1-15):
    - APIs /api/beta/feedback e /api/beta/events
    - Componente BetaFeedbackWidget (botão flutuante)
    - Hook useBetaTracking para observabilidade
+✅ ETAPA 16: Oráculo V1 (01/12/2025)
+   - Página /admin/oraculo consolidada
+   - Responde 7 perguntas-chave do negócio
+   - Integração com tabelas de usuários, testes, diário, feedback, eventos
 
-PRÓXIMAS ETAPAS PLANEJADAS (BLOCO 16-20):
-🔜 ETAPA 16: Oráculo V1 (Analytics Consolidado)
+PRÓXIMAS ETAPAS PLANEJADAS (BLOCO 17-20):
 🔜 ETAPA 17: Limpeza/Unificação de Dashboards
 🔜 ETAPA 18: Limpeza Admin & Mapa do Sistema
 🔜 ETAPA 19: Manuais (Usuária, Profissional, Admin, Dev, White-label)

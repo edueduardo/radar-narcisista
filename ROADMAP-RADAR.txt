@@ -1,14 +1,14 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 2.8
-Última atualização: 01/12/2025 11:30 (UTC-5)
+Versão: 2.9
+Última atualização: 01/12/2025 12:00 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
-Versão atual do produto: MVP 0.9.15 (ETAPA 15 CONCLUÍDA)
+Versão atual do produto: MVP 0.9.16 (ETAPA 16 CONCLUÍDA)
 Objetivo desta fase: Fechar MVP vendável B2C + Iniciar BLOCO 14-20
 
 ================================================================================
@@ -297,12 +297,15 @@ BLOCO 14-20 (PRÓXIMAS ETAPAS)
    - Arquivos criados: migration, 2 APIs, 1 componente, 1 hook
    - Risco: Baixo → MITIGADO
 
-🔜 ETAPA 16 – ORÁCULO V1 (ANALYTICS CONSOLIDADO)
-   - [ ] Consolidar /admin/analytics, /admin/metricas, /admin/insights
-   - [ ] Criar visão única de métricas
-   - [ ] Definir perguntas que o Oráculo responde
-   - Arquivos afetados: app/admin/oraculo/*, lib/content-insights.ts
-   - Risco: Médio
+✅ ETAPA 16 – ORÁCULO V1 (CONCLUÍDO 01/12/2025)
+   - [x] Analisar páginas existentes: /admin/analytics, /admin/metricas, /admin/insights
+   - [x] Criar página /admin/oraculo consolidada
+   - [x] Definir 7 perguntas-chave que o Oráculo responde
+   - [x] Implementar agregações de dados reais do Supabase
+   - [x] Registrar no admin-features-registry.ts
+   - Arquivos criados: app/admin/oraculo/page.tsx
+   - Arquivos modificados: app/admin/admin-features-registry.ts
+   - Risco: Médio → MITIGADO
 
 🔜 ETAPA 17 – LIMPEZA/UNIFICAÇÃO DE DASHBOARDS
    - [ ] Definir dashboard principal por persona

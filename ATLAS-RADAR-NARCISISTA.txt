@@ -5,8 +5,24 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 11:30 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 11:00 → 11:30):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 12:00 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 11:30 → 12:00):
+- ETAPA 16: Oráculo V1 (✅ CONCLUÍDO)
+  - Página /admin/oraculo criada
+  - Responde 7 perguntas-chave do negócio:
+    1. O produto está crescendo?
+    2. As pessoas estão usando?
+    3. Estamos ganhando dinheiro?
+    4. O sistema está saudável?
+    5. Há situações de emergência?
+    6. O que os beta testers estão dizendo?
+    7. O que está acontecendo hoje?
+  - Integração com tabelas: user_profiles, clarity_tests, journal_entries, beta_feedback, beta_events
+  - Links para /admin/analytics, /admin/metricas, /admin/insights
+  - Registrado em admin-features-registry.ts
+  - Build passou: 159 páginas
+
+MUDANÇAS ANTERIORES (01/12/2025 11:00 → 11:30):
 - ETAPA 15: Beta com 5 Usuárias (✅ CONCLUÍDO)
   - Migration 20241201_beta_testers.sql
     * Campo is_beta_tester, beta_joined_at, beta_group em user_profiles

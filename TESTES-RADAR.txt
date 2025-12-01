@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 2.2
-Última atualização: 01/12/2025 11:30 (UTC-5)
+Versão: 2.3
+Última atualização: 01/12/2025 12:00 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -596,10 +596,14 @@ ETAPA 15 – BETA COM 5 USUÁRIAS (CONCLUÍDO 01/12/2025):
 ☐ Integrar BetaFeedbackWidget no layout principal
 ☐ Testar fluxo completo de feedback
 
-ETAPA 16 – ORÁCULO V1:
-☐ /admin/oraculo carrega (quando existir)
-☐ Métricas são exibidas corretamente
-☐ Dados são agregados de múltiplas fontes
+ETAPA 16 – ORÁCULO V1 (CONCLUÍDO 01/12/2025):
+✅ /admin/oraculo carrega
+✅ 7 perguntas-chave são respondidas
+✅ Dados agregados de: user_profiles, clarity_tests, journal_entries, beta_feedback, beta_events
+✅ Links para /admin/analytics, /admin/metricas, /admin/insights
+✅ Registrado em admin-features-registry.ts
+☐ Conectar com dados reais de MRR (Stripe)
+☐ Adicionar gráficos de tendência
 
 ETAPA 17 – LIMPEZA DASHBOARDS:
 ☐ Dashboard principal da usuária funciona
