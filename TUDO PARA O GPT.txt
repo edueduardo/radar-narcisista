@@ -2,7 +2,7 @@
 RADAR NARCISISTA - HISTÓRICO COMPLETO DE IMPLEMENTAÇÕES
 ================================================================================
 Gerado em: 28/11/2025
-Atualizado em: 01/12/2025 21:00 (UTC-5)
+Atualizado em: 01/12/2025 21:30 (UTC-5)
 Projeto: SaaS de apoio a vítimas de relacionamentos abusivos/narcisistas
 Stack: Next.js 16 + Supabase + OpenAI/Groq + TailwindCSS 4
 
@@ -3718,7 +3718,11 @@ BLOCO 26-30 – ORÁCULO V2 MULTIPERFIL + INFRA COMUNICAÇÃO IA (EM ANDAMENTO)
    - components/OraculoHint.tsx criado
    - Suporta: admin, usuaria, profissional, dev, whitelabel
    - Cores e sugestões customizadas por perfil
-🔜 ETAPA 30: Integração Gerador de SaaS + QA
+
+✅ ETAPA 30: Integração Gerador de SaaS + QA (01/12/2025)
+   - docs/ORACULO-CORE-SAAS.md criado (guia de integração)
+   - lib/__tests__/oraculo-core.test.ts criado (testes unitários)
+   - 🎉 BLOCO 26-30 CONCLUÍDO!
 
 BLOCO 31-35 (FUTURO):
 🔜 ETAPA 31: Reforma inteligente da Front Page

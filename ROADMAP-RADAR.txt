@@ -1,15 +1,15 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 4.2
-Última atualização: 01/12/2025 21:00 (UTC-5)
+Versão: 4.3
+Última atualização: 01/12/2025 21:30 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
-🚀 BLOCO 26-30 EM ANDAMENTO!
-Versão atual: MVP 1.0.29 (ETAPA 29 CONCLUÍDA)
+🎉 BLOCO 26-30 CONCLUÍDO!
+Versão atual: MVP 1.0.30 (ETAPA 30 CONCLUÍDA)
 Objetivo desta fase: Oráculo V2 Multiperfil + Infra de Comunicação IA
 
 ================================================================================
@@ -486,11 +486,11 @@ BLOCO 26-30 – ORÁCULO V2 MULTIPERFIL + INFRA COMUNICAÇÃO IA (EM ANDAMENTO)
      * Permite perguntar diretamente ao Oráculo
    - Build passou: 163 páginas
 
-🔜 ETAPA 30 – INTEGRAÇÃO GERADOR DE SAAS + QA
-   - [ ] Criar docs/ORACULO-CORE-SAAS.md
-   - [ ] Testes mínimos para ORACULO_V2_CORE
-   - [ ] QA do Oráculo multiperfil
-   - [ ] Atualizar TESTES-RADAR.txt
+✅ ETAPA 30 – INTEGRAÇÃO GERADOR DE SAAS + QA (CONCLUÍDO 01/12/2025)
+   - [x] docs/ORACULO-CORE-SAAS.md criado (guia completo de integração)
+   - [x] lib/__tests__/oraculo-core.test.ts criado (testes unitários)
+   - [x] Build passou: 163 páginas
+   - 🎉 BLOCO 26-30 CONCLUÍDO!
 
 ================================================================================
 BLOCO 31-35 – FRONT PAGE + MATRIZ MULTI-INSTÂNCIA (FUTURO)

@@ -5,16 +5,18 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 21:00 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 20:30 → 21:00):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 21:30 (UTC-5)
+MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 21:00 → 21:30):
+- ETAPA 30: INTEGRAÇÃO GERADOR DE SAAS + QA (✅ CONCLUÍDO)
+  - docs/ORACULO-CORE-SAAS.md criado (guia de integração)
+  - lib/__tests__/oraculo-core.test.ts criado (testes unitários)
+  - Build passou: 163 páginas
+  - 🎉 BLOCO 26-30 CONCLUÍDO!
+
+MUDANÇAS ANTERIORES (01/12/2025 20:30 → 21:00):
 - ETAPA 29: EXPOR ORÁCULO V2 PARA OUTROS PERFIS (✅ CONCLUÍDO)
   - components/OraculoMultiperfil.tsx criado
-    * Suporta: admin, usuaria, profissional, dev, whitelabel
-    * Cores e sugestões customizadas por perfil
-    * Mostra info de uso/limite
   - components/OraculoHint.tsx criado
-    * Dicas contextuais inline/banner/card
-    * Permite perguntar diretamente
   - Build passou: 163 páginas
 
 MUDANÇAS ANTERIORES (01/12/2025 20:00 → 20:30):

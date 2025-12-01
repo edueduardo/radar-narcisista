@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 3.6
-Última atualização: 01/12/2025 21:00 (UTC-5)
+Versão: 3.7
+Última atualização: 01/12/2025 21:30 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -723,10 +723,15 @@ ETAPA 29 – EXPOR ORÁCULO V2 (CONCLUÍDO 01/12/2025):
 ☐ Testar Oráculo como whitelabel (após habilitar no Supabase)
 ☐ Verificar limites por perfil em produção
 
-ETAPA 30 – QA MULTIPERFIL (PENDENTE):
-☐ Testes automatizados do core
-☐ Testes manuais por perfil
-☐ Documentação de integração
+ETAPA 30 – INTEGRAÇÃO GERADOR DE SAAS + QA (CONCLUÍDO 01/12/2025):
+✅ docs/ORACULO-CORE-SAAS.md criado
+✅ lib/__tests__/oraculo-core.test.ts criado
+✅ Build passou: 163 páginas
+🎉 BLOCO 26-30 CONCLUÍDO!
+
+☐ Executar testes: npx jest lib/__tests__/oraculo-core.test.ts
+☐ Executar migration no Supabase
+☐ Testar Oráculo em produção
 
 ================================================================================
 FIM DO CHECKLIST DE TESTES
