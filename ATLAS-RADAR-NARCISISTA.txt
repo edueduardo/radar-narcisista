@@ -5,10 +5,49 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 02/12/2025 00:10 (UTC-5)
+ÚLTIMA ATUALIZAÇÃO: 02/12/2025 19:30 (UTC-5)
 
 ================================================================================
-MUDANÇAS RECENTES (02/12/2025 00:00 → 00:10) - BLOCO 26-30 INICIADO
+MUDANÇAS RECENTES (02/12/2025 19:00 → 19:30) - BLOCO 32-35 EM ANDAMENTO
+================================================================================
+
+🚀 BLOCO 32-35 - CONTROL TOWER, TELEMETRIA, HELP DESK E GERADOR DE SAAS
+
+✅ ETAPA 32 - CONTROL TOWER & REGISTRO GLOBAL DE PROJETOS
+- database/migrate-control-tower.sql - Tabelas:
+  - projects_core (registro de todos os projetos)
+  - owners_core (donos/responsáveis)
+  - project_flags_core (flags por projeto)
+- lib/control-tower.ts - Helpers completos
+- app/api/admin/control-tower/route.ts - API CRUD
+- app/api/admin/control-tower/[id]/route.ts - Detalhes
+- app/admin/control-tower/page.tsx - UI completa
+- admin-features-registry.ts atualizado
+
+✅ ETAPA 33 - TELEMETRIA CORE PARA TODOS OS SAAS
+- database/migrate-telemetry-core.sql - Tabelas:
+  - telemetry_heartbeats_core (heartbeats)
+  - telemetry_errors_core (erros)
+  - telemetry_metrics_core (métricas agregadas)
+- lib/telemetry-core.ts - Helpers completos
+- app/api/core/telemetry/heartbeat/route.ts - API heartbeat
+- app/api/core/telemetry/error/route.ts - API erros
+
+✅ ETAPA 34 - HELP DESK GLOBAL E REPORTAR PROBLEMA
+- database/migrate-helpdesk-core.sql - Tabelas:
+  - support_tickets_core (tickets)
+  - support_ticket_messages_core (mensagens)
+- lib/helpdesk-core.ts - Helpers completos
+- app/api/core/support-ticket/route.ts - API tickets
+- components/SupportTicketButton.tsx - Botão reutilizável
+- app/admin/control-tower/helpdesk/page.tsx - UI Help Desk
+
+🔄 ETAPA 35 - VÍNCULO, DESVÍNCULO E VIDA PRÓPRIA DOS FILHOS
+- Campos vinculo_nucleo e politica_suporte já em projects_core
+- docs/CONTROL-TOWER.md - Documentação completa
+
+================================================================================
+BLOCO 26-30 COMPLETO (ANTERIOR)
 ================================================================================
 
 🎉 BLOCO 26-30 COMPLETO - ORÁCULO V2 MULTIPERFIL + INFRA COMUNICAÇÃO IA

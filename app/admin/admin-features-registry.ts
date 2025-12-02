@@ -56,6 +56,7 @@ export type AdminFeatureId =
   | 'conteudos_insights'
   | 'curadoria_central'
   | 'oraculo'
+  | 'control_tower'
 
 export type AdminFeatureGroup = 
   | 'IAs'
@@ -496,6 +497,19 @@ export const ADMIN_FEATURES: AdminFeature[] = [
     defaultOrder: 50, // Final do menu (área sensível)
     relatedTables: ['terms_versions', 'terms_acceptances', 'user_terms_acceptance'],
     relatedAPIs: ['/api/terms/accept', '/api/admin/terms-acceptances']
+  },
+
+  // 🏢 CONTROL TOWER - Console Dev Global (ETAPA 32)
+  {
+    id: 'control_tower',
+    label: '🏢 Control Tower',
+    description: 'Console Dev Global - Gerencia todos os projetos do ecossistema (Radar Mãe, White Labels, SaaS)',
+    path: '/admin/control-tower',
+    icon: 'Building2',
+    group: 'Sistema',
+    defaultOrder: 0.1, // Primeiro item do Sistema
+    relatedTables: ['projects_core', 'owners_core', 'project_flags_core', 'telemetry_heartbeats_core', 'support_tickets_core'],
+    relatedAPIs: ['/api/admin/control-tower']
   }
 ]
 

@@ -8,9 +8,9 @@ Versão: 4.5
 STATUS GERAL
 ================================================================================
 
-🎉 BLOCO 26-30 CONCLUÍDO!
-Versão atual: MVP 1.0.30 (BLOCO 26-30 COMPLETO)
-Oráculo V2 Multiperfil implementado e documentado
+🚀 BLOCO 32-35 EM ANDAMENTO!
+Versão atual: MVP 1.0.35 (BLOCO 32-35 EM PROGRESSO)
+Control Tower, Telemetria, Help Desk e Gerador de SaaS
 Build atual: 170 páginas
 Objetivo desta fase: Analytics, Alertas e Exportação de Relatórios
 
@@ -809,6 +809,33 @@ BLOCO 26-30 - ORÁCULO V2 MULTIPERFIL + INFRA DE COMUNICAÇÃO IA
 - docs/ORACULO-CORE-SAAS.md - Guia de integração completo
 
 ================================================================================
+BLOCO 32-35 - CONTROL TOWER, TELEMETRIA, HELP DESK E GERADOR DE SAAS
+================================================================================
+
+[02/12/2025 19:30] ETAPA 32 - Control Tower & Registro Global (✅ CONCLUÍDA)
+- database/migrate-control-tower.sql - Tabelas projects_core, owners_core, project_flags_core
+- lib/control-tower.ts - Helpers completos
+- app/api/admin/control-tower/route.ts - API CRUD
+- app/admin/control-tower/page.tsx - UI completa
+
+[02/12/2025 19:30] ETAPA 33 - Telemetria Core (✅ CONCLUÍDA)
+- database/migrate-telemetry-core.sql - Tabelas de heartbeats, erros, métricas
+- lib/telemetry-core.ts - Helpers completos
+- app/api/core/telemetry/heartbeat/route.ts - API heartbeat
+- app/api/core/telemetry/error/route.ts - API erros
+
+[02/12/2025 19:30] ETAPA 34 - Help Desk Global (✅ CONCLUÍDA)
+- database/migrate-helpdesk-core.sql - Tabelas de tickets
+- lib/helpdesk-core.ts - Helpers completos
+- app/api/core/support-ticket/route.ts - API tickets
+- components/SupportTicketButton.tsx - Botão reutilizável
+- app/admin/control-tower/helpdesk/page.tsx - UI Help Desk
+
+[02/12/2025 19:30] ETAPA 35 - Vínculo e Vida Própria dos Filhos (✅ CONCLUÍDA)
+- Campos vinculo_nucleo e politica_suporte em projects_core
+- docs/CONTROL-TOWER.md - Documentação completa
+
+================================================================================
 BUGS CONHECIDOS (A CORRIGIR)
 ================================================================================
 
@@ -817,6 +844,9 @@ Nenhum bug crítico identificado no momento.
 MIGRATIONS PENDENTES:
 - 007_frontpage_config.sql → Rodar no Supabase Dashboard
 - migrate-oraculo-*.sql (7 arquivos) → Rodar no Supabase Dashboard
+- migrate-control-tower.sql → Rodar no Supabase Dashboard
+- migrate-telemetry-core.sql → Rodar no Supabase Dashboard
+- migrate-helpdesk-core.sql → Rodar no Supabase Dashboard
 
 ================================================================================
 FIM DO ROADMAP

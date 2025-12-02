@@ -9,15 +9,30 @@ Responsável: Equipe Radar Narcisista
 🎉 PROGRESSO RECENTE
 ================================================================================
 
+🚀 BLOCO 32-35 EM ANDAMENTO (02/12/2025):
+- ✅ ETAPA 32: Control Tower & Registro Global de Projetos
+- ✅ ETAPA 33: Telemetria Core para todos os SaaS
+- ✅ ETAPA 34: Help Desk Global e Reportar Problema
+- ✅ ETAPA 35: Vínculo, Desvínculo e Vida Própria dos Filhos
+
+💡 ARQUIVOS CRIADOS NESTE BLOCO:
+- database/migrate-control-tower.sql
+- database/migrate-telemetry-core.sql
+- database/migrate-helpdesk-core.sql
+- lib/control-tower.ts
+- lib/telemetry-core.ts
+- lib/helpdesk-core.ts
+- components/SupportTicketButton.tsx
+- app/admin/control-tower/page.tsx
+- app/admin/control-tower/helpdesk/page.tsx
+- docs/CONTROL-TOWER.md
+
 🎉 BLOCO 26-30 CONCLUÍDO (02/12/2025):
 - ✅ ETAPA 26: Template de resumo + checklist + regras de linguagem
 - ✅ ETAPA 27: ORACULO_V2_CORE (núcleo reutilizável)
 - ✅ ETAPA 28: Infra multiperfil do Oráculo (flags por plano/perfil)
 - ✅ ETAPA 29: Oráculo V2 para novos perfis (OraculoMultiperfil)
 - ✅ ETAPA 30: Integração com Gerador de SaaS (docs/ORACULO-CORE-SAAS.md)
-
-💡 NOTA: ETAPAs 27-30 já estavam implementadas em sessões anteriores.
-   Esta sessão validou e documentou a conclusão do bloco.
 
 ETAPAS 40-44 CONCLUÍDAS (01/12/2025):
 - ✅ Documentação interativa da API (/docs/api)
