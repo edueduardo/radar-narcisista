@@ -9,12 +9,15 @@ Responsável: Equipe Radar Narcisista
 🎉 PROGRESSO RECENTE
 ================================================================================
 
-BLOCO 26-30 INICIADO (02/12/2025):
+🎉 BLOCO 26-30 CONCLUÍDO (02/12/2025):
 - ✅ ETAPA 26: Template de resumo + checklist + regras de linguagem
-- 🔄 ETAPA 27: ORACULO_V2_CORE (núcleo reutilizável) → PRÓXIMA
-- ⏳ ETAPA 28: Infra multiperfil do Oráculo
-- ⏳ ETAPA 29: Oráculo V2 para novos perfis
-- ⏳ ETAPA 30: Integração com Gerador de SaaS
+- ✅ ETAPA 27: ORACULO_V2_CORE (núcleo reutilizável)
+- ✅ ETAPA 28: Infra multiperfil do Oráculo (flags por plano/perfil)
+- ✅ ETAPA 29: Oráculo V2 para novos perfis (OraculoMultiperfil)
+- ✅ ETAPA 30: Integração com Gerador de SaaS (docs/ORACULO-CORE-SAAS.md)
+
+💡 NOTA: ETAPAs 27-30 já estavam implementadas em sessões anteriores.
+   Esta sessão validou e documentou a conclusão do bloco.
 
 ETAPAS 40-44 CONCLUÍDAS (01/12/2025):
 - ✅ Documentação interativa da API (/docs/api)

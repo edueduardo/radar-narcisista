@@ -11,21 +11,47 @@ Gerado por: Windsurf AI (Cascade)
 MUDANÇAS RECENTES (02/12/2025 00:00 → 00:10) - BLOCO 26-30 INICIADO
 ================================================================================
 
-🚀 ETAPA 26 - TEMPLATE DE RESUMO + CHECKLIST + REGRAS DE LINGUAGEM (✅ CONCLUÍDO)
+🎉 BLOCO 26-30 COMPLETO - ORÁCULO V2 MULTIPERFIL + INFRA COMUNICAÇÃO IA
 
-- docs/FORMATO-RESUMO-ETAPAS.md atualizado para v3.0
-  - Template completo de resumo com seções obrigatórias
-  - Regra fixa: documentação obrigatória para conclusão
-  
-- docs/REGRAS-COMUNICACAO-IA.md atualizado para v2.0
-  - Palavras proibidas expandidas: "poderia", "seria bom", "talvez"
-  - Fluxo Windsurf ↔ ChatGPT documentado
-  
-- docs/CHECKLIST-RESUMO-IA.md atualizado para v2.0
-  - Checklist expandido com novas validações
-  
+✅ ETAPA 26 - TEMPLATE DE RESUMO + CHECKLIST + REGRAS DE LINGUAGEM
+- docs/FORMATO-RESUMO-ETAPAS.md v3.0
+- docs/REGRAS-COMUNICACAO-IA.md v2.0
+- docs/CHECKLIST-RESUMO-IA.md v2.0
 - scripts/validar-resumo-ia.ts atualizado
-  - Novas palavras proibidas adicionadas ao validador
+
+✅ ETAPA 27 - ORACULO_V2_CORE (NÚCLEO REUTILIZÁVEL)
+- lib/oraculo-core.ts - Núcleo completo com:
+  - buildSystemPrompt(), buildUserContext(), parseOraculoResponse()
+  - callOraculo() - função principal
+  - buildInstancePrompt() - suporte a instâncias whitelabel
+  - Prompts por perfil: admin, usuaria, profissional, dev, whitelabel
+- docs/ORACULO-CORE.md - Documentação técnica completa
+
+✅ ETAPA 28 - INFRA MULTIPERFIL (FLAGS POR PLANO/PERFIL)
+- lib/oraculo-settings.ts - Helpers de permissões:
+  - canUseOraculo(), registerOraculoUsage()
+  - getOraculoSettings(), updateOraculoSettings()
+  - listAllOraculoSettings(), getOraculoUsage()
+- database/migrate-oraculo-settings.sql:
+  - Tabela oraculo_plan_settings (status, limites)
+  - Tabela oraculo_usage (contadores por período)
+  - Funções SQL: can_use_oraculo(), register_oraculo_usage()
+- app/api/oraculo-v2/route.ts integrado com settings
+
+✅ ETAPA 29 - ORÁCULO V2 PARA NOVOS PERFIS (FASE 1)
+- components/OraculoMultiperfil.tsx - UI completa:
+  - Suporte a todos os perfis
+  - Cores e sugestões por perfil
+  - Exibição de limites de uso
+  - Mensagens de segurança
+- components/OraculoHint.tsx - Dicas contextuais
+
+✅ ETAPA 30 - INTEGRAÇÃO COM GERADOR DE SAAS + QA
+- docs/ORACULO-CORE-SAAS.md - Guia completo de integração:
+  - Arquitetura de integração
+  - Passo a passo de implementação
+  - Customização de prompts e perfis
+  - Checklist de segurança e deploy
 
 ================================================================================
 MUDANÇAS ANTERIORES (01/12/2025 22:40 → 23:35)

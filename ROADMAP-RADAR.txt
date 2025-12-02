@@ -8,9 +8,9 @@ Versão: 4.5
 STATUS GERAL
 ================================================================================
 
-🚀 BLOCO 26-30 EM ANDAMENTO!
-Versão atual: MVP 1.0.46 (ETAPA 46 CONCLUÍDA)
-ETAPA 26: ✅ Template de resumo + checklist + regras de linguagem
+🎉 BLOCO 26-30 CONCLUÍDO!
+Versão atual: MVP 1.0.30 (BLOCO 26-30 COMPLETO)
+Oráculo V2 Multiperfil implementado e documentado
 Build atual: 170 páginas
 Objetivo desta fase: Analytics, Alertas e Exportação de Relatórios
 
@@ -787,16 +787,26 @@ BLOCO 26-30 - ORÁCULO V2 MULTIPERFIL + INFRA DE COMUNICAÇÃO IA
 ================================================================================
 
 [02/12/2025 00:10] ETAPA 26 - Template de Resumo + Checklist + Regras (✅ CONCLUÍDA)
-- docs/FORMATO-RESUMO-ETAPAS.md atualizado para v3.0
-- docs/REGRAS-COMUNICACAO-IA.md atualizado para v2.0
-- docs/CHECKLIST-RESUMO-IA.md atualizado para v2.0
-- scripts/validar-resumo-ia.ts atualizado com novas palavras proibidas
-- Palavras proibidas: "opcional", "ou" em bullets, "talvez", "poderia", "seria bom"
+- docs/FORMATO-RESUMO-ETAPAS.md v3.0
+- docs/REGRAS-COMUNICACAO-IA.md v2.0
+- docs/CHECKLIST-RESUMO-IA.md v2.0
+- scripts/validar-resumo-ia.ts atualizado
 
-ETAPA 27 - ORACULO_V2_CORE (núcleo reutilizável) → PRÓXIMA
-ETAPA 28 - Infra multiperfil do Oráculo (flags por plano/perfil) → PENDENTE
-ETAPA 29 - Oráculo V2 exposto a novos perfis (fase 1) → PENDENTE
-ETAPA 30 - Integração ORACULO_CORE com Gerador de SaaS + QA → PENDENTE
+[02/12/2025 00:15] ETAPA 27 - ORACULO_V2_CORE (✅ CONCLUÍDA - JÁ EXISTIA)
+- lib/oraculo-core.ts - Núcleo completo
+- docs/ORACULO-CORE.md - Documentação técnica
+
+[02/12/2025 00:15] ETAPA 28 - Infra Multiperfil (✅ CONCLUÍDA - JÁ EXISTIA)
+- lib/oraculo-settings.ts - Helpers de permissões
+- database/migrate-oraculo-settings.sql - Tabelas e funções
+- app/api/oraculo-v2/route.ts integrado
+
+[02/12/2025 00:15] ETAPA 29 - Oráculo V2 para Novos Perfis (✅ CONCLUÍDA - JÁ EXISTIA)
+- components/OraculoMultiperfil.tsx - UI completa
+- components/OraculoHint.tsx - Dicas contextuais
+
+[02/12/2025 00:15] ETAPA 30 - Integração com Gerador de SaaS (✅ CONCLUÍDA - JÁ EXISTIA)
+- docs/ORACULO-CORE-SAAS.md - Guia de integração completo
 
 ================================================================================
 BUGS CONHECIDOS (A CORRIGIR)
