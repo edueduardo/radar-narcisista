@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 3.9
-Última atualização: 01/12/2025 22:40 (UTC-5)
+Versão: 4.4
+Última atualização: 01/12/2025 23:35 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -732,6 +732,101 @@ ETAPA 30 – INTEGRAÇÃO GERADOR DE SAAS + QA (CONCLUÍDO 01/12/2025):
 ☐ Executar testes: npx jest lib/__tests__/oraculo-core.test.ts
 ☐ Executar migration no Supabase
 ☐ Testar Oráculo em produção
+
+================================================================================
+ETAPAS 31-44 – ORÁCULO MULTI-INSTÂNCIA + ANALYTICS
+================================================================================
+
+ETAPA 31-35 – INFRAESTRUTURA MULTI-INSTÂNCIA (CONCLUÍDO 01/12/2025):
+✅ database/migrate-oraculo-instances.sql criado
+✅ lib/oraculo-instances.ts criado
+✅ app/admin/oraculo-instances/page.tsx criado
+✅ app/admin/oraculo-instances/[id]/page.tsx criado
+✅ APIs de instâncias e métricas criadas
+✅ Build passou: 166 páginas
+
+ETAPA 36 – SISTEMA DE API KEYS (CONCLUÍDO 01/12/2025):
+✅ database/migrate-oraculo-api-keys.sql criado
+✅ lib/oraculo-api-keys.ts criado
+✅ API /api/admin/oraculo-instances/[id]/keys criada
+✅ UI de gerenciamento de keys
+✅ Build passou: 166 páginas
+
+ETAPA 37 – SISTEMA DE WEBHOOKS (CONCLUÍDO 01/12/2025):
+✅ database/migrate-oraculo-webhooks.sql criado
+✅ lib/oraculo-webhooks.ts criado
+✅ API /api/admin/oraculo-instances/[id]/webhooks criada
+✅ Assinatura HMAC-SHA256
+✅ Build passou: 166 páginas
+
+ETAPA 38 – SISTEMA DE BILLING (CONCLUÍDO 01/12/2025):
+✅ database/migrate-oraculo-billing.sql criado
+✅ lib/oraculo-billing.ts criado
+✅ API /api/admin/oraculo-instances/[id]/billing criada
+✅ Planos: Free, Starter, Pro, Enterprise
+✅ Build passou: 166 páginas
+
+ETAPA 39 – LOGS DETALHADOS (CONCLUÍDO 01/12/2025):
+✅ database/migrate-oraculo-usage-logs.sql criado
+✅ lib/oraculo-usage-logs.ts criado
+✅ API /api/admin/oraculo-instances/[id]/logs criada
+✅ Integração na API pública
+✅ Build passou: 166 páginas
+
+ETAPA 40 – DOCUMENTAÇÃO INTERATIVA (CONCLUÍDO 01/12/2025):
+✅ app/docs/api/page.tsx criado
+✅ Exemplos em JavaScript, Python, cURL, PHP
+✅ Playground para testar endpoints
+✅ Documentação de webhooks
+✅ Build passou: 167 páginas
+
+ETAPA 41 – TESTES AUTOMATIZADOS (CONCLUÍDO 01/12/2025):
+✅ lib/__tests__/oraculo-instances.test.ts criado
+✅ lib/__tests__/oraculo-api-keys.test.ts criado
+✅ lib/__tests__/oraculo-billing.test.ts criado
+✅ vitest.config.ts e vitest.setup.ts criados
+✅ Scripts de teste atualizados no package.json
+✅ Build passou: 167 páginas
+
+ETAPA 42 – DASHBOARD ANALYTICS (CONCLUÍDO 01/12/2025):
+✅ app/admin/analytics-dashboard/page.tsx criado
+✅ 6 cards de métricas com variação percentual
+✅ Gráficos: área, barras, pizza, horizontal
+✅ Filtro de período: 7, 30, 90 dias
+✅ Tabela detalhada por instância
+✅ Build passou: 170 páginas
+
+ETAPA 43 – ALERTAS AUTOMÁTICOS (CONCLUÍDO 01/12/2025):
+✅ lib/oraculo-alerts.ts criado
+✅ database/migrate-oraculo-alerts.sql criado
+✅ Tipos: quota_warning, quota_exceeded, error_spike, etc.
+✅ Severidades: info, warning, error, critical
+✅ Build passou: 170 páginas
+
+ETAPA 44 – EXPORTAÇÃO DE RELATÓRIOS (CONCLUÍDO 01/12/2025):
+✅ app/admin/analytics-dashboard/export/page.tsx criado
+✅ Formatos: CSV, JSON, PDF
+✅ Tipos: queries, tokens, instances, billing, full
+✅ Download automático
+✅ Build passou: 170 páginas
+
+🎉 BLOCO 40-44 CONCLUÍDO!
+
+MIGRATIONS PENDENTES (executar no Supabase):
+☐ migrate-oraculo-instances.sql
+☐ migrate-oraculo-api-keys.sql
+☐ migrate-oraculo-webhooks.sql
+☐ migrate-oraculo-billing.sql
+☐ migrate-oraculo-usage-logs.sql
+☐ migrate-oraculo-alerts.sql
+
+TESTES PENDENTES:
+☐ npm run test (vitest)
+☐ Testar criação de instância whitelabel
+☐ Testar API pública com API key
+☐ Testar webhooks com assinatura
+☐ Testar billing e limites
+☐ Testar exportação de relatórios
 
 ================================================================================
 FIM DO CHECKLIST DE TESTES

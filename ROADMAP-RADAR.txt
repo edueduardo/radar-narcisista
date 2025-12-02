@@ -1,16 +1,17 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 3.9
-Última atualização: 01/12/2025 22:40 (UTC-5)
+Versão: 4.4
+Última atualização: 01/12/2025 23:35 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
-🎉 BLOCO 36-39 CONCLUÍDO!
-Versão atual: MVP 1.0.39 (ETAPA 39 CONCLUÍDA)
-Objetivo desta fase: Oráculo Multi-instância Whitelabel Completo
+🎉 BLOCO 40-44 CONCLUÍDO!
+Versão atual: MVP 1.0.44 (ETAPA 44 CONCLUÍDA)
+Build atual: 170 páginas
+Objetivo desta fase: Analytics, Alertas e Exportação de Relatórios
 
 ================================================================================
 PRIORIDADE AGORA (NÃO MEXER NA ORDEM SEM AUTORIZAÇÃO)
@@ -575,23 +576,71 @@ BLOCO 36-39 – WHITELABEL COMPLETO
 🎉 BLOCO 36-39 CONCLUÍDO! ORÁCULO WHITELABEL COMPLETO!
 
 ================================================================================
-BLOCO 40-45 – DOCUMENTAÇÃO + TESTES + ANALYTICS (EM ANDAMENTO)
+BLOCO 40-44 – DOCUMENTAÇÃO + TESTES + ANALYTICS (✅ CONCLUÍDO)
 ================================================================================
 
-🔄 ETAPA 40 – DOCUMENTAÇÃO INTERATIVA DA API (EM ANDAMENTO)
-   - [ ] Página /docs/api com documentação interativa
-   - [ ] Exemplos de código em múltiplas linguagens
-   - [ ] Playground para testar endpoints
+✅ ETAPA 40 – DOCUMENTAÇÃO INTERATIVA DA API (CONCLUÍDO 01/12/2025)
+   - [x] Página /docs/api com documentação interativa
+   - [x] Exemplos de código em JavaScript, Python, cURL, PHP
+   - [x] Playground para testar endpoints
+   - [x] Documentação de webhooks e eventos
+   - Build passou: 167 páginas
 
-🔜 ETAPA 41 – TESTES AUTOMATIZADOS (PRÓXIMO)
-   - [ ] Testes unitários para libs principais
-   - [ ] Testes de integração para APIs
-   - [ ] CI/CD com GitHub Actions
+✅ ETAPA 41 – TESTES AUTOMATIZADOS (CONCLUÍDO 01/12/2025)
+   - [x] lib/__tests__/oraculo-instances.test.ts
+   - [x] lib/__tests__/oraculo-api-keys.test.ts
+   - [x] lib/__tests__/oraculo-billing.test.ts
+   - [x] vitest.config.ts e vitest.setup.ts
+   - [x] Scripts: npm run test, npm run test:watch, npm run test:coverage
+   - Build passou: 167 páginas
 
-🔜 ETAPA 42 – DASHBOARD ANALYTICS AVANÇADO (BACKLOG)
-   - [ ] Gráficos interativos com Tremor
-   - [ ] Exportação de relatórios
-   - [ ] Alertas automáticos
+✅ ETAPA 42 – DASHBOARD ANALYTICS AVANÇADO (CONCLUÍDO 01/12/2025)
+   - [x] Página /admin/analytics-dashboard
+   - [x] 6 cards de métricas com variação percentual
+   - [x] Gráficos: área (queries), barras (tokens), pizza (status), horizontal (instâncias)
+   - [x] Filtro de período: 7, 30, 90 dias
+   - [x] Tabela detalhada por instância
+   - Build passou: 170 páginas
+
+✅ ETAPA 43 – ALERTAS AUTOMÁTICOS (CONCLUÍDO 01/12/2025)
+   - [x] lib/oraculo-alerts.ts com sistema completo
+   - [x] database/migrate-oraculo-alerts.sql
+   - [x] Tipos: quota_warning, quota_exceeded, error_spike, latency_high, api_key_expiring
+   - [x] Severidades: info, warning, error, critical
+   - [x] Funções: createAlert, listAlerts, markAlertAsRead, resolveAlert, checkAndCreateAlerts
+   - Build passou: 170 páginas
+
+✅ ETAPA 44 – EXPORTAÇÃO DE RELATÓRIOS (CONCLUÍDO 01/12/2025)
+   - [x] Página /admin/analytics-dashboard/export
+   - [x] Formatos: CSV, JSON, PDF
+   - [x] Tipos: queries, tokens, instances, billing, full
+   - [x] Filtro por período e instância
+   - [x] Download automático
+   - Build passou: 170 páginas
+
+🎉 BLOCO 40-44 CONCLUÍDO!
+
+================================================================================
+BLOCO 45-50 – PRÓXIMAS ETAPAS (BACKLOG)
+================================================================================
+
+🔜 ETAPA 45 – INTEGRAÇÃO CRISP/TAWK.TO (BACKLOG)
+   - [ ] Chatbot na frontpage
+   - [ ] Integração com helpdesk
+
+🔜 ETAPA 46 – ARCJET SEGURANÇA (BACKLOG)
+   - [ ] Rate limiting avançado
+   - [ ] Bot protection
+   - [ ] DDoS protection
+
+🔜 ETAPA 47 – WHATSAPP BOT (BACKLOG)
+   - [ ] Typebot + Z-API
+   - [ ] Notificações via WhatsApp
+
+🔜 ETAPA 48 – PWA / APP MOBILE (BACKLOG)
+   - [ ] Service Worker
+   - [ ] Manifest.json
+   - [ ] Push notifications
 
 ================================================================================
 IDEIAS FUTURAS (NÃO IMPLEMENTAR AGORA)

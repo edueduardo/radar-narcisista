@@ -5,19 +5,109 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 21:30 (UTC-5)
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 21:00 → 21:30):
+ÚLTIMA ATUALIZAÇÃO: 01/12/2025 23:35 (UTC-5)
+
+================================================================================
+MUDANÇAS RECENTES (01/12/2025 22:40 → 23:35)
+================================================================================
+
+🎉 BLOCO 40-44 CONCLUÍDO!
+
+- ETAPA 42: DASHBOARD ANALYTICS AVANÇADO (✅ CONCLUÍDO)
+  - app/admin/analytics-dashboard/page.tsx criado
+  - 6 cards de métricas com variação percentual
+  - Gráficos: área (queries), barras (tokens), pizza (status), horizontal (instâncias)
+  - Filtro de período: 7, 30, 90 dias
+  - Tabela detalhada por instância
+  - Build passou: 170 páginas
+
+- ETAPA 43: ALERTAS AUTOMÁTICOS (✅ CONCLUÍDO)
+  - lib/oraculo-alerts.ts criado
+  - database/migrate-oraculo-alerts.sql criado
+  - Tipos: quota_warning, quota_exceeded, error_spike, latency_high, api_key_expiring
+  - Severidades: info, warning, error, critical
+  - Funções: createAlert, listAlerts, markAlertAsRead, resolveAlert, checkAndCreateAlerts
+
+- ETAPA 44: EXPORTAÇÃO DE RELATÓRIOS (✅ CONCLUÍDO)
+  - app/admin/analytics-dashboard/export/page.tsx criado
+  - Formatos: CSV, JSON, PDF
+  - Tipos: queries, tokens, instances, billing, full
+  - Filtro por período e instância
+  - Download automático
+
+- Builder.io instalado (@builder.io/react, @builder.io/sdk)
+- app/admin/builder/page.tsx criado (página de configuração)
+- admin-features-registry.ts atualizado com novas páginas
+
+================================================================================
+MUDANÇAS ANTERIORES (01/12/2025 21:45 → 22:40)
+================================================================================
+
+🎉 BLOCO 36-39 CONCLUÍDO!
+
+- ETAPA 39: LOGS DETALHADOS DE USO (✅ CONCLUÍDO)
+  - database/migrate-oraculo-usage-logs.sql criado
+  - lib/oraculo-usage-logs.ts criado
+  - app/api/admin/oraculo-instances/[id]/logs/route.ts criado
+  - Integração na API pública (logging automático)
+  - UI de logs na página de instância
+  - Build passou: 166 páginas
+
+- ETAPA 40: DOCUMENTAÇÃO INTERATIVA DA API (✅ CONCLUÍDO)
+  - app/docs/api/page.tsx criado
+  - Exemplos em JavaScript, Python, cURL, PHP
+  - Playground para testar endpoints
+  - Documentação de webhooks
+  - Build passou: 167 páginas
+
+- ETAPA 41: TESTES AUTOMATIZADOS (✅ CONCLUÍDO)
+  - lib/__tests__/oraculo-instances.test.ts criado
+  - lib/__tests__/oraculo-api-keys.test.ts criado
+  - lib/__tests__/oraculo-billing.test.ts criado
+  - vitest.config.ts e vitest.setup.ts criados
+  - package.json atualizado com scripts de teste
+  - Build passou: 167 páginas
+
+================================================================================
+MUDANÇAS ANTERIORES (01/12/2025 21:00 → 21:45)
+================================================================================
+
 - ETAPA 30: INTEGRAÇÃO GERADOR DE SAAS + QA (✅ CONCLUÍDO)
   - docs/ORACULO-CORE-SAAS.md criado (guia de integração)
   - lib/__tests__/oraculo-core.test.ts criado (testes unitários)
   - Build passou: 163 páginas
   - 🎉 BLOCO 26-30 CONCLUÍDO!
 
-MUDANÇAS DESDE ÚLTIMA VERSÃO (01/12/2025 21:30 → 21:45):
-- ETAPA 31: REFORMA INTELIGENTE DA FRONT PAGE (EM ANDAMENTO)
+- ETAPA 31: REFORMA INTELIGENTE DA FRONT PAGE (✅ CONCLUÍDO)
   - Seção "Para Quem é o Radar" adicionada
   - 4 cards segmentados: Pessoas, Profissionais, ONGs, Whitelabel
   - Build passou: 163 páginas
+
+- ETAPA 32-35: INFRAESTRUTURA MULTI-INSTÂNCIA (✅ CONCLUÍDO)
+  - database/migrate-oraculo-instances.sql
+  - lib/oraculo-instances.ts
+  - app/admin/oraculo-instances/page.tsx
+  - app/admin/oraculo-instances/[id]/page.tsx
+  - APIs de instâncias e métricas
+  - Build passou: 166 páginas
+
+- ETAPA 36: SISTEMA DE API KEYS (✅ CONCLUÍDO)
+  - database/migrate-oraculo-api-keys.sql
+  - lib/oraculo-api-keys.ts
+  - app/api/admin/oraculo-instances/[id]/keys/route.ts
+  - Build passou: 166 páginas
+
+- ETAPA 37: SISTEMA DE WEBHOOKS (✅ CONCLUÍDO)
+  - database/migrate-oraculo-webhooks.sql
+  - lib/oraculo-webhooks.ts
+  - app/api/admin/oraculo-instances/[id]/webhooks/route.ts
+  - Build passou: 166 páginas
+
+- ETAPA 38: SISTEMA DE BILLING (✅ CONCLUÍDO)
+  - database/migrate-oraculo-billing.sql
+  - lib/oraculo-billing.ts
+  - app/api/admin/oraculo-instances/[id]/billing/route.ts
+  - Build passou: 166 páginas
 
 MUDANÇAS ANTERIORES (01/12/2025 20:30 → 21:00):
 - ETAPA 29: EXPOR ORÁCULO V2 PARA OUTROS PERFIS (✅ CONCLUÍDO)
