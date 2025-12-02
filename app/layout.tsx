@@ -11,6 +11,7 @@ import { AnalyticsProvider } from '@/components/Analytics'
 import { SkipLinks } from '@/components/Accessibility'
 import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration'
 import { TermsConfirmationButton } from '@/components/TermsConfirmationButton'
+import CrispChat from '@/components/CrispChat'
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
@@ -158,6 +159,7 @@ export default function RootLayout({
                 </main>
                 <EmergencyButton />
                 <TermsConfirmationButton variant="floating" context="geral" />
+                <CrispChat publicOnly />
               </OnboardingProvider>
             </ToastProvider>
           </ThemeProvider>

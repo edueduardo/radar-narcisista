@@ -40,6 +40,7 @@ export type AdminFeatureId =
   | 'frontpage_visual'
   | 'builder_io'
   | 'analytics_dashboard'
+  | 'gerador_saas'
   | 'oraculo_instances'
   | 'easter_eggs'
   | 'mapa_sistema'
@@ -358,6 +359,16 @@ export const ADMIN_FEATURES: AdminFeature[] = [
     group: 'IAs',
     defaultOrder: 0.5,
     relatedTables: ['oraculo_instances', 'oraculo_api_keys', 'oraculo_webhooks']
+  },
+  {
+    id: 'gerador_saas',
+    label: '🚀 Gerador de SaaS',
+    description: 'Criar novos projetos a partir do RADAR-CORE',
+    path: '/admin/gerador-saas',
+    icon: 'Rocket',
+    group: 'Sistema',
+    defaultOrder: 0.3,
+    relatedTables: []
   },
   {
     id: 'easter_eggs',
