@@ -1,7 +1,7 @@
 # 📋 FORMATO OFICIAL DE RESUMO DE ETAPAS
 
-> **Versão:** 2.0  
-> **Última atualização:** 01/12/2025  
+> **Versão:** 3.0  
+> **Última atualização:** 01/12/2025 (ETAPA 26 - BLOCO 26-30)  
 > **Objetivo:** Padronizar comunicação entre Windsurf e ChatGPT  
 > **Prioridade:** MÁXIMA – Este formato é OBRIGATÓRIO para todas as etapas
 
@@ -140,6 +140,8 @@ Opcionalmente, configure o Sentry.
 ## 📋 DOCUMENTAÇÃO OBRIGATÓRIA POR ETAPA
 
 Para CADA etapa (21-32+), atualizar OBRIGATORIAMENTE:
+
+> **REGRA FIXA:** Nenhuma etapa é considerada 100% concluída se a documentação não estiver alinhada.
 
 | Arquivo | Quando Atualizar |
 |---------|------------------|

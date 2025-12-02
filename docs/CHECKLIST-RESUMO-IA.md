@@ -1,7 +1,7 @@
 # ✅ CHECKLIST DE REVISÃO DE RESUMO (WINDSURF → CHATGPT)
 
-> **Versão:** 1.0  
-> **Criado em:** 01/12/2025  
+> **Versão:** 2.0  
+> **Atualizado em:** 01/12/2025 (ETAPA 26 - BLOCO 26-30)  
 > **Objetivo:** Validar resumo antes de enviar ao ChatGPT
 
 ---
@@ -37,6 +37,8 @@ Antes de enviar o resumo ao ChatGPT, verificar TODOS os itens:
 - [ ] NÃO contém "se quiser"
 - [ ] NÃO contém "caso deseje"
 - [ ] NÃO contém "talvez"
+- [ ] NÃO contém "poderia"
+- [ ] NÃO contém "seria bom"
 
 ### 4. DOCUMENTAÇÃO SINCRONIZADA
 

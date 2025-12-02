@@ -5,10 +5,30 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 01/12/2025 23:35 (UTC-5)
+ÚLTIMA ATUALIZAÇÃO: 02/12/2025 00:10 (UTC-5)
 
 ================================================================================
-MUDANÇAS RECENTES (01/12/2025 22:40 → 23:35)
+MUDANÇAS RECENTES (02/12/2025 00:00 → 00:10) - BLOCO 26-30 INICIADO
+================================================================================
+
+🚀 ETAPA 26 - TEMPLATE DE RESUMO + CHECKLIST + REGRAS DE LINGUAGEM (✅ CONCLUÍDO)
+
+- docs/FORMATO-RESUMO-ETAPAS.md atualizado para v3.0
+  - Template completo de resumo com seções obrigatórias
+  - Regra fixa: documentação obrigatória para conclusão
+  
+- docs/REGRAS-COMUNICACAO-IA.md atualizado para v2.0
+  - Palavras proibidas expandidas: "poderia", "seria bom", "talvez"
+  - Fluxo Windsurf ↔ ChatGPT documentado
+  
+- docs/CHECKLIST-RESUMO-IA.md atualizado para v2.0
+  - Checklist expandido com novas validações
+  
+- scripts/validar-resumo-ia.ts atualizado
+  - Novas palavras proibidas adicionadas ao validador
+
+================================================================================
+MUDANÇAS ANTERIORES (01/12/2025 22:40 → 23:35)
 ================================================================================
 
 🎉 BLOCO 40-44 CONCLUÍDO!

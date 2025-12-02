@@ -1,13 +1,20 @@
 ================================================================================
 💡 LÂMPADA RADAR - OBSERVAÇÕES E PENDÊNCIAS
 ================================================================================
-Versão: 2.0
-Última atualização: 01/12/2025 23:35 (UTC-5)
+Versão: 2.1
+Última atualização: 02/12/2025 00:10 (UTC-5)
 Responsável: Equipe Radar Narcisista
 
 ================================================================================
 🎉 PROGRESSO RECENTE
 ================================================================================
+
+BLOCO 26-30 INICIADO (02/12/2025):
+- ✅ ETAPA 26: Template de resumo + checklist + regras de linguagem
+- 🔄 ETAPA 27: ORACULO_V2_CORE (núcleo reutilizável) → PRÓXIMA
+- ⏳ ETAPA 28: Infra multiperfil do Oráculo
+- ⏳ ETAPA 29: Oráculo V2 para novos perfis
+- ⏳ ETAPA 30: Integração com Gerador de SaaS
 
 ETAPAS 40-44 CONCLUÍDAS (01/12/2025):
 - ✅ Documentação interativa da API (/docs/api)
@@ -16,7 +23,7 @@ ETAPAS 40-44 CONCLUÍDAS (01/12/2025):
 - ✅ Sistema de alertas automáticos
 - ✅ Exportação de relatórios (CSV, JSON, PDF)
 - ✅ Builder.io instalado
-- Build atual: 170 páginas
+- Build atual: 171 páginas
 
 ================================================================================
 📋 O QUE É ESTE ARQUIVO?

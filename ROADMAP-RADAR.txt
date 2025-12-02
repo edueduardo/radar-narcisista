@@ -1,15 +1,16 @@
 ================================================================================
 RADAR NARCISISTA – ROADMAP
 ================================================================================
-Versão: 4.4
-Última atualização: 01/12/2025 23:35 (UTC-5)
+Versão: 4.5
+Última atualização: 02/12/2025 00:10 (UTC-5)
 
 ================================================================================
 STATUS GERAL
 ================================================================================
 
-🎉 BLOCO 40-44 CONCLUÍDO!
-Versão atual: MVP 1.0.44 (ETAPA 44 CONCLUÍDA)
+🚀 BLOCO 26-30 EM ANDAMENTO!
+Versão atual: MVP 1.0.46 (ETAPA 46 CONCLUÍDA)
+ETAPA 26: ✅ Template de resumo + checklist + regras de linguagem
 Build atual: 170 páginas
 Objetivo desta fase: Analytics, Alertas e Exportação de Relatórios
 
@@ -782,6 +783,22 @@ HISTÓRICO DE CONCLUSÕES
   - app/diario/timeline/page.tsx
 
 ================================================================================
+BLOCO 26-30 - ORÁCULO V2 MULTIPERFIL + INFRA DE COMUNICAÇÃO IA
+================================================================================
+
+[02/12/2025 00:10] ETAPA 26 - Template de Resumo + Checklist + Regras (✅ CONCLUÍDA)
+- docs/FORMATO-RESUMO-ETAPAS.md atualizado para v3.0
+- docs/REGRAS-COMUNICACAO-IA.md atualizado para v2.0
+- docs/CHECKLIST-RESUMO-IA.md atualizado para v2.0
+- scripts/validar-resumo-ia.ts atualizado com novas palavras proibidas
+- Palavras proibidas: "opcional", "ou" em bullets, "talvez", "poderia", "seria bom"
+
+ETAPA 27 - ORACULO_V2_CORE (núcleo reutilizável) → PRÓXIMA
+ETAPA 28 - Infra multiperfil do Oráculo (flags por plano/perfil) → PENDENTE
+ETAPA 29 - Oráculo V2 exposto a novos perfis (fase 1) → PENDENTE
+ETAPA 30 - Integração ORACULO_CORE com Gerador de SaaS + QA → PENDENTE
+
+================================================================================
 BUGS CONHECIDOS (A CORRIGIR)
 ================================================================================
 
@@ -789,6 +806,7 @@ Nenhum bug crítico identificado no momento.
 
 MIGRATIONS PENDENTES:
 - 007_frontpage_config.sql → Rodar no Supabase Dashboard
+- migrate-oraculo-*.sql (7 arquivos) → Rodar no Supabase Dashboard
 
 ================================================================================
 FIM DO ROADMAP

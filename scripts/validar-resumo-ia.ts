@@ -19,6 +19,11 @@ const PALAVRAS_PROIBIDAS = [
   'talvez',
   'possivelmente',
   'eventualmente',
+  'poderia',
+  'seria bom',
+  'seria interessante',
+  'você pode',
+  'vocês podem',
 ];
 
 // Padrão para detectar "ou" dentro de bullets

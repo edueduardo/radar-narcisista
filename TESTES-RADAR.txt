@@ -829,5 +829,41 @@ TESTES PENDENTES:
 ☐ Testar exportação de relatórios
 
 ================================================================================
+BLOCO 26-30 - ORÁCULO V2 MULTIPERFIL
+================================================================================
+
+[ETAPA 26] TEMPLATE DE RESUMO + CHECKLIST + REGRAS DE LINGUAGEM
+- [ ] Verificar docs/FORMATO-RESUMO-ETAPAS.md está na v3.0
+- [ ] Verificar docs/REGRAS-COMUNICACAO-IA.md está na v2.0
+- [ ] Verificar docs/CHECKLIST-RESUMO-IA.md está na v2.0
+- [ ] Testar script: npx ts-node scripts/validar-resumo-ia.ts "texto com opcional"
+  - Deve retornar INVÁLIDO
+- [ ] Testar script: npx ts-node scripts/validar-resumo-ia.ts "texto sem palavras proibidas"
+  - Deve retornar VÁLIDO (se tiver seções obrigatórias)
+
+[ETAPA 27] ORACULO_V2_CORE (núcleo reutilizável)
+- [ ] Verificar lib/oraculo-core.ts existe e exporta funções
+- [ ] Verificar /api/oraculo-v2 usa o core
+- [ ] Testar chamada ao Oráculo V2 como admin
+- [ ] Verificar resposta JSON com: modo, risco, titulo_curto, resposta_principal
+
+[ETAPA 28] INFRA MULTIPERFIL
+- [ ] Verificar tabela oraculo_settings existe
+- [ ] Verificar lib/oraculo-settings.ts existe
+- [ ] Testar limites por plano (daily_limit, weekly_limit, monthly_limit)
+- [ ] Testar flag enabled por perfil
+
+[ETAPA 29] ORÁCULO V2 PARA NOVOS PERFIS
+- [ ] Verificar componente OraculoHintProfissional.tsx
+- [ ] Verificar componente OraculoHintWhitelabel.tsx
+- [ ] Testar Oráculo no dashboard-profissional
+- [ ] Verificar respeito aos limites
+
+[ETAPA 30] INTEGRAÇÃO COM GERADOR DE SAAS
+- [ ] Verificar docs/ORACULO-CORE-SAAS.md existe
+- [ ] Verificar testes unitários do ORACULO_V2_CORE
+- [ ] Testar cenários com roles diferentes
+
+================================================================================
 FIM DO CHECKLIST DE TESTES
 ================================================================================

@@ -1,7 +1,7 @@
 # 📢 REGRAS DE COMUNICAÇÃO ENTRE IAs (WINDSURF ↔ CHATGPT)
 
-> **Versão:** 1.0  
-> **Criado em:** 01/12/2025  
+> **Versão:** 2.0  
+> **Atualizado em:** 01/12/2025 (ETAPA 26 - BLOCO 26-30)  
 > **Prioridade:** MÁXIMA – Aplicar em TODAS as interações
 
 ---
@@ -55,6 +55,9 @@ Padronizar a comunicação entre Windsurf e ChatGPT para que:
 | "Ou" nas sugestões | Usar bullet points separados |
 | "Se quiser" | Listar diretamente |
 | "Caso deseje" | Listar diretamente |
+| "Talvez" | Ser específico |
+| "Poderia" | Usar imperativo |
+| "Seria bom" | Listar como melhoria |
 
 ---
 
