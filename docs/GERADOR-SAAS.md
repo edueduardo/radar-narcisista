@@ -1,7 +1,97 @@
-# GERADOR DE SAAS - Documentação dos Módulos CORE
+# GERADOR DE SAAS - Documentação Completa
 
-Este documento descreve os módulos CORE do Radar Narcisista que podem ser reutilizados
-em qualquer SaaS gerado pelo GERADOR DE SAAS.
+> **Versão:** 1.0  
+> **Data:** 03/12/2025  
+> **Status:** FASE 1 COMPLETA (Doc + UI Admin)
+
+---
+
+## 🎯 VISÃO GERAL
+
+### O que é o GERADOR-DE-SAAS?
+
+O GERADOR-DE-SAAS é um módulo dentro do RADAR-CORE que permite criar novos projetos SaaS completos a partir do código base do Radar Narcisista.
+
+### Relação com RADAR-CORE
+
+```
+RADAR-CORE (Projeto Mãe)
+    │
+    ├── GERADOR-DE-SAAS (Módulo interno)
+    │       │
+    │       ├── MODO 1: SAAS-TEMATICO
+    │       │       └── Projeto com tema específico
+    │       │
+    │       └── MODO 2: CORE-BRANCO
+    │               └── Template neutro
+    │
+    └── Cada projeto gerado é INDEPENDENTE
+```
+
+### Diferença entre SAAS-TEMATICO e CORE-BRANCO
+
+| Aspecto | SAAS-TEMATICO | CORE-BRANCO |
+|---------|---------------|-------------|
+| **Tema** | Já definido (ex: igrejas, clínicas) | Neutro, sem tema |
+| **Textos** | Personalizados para o nicho | Genéricos/placeholders |
+| **Uso** | Produto final pronto | Base para personalização |
+| **Exemplo** | "Radar Co-Parent" | "CORE-BRANCO-001" |
+
+---
+
+## 🔄 FLUXO DE USO
+
+### Passo a Passo
+
+1. **Admin acessa** `/admin/gerador-saas`
+2. **Preenche dados:**
+   - Nome do projeto
+   - Tipo (SAAS-TEMATICO ou CORE-BRANCO)
+   - Descrição
+   - Módulos a incluir
+3. **Clica em "Criar Projeto"**
+4. **Gerador executa:**
+   - Copia código do RADAR-CORE
+   - Substitui placeholders
+   - Gera documentação (TUDO/ATLAS/ROADMAP/TESTES/LÂMPADA)
+   - Cria ORIGEM-CORE.txt
+5. **Projeto aparece na lista** com ações:
+   - Ver instruções
+   - Copiar `git clone`
+   - Baixar .zip
+6. **Projeto é 100% independente** após criação
+
+### Interface Admin
+
+A página `/admin/gerador-saas` contém:
+- Formulário de criação
+- Lista de projetos gerados (cards)
+- Ações por projeto (clone, zip, instruções)
+- Informações de origem e versão
+
+---
+
+## 📅 FASES DE IMPLEMENTAÇÃO
+
+### FASE 1: Documentação + UI Admin ✅ COMPLETA
+- [x] docs/PATCH-GERADOR-SAAS.md
+- [x] docs/GERADOR-SAAS.md
+- [x] Página /admin/gerador-saas (UI funcional)
+- [x] API /api/gerador-saas
+- [x] Serviço lib/gerador-saas-service.ts
+- [x] SQL migrate-gerador-saas.sql
+
+### FASE 2: Integração com Infra (FUTURO)
+- [ ] Integração com GitHub API
+- [ ] Criação automática de repositórios
+- [ ] Deploy automático no Vercel
+- [ ] Configuração automática do Supabase
+
+### FASE 3: Gerador Avançado (FUTURO)
+- [ ] Temas pré-configurados
+- [ ] Presets de módulos
+- [ ] Wizard de configuração
+- [ ] Preview antes de gerar
 
 ---
 

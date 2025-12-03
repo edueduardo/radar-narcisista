@@ -1,8 +1,8 @@
 ================================================================================
 RADAR NARCISISTA – CHECKLIST DE TESTES
 ================================================================================
-Versão: 4.4
-Última atualização: 01/12/2025 23:35 (UTC-5)
+Versão: 4.5
+Última atualização: 03/12/2025 11:15 (UTC-5)
 
 ================================================================================
 FLUXO 1 – TESTE DE CLAREZA
@@ -871,6 +871,38 @@ BLOCO 26-30 - ORÁCULO V2 MULTIPERFIL
 - [ ] Verificar docs/ORACULO-CORE-SAAS.md existe
 - [ ] Verificar testes unitários do ORACULO_V2_CORE
 - [ ] Testar cenários com roles diferentes
+
+================================================================================
+FLUXO GERADOR-SAAS – FASE 1
+================================================================================
+
+[TESTE VISUAL] Página /admin/gerador-saas
+- [ ] Acessar /admin/gerador-saas como admin
+- [ ] Verificar que a página carrega sem erros
+- [ ] Verificar título "Gerador de SaaS" aparece
+- [ ] Verificar cards explicativos (SAAS-TEMATICO e CORE-BRANCO)
+- [ ] Verificar lista de projetos gerados (pode estar vazia)
+
+[TESTE CRIAÇÃO] Botões de Simulação
+- [ ] Clicar em "Criar Novo Projeto"
+- [ ] Preencher nome do projeto
+- [ ] Selecionar tipo SAAS-TEMATICO
+- [ ] Preencher descrição
+- [ ] Selecionar módulos
+- [ ] Clicar em "Criar Projeto"
+- [ ] Verificar que projeto aparece na lista com status "Criando..."
+- [ ] Aguardar status mudar para "Pronto"
+
+[TESTE AÇÕES] Ações por Projeto
+- [ ] Clicar em "Ver instruções" - modal deve abrir
+- [ ] Clicar em "Copiar git clone" - deve copiar para clipboard
+- [ ] Clicar em "Baixar ZIP" - deve iniciar download (simulado)
+- [ ] Clicar em "Remover" - deve pedir confirmação e remover
+
+[TESTE CORE-BRANCO] Criação de Core Branco
+- [ ] Repetir fluxo de criação com tipo CORE-BRANCO
+- [ ] Verificar que projeto aparece com ícone diferente
+- [ ] Verificar que origem mostra "RADAR-CORE@BLOCO-45"
 
 ================================================================================
 FIM DO CHECKLIST DE TESTES
