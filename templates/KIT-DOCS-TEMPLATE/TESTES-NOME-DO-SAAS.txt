@@ -1,0 +1,83 @@
+================================================================================
+🧪 TESTES - [NOME-DO-SAAS]
+================================================================================
+Guia de testes do projeto.
+
+================================================================================
+TESTES MANUAIS
+================================================================================
+
+1. AUTENTICAÇÃO
+   [ ] Cadastro com email válido
+   [ ] Cadastro com email inválido (deve falhar)
+   [ ] Login com credenciais corretas
+   [ ] Login com credenciais incorretas (deve falhar)
+   [ ] Recuperação de senha
+   [ ] Logout
+
+2. PERFIL
+   [ ] Visualizar perfil
+   [ ] Editar nome
+   [ ] Editar avatar
+   [ ] Salvar alterações
+
+3. PLANOS
+   [ ] Visualizar planos disponíveis
+   [ ] Iniciar checkout
+   [ ] Completar pagamento (modo teste)
+   [ ] Verificar ativação do plano
+
+4. DASHBOARD
+   [ ] Acessar dashboard autenticado
+   [ ] Verificar dados do usuário
+   [ ] Navegação entre páginas
+
+================================================================================
+TESTES DE API
+================================================================================
+
+# Healthcheck
+curl http://localhost:3000/api/health
+
+# Verificar autenticação
+curl -H "Authorization: Bearer TOKEN" http://localhost:3000/api/me
+
+================================================================================
+TESTES DE BANCO
+================================================================================
+
+-- Verificar tabelas
+SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+
+-- Verificar usuários
+SELECT * FROM user_profiles LIMIT 5;
+
+-- Verificar planos
+SELECT * FROM plan_catalog;
+
+================================================================================
+TESTES DE INTEGRAÇÃO
+================================================================================
+
+1. STRIPE (modo teste)
+   - Usar cartão: 4242 4242 4242 4242
+   - Data: qualquer futura
+   - CVC: qualquer 3 dígitos
+
+2. SUPABASE
+   - Verificar RLS policies
+   - Testar queries como usuário autenticado
+
+================================================================================
+CHECKLIST PRÉ-DEPLOY
+================================================================================
+
+[ ] Todas as variáveis de ambiente configuradas
+[ ] Build passa sem erros
+[ ] Testes manuais passam
+[ ] RLS policies ativas
+[ ] Stripe em modo produção (quando aplicável)
+
+================================================================================
+FIM DOS TESTES
+================================================================================

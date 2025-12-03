@@ -1,0 +1,76 @@
+================================================================================
+🛣️ ROADMAP - [NOME-DO-SAAS]
+================================================================================
+Planejamento de implementação por blocos.
+
+================================================================================
+LEGENDA
+================================================================================
+
+✅ = Concluído
+🔄 = Em andamento
+⏳ = Pendente
+❌ = Cancelado
+
+================================================================================
+BLOCO 1-5: FUNDAÇÃO
+================================================================================
+
+⏳ ETAPA 1: Setup inicial
+   - Criar repositório
+   - Configurar Next.js + TypeScript
+   - Configurar TailwindCSS
+   - Configurar Supabase
+
+⏳ ETAPA 2: Autenticação
+   - Login/Signup
+   - Verificação de email
+   - Recuperação de senha
+
+⏳ ETAPA 3: Perfis de usuário
+   - Tabela user_profiles
+   - Página de perfil
+   - Edição de dados
+
+⏳ ETAPA 4: Landing page
+   - Hero section
+   - Features
+   - Planos
+   - Footer
+
+⏳ ETAPA 5: Dashboard básico
+   - Layout autenticado
+   - Sidebar
+   - Header
+
+================================================================================
+BLOCO 6-10: FUNCIONALIDADES CORE
+================================================================================
+
+⏳ ETAPA 6: [FUNCIONALIDADE 1]
+⏳ ETAPA 7: [FUNCIONALIDADE 2]
+⏳ ETAPA 8: [FUNCIONALIDADE 3]
+⏳ ETAPA 9: [FUNCIONALIDADE 4]
+⏳ ETAPA 10: [FUNCIONALIDADE 5]
+
+================================================================================
+BLOCO 11-15: BILLING E PLANOS
+================================================================================
+
+⏳ ETAPA 11: Integração Stripe
+⏳ ETAPA 12: Checkout
+⏳ ETAPA 13: Webhooks
+⏳ ETAPA 14: Portal de billing
+⏳ ETAPA 15: Planos e limites
+
+================================================================================
+BLOCOS FUTUROS
+================================================================================
+
+BLOCO 16-20: [TEMA]
+BLOCO 21-25: [TEMA]
+BLOCO 26-30: [TEMA]
+
+================================================================================
+FIM DO ROADMAP
+================================================================================

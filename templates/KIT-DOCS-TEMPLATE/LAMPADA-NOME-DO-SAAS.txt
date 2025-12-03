@@ -1,0 +1,72 @@
+================================================================================
+💡 LÂMPADA - [NOME-DO-SAAS]
+================================================================================
+Ideias, dívidas técnicas e insights futuros.
+
+================================================================================
+O QUE É ESTE ARQUIVO?
+================================================================================
+
+A "Lâmpada" é um documento vivo que consolida:
+- Ideias para implementar no futuro
+- Dívidas técnicas conhecidas
+- Bugs identificados mas não corrigidos
+- Decisões técnicas importantes
+- Insights e observações
+
+================================================================================
+💡 IDEIAS FUTURAS
+================================================================================
+
+1. [IDEIA 1]
+   - Descrição: [DESCREVER]
+   - Prioridade: [ALTA/MÉDIA/BAIXA]
+   - Bloco sugerido: [BLOCO X-Y]
+
+2. [IDEIA 2]
+   - Descrição: [DESCREVER]
+   - Prioridade: [ALTA/MÉDIA/BAIXA]
+   - Bloco sugerido: [BLOCO X-Y]
+
+================================================================================
+🔧 DÍVIDAS TÉCNICAS
+================================================================================
+
+1. [DÍVIDA 1]
+   - Arquivo: [CAMINHO]
+   - Problema: [DESCREVER]
+   - Solução sugerida: [DESCREVER]
+
+================================================================================
+🐛 BUGS CONHECIDOS
+================================================================================
+
+1. [BUG 1]
+   - Descrição: [DESCREVER]
+   - Como reproduzir: [PASSOS]
+   - Severidade: [CRÍTICO/ALTO/MÉDIO/BAIXO]
+
+================================================================================
+📝 DECISÕES TÉCNICAS
+================================================================================
+
+1. [DECISÃO 1]
+   - Data: [DATA]
+   - Contexto: [DESCREVER]
+   - Decisão: [DESCREVER]
+   - Motivo: [DESCREVER]
+
+================================================================================
+🔗 IMPORTAR DO RADAR-CORE
+================================================================================
+
+Se precisar importar algo novo do RADAR-CORE, registre aqui:
+
+1. [ ] [MÓDULO/FEATURE]
+   - Versão do RADAR-CORE: [BLOCO X]
+   - Motivo: [DESCREVER]
+   - Bloco para implementar: [BLOCO X-Y]
+
+================================================================================
+FIM DA LÂMPADA
+================================================================================

@@ -1,0 +1,57 @@
+================================================================================
+📍 ORIGEM-CORE - [NOME-DO-SAAS]
+================================================================================
+Este arquivo documenta a origem e versão deste projeto.
+
+================================================================================
+INFORMAÇÕES DO PROJETO
+================================================================================
+
+projeto: [NOME-DO-SAAS]
+tipo: [CORE-BRANCO ou SAAS-TEMATICO]
+origem: RADAR-CORE
+versao_base: BLOCO-40
+data_criacao: [DATA]
+gerador: GERADOR-DE-SAAS@v1
+
+================================================================================
+MÓDULOS CORE HERDADOS
+================================================================================
+
+| Módulo              | Versão | Ativado |
+|---------------------|--------|---------|
+| PLANOS_CORE         | v1     | [ ]     |
+| ORACULO_V2_CORE     | v1     | [ ]     |
+| CONTROL_TOWER       | v1     | [ ]     |
+| TELEMETRY_CORE      | v1     | [ ]     |
+| HELPDESK_CORE       | v1     | [ ]     |
+| ADDONS_CORE         | v1     | [ ]     |
+| RATE_LIMITER        | v1     | [ ]     |
+| STRIPE_CORE         | v1     | [ ]     |
+| LIMIT_NOTIFICATIONS | v1     | [ ]     |
+
+(Marque com [X] os módulos ativados neste projeto)
+
+================================================================================
+INDEPENDÊNCIA
+================================================================================
+
+Este projeto é INDEPENDENTE do RADAR-CORE.
+Não recebe atualizações automáticas.
+
+Para importar melhorias do RADAR-CORE:
+1. Registrar na LÂMPADA
+2. Planejar como bloco de upgrade
+3. Implementar manualmente
+
+================================================================================
+HISTÓRICO DE UPGRADES
+================================================================================
+
+| Data | Origem | Descrição |
+|------|--------|-----------|
+| [DATA] | RADAR-CORE@BLOCO-40 | Criação inicial |
+
+================================================================================
+FIM DO ARQUIVO ORIGEM-CORE.txt
+================================================================================

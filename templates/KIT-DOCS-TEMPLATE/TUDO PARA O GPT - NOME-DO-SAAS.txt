@@ -1,0 +1,95 @@
+================================================================================
+📚 TUDO PARA O GPT - [NOME-DO-SAAS]
+================================================================================
+Este é o arquivo-mãe do projeto [NOME-DO-SAAS].
+Cole este arquivo no ChatGPT para dar contexto completo ao assistente.
+
+================================================================================
+IDENTIDADE DO PROJETO
+================================================================================
+
+Nome: [NOME-DO-SAAS]
+Tema: [DESCREVER O TEMA/VERTENTE]
+Público-alvo: [DESCREVER O PÚBLICO]
+Perfis de usuário: [LISTAR PERFIS]
+
+================================================================================
+ORIGEM
+================================================================================
+
+Baseado em: RADAR-CORE
+Versão base: BLOCO-40
+Data de criação: [DATA]
+Gerador: GERADOR-DE-SAAS@v1
+Tipo: [CORE-BRANCO ou SAAS-TEMATICO]
+
+================================================================================
+STACK TÉCNICA
+================================================================================
+
+- Next.js 16 + TypeScript
+- TailwindCSS
+- Supabase (Postgres + Auth + RLS)
+- Stripe (Billing)
+- Vercel (Deploy)
+
+================================================================================
+MÓDULOS CORE ATIVADOS
+================================================================================
+
+[ ] PLANOS_CORE - Features, profiles, catalog, overrides
+[ ] ORACULO_V2_CORE - IA multiperfil
+[ ] CONTROL_TOWER - Gerenciamento de projetos
+[ ] TELEMETRY_CORE - Heartbeats, erros, métricas
+[ ] HELPDESK_CORE - Tickets, impersonation
+[ ] ADDONS_CORE - Add-ons e créditos
+[ ] RATE_LIMITER - Rate limiting por feature
+[ ] STRIPE_CORE - Checkout e webhooks
+[ ] LIMIT_NOTIFICATIONS - Notificações de limite
+
+(Marque com [X] os módulos ativados neste projeto)
+
+================================================================================
+BLOCOS DE IMPLEMENTAÇÃO
+================================================================================
+
+BLOCO 1-5: [DESCREVER]
+- ETAPA 1: [DESCREVER]
+- ETAPA 2: [DESCREVER]
+- ETAPA 3: [DESCREVER]
+- ETAPA 4: [DESCREVER]
+- ETAPA 5: [DESCREVER]
+
+(Adicionar mais blocos conforme necessário)
+
+================================================================================
+DECISÕES IMPORTANTES
+================================================================================
+
+1. [DECISÃO 1]
+2. [DECISÃO 2]
+3. [DECISÃO 3]
+
+================================================================================
+DOCUMENTAÇÃO RELACIONADA
+================================================================================
+
+- ATLAS-[NOME-DO-SAAS].txt - Mapa técnico
+- ROADMAP-[NOME-DO-SAAS].txt - Planejamento
+- TESTES-[NOME-DO-SAAS].txt - Testes
+- LAMPADA-[NOME-DO-SAAS].txt - Ideias e dívidas
+- ORIGEM-CORE.txt - Origem do projeto
+
+================================================================================
+REGRAS PARA WINDSURF E CHATGPT
+================================================================================
+
+1. Este projeto é INDEPENDENTE do RADAR-CORE
+2. Seguir a mesma disciplina de blocos e documentação
+3. Registrar tudo em TUDO / ATLAS / ROADMAP / TESTES / LÂMPADA
+4. Nunca mentir que implementou o que não implementou
+5. Se precisar importar algo do RADAR-CORE, registrar na LÂMPADA
+
+================================================================================
+FIM DO ARQUIVO TUDO PARA O GPT
+================================================================================

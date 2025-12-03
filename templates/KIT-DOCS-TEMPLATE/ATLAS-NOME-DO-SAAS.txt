@@ -1,0 +1,80 @@
+================================================================================
+🗺️ ATLAS - [NOME-DO-SAAS]
+================================================================================
+Mapa técnico completo do projeto.
+
+================================================================================
+ESTRUTURA DE PASTAS
+================================================================================
+
+[NOME-DO-SAAS]/
+├── app/                    # Páginas Next.js
+│   ├── (auth)/            # Rotas autenticadas
+│   ├── (public)/          # Rotas públicas
+│   ├── admin/             # Painel admin
+│   └── api/               # API routes
+├── components/            # Componentes React
+├── lib/                   # Bibliotecas e utils
+├── database/              # Migrations SQL
+├── docs/                  # Documentação
+├── templates/             # Templates
+└── public/                # Assets públicos
+
+================================================================================
+ROTAS PRINCIPAIS
+================================================================================
+
+PÚBLICAS:
+- / - Landing page
+- /login - Login
+- /signup - Cadastro
+- /planos - Planos e preços
+
+AUTENTICADAS:
+- /dashboard - Dashboard principal
+- /perfil - Perfil do usuário
+- /configuracoes - Configurações
+
+ADMIN:
+- /admin - Painel admin
+- /admin/usuarios - Gerenciar usuários
+- /admin/planos - Gerenciar planos
+
+================================================================================
+TABELAS DO BANCO
+================================================================================
+
+CORE:
+- user_profiles - Perfis de usuário
+- features - Features atômicas
+- feature_profiles - Perfis de features
+- plan_catalog - Catálogo de planos
+- user_subscriptions_core - Assinaturas
+
+ESPECÍFICAS DO TEMA:
+- [TABELA 1] - [DESCRIÇÃO]
+- [TABELA 2] - [DESCRIÇÃO]
+
+================================================================================
+INTEGRAÇÕES
+================================================================================
+
+- Supabase Auth - Autenticação
+- Stripe - Pagamentos
+- [OUTRAS INTEGRAÇÕES]
+
+================================================================================
+FLUXOS PRINCIPAIS
+================================================================================
+
+1. CADASTRO:
+   signup → verificar email → criar profile → dashboard
+
+2. ASSINATURA:
+   escolher plano → checkout Stripe → webhook → ativar plano
+
+3. [OUTROS FLUXOS]
+
+================================================================================
+FIM DO ATLAS
+================================================================================
