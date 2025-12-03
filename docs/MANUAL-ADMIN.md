@@ -383,6 +383,111 @@ Requerem `git push` + deploy na Vercel:
 
 ---
 
+## 🗂️ MAPA DO MENU ADMINISTRATIVO
+
+O menu admin é organizado em **8 grupos principais** por prioridade de uso.
+Esta estrutura é o **CORE** do projeto mãe e é reutilizada pelo GERADOR DE SAAS.
+
+### Grupos do Menu
+
+| # | Grupo | Ícone | Itens | Descrição |
+|---|-------|-------|-------|-----------|
+| 1 | **Visão Geral & Controle** | 🎯 | 9 | Painéis principais e monitoramento |
+| 2 | **Pessoas & Acessos** | 👥 | 5 | Gerenciamento de usuários |
+| 3 | **Planos, Billing & Promoções** | 💳 | 5 | Gestão financeira |
+| 4 | **IAs & Orquestração** | 🤖 | 10 | Configuração de IAs |
+| 5 | **Produto & Funcionalidades** | 🎯 | 7 | Funcionalidades do produto |
+| 6 | **Front & Conteúdos** | 🎨 | 8 | Gestão de conteúdo |
+| 7 | **Governança & LGPD** | ⚖️ | 5 | Compliance e auditoria |
+| 8 | **Laboratório & Dev** | 🧪 | 6 | Ferramentas de desenvolvimento |
+
+### Detalhamento por Grupo
+
+#### 1. Visão Geral & Controle
+- `/admin` - Dashboard principal
+- `/admin/oraculo` - Oráculo V1
+- `/admin/oraculo-metricas` - Métricas do Oráculo
+- `/admin/control-tower` - Torre de controle
+- `/admin/metricas` - Métricas gerais
+- `/admin/analytics` - Analytics
+- `/admin/analytics-dashboard` - Dashboard de analytics
+- `/admin/insights` - Insights automáticos
+- `/admin/mapa-sistema` - Mapa do sistema
+
+#### 2. Pessoas & Acessos
+- `/admin/usuarios` - Usuárias
+- `/admin/comunidade` - Comunidade
+- `/admin/oraculo-instances` - Instâncias white-label
+- `/admin/profissionais` - Profissionais (placeholder)
+- `/admin/equipe` - Equipe interna (placeholder)
+
+#### 3. Planos, Billing & Promoções
+- `/admin/planos` - Planos
+- `/admin/planos-core` - Planos Core
+- `/admin/loja` - Loja/Add-ons (placeholder)
+- `/admin/promocoes` - Promoções (placeholder)
+- `/admin/excecoes` - Exceções individuais (placeholder)
+
+#### 4. IAs & Orquestração
+- `/admin/ia-personas` - IA Personas 🆕
+- `/admin/configurar-ias` - Configurar IAs
+- `/admin/gerenciar-ias` - Gerenciar IAs
+- `/admin/mapa-ias` - Mapa de IAs
+- `/admin/ia-matrix` - IA Matrix
+- `/admin/ia-mapa-menus` - IA Mapa Menus
+- `/admin/fluxos-ia` - Fluxos de IA
+- `/admin/ia-assistente` - IA Assistente
+- `/admin/custos-ia` - Custos de IA
+- `/admin/ia-carga` - IA Carga
+
+#### 5. Produto & Funcionalidades
+- `/admin/teste-clareza-ia` - Teste de Clareza IA
+- `/admin/historias` - Histórias/Jornadas
+- `/admin/chat` - Chat Admin
+- `/admin/estados` - Estados
+- `/admin/quiz-generator` - Gerador de Quiz
+- `/admin/seguranca` - Plano de Segurança (placeholder)
+- `/admin/relatorios` - Relatórios (placeholder)
+
+#### 6. Front & Conteúdos
+- `/admin/frontpage` - Frontpage
+- `/admin/frontpage-editor` - Frontpage Editor
+- `/admin/frontpage-visual` - Frontpage Visual
+- `/admin/builder` - Builder
+- `/admin/biblioteca` - Biblioteca
+- `/admin/conteudos` - Conteúdos
+- `/admin/curadoria` - Curadoria
+- `/admin/menu-config` - Configurar Menu
+
+#### 7. Governança & LGPD
+- `/admin/termos-aceitos` - Termos Aceitos
+- `/admin/auditoria-suporte` - Auditoria Suporte
+- `/admin/privacidade` - Privacidade (placeholder)
+- `/admin/lgpd` - LGPD/Exportar Dados (placeholder)
+- `/admin/logs-legais` - Logs Legais (placeholder)
+
+#### 8. Laboratório & Dev
+- `/admin/gerador-saas` - Gerador de SaaS
+- `/admin/beta-testers` - Beta Testers
+- `/admin/ab-testing` - A/B Testing
+- `/admin/easter-eggs` - Easter Eggs
+- `/admin/checklist-lancamento` - Checklist Lançamento
+- `/admin/repair-env` - Repair Env (placeholder)
+
+### Arquivo de Configuração
+
+A estrutura do menu está centralizada em:
+```
+lib/admin-core-menu.ts
+```
+
+Este arquivo é usado pelo:
+- RADAR (projeto mãe)
+- GERADOR DE SAAS (copia como base)
+- Instâncias WHITE LABEL (herdam estrutura)
+
+---
+
 ## 📞 Contatos
 
 - **Suporte Técnico:** dev@radarnarcisista.com.br

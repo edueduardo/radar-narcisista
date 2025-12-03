@@ -5,7 +5,84 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 03/12/2025 14:00 (UTC-5)
+ÚLTIMA ATUALIZAÇÃO: 03/12/2025 15:00 (UTC-5)
+
+================================================================================
+ADMIN MENU CORE - ORGANIZAÇÃO DO MENU ADMINISTRATIVO (03/12/2025)
+================================================================================
+
+📊 STATUS: ✅ IMPLEMENTADO
+
+📁 ARQUIVO: lib/admin-core-menu.ts
+
+ORGANIZAÇÃO EM 8 GRUPOS:
+| # | Grupo | Ícone | Itens |
+|---|-------|-------|-------|
+| 1 | Visão Geral & Controle | 🎯 | 9 |
+| 2 | Pessoas & Acessos | 👥 | 5 |
+| 3 | Planos, Billing & Promoções | 💳 | 5 |
+| 4 | IAs & Orquestração | 🤖 | 10 |
+| 5 | Produto & Funcionalidades | 🎯 | 7 |
+| 6 | Front & Conteúdos | 🎨 | 8 |
+| 7 | Governança & LGPD | ⚖️ | 5 |
+| 8 | Laboratório & Dev | 🧪 | 6 |
+
+TOTAL: 55 itens de menu (43 implementados, 12 placeholders)
+
+REUTILIZAÇÃO:
+- RADAR (projeto mãe) - usa diretamente
+- GERADOR DE SAAS - copia como base
+- WHITE LABEL - herda estrutura
+
+================================================================================
+AI_PERSONAS - SISTEMA DE AVATARES DE IA (03/12/2025)
+================================================================================
+
+📊 STATUS: ⏳ SQL PRONTO, PENDENTE EXECUÇÃO
+
+📁 SQL: database/migrate-ai-personas.sql
+
+✅ TABELAS (5):
+| Tabela | Descrição |
+|--------|-----------|
+| ai_providers | Provedores reais (visão admin) |
+| ai_personas | Avatares/Personas (visão usuário) |
+| ai_persona_bindings | Ligação Persona → Contexto |
+| ai_persona_logs | Logs de uso |
+| ai_transparency_settings | Configurações de transparência |
+
+✅ PERSONAS PADRÃO (6):
+- Mentora Calma 🕊️
+- Analista Lógico 🧠
+- Guardião de Segurança 🛡️
+- Curador de Conteúdo 📚
+- Assistente Profissional 💼
+- Oráculo do Sistema 🔮
+
+✅ PÁGINAS:
+- /admin/ia-personas - Cockpit de Personas
+
+✅ SERVIÇOS:
+- lib/ai-personas.ts - Funções de personas
+- components/chat/PersonaSelector.tsx - Seletor de persona
+
+================================================================================
+MENU HELP - SISTEMA DE AJUDA EMBUTIDA (03/12/2025)
+================================================================================
+
+📊 STATUS: ✅ IMPLEMENTADO
+
+📁 ARQUIVOS:
+- lib/menu-help-registry.ts - Registry de helps
+- components/MenuHelpModal.tsx - Componentes de UI
+- docs/MENU-HELP-ADMIN.md - Documentação
+
+MENUS COBERTOS: 17
+- Admin: 9 menus
+- Usuária: 5 menus
+- Profissional: 1 menu
+- White Label: 1 menu
+- Gerador: 1 menu
 
 ================================================================================
 AI_CONFIG_CORE - SISTEMA DE CONFIGURAÇÃO DE IAs (03/12/2025)
