@@ -23,9 +23,8 @@ CREATE INDEX IF NOT EXISTS idx_feature_usage_user_feature ON feature_usage_logs(
 CREATE INDEX IF NOT EXISTS idx_feature_usage_used_at ON feature_usage_logs(used_at DESC);
 CREATE INDEX IF NOT EXISTS idx_feature_usage_user_feature_date ON feature_usage_logs(user_id, feature_key, used_at);
 
--- Índice parcial para queries de hoje (mais rápido)
-CREATE INDEX IF NOT EXISTS idx_feature_usage_today ON feature_usage_logs(user_id, feature_key) 
-  WHERE used_at >= CURRENT_DATE;
+-- NOTA: Índice parcial com CURRENT_DATE não é permitido (não é IMMUTABLE)
+-- O índice idx_feature_usage_user_feature_date já cobre queries por data
 
 -- RLS
 ALTER TABLE feature_usage_logs ENABLE ROW LEVEL SECURITY;
