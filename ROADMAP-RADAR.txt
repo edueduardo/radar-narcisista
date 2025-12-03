@@ -1,0 +1,190 @@
+================================================================================
+RADAR NARCISISTA – ROADMAP OFICIAL
+================================================================================
+Versão: 2.0
+Última atualização: 03/12/2025 12:30 (UTC-5)
+Responsável: Equipe Radar Narcisista
+
+================================================================================
+📊 VISÃO GERAL DOS BLOCOS
+================================================================================
+
+| BLOCO | ETAPAS | DESCRIÇÃO | STATUS |
+|-------|--------|-----------|--------|
+| 1-20 | 1-20 | MVP 1.0 | ✅ COMPLETO |
+| 21-25 | 21-25 | Pós-MVP (Billing, Oráculo V2, Segurança) | ✅ COMPLETO |
+| 26-30 | 26-30 | Oráculo Multiperfil + Infra Comunicação | ✅ COMPLETO |
+| 31-35 | 31-35 | PLANOS_CORE + AI_CONFIG_CORE | ✅ COMPLETO |
+| 32-35 | 32-35 | Control Tower + Telemetria + Help Desk | ✅ COMPLETO |
+| 36-40 | 36-40 | Rate Limiting + Notificações | ✅ COMPLETO |
+| 41-45 | 41-45 | Gerador de SaaS + Analytics | ✅ COMPLETO |
+| 46-50 | 46-50 | White Label Avançado | ⏳ PLANEJADO |
+| 51-55 | 51-55 | App Mobile + WhatsApp | 💡 FUTURO |
+
+================================================================================
+✅ BLOCOS CONCLUÍDOS
+================================================================================
+
+### BLOCO 1-20: MVP 1.0
+- Estrutura base Next.js 16 + Supabase
+- Autenticação e RLS
+- Diário de episódios
+- Teste de Clareza (18 perguntas)
+- Chat com Coach IA
+- Dashboard Trilha do Herói
+- Dashboard Profissional
+- Infra White-label V1
+- Loja simplificada
+- Beta testers
+- Oráculo V1 (painel admin)
+- Manuais (5 perfis)
+- Lâmpada (observações)
+
+### BLOCO 21-25: Pós-MVP
+- Billing sólido com Stripe
+- Add-ons (user_addons)
+- Oráculo V2 (IA de suporte)
+- Rate limiting
+- Logger estruturado
+- Healthcheck endpoint
+- Manuais interligados
+- Checklist pós-MVP
+
+### BLOCO 26-30: Oráculo Multiperfil
+- Template de resumo padronizado
+- ORACULO_V2_CORE (núcleo reutilizável)
+- Infra multiperfil (flags por plano)
+- OraculoMultiperfil.tsx
+- Integração com Gerador de SaaS
+
+### BLOCO 31-35: PLANOS_CORE + AI_CONFIG_CORE
+- 6 tabelas PLANOS_CORE
+- 8 tabelas AI_CONFIG_CORE
+- Migração de planos existentes
+- Promoções e Cohorts
+- Overrides por usuário/grupo
+- UI Admin completa
+- /admin/ia-matrix
+- /admin/ia-mapa-menus
+- /admin/ia-carga
+
+### BLOCO 32-35: Control Tower
+- Control Tower (registro global)
+- Telemetria Core
+- Help Desk Global
+- Vínculo/Desvínculo de filhos
+
+### BLOCO 36-40: Rate Limiting + Notificações
+- UI de Overrides Individuais
+- Rate Limiting por Feature
+- Dashboard de Métricas
+- Stripe Checkout + Webhooks
+- Notificações de Limite (80%, 100%)
+
+### BLOCO 41-45: Gerador de SaaS
+- CLI do Gerador
+- KIT DE DOCS automatizado
+- Sistema de emails (Resend/SendGrid)
+- Onboarding guiado
+- Analytics avançado
+
+================================================================================
+⏳ BLOCO 46-50: WHITE LABEL AVANÇADO (PLANEJADO)
+================================================================================
+
+### ETAPA 46: Multi-tenant Avançado
+- Isolamento completo de dados
+- Subdomínios dinâmicos
+- Configuração por tenant
+
+### ETAPA 47: Customização Visual
+- Temas por cliente
+- Logo e cores dinâmicas
+- CSS customizado
+
+### ETAPA 48: Billing Multi-tenant
+- Stripe Connect
+- Repasse automático
+- Dashboard de receita
+
+### ETAPA 49: Admin do Cliente
+- Painel admin simplificado
+- Métricas do tenant
+- Gestão de usuários
+
+### ETAPA 50: QA + Documentação
+- Testes E2E
+- Documentação técnica
+- Guia de onboarding
+
+================================================================================
+💡 BLOCO 51-55: APP MOBILE + WHATSAPP (FUTURO)
+================================================================================
+
+### ETAPA 51: App React Native
+- Estrutura base
+- Autenticação
+- Sincronização offline
+
+### ETAPA 52: Notificações Push
+- Firebase Cloud Messaging
+- Alertas de segurança
+- Lembretes
+
+### ETAPA 53: Integração WhatsApp
+- WhatsApp Business API
+- Bot de suporte
+- Alertas via WhatsApp
+
+### ETAPA 54: Modo Offline
+- Cache local
+- Sincronização
+- Conflitos
+
+### ETAPA 55: QA Mobile
+- Testes em dispositivos
+- Performance
+- Publicação nas lojas
+
+================================================================================
+📋 SQLs PENDENTES DE EXECUÇÃO
+================================================================================
+
+PRIORIDADE ALTA:
+- [ ] migrate-user-addons.sql
+- [ ] migrate-planos-core.sql
+
+PRIORIDADE MÉDIA:
+- [ ] migrate-oraculo-logs.sql
+- [ ] migrate-oraculo-settings.sql
+- [ ] migrate-oraculo-instances.sql
+- [ ] migrate-oraculo-api-keys.sql
+- [ ] migrate-oraculo-billing.sql
+- [ ] migrate-control-tower.sql
+- [ ] migrate-feature-usage.sql
+- [ ] migrate-limit-notifications.sql
+
+PRIORIDADE BAIXA:
+- [ ] migrate-oraculo-webhooks.sql
+- [ ] migrate-oraculo-usage-logs.sql
+- [ ] migrate-oraculo-alerts.sql
+- [ ] migrate-telemetry-core.sql
+- [ ] migrate-helpdesk-core.sql
+- [ ] migrate-analytics.sql
+
+================================================================================
+📊 MÉTRICAS DO PROJETO
+================================================================================
+
+| Métrica | Valor |
+|---------|-------|
+| Páginas Geradas | 170+ |
+| Páginas Admin | 44 |
+| Arquivos SQL | 42 |
+| Documentos | 15+ |
+| ETAPAs Concluídas | 45 |
+| Build Status | ✅ |
+
+================================================================================
+FIM DO ROADMAP
+================================================================================
