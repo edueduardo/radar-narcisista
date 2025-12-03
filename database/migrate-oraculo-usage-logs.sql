@@ -61,9 +61,9 @@ CREATE INDEX IF NOT EXISTS idx_usage_logs_status ON oraculo_usage_logs(status);
 CREATE INDEX IF NOT EXISTS idx_usage_logs_request ON oraculo_usage_logs(request_id);
 CREATE INDEX IF NOT EXISTS idx_usage_logs_instance_date ON oraculo_usage_logs(instance_id, created_at DESC);
 
--- Índice para busca por período
-CREATE INDEX IF NOT EXISTS idx_usage_logs_period ON oraculo_usage_logs(instance_id, created_at) 
-  WHERE created_at > NOW() - INTERVAL '30 days';
+-- Índice para busca por período (removido partial index com NOW() pois não é IMMUTABLE)
+-- Usar índice composto normal em vez de partial index
+CREATE INDEX IF NOT EXISTS idx_usage_logs_period ON oraculo_usage_logs(instance_id, created_at DESC);
 
 -- View para estatísticas agregadas por dia
 CREATE OR REPLACE VIEW oraculo_usage_stats_daily AS

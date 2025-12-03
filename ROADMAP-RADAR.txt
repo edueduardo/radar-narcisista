@@ -842,17 +842,63 @@ BLOCO 32-35 - CONTROL TOWER, TELEMETRIA, HELP DESK E GERADOR DE SAAS
 - docs/CONTROL-TOWER.md - Documentação completa
 
 ================================================================================
+BLOCO 31-35 – PLANOS_CORE (IMPLEMENTADO 03/12/2025)
+================================================================================
+
+✅ ETAPA 31 – MODELAR PLANOS_CORE (CONCLUÍDO 03/12/2025)
+   - [x] Tabela features (features atômicas)
+   - [x] Tabela feature_profiles (perfis versionados)
+   - [x] Tabela feature_profile_features (join)
+   - [x] Tabela plan_catalog (catálogo de planos)
+   - [x] Tabela user_feature_overrides (overrides individuais)
+   - [x] Tabela user_subscriptions_core (assinaturas)
+   - [x] Função get_effective_features(user_id)
+   - [x] Função has_feature(user_id, feature_key)
+   - [x] Função get_feature_limit(user_id, feature_key, periodo)
+   - [x] RLS policies completas
+   - [x] Dados iniciais (features, profiles, catalog)
+
+✅ ETAPA 32 – MIGRAR PLANOS ATUAIS (CONCLUÍDO 03/12/2025)
+   - [x] Profile free_v1 com features básicas
+   - [x] Profile profissional_v1 com features completas
+   - [x] Profile defesa_v1 para profissionais
+   - [x] Profile white_label_v1 para enterprise
+
+✅ ETAPA 33 – PROMOÇÕES E COHORTS (CONCLUÍDO 03/12/2025)
+   - [x] Campo tipo_profile (padrao, promo, cohort, exclusivo)
+   - [x] Campo cohort_label para campanhas
+   - [x] Campos data_inicio e data_fim para promoções
+   - [x] Documentação de fluxo de promoções
+
+✅ ETAPA 34 – OVERRIDES INDIVIDUAIS (CONCLUÍDO 03/12/2025)
+   - [x] Tabela user_feature_overrides funcional
+   - [x] Tipos: grant, revoke, limit_custom
+   - [x] Integração com get_effective_features()
+   - [x] lib/planos-core.ts com helpers completos
+
+✅ ETAPA 35 – GERADOR DE SAAS (CONCLUÍDO 03/12/2025)
+   - [x] docs/GERADOR-SAAS.md criado
+   - [x] Documentação de todos os módulos CORE
+   - [x] Guia de criação de novo SaaS
+   - [x] Arquitetura de dados documentada
+
+🎉 BLOCO 31-35 CONCLUÍDO!
+
+================================================================================
 BUGS CONHECIDOS (A CORRIGIR)
 ================================================================================
 
 Nenhum bug crítico identificado no momento.
 
-MIGRATIONS PENDENTES:
+MIGRATIONS PENDENTES (EXECUTAR NO SUPABASE):
+- migrate-planos-core.sql → NOVO! Sistema de features e profiles
+- migrate-oraculo-usage-logs.sql → CORRIGIDO! Erro IMMUTABLE resolvido
 - 007_frontpage_config.sql → Rodar no Supabase Dashboard
 - migrate-oraculo-*.sql (7 arquivos) → Rodar no Supabase Dashboard
 - migrate-control-tower.sql → Rodar no Supabase Dashboard
 - migrate-telemetry-core.sql → Rodar no Supabase Dashboard
 - migrate-helpdesk-core.sql → Rodar no Supabase Dashboard
+- migrate-user-addons.sql → Rodar no Supabase Dashboard
 
 ================================================================================
 FIM DO ROADMAP
