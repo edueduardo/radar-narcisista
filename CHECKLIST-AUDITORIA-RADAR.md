@@ -1,7 +1,7 @@
 # CHECKLIST DE AUDITORIA – RADAR NARCISISTA
 
-**Data da Última Auditoria:** 02/12/2025 21:15 (UTC-5)  
-**Blocos Auditados:** ETAPA 7.3 + ETAPA 7.4 + ETAPA 8 + ETAPA 8.1 + ETAPA 8.2 + ETAPA 8.3 + ETAPA 8.4 + ETAPA 9 + ETAPA 10 + ETAPA 11 + ETAPA 11.1 + ETAPA 11.2 + ETAPA 12 + ETAPA 12.1 + CICLO MANUAIS  
+**Data da Última Auditoria:** 02/12/2025 21:45 (UTC-5)  
+**Blocos Auditados:** ETAPA 7.3 + ETAPA 7.4 + ETAPA 8 + ETAPA 8.1 + ETAPA 8.2 + ETAPA 8.3 + ETAPA 8.4 + ETAPA 9 + ETAPA 10 + ETAPA 11 + ETAPA 11.1 + ETAPA 11.2 + ETAPA 12 + ETAPA 12.1 + ETAPA 12.1.1 + CICLO MANUAIS  
 **Auditor:** Windsurf AI (Cascade)  
 **Resultado:** ✅ TODOS OS ITENS IMPLEMENTADOS – CÓDIGO SIGNIFICATIVAMENTE MAIS AVANÇADO QUE OS PROMPTS
 
@@ -1425,6 +1425,68 @@ O prompt pede criar manuais se não existirem, mas:
 **CONCLUSÃO:** Nenhuma mudança foi necessária.
 
 ### FIM_RELATORIO_FINAL_CHATGPT_CICLO_MANUAIS
+
+---
+
+## RELATORIO_FINAL_CHATGPT – AUDITORIA ETAPA 12.1.1 (Página Aceite Convite)
+
+**Data:** 02/12/2025 21:45 (UTC-5)
+
+### [1] RESUMO GERAL
+
+| Métrica | Valor |
+|---------|-------|
+| blocos_total | 6 (ETAPA 0-6 do prompt) |
+| blocos_implementado | 6 |
+| blocos_implementado_agora | 0 |
+| blocos_implementado_parcial | 0 |
+| blocos_nao_implementado | 0 |
+| blocos_incertos | 0 |
+
+### [2] ARQUIVOS VERIFICADOS
+
+**Página de Aceite:**
+- `app/aceitar-convite/page.tsx` (638 linhas) ✅
+  - Verificação de autenticação
+  - Código via URL ou digitado
+  - Validação de código
+  - Formulário de permissões (5 opções)
+  - Aceite com confirmação
+  - Mensagens de erro amigáveis
+  - Textos de LGPD/ética
+
+**APIs de Convite:**
+- `/api/professional/invite/validate` (101 linhas) ✅
+  - Valida código de convite
+  - Retorna dados do profissional
+  - Verifica status pending
+- `/api/professional/invite/accept` (163 linhas) ✅
+  - Requer autenticação
+  - Atualiza client_id, status, permissões
+  - Impede reutilização de convite
+
+### [3] FUNCIONALIDADES IMPLEMENTADAS
+
+| Funcionalidade | Status |
+|----------------|--------|
+| Rota `/aceitar-convite` | ✅ OK |
+| Código via URL (?codigo=XXX) | ✅ OK |
+| Verificação de login | ✅ OK |
+| Validação de código | ✅ OK |
+| Formulário de permissões | ✅ OK |
+| 5 opções share_* | ✅ OK |
+| Aceite com confirmação | ✅ OK |
+| Mensagens de erro | ✅ OK |
+| Textos LGPD/ética | ✅ OK |
+| Mobile responsivo | ✅ OK |
+
+### [4] DECISÃO SOBRE RETROCESSO
+
+**O código atual é SIGNIFICATIVAMENTE MAIS AVANÇADO que o prompt solicita.**
+
+**CONCLUSÃO:** Nenhuma mudança de código foi necessária.
+
+### FIM_RELATORIO_FINAL_CHATGPT_ETAPA12_1_1
 
 ---
 
