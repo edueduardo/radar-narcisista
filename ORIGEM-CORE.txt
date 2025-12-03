@@ -1,0 +1,90 @@
+================================================================================
+📍 ORIGEM-CORE - RADAR NARCISISTA
+================================================================================
+Este arquivo documenta a origem e versão deste projeto.
+
+================================================================================
+INFORMAÇÕES DO PROJETO
+================================================================================
+
+projeto: RADAR-CORE
+tipo: MÃE (projeto principal)
+versao_base: BLOCO-40
+data_criacao: 2024-11-01
+ultima_atualizacao: 2025-12-03
+gerador: N/A (este é o projeto mãe)
+
+================================================================================
+BLOCOS IMPLEMENTADOS
+================================================================================
+
+✅ BLOCO 1-20: MVP 1.0 (Core, Auth, Diário, Testes, Dashboard)
+✅ BLOCO 21-25: Billing, Oráculo V2, Segurança, Manuais, QA
+✅ BLOCO 26-30: Oráculo Multiperfil, ORACULO_V2_CORE
+✅ BLOCO 31-35: PLANOS_CORE, Features, Profiles, Cohorts
+✅ BLOCO 36-40: Rate Limiting, Métricas, Stripe, Notificações
+
+================================================================================
+MÓDULOS CORE DISPONÍVEIS
+================================================================================
+
+| Módulo              | Versão | Status    |
+|---------------------|--------|-----------|
+| PLANOS_CORE         | v1     | ✅ Ativo  |
+| ORACULO_V2_CORE     | v1     | ✅ Ativo  |
+| CONTROL_TOWER       | v1     | ✅ Ativo  |
+| TELEMETRY_CORE      | v1     | ✅ Ativo  |
+| HELPDESK_CORE       | v1     | ✅ Ativo  |
+| ADDONS_CORE         | v1     | ✅ Ativo  |
+| RATE_LIMITER        | v1     | ✅ Ativo  |
+| STRIPE_CORE         | v1     | ✅ Ativo  |
+| LIMIT_NOTIFICATIONS | v1     | ✅ Ativo  |
+
+================================================================================
+STACK TÉCNICA
+================================================================================
+
+- Next.js 16 + TypeScript
+- TailwindCSS
+- Supabase (Postgres + Auth + RLS)
+- Stripe (Billing)
+- Vercel (Deploy)
+
+================================================================================
+DOCUMENTAÇÃO PRINCIPAL
+================================================================================
+
+- TUDO PARA O GPT.txt
+- ATLAS-RADAR-NARCISISTA.txt
+- ROADMAP-RADAR.txt
+- TESTES-RADAR.txt
+- LAMPADA-RADAR.txt
+- docs/PATCH-ORACULO.md
+- docs/PATCH-GERADOR-SAAS.md
+- docs/REGRAS-COMUNICACAO-IA.md
+- docs/GERADOR-SAAS.md
+
+================================================================================
+GERADOR DE SAAS - MODOS DISPONÍVEIS
+================================================================================
+
+MODO 1: Criar SAAS TEMÁTICO a partir da MÃE (RADAR-CORE)
+MODO 2: Criar CORE BRANCO (template neutro, sem tema)
+MODO 3: Criar SAAS a partir de um CORE BRANCO existente
+
+================================================================================
+PARA PROJETOS FILHOS
+================================================================================
+
+Quando um novo projeto for gerado (CORE BRANCO ou SAAS TEMÁTICO),
+este arquivo deve ser copiado e atualizado com:
+
+- projeto: <NOME-DO-PROJETO>
+- tipo: CORE-BRANCO ou SAAS-TEMATICO
+- versao_base: BLOCO-40 (ou versão atual do RADAR-CORE)
+- data_criacao: <DATA>
+- gerador: GERADOR-DE-SAAS@v1
+
+================================================================================
+FIM DO ARQUIVO ORIGEM-CORE.txt
+================================================================================

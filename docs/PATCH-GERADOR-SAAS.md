@@ -1,7 +1,7 @@
-# PATCH – GERADOR DE SAAS & SAAS GERADOS
+# PATCH – GERADOR DE SAAS (MÃE, CORE BRANCO, FILHOS)
 ## (SIMBIOSE COM O RADAR + INDEPENDÊNCIA TOTAL DEPOIS DE GERADO)
 
-> **Versão:** 1.0  
+> **Versão:** 2.0  
 > **Data:** 03/12/2025  
 > **Prioridade:** MÁXIMA – Este PATCH tem prioridade sobre qualquer texto antigo
 
@@ -52,13 +52,52 @@ Funções:
   - Stack configurada
   - Módulos CORE copiados
 
-### 1.3 SAAS GERADO (Instância)
+### 1.3 MODOS DO GERADOR DE SAAS
 
-Cada vez que o Gerador é usado, nasce um NOVO SAAS:
+O Gerador deve ter, pelo menos, estes modos:
+
+| Modo | Descrição |
+|------|-----------|
+| **MODO 1** | Criar SAAS TEMÁTICO a partir da MÃE (RADAR-CORE) |
+| **MODO 2** | Criar CORE BRANCO (template neutro, sem tema) |
+| **MODO 3** | Criar SAAS a partir de um CORE BRANCO existente |
+
+### 1.4 CORE BRANCO (Template Neutro)
+
+**Definição:**
+- Projeto gerado a partir do RADAR-CORE
+- Com mesma infraestrutura (planos, oráculos, segurança, admin)
+- Porém SEM textos, copy e narrativas de tema (sem "narcisismo", etc.)
+
+**Características:**
+- Já nasce INDEPENDENTE da MÃE (outro repo/pasta)
+- Já nasce com ambiente próprio
+- Já nasce com KIT DE DOCS próprio:
+  - `TUDO PARA O GPT – CORE-BRANCO-<ID>.txt`
+  - `ATLAS-CORE-BRANCO-<ID>.txt`
+  - `ROADMAP-CORE-BRANCO-<ID>.txt`
+  - `TESTES-CORE-BRANCO-<ID>.txt`
+  - `LAMPADA-CORE-BRANCO-<ID>.txt`
+
+**Usos do CORE BRANCO:**
+
+1. **Como produto final:**
+   - Eduardo entra nesse projeto, personaliza manualmente
+   - Segue a vida nesse SaaS usando os TXTs dele
+
+2. **Como novo "template mãe" de uma linhagem:**
+   - O GERADOR DE SAAS passa a enxergar esse CORE BRANCO como "novo core"
+   - De onde podem nascer outros SaaS
+
+### 1.5 SAAS TEMÁTICOS / ÚNICOS (Filhos)
+
+Cada vez que o Gerador cria um novo SAAS:
 - Tem **vida própria**
 - Tem **código próprio**
-- Tem **docs próprios**
-- **NÃO é atualizado automaticamente** pelas futuras mudanças no RADAR-CORE
+- Tem **repositório próprio**
+- Tem **ambiente próprio**
+- Tem **KIT DE DOCS próprio**
+- **NÃO é atualizado automaticamente** pelas futuras mudanças do RADAR-CORE nem do CORE BRANCO
 
 Pode ser:
 - Um produto do próprio Eduardo
