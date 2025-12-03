@@ -1932,4 +1932,86 @@ O PATCH 4 pede:
 
 ---
 
+## RELATORIO_FINAL_CHATGPT – PATCH 4 AUDITORIA COMPLETA
+
+**Data:** 02/12/2025 23:15 (UTC-5)
+
+### [1] RESUMO GERAL
+
+- blocos_total: 6
+- blocos_implementado: 5
+- blocos_implementado_agora: 1
+- blocos_implementado_parcial: 0
+- blocos_nao_implementado: 0
+- blocos_incertos: 0
+
+### [2] TABELA DE BLOCOS (PATCH 4)
+
+| ID | Tipo | Status | Descrição | Observações |
+|----|------|--------|-----------|-------------|
+| P4-1 | PATCH | IMPLEMENTADO | Definições V1/V2 | Rotas `/admin/oraculo` e `/api/oraculo-v2` existem |
+| P4-2 | PATCH | IMPLEMENTADO | Matriz Radar Principal | `oraculo_instance_roles` com status por perfil |
+| P4-3 | PATCH | IMPLEMENTADO | Matriz Whitelabel | `oraculo_instances` com `owner_id` para isolamento |
+| P4-4 | PATCH | IMPLEMENTADO | Gerador de SaaS | Estrutura pronta em `lib/oraculo-instances.ts` |
+| P4-5 | PATCH | IMPLEMENTADO | Responsabilidades/Limites | RLS garante isolamento de dados |
+| P4-6 | PATCH | IMPLEMENTADO_AGORA | ETAPA 32 SQL completo | Adicionado RLS + funções + roles padrão |
+
+### [3] MUDANÇAS DE CÓDIGO REALIZADAS AGORA
+
+- arquivo: `database/migrate-oraculo-instances.sql`
+  alteracoes: Adicionado RLS para 3 tabelas, 7 políticas de segurança, 2 funções SQL (`get_instance_config`, `register_instance_usage`), comentários, roles padrão para instância Radar Narcisista
+
+### [4] MUDANÇAS EM DOCUMENTAÇÃO REALIZADAS AGORA
+
+- arquivo: `CHECKLIST-AUDITORIA-RADAR.md`
+  alteracoes: Adicionado relatório completo do PATCH 4
+
+### [5] MELHORIAS IDENTIFICADAS
+
+- Executar o SQL `migrate-oraculo-instances.sql` no Supabase para criar as tabelas e RLS
+- Verificar se as tabelas `oraculo_instances`, `oraculo_instance_roles`, `oraculo_instance_usage` já existem no Supabase
+- Testar a função `get_instance_config` com diferentes perfis
+- Testar a função `register_instance_usage` para confirmar contagem de uso
+
+### [6] PRÓXIMA AÇÃO SUGERIDA PARA O CHATGPT ANALISAR
+
+- Verificar no Supabase quais tabelas do Oráculo já existem
+- Executar o SQL `migrate-oraculo-instances.sql` se as tabelas não existirem
+- Testar o fluxo de multi-instância com um whitelabel de teste
+- Confirmar que o RLS está funcionando corretamente
+
+### FIM_RELATORIO_FINAL_CHATGPT_PATCH_4_COMPLETO
+
+---
+
+## ⚠️ OPINIÃO DO WINDSURF PARA O CHATGPT
+
+O **PATCH 4** estava **PARCIALMENTE IMPLEMENTADO**. A estrutura de tabelas e lib existia, mas **FALTAVA**:
+
+1. **RLS (Row Level Security)** - CRÍTICO para multi-instância
+2. **Funções SQL** (`get_instance_config`, `register_instance_usage`)
+3. **Roles padrão** para a instância Radar Narcisista
+
+**IMPLEMENTEI AGORA:**
+- 7 políticas de RLS para isolamento de dados
+- 2 funções SQL para integração com `lib/oraculo-instances.ts`
+- Roles padrão (admin=2, usuaria=0, profissional=0)
+
+**ARQUIVO SQL PARA EXECUTAR NO SUPABASE:**
+
+```
+database/migrate-oraculo-instances.sql (305 linhas)
+```
+
+---
+
+## 💡 LÂMPADA - OBSERVAÇÕES PARA O EDUARDO
+
+1. **SQL ATUALIZADO:** O arquivo `migrate-oraculo-instances.sql` agora tem 305 linhas (antes tinha 76)
+2. **RLS CRÍTICO:** Sem RLS, um whitelabel poderia ver dados de outro
+3. **FUNÇÕES SQL:** As funções `get_instance_config` e `register_instance_usage` são usadas pela lib TypeScript
+4. **ROLES PADRÃO:** Admin tem status=2 (completo), usuaria e profissional têm status=0 (desabilitado por padrão)
+
+---
+
 **FIM DO CHECKLIST DE AUDITORIA**
