@@ -382,9 +382,11 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 -- Features: apenas admins podem editar
 ALTER TABLE public.features ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Todos podem ver features" ON public.features;
 CREATE POLICY "Todos podem ver features" ON public.features
   FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Admins podem editar features" ON public.features;
 CREATE POLICY "Admins podem editar features" ON public.features
   FOR ALL USING (
     EXISTS (
@@ -397,9 +399,11 @@ CREATE POLICY "Admins podem editar features" ON public.features
 -- Feature Profiles: apenas admins podem editar
 ALTER TABLE public.feature_profiles ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Todos podem ver profiles" ON public.feature_profiles;
 CREATE POLICY "Todos podem ver profiles" ON public.feature_profiles
   FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Admins podem editar profiles" ON public.feature_profiles;
 CREATE POLICY "Admins podem editar profiles" ON public.feature_profiles
   FOR ALL USING (
     EXISTS (
@@ -412,9 +416,11 @@ CREATE POLICY "Admins podem editar profiles" ON public.feature_profiles
 -- Feature Profile Features: apenas admins podem editar
 ALTER TABLE public.feature_profile_features ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Todos podem ver profile features" ON public.feature_profile_features;
 CREATE POLICY "Todos podem ver profile features" ON public.feature_profile_features
   FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Admins podem editar profile features" ON public.feature_profile_features;
 CREATE POLICY "Admins podem editar profile features" ON public.feature_profile_features
   FOR ALL USING (
     EXISTS (
@@ -427,9 +433,11 @@ CREATE POLICY "Admins podem editar profile features" ON public.feature_profile_f
 -- Plan Catalog: apenas admins podem editar
 ALTER TABLE public.plan_catalog ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Todos podem ver catalogo" ON public.plan_catalog;
 CREATE POLICY "Todos podem ver catalogo" ON public.plan_catalog
   FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Admins podem editar catalogo" ON public.plan_catalog;
 CREATE POLICY "Admins podem editar catalogo" ON public.plan_catalog
   FOR ALL USING (
     EXISTS (
@@ -442,6 +450,7 @@ CREATE POLICY "Admins podem editar catalogo" ON public.plan_catalog
 -- User Overrides: apenas admins podem ver/editar
 ALTER TABLE public.user_feature_overrides ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Admins podem ver overrides" ON public.user_feature_overrides;
 CREATE POLICY "Admins podem ver overrides" ON public.user_feature_overrides
   FOR SELECT USING (
     EXISTS (
@@ -451,6 +460,7 @@ CREATE POLICY "Admins podem ver overrides" ON public.user_feature_overrides
     )
   );
 
+DROP POLICY IF EXISTS "Admins podem editar overrides" ON public.user_feature_overrides;
 CREATE POLICY "Admins podem editar overrides" ON public.user_feature_overrides
   FOR ALL USING (
     EXISTS (
@@ -463,9 +473,11 @@ CREATE POLICY "Admins podem editar overrides" ON public.user_feature_overrides
 -- User Subscriptions: usuário vê a própria, admin vê todas
 ALTER TABLE public.user_subscriptions_core ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Usuario ve propria assinatura" ON public.user_subscriptions_core;
 CREATE POLICY "Usuario ve propria assinatura" ON public.user_subscriptions_core
   FOR SELECT USING (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "Admins podem ver todas assinaturas" ON public.user_subscriptions_core;
 CREATE POLICY "Admins podem ver todas assinaturas" ON public.user_subscriptions_core
   FOR SELECT USING (
     EXISTS (
@@ -475,6 +487,7 @@ CREATE POLICY "Admins podem ver todas assinaturas" ON public.user_subscriptions_
     )
   );
 
+DROP POLICY IF EXISTS "Admins podem editar assinaturas" ON public.user_subscriptions_core;
 CREATE POLICY "Admins podem editar assinaturas" ON public.user_subscriptions_core
   FOR ALL USING (
     EXISTS (
