@@ -38,7 +38,8 @@ export const FEATURE_USAGE_TABLE = 'feature_usage_logs'
  * Classe principal de Rate Limiting
  */
 export class RateLimiter {
-  private supabase: ReturnType<typeof createClientComponentClient>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private supabase: any
 
   constructor(supabaseClient?: ReturnType<typeof createClientComponentClient>) {
     this.supabase = supabaseClient || createClientComponentClient()

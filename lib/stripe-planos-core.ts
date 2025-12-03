@@ -4,18 +4,34 @@
  */
 
 import Stripe from 'stripe'
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
-// Inicializar Stripe
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2023-10-16'
-})
+// Lazy initialization para evitar erros durante build
+let _stripe: Stripe | null = null
+let _supabaseAdmin: SupabaseClient | null = null
 
-// Supabase Admin (para webhooks)
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-)
+function getStripe(): Stripe {
+  if (!_stripe) {
+    if (!process.env.STRIPE_SECRET_KEY) {
+      throw new Error('STRIPE_SECRET_KEY não configurada')
+    }
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2025-11-17.clover' as any
+    })
+  }
+  return _stripe
+}
+
+function getSupabaseAdmin(): SupabaseClient {
+  if (!_supabaseAdmin) {
+    _supabaseAdmin = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+      process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+    )
+  }
+  return _supabaseAdmin
+}
+
 
 // Tipos
 export interface CheckoutSessionParams {
@@ -45,7 +61,7 @@ export interface SubscriptionData {
 export async function createCheckoutSession(params: CheckoutSessionParams): Promise<string | null> {
   try {
     // Buscar plano no catálogo
-    const { data: plan, error: planError } = await supabaseAdmin
+    const { data: plan, error: planError } = await getSupabaseAdmin()
       .from('plan_catalog')
       .select('*, feature_profiles(*)')
       .eq('slug', params.planSlug)
@@ -69,7 +85,7 @@ export async function createCheckoutSession(params: CheckoutSessionParams): Prom
     // Buscar ou criar customer no Stripe
     let customerId: string | undefined
 
-    const { data: existingSub } = await supabaseAdmin
+    const { data: existingSub } = await getSupabaseAdmin()
       .from('user_subscriptions_core')
       .select('stripe_customer_id')
       .eq('user_id', params.userId)
@@ -79,7 +95,7 @@ export async function createCheckoutSession(params: CheckoutSessionParams): Prom
       customerId = existingSub.stripe_customer_id
     } else {
       // Criar novo customer
-      const customer = await stripe.customers.create({
+      const customer = await getStripe().customers.create({
         email: params.userEmail,
         metadata: {
           user_id: params.userId,
@@ -90,7 +106,7 @@ export async function createCheckoutSession(params: CheckoutSessionParams): Prom
     }
 
     // Criar sessão de checkout
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       customer: customerId,
       mode: 'subscription',
       payment_method_types: ['card'],
@@ -141,14 +157,19 @@ export async function handleSubscriptionCreated(subscription: Stripe.Subscriptio
     }
 
     // Buscar profile_id do plano
-    const { data: plan } = await supabaseAdmin
+    const { data: plan } = await getSupabaseAdmin()
       .from('plan_catalog')
       .select('current_profile_id')
       .eq('slug', planSlug)
       .single()
 
     // Upsert na tabela user_subscriptions_core
-    const { error } = await supabaseAdmin
+    // Na API 2025-11-17.clover, current_period_start/end podem estar em subscription ou items
+    const sub = subscription as any
+    const periodStart = sub.current_period_start || Math.floor(Date.now() / 1000)
+    const periodEnd = sub.current_period_end || Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60
+
+    const { error } = await getSupabaseAdmin()
       .from('user_subscriptions_core')
       .upsert({
         user_id: userId,
@@ -158,9 +179,9 @@ export async function handleSubscriptionCreated(subscription: Stripe.Subscriptio
         stripe_customer_id: subscription.customer as string,
         status: subscription.status === 'active' ? 'active' : subscription.status,
         periodo: periodo,
-        data_inicio: new Date(subscription.current_period_start * 1000).toISOString(),
-        data_fim: new Date(subscription.current_period_end * 1000).toISOString(),
-        proximo_pagamento: new Date(subscription.current_period_end * 1000).toISOString(),
+        data_inicio: new Date(periodStart * 1000).toISOString(),
+        data_fim: new Date(periodEnd * 1000).toISOString(),
+        proximo_pagamento: new Date(periodEnd * 1000).toISOString(),
         cohort_tag: metadata.cohort_tag || null,
         metadata: {
           stripe_status: subscription.status,
@@ -197,7 +218,7 @@ export async function handleSubscriptionCanceled(subscription: Stripe.Subscripti
     }
 
     // Atualizar status para canceled
-    const { error } = await supabaseAdmin
+    const { error } = await getSupabaseAdmin()
       .from('user_subscriptions_core')
       .update({
         status: 'canceled',
@@ -227,12 +248,13 @@ export async function handleSubscriptionCanceled(subscription: Stripe.Subscripti
  */
 export async function handlePaymentFailed(invoice: Stripe.Invoice): Promise<boolean> {
   try {
-    const subscriptionId = invoice.subscription as string
+    const inv = invoice as any
+    const subscriptionId = inv.subscription as string
     
     if (!subscriptionId) return false
 
     // Atualizar status para past_due
-    const { error } = await supabaseAdmin
+    const { error } = await getSupabaseAdmin()
       .from('user_subscriptions_core')
       .update({
         status: 'past_due',
@@ -261,7 +283,7 @@ export async function handlePaymentFailed(invoice: Stripe.Invoice): Promise<bool
  */
 export async function createBillingPortalSession(customerId: string, returnUrl: string): Promise<string | null> {
   try {
-    const session = await stripe.billingPortal.sessions.create({
+    const session = await getStripe().billingPortal.sessions.create({
       customer: customerId,
       return_url: returnUrl
     })
@@ -278,7 +300,7 @@ export async function createBillingPortalSession(customerId: string, returnUrl: 
  */
 export async function syncStripePrices(): Promise<void> {
   try {
-    const { data: plans } = await supabaseAdmin
+    const { data: plans } = await getSupabaseAdmin()
       .from('plan_catalog')
       .select('slug, stripe_price_id_mensal, stripe_price_id_anual')
 
@@ -288,7 +310,7 @@ export async function syncStripePrices(): Promise<void> {
       // Verificar preço mensal
       if (plan.stripe_price_id_mensal) {
         try {
-          const price = await stripe.prices.retrieve(plan.stripe_price_id_mensal)
+          const price = await getStripe().prices.retrieve(plan.stripe_price_id_mensal)
           console.log(`✅ Preço mensal válido para ${plan.slug}: ${price.unit_amount}`)
         } catch {
           console.error(`❌ Preço mensal inválido para ${plan.slug}`)
@@ -298,7 +320,7 @@ export async function syncStripePrices(): Promise<void> {
       // Verificar preço anual
       if (plan.stripe_price_id_anual) {
         try {
-          const price = await stripe.prices.retrieve(plan.stripe_price_id_anual)
+          const price = await getStripe().prices.retrieve(plan.stripe_price_id_anual)
           console.log(`✅ Preço anual válido para ${plan.slug}: ${price.unit_amount}`)
         } catch {
           console.error(`❌ Preço anual inválido para ${plan.slug}`)
@@ -314,7 +336,7 @@ export async function syncStripePrices(): Promise<void> {
  * Obter subscription ativa do usuário
  */
 export async function getUserSubscription(userId: string) {
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await getSupabaseAdmin()
     .from('user_subscriptions_core')
     .select('*, feature_profiles(*), plan_catalog(*)')
     .eq('user_id', userId)

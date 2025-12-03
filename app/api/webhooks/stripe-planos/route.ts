@@ -12,16 +12,18 @@ import {
   handlePaymentFailed
 } from '@/lib/stripe-planos-core'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2023-10-16'
-})
-
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET_PLANOS || ''
+// Lazy initialization para evitar erros durante build
+function getStripe(): Stripe {
+  return new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+    apiVersion: '2025-11-17.clover' as any
+  })
+}
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.text()
     const signature = request.headers.get('stripe-signature')
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET_PLANOS || ''
 
     if (!signature) {
       return NextResponse.json({ error: 'Missing signature' }, { status: 400 })
@@ -29,6 +31,7 @@ export async function POST(request: NextRequest) {
 
     // Verificar assinatura do webhook
     let event: Stripe.Event
+    const stripe = getStripe()
 
     try {
       event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
@@ -90,9 +93,5 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Desabilitar body parser para webhooks do Stripe
-export const config = {
-  api: {
-    bodyParser: false
-  }
-}
+// Nota: No App Router do Next.js 13+, o body parser já é desabilitado por padrão
+// para routes que usam request.text() ou request.json()

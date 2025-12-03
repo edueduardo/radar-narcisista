@@ -238,9 +238,9 @@ export class PlanosCore {
         .eq('id', plan.current_profile_id)
         .single()
       
-      profile = profileData
+      profile = profileData as FeatureProfile | null
 
-      if (profile) {
+      if (profile && profile.id) {
         features = await this.getProfileFeatures(profile.id)
       }
     }
@@ -267,16 +267,17 @@ export class PlanosCore {
   async createSubscription(subscription: Omit<UserSubscription, 'id' | 'data_inicio'>): Promise<UserSubscription> {
     const { data, error } = await this.supabase
       .from('user_subscriptions_core')
-      .insert(subscription)
+      .insert(subscription as any)
       .select()
       .single()
     
     if (error) throw error
-    return data
+    return data as UserSubscription
   }
 
   async updateSubscription(userId: string, updates: Partial<UserSubscription>): Promise<UserSubscription> {
-    const { data, error } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data, error } = await (this.supabase as any)
       .from('user_subscriptions_core')
       .update(updates)
       .eq('user_id', userId)
@@ -284,7 +285,7 @@ export class PlanosCore {
       .single()
     
     if (error) throw error
-    return data
+    return data as UserSubscription
   }
 
   // ---------------------------------------------------------------------------
@@ -303,7 +304,8 @@ export class PlanosCore {
   }
 
   async addOverride(override: Omit<UserFeatureOverride, 'id' | 'ativo'>): Promise<UserFeatureOverride> {
-    const { data, error } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data, error } = await (this.supabase as any)
       .from('user_feature_overrides')
       .upsert({
         ...override,
@@ -319,7 +321,8 @@ export class PlanosCore {
   }
 
   async removeOverride(userId: string, featureKey: string): Promise<void> {
-    const { error } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (this.supabase as any)
       .from('user_feature_overrides')
       .update({ ativo: false })
       .eq('user_id', userId)
@@ -345,7 +348,8 @@ export class PlanosCore {
    */
   async getEffectiveFeatures(userId: string): Promise<EffectiveFeatures> {
     // Tenta usar a função SQL (mais eficiente)
-    const { data, error } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data, error } = await (this.supabase as any)
       .rpc('get_effective_features', { p_user_id: userId })
     
     if (!error && data) {
@@ -415,7 +419,8 @@ export class PlanosCore {
    * Verifica se o usuário tem acesso a uma feature específica.
    */
   async hasFeature(userId: string, featureKey: string): Promise<boolean> {
-    const { data, error } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data, error } = await (this.supabase as any)
       .rpc('has_feature', { p_user_id: userId, p_feature_key: featureKey })
     
     if (!error && typeof data === 'boolean') {
