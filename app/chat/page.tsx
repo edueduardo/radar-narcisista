@@ -28,8 +28,21 @@ import { PROBLEMS, TOOLS, getToolsByProblem, type ProblemTag, type ProblemConfig
 import Link from 'next/link'
 import { ResponsibilityTermsModal, LegalWarningBanner, useTermsAcceptance } from '@/components/ResponsibilityTermsModal'
 import { usePlanLimits } from '@/hooks/usePlanLimits'
+import { PersonaSelector, PersonaAvatar } from '@/components/chat/PersonaSelector'
+import { MenuHelpButton } from '@/components/MenuHelpModal'
 
 import { AiChatSession, AiMessage } from '../../types/database'
+
+// Tipo para persona selecionada
+type SelectedPersona = {
+  id: string
+  slug: string
+  display_name: string
+  avatar_emoji: string
+  avatar_url?: string
+  short_bio: string
+  cor_tema?: string
+} | null
 
 type Message = {
   id: string
@@ -125,6 +138,9 @@ function ChatPageContent() {
   // ETAPA 7 - Estado para alerta de risco físico detectado no chat
   const [showPhysicalRiskAlert, setShowPhysicalRiskAlert] = useState(false)
   const { planLevel, planName, usage, chatLimit, canSendMessage, isLoading: isLoadingPlan } = usePlanLimits()
+  // Estado para persona selecionada (PATCH AI PERSONAS)
+  const [selectedPersona, setSelectedPersona] = useState<SelectedPersona>(null)
+  const [showPersonaSelector, setShowPersonaSelector] = useState(false)
   // Estado para perfil de clareza (ETAPA 2 - Integração Coach IA ↔ Perfil)
   const [clarityProfile, setClarityProfile] = useState<{
     globalZone: string
@@ -1009,12 +1025,29 @@ function ChatPageContent() {
               {/* Título e subtítulo */}
               <div>
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-200">
-                    <Bot className="w-6 h-6 text-white" />
-                  </div>
+                  {/* Avatar da Persona ou ícone padrão */}
+                  {selectedPersona ? (
+                    <div 
+                      className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg text-2xl"
+                      style={{ backgroundColor: selectedPersona.cor_tema ? `${selectedPersona.cor_tema}20` : '#8B5CF620' }}
+                    >
+                      {selectedPersona.avatar_emoji}
+                    </div>
+                  ) : (
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-200">
+                      <Bot className="w-6 h-6 text-white" />
+                    </div>
+                  )}
                   <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Coach de Clareza</h1>
-                    <p className="text-gray-500 text-sm">Converse com nossa IA sobre sua situação</p>
+                    <div className="flex items-center gap-2">
+                      <h1 className="text-2xl font-bold text-gray-900">
+                        {selectedPersona ? selectedPersona.display_name : 'Coach de Clareza'}
+                      </h1>
+                      <MenuHelpButton route="/chat" audience="usuaria" variant="icon" />
+                    </div>
+                    <p className="text-gray-500 text-sm">
+                      {selectedPersona ? selectedPersona.short_bio : 'Converse com nossa IA sobre sua situação'}
+                    </p>
                   </div>
                 </div>
                 {userLocation && (
@@ -1164,6 +1197,27 @@ function ChatPageContent() {
               </div>
             </div>
           </div>
+
+          {/* ============================================================= */}
+          {/* SELETOR DE PERSONA (PATCH AI PERSONAS) */}
+          {/* ============================================================= */}
+          {messages.length === 0 && (
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-5">
+              <div className="flex items-center gap-2 mb-3">
+                <Sparkles className="w-4 h-4 text-purple-500" />
+                <span className="text-sm font-medium text-gray-700">Escolha sua assistente</span>
+              </div>
+              <PersonaSelector
+                contextType="chat"
+                contextKey="chat_geral"
+                userRole="usuaria"
+                planKey={planName?.toLowerCase() || 'free'}
+                onPersonaChange={(persona) => setSelectedPersona(persona)}
+                showBio={true}
+                compact={false}
+              />
+            </div>
+          )}
 
           {/* ============================================================= */}
           {/* CONTAINER PRINCIPAL DO CHAT */}

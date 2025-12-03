@@ -16,8 +16,10 @@ import {
   Server,
   Activity,
   BarChart3,
-  Shield
+  Shield,
+  HelpCircle
 } from 'lucide-react'
+import { MenuHelpButton } from '@/components/MenuHelpModal'
 
 // ============================================================================
 // TIPOS
@@ -182,10 +184,13 @@ export default function IAPersonasPage() {
     <div className="min-h-screen bg-gray-900 text-white p-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold flex items-center gap-3">
-          <Bot className="w-8 h-8 text-purple-400" />
-          Cockpit de IA e Personas
-        </h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-3xl font-bold flex items-center gap-3">
+            <Bot className="w-8 h-8 text-purple-400" />
+            Cockpit de IA e Personas
+          </h1>
+          <MenuHelpButton route="/admin/ia-personas" audience="admin" variant="icon" />
+        </div>
         <p className="text-gray-400 mt-2">
           Gerencie avatares de IA, provedores e configurações por contexto
         </p>
