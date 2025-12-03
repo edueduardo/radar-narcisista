@@ -421,4 +421,138 @@ Ver documentação completa: [docs/ORACULO-CORE.md](/docs/ORACULO-CORE.md)
 
 ---
 
-*Este manual é atualizado regularmente. Última versão: 01/12/2025*
+## 🎭 SISTEMA DE PERSONAS / AVATARES DE IA
+
+O Radar usa um sistema de **Personas** para separar a visão do usuário da visão do admin.
+
+### Conceito Principal
+
+| Camada | Quem vê | Exemplo |
+|--------|---------|---------|
+| **PROVIDERS** | Admin | OpenAI, Claude, Together, Grok |
+| **PERSONAS** | Usuário | Mentora Calma, Analista Lógico |
+
+### Tabelas do Banco
+
+```sql
+-- Provedores reais (visão admin)
+ai_providers (key, display_name, status, type)
+
+-- Avatares/Personas (visão usuário)
+ai_personas (slug, display_name, avatar_emoji, short_bio, default_provider_key)
+
+-- Ligação Persona → Contexto
+ai_persona_bindings (persona_id, context_type, context_key, allowed_profiles, allowed_plans)
+
+-- Logs de uso
+ai_persona_logs (persona_slug, provider_key, context_type, tokens_input, tokens_output)
+
+-- Configurações de transparência
+ai_transparency_settings (scope, show_persona_name, show_persona_avatar)
+```
+
+### Uso no Código
+
+```typescript
+import { getActivePersonasForContext, resolveProviderForPersona } from '@/lib/ai-personas'
+
+// Obter personas para o chat
+const personas = await getActivePersonasForContext({
+  contextType: 'chat',
+  contextKey: 'chat_geral',
+  userRole: 'usuaria',
+  planKey: 'profissional'
+})
+
+// Resolver provider real para uma persona
+const provider = await resolveProviderForPersona('mentora-calma')
+// Retorna: { key: 'openai', display_name: 'OpenAI GPT-4', ... }
+```
+
+### Componentes React
+
+```tsx
+import { PersonaSelector, PersonaAvatar, usePersona } from '@/components/chat/PersonaSelector'
+
+// Seletor de persona
+<PersonaSelector 
+  contextType="chat" 
+  contextKey="chat_geral"
+  onPersonaChange={(persona) => setSelectedPersona(persona)}
+/>
+
+// Avatar da persona em mensagens
+<PersonaAvatar persona={selectedPersona} size="md" showName />
+
+// Hook para usar persona
+const { persona, loading } = usePersona('chat', 'chat_geral')
+```
+
+### Personas Padrão
+
+| Slug | Nome | Emoji | Provider | Função |
+|------|------|-------|----------|--------|
+| mentora-calma | Mentora Calma | 🕊️ | OpenAI | Acolhimento |
+| analista-logico | Analista Lógico | 🧠 | Claude | Análise |
+| guardiao-seguranca | Guardião de Segurança | 🛡️ | OpenAI | Alertas |
+| curador-conteudo | Curador de Conteúdo | 📚 | Together | Recomendações |
+| oraculo-admin | Oráculo do Sistema | 🔮 | OpenAI | Admin only |
+
+### Transparência
+
+- **Transparência LIGADA**: Usuário vê nome + avatar + bio da persona
+- **Transparência DESLIGADA**: Usuário vê apenas "Assistente do Radar"
+- **Admin SEMPRE vê**: Provider real + persona + logs completos
+
+Ver documentação completa: [docs/PATCH-AI-PERSONAS.md](/docs/PATCH-AI-PERSONAS.md)
+
+---
+
+## 📊 SISTEMA DE PLANOS E FEATURES
+
+O sistema de planos usa **Feature Profiles** para controlar acesso.
+
+### Tabelas do Banco
+
+```sql
+-- Features atômicas
+features (feature_key, nome, tipo, categoria)
+
+-- Perfis de features
+feature_profiles (profile_key, nome_exibicao, tipo_profile)
+
+-- Relacionamento
+feature_profile_features (profile_id, feature_key, valor, limite_diario)
+
+-- Catálogo de planos
+plan_catalog (slug, nome_exibicao, current_profile_id, preco_mensal_centavos)
+
+-- Assinaturas
+user_subscriptions_core (user_id, plan_slug, feature_profile_id, status)
+
+-- Overrides individuais
+user_feature_overrides (user_id, feature_key, override_type, valor)
+```
+
+### Uso no Código
+
+```typescript
+// Verificar se usuário tem feature
+const hasFeature = await supabase.rpc('has_feature', {
+  p_user_id: userId,
+  p_feature_key: 'oraculo_v2'
+})
+
+// Obter limite de feature
+const limit = await supabase.rpc('get_feature_limit', {
+  p_user_id: userId,
+  p_feature_key: 'chat_ia',
+  p_periodo: 'diario'
+})
+```
+
+Ver documentação completa: [docs/CONTROL-PLANE.md](/docs/CONTROL-PLANE.md)
+
+---
+
+*Este manual é atualizado regularmente. Última versão: 03/12/2025*

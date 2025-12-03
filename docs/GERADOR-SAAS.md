@@ -363,6 +363,56 @@ Mudanças em overrides são logadas para auditoria.
 
 ---
 
+## 🎭 SISTEMA DE PERSONAS (CORE)
+
+Todo SaaS gerado nasce com o sistema de Personas/Avatares de IA.
+
+### Tabelas Copiadas
+
+```sql
+-- Provedores reais (visão admin)
+ai_providers (key, display_name, status, type, default_model)
+
+-- Avatares/Personas (visão usuário)
+ai_personas (slug, display_name, avatar_emoji, short_bio, default_provider_key)
+
+-- Ligação Persona → Contexto
+ai_persona_bindings (persona_id, context_type, context_key, allowed_profiles, allowed_plans)
+
+-- Logs de uso
+ai_persona_logs (persona_slug, provider_key, context_type, tokens_input, tokens_output)
+
+-- Configurações de transparência
+ai_transparency_settings (scope, show_persona_name, show_persona_avatar)
+```
+
+### Personas Padrão
+
+| Slug | Nome | Emoji | Provider | Função |
+|------|------|-------|----------|--------|
+| mentora-calma | Mentora Calma | 🕊️ | OpenAI | Acolhimento |
+| analista-logico | Analista Lógico | 🧠 | Claude | Análise |
+| guardiao-seguranca | Guardião de Segurança | 🛡️ | OpenAI | Alertas |
+| curador-conteudo | Curador de Conteúdo | 📚 | Together | Recomendações |
+
+### O que o Admin do SaaS Filho pode fazer
+
+- ✅ Renomear personas
+- ✅ Trocar avatares (emoji ou imagem)
+- ✅ Mapear quais menus usam quais personas
+- ✅ Limitar personas por plano/perfil
+- ✅ Criar novas personas
+- ✅ Configurar transparência
+
+### Arquivos Relacionados
+
+- `database/migrate-ai-personas.sql` - Migration completa
+- `lib/ai-personas.ts` - Serviço TypeScript
+- `app/admin/ia-personas/page.tsx` - Cockpit de Personas
+- `components/chat/PersonaSelector.tsx` - Seletor de persona
+
+---
+
 ## 🚀 PRÓXIMOS PASSOS
 
 ### BLOCO 36-40 (Sugestão)
@@ -371,3 +421,9 @@ Mudanças em overrides são logadas para auditoria.
 - [ ] Integração completa com Stripe Checkout
 - [ ] Webhooks de billing
 - [ ] Dashboard de métricas de planos
+
+### BLOCO 46-50 (Control Hub)
+- [ ] Painel único do dono (Control Hub externo)
+- [ ] APIs /api/control-plane em cada instância
+- [ ] Visão consolidada de IA, planos e custos
+- [ ] Billing centralizado
