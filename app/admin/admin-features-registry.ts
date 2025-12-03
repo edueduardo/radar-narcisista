@@ -56,6 +56,7 @@ export type AdminFeatureId =
   | 'conteudos_insights'
   | 'curadoria_central'
   | 'oraculo'
+  | 'oraculo_metricas'
   | 'control_tower'
 
 export type AdminFeatureGroup = 
@@ -360,6 +361,16 @@ export const ADMIN_FEATURES: AdminFeature[] = [
     group: 'IAs',
     defaultOrder: 0.5,
     relatedTables: ['oraculo_instances', 'oraculo_api_keys', 'oraculo_webhooks']
+  },
+  {
+    id: 'oraculo_metricas',
+    label: '📊 Oráculo Métricas',
+    description: 'Dashboard de métricas, custos e uso do Oráculo V2',
+    path: '/admin/oraculo-metricas',
+    icon: 'BarChart3',
+    group: 'IAs',
+    defaultOrder: 0.6,
+    relatedTables: ['oraculo_usage', 'oraculo_plan_settings', 'oraculo_instance_usage']
   },
   {
     id: 'gerador_saas',
