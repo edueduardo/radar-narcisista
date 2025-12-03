@@ -5,7 +5,88 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 02/12/2025 21:00 (UTC-5)
+ÚLTIMA ATUALIZAÇÃO: 03/12/2025 14:00 (UTC-5)
+
+================================================================================
+AI_CONFIG_CORE - SISTEMA DE CONFIGURAÇÃO DE IAs (03/12/2025)
+================================================================================
+
+📊 STATUS: ✅ IMPLEMENTADO E EXECUTADO NO SUPABASE
+
+✅ TABELAS CRIADAS (8):
+| Tabela | Descrição | Registros |
+|--------|-----------|-----------|
+| ai_providers_core | Provedores de IA | 5 |
+| ai_features_core | Features de IA | 8 |
+| ai_feature_providers_core | Relacionamento | - |
+| ai_plan_matrix | Configuração por plano | - |
+| ai_group_overrides | Overrides por grupo | - |
+| ai_feature_menu_map | Mapeamento de menus | 8 |
+| ai_usage_stats_daily | Estatísticas diárias | - |
+| ai_usage_logs | Logs detalhados | - |
+
+✅ VIEWS CRIADAS (3):
+- ai_usage_by_provider
+- ai_usage_by_feature
+- ai_usage_by_plan
+
+✅ FUNÇÕES CRIADAS:
+- ai_get_providers_for_context(perfil, feature, plan)
+
+✅ PÁGINAS ADMIN:
+- /admin/ia-matrix - Configurar IAs por plano
+- /admin/ia-mapa-menus - Ver IAs por menu
+- /admin/ia-carga - Dashboard de uso
+
+✅ SERVIÇO:
+- lib/ai-config-core.ts - Métodos do PATCH 31-35
+
+📁 SQL: database/migrate-ai-config-core-SIMPLES.sql
+
+================================================================================
+PLANOS_CORE - SISTEMA DE FEATURES E PLANOS (03/12/2025)
+================================================================================
+
+📊 STATUS: ⏳ SQL PRONTO, PENDENTE EXECUÇÃO
+
+✅ TABELAS (6):
+| Tabela | Descrição |
+|--------|-----------|
+| features | Features atômicas (16 features) |
+| feature_profiles | Perfis versionados (4 profiles) |
+| feature_profile_features | Relacionamento |
+| plan_catalog | Catálogo de planos (4 planos) |
+| user_feature_overrides | Overrides individuais |
+| user_subscriptions_core | Assinaturas |
+
+✅ FUNÇÕES:
+- get_effective_features(user_id) - Retorna features efetivas
+- has_feature(user_id, feature_key) - Verifica acesso
+- get_feature_limit(user_id, feature_key, periodo) - Retorna limite
+
+✅ MELHORIAS APLICADAS:
+- Coluna plan_key adicionada (alias de plan_slug)
+- Índice composto idx_fpf_profile_feature
+- Índice idx_user_subs_plan_key
+
+📁 SQL: database/migrate-planos-core.sql
+
+================================================================================
+CONTROL PLANE GLOBAL (03/12/2025)
+================================================================================
+
+📊 STATUS: ✅ DOCUMENTADO
+
+📁 ARQUIVO: docs/CONTROL-PLANE.md
+
+TRÊS CAMADAS:
+1. CÓDIGO (APP) - Muda com deploy
+2. CONFIGURAÇÃO (BANCO) - Muda sem deploy
+3. CONTROL PLANE (PAINEL) - Interface de gestão
+
+MODOS DE ADMINISTRAÇÃO:
+- MODO A: Admin local (/admin) - ATUAL
+- MODO B: Control Hub externo - FUTURO (BLOCO 46-50)
 
 ================================================================================
 AUDITORIA ETAPA 7.2 – PLANO DE INTEGRAÇÃO (02/12/2025 21:00)

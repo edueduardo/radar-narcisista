@@ -3818,5 +3818,143 @@ ETAPA 7.4 – QA TRIÂNGULO + PLANO DE SEGURANÇA (02/12/2025 18:55)
 ⚠️ TESTES AUTOMATIZADOS: 71/74 passando (3 falhas em oraculo-billing, não relacionadas)
 
 ================================================================================
+BLOCO 31-35: PLANOS_CORE + AI_CONFIG_CORE (03/12/2025)
+================================================================================
+
+✅ ETAPA 31: Modelar PLANOS_CORE (6 tabelas)
+   - database/migrate-planos-core.sql criado
+   - Tabelas: features, feature_profiles, feature_profile_features
+   - Tabelas: plan_catalog, user_feature_overrides, user_subscriptions_core
+   - Funções: get_effective_features, has_feature, get_feature_limit
+   - Seed: 16 features, 4 profiles, 4 planos
+
+✅ ETAPA 32: Migrar planos atuais
+   - 4 profiles: free_v1, profissional_v1, defesa_v1, white_label_v1
+   - Limites por feature e período (diário, semanal, mensal)
+   - Compatibilidade com AI_CONFIG_CORE via plan_key
+
+✅ ETAPA 33: Promoções e Cohorts
+   - Campo cohort_label em feature_profiles
+   - Campo tipo_profile: padrao, promo, cohort, exclusivo
+   - Suporte a data_inicio e data_fim para promoções
+
+✅ ETAPA 34: Overrides e UI Admin
+   - Tabela user_feature_overrides (grant, revoke, limit_custom)
+   - Função get_effective_features aplica overrides
+   - RLS para segurança
+
+✅ ETAPA 35: Frontpage e GERADOR-SAAS
+   - Integração com GERADOR DE SAAS
+   - Tabela generated_projects criada
+   - docs/GERADOR-SAAS.md atualizado
+
+================================================================================
+AI_CONFIG_CORE (03/12/2025)
+================================================================================
+
+✅ Tabelas criadas:
+   - ai_providers_core (5 providers: OpenAI, Claude, Together, Grok, Gemini)
+   - ai_features_core (8 features de IA)
+   - ai_feature_providers_core (relacionamento)
+   - ai_plan_matrix (configuração por plano)
+   - ai_group_overrides (overrides por grupo)
+   - ai_feature_menu_map (8 menus mapeados)
+   - ai_usage_stats_daily (estatísticas diárias)
+   - ai_usage_logs (logs detalhados)
+
+✅ Views criadas:
+   - ai_usage_by_provider
+   - ai_usage_by_feature
+   - ai_usage_by_plan
+
+✅ Funções criadas:
+   - ai_get_providers_for_context(perfil, feature, plan)
+
+✅ Páginas Admin:
+   - /admin/ia-matrix - Configurar IAs por plano
+   - /admin/ia-mapa-menus - Ver IAs por menu
+   - /admin/ia-carga - Dashboard de uso
+
+✅ Serviço:
+   - lib/ai-config-core.ts atualizado com métodos do PATCH 31-35
+
+================================================================================
+BLOCO 36-40: RATE LIMITING + NOTIFICAÇÕES (03/12/2025)
+================================================================================
+
+✅ ETAPA 36: UI de Overrides Individuais
+   - app/admin/planos-core/page.tsx criado
+
+✅ ETAPA 37: Rate Limiting Real por Feature
+   - lib/rate-limiter.ts criado
+
+✅ ETAPA 38: Dashboard de Métricas de Features
+   - app/admin/planos-core/metricas/page.tsx criado
+
+✅ ETAPA 39: Integração Stripe Checkout + Webhooks
+   - lib/stripe-planos-core.ts criado
+   - app/api/webhooks/stripe-planos/route.ts criado
+
+✅ ETAPA 40: Notificações de Limite (80% e 100%)
+   - lib/limit-notifications.ts criado
+   - components/LimitNotificationBanner.tsx criado
+   - database/migrate-limit-notifications.sql criado
+
+================================================================================
+BLOCO 41-45: GERADOR DE SAAS + ANALYTICS (03/12/2025)
+================================================================================
+
+✅ ETAPA 41: CLI do Gerador de SaaS
+   - lib/gerador-saas-service.ts criado
+   - Modos: SAAS-TEMATICO, CORE-BRANCO
+
+✅ ETAPA 42: Automatizar KIT DE DOCS
+   - templates/KIT-DOCS-TEMPLATE/ criado (6 arquivos)
+   - ORIGEM-CORE.txt criado
+
+✅ ETAPA 43: Sistema de emails transacionais
+   - Integração com Resend/SendGrid
+
+✅ ETAPA 44: Onboarding guiado
+   - Já existia no dashboard
+
+✅ ETAPA 45: Analytics avançado
+   - database/migrate-analytics.sql criado
+   - Funções: track_event, get_event_counts, get_conversion_funnel
+
+================================================================================
+CONTROL PLANE GLOBAL (03/12/2025)
+================================================================================
+
+✅ docs/CONTROL-PLANE.md criado
+   - Define 3 camadas: Código, Configuração, Control Plane
+   - MODO A: Admin local (atual)
+   - MODO B: Control Hub externo (futuro BLOCO 46-50)
+   - Regras para mudanças de configuração vs código
+   - Simbiose com GERADOR DE SAAS e White Label
+
+================================================================================
+SQLs EXECUTADOS NO SUPABASE (03/12/2025)
+================================================================================
+
+✅ migrate-ai-config-core-SIMPLES.sql - EXECUTADO
+✅ migrate-gerador-saas.sql - EXECUTADO
+⏳ migrate-planos-core.sql - PENDENTE (melhorado com plan_key)
+⏳ migrate-analytics.sql - PENDENTE
+⏳ migrate-user-addons.sql - PENDENTE
+
+================================================================================
+MÉTRICAS DO PROJETO (03/12/2025)
+================================================================================
+
+| Métrica | Valor |
+|---------|-------|
+| Páginas Geradas | 170+ |
+| Páginas Admin | 44 |
+| Arquivos SQL | 42 |
+| ETAPAs Concluídas | 45 |
+| Build Status | ✅ |
+
+================================================================================
 FIM DO HISTÓRICO DE IMPLEMENTAÇÕES
 ================================================================================

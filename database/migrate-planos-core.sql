@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS public.feature_profile_features (
 -- Índices
 CREATE INDEX IF NOT EXISTS idx_fpf_profile ON public.feature_profile_features(profile_id);
 CREATE INDEX IF NOT EXISTS idx_fpf_feature ON public.feature_profile_features(feature_key);
+CREATE INDEX IF NOT EXISTS idx_fpf_profile_feature ON public.feature_profile_features(profile_id, feature_key);
 
 -- ============================================================================
 -- ETAPA 31: TABELA plan_catalog
@@ -205,6 +206,7 @@ CREATE TABLE IF NOT EXISTS public.user_subscriptions_core (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL UNIQUE,                    -- ID do usuário
   plan_slug TEXT NOT NULL,                         -- Slug do plano (free, profissional, etc.)
+  plan_key TEXT GENERATED ALWAYS AS (plan_slug) STORED,  -- Alias para compatibilidade com AI_CONFIG_CORE
   feature_profile_id UUID REFERENCES public.feature_profiles(id),  -- Profile atual
   stripe_subscription_id TEXT,                     -- ID da assinatura no Stripe
   stripe_customer_id TEXT,                         -- ID do cliente no Stripe
@@ -222,6 +224,7 @@ CREATE TABLE IF NOT EXISTS public.user_subscriptions_core (
 -- Índices
 CREATE INDEX IF NOT EXISTS idx_user_subs_user ON public.user_subscriptions_core(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_subs_plan ON public.user_subscriptions_core(plan_slug);
+CREATE INDEX IF NOT EXISTS idx_user_subs_plan_key ON public.user_subscriptions_core(plan_key);
 CREATE INDEX IF NOT EXISTS idx_user_subs_profile ON public.user_subscriptions_core(feature_profile_id);
 CREATE INDEX IF NOT EXISTS idx_user_subs_status ON public.user_subscriptions_core(status);
 CREATE INDEX IF NOT EXISTS idx_user_subs_cohort ON public.user_subscriptions_core(cohort_tag);
