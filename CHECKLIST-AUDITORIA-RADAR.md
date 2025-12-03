@@ -1,7 +1,7 @@
 # CHECKLIST DE AUDITORIA – RADAR NARCISISTA
 
-**Data da Última Auditoria:** 02/12/2025 23:00 (UTC-5)  
-**Blocos Auditados:** ETAPA 7.3-13 + ETAPA 14-20 + ETAPA 21-25 + CICLO MANUAIS + BLOCO MANUAIS HUMANOS + PATCH ORÁCULO + PATCH 2 MULTIPERFIL  
+**Data da Última Auditoria:** 02/12/2025 23:05 (UTC-5)  
+**Blocos Auditados:** ETAPA 7.3-13 + ETAPA 14-20 + ETAPA 21-25 + CICLO MANUAIS + BLOCO MANUAIS HUMANOS + PATCH 1-2-3A-3B ORÁCULO  
 **Auditor:** Windsurf AI (Cascade)  
 **Resultado:** ✅ TODOS OS ITENS IMPLEMENTADOS – CÓDIGO SIGNIFICATIVAMENTE MAIS AVANÇADO QUE OS PROMPTS
 
@@ -1850,6 +1850,44 @@ O PATCH 2 pede que:
 **CONCLUSÃO:** Nenhuma mudança de código foi necessária.
 
 ### FIM_RELATORIO_FINAL_CHATGPT_PATCH_2_MULTIPERFIL
+
+---
+
+## RELATORIO_FINAL_CHATGPT – PATCH 3A + 3B
+
+**Data:** 02/12/2025 23:05 (UTC-5)
+
+### [1] PATCH 3A - CONTROLE DE PLANOS/LIMITES
+
+| Item | Status | Arquivo |
+|------|--------|---------|
+| Tabela `oraculo_plan_settings` | ✅ OK | `migrate-oraculo-settings.sql` (336 linhas) |
+| Campos `limite_diario/semanal/quinzenal/mensal` | ✅ OK | Linha 21-24 |
+| Status 0/1/2 (off/teste/completo) | ✅ OK | Linha 18 |
+| Lib de verificação | ✅ OK | `lib/oraculo-settings.ts` (296 linhas) |
+| Documentação | ✅ OK | 51 menções em 15 arquivos |
+
+### [2] PATCH 3B - ETAPA 31 (FRONT PAGE)
+
+| Item | Status | Arquivo |
+|------|--------|---------|
+| ETAPA 31 documentada | ✅ OK | 14 menções em 13 arquivos |
+| Front Page (`app/page.tsx`) | ✅ OK | 4 menções |
+| ROADMAP | ✅ OK | Registrado |
+| TUDO PARA O GPT | ✅ OK | Registrado |
+
+### [3] DECISÃO SOBRE RETROCESSO
+
+**O código atual está ALINHADO com os PATCHES 3A e 3B.**
+
+Os PATCHES pedem:
+- Tabela `oraculo_plan_settings` com limites → ✅ JÁ EXISTE
+- Lib de verificação de permissões → ✅ JÁ EXISTE
+- ETAPA 31 documentada → ✅ JÁ ESTÁ NO ROADMAP
+
+**CONCLUSÃO:** Nenhuma mudança de código foi necessária.
+
+### FIM_RELATORIO_FINAL_CHATGPT_PATCH_3A_3B
 
 ---
 
