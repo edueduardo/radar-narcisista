@@ -53,3 +53,7 @@ next-env.d.ts
 
 # Espelho do código - REMOVIDO DO GITIGNORE para permitir edição
 # ESPELHO-CODIGO-RADAR.txt
+
+# Projetos gerados pelo GERADOR-DE-SAAS (exceto .gitkeep)
+/generated-projects/*
+!/generated-projects/.gitkeep
