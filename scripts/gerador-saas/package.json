@@ -1,0 +1,20 @@
+{
+  "name": "gerador-saas",
+  "version": "1.0.0",
+  "description": "CLI para gerar novos projetos SaaS a partir do RADAR-CORE",
+  "main": "index.ts",
+  "bin": {
+    "gerador-saas": "./index.ts"
+  },
+  "scripts": {
+    "start": "npx ts-node index.ts",
+    "build": "tsc"
+  },
+  "keywords": [
+    "saas",
+    "generator",
+    "radar-core"
+  ],
+  "author": "Eduardo",
+  "license": "MIT"
+}
