@@ -484,39 +484,53 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 -- ============================================================================
 -- FUNÇÃO: ai_get_user_ia_profile (PATCH 31-35)
 -- Retorna perfil completo de IA de um usuário
+-- NOTA: Função robusta que funciona mesmo sem user_subscriptions_core
 -- ============================================================================
 
 CREATE OR REPLACE FUNCTION ai_get_user_ia_profile(p_user_id UUID)
 RETURNS TABLE (
-  user_id UUID,
-  plan_key TEXT,
-  perfil TEXT,
-  feature_slug TEXT,
-  feature_name TEXT,
-  provider_slug TEXT,
-  provider_name TEXT,
-  limite_diario INTEGER,
-  limite_mensal INTEGER,
-  uso_hoje INTEGER,
-  uso_mes INTEGER
+  out_user_id UUID,
+  out_plan_key TEXT,
+  out_perfil TEXT,
+  out_feature_slug TEXT,
+  out_feature_name TEXT,
+  out_provider_slug TEXT,
+  out_provider_name TEXT,
+  out_limite_diario INTEGER,
+  out_limite_mensal INTEGER,
+  out_uso_hoje INTEGER,
+  out_uso_mes INTEGER
 ) AS $$
 DECLARE
-  v_plan_key TEXT;
-  v_perfil TEXT;
+  v_plan_key TEXT := 'free';
+  v_perfil TEXT := 'usuaria';
+  v_role TEXT;
 BEGIN
-  -- Obter plano e perfil do usuário
-  SELECT 
-    COALESCE(us.plan_key, 'free'),
-    COALESCE(up.role, 'USER')
-  INTO v_plan_key, v_perfil
-  FROM user_profiles up
-  LEFT JOIN user_subscriptions_core us ON us.user_id = up.user_id AND us.status = 'active'
-  WHERE up.user_id = p_user_id;
+  -- Obter role do usuário (se user_profiles existir)
+  BEGIN
+    SELECT up.role::TEXT INTO v_role
+    FROM user_profiles up
+    WHERE up.user_id = p_user_id;
+  EXCEPTION WHEN OTHERS THEN
+    v_role := 'USER';
+  END;
+
+  -- Tentar obter plano (se user_subscriptions_core existir)
+  BEGIN
+    EXECUTE 'SELECT plan_key FROM user_subscriptions_core WHERE user_id = $1 AND status = ''active'' LIMIT 1'
+    INTO v_plan_key
+    USING p_user_id;
+  EXCEPTION WHEN OTHERS THEN
+    v_plan_key := 'free';
+  END;
+
+  -- Garantir valor padrão
+  v_plan_key := COALESCE(v_plan_key, 'free');
 
   -- Converter role para perfil
   v_perfil := CASE 
-    WHEN v_perfil IN ('ADMIN', 'SUPER_ADMIN') THEN 'admin'
-    WHEN v_perfil = 'PROFESSIONAL' THEN 'profissional'
+    WHEN v_role IN ('ADMIN', 'SUPER_ADMIN') THEN 'admin'
+    WHEN v_role = 'PROFESSIONAL' THEN 'profissional'
     ELSE 'usuaria'
   END;
 
@@ -532,20 +546,20 @@ BEGIN
     pm.limite_diario,
     pm.limite_mensal,
     COALESCE((
-      SELECT SUM(calls)::INTEGER 
-      FROM ai_usage_stats_daily 
-      WHERE user_id = p_user_id 
-        AND feature_id = f.id 
-        AND provider_id = pr.id
-        AND date = CURRENT_DATE
+      SELECT SUM(s.calls)::INTEGER 
+      FROM ai_usage_stats_daily s
+      WHERE s.user_id = p_user_id 
+        AND s.feature_id = f.id 
+        AND s.provider_id = pr.id
+        AND s.date = CURRENT_DATE
     ), 0),
     COALESCE((
-      SELECT SUM(calls)::INTEGER 
-      FROM ai_usage_stats_daily 
-      WHERE user_id = p_user_id 
-        AND feature_id = f.id 
-        AND provider_id = pr.id
-        AND date >= DATE_TRUNC('month', CURRENT_DATE)
+      SELECT SUM(s.calls)::INTEGER 
+      FROM ai_usage_stats_daily s
+      WHERE s.user_id = p_user_id 
+        AND s.feature_id = f.id 
+        AND s.provider_id = pr.id
+        AND s.date >= DATE_TRUNC('month', CURRENT_DATE)
     ), 0)
   FROM ai_plan_matrix pm
   JOIN ai_features_core f ON f.id = pm.feature_id
