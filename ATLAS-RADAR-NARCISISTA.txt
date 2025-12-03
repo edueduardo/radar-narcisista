@@ -5,7 +5,35 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 03/12/2025 15:00 (UTC-5)
+ÚLTIMA ATUALIZAÇÃO: 03/12/2025 15:30 (UTC-5)
+
+================================================================================
+UI CORE REGISTRY - REGISTRO CENTRAL DE INTERFACES (03/12/2025)
+================================================================================
+
+📊 STATUS: ✅ IMPLEMENTADO
+
+📁 ARQUIVO: lib/ui-core-registry.ts
+
+FONTE DA VERDADE para todas as telas do sistema.
+A partir dele são construídos:
+- Menu do ADMIN
+- Dashboard da USUÁRIA
+- Dashboard do PROFISSIONAL
+- Painel WHITE-LABEL
+- Painel GERADOR DE SAAS
+
+ESTATÍSTICAS:
+| Audience | Grupos | Telas |
+|----------|--------|-------|
+| admin | 8 | 55 |
+| user | 5 | 17 |
+| professional | 4 | 8 |
+| whitelabel | 4 | 8 |
+| generator | 4 | 8 |
+| TOTAL | 25 | 96 |
+
+REGRA: Todo novo menu/tela/dash DEVE ser registrado aqui.
 
 ================================================================================
 ADMIN MENU CORE - ORGANIZAÇÃO DO MENU ADMINISTRATIVO (03/12/2025)
