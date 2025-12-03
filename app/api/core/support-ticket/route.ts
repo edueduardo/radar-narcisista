@@ -6,7 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createTicket, CreateTicketInput, listTickets, getTicketStats } from '@/lib/helpdesk-core'
+import { createTicket, CreateTicketInput, listTickets, getTicketStats, ListTicketsParams } from '@/lib/helpdesk-core'
 import { getProjectById } from '@/lib/control-tower'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
@@ -141,8 +141,8 @@ export async function GET(request: NextRequest) {
     // Obter parâmetros de filtro
     const { searchParams } = new URL(request.url)
     const projectId = searchParams.get('project_id') || undefined
-    const status = searchParams.get('status') as CreateTicketInput['prioridade'] || undefined
-    const prioridade = searchParams.get('prioridade') as CreateTicketInput['prioridade'] || undefined
+    const status = searchParams.get('status') as ListTicketsParams['status'] || undefined
+    const prioridade = searchParams.get('prioridade') as ListTicketsParams['prioridade'] || undefined
     const limit = parseInt(searchParams.get('limit') || '50')
     const offset = parseInt(searchParams.get('offset') || '0')
     

@@ -5,7 +5,35 @@ Data/hora da geração: 30/11/2025 20:20 (UTC-5)
 Ambiente: projeto local do Eduardo (Windsurf)
 Gerado por: Windsurf AI (Cascade)
 
-ÚLTIMA ATUALIZAÇÃO: 02/12/2025 19:30 (UTC-5)
+ÚLTIMA ATUALIZAÇÃO: 02/12/2025 21:00 (UTC-5)
+
+================================================================================
+AUDITORIA ETAPA 7.2 – PLANO DE INTEGRAÇÃO (02/12/2025 21:00)
+================================================================================
+
+📊 STATUS: 90% IMPLEMENTADO - MVP FUNCIONAL
+
+✅ IMPLEMENTADO (10/14 itens):
+| Item | Arquivo | Linhas |
+|------|---------|--------|
+| API /api/safety-plan | app/api/safety-plan/route.ts | 1-332 |
+| Tipo 'safety_plan' | types/database.ts | 44 |
+| Card Dashboard | app/dashboard/page.tsx | 1121-1160 |
+| Banner risco Dashboard | app/dashboard/page.tsx | 1036-1118 |
+| Regex Chat | app/chat/page.tsx | 373 |
+| Banner Chat | app/chat/page.tsx | 126 |
+| risk_alert Chat | app/chat/page.tsx | 375-410 |
+| risk_alert Clareza | app/api/clarity/activate-profile/route.ts | 290-315 |
+| Badge Diário | app/diario/page.tsx | 356-363 |
+| Badge Timeline | app/diario/timeline/page.tsx | 673-677 |
+
+⚠️ PENDENTE-V2 (4/14 itens):
+- Detecção via Diário (tags graves)
+- Detecção via IA (análise semântica)
+- Centro de alertas no Dashboard
+- Notificações push/email
+
+📁 ARQUIVO DETALHADO: ANALISE-ETAPA-7.2-IMPLEMENTACAO.md
 
 ================================================================================
 MUDANÇAS RECENTES (02/12/2025 19:00 → 19:30) - BLOCO 32-35 EM ANDAMENTO

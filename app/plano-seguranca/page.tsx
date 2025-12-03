@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { 
   ArrowLeft, 
   Shield, 
@@ -132,7 +131,6 @@ const getDefaultPlan = (): SafetyPlan => ({
 
 export default function PlanoSegurancaPage() {
   const router = useRouter()
-  const supabase = createClientComponentClient()
   
   // Hook para perfil de clareza (alerta de risco físico)
   const { profile: clarityProfile, hasProfile: hasClarityProfile } = useClarityProfile()
@@ -157,7 +155,7 @@ export default function PlanoSegurancaPage() {
   const [showAddContact, setShowAddContact] = useState(false)
 
   // ============================================
-  // CARREGAR PLANO DO SUPABASE
+  // CARREGAR PLANO VIA API /api/safety-plan
   // ============================================
   
   useEffect(() => {
@@ -166,36 +164,34 @@ export default function PlanoSegurancaPage() {
 
   const loadPlan = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
+      const response = await fetch('/api/safety-plan')
+      
+      if (response.status === 401) {
         router.push('/login')
         return
       }
-
-      const { data, error } = await supabase
-        .from('safety_plans')
-        .select('*')
-        .eq('user_id', user.id)
-        .single()
-
-      if (error && error.code !== 'PGRST116') {
-        console.error('Erro ao carregar plano:', error)
+      
+      const result = await response.json()
+      
+      if (result.error) {
+        console.error('Erro ao carregar plano:', result.error)
+        return
       }
 
-      if (data) {
-        setPlanId(data.id)
+      if (result.plan) {
+        setPlanId(result.plan.id)
         setPlan({
-          emergencyContacts: data.emergency_contacts || [],
-          importantDocuments: data.important_documents || getDefaultPlan().importantDocuments,
-          emergencyBagItems: data.emergency_bag_items || getDefaultPlan().emergencyBagItems,
-          safePlace: data.safe_place || null,
-          digitalSecurity: data.digital_security || getDefaultPlan().digitalSecurity,
-          overallStatus: data.overall_status || 'NOT_STARTED',
-          lastReviewedAt: data.last_reviewed_at,
-          notes: data.notes || ''
+          emergencyContacts: result.plan.emergency_contacts || [],
+          importantDocuments: result.plan.important_documents || getDefaultPlan().importantDocuments,
+          emergencyBagItems: result.plan.emergency_bag_items || getDefaultPlan().emergencyBagItems,
+          safePlace: result.plan.safe_place || null,
+          digitalSecurity: result.plan.digital_security || getDefaultPlan().digitalSecurity,
+          overallStatus: result.status || 'NOT_STARTED',
+          lastReviewedAt: result.plan.last_reviewed_at,
+          notes: result.plan.notes || ''
         })
-        if (data.updated_at) {
-          setLastSaved(new Date(data.updated_at))
+        if (result.plan.updated_at) {
+          setLastSaved(new Date(result.plan.updated_at))
         }
       }
     } catch (error) {
@@ -206,7 +202,7 @@ export default function PlanoSegurancaPage() {
   }
 
   // ============================================
-  // SALVAR PLANO NO SUPABASE (com debounce)
+  // SALVAR PLANO VIA API /api/safety-plan (com debounce)
   // ============================================
 
   const savePlan = useCallback(async (planToSave: SafetyPlan) => {
@@ -214,45 +210,53 @@ export default function PlanoSegurancaPage() {
     setIsSaving(true)
 
     try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-
-      // Calcular status geral
-      const progress = calculateProgressFromPlan(planToSave)
-      let overallStatus: 'NOT_STARTED' | 'IN_PROGRESS' | 'READY' = 'NOT_STARTED'
-      if (progress > 0 && progress < 70) overallStatus = 'IN_PROGRESS'
-      if (progress >= 70) overallStatus = 'READY'
-
-      const planData = {
-        user_id: user.id,
-        emergency_contacts: planToSave.emergencyContacts,
-        important_documents: planToSave.importantDocuments,
-        emergency_bag_items: planToSave.emergencyBagItems,
-        safe_place: planToSave.safePlace,
-        digital_security: planToSave.digitalSecurity,
-        overall_status: overallStatus,
-        notes: planToSave.notes,
-        updated_at: new Date().toISOString()
+      // Preparar payload para a API
+      const payload = {
+        emergency_contacts: planToSave.emergencyContacts.map(c => ({
+          name: c.name,
+          phone: c.phone,
+          relationship: c.relationship,
+          is_primary: c.isPrimary
+        })),
+        important_documents: planToSave.importantDocuments.map(d => ({
+          name: d.name,
+          location: d.location,
+          has_copy: d.hasCopy
+        })),
+        emergency_bag_items: planToSave.emergencyBagItems.map(i => ({
+          item: i.item,
+          packed: i.packed
+        })),
+        safe_place: planToSave.safePlace ? {
+          address: planToSave.safePlace.address,
+          contact_name: planToSave.safePlace.contactName,
+          contact_phone: planToSave.safePlace.contactPhone,
+          notes: planToSave.safePlace.notes
+        } : null,
+        digital_security: {
+          changed_passwords: planToSave.digitalSecurity.changedPasswords,
+          removed_tracking_apps: planToSave.digitalSecurity.removedTrackingApps,
+          uses_private_browsing: planToSave.digitalSecurity.usesPrivateBrowsing,
+          has_secure_email: planToSave.digitalSecurity.hasSecureEmail
+        },
+        notes: planToSave.notes
       }
 
-      if (planId) {
-        // Atualizar existente
-        const { error } = await supabase
-          .from('safety_plans')
-          .update(planData)
-          .eq('id', planId)
+      const method = planId ? 'PATCH' : 'POST'
+      const response = await fetch('/api/safety-plan', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
 
-        if (error) throw error
-      } else {
-        // Criar novo
-        const { data, error } = await supabase
-          .from('safety_plans')
-          .insert(planData)
-          .select('id')
-          .single()
+      const result = await response.json()
 
-        if (error) throw error
-        if (data) setPlanId(data.id)
+      if (!response.ok) {
+        throw new Error(result.error || 'Erro ao salvar plano')
+      }
+
+      if (result.plan?.id && !planId) {
+        setPlanId(result.plan.id)
       }
 
       setLastSaved(new Date())
@@ -264,7 +268,7 @@ export default function PlanoSegurancaPage() {
     } finally {
       setIsSaving(false)
     }
-  }, [planId, supabase])
+  }, [planId])
 
   // Auto-save quando o plano muda
   useEffect(() => {

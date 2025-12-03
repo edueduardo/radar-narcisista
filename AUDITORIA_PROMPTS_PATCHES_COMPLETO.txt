@@ -1,0 +1,1059 @@
+================================================================================
+RADAR NARCISISTA - AUDITORIA COMPLETA DE PROMPTS E PATCHES
+================================================================================
+Gerado em: 02/12/2025
+Fonte: Chat completo entre Eduardo e ChatGPT/Windsurf
+Objetivo: Consolidar TODOS os prompts e patches para auditoria no Windsurf
+================================================================================
+
+================================================================================
+PROMPT 1: ETAPA 7.2 – PLANO DE INTEGRAÇÃO (SEM CODAR)
+================================================================================
+
+Entendido. Vou definir em texto a arquitetura e os fluxos para a integração do Plano de Segurança com o Triângulo.
+
+---
+
+## 1. DISPARO AUTOMÁTICO (Clareza → Plano de Segurança)
+
+### Regra de Negócio
+- Se no teste de clareza `hasPhysicalRisk = true` (calculado quando categoria `fisico` >= 30%), o sistema deve:
+  1. Salvar flag `has_physical_risk = true` no teste (`clarity_tests`)
+  2. Mostrar banner de alerta no Dashboard recomendando revisar/criar Plano de Segurança
+  3. Criar registro em `risk_alerts` com:
+     - `source = 'clarity_test'` 
+     - `source_id = test_id` 
+     - `level = 'HIGH'` ou `'CRITICAL'` (se >= 50%)
+     - `category = 'PHYSICAL_VIOLENCE'` 
+     - `recommendation = 'Revise seu Plano de Segurança'` 
+
+### Arquivos a Modificar
+| Arquivo | Mudança |
+|---------|---------|
+| app/api/clarity/activate-profile/route.ts | Adicionar criação de `risk_alert` quando `hasPhysicalRisk` |
+| app/dashboard/page.tsx | Adicionar banner de alerta + card "Plano de Segurança" |
+
+---
+
+## 2. DETECÇÃO VIA DIÁRIO (Diário → Plano de Segurança)
+
+### Regra de Negócio
+- Tags de violência no diário: `ameaca_velada`, `explosao`, `agressao_verbal`, `ameacas` 
+- Após N episódios graves em 30 dias (sugestão: N = 3), sugerir revisão do plano
+- Implementação: verificar no Dashboard ao carregar dados
+
+### Arquivos a Modificar
+| Arquivo | Mudança |
+|---------|---------|
+| app/dashboard/page.tsx | Adicionar lógica de contagem de tags graves nos últimos 30 dias |
+
+### PENDENTE-V2
+- Criação automática de `risk_alert` quando tags graves são usadas (requer processamento no backend)
+
+---
+
+## 3. DETECÇÃO VIA CHAT (Chat → Plano de Segurança)
+
+### Regra de Negócio (IMPLEMENTAR AGORA)
+- Regex simples para detectar termos de perigo físico:
+  ```regex
+  /\b(me\s+bateu|me\s+agrediu|me\s+machucou|ameaç(ou|a|ando)|vai\s+me\s+matar|medo\s+de\s+morrer|violência|apanho|apanhei|socou|empurrou|estrangul)/i
+  ```
+- Quando detectado:
+  1. Mostrar banner no chat: "🚨 Percebemos um possível risco. Considere revisar seu Plano de Segurança."
+  2. Criar registro em `risk_alerts` com:
+     - `source = 'chat'` 
+     - `source_id = message_id` (se disponível)
+     - `level = 'HIGH'` 
+     - `category = 'PHYSICAL_VIOLENCE'` ou `'THREATS'` 
+
+### Arquivos a Modificar
+| Arquivo | Mudança |
+|---------|---------|
+| `app/chat/page.tsx` | Adicionar regex de detecção + banner de sugestão |
+| `app/api/chat/route.ts` | Adicionar criação de `risk_alert` quando detectado |
+
+### PENDENTE-V2
+- Detecção via IA (análise semântica mais sofisticada)
+
+---
+
+## 4. PERSISTÊNCIA (Plano → Diário)
+
+### Regra de Negócio
+- Ao criar ou atualizar plano de segurança, registrar entrada no diário com:
+  - `entry_type = 'safety_plan'` 
+  - `title = 'Plano de Segurança atualizado'` 
+  - `description = 'Você atualizou seu Plano de Segurança em [data]'` 
+  - `tags = ['seguranca', 'plano']` 
+
+### Arquivos a Modificar
+| Arquivo | Mudança |
+|---------|---------|
+| types/database.ts | Adicionar `'safety_plan'` ao tipo JournalEntryType |
+| `app/api/safety-plan/route.ts` | **CRIAR** – API REST com GET/POST/PATCH + criação de entrada no diário |
+| app/plano-seguranca/page.tsx | Usar nova API em vez de chamadas diretas ao Supabase |
+
+---
+
+## 5. UI / DASHBOARD
+
+### Card "Plano de Segurança"
+| Campo | Valor |
+|-------|-------|
+| Título | "Plano de Segurança" |
+| Ícone | Shield (lucide) |
+| Status | `NOT_STARTED` → "Não iniciado" (vermelho) |
+|        | `IN_PROGRESS` → "Em progresso" (amarelo) |
+|        | `READY` → "Pronto" (verde) |
+| Ação | Link para `/plano-seguranca` |
+
+### Banner de Alerta (hasPhysicalRisk)
+| Condição | Exibição |
+|----------|----------|
+| `hasPhysicalRisk = true` E `!hasSafetyPlan` | Banner vermelho: "⚠️ Risco físico detectado. Crie seu Plano de Segurança agora." |
+| `hasPhysicalRisk = true` E `hasSafetyPlan` E `status != 'READY'` | Banner amarelo: "⚠️ Risco físico detectado. Revise seu Plano de Segurança." |
+| `hasPhysicalRisk = true` E `status = 'READY'` | Banner verde: "✅ Seu Plano de Segurança está pronto. Mantenha-o atualizado." |
+
+### Arquivos a Modificar
+| Arquivo | Mudança |
+|---------|---------|
+| app/dashboard/page.tsx | Adicionar card + banner + lógica de status |
+
+---
+
+## 6. API `/api/safety-plan` 
+
+### Endpoints
+| Método | Descrição |
+|--------|-----------|
+| GET | Retorna plano do usuário autenticado |
+| POST | Cria novo plano (se não existir) |
+| `PATCH` | Atualiza plano existente |
+
+### Validação de Schema
+```typescript
+interface SafetyPlanPayload {
+  emergency_contacts?: Array<{
+    name: string
+    phone: string
+    relationship: string
+    is_primary?: boolean
+  }>
+  important_documents?: Array<{
+    name: string
+    location: string
+    has_copy: boolean
+  }>
+  emergency_bag_items?: Array<{
+    item: string
+    packed: boolean
+  }>
+  safe_place?: {
+    address: string
+    contact_name: string
+    contact_phone: string
+    notes: string
+  }
+  digital_security?: {
+    changed_passwords: boolean
+    removed_tracking_apps: boolean
+    uses_private_browsing: boolean
+    has_secure_email: boolean
+  }
+  notes?: string
+}
+```
+
+### Efeito Colateral
+- Após POST/PATCH bem-sucedido, criar entrada no diário (`entry_type = 'safety_plan'`)
+
+### Arquivo a Criar
+| Arquivo | Descrição |
+|---------|-----------|
+| `app/api/safety-plan/route.ts` | API REST completa |
+
+---
+
+## 7. BADGES NO DIÁRIO
+
+### Arquivos a Modificar
+| Arquivo | Mudança |
+|---------|---------|
+| `app/diario/page.tsx` | Adicionar badge "Plano de Segurança" (🛡️) para `entry_type = 'safety_plan'` |
+| `app/diario/timeline/page.tsx` | Adicionar badge "Plano de Segurança" (🛡️) para `entry_type = 'safety_plan'` |
+
+---
+
+## 8. RESUMO DO QUE SERÁ IMPLEMENTADO NA ETAPA 7.3
+
+| Item | Prioridade | Complexidade |
+|------|------------|--------------|
+| 1. Adicionar `'safety_plan'` ao JournalEntryType | ALTA | Baixa |
+| 2. Criar API `/api/safety-plan` (GET/POST/PATCH) | ALTA | Média |
+| 3. Card "Plano de Segurança" no Dashboard | ALTA | Baixa |
+| 4. Banner de alerta `hasPhysicalRisk` no Dashboard | ALTA | Baixa |
+| 5. Entrada automática no diário ao salvar plano | ALTA | Média |
+| 6. Badge "Plano de Segurança" no /diario e /diario/timeline | ALTA | Baixa |
+| 7. Detecção regex no chat + banner de sugestão | MÉDIA | Média |
+| 8. Criação de `risk_alert` no chat quando detectado | MÉDIA | Média |
+| 9. Criação de `risk_alert` no activate-profile quando `hasPhysicalRisk` | MÉDIA | Baixa |
+| 10. Atualizar documentação (ATLAS, ROADMAP, TESTES, TUDO PARA O GPT) | ALTA | Média |
+
+---
+
+## 9. O QUE FICARÁ COMO PENDENTE-V2
+
+| Item | Motivo |
+|------|--------|
+| Detecção de risco via IA no chat (análise semântica) | Complexidade alta, requer fine-tuning |
+| Criação automática de `risk_alert` ao salvar episódio com tags graves | Requer processamento no backend |
+| Notificações push/email quando `risk_alert` é criado | Infraestrutura de notificações não existe |
+| Centro de alertas no Dashboard (listar todos os `risk_alerts`) | Escopo maior, pode ser próxima etapa |
+
+---
+
+## [CHECKLIST FINAL]
+
+1. Definir regra de disparo automático (Clareza → Plano) → **[OK]**
+2. Definir detecção via Diário → **[OK]**
+3. Definir detecção via Chat (regex) → **[OK]**
+4. Definir persistência (Plano → Diário) → **[OK]**
+5. Definir UI/Dashboard (card + banner) → **[OK]**
+6. Definir API `/api/safety-plan` → **[OK]**
+7. Definir badges no Diário → **[OK]**
+8. Listar o que será implementado na ETAPA 7.3 → **[OK]**
+9. Listar o que ficará como PENDENTE-V2 → **[OK]**
+
+================================================================================
+PROMPT 2: ETAPA 7.3 – IMPLEMENTAÇÃO (CODAR)
+================================================================================
+
+NOME DO PROMPT: RADAR – ETAPA 7.3 – INTEGRAÇÃO PLANO DE SEGURANÇA
+
+Você é um(a) dev sênior em Next.js + TypeScript + Tailwind + Supabase.  
+Projeto: "radar-narcisista" (MVP já rodando).
+
+REGRAS GERAIS (NÃO IGNORAR):
+1. Você NÃO PODE dizer que implementou algo se não mexeu no código.
+2. Sempre mostre quais arquivos foram alterados e o que ainda falta.
+3. Se um arquivo/tabela não existir, você deve DIZER ISSO claramente e então propor/criar a melhor alternativa.
+4. Não instalar novas libs sem autorização explícita.
+5. Não quebrar o build. Se quebrar, conserte antes de dizer que a etapa foi concluída.
+
+MISSÃO DA ETAPA 7.3:
+Implementar a integração do **Plano de Segurança** com o **Triângulo de Risco**, seguindo o plano da ETAPA 7.2:
+
+- Disparo automático via Teste de Clareza
+- Detecção via Chat (regex)
+- Persistência do plano e registro no Diário
+- Card + banners no Dashboard
+- Badges no Diário
+- Criação e uso da API `/api/safety-plan` 
+
+ORDEM DE IMPLEMENTAÇÃO (SIGA ESTA ORDEM):
+
+ETAPA 1 – TIPOS E SCHEMA
+1. Abrir `types/database.ts` e localizar o tipo `JournalEntryType`.
+2. Adicionar o valor `'safety_plan'` ao `JournalEntryType`.
+3. Verificar no schema (migrations ou `schema.sql`):
+   - Se já existem:
+     - `clarity_tests` (com coluna `has_physical_risk` ou similar).
+     - `risk_alerts`.
+     - `journal_entries` (campo `entry_type`).
+     - Alguma tabela de plano de segurança (`safety_plans` ou similar).
+4. Se algum desses itens não existir, me informe no comentário do commit/explicação e crie a tabela mínima compatível com o uso descrito:
+   - `risk_alerts`: campos mínimos → `id`, `user_id`, `source`, `source_id`, `level`, `category`, `recommendation`, `created_at`.
+   - `clarity_tests`: se necessário, acrescentar `has_physical_risk boolean default false`.
+
+ETAPA 2 – API `/api/safety-plan` 
+1. Criar `app/api/safety-plan/route.ts`.
+2. Implementar os métodos:
+   - `GET`: retorna o plano de segurança do usuário autenticado.
+   - `POST`: cria novo plano se não existir.
+   - `PATCH`: atualiza o plano existente.
+3. Usar um payload alinhado com:
+
+   interface SafetyPlanPayload {
+     emergency_contacts?: Array<{
+       name: string
+       phone: string
+       relationship: string
+       is_primary?: boolean
+     }>
+     important_documents?: Array<{
+       name: string
+       location: string
+       has_copy: boolean
+     }>
+     emergency_bag_items?: Array<{
+       item: string
+       packed: boolean
+     }>
+     safe_place?: {
+       address: string
+       contact_name: string
+       contact_phone: string
+       notes: string
+     }
+     digital_security?: {
+       changed_passwords: boolean
+       removed_tracking_apps: boolean
+       uses_private_browsing: boolean
+       has_secure_email: boolean
+     }
+     notes?: string
+   }
+
+4. Após `POST` ou `PATCH` bem-sucedido, registrar entrada em `journal_entries`:
+   - `entry_type = 'safety_plan'` 
+   - `title = 'Plano de Segurança atualizado'` 
+   - `description` com data/hora
+   - `tags = ['seguranca', 'plano']` 
+
+ETAPA 3 – PÁGINA `/plano-seguranca` 
+1. Abrir `app/plano-seguranca/page.tsx`.
+2. Substituir qualquer acesso direto ao Supabase pela API `/api/safety-plan`.
+3. Definir um status interno do plano:
+   - `NOT_STARTED`: nenhum plano encontrado.
+   - `IN_PROGRESS`: plano encontrado, mas campos essenciais faltando.
+   - `READY`: plano com contatos de emergência + local seguro + bolsa de emergência básica preenchidos.
+4. Exportar esse status de forma que o Dashboard consiga usar (via fetch ou hook compartilhado, conforme padrão atual do projeto).
+
+ETAPA 4 – DISPARO AUTOMÁTICO VIA TESTE DE CLAREZA
+1. Abrir `app/api/clarity/activate-profile/route.ts`.
+2. Garantir que, quando `hasPhysicalRisk = true`:
+   - `has_physical_risk` é salvo na tabela `clarity_tests`.
+   - É criado um registro em `risk_alerts` com:
+     - `source = 'clarity_test'` 
+     - `source_id = test_id` 
+     - `level = 'HIGH'` ou `'CRITICAL'` (se o score físico >= 50%).
+     - `category = 'PHYSICAL_VIOLENCE'` 
+     - `recommendation = 'Revise seu Plano de Segurança'`.
+
+ETAPA 5 – DASHBOARD (CARD + BANNERS)
+1. Abrir `app/dashboard/page.tsx`.
+2. Adicionar o **card "Plano de Segurança"** com ícone `Shield` (lucide-react), status colorido:
+   - `NOT_STARTED` → vermelho / "Não iniciado".
+   - `IN_PROGRESS` → amarelo / "Em progresso".
+   - `READY` → verde / "Pronto".
+   - Clique leva para `/plano-seguranca`.
+3. Adicionar banners de alerta usando:
+   - Flag `has_physical_risk` do teste de clareza.
+   - Status do plano de segurança.
+4. Regras de banner:
+   - `hasPhysicalRisk = true` e `!hasSafetyPlan`:
+     → banner vermelho: "⚠️ Risco físico detectado. Crie seu Plano de Segurança agora."
+   - `hasPhysicalRisk = true` e `hasSafetyPlan` e status != `READY`:
+     → banner amarelo: "⚠️ Risco físico detectado. Revise seu Plano de Segurança."
+   - `hasPhysicalRisk = true` e status = `READY`:
+     → banner verde: "✅ Seu Plano de Segurança está pronto. Mantenha-o atualizado."
+
+ETAPA 6 – DETECÇÃO DE RISCO NO CHAT (REGEX)
+1. Abrir `app/chat/page.tsx`.
+2. Adicionar a seguinte regex para mensagens de risco físico:
+
+   /\b(me\s+bateu|me\s+agrediu|me\s+machucou|ameaç(ou|a|ando)|vai\s+me\s+matar|medo\s+de\s+morrer|violência|apanho|apanhei|socou|empurrou|estrangul)/i
+
+3. Quando a mensagem do usuário bater nessa regex:
+   - Mostrar banner no chat:
+     "🚨 Percebemos um possível risco. Considere revisar seu Plano de Segurança."
+4. Abrir `app/api/chat/route.ts`:
+   - Validar a mensagem com a mesma regex.
+   - Se bater:
+     - Criar `risk_alert` com:
+       - `source = 'chat'` 
+       - `source_id = message_id` (se disponível)
+       - `level = 'HIGH'` 
+       - `category = 'PHYSICAL_VIOLENCE'` ou `'THREATS'`.
+
+ETAPA 7 – DIÁRIO E BADGES
+1. Abrir `app/diario/page.tsx`:
+   - Para entradas com `entry_type === 'safety_plan'`, exibir badge 🛡️ "Plano de Segurança".
+2. Abrir `app/diario/timeline/page.tsx`:
+   - Aplicar a mesma regra de badge na visualização de timeline.
+
+ETAPA 8 – TESTES MANUAIS MÍNIMOS
+Criar e executar cenários de teste (pode ser descrito em comentário ou arquivo de testes já existente):
+
+1. Teste de clareza com risco físico:
+   - Gerar teste onde `fisico >= 30%`.
+   - Verificar:
+     - `has_physical_risk = true` no banco.
+     - `risk_alert` criado com `source = 'clarity_test'`.
+     - Banner correto no Dashboard.
+2. Plano de segurança:
+   - Abrir `/plano-seguranca`, criar plano.
+   - Verificar:
+     - Entrada no diário com `entry_type = 'safety_plan'`.
+     - Status do card no Dashboard muda conforme preenchimento.
+3. Chat:
+   - Enviar mensagem com texto: "ele me bateu e ameaçou me matar".
+   - Verificar:
+     - Banner dentro do chat.
+     - `risk_alert` criado com `source = 'chat'`.
+4. Diário:
+   - Verificar que entradas `safety_plan` mostram badge 🛡️ nas páginas `/diario` e `/diario/timeline`.
+
+NO FIM:
+1. Me mostrar um resumo:
+   - Arquivos alterados.
+   - Tabelas criadas/alteradas.
+   - O que foi completamente implementado.
+   - Qualquer item da ETAPA 7.3 que NÃO foi possível implementar (com motivo claro).
+2. Gerar um pequeno texto de LOG para eu colar em `TUDO PARA O GPT.txt` descrevendo a conclusão da ETAPA 7.3.
+
+NÃO pule nenhuma etapa. Se não conseguir fazer alguma, explique o motivo com clareza.
+
+================================================================================
+PROMPT 3: MAPEAMENTO COMPLETO DO PROJETO (AUDITORIA GERAL)
+================================================================================
+
+Quero que você leia e mapeie o projeto RADAR NARCISISTA COMPLETO.
+
+Repositório: https://github.com/edueduardo/radar-narcisista
+
+IMPORTANTE: 
+– Você NÃO TEM PERMISSÃO de pular etapas.
+– Você NÃO TEM PERMISSÃO de dizer que fez algo que não fez.
+– Se não conseguir ler algum arquivo ou pasta, você deve me avisar exatamente o que não conseguiu acessar.
+
+================================
+ETAPA 1 – LEITURA GERAL DO REPO
+================================
+1. Navegue pelo repositório e liste:
+   – Principais arquivos de documentação (ex.: README, PROJETO_COMPLETO_..., TUDO_PARA_O_GPT.txt, etc.).
+   – Principais pastas de código (ex.: app/, src/, components/, lib/, api/, supabase/, migrations/, etc.).
+2. Me devolva UMA LISTA OBJETIVA com:
+   – Quais docs você encontrou e leu.
+   – Quais pastas de código existem e para que servem (palpite técnico, mas SEM inventar coisas sem base).
+
+Se nesta etapa houver algo que não conseguiu ler, você é obrigado a dizer.
+
+=====================================
+ETAPA 2 – MAPA DA ARQUITETURA DO SAAS
+=====================================
+Aqui você vai montar o "RAIO-X" do Radar Narcisista.
+
+1. Descrever a STACK:
+   – Framework (Next.js, versão, TypeScript, etc.).
+   – Banco / backend (Supabase, APIs internas, etc.).
+   – UI principal (Tailwind, componentes, etc.).
+   – Integrações (OpenAI/Anthropic/etc. se existirem no código).
+
+2. Mapear os MÓDULOS:
+   – Páginas principais (ex.: landing, login, dashboard, diário, check-ins, LGPD, blog, admin, mapa de IAs, etc.).
+   – Rotas API relevantes (ex.: /api/..., webhooks, rotas de IA, etc.).
+   – Painel de admin (se existir): o que dá pra configurar lá.
+
+3. Mapear o BANCO:
+   – Listar as tabelas principais (nome + função).
+   – Descrever campos importantes e relações (sem entrar em nível absurdo de detalhe, mas o suficiente para entender o modelo mental).
+   – Apontar qualquer coisa relacionada a logs, hash, cadeia de custódia, evidência, etc., se existirem.
+
+Você deve entregar um texto organizado (por tópicos) com:
+– Stack
+– Módulos
+– Banco
+
+==============================================
+ETAPA 3 – O QUE EXISTE, O QUE FALTA, O QUE ESTÁ MEIO TERMO
+==============================================
+Agora você vai ser crítico:
+
+1. A partir da leitura do código + docs, classificar:
+   – FUNCIONANDO/IMPLEMENTADO: coisas que claramente existem no código e parecem usáveis.
+   – RASCUNHO/PARCIAL: coisas começadas, mas incompletas.
+   – IDEAÇÃO/PLANEJADO: coisas escritas em documentos, mas sem código (ou muito pouco).
+
+2. Faça uma LISTA DE PENDÊNCIAS priorizada:
+   – Bugs ou inconsistências prováveis.
+   – Telas feias/confusas que precisam de refactor (ex.: frontpage sem "cara de 1 milhão de dólares").
+   – Pontos de LGPD, segurança, hash, evidência etc. que parecem frágeis ou faltando.
+
+Não invente: se for suposição, escreva como suposição.
+
+====================================
+ETAPA 4 – CRIAR O "RESUMO BASE OFICIAL"
+====================================
+Com tudo acima, agora você vai gerar um documento único chamado:
+
+RADAR_NARCISISTA_RESUMO_BASE_v1
+
+Ele deve conter, em seções:
+
+1. VISÃO GERAL
+   – 1–2 parágrafos explicando o que é o Radar Narcisista, para que serve, para quem é.
+
+2. STACK TÉCNICA
+   – Framework, banco, integrações, estrutura geral.
+
+3. MÓDULOS DO SISTEMA
+   – Lista dos módulos (ex.: Onboarding, Diário/Desabafos, Check-ins, IA Coach, LGPD, Admin, Blog, etc.).
+   – Para cada módulo: o que faz, quais telas tem (em alto nível) e se está IMPLEMENTADO, PARCIAL ou SÓ EM IDEIA.
+
+4. BANCO DE DADOS / SUPABASE
+   – Tabelas principais (nome + uma frase de função).
+   – Relações importantes (usuário → diários, usuário → check-ins, etc.).
+   – Qualquer coisa ligada a logs, cadeia de custódia, auditoria de provas (se existir).
+
+5. LISTA DE PRÓXIMOS PASSOS
+   – Próximos passos para:
+     a) Arrumar o que está quebrado/feio.
+     b) Fechar o MVP para uso real.
+     c) Melhorar segurança, LGPD, evidência, hash etc., se já aparecer no projeto.
+
+O RESUMO BASE deve ser escrito de forma que eu possa:
+– Copiar e colar em um arquivo .txt no meu computador;
+– Reusar em futuras conversas com outras IAs como "contexto oficial do projeto".
+
+====================================
+REGRAS DE COMPORTAMENTO
+====================================
+– Não diga nunca "já li tudo e está perfeito" se você não tiver certeza.
+– Se o limite de contexto não permitir ler tudo, seja honesto: diga o que foi lido e o que ficou de fora.
+– Em TODAS as respostas futuras sobre este projeto, use o RADAR_NARCISISTA_RESUMO_BASE_v1 como referência mental.
+– Sempre que eu pedir uma nova funcionalidade, você deve:
+   1. Ver se conflita com a arquitetura atual.
+   2. Me avisar se estiver quebrando alguma lógica já descrita.
+   3. Sugerir o caminho mais limpo dentro do que já existe.
+
+Seu primeiro output agora deve ser:
+1) Confirmação de que começou a Etapa 1.
+2) Assim que terminar a Etapa 1, me mostrar a lista de arquivos/pastas que identificou antes de seguir para a Etapa 2.
+
+================================================================================
+PROMPT 4: MEGA PROMPT DE AUDITORIA GERAL (WINDSURF)
+================================================================================
+
+RADAR NARCISISTA – MEGA PROMPT DE AUDITORIA GERAL
+=================================================
+(Para colar no Windsurf como UM ÚNICO PROMPT)
+
+IDENTIDADE
+----------
+Você é um dev sênior usando Windsurf para trabalhar no projeto RADAR NARCISISTA.
+
+Stack principal:
+- Next.js 16 + TypeScript
+- TailwindCSS
+- Supabase (Postgres + Auth + RLS + Migrations)
+- Stripe (billing)
+- Deploy na Vercel
+
+Repositório (já configurado no Windsurf):
+- Contém arquivos como:
+  - TUDO PARA O GPT.txt
+  - ATLAS-RADAR-NARCISISTA.txt
+  - ROADMAP-RADAR.txt
+  - LAMPADA-RADAR.txt
+  - TESTES-RADAR.txt
+  - docs/PATCH-ORACULO.md
+  - docs/REGRAS-COMUNICACAO-IA.md
+  - CHECKLIST-POS-MVP.md
+  - código em app/, lib/, docs/, database/, etc.
+
+REGRAS GERAIS
+-------------
+1) Você NÃO tem permissão para mentir.
+2) Não marque nada como "feito" se não conseguiu implementar.
+3) Se algo ficar metade feito, registre claramente como "parcial / incompleto".
+4) Nunca use a palavra "opcional" ou variações. Use sempre "MELHORIAS IDENTIFICADAS".
+5) Não use "ou" dentro de uma mesma bullet. Divida caminhos em bullets separados.
+6) Sempre que mexer em código, rode build e registre erros se houver.
+7) Sempre que terminar um bloco de tarefas, atualize TUDO PARA O GPT.txt, ATLAS, ROADMAP, TESTES e LÂMPADA.
+
+OBJETIVO DESTE PROMPT
+---------------------
+Fazer uma AUDITORIA GERAL de TODOS os requisitos já documentados no repositório, especialmente:
+
+- TUDO PARA O GPT.txt  (fonte principal de prompts e requisitos)
+- PATCH-ORACULO.md     (correção conceitual Oráculo V1/V2 + bloco 26–30)
+- REGRAS-COMUNICACAO-IA.md
+- BLOCO 21–25 (já descrito em TUDO PARA O GPT.txt)
+- CHECKLIST-POS-MVP.md
+
+E também implementar os REQUISITOS NOVOS que podem não ter sido salvos em TUDO PARA O GPT.txt, em especial:
+- MATRIZ GLOBAL DE IAs por menu, plano, promoção e cliente.
+- Painel de controle de IA por menu (admin).
+- Modo SIMULAÇÃO / IMPERSONATION (usuária, profissional, whitelabel, gerador).
+- Help/Manual embutido por menu (admin, whitelabel, gerador, profissional, usuária).
+- Organização do menu administrativo por prioridade.
+- Sincronização com GERADOR DE SAAS (core compartilhado de regras).
+
+ORDEM DAS ETAPAS DESTE PROMPT
+-----------------------------
+Você deve seguir ESTA ORDEM e registrar tudo no final.
+
+ETAPA A – LEITURA COMPLETA DOS DOCS
+-----------------------------------
+1. Abrir e ler com atenção:
+   - TUDO PARA O GPT.txt
+   - ATLAS-RADAR-NARCISISTA.txt
+   - ROADMAP-RADAR.txt
+   - LAMPADA-RADAR.txt
+   - TESTES-RADAR.txt
+   - docs/PATCH-ORACULO.md
+   - docs/REGRAS-COMUNICACAO-IA.md
+   - CHECKLIST-POS-MVP.md
+
+2. A partir desses arquivos, montar internamente uma lista de REQUISITOS:
+   - Prompts de implementação (BLOCO 1–20, BLOCO 21–25, etc.).
+   - Patches (PATCH ORÁCULO, LGPD, etc.).
+   - Itens de roadmap "AGORA" vs "FUTURO".
+   - Ideias na LÂMPADA que já foram promovidas para implementação.
+
+3. NÃO reescreva tudo aqui no chat. Apenas crie essa lista na memória do agente e cite os itens por ID/título quando for se referir a eles.
+
+ETAPA B – AUDITORIA DOS REQUISITOS EXISTENTES
+---------------------------------------------
+1. Para CADA requisito encontrado em TUDO PARA O GPT.txt e PATCH-ORACULO.md:
+   - Verificar se foi implementado no código.
+   - Verificar se a implementação é coerente com:
+     - Segurança (RLS, env vars, sem vazamento de chave)
+     - UX mínima
+     - Fluxos descritos nos docs
+
+2. Classificar cada requisito como:
+   - IMPLEMENTADO
+   - IMPLEMENTADO PARCIAL
+   - NÃO IMPLEMENTADO
+
+3. Para requisitos "IMPLEMENTADO PARCIAL" ou "NÃO IMPLEMENTADO":
+   - Implementar AGORA, dentro do escopo do projeto atual.
+   - Se não for possível (dependência externa, limite de tempo, etc.), registrar como DÍVIDA TÉCNICA na LÂMPADA e no ROADMAP, explicando o motivo.
+
+ETAPA C – MATRIZ GLOBAL DE IAs (IA MATRIX)
+------------------------------------------
+Se ainda não existir corretamente, implementar os seguintes elementos (ou revisar se já existem):
+
+1. Tabelas em database/ (via migrations):
+   - ai_providers
+     - id, key (ex: "openai", "together", "claude", "grok"), nome_exibicao, status, custo_estimado, created_at, updated_at.
+   - ai_menus
+     - id, menu_key (ex: "chat", "diario", "teste_clareza", "oraculo_v2"), descricao.
+   - ai_menu_providers
+     - id, menu_id, provider_id, modo (ex: "principal", "fallback", "colaborativo"), peso, ativo.
+   - ai_plan_overrides
+     - id, plan_key (ex: "free", "pro", "white_label"), menu_key, provider_id, override_modo, override_peso, limite_diario, limite_mensal.
+   - ai_usage_logs
+     - id, user_id, menu_key, provider_key, tokens_in, tokens_out, custo_estimado, created_at.
+
+2. Camada de código em lib/ai-router.ts (ou similar):
+   - Função para decidir qual IA usar por:
+     - menu_key
+     - plano da usuária
+     - promoções / overrides
+   - Suporte a:
+     - modo colaborativo (várias IAs)
+     - fallback
+     - limites por plano
+
+3. Painel ADMIN para gerenciar essa matriz:
+   - Página em /admin/ia-matrix ou integração em /admin/configurar-ias.
+   - Listagem de menus (chat, diário, teste de clareza, oráculo, etc.).
+   - Para cada menu, listar quais IAs podem ser usadas e em que modo.
+   - Permitir ativar/desativar providers para cada menu.
+   - Permitir overrides por plano (free, pro, promoções, etc.).
+
+4. Garantir que:
+   - O admin consegue ver CLARAMENTE, por menu, quais IAs estão ativas.
+   - O admin consegue mudar isso sem precisar fazer deploy de código.
+   - Logs de uso de IA são gravados em ai_usage_logs.
+
+ETAPA D – MODO SIMULAÇÃO / IMPERSONATION
+----------------------------------------
+1. Implementar (ou revisar se já existe) um modo de SIMULAÇÃO no admin que permita:
+   - Admin entrar como "modo usuária" (perfil usuária normal).
+   - Admin entrar como "modo profissional" (perfil profissional).
+   - Admin entrar como "modo whitelabel partner".
+   - Admin entrar como "modo gerador de SaaS" (quando existir UI dedicada).
+
+2. Regras:
+   - Somente ADMIN pode entrar em modo simulação.
+   - Registrar em log (ex.: admin_impersonation_logs):
+     - admin_id, user_simulado_id, perfil, data/hora, motivo (campo texto opcional).
+
+3. O modo simulação deve ser útil para:
+   - Ver exatamente o que o cliente está vendo.
+   - Reproduzir bugs relatados.
+   - Testar planos, promoções e overrides de IA.
+
+ETAPA E – HELP / MANUAL POR MENU
+--------------------------------
+1. Criar tabela admin_menu_help (se ainda não existir):
+   - id, menu_key, publico_alvo (admin, usuaria, profissional, whitelabel, gerador), titulo, conteudo_md, updated_at.
+
+2. Para CADA menu importante do admin (planos, promoções, oráculo, IA, curadoria, beta, etc.):
+   - Criar um texto em linguagem leiga explicando:
+     - O que é esse menu.
+     - O que ele faz.
+     - Para que serve.
+     - Passo a passo básico de uso.
+     - Riscos/cautelas principais.
+
+3. Integrar UI:
+   - Em cada página do admin, adicionar um botão/ícone de "?" (help).
+   - Ao clicar, abrir um modal com o texto do help para aquele menu_key.
+
+4. Replicar a lógica (quando fizer sentido) para:
+   - Painel whitelabel.
+   - Painel gerador de SaaS.
+   - Painel profissional.
+   - Painel usuária (help de funcionalidades complexas).
+
+ETAPA F – ORGANIZAÇÃO DO MENU ADMINISTRATIVO
+--------------------------------------------
+1. Organizar o menu do admin em grupos por prioridade, por exemplo:
+   - FUNDAMENTAL: planos, usuários, billing, IA, oráculo, segurança.
+   - PRODUTO: diário, teste de clareza, relatórios, estatísticas.
+   - CONTEÚDO: curadoria, biblioteca, blog, campanhas.
+   - EXPERIMENTAL: beta, easter eggs, ab-testing.
+   - SISTEMA: frontpage, config, terms, LGPD, health.
+
+2. Se existir um arquivo central de configuração do menu (ex.: adminMenuConfig.ts ou vindo do banco):
+   - Reorganizar a estrutura lá.
+   - Garantir que o front monta o menu baseado nessa fonte única.
+
+3. Atualizar TUDO PARA O GPT.txt e ATLAS com a nova organização (incluindo lista dos menus e grupos).
+
+ETAPA G – SINCRONIZAÇÃO COM GERADOR DE SAAS
+-------------------------------------------
+1. Registrar em docs (ex.: GERADOR-SAAS.md ou dentro do ATLAS) que:
+   - Tudo que for core do admin (IA matrix, help por menu, simulação, etc.) faz parte do "CORE COMPARTILHADO".
+   - O GERADOR DE SAAS pode clonar esse core para criar novos produtos.
+
+2. No código, separar o que for "CORE REUTILIZÁVEL" em módulos/arquivos que possam ser reaproveitados.
+   - Ex.: lib/ai-router.ts, lib/logger.ts, lib/rate-limit.ts, componentes de help, etc.
+
+3. Não é necessário implementar o gerador inteiro agora, mas deixar explícito:
+   - Quais partes do código são pensadas para serem reaproveitadas.
+
+ETAPA H – RESUMO FINAL PARA O USUÁRIO (CHATGPT)
+-----------------------------------------------
+Ao terminar TODAS as etapas acima, gerar um RESUMO FINAL neste formato:
+
+1) RESUMO GERAL
+   - Descrever em 5–10 bullets o que foi auditado e implementado.
+
+2) TABELA DE AUDITORIA (ALTA VISÃO)
+   - Para cada grupo de requisitos (BLOCOS 1–20, 21–25, PATCH-ORACULO, IA MATRIX, SIMULAÇÃO, HELP, MENU ADMIN):
+     - Status: IMPLEMENTADO / PARCIAL / NÃO IMPLEMENTADO
+     - Observações curtas.
+
+3) DÍVIDAS TÉCNICAS
+   - Lista de dívidas técnicas com ID da LÂMPADA.
+
+4) MELHORIAS IDENTIFICADAS
+   - Lista de melhorias futuras, sem usar a palavra "opcional".
+
+5) PRÓXIMA AÇÃO SUGERIDA
+   - Lista em bullets (sem "ou") das próximas ações concretas para o ChatGPT orientar o usuário.
+
+IMPORTANTE
+----------
+- Se em alguma parte você perceber que NÃO conseguiu implementar algo, seja explícito.
+- Não finja que fez.
+- Atualize sempre TUDO PARA O GPT.txt, ATLAS, ROADMAP, TESTES, LÂMPADA quando fizer mudanças relevantes.
+
+================================================================================
+PATCH 1: CORREÇÃO DO TIPO JournalEntryType NA TIMELINE
+================================================================================
+
+O erro indica que o tipo JournalEntryType na timeline não está reconhecendo `'safety_plan'`. 
+
+Problema encontrado: A timeline tem uma definição local do tipo `entry_type` na linha 82 que não inclui `'safety_plan'`.
+
+Solução aplicada: Atualizar a definição local do tipo na timeline para incluir `'safety_plan'`.
+
+Arquivo alterado: app/diario/timeline/page.tsx (linha 82)
+
+Build passou com sucesso após a correção.
+
+================================================================================
+PATCH 2: BLOCO 21–25 – PÓS-MVP (COMPLETO)
+================================================================================
+
+**ETAPA 21 – Billing Sólido & Add-ons (Stripe + user_addons)**
+- Tabela `user_addons` + RLS
+- Webhook Stripe para add-ons
+- APIs `/api/addons` e `/api/addons/consume`
+- `ENV-VARIABLES.md`
+- Documentação atualizada (TUDO, ATLAS, ROADMAP, TESTES, LÂMPADA)
+- Commit: `fe61cb1`
+
+**ETAPA 22 – Oráculo V2 Integrado (API + Logs + Botão + Manuais)**
+- Rota `/api/oraculo-v2`
+- Tabela `oraculo_logs` + migration
+- `OraculoButton.tsx` em `/admin` e `/admin/oraculo`
+- `docs/ORACULO-V2-PROMPT.md`
+- Manuais ADMIN/DEV atualizados
+- Commit: `0718c7c`
+
+**ETAPA 23 – Segurança Técnica & Observabilidade**
+- `lib/rate-limit.ts`
+- `lib/logger.ts`
+- `/api/health`
+- Rate limit ligado no Oráculo V2 + rotas sensíveis
+- Commit: `31d6a2b`
+
+**ETAPA 24 – Manuais & Links Internos**
+- 5 manuais atualizados (USUÁRIA, PROFISSIONAL, ADMIN, DEV, WHITELABEL)
+- Links internos + seções novas
+- Commit: `52e0458`
+
+**ETAPA 25 – QA Técnico + Checklist Pós-MVP**
+- `CHECKLIST-POS-MVP.md`
+- LÂMPADA e ROADMAP marcando dívidas técnicas e "feito / não feito"
+- Commit: `9275f78`
+
+================================================================================
+PATCH 3: ORÁCULO – CORREÇÃO CONCEITUAL
+================================================================================
+
+PATCH ORÁCULO – CORREÇÃO CONCEITUAL (PRIORIDADE MÁXIMA)
+
+Este PATCH tem prioridade sobre qualquer texto antigo que diga o contrário.
+Ver documento completo: docs/PATCH-ORACULO.md
+
+BLOCO 21-25 (ATUAL):
+- ORÁCULO V1 = painel /admin/oraculo → só ADMIN (já existe)
+- ORÁCULO V2 = IA de suporte → NESTE BLOCO é apenas para ADMIN
+- Qualquer menção a Oráculo V2 para usuária/profissional/dev/whitelabel = FUTURO
+
+BLOCO 26-30 (FUTURO EXPLÍCITO):
+- ORÁCULO V2 MULTIPERFIL para TODOS os perfis: usuária, profissional, admin, dev, whitelabel
+- ORACULO_V2_CORE como módulo compartilhado
+- Acoplável a todos os SaaS gerados pelo GERADOR DE SAAS
+
+REGRA PARA WINDSURF/CHATGPT:
+Se texto antigo disser "Oráculo para usuária/profissional AGORA"
+→ ENTENDER COMO: "FUTURO BLOCO 26-30, NÃO IMPLEMENTADO EM 21-25"
+
+================================================================================
+PATCH 4: REGRAS DE COMUNICAÇÃO WINDSURF ↔ CHATGPT
+================================================================================
+
+Arquivo: docs/REGRAS-COMUNICACAO-IA.md
+
+Regras principais:
+1. Sugestões, ideias e opiniões: sempre aparecem antes da execução.
+2. "Melhorias opcionais" vira "MELHORIAS IDENTIFICADAS" (nunca usar "opcional").
+3. Proibido usar "ou" dentro de "Próxima ação sugerida": sempre bullets separados.
+4. Windsurf escreve resumos em formato padrão para colar no ChatGPT.
+
+================================================================================
+PATCH 5: ORGANIZAÇÃO DOS BLOCOS 10–40
+================================================================================
+
+### BLOCO 21–25 (JÁ FECHADO)
+- ETAPA 21 – Billing Sólido & Add-ons
+- ETAPA 22 – Oráculo V2 Integrado
+- ETAPA 23 – Segurança Técnica & Observabilidade
+- ETAPA 24 – Manuais & Links Internos
+- ETAPA 25 – QA Técnico + Checklist Pós-MVP
+
+### BLOCO 26–30 – ORÁCULO + GERADOR DE SAAS (NÚCLEO)
+- 26 – Oráculo V2 multiperfil (exposição controlada)
+- 27 – ORACULO_V2_CORE + Gerador de SaaS
+- 28 – Limites e billing do Oráculo
+- 29 – Logging avançado do Oráculo
+- 30 – Documentação específica Oráculo + Gerador
+
+### BLOCO 31–35 – CONTROLE DE IAs + MENUS + DASHBOARDS + AVATARES
+- 31 – Painel central de IAs (Admin MASTER)
+- 32 – Matriz IA × Menu × Plano × Perfil
+- 33 – Avatares / Personas de IA
+- 34 – Organizar Menus do Admin + HELP por menu
+- 35 – Modo simulação (impersonação segura)
+
+### BLOCO 36–40 – GERADOR DE SAAS + ADM EXTERNO + MULTI-INSTANCE
+- 36 – Gerador de SaaS: Mãe com tema
+- 37 – Gerador de SaaS: "Em branco" (sem tema)
+- 38 – Admin externo único (hub)
+- 39 – Gestão de planos avançados / coortes
+- 40 – Documentação de clonagem e independência
+
+================================================================================
+PATCH 6: GERENCIAMENTO DE IAs POR MENU / PLANO / PERFIL
+================================================================================
+
+Requisitos:
+- Ver TODAS as IAs cadastradas (OpenAI, Claude, Together, Grok, etc.)
+- Conseguir ligar/desligar IA:
+  - Por MENU (Chat, Diário, Teste de Clareza, Oráculo, Curadoria, etc.)
+  - Por PERFIL (usuária, profissional, admin, whitelabel, gerador de SaaS)
+  - Por PLANO (Free, Pro, Defesa, Promo Black Friday, grupo especial, etc.)
+- Ter:
+  - Um PAINEL GERAL de carga/uso das IAs
+  - Controle também replicado para White label e Gerador de SaaS
+
+================================================================================
+PATCH 7: MENU ADMIN + HELP POR MENU + ORGANIZAÇÃO
+================================================================================
+
+Requisitos:
+- Reorganizar o menu admin por prioridade
+- Unificar / juntar items redundantes
+- Incluir HELP em cada menu explicando para leigo:
+  - O que é esse menu?
+  - Para que serve?
+  - Como usar passo a passo?
+  - Qual o impacto no SaaS / usuária / IA / custos?
+- Replicar lógica de help para:
+  - Admin principal
+  - Painel do parceiro whitelabel
+  - Painel do gerador de SaaS (admin dele)
+  - Painel profissional (versão reduzida)
+
+================================================================================
+PATCH 8: AVATARES / PERSONAS PARA AS IAs
+================================================================================
+
+Requisitos:
+- Usuário NUNCA ver "OpenAI / Claude / Together / Grok" como nomes crus
+- Em vez disso, cada IA ou combinação de IA tem:
+  - Nome de persona
+  - Avatar
+  - Descrição amigável ("Conselheira calma", "Analista de risco", etc.)
+- Transparência: Usuária sabe que há IA, mas não sabe a marca
+- Aplicar em: Radar, Gerador de SaaS, White label
+
+================================================================================
+PATCH 9: MODO SIMULAÇÃO DE USUÁRIO / PROFISSIONAL / WHITE LABEL
+================================================================================
+
+Requisitos:
+- No admin central:
+  - "Entrar como usuária X" (modo simulação)
+  - "Entrar como profissional Y"
+  - "Entrar como dono do white-label Z"
+- Uso:
+  - Para suporte ("não está funcionando aqui, vê pra mim")
+  - Para QA manual
+  - Para conferência de planos, menus, permissões, IAs ativas
+- Requisitos:
+  - Tudo rastreado (log: quem simulou, quando, qual perfil)
+  - Permissão do usuário profissional/cliente quando necessário
+
+================================================================================
+MIGRATION SQL: ETAPA 7 – PLANO DE SEGURANÇA E ALERTAS DE RISCO
+================================================================================
+
+-- Verificar se os tipos existem antes de criar
+DO $$ BEGIN
+  CREATE TYPE safety_item_status AS ENUM ('PENDING', 'IN_PROGRESS', 'COMPLETED', 'NOT_APPLICABLE');
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+  CREATE TYPE risk_level AS ENUM ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL');
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+  CREATE TYPE risk_category AS ENUM ('PHYSICAL_VIOLENCE', 'THREATS', 'ISOLATION', 'FINANCIAL_CONTROL', 'EMOTIONAL_ABUSE', 'STALKING', 'OTHER');
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
+
+-- Tabela: safety_plans
+CREATE TABLE IF NOT EXISTS public.safety_plans (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL REFERENCES auth.users (id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  emergency_contacts JSONB DEFAULT '[]',
+  important_documents JSONB DEFAULT '[]',
+  emergency_bag_items JSONB DEFAULT '[]',
+  safe_place JSONB,
+  digital_security JSONB DEFAULT '{}',
+  overall_status TEXT DEFAULT 'NOT_STARTED',
+  last_reviewed_at TIMESTAMPTZ,
+  notes TEXT
+);
+
+-- Tabela: risk_alerts
+CREATE TABLE IF NOT EXISTS public.risk_alerts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL REFERENCES auth.users (id) ON DELETE CASCADE,
+  source TEXT NOT NULL,
+  source_id UUID,
+  level risk_level NOT NULL,
+  category risk_category NOT NULL,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  recommendation TEXT,
+  is_read BOOLEAN DEFAULT FALSE,
+  is_dismissed BOOLEAN DEFAULT FALSE,
+  dismissed_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- RLS
+ALTER TABLE public.safety_plans ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.risk_alerts ENABLE ROW LEVEL SECURITY;
+
+-- Políticas RLS para safety_plans
+DROP POLICY IF EXISTS "safety_plans_select_own" ON public.safety_plans;
+DROP POLICY IF EXISTS "safety_plans_insert_own" ON public.safety_plans;
+DROP POLICY IF EXISTS "safety_plans_update_own" ON public.safety_plans;
+
+CREATE POLICY "safety_plans_select_own" ON public.safety_plans FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "safety_plans_insert_own" ON public.safety_plans FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "safety_plans_update_own" ON public.safety_plans FOR UPDATE USING (auth.uid() = user_id);
+
+-- Políticas RLS para risk_alerts
+DROP POLICY IF EXISTS "risk_alerts_select_own" ON public.risk_alerts;
+DROP POLICY IF EXISTS "risk_alerts_insert_own" ON public.risk_alerts;
+DROP POLICY IF EXISTS "risk_alerts_update_own" ON public.risk_alerts;
+
+CREATE POLICY "risk_alerts_select_own" ON public.risk_alerts FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "risk_alerts_insert_own" ON public.risk_alerts FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "risk_alerts_update_own" ON public.risk_alerts FOR UPDATE USING (auth.uid() = user_id);
+
+-- Índices
+CREATE INDEX IF NOT EXISTS idx_safety_plans_user_id ON public.safety_plans(user_id);
+CREATE INDEX IF NOT EXISTS idx_risk_alerts_user_id ON public.risk_alerts(user_id);
+CREATE INDEX IF NOT EXISTS idx_risk_alerts_level ON public.risk_alerts(level);
+CREATE INDEX IF NOT EXISTS idx_risk_alerts_created_at ON public.risk_alerts(created_at DESC);
+
+================================================================================
+INSTRUÇÃO FINAL PARA O WINDSURF
+================================================================================
+
+Você (Windsurf) recebeu este arquivo contendo TODOS os PROMPTS e PATCHES deste chat.
+
+1) LEITURA E MARCAÇÃO
+   – Leia CADA bloco de prompt/patch, um por um, sem pular.
+   – Para cada bloco, responda internamente:
+     • "Já implementei 100%?"
+     • "Implementei parcialmente?"
+     • "Ainda não implementei nada?"
+
+2) AÇÃO
+   – Se já estiver 100% implementado no código atual: apenas marque como FEITO.
+   – Se estiver parcialmente implementado: 
+     • Conclua o que falta agora.
+     • Atualize docs (TUDO, ATLAS, ROADMAP, TESTES, LÂMPADA).
+   – Se não estiver implementado: 
+     • Implemente agora (front, back, banco, o que for necessário).
+     • Atualize docs e faça commit.
+
+3) SAÍDA ESPERADA PARA O EDUARDO
+   – Para cada bloco de prompt/patch:
+     • Indicar: FEITO / PARCIAL / PENDENTE → DEPOIS IMPLEMENTADO.
+     • Listar arquivos criados/alterados.
+     • Resumir o que foi implementado.
+     • Apontar qualquer dívida técnica ou limitação.
+
+4) REGRA CRUCIAL
+   – Você NÃO pode dizer que fez o que não fez.
+   – Se não implementou, diga claramente.
+   – Eduardo vai auditar isso manualmente depois, conferindo no Git.
+
+================================================================================
+FIM DO ARQUIVO DE AUDITORIA
+================================================================================

@@ -333,6 +333,14 @@ STATUS DOS TESTES (30/11/2025 16:45):
 - T4: [X] PASS – card/banners funcionam, sem crash
 - T5: [X] PASS – todas APIs filtram por user_id autenticado
 
+RE-AUDITORIA (02/12/2025 18:55):
+- T1: [X] PASS – app/api/clarity/activate-profile/route.ts:291-317 cria risk_alert
+- T2: [X] PASS – app/chat/page.tsx:373 regex, :376-394 createRiskAlert, :1882-1915 banner
+- T3: [X] PASS – app/api/safety-plan/route.ts:78-115 createDiaryEntry com entry_type='safety_plan'
+- T4: [X] PASS – app/dashboard/page.tsx:1039-1172 card + banners condicionais
+- T5: [X] PASS – RLS em database/migrations/20241202_safety_plan_risk_alerts.sql:84-109
+- BUILD: [X] PASS – 170 páginas compiladas sem erros
+
 ================================================================================
 ETAPA 12.1 – INFRA DE CLIENTES PROFISSIONAIS
 ================================================================================
