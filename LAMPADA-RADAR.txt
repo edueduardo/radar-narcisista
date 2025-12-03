@@ -1,15 +1,40 @@
 ================================================================================
 💡 LÂMPADA RADAR - OBSERVAÇÕES E PENDÊNCIAS
 ================================================================================
-Versão: 2.1
-Última atualização: 02/12/2025 00:10 (UTC-5)
+Versão: 2.2
+Última atualização: 03/12/2025 10:30 (UTC-5)
 Responsável: Equipe Radar Narcisista
 
 ================================================================================
 🎉 PROGRESSO RECENTE
 ================================================================================
 
-🚀 BLOCO 32-35 EM ANDAMENTO (02/12/2025):
+🚀 BLOCO 36-40 COMPLETO (03/12/2025):
+- ✅ ETAPA 36: UI de Overrides Individuais no Admin
+- ✅ ETAPA 37: Rate Limiting Real por Feature
+- ✅ ETAPA 38: Dashboard de Métricas de Features
+- ✅ ETAPA 39: Integração Stripe Checkout + Webhooks
+- ✅ ETAPA 40: Notificações de Limite (80% e 100%)
+
+💡 ARQUIVOS CRIADOS NESTE BLOCO:
+- app/admin/planos-core/page.tsx (UI overrides)
+- app/admin/planos-core/metricas/page.tsx (Dashboard)
+- lib/rate-limiter.ts (Rate limiting)
+- lib/stripe-planos-core.ts (Stripe integration)
+- lib/limit-notifications.ts (Notificações)
+- app/api/webhooks/stripe-planos/route.ts (Webhook)
+- components/LimitNotificationBanner.tsx (Banner)
+- database/migrate-feature-usage.sql (SQL)
+- database/migrate-limit-notifications.sql (SQL)
+
+🚀 BLOCO 31-35 COMPLETO (03/12/2025):
+- ✅ ETAPA 31: Modelar PLANOS_CORE (6 tabelas)
+- ✅ ETAPA 32: Migrar planos atuais (4 profiles)
+- ✅ ETAPA 33: Promoções e Cohorts
+- ✅ ETAPA 34: Overrides e UI Admin
+- ✅ ETAPA 35: Frontpage e GERADOR-SAAS
+
+🚀 BLOCO 32-35 ANTERIOR (02/12/2025):
 - ✅ ETAPA 32: Control Tower & Registro Global de Projetos
 - ✅ ETAPA 33: Telemetria Core para todos os SaaS
 - ✅ ETAPA 34: Help Desk Global e Reportar Problema
