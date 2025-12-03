@@ -372,6 +372,151 @@ export class AIConfigCore {
 
     return data || []
   }
+
+  // ===========================================================================
+  // MÉTODOS DO PATCH 31-35 (Menu e Usuário)
+  // ===========================================================================
+
+  /**
+   * Obtém configuração de IA para um menu específico
+   */
+  async getMenuConfig(menuKey: string, planKey: string, perfil: string): Promise<any[]> {
+    const { data, error } = await this.supabase.rpc('ai_get_menu_config', {
+      p_menu_key: menuKey,
+      p_plan_key: planKey,
+      p_perfil: perfil
+    })
+
+    if (error) {
+      console.error('[AIConfigCore] Erro ao obter menu config:', error)
+      return []
+    }
+
+    return data || []
+  }
+
+  /**
+   * Obtém perfil completo de IA de um usuário
+   */
+  async getUserIAProfile(userId: string): Promise<any[]> {
+    const { data, error } = await this.supabase.rpc('ai_get_user_ia_profile', {
+      p_user_id: userId
+    })
+
+    if (error) {
+      console.error('[AIConfigCore] Erro ao obter user IA profile:', error)
+      return []
+    }
+
+    return data || []
+  }
+
+  /**
+   * Registra log de uso de IA (detalhado)
+   */
+  async logDetailedUsage(log: {
+    userId?: string
+    featureSlug: string
+    providerSlug: string
+    menuKey?: string
+    planKey?: string
+    groupKey?: string
+    perfil?: string
+    tokensInput?: number
+    tokensOutput?: number
+    custoEstimado?: number
+    latenciaMs?: number
+    sucesso?: boolean
+    erro?: string
+    metadata?: Record<string, any>
+  }): Promise<void> {
+    await this.supabase.from('ai_usage_logs').insert({
+      user_id: log.userId,
+      feature_slug: log.featureSlug,
+      provider_slug: log.providerSlug,
+      menu_key: log.menuKey,
+      plan_key: log.planKey,
+      group_key: log.groupKey,
+      perfil: log.perfil || 'usuaria',
+      tokens_input: log.tokensInput || 0,
+      tokens_output: log.tokensOutput || 0,
+      tokens_total: (log.tokensInput || 0) + (log.tokensOutput || 0),
+      custo_estimado: log.custoEstimado || 0,
+      latencia_ms: log.latenciaMs,
+      sucesso: log.sucesso ?? true,
+      erro: log.erro,
+      metadata: log.metadata || {},
+      created_at: new Date().toISOString()
+    })
+  }
+
+  /**
+   * Obtém estatísticas de uso por provider
+   */
+  async getUsageByProvider(): Promise<any[]> {
+    const { data, error } = await this.supabase
+      .from('ai_usage_by_provider')
+      .select('*')
+
+    if (error) {
+      console.error('[AIConfigCore] Erro ao obter usage by provider:', error)
+      return []
+    }
+
+    return data || []
+  }
+
+  /**
+   * Obtém estatísticas de uso por feature
+   */
+  async getUsageByFeature(): Promise<any[]> {
+    const { data, error } = await this.supabase
+      .from('ai_usage_by_feature')
+      .select('*')
+
+    if (error) {
+      console.error('[AIConfigCore] Erro ao obter usage by feature:', error)
+      return []
+    }
+
+    return data || []
+  }
+
+  /**
+   * Obtém mapeamento de menus
+   */
+  async getMenuMappings(): Promise<any[]> {
+    const { data, error } = await this.supabase
+      .from('ai_feature_menu_map')
+      .select(`
+        *,
+        feature:ai_features_core(slug, display_name, categoria)
+      `)
+      .order('menu_path')
+
+    if (error) {
+      console.error('[AIConfigCore] Erro ao obter menu mappings:', error)
+      return []
+    }
+
+    return data || []
+  }
+
+  /**
+   * Consolida estatísticas diárias
+   */
+  async consolidateDailyStats(date?: string): Promise<number> {
+    const { data, error } = await this.supabase.rpc('ai_consolidate_daily_stats', {
+      p_date: date || new Date().toISOString().split('T')[0]
+    })
+
+    if (error) {
+      console.error('[AIConfigCore] Erro ao consolidar stats:', error)
+      return 0
+    }
+
+    return data || 0
+  }
 }
 
 // =============================================================================
@@ -395,6 +540,7 @@ export function useAIConfig() {
   const aiConfig = getAIConfigCore()
   
   return {
+    // Métodos originais
     getProvidersForContext: aiConfig.getProvidersForContext.bind(aiConfig),
     getPrimaryProvider: aiConfig.getPrimaryProvider.bind(aiConfig),
     checkLimits: aiConfig.checkLimits.bind(aiConfig),
@@ -404,7 +550,15 @@ export function useAIConfig() {
     updateProviderStatus: aiConfig.updateProviderStatus.bind(aiConfig),
     updatePlanMatrix: aiConfig.updatePlanMatrix.bind(aiConfig),
     createGroupOverride: aiConfig.createGroupOverride.bind(aiConfig),
-    getFullMatrix: aiConfig.getFullMatrix.bind(aiConfig)
+    getFullMatrix: aiConfig.getFullMatrix.bind(aiConfig),
+    // Métodos do PATCH 31-35
+    getMenuConfig: aiConfig.getMenuConfig.bind(aiConfig),
+    getUserIAProfile: aiConfig.getUserIAProfile.bind(aiConfig),
+    logDetailedUsage: aiConfig.logDetailedUsage.bind(aiConfig),
+    getUsageByProvider: aiConfig.getUsageByProvider.bind(aiConfig),
+    getUsageByFeature: aiConfig.getUsageByFeature.bind(aiConfig),
+    getMenuMappings: aiConfig.getMenuMappings.bind(aiConfig),
+    consolidateDailyStats: aiConfig.consolidateDailyStats.bind(aiConfig)
   }
 }
 

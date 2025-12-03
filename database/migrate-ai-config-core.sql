@@ -348,6 +348,371 @@ WHERE p.slug = 'openai' AND f.slug = 'oraculo_admin'
 ON CONFLICT DO NOTHING;
 
 -- ============================================================================
+-- TABELA 6: ai_feature_menu_map (PATCH 31-35)
+-- Mapeia cada menu/tela para uma feature de IA
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS ai_feature_menu_map (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  menu_key TEXT NOT NULL UNIQUE, -- ex: "admin.config-ias", "app.diario"
+  menu_path TEXT NOT NULL, -- ex: "/admin/configurar-ias", "/diario"
+  menu_name TEXT NOT NULL, -- Nome de exibição
+  feature_id UUID REFERENCES ai_features_core(id) ON DELETE SET NULL,
+  perfil_default TEXT NOT NULL DEFAULT 'usuaria',
+  descricao TEXT,
+  ativo BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_ai_menu_map_path ON ai_feature_menu_map(menu_path);
+CREATE INDEX IF NOT EXISTS idx_ai_menu_map_feature ON ai_feature_menu_map(feature_id);
+
+-- ============================================================================
+-- TABELA 7: ai_usage_stats_daily (PATCH 31-35)
+-- Estatísticas diárias de uso de IA
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS ai_usage_stats_daily (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  date DATE NOT NULL DEFAULT CURRENT_DATE,
+  user_id UUID,
+  plan_key TEXT NOT NULL,
+  group_key TEXT,
+  perfil TEXT NOT NULL DEFAULT 'usuaria',
+  feature_id UUID REFERENCES ai_features_core(id) ON DELETE CASCADE,
+  provider_id UUID REFERENCES ai_providers_core(id) ON DELETE CASCADE,
+  calls INTEGER DEFAULT 0,
+  tokens_input BIGINT DEFAULT 0,
+  tokens_output BIGINT DEFAULT 0,
+  custo_estimado NUMERIC DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(date, user_id, plan_key, group_key, perfil, feature_id, provider_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_ai_usage_date ON ai_usage_stats_daily(date DESC);
+CREATE INDEX IF NOT EXISTS idx_ai_usage_user ON ai_usage_stats_daily(user_id);
+CREATE INDEX IF NOT EXISTS idx_ai_usage_plan ON ai_usage_stats_daily(plan_key);
+CREATE INDEX IF NOT EXISTS idx_ai_usage_group ON ai_usage_stats_daily(group_key);
+CREATE INDEX IF NOT EXISTS idx_ai_usage_feature ON ai_usage_stats_daily(feature_id);
+CREATE INDEX IF NOT EXISTS idx_ai_usage_provider ON ai_usage_stats_daily(provider_id);
+
+-- ============================================================================
+-- TABELA 8: ai_usage_logs (PATCH 31-35)
+-- Logs detalhados de cada chamada de IA
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS ai_usage_logs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID,
+  feature_slug TEXT NOT NULL,
+  provider_slug TEXT NOT NULL,
+  menu_key TEXT,
+  plan_key TEXT,
+  group_key TEXT,
+  perfil TEXT DEFAULT 'usuaria',
+  tokens_input INTEGER DEFAULT 0,
+  tokens_output INTEGER DEFAULT 0,
+  tokens_total INTEGER DEFAULT 0,
+  custo_estimado NUMERIC DEFAULT 0,
+  latencia_ms INTEGER,
+  sucesso BOOLEAN DEFAULT true,
+  erro TEXT,
+  metadata JSONB DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_ai_logs_user ON ai_usage_logs(user_id);
+CREATE INDEX IF NOT EXISTS idx_ai_logs_feature ON ai_usage_logs(feature_slug);
+CREATE INDEX IF NOT EXISTS idx_ai_logs_provider ON ai_usage_logs(provider_slug);
+CREATE INDEX IF NOT EXISTS idx_ai_logs_created ON ai_usage_logs(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_ai_logs_date ON ai_usage_logs(DATE(created_at));
+
+-- ============================================================================
+-- FUNÇÃO: ai_get_menu_config (PATCH 31-35)
+-- Retorna configuração de IA para um menu específico
+-- ============================================================================
+
+CREATE OR REPLACE FUNCTION ai_get_menu_config(
+  p_menu_key TEXT,
+  p_plan_key TEXT,
+  p_perfil TEXT
+)
+RETURNS TABLE (
+  menu_key TEXT,
+  menu_path TEXT,
+  menu_name TEXT,
+  feature_slug TEXT,
+  feature_name TEXT,
+  provider_slug TEXT,
+  provider_name TEXT,
+  papel TEXT,
+  peso NUMERIC,
+  limite_diario INTEGER,
+  limite_mensal INTEGER,
+  ativo BOOLEAN
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT 
+    m.menu_key,
+    m.menu_path,
+    m.menu_name,
+    f.slug AS feature_slug,
+    f.display_name AS feature_name,
+    p.slug AS provider_slug,
+    p.display_name AS provider_name,
+    pm.papel,
+    COALESCE(afp.peso, 1.0) AS peso,
+    pm.limite_diario,
+    pm.limite_mensal,
+    pm.ativo
+  FROM ai_feature_menu_map m
+  JOIN ai_features_core f ON f.id = m.feature_id
+  JOIN ai_plan_matrix pm ON pm.feature_id = f.id
+  JOIN ai_providers_core p ON p.id = pm.provider_id
+  LEFT JOIN ai_feature_providers_core afp ON afp.feature_id = f.id AND afp.provider_id = p.id
+  WHERE m.menu_key = p_menu_key
+    AND pm.plan_key = p_plan_key
+    AND pm.perfil = p_perfil
+    AND pm.ativo = true
+    AND p.status = 'ativo'
+    AND m.ativo = true;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- ============================================================================
+-- FUNÇÃO: ai_get_user_ia_profile (PATCH 31-35)
+-- Retorna perfil completo de IA de um usuário
+-- ============================================================================
+
+CREATE OR REPLACE FUNCTION ai_get_user_ia_profile(p_user_id UUID)
+RETURNS TABLE (
+  user_id UUID,
+  plan_key TEXT,
+  perfil TEXT,
+  feature_slug TEXT,
+  feature_name TEXT,
+  provider_slug TEXT,
+  provider_name TEXT,
+  limite_diario INTEGER,
+  limite_mensal INTEGER,
+  uso_hoje INTEGER,
+  uso_mes INTEGER
+) AS $$
+DECLARE
+  v_plan_key TEXT;
+  v_perfil TEXT;
+BEGIN
+  -- Obter plano e perfil do usuário
+  SELECT 
+    COALESCE(us.plan_key, 'free'),
+    COALESCE(up.role, 'USER')
+  INTO v_plan_key, v_perfil
+  FROM user_profiles up
+  LEFT JOIN user_subscriptions_core us ON us.user_id = up.user_id AND us.status = 'active'
+  WHERE up.user_id = p_user_id;
+
+  -- Converter role para perfil
+  v_perfil := CASE 
+    WHEN v_perfil IN ('ADMIN', 'SUPER_ADMIN') THEN 'admin'
+    WHEN v_perfil = 'PROFESSIONAL' THEN 'profissional'
+    ELSE 'usuaria'
+  END;
+
+  RETURN QUERY
+  SELECT 
+    p_user_id,
+    v_plan_key,
+    v_perfil,
+    f.slug,
+    f.display_name,
+    pr.slug,
+    pr.display_name,
+    pm.limite_diario,
+    pm.limite_mensal,
+    COALESCE((
+      SELECT SUM(calls)::INTEGER 
+      FROM ai_usage_stats_daily 
+      WHERE user_id = p_user_id 
+        AND feature_id = f.id 
+        AND provider_id = pr.id
+        AND date = CURRENT_DATE
+    ), 0),
+    COALESCE((
+      SELECT SUM(calls)::INTEGER 
+      FROM ai_usage_stats_daily 
+      WHERE user_id = p_user_id 
+        AND feature_id = f.id 
+        AND provider_id = pr.id
+        AND date >= DATE_TRUNC('month', CURRENT_DATE)
+    ), 0)
+  FROM ai_plan_matrix pm
+  JOIN ai_features_core f ON f.id = pm.feature_id
+  JOIN ai_providers_core pr ON pr.id = pm.provider_id
+  WHERE pm.plan_key = v_plan_key
+    AND pm.perfil = v_perfil
+    AND pm.ativo = true
+    AND pr.status = 'ativo';
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- ============================================================================
+-- FUNÇÃO: ai_consolidate_daily_stats (PATCH 31-35)
+-- Consolida logs em estatísticas diárias
+-- ============================================================================
+
+CREATE OR REPLACE FUNCTION ai_consolidate_daily_stats(p_date DATE DEFAULT CURRENT_DATE)
+RETURNS INTEGER AS $$
+DECLARE
+  v_count INTEGER;
+BEGIN
+  INSERT INTO ai_usage_stats_daily (
+    date, user_id, plan_key, group_key, perfil, feature_id, provider_id,
+    calls, tokens_input, tokens_output, custo_estimado
+  )
+  SELECT 
+    p_date,
+    l.user_id,
+    COALESCE(l.plan_key, 'free'),
+    l.group_key,
+    COALESCE(l.perfil, 'usuaria'),
+    f.id,
+    p.id,
+    COUNT(*),
+    SUM(l.tokens_input),
+    SUM(l.tokens_output),
+    SUM(l.custo_estimado)
+  FROM ai_usage_logs l
+  JOIN ai_features_core f ON f.slug = l.feature_slug
+  JOIN ai_providers_core p ON p.slug = l.provider_slug
+  WHERE DATE(l.created_at) = p_date
+  GROUP BY l.user_id, l.plan_key, l.group_key, l.perfil, f.id, p.id
+  ON CONFLICT (date, user_id, plan_key, group_key, perfil, feature_id, provider_id)
+  DO UPDATE SET
+    calls = ai_usage_stats_daily.calls + EXCLUDED.calls,
+    tokens_input = ai_usage_stats_daily.tokens_input + EXCLUDED.tokens_input,
+    tokens_output = ai_usage_stats_daily.tokens_output + EXCLUDED.tokens_output,
+    custo_estimado = ai_usage_stats_daily.custo_estimado + EXCLUDED.custo_estimado;
+
+  GET DIAGNOSTICS v_count = ROW_COUNT;
+  RETURN v_count;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- ============================================================================
+-- VIEWS PARA DASHBOARD (PATCH 31-35)
+-- ============================================================================
+
+-- View: Uso de IA por provider
+CREATE OR REPLACE VIEW ai_usage_by_provider AS
+SELECT 
+  p.slug AS provider_slug,
+  p.display_name AS provider_name,
+  SUM(s.calls) AS total_calls,
+  SUM(s.tokens_input + s.tokens_output) AS total_tokens,
+  SUM(s.custo_estimado) AS total_custo,
+  COUNT(DISTINCT s.user_id) AS unique_users
+FROM ai_usage_stats_daily s
+JOIN ai_providers_core p ON p.id = s.provider_id
+WHERE s.date >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY p.slug, p.display_name
+ORDER BY total_calls DESC;
+
+-- View: Uso de IA por feature
+CREATE OR REPLACE VIEW ai_usage_by_feature AS
+SELECT 
+  f.slug AS feature_slug,
+  f.display_name AS feature_name,
+  f.categoria,
+  SUM(s.calls) AS total_calls,
+  SUM(s.tokens_input + s.tokens_output) AS total_tokens,
+  SUM(s.custo_estimado) AS total_custo,
+  COUNT(DISTINCT s.user_id) AS unique_users
+FROM ai_usage_stats_daily s
+JOIN ai_features_core f ON f.id = s.feature_id
+WHERE s.date >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY f.slug, f.display_name, f.categoria
+ORDER BY total_calls DESC;
+
+-- View: Uso de IA por plano
+CREATE OR REPLACE VIEW ai_usage_by_plan AS
+SELECT 
+  s.plan_key,
+  SUM(s.calls) AS total_calls,
+  SUM(s.tokens_input + s.tokens_output) AS total_tokens,
+  SUM(s.custo_estimado) AS total_custo,
+  COUNT(DISTINCT s.user_id) AS unique_users
+FROM ai_usage_stats_daily s
+WHERE s.date >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY s.plan_key
+ORDER BY total_calls DESC;
+
+-- ============================================================================
+-- RLS PARA NOVAS TABELAS (PATCH 31-35)
+-- ============================================================================
+
+ALTER TABLE ai_feature_menu_map ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ai_usage_stats_daily ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ai_usage_logs ENABLE ROW LEVEL SECURITY;
+
+-- Policies para ai_feature_menu_map
+DROP POLICY IF EXISTS "Admin pode gerenciar ai_menu_map" ON ai_feature_menu_map;
+CREATE POLICY "Admin pode gerenciar ai_menu_map" ON ai_feature_menu_map
+  FOR ALL USING (
+    EXISTS (
+      SELECT 1 FROM user_profiles 
+      WHERE user_profiles.user_id = auth.uid() 
+      AND user_profiles.role IN ('ADMIN', 'SUPER_ADMIN')
+    )
+  );
+
+-- Policies para ai_usage_stats_daily
+DROP POLICY IF EXISTS "Admin pode ver stats" ON ai_usage_stats_daily;
+CREATE POLICY "Admin pode ver stats" ON ai_usage_stats_daily
+  FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM user_profiles 
+      WHERE user_profiles.user_id = auth.uid() 
+      AND user_profiles.role IN ('ADMIN', 'SUPER_ADMIN')
+    )
+  );
+
+-- Policies para ai_usage_logs
+DROP POLICY IF EXISTS "Sistema pode inserir logs" ON ai_usage_logs;
+CREATE POLICY "Sistema pode inserir logs" ON ai_usage_logs
+  FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Admin pode ver logs" ON ai_usage_logs;
+CREATE POLICY "Admin pode ver logs" ON ai_usage_logs
+  FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM user_profiles 
+      WHERE user_profiles.user_id = auth.uid() 
+      AND user_profiles.role IN ('ADMIN', 'SUPER_ADMIN')
+    )
+  );
+
+-- ============================================================================
+-- SEED: Mapeamento de Menus (PATCH 31-35)
+-- ============================================================================
+
+INSERT INTO ai_feature_menu_map (menu_key, menu_path, menu_name, feature_id, perfil_default, descricao) VALUES
+  ('app.diario', '/diario', 'Diário Emocional', (SELECT id FROM ai_features_core WHERE slug = 'diario_analise'), 'usuaria', 'Análise de entradas do diário'),
+  ('app.teste_clareza', '/teste-clareza', 'Teste de Clareza', (SELECT id FROM ai_features_core WHERE slug = 'teste_clareza'), 'usuaria', 'Avaliação do teste de clareza'),
+  ('app.chat', '/chat', 'Chat com IA', (SELECT id FROM ai_features_core WHERE slug = 'chat_usuario'), 'usuaria', 'Conversa com a IA'),
+  ('admin.oraculo', '/admin/oraculo', 'Oráculo Admin', (SELECT id FROM ai_features_core WHERE slug = 'oraculo_admin'), 'admin', 'IA de suporte para admin'),
+  ('admin.config_ias', '/admin/configurar-ias', 'Configurar IAs', NULL, 'admin', 'Configuração de IAs'),
+  ('admin.ia_matrix', '/admin/ia-matrix', 'IA Matrix', NULL, 'admin', 'Matrix de configuração de IAs'),
+  ('admin.custos_ia', '/admin/custos-ia', 'Custos de IA', NULL, 'admin', 'Monitoramento de custos'),
+  ('prof.oraculo', '/dashboard-profissional', 'Oráculo Profissional', (SELECT id FROM ai_features_core WHERE slug = 'oraculo_profissional'), 'profissional', 'IA para profissionais')
+ON CONFLICT (menu_key) DO UPDATE SET
+  menu_path = EXCLUDED.menu_path,
+  menu_name = EXCLUDED.menu_name,
+  feature_id = EXCLUDED.feature_id,
+  descricao = EXCLUDED.descricao;
+
+-- ============================================================================
 -- VERIFICAÇÃO
 -- ============================================================================
 
@@ -355,3 +720,4 @@ SELECT '✅ MIGRATION AI_CONFIG_CORE CONCLUÍDA!' as status;
 SELECT 'Provedores: ' || COUNT(*) FROM ai_providers_core;
 SELECT 'Features: ' || COUNT(*) FROM ai_features_core;
 SELECT 'Matrix: ' || COUNT(*) FROM ai_plan_matrix;
+SELECT 'Menus mapeados: ' || COUNT(*) FROM ai_feature_menu_map;
