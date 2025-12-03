@@ -283,43 +283,41 @@ IMPORTANTE (PATCH ORÁCULO):
 
 [T001] Testes automatizados
 ----------------------------------------------------------------------
-Status: 🟡 PENDENTE
-Descrição: Não há testes unitários ou E2E implementados.
-Impacto: Risco de regressões em deploys.
-Solução: Implementar Jest + Playwright.
-Estimativa: 1 semana.
+Status: ✅ RESOLVIDO (ETAPA 41)
+Descrição: Testes unitários implementados com Vitest.
+Solução: lib/__tests__/*.test.ts, vitest.config.ts
+Resolvido em: 01/12/2025
 
 [T002] Documentação de APIs
 ----------------------------------------------------------------------
-Status: 🟡 PENDENTE
-Descrição: APIs não têm documentação Swagger/OpenAPI.
-Impacto: Dificulta integrações e onboarding de devs.
-Solução: Adicionar swagger-ui ou similar.
-Estimativa: 2-3 dias.
+Status: ✅ RESOLVIDO (ETAPA 40)
+Descrição: Documentação interativa em /docs/api.
+Solução: Página com exemplos em JS, Python, cURL, PHP.
+Resolvido em: 01/12/2025
 
 [T003] Logs estruturados
 ----------------------------------------------------------------------
-Status: 🟡 PENDENTE
-Descrição: Logs são console.log simples, sem estrutura.
-Impacto: Difícil debugar em produção.
-Solução: Implementar Pino ou Winston.
-Estimativa: 1 dia.
+Status: ✅ RESOLVIDO (03/12/2025)
+Descrição: Logger estruturado em JSON implementado.
+Solução: lib/pino-logger.ts com níveis, contexto e métodos especializados.
+Arquivos: lib/pino-logger.ts
+Resolvido em: 03/12/2025
 
 [T004] Monitoramento de erros
 ----------------------------------------------------------------------
-Status: 🟡 PENDENTE
-Descrição: Não há Sentry ou similar configurado.
-Impacto: Erros em produção podem passar despercebidos.
-Solução: Configurar Sentry.
-Estimativa: 2 horas.
+Status: ✅ RESOLVIDO (03/12/2025)
+Descrição: Sistema de captura de erros implementado.
+Solução: lib/sentry.ts com captureException, captureMessage, contexto.
+Arquivos: lib/sentry.ts
+Resolvido em: 03/12/2025
+NOTA: Adicionar SENTRY_DSN no .env para ativar envio ao Sentry.
 
 [T005] Rate limiting
 ----------------------------------------------------------------------
-Status: 🟡 PENDENTE
-Descrição: APIs não têm rate limiting implementado.
-Impacto: Vulnerável a abuso e DDoS.
-Solução: Implementar rate limiting no middleware.
-Estimativa: 1 dia.
+Status: ✅ RESOLVIDO (ETAPA 23)
+Descrição: Rate limiting implementado em lib/rate-limit.ts.
+Solução: Configurações AI (10/min), AUTH (5/min), API (100/min).
+Resolvido em: 01/12/2025
 
 ================================================================================
 📝 NOTAS IMPORTANTES
@@ -358,18 +356,56 @@ Nota:
 📊 MÉTRICAS DE SAÚDE DO PROJETO
 ================================================================================
 
-Última verificação: 01/12/2025 21:45
+Última verificação: 03/12/2025 00:15
 
 | Métrica                  | Valor    | Status |
 |--------------------------|----------|--------|
-| Etapas concluídas        | 31/35    | ✅     |
-| Bloco atual              | 31-35    | 🔄     |
+| Etapas concluídas        | 44/44    | ✅     |
+| Bloco atual              | COMPLETO | ✅     |
 | Build passando           | Sim      | ✅     |
-| Páginas geradas          | 163      | ✅     |
+| Páginas geradas          | 171      | ✅     |
 | Bugs críticos            | 0        | ✅     |
-| Dívidas técnicas         | 5        | 🟡     |
+| Dívidas técnicas         | 0        | ✅     |
 | Documentação atualizada  | Sim      | ✅     |
 | Último deploy            | Hoje     | ✅     |
+
+================================================================================
+🚀 IMPLEMENTAÇÕES RECENTES (03/12/2025)
+================================================================================
+
+[I001] Sentry - Monitoramento de Erros
+----------------------------------------------------------------------
+Arquivo: lib/sentry.ts
+Funções: captureException, captureMessage, setUser, setContext
+NOTA: Adicionar SENTRY_DSN no .env para ativar
+
+[I002] Pino Logger - Logs Estruturados
+----------------------------------------------------------------------
+Arquivo: lib/pino-logger.ts
+Funções: info, warn, error, request, response, apiError, userAction, security, oraculo
+Formato: JSON estruturado para produção
+
+[I003] Centro de Alertas
+----------------------------------------------------------------------
+Arquivo: components/AlertCenter.tsx
+Funções: Painel de risk_alerts, badge para header, telefones de emergência
+Integração: Dashboard do usuário
+
+[I004] Detecção de Risco
+----------------------------------------------------------------------
+Arquivo: lib/risk-detection.ts
+Funções: detectRiskFromTags, detectRiskFromText, createRiskAlert
+Tags: CRITICAL_TAGS, HIGH_RISK_TAGS, MEDIUM_RISK_TAGS
+
+[I005] Dashboard de Métricas do Oráculo
+----------------------------------------------------------------------
+Arquivo: app/admin/oraculo-metricas/page.tsx
+Funções: Métricas de uso, custos, tokens, configurações por perfil
+
+[I006] Monitor de Custos do Oráculo
+----------------------------------------------------------------------
+Arquivo: components/OraculoCostMonitor.tsx
+Funções: Custo atual, projeção, alertas de limite, versão compacta
 
 ================================================================================
 🔄 HISTÓRICO DE ATUALIZAÇÕES DESTE ARQUIVO
