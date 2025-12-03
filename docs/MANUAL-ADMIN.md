@@ -334,6 +334,55 @@ Todos os logs são em formato JSON para fácil parsing:
 
 ---
 
+## 🎛️ Control Plane (NOVO)
+
+### O que é o Control Plane?
+
+O Control Plane é a arquitetura que permite gerenciar configurações do sistema **SEM necessidade de deploy**.
+
+### Três Camadas
+
+| Camada | O que muda | Como muda |
+|--------|------------|-----------|
+| **CÓDIGO** | Páginas, componentes, APIs | Deploy na Vercel |
+| **CONFIGURAÇÃO** | IAs, planos, limites, flags | Admin → Supabase |
+| **CONTROL PLANE** | Interface de gestão | /admin |
+
+### Mudanças SEM Deploy
+
+Você pode alterar **imediatamente** (sem deploy):
+- ✅ Ativar/desativar IAs por menu
+- ✅ Ajustar limites por plano
+- ✅ Criar grupos/promoções
+- ✅ Liberar features para usuários
+- ✅ Configurar overrides individuais
+
+### Mudanças COM Deploy
+
+Requerem `git push` + deploy na Vercel:
+- ❌ Nova página React
+- ❌ Nova rota de API
+- ❌ Mudança de lógica de IA
+- ❌ Alteração de schema do banco
+
+### Páginas de Configuração de IA
+
+| Página | Função |
+|--------|--------|
+| `/admin/ia-matrix` | Configurar IAs por plano |
+| `/admin/ia-mapa-menus` | Ver IAs por menu |
+| `/admin/ia-carga` | Dashboard de uso |
+| `/admin/configurar-ias` | API Keys |
+| `/admin/custos-ia` | Monitorar custos |
+
+### Arquivos Relacionados
+
+- `lib/control-plane.ts` - Módulo de gestão
+- `lib/ai-config-core.ts` - Configuração de IAs
+- `docs/CONTROL-PLANE.md` - Documentação completa
+
+---
+
 ## 📞 Contatos
 
 - **Suporte Técnico:** dev@radarnarcisista.com.br

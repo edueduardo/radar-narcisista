@@ -206,7 +206,7 @@ CREATE TABLE IF NOT EXISTS public.user_subscriptions_core (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL UNIQUE,                    -- ID do usuário
   plan_slug TEXT NOT NULL,                         -- Slug do plano (free, profissional, etc.)
-  plan_key TEXT GENERATED ALWAYS AS (plan_slug) STORED,  -- Alias para compatibilidade com AI_CONFIG_CORE
+  plan_key TEXT,                                   -- Alias para compatibilidade com AI_CONFIG_CORE
   feature_profile_id UUID REFERENCES public.feature_profiles(id),  -- Profile atual
   stripe_subscription_id TEXT,                     -- ID da assinatura no Stripe
   stripe_customer_id TEXT,                         -- ID do cliente no Stripe
@@ -656,6 +656,33 @@ INSERT INTO public.plan_catalog (slug, nome_exibicao, descricao_curta, current_p
    (SELECT id FROM public.feature_profiles WHERE profile_key = 'white_label_v1'),
    49900, 479000, 4, ARRAY['enterprise'], '#F59E0B')
 ON CONFLICT (slug) DO NOTHING;
+
+-- ============================================================================
+-- TRIGGER: Sincronizar plan_key com plan_slug
+-- ============================================================================
+
+CREATE OR REPLACE FUNCTION sync_plan_key()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.plan_key := NEW.plan_slug;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trigger_sync_plan_key ON public.user_subscriptions_core;
+CREATE TRIGGER trigger_sync_plan_key
+  BEFORE INSERT OR UPDATE ON public.user_subscriptions_core
+  FOR EACH ROW
+  EXECUTE FUNCTION sync_plan_key();
+
+-- ============================================================================
+-- VERIFICAÇÃO FINAL
+-- ============================================================================
+
+SELECT '✅ MIGRATION PLANOS_CORE CONCLUÍDA!' as status;
+SELECT 'Features: ' || COUNT(*) FROM public.features;
+SELECT 'Profiles: ' || COUNT(*) FROM public.feature_profiles;
+SELECT 'Planos: ' || COUNT(*) FROM public.plan_catalog;
 
 -- ============================================================================
 -- COMENTÁRIOS
