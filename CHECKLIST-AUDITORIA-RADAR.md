@@ -1,7 +1,7 @@
 # CHECKLIST DE AUDITORIA – RADAR NARCISISTA
 
-**Data da Última Auditoria:** 02/12/2025 23:05 (UTC-5)  
-**Blocos Auditados:** ETAPA 7.3-13 + ETAPA 14-20 + ETAPA 21-25 + CICLO MANUAIS + BLOCO MANUAIS HUMANOS + PATCH 1-2-3A-3B ORÁCULO  
+**Data da Última Auditoria:** 02/12/2025 23:10 (UTC-5)  
+**Blocos Auditados:** ETAPA 7.3-13 + ETAPA 14-20 + ETAPA 21-25 + ETAPA 32 + CICLO MANUAIS + BLOCO MANUAIS HUMANOS + PATCH 1-2-3A-3B-4 ORÁCULO  
 **Auditor:** Windsurf AI (Cascade)  
 **Resultado:** ✅ TODOS OS ITENS IMPLEMENTADOS – CÓDIGO SIGNIFICATIVAMENTE MAIS AVANÇADO QUE OS PROMPTS
 
@@ -1888,6 +1888,47 @@ Os PATCHES pedem:
 **CONCLUSÃO:** Nenhuma mudança de código foi necessária.
 
 ### FIM_RELATORIO_FINAL_CHATGPT_PATCH_3A_3B
+
+---
+
+## RELATORIO_FINAL_CHATGPT – PATCH 4 + ETAPA 32
+
+**Data:** 02/12/2025 23:10 (UTC-5)
+
+### [1] PATCH 4 - MATRIZ ORÁCULO V1/V2
+
+| Perfil | ORÁCULO V1 | ORÁCULO V2 | Status |
+|--------|------------|------------|--------|
+| `usuaria` | ❌ NÃO VÊ | ✅ Se plano permitir | ✅ OK |
+| `profissional` | ❌ NÃO VÊ | ✅ Se habilitado | ✅ OK |
+| `admin` | ✅ SEMPRE VÊ | ✅ Pode usar | ✅ OK |
+| `whitelabel` | ✅ Painel próprio | ✅ Controla usuários | ✅ OK |
+
+### [2] ETAPA 32 - MULTI-INSTÂNCIA
+
+| Item | Status | Arquivo |
+|------|--------|---------|
+| Tabela `oraculo_instances` | ✅ OK | `migrate-oraculo-instances.sql` |
+| Tabela `oraculo_instance_roles` | ✅ OK | Linha 33-49 |
+| Tabela `oraculo_instance_usage` | ✅ OK | Linha 51-60 |
+| Lib de instâncias | ✅ OK | `lib/oraculo-instances.ts` (480 linhas) |
+| API de instâncias | ✅ OK | `app/api/admin/oraculo-instances/` |
+| Admin de instâncias | ✅ OK | `app/admin/oraculo-instances/` |
+| Documentação | ✅ OK | 34 menções em 22 arquivos |
+
+### [3] DECISÃO SOBRE RETROCESSO
+
+**O código atual está ALINHADO com o PATCH 4.**
+
+O PATCH 4 pede:
+- Matriz de quem vê V1/V2 → ✅ IMPLEMENTADO
+- Multi-instância para whitelabel → ✅ IMPLEMENTADO
+- Configurações por instância → ✅ IMPLEMENTADO
+- ETAPA 32 documentada → ✅ 34 menções em 22 arquivos
+
+**CONCLUSÃO:** Nenhuma mudança de código foi necessária.
+
+### FIM_RELATORIO_FINAL_CHATGPT_PATCH_4_ETAPA_32
 
 ---
 
