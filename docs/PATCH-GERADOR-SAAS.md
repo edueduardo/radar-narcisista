@@ -1,7 +1,7 @@
 # PATCH – GERADOR DE SAAS (MÃE, CORE BRANCO, FILHOS)
-## (SIMBIOSE COM O RADAR + INDEPENDÊNCIA TOTAL DEPOIS DE GERADO)
+## Estrutura, Clones e Independência
 
-> **Versão:** 2.0  
+> **Versão:** 3.0  
 > **Data:** 03/12/2025  
 > **Prioridade:** MÁXIMA – Este PATCH tem prioridade sobre qualquer texto antigo
 
