@@ -336,6 +336,55 @@ ON CONFLICT (menu_key) DO UPDATE SET
   descricao = EXCLUDED.descricao;
 
 -- ============================================================================
+-- VIEWS PARA DASHBOARD (corrigidas)
+-- ============================================================================
+
+-- View: Uso de IA por provider
+DROP VIEW IF EXISTS ai_usage_by_provider;
+CREATE OR REPLACE VIEW ai_usage_by_provider AS
+SELECT 
+  p.slug AS provider_slug,
+  p.display_name AS provider_name,
+  COALESCE(SUM(s.calls), 0) AS total_calls,
+  COALESCE(SUM(s.tokens_input + s.tokens_output), 0) AS total_tokens,
+  COALESCE(SUM(s.custo_estimado), 0) AS total_custo,
+  COUNT(DISTINCT s.stats_user_id) AS unique_users
+FROM ai_providers_core p
+LEFT JOIN ai_usage_stats_daily s ON s.provider_id = p.id AND s.date >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY p.slug, p.display_name
+ORDER BY total_calls DESC;
+
+-- View: Uso de IA por feature
+DROP VIEW IF EXISTS ai_usage_by_feature;
+CREATE OR REPLACE VIEW ai_usage_by_feature AS
+SELECT 
+  f.slug AS feature_slug,
+  f.display_name AS feature_name,
+  f.categoria,
+  COALESCE(SUM(s.calls), 0) AS total_calls,
+  COALESCE(SUM(s.tokens_input + s.tokens_output), 0) AS total_tokens,
+  COALESCE(SUM(s.custo_estimado), 0) AS total_custo,
+  COUNT(DISTINCT s.stats_user_id) AS unique_users
+FROM ai_features_core f
+LEFT JOIN ai_usage_stats_daily s ON s.feature_id = f.id AND s.date >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY f.slug, f.display_name, f.categoria
+ORDER BY total_calls DESC;
+
+-- View: Uso de IA por plano
+DROP VIEW IF EXISTS ai_usage_by_plan;
+CREATE OR REPLACE VIEW ai_usage_by_plan AS
+SELECT 
+  s.plan_key,
+  COALESCE(SUM(s.calls), 0) AS total_calls,
+  COALESCE(SUM(s.tokens_input + s.tokens_output), 0) AS total_tokens,
+  COALESCE(SUM(s.custo_estimado), 0) AS total_custo,
+  COUNT(DISTINCT s.stats_user_id) AS unique_users
+FROM ai_usage_stats_daily s
+WHERE s.date >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY s.plan_key
+ORDER BY total_calls DESC;
+
+-- ============================================================================
 -- VERIFICAÇÃO
 -- ============================================================================
 
