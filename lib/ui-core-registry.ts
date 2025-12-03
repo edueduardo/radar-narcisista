@@ -593,6 +593,100 @@ export function getRegistryStats() {
 }
 
 // ============================================================================
+// FUNÇÕES ESPECÍFICAS POR AUDIENCE (ATALHOS)
+// ============================================================================
+
+/**
+ * Retorna árvore de menu do ADMIN (grupos + itens)
+ */
+export function getAdminMenuTree() {
+  const groups = uiCoreRegistry.groups
+    .filter(g => g.audience === 'admin')
+    .sort((a, b) => a.priority - b.priority)
+
+  const screens = uiCoreRegistry.screens
+    .filter(s => s.audience === 'admin' && s.enabledByDefault)
+    .sort((a, b) => a.priority - b.priority)
+
+  return groups.map(group => ({
+    ...group,
+    items: screens.filter(s => s.groupId === group.id)
+  }))
+}
+
+/**
+ * Retorna seções do dashboard da USUÁRIA
+ */
+export function getUserDashboardSections() {
+  const groups = uiCoreRegistry.groups
+    .filter(g => g.audience === 'user')
+    .sort((a, b) => a.priority - b.priority)
+
+  const screens = uiCoreRegistry.screens
+    .filter(s => s.audience === 'user' && s.enabledByDefault)
+    .sort((a, b) => a.priority - b.priority)
+
+  return groups.map(group => ({
+    ...group,
+    items: screens.filter(s => s.groupId === group.id)
+  }))
+}
+
+/**
+ * Retorna seções do dashboard do PROFISSIONAL
+ */
+export function getProfessionalDashboardSections() {
+  const groups = uiCoreRegistry.groups
+    .filter(g => g.audience === 'professional')
+    .sort((a, b) => a.priority - b.priority)
+
+  const screens = uiCoreRegistry.screens
+    .filter(s => s.audience === 'professional' && s.enabledByDefault)
+    .sort((a, b) => a.priority - b.priority)
+
+  return groups.map(group => ({
+    ...group,
+    items: screens.filter(s => s.groupId === group.id)
+  }))
+}
+
+/**
+ * Retorna seções do painel WHITE LABEL
+ */
+export function getWhiteLabelSections() {
+  const groups = uiCoreRegistry.groups
+    .filter(g => g.audience === 'whitelabel')
+    .sort((a, b) => a.priority - b.priority)
+
+  const screens = uiCoreRegistry.screens
+    .filter(s => s.audience === 'whitelabel' && s.enabledByDefault)
+    .sort((a, b) => a.priority - b.priority)
+
+  return groups.map(group => ({
+    ...group,
+    items: screens.filter(s => s.groupId === group.id)
+  }))
+}
+
+/**
+ * Retorna seções do GERADOR DE SAAS
+ */
+export function getGeneratorSections() {
+  const groups = uiCoreRegistry.groups
+    .filter(g => g.audience === 'generator')
+    .sort((a, b) => a.priority - b.priority)
+
+  const screens = uiCoreRegistry.screens
+    .filter(s => s.audience === 'generator' && s.enabledByDefault)
+    .sort((a, b) => a.priority - b.priority)
+
+  return groups.map(group => ({
+    ...group,
+    items: screens.filter(s => s.groupId === group.id)
+  }))
+}
+
+// ============================================================================
 // EXPORT DEFAULT
 // ============================================================================
 
@@ -605,7 +699,13 @@ const UICoreRegistry = {
   getScreenById,
   getGroupById,
   getMenuForAudience,
-  getRegistryStats
+  getRegistryStats,
+  // Atalhos por audience
+  getAdminMenuTree,
+  getUserDashboardSections,
+  getProfessionalDashboardSections,
+  getWhiteLabelSections,
+  getGeneratorSections
 }
 
 export default UICoreRegistry
