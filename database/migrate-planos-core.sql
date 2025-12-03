@@ -528,13 +528,13 @@ SELECT
   (SELECT id FROM public.feature_profiles WHERE profile_key = 'free_v1'),
   feature_key,
   valor::jsonb,
-  limite_diario,
-  limite_semanal,
-  limite_mensal
+  limite_diario::integer,
+  limite_semanal::integer,
+  limite_mensal::integer
 FROM (VALUES
-  ('diario', 'true', 3, 10, 30),
-  ('teste_clareza', 'true', 1, 3, 10),
-  ('chat_ia', 'true', 2, 7, 20),
+  ('diario', 'true', '3', '10', '30'),
+  ('teste_clareza', 'true', '1', '3', '10'),
+  ('chat_ia', 'true', '2', '7', '20'),
   ('timeline', 'true', NULL, NULL, NULL),
   ('conquistas', 'true', NULL, NULL, NULL)
 ) AS t(feature_key, valor, limite_diario, limite_semanal, limite_mensal)
@@ -546,16 +546,16 @@ SELECT
   (SELECT id FROM public.feature_profiles WHERE profile_key = 'profissional_v1'),
   feature_key,
   valor::jsonb,
-  limite_diario,
-  limite_semanal,
-  limite_mensal
+  limite_diario::integer,
+  limite_semanal::integer,
+  limite_mensal::integer
 FROM (VALUES
   ('diario', 'true', NULL, NULL, NULL),
   ('diario_ilimitado', 'true', NULL, NULL, NULL),
-  ('teste_clareza', 'true', 5, 20, 60),
-  ('chat_ia', 'true', 10, 50, 150),
-  ('oraculo_v2', 'true', 5, 25, 75),
-  ('relatorios_pdf', 'true', 3, 10, 30),
+  ('teste_clareza', 'true', '5', '20', '60'),
+  ('chat_ia', 'true', '10', '50', '150'),
+  ('oraculo_v2', 'true', '5', '25', '75'),
+  ('relatorios_pdf', 'true', '3', '10', '30'),
   ('timeline', 'true', NULL, NULL, NULL),
   ('plano_seguranca', 'true', NULL, NULL, NULL),
   ('carta_futuro', 'true', NULL, NULL, NULL),
@@ -572,16 +572,16 @@ SELECT
   (SELECT id FROM public.feature_profiles WHERE profile_key = 'defesa_v1'),
   feature_key,
   valor::jsonb,
-  limite_diario,
-  limite_semanal,
-  limite_mensal
+  limite_diario::integer,
+  limite_semanal::integer,
+  limite_mensal::integer
 FROM (VALUES
   ('diario', 'true', NULL, NULL, NULL),
   ('diario_ilimitado', 'true', NULL, NULL, NULL),
-  ('teste_clareza', 'true', 10, 50, 150),
-  ('chat_ia', 'true', 20, 100, 300),
-  ('oraculo_v2', 'true', 10, 50, 150),
-  ('relatorios_pdf', 'true', 10, 50, 150),
+  ('teste_clareza', 'true', '10', '50', '150'),
+  ('chat_ia', 'true', '20', '100', '300'),
+  ('oraculo_v2', 'true', '10', '50', '150'),
+  ('relatorios_pdf', 'true', '10', '50', '150'),
   ('timeline', 'true', NULL, NULL, NULL),
   ('plano_seguranca', 'true', NULL, NULL, NULL),
   ('carta_futuro', 'true', NULL, NULL, NULL),
@@ -599,9 +599,9 @@ SELECT
   (SELECT id FROM public.feature_profiles WHERE profile_key = 'white_label_v1'),
   feature_key,
   valor::jsonb,
-  limite_diario,
-  limite_semanal,
-  limite_mensal
+  limite_diario::integer,
+  limite_semanal::integer,
+  limite_mensal::integer
 FROM (VALUES
   ('diario', 'true', NULL, NULL, NULL),
   ('diario_ilimitado', 'true', NULL, NULL, NULL),
