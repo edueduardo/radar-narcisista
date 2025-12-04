@@ -1,0 +1,353 @@
+================================================================================
+AUDITORIA MASTER PREMIUM - RADAR NARCISISTA
+================================================================================
+Criado: 03/12/2025 23:30 UTC-5
+Autoria: Windsurf + ChatGPT + Eduardo
+Versão: 1.0
+
+OBJETIVO:
+Este arquivo é a AUDITORIA RIGOROSA do projeto Radar Narcisista.
+Ele verifica se tudo que está documentado em:
+├── FUTURO-TERMINAR-IMPLEMENTACAO.txt
+└── HISTORICO-UNIFICADO.txt
+...realmente existe no código e funciona.
+
+================================================================================
+=== 📋 PROMPT DE AUDITORIA MASTER ===
+================================================================================
+
+NOME: RADAR – AUDITORIA MASTER PREMIUM
+
+Você é o MAIOR AUDITOR DE CÓDIGO DO MUNDO.
+Você vai auditar o projeto "radar-narcisista" com os mais altos padrões
+do mercado profissional.
+
+REGRAS ABSOLUTAS:
+├── NÃO dizer que algo existe se não encontrou no código
+├── NÃO dizer que algo funciona se não verificou
+├── NÃO inventar features que não existem
+├── SEMPRE comparar: DOCUMENTADO vs. IMPLEMENTADO
+└── SEMPRE gerar relatório com ✅ / ❌ / ⚠️
+
+================================================================================
+=== ETAPA A.0 – LEITURA DOS ARQUIVOS DE REFERÊNCIA ===
+================================================================================
+
+ARQUIVOS A LER (OBRIGATÓRIO):
+├── FUTURO-TERMINAR-IMPLEMENTACAO.txt (fonte da verdade de ETAPAs)
+├── HISTORICO-UNIFICADO.txt (histórico de decisões)
+├── ATLAS-RADAR-NARCISISTA.txt (mapa técnico)
+├── ROADMAP-RADAR.txt (status das ETAPAs)
+├── TUDO PARA O GPT.txt (visão de produto)
+├── TESTES-RADAR.txt (checklists de testes)
+└── ESPELHO-CODIGO-RADAR.txt (estrutura de arquivos)
+
+OBJETIVO:
+Entender o que DEVERIA existir antes de verificar o que EXISTE.
+
+================================================================================
+=== ETAPA A.1 – AUDITORIA DE ESTRUTURA DE ARQUIVOS ===
+================================================================================
+
+VERIFICAR:
+├── [ ] Todas as pastas principais existem (app/, lib/, components/, database/)
+├── [ ] Todos os arquivos críticos existem
+├── [ ] Migrations estão na pasta correta
+├── [ ] Arquivos de configuração estão corretos (.env.local, next.config.js)
+└── [ ] Nenhum arquivo órfão ou duplicado
+
+GERAR RELATÓRIO:
+├── Arquivos que DEVERIAM existir mas NÃO existem
+├── Arquivos que EXISTEM mas NÃO estão documentados
+└── Arquivos duplicados ou conflitantes
+
+================================================================================
+=== ETAPA A.2 – AUDITORIA DE ROTAS E PÁGINAS ===
+================================================================================
+
+VERIFICAR CADA ROTA DOCUMENTADA:
+├── [ ] A página existe em app/
+├── [ ] A página renderiza sem erro
+├── [ ] A página tem os componentes esperados
+├── [ ] A página está conectada às APIs corretas
+└── [ ] A página respeita o plano do usuário (se aplicável)
+
+ROTAS CRÍTICAS A VERIFICAR:
+├── /dashboard (usuária)
+├── /dashboard-profissional (profissional)
+├── /aceitar-convite (aceite de convite)
+├── /configuracoes/profissionais (gestão de conexões)
+├── /admin/* (todas as rotas admin)
+├── /teste-clareza (teste de clareza)
+├── /diario (diário)
+├── /chat (chat IA)
+└── /plano-seguranca (plano de segurança)
+
+GERAR RELATÓRIO:
+├── Rotas que DEVERIAM existir mas NÃO existem
+├── Rotas que EXISTEM mas NÃO estão documentadas
+└── Rotas com erros de renderização
+
+================================================================================
+=== ETAPA A.3 – AUDITORIA DE APIs ===
+================================================================================
+
+VERIFICAR CADA API DOCUMENTADA:
+├── [ ] O arquivo existe em app/api/
+├── [ ] A API responde aos métodos esperados (GET, POST, PATCH, DELETE)
+├── [ ] A API valida os parâmetros corretamente
+├── [ ] A API respeita RLS e autenticação
+├── [ ] A API retorna os dados esperados
+└── [ ] A API trata erros corretamente
+
+APIs CRÍTICAS A VERIFICAR:
+├── /api/professional/clients (CRUD de clientes)
+├── /api/professional/invite/validate (validar convite)
+├── /api/professional/invite/accept (aceitar convite)
+├── /api/client/connections (conexões do cliente)
+├── /api/professional/reports/[clientId] (relatório por cliente)
+├── /api/safety-plan (plano de segurança)
+├── /api/journal (diário)
+├── /api/clarity-test (teste de clareza)
+└── /api/chat (chat IA)
+
+GERAR RELATÓRIO:
+├── APIs que DEVERIAM existir mas NÃO existem
+├── APIs que EXISTEM mas NÃO estão documentadas
+└── APIs com erros de validação ou resposta
+
+================================================================================
+=== ETAPA A.4 – AUDITORIA DE BANCO DE DADOS ===
+================================================================================
+
+VERIFICAR:
+├── [ ] Todas as tabelas documentadas existem no Supabase
+├── [ ] Todas as colunas estão corretas
+├── [ ] RLS está configurado corretamente
+├── [ ] Migrations estão em ordem
+├── [ ] Não há migrations pendentes
+└── [ ] Não há dados órfãos
+
+TABELAS CRÍTICAS A VERIFICAR:
+├── users / profiles
+├── journal_entries
+├── clarity_results
+├── safety_plans
+├── risk_alerts
+├── professional_clients
+├── professional_brand (se existir)
+├── plan_catalog
+├── billing_plans
+└── content_items / content_suggestions
+
+GERAR RELATÓRIO:
+├── Tabelas que DEVERIAM existir mas NÃO existem
+├── Colunas faltando ou incorretas
+└── Problemas de RLS
+
+================================================================================
+=== ETAPA A.5 – AUDITORIA DE FLUXOS CRÍTICOS ===
+================================================================================
+
+VERIFICAR CADA FLUXO END-TO-END:
+
+FLUXO 1 – TESTE DE CLAREZA:
+├── [ ] Usuária acessa /teste-clareza
+├── [ ] Responde perguntas
+├── [ ] Resultado é salvo em clarity_results
+├── [ ] Dashboard mostra resultado
+└── [ ] Trilha do herói atualiza
+
+FLUXO 2 – DIÁRIO:
+├── [ ] Usuária acessa /diario
+├── [ ] Cria entrada (texto ou voz)
+├── [ ] Entrada é salva em journal_entries
+├── [ ] Tags são aplicadas
+└── [ ] Timeline mostra entrada
+
+FLUXO 3 – CHAT IA:
+├── [ ] Usuária acessa /chat
+├── [ ] Envia mensagem
+├── [ ] IA responde
+├── [ ] Conversa é salva
+└── [ ] Detecção de risco funciona
+
+FLUXO 4 – PLANO DE SEGURANÇA:
+├── [ ] Usuária acessa /plano-seguranca
+├── [ ] Preenche dados
+├── [ ] Plano é salvo em safety_plans
+├── [ ] Dashboard mostra status
+└── [ ] Botão de emergência funciona
+
+FLUXO 5 – PROFISSIONAL/CLIENTE:
+├── [ ] Profissional cria convite
+├── [ ] Cliente acessa /aceitar-convite
+├── [ ] Cliente aceita com permissões
+├── [ ] Profissional vê cliente no dashboard
+├── [ ] Profissional acessa relatório
+└── [ ] Cliente pode revogar acesso
+
+GERAR RELATÓRIO:
+├── Fluxos que funcionam completamente ✅
+├── Fluxos com problemas ⚠️
+└── Fluxos que não funcionam ❌
+
+================================================================================
+=== ETAPA A.6 – AUDITORIA DE SEGURANÇA E LGPD ===
+================================================================================
+
+VERIFICAR:
+├── [ ] Todas as APIs têm autenticação
+├── [ ] RLS está ativo em todas as tabelas sensíveis
+├── [ ] Dados sensíveis não são expostos em logs
+├── [ ] Usuário pode exportar seus dados
+├── [ ] Usuário pode deletar sua conta
+├── [ ] Termos de uso são aceitos
+├── [ ] Consentimento é registrado
+└── [ ] Não há vazamento de dados entre usuários
+
+GERAR RELATÓRIO:
+├── Problemas de segurança encontrados
+├── Problemas de LGPD encontrados
+└── Recomendações de correção
+
+================================================================================
+=== ETAPA A.7 – AUDITORIA DE ÉTICA E MICROCÓPIA ===
+================================================================================
+
+VERIFICAR:
+├── [ ] Nenhum texto promete "diagnóstico" ou "laudo"
+├── [ ] Nenhum texto promete "terapia" ou "tratamento"
+├── [ ] Disclaimers estão presentes onde necessário
+├── [ ] Linguagem é acolhedora e não-julgadora
+├── [ ] Botão de emergência está visível
+└── [ ] Informações de ajuda real estão disponíveis
+
+GERAR RELATÓRIO:
+├── Textos problemáticos encontrados
+├── Disclaimers faltando
+└── Recomendações de ajuste
+
+================================================================================
+=== ETAPA A.8 – AUDITORIA DE DOCUMENTAÇÃO ===
+================================================================================
+
+VERIFICAR:
+├── [ ] FUTURO-TERMINAR-IMPLEMENTACAO.txt está atualizado
+├── [ ] HISTORICO-UNIFICADO.txt está atualizado
+├── [ ] ATLAS-RADAR-NARCISISTA.txt reflete o código real
+├── [ ] ROADMAP-RADAR.txt tem status corretos
+├── [ ] TESTES-RADAR.txt tem checklists atualizados
+├── [ ] ESPELHO-CODIGO-RADAR.txt reflete a estrutura real
+└── [ ] Manuais existem (se aplicável)
+
+GERAR RELATÓRIO:
+├── Documentos desatualizados
+├── Informações conflitantes entre documentos
+└── Documentos faltando
+
+================================================================================
+=== ETAPA A.FINAL – RELATÓRIO CONSOLIDADO ===
+================================================================================
+
+GERAR RELATÓRIO FINAL COM:
+
+1) RESUMO EXECUTIVO:
+   ├── Total de itens auditados
+   ├── Total de ✅ (OK)
+   ├── Total de ⚠️ (Atenção)
+   └── Total de ❌ (Problema)
+
+2) LISTA DE PROBLEMAS CRÍTICOS:
+   ├── Problemas que impedem o funcionamento
+   └── Problemas de segurança/LGPD
+
+3) LISTA DE MELHORIAS RECOMENDADAS:
+   ├── Melhorias de UX
+   ├── Melhorias de performance
+   └── Melhorias de documentação
+
+4) PRÓXIMOS PASSOS SUGERIDOS:
+   ├── O que corrigir primeiro
+   ├── O que pode esperar
+   └── O que é opcional
+
+5) LÂMPADA – OBSERVAÇÕES PARA O EDUARDO:
+   ├── 💡 Coisas boas que devem ser preservadas
+   ├── 💡 Riscos identificados
+   └── 💡 Sugestões de ETAPAs futuras
+
+================================================================================
+=== 📊 RESULTADO DA ÚLTIMA AUDITORIA ===
+================================================================================
+
+DATA: [PREENCHER APÓS RODAR AUDITORIA]
+AUDITOR: Windsurf
+
+RESUMO EXECUTIVO:
+├── Total de itens auditados: [X]
+├── Total de ✅ (OK): [X]
+├── Total de ⚠️ (Atenção): [X]
+└── Total de ❌ (Problema): [X]
+
+PROBLEMAS CRÍTICOS:
+├── [LISTAR APÓS AUDITORIA]
+
+MELHORIAS RECOMENDADAS:
+├── [LISTAR APÓS AUDITORIA]
+
+PRÓXIMOS PASSOS:
+├── [LISTAR APÓS AUDITORIA]
+
+LÂMPADA:
+├── [LISTAR APÓS AUDITORIA]
+
+================================================================================
+=== 📋 CHECKLIST RÁPIDO DE AUDITORIA ===
+================================================================================
+
+ESTRUTURA:
+├── [ ] Pastas principais existem
+├── [ ] Arquivos críticos existem
+├── [ ] Migrations em ordem
+
+ROTAS:
+├── [ ] /dashboard funciona
+├── [ ] /dashboard-profissional funciona
+├── [ ] /aceitar-convite funciona
+├── [ ] /admin/* funciona
+
+APIs:
+├── [ ] APIs de profissional funcionam
+├── [ ] APIs de cliente funcionam
+├── [ ] APIs de segurança funcionam
+
+BANCO:
+├── [ ] Tabelas existem
+├── [ ] RLS configurado
+├── [ ] Migrations rodadas
+
+FLUXOS:
+├── [ ] Teste de clareza funciona
+├── [ ] Diário funciona
+├── [ ] Chat IA funciona
+├── [ ] Plano de segurança funciona
+├── [ ] Fluxo profissional/cliente funciona
+
+SEGURANÇA:
+├── [ ] Autenticação OK
+├── [ ] RLS OK
+├── [ ] LGPD OK
+
+ÉTICA:
+├── [ ] Disclaimers OK
+├── [ ] Linguagem OK
+├── [ ] Emergência OK
+
+DOCUMENTAÇÃO:
+├── [ ] TXTs atualizados
+├── [ ] Manuais existem (se aplicável)
+
+================================================================================
+FIM DO ARQUIVO - AUDITORIA MASTER PREMIUM
+================================================================================

@@ -9524,5 +9524,168 @@ Essas 3 faxinas (C1, C2, C3) + manuais (M1-M5) vão virar a base pra:
 └── Qualquer pessoa entender o sistema sem depender só da sua memória
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:55 UTC-5
+=== 📋 SEQUÊNCIA CONSOLIDADA (COPIAR PARA PRÓXIMOS PROMPTS) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT + Eduardo
+Status: SEQUÊNCIA OFICIAL PARA TODOS OS PROMPTS
+
+Este bloco pode ser copiado e colado no início de qualquer prompt grande.
+
+--------------------------------------------------------------------------------
+🔸 BLOCO 0 – REGRAS GERAIS (SEMPRE NO TOPO)
+--------------------------------------------------------------------------------
+
+1. NÃO PULAR ETAPAS
+   └── Sempre seguir a ordem da sequência (C1 → C2 → C3 → M1 → M2...)
+
+2. SEMPRE RODAR CICLO RADAR 5 TXT
+   └── Antes de qualquer etapa grande de código
+
+3. NADA DE "FINGIR QUE IMPLEMENTOU"
+   ├── Se não abriu o arquivo, não dizer que mexeu
+   └── Se não achou no código, escrever:
+       "PLANEJADO no TUDO PARA O GPT, mas NÃO ENCONTREI IMPLEMENTAÇÃO"
+
+4. TUDO FORA DO PLANEJADO
+   ├── Batizar como nova sub-etapa (ex.: C1.1, M2.3, O1.2)
+   ├── Registrar em ROADMAP-RADAR.txt
+   └── Explicar no resumo final, na seção LÂMPADA
+
+5. RESUMO FINAL OBRIGATÓRIO
+   ├── ✅ / ❌ das etapas tocadas
+   ├── "O que foi feito / o que não foi feito e por quê"
+   └── LÂMPADA – Observações para o Eduardo
+
+--------------------------------------------------------------------------------
+🔸 BLOCO A – ETAPAS JÁ IMPLEMENTADAS (REFERÊNCIA)
+--------------------------------------------------------------------------------
+
+✅ ETAPA 10 – Infra de Planos
+✅ ETAPA 11 – Infra Dashboard (usuária)
+✅ ETAPA 11.1 – Trilha do Herói visual no /dashboard
+✅ ETAPA 11.2 – Heurística do passo atual + microcópias
+✅ ETAPA 12 – Dashboard Profissional V1
+✅ ETAPA 12.1 – Infra clientes profissionais (tabela + API)
+✅ ETAPA 12.1.1 – Página de aceite /aceitar-convite
+✅ ETAPA 12.1.2 – Revogação/pausa pelo cliente
+✅ ETAPA 12.2 – Relatórios por cliente
+❌ ETAPA 12.3 – Exportação em massa (PDF/CSV) – PLANEJADA
+
+--------------------------------------------------------------------------------
+🔸 BLOCO C – CLEAN (FAXINA DE TELAS)
+--------------------------------------------------------------------------------
+
+C1 – CLEAN-USUÁRIA (Dashboard da usuária)
+├── Revisar /dashboard
+├── Listar todos os cards/blocos
+├── Marcar: CORE, EXTRA, LEGADO
+├── Esconder/remover LEGADO
+├── Unificar duplicados
+└── Garantir que bate com plan-dashboard-modules.ts
+
+C2 – CLEAN-PROF (Dashboard Profissional)
+├── Revisar /dashboard-profissional
+├── Tabela de clientes, métricas, botões
+├── Deixar só o que faz sentido
+├── Remover textos/promessas sem código
+└── Ajustar linguagem profissional + ética
+
+C3 – CLEAN-ADMIN (/admin)
+├── Listar todas as rotas /admin/*
+├── Classificar: OPERACAO, LAB, DEV
+├── Reorganizar menu em 3 grupos
+└── Esconder o que for arriscado
+
+--------------------------------------------------------------------------------
+🔸 BLOCO M – MANUAIS
+--------------------------------------------------------------------------------
+
+M1 – MANUAIS.1 – Índice / Estrutura Geral
+├── Criar docs/MANUAIS-INDICE-GERAL.txt
+└── Definir estrutura padrão de manual
+
+M2 – MANUAL-USUÁRIA
+├── Criar docs/MANUAL-USUARIA-RADAR.txt
+└── Explicar: conta, teste, diário, chat, plano, trilha
+
+M3 – MANUAL-PROFISSIONAL
+├── Criar docs/MANUAL-PROFISSIONAL-RADAR.txt
+└── Explicar: convites, relatórios, exportação, ética
+
+M4 – MANUAL-ADMIN
+├── Criar docs/MANUAL-ADMIN-RADAR.txt
+└── Explicar: Operação, Lab, Dev, procedimentos
+
+M5 – MANUAL-DEV/ENGINE
+├── Criar docs/MANUAL-DEV-RADAR-ENGINE.txt
+└── Explicar: stack, CICLO RADAR, módulos, ENGINE
+
+M6 – MANUAL-WHITE-LABEL (FUTURO)
+├── Criar docs/MANUAL-WHITELABEL-RADAR.txt
+└── Após ENGINE/FÁBRICA
+
+--------------------------------------------------------------------------------
+🔸 BLOCO O – ORÁCULO
+--------------------------------------------------------------------------------
+
+O1 – ORÁCULO-V1 (interno do Radar)
+├── Painel/IA que analisa só o Radar
+├── Uso da trilha, diário, gargalos
+└── Recomendações para o Eduardo
+
+O2 – ORÁCULO-ENGINE (FUTURO)
+├── Multi-SaaS
+├── Comparar temas
+└── Sugerir onde focar
+
+--------------------------------------------------------------------------------
+🔸 ORDEM DE EXECUÇÃO RECOMENDADA
+--------------------------------------------------------------------------------
+
+FASE 1 – FECHAR RADAR:
+├── 1. ⚠️ Rodar migrations no Supabase
+├── 2. 🔜 PACOTE 12.3 + 13 (Exportação + White-Label V1)
+├── 3. 🔜 C1 – CLEAN-USUÁRIA
+├── 4. 🔜 C2 – CLEAN-PROF
+└── 5. 🔜 C3 – CLEAN-ADMIN
+
+FASE 2 – MANUAIS:
+├── 6. 🔜 M1 – Índice Geral
+├── 7. 🔜 M2 – Manual Usuária
+├── 8. 🔜 M3 – Manual Profissional
+├── 9. 🔜 M4 – Manual Admin
+└── 10. 🔜 M5 – Manual Dev/Engine
+
+FASE 3 – ORÁCULO:
+├── 11. ⏳ O1 – ORÁCULO-V1
+└── 12. ⏳ O2 – ORÁCULO-ENGINE
+
+FASE 4 – ENGINE/FÁBRICA:
+├── 13. ⏳ ENGINE.1 (project_id)
+├── 14. ⏳ ENGINE.2 (temas)
+├── 15. ⏳ FÁBRICA.1 (painel)
+└── 16. ⏳ FÁBRICA.2 (wizard IA)
+
+================================================================================
+=== 📋 ARQUIVO DE AUDITORIA CRIADO ===
+================================================================================
+
+ARQUIVO: AUDITORIA-MASTER-PREMIUM.txt
+
+CONTEÚDO:
+├── Prompt de auditoria rigorosa
+├── Checklist de verificação
+├── Etapas de auditoria (A.0 a A.FINAL)
+├── Relatório consolidado
+└── Checklist rápido
+
+QUANDO USAR:
+├── Antes de deploy importante
+├── Após implementação de ETAPA grande
+├── Quando tiver dúvida se algo funciona
+└── Para verificar se documentação bate com código
+
+================================================================================
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 00:00 UTC-5
 ================================================================================
