@@ -19340,24 +19340,27 @@ FIM DO ESCOPO - VERSÃO CONSOLIDADA 04/12/2025 07:13 UTC-5
 
 [TAREFA 3]
 - Descrição: Executar migrations pendentes de alta prioridade (migrate-user-addons.sql, migrate-planos-core.sql) no Supabase
-- Status: PENDENTE
+- Status: SQL PRONTO - AGUARDANDO EXECUÇÃO MANUAL
 - Origem: ROADMAP-RADAR.txt - SQLs PENDENTES DE EXECUÇÃO (Prioridade Alta)
 - Arquivos envolvidos: database/migrate-user-addons.sql, database/migrate-planos-core.sql
-- SQL consolidado: SQL_CONSOLIDADO_02_ADDONS_PLANOS.sql (a criar após execução)
+- SQL consolidado: SQL_CONSOLIDADO_02_ADDONS_AI_MENUS.sql (CRIADO - 550 linhas)
+- Próximo passo: Executar SQL no Supabase SQL Editor
 
 [TAREFA 4]
 - Descrição: Unificar tabelas duplicadas ai_providers + ai_providers_core em uma única tabela
-- Status: PENDENTE
+- Status: SQL PRONTO - AGUARDANDO EXECUÇÃO MANUAL
 - Origem: ESCOPO - Fase 20 (MATRIZ GLOBAL DE IAs) + PRÓXIMAS AÇÕES SUGERIDAS item 2
 - Arquivos envolvidos: database/migrate-ai-config-core.sql, lib/ai-config-core.ts
-- SQL consolidado: SQL_CONSOLIDADO_02_ADDONS_PLANOS.sql (a criar)
+- SQL consolidado: SQL_CONSOLIDADO_02_ADDONS_AI_MENUS.sql (usa ai_providers_core como tabela unificada)
+- Próximo passo: Executar SQL no Supabase SQL Editor
 
 [TAREFA 5]
 - Descrição: Criar tabelas faltantes: ai_menus, ai_menu_providers, ai_usage_logs, admin_menu_help
-- Status: PENDENTE
+- Status: SQL PRONTO - AGUARDANDO EXECUÇÃO MANUAL
 - Origem: ESCOPO - Fase 20 (MATRIZ GLOBAL DE IAs) + PRÓXIMAS AÇÕES SUGERIDAS item 3
-- Arquivos envolvidos: database/sql_consolidado/SQL_CONSOLIDADO_02_ADDONS_PLANOS.sql (a criar)
-- SQL consolidado: SQL_CONSOLIDADO_02_ADDONS_PLANOS.sql
+- Arquivos envolvidos: database/sql_consolidado/SQL_CONSOLIDADO_02_ADDONS_AI_MENUS.sql (CRIADO)
+- SQL consolidado: SQL_CONSOLIDADO_02_ADDONS_AI_MENUS.sql
+- Próximo passo: Executar SQL no Supabase SQL Editor
 
 [TAREFA 6]
 - Descrição: Criar lib/ai-router.ts com funções: getProvidersForMenu(), callAIForMenu(), callCollaborativeAI(), routeAIRequest()

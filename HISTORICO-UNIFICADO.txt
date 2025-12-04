@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 14:15 UTC-5
+Última atualização: 04/12/2025 14:50 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -1454,7 +1454,48 @@ TAREFAS CONCLUÍDAS: 7 de 10 (70%)
 ├── TAREFA 8: Telas admin faltantes → ✅
 ├── TAREFA 9: AdminSidebar + help → ✅
 ├── TAREFA 10: API plan-catalog → ✅
-└── TAREFAS 3,4,5 → ⏳ PENDENTE (requerem execução manual no Supabase)
+└── TAREFAS 3,4,5 → 📄 SQL PRONTO (aguardando execução manual no Supabase)
+
+================================================================================
+SESSÃO 04/12/2025 14:45 UTC-5 – SQL CONSOLIDADO 02 CRIADO
+================================================================================
+
+Arquivo NOVO: database/sql_consolidado/SQL_CONSOLIDADO_02_ADDONS_AI_MENUS.sql (550 linhas)
+
+Consolida TAREFAS 3, 4 e 5 em um único SQL para execução no Supabase:
+
+PARTE 1 - USER ADDONS:
+- Tabela user_addons (add-ons comprados)
+- Funções: has_active_addon(), get_addon_credits(), consume_addon_credit()
+
+PARTE 2 - FEATURES E PROFILES:
+- Tabela features (features atômicas)
+- Tabela feature_profiles (perfis versionados)
+- Tabela feature_profile_features (JOIN)
+- Tabela user_feature_overrides
+- Tabela user_subscriptions_core
+
+PARTE 3 - AI CONFIG CORE:
+- Tabela ai_providers_core (unificada)
+- Tabela ai_features_core
+- Tabela ai_feature_providers_core
+- Tabela ai_plan_matrix
+- Tabela ai_group_overrides
+
+PARTE 4 - TABELAS NOVAS:
+- Tabela ai_menus (menus que usam IA)
+- Tabela ai_menu_providers (ligação menu → provider)
+- Tabela ai_usage_logs (logs de uso)
+- Tabela admin_menu_help (textos de ajuda)
+
+PARTE 5 - SEED DATA:
+- 5 provedores de IA
+- 9 features de IA
+- 7 menus
+- 8 features do sistema
+- 4 feature profiles padrão
+
+PRÓXIMO PASSO: Executar SQL_CONSOLIDADO_02_ADDONS_AI_MENUS.sql no Supabase SQL Editor
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF
