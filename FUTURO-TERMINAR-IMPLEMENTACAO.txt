@@ -10568,15 +10568,471 @@ Responder SEMPRE em JSON válido:
 [FIM DO PROMPT]
 
 --------------------------------------------------------------------------------
-📋 PRÓXIMOS PASSOS IMEDIATOS (BLOCO 21)
+📋 PRÓXIMOS PASSOS IMEDIATOS (BLOCO 21) – DETALHADO
 --------------------------------------------------------------------------------
 
-1. Atualizar os 5 manuais com seção "Como usar o Oráculo"
-2. Criar entrada ORACULO_V2 no Mapa de IAs com prompt acima
-3. Criar migration 20241204_oraculo_logs.sql
-4. Criar rota /api/oraculo-v2 com payload padrão
-5. Adicionar botão "Perguntar ao Oráculo" nas telas-chave
-6. Testar fluxo completo com diferentes perfis
+PASSO 1: ATUALIZAR OS 5 MANUAIS COM BLOCOS DO ORÁCULO
+Arquivos:
+├── docs/MANUAL-USUARIA.md
+├── docs/MANUAL-PROFISSIONAL.md
+├── docs/MANUAL-ADMIN.md
+├── docs/MANUAL-DEV.md
+└── docs/MANUAL-WHITELABEL.md
+
+Adicionar em cada um:
+├── Seção "Como usar o Oráculo" (adaptando linguagem ao público)
+└── Seção "Política de uso da IA / Limites do Oráculo"
+
+PASSO 2: CRIAR IA ORACULO_V2 NO MAPA DE IAs
+├── Nome: ORACULO_V2
+├── Perfil: suporte / help-desk inteligente
+├── Risco: médio (temas sensíveis)
+├── Saída: JSON estruturado
+└── Prompt: SYSTEM completo abaixo
+
+PASSO 3: CRIAR ROTA /api/oraculo-v2
+Arquivo: app/api/oraculo-v2/route.ts
+├── Receber POST com JSON padrão
+├── Montar prompt para provedor de IA
+├── Validar resposta JSON
+└── Devolver para o front
+
+PASSO 4: CRIAR TABELA oraculo_logs NO SUPABASE
+Migration: 20241204_oraculo_logs.sql
+Campos:
+├── id (uuid, pk)
+├── user_id (uuid, fk)
+├── user_role (text)
+├── plan (text)
+├── url_atual (text)
+├── question (text)
+├── resposta_modo (text)
+├── resposta_risco (text)
+├── resposta_json (jsonb)
+├── created_at (timestamptz)
+└── flag_risco_alto (boolean)
+
+PASSO 5: INTEGRAR BOTÃO "PERGUNTAR AO ORÁCULO"
+Componente: AskOracleButton + modal
+Telas:
+├── Dashboard da usuária
+├── Dashboard profissional
+├── Páginas de manuais
+└── Páginas de relatórios/gráficos
+
+PASSO 6: ATUALIZAR DOCUMENTAÇÃO
+├── ATLAS: incluir ORÁCULO V2 como componente oficial
+├── ROADMAP: marcar "Oráculo V2" como em implementação
+└── LÂMPADA: registrar decisões (JSON, perfis, logs, risco)
+
+================================================================================
+=== 🔮 PROMPT COMPLETO EXPANDIDO – ORÁCULO V2 (COPIAR PARA MAPA DE IAs) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT
+Status: PRONTO PARA COLAR NO ORQUESTRADOR
+
+[IDENTIDADE]
+
+Você é o ORÁCULO V2 do Radar Narcisista.
+
+O Radar Narcisista é um SaaS que ajuda pessoas a:
+- registrar fatos do relacionamento,
+- organizar evidências,
+- enxergar padrões de abuso psicológico,
+- ganhar clareza para tomar decisões pessoais e, eventualmente, jurídicas.
+
+Você NÃO é terapeuta, não é advogado, não é juiz.
+Você é o assistente oficial de SUPORTE AO PRODUTO + EDUCAÇÃO BÁSICA.
+
+Seu foco é:
+- Explicar como usar o sistema.
+- Ajudar a interpretar telas, métricas e funcionalidades.
+- Orientar a pessoa a registrar melhor os fatos.
+- Oferecer informação geral, SEM diagnóstico e SEM parecer jurídico.
+
+[ENTRADAS QUE VOCÊ RECEBE]
+
+Você recebe sempre um objeto com campos:
+- user_role: "usuaria" | "profissional" | "admin" | "dev" | "whitelabel"
+- manual_context: texto curto indicando de qual manual vem a dúvida
+- language: ex: "pt-BR"
+- url_atual: rota atual dentro do app
+- question: texto livre da pessoa
+- plan: tipo de plano (ex: "free", "pro", etc.)
+
+Se algum campo vier faltando, use os campos disponíveis e seja conservador.
+
+[MANUAIS E PÚBLICOS]
+
+Você tem 5 públicos principais, cada um com um manual próprio:
+
+1) MANUAL-USUÁRIA
+   - Para quem: usuária final, vítima ou possível vítima.
+   - Seções: Boas-vindas, Funcionalidades, Casos de Uso, Dúvidas, Segurança Emocional, Oráculo
+
+2) MANUAL-PROFISSIONAL
+   - Para quem: psicólogos, coaches, advogados, analistas.
+   - Seções: Setup, Recursos Avançados, Gestão de Equipe, Análise, Oráculo
+
+3) MANUAL-ADMIN
+   - Para quem: administrador da conta/organização.
+   - Seções: Gestão da Conta, Controle de Usuários, Segurança, Configurações
+
+4) MANUAL-DEV
+   - Para quem: desenvolvedores que integram ou estendem o SaaS.
+   - Seções: Getting Started, API, Webhooks, SDKs, Troubleshooting
+
+5) MANUAL-WHITELABEL
+   - Para quem: parceiros que revendem/customizam o sistema.
+   - Seções: Programa de Parceria, Configuração, Multi-Tenant, Portal, Suporte
+
+[PERSONAS E TOM]
+
+Adapte sempre a linguagem ao user_role:
+
+1) Se user_role = "usuaria":
+   - Fale simples, humano, direto, acolhedor.
+   - Ajude a transformar confusão em passos concretos.
+   - Use exemplos: "Clique em...", "Acesse...", "Use o botão...".
+
+2) Se user_role = "profissional":
+   - Fale em termos de dados, padrões, indicadores.
+   - Reforce que decisões clínicas/jurídicas são do profissional humano.
+
+3) Se user_role = "admin":
+   - Foco em conta, permissões, segurança, logs, faturamento.
+   - Linguagem objetiva e precisa.
+
+4) Se user_role = "dev":
+   - Foco em endpoints, erros HTTP, payloads, logs, autenticação.
+   - Use exemplos genéricos quando não houver detalhe exato.
+
+5) Se user_role = "whitelabel":
+   - Foco em configuração para clientes, branding, multi-contas.
+
+[FONTES E PRIORIDADES]
+
+Ordem de prioridade:
+1. Conteúdo oficial dos manuais
+2. Documentação de produto, FAQ, LGPD
+3. Boas práticas gerais de SaaS
+
+Você NÃO deve:
+- inventar funcionalidades não descritas
+- prometer features ou prazos
+- afirmar que "existe um botão X" se não está claro
+
+[TEMAS SENSÍVEIS E LIMITES]
+
+Você NUNCA:
+- diagnostica narcisismo, TPN ou qualquer transtorno
+- dá parecer jurídico
+- diz o que um juiz "vai decidir"
+- manda a pessoa "se separar" ou tomar ações irreversíveis
+
+Se a pergunta envolver violência física, ameaça, suicídio, risco imediato:
+1) Classifique risco = "alto"
+2) Responda com cuidado e apoio
+3) Inclua mensagem final obrigatória de segurança
+
+[CLASSIFICAÇÃO DA PERGUNTA]
+
+Antes de responder, decida:
+- modo: "faq" | "tutorial" | "alerta_risco" | "bug_suspeito"
+- risco: "baixo" | "medio" | "alto"
+
+[FORMATO DE SAÍDA – SEMPRE JSON VÁLIDO]
+
+{
+  "modo": "faq|tutorial|alerta_risco|bug_suspeito",
+  "risco": "baixo|medio|alto",
+  "titulo_curto": "Frase de resumo da resposta",
+  "resposta_principal": "Texto em linguagem adequada ao perfil",
+  "passos": ["Passo 1...", "Passo 2..."],
+  "links_sugeridos": [
+    {
+      "tipo": "manual",
+      "manual": "usuaria|profissional|admin|dev|whitelabel",
+      "secao": "Ex: 2. FUNCIONALIDADES PRINCIPAIS",
+      "slug": "identificador-da-secao"
+    }
+  ],
+  "mensagem_final_segurança": "Mensagem curta ou string vazia"
+}
+
+Regras:
+- Se dúvida simples, "passos" pode estar vazio
+- Se fluxo no app, "passos" deve ter sequência clara
+- Se risco alto, "mensagem_final_segurança" NÃO pode ser vazia
+
+[COMO PENSAR ANTES DE GERAR O JSON]
+
+1) Leia a pergunta e resuma em UMA frase
+2) Classifique "modo" e "risco"
+3) Consulte mentalmente os manuais
+4) Monte: titulo_curto, resposta_principal, passos, links, mensagem_final
+
+[IDIOMA]
+
+Se language = "pt-BR", responda em português do Brasil.
+
+[FIM DO PROMPT ORÁCULO V2]
+
+================================================================================
+=== 📊 SQL COMPLETO: TABELA oraculo_logs ===
+================================================================================
+
+-- Migration: 20241204_oraculo_logs.sql
+
+CREATE TABLE IF NOT EXISTS public.oraculo_logs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  user_role TEXT NOT NULL,
+  plan TEXT,
+  url_atual TEXT,
+  question TEXT NOT NULL,
+  resposta_modo TEXT,
+  resposta_risco TEXT,
+  resposta_json JSONB,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  flag_risco_alto BOOLEAN DEFAULT FALSE
+);
+
+-- Índices para performance
+CREATE INDEX IF NOT EXISTS idx_oraculo_logs_user_id ON public.oraculo_logs(user_id);
+CREATE INDEX IF NOT EXISTS idx_oraculo_logs_risco ON public.oraculo_logs(resposta_risco);
+CREATE INDEX IF NOT EXISTS idx_oraculo_logs_created_at ON public.oraculo_logs(created_at);
+CREATE INDEX IF NOT EXISTS idx_oraculo_logs_flag_risco ON public.oraculo_logs(flag_risco_alto);
+
+-- RLS
+ALTER TABLE public.oraculo_logs ENABLE ROW LEVEL SECURITY;
+
+-- Política: admin pode ver todos os logs
+DROP POLICY IF EXISTS "admin_can_view_all_oraculo_logs" ON public.oraculo_logs;
+CREATE POLICY "admin_can_view_all_oraculo_logs"
+  ON public.oraculo_logs FOR SELECT
+  USING (
+    auth.uid() IN (
+      SELECT id FROM auth.users 
+      WHERE raw_user_meta_data->>'role' = 'admin'
+    )
+  );
+
+-- Política: usuário pode ver seus próprios logs
+DROP POLICY IF EXISTS "user_can_view_own_oraculo_logs" ON public.oraculo_logs;
+CREATE POLICY "user_can_view_own_oraculo_logs"
+  ON public.oraculo_logs FOR SELECT
+  USING (auth.uid() = user_id);
+
+-- Política: qualquer usuário autenticado pode inserir
+DROP POLICY IF EXISTS "authenticated_can_insert_oraculo_logs" ON public.oraculo_logs;
+CREATE POLICY "authenticated_can_insert_oraculo_logs"
+  ON public.oraculo_logs FOR INSERT
+  WITH CHECK (auth.uid() IS NOT NULL);
+
+================================================================================
+=== 📋 ESQUELETO: /api/oraculo-v2/route.ts ===
+================================================================================
+
+// app/api/oraculo-v2/route.ts
+
+import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
+
+export async function POST(request: NextRequest) {
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    if (!user) {
+      return NextResponse.json({ error: 'Não autenticado' }, { status: 401 })
+    }
+
+    const body = await request.json()
+    const { user_role, manual_context, language, url_atual, question, plan } = body
+
+    if (!question) {
+      return NextResponse.json({ error: 'Pergunta obrigatória' }, { status: 400 })
+    }
+
+    // TODO: Chamar provedor de IA (OpenAI, Anthropic, etc.)
+    // const aiResponse = await callOracleV2AI({
+    //   user_role: user_role || 'usuaria',
+    //   manual_context,
+    //   language: language || 'pt-BR',
+    //   url_atual,
+    //   question,
+    //   plan
+    // })
+
+    // Resposta mock para desenvolvimento
+    const aiResponse = {
+      modo: 'faq',
+      risco: 'baixo',
+      titulo_curto: 'Resposta do Oráculo',
+      resposta_principal: 'Esta é uma resposta de exemplo.',
+      passos: [],
+      links_sugeridos: [],
+      mensagem_final_segurança: ''
+    }
+
+    // Salvar log
+    await supabase.from('oraculo_logs').insert({
+      user_id: user.id,
+      user_role: user_role || 'usuaria',
+      plan,
+      url_atual,
+      question,
+      resposta_modo: aiResponse.modo,
+      resposta_risco: aiResponse.risco,
+      resposta_json: aiResponse,
+      flag_risco_alto: aiResponse.risco === 'alto'
+    })
+
+    return NextResponse.json(aiResponse)
+  } catch (error) {
+    console.error('Erro no Oráculo V2:', error)
+    return NextResponse.json({ error: 'Erro interno' }, { status: 500 })
+  }
+}
+
+================================================================================
+=== 📋 ESQUELETO: AskOracleButton.tsx ===
+================================================================================
+
+// components/AskOracleButton.tsx
+
+'use client'
+
+import { useState } from 'react'
+import { MessageCircleQuestion, X, Send, Loader2 } from 'lucide-react'
+
+interface OracleResponse {
+  modo: string
+  risco: string
+  titulo_curto: string
+  resposta_principal: string
+  passos: string[]
+  links_sugeridos: any[]
+  mensagem_final_segurança: string
+}
+
+export function AskOracleButton({ 
+  userRole = 'usuaria',
+  urlAtual = '',
+  plan = 'free'
+}: {
+  userRole?: string
+  urlAtual?: string
+  plan?: string
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [question, setQuestion] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [response, setResponse] = useState<OracleResponse | null>(null)
+
+  const handleSubmit = async () => {
+    if (!question.trim()) return
+    
+    setLoading(true)
+    try {
+      const res = await fetch('/api/oraculo-v2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_role: userRole,
+          language: 'pt-BR',
+          url_atual: urlAtual || window.location.pathname,
+          question,
+          plan
+        })
+      })
+      const data = await res.json()
+      setResponse(data)
+    } catch (error) {
+      console.error('Erro ao consultar Oráculo:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <>
+      {/* Botão flutuante */}
+      <button
+        onClick={() => setIsOpen(true)}
+        className="fixed bottom-4 right-4 bg-purple-600 text-white p-4 rounded-full shadow-lg hover:bg-purple-700 z-50"
+        title="Perguntar ao Oráculo"
+      >
+        <MessageCircleQuestion className="w-6 h-6" />
+      </button>
+
+      {/* Modal */}
+      {isOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-lg w-full max-h-[80vh] overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b">
+              <h2 className="text-lg font-semibold flex items-center gap-2">
+                <MessageCircleQuestion className="w-5 h-5 text-purple-600" />
+                Perguntar ao Oráculo
+              </h2>
+              <button onClick={() => { setIsOpen(false); setResponse(null) }}>
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="p-4 overflow-y-auto max-h-[60vh]">
+              {!response ? (
+                <div className="space-y-4">
+                  <textarea
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}
+                    placeholder="Digite sua dúvida..."
+                    className="w-full p-3 border rounded-lg resize-none h-32"
+                  />
+                  <button
+                    onClick={handleSubmit}
+                    disabled={loading || !question.trim()}
+                    className="w-full bg-purple-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                    {loading ? 'Consultando...' : 'Enviar'}
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <h3 className="font-semibold">{response.titulo_curto}</h3>
+                  <p className="text-gray-700">{response.resposta_principal}</p>
+                  {response.passos.length > 0 && (
+                    <ol className="list-decimal list-inside space-y-1">
+                      {response.passos.map((passo, i) => (
+                        <li key={i}>{passo}</li>
+                      ))}
+                    </ol>
+                  )}
+                  {response.mensagem_final_segurança && (
+                    <div className="bg-amber-50 border border-amber-200 p-3 rounded-lg text-sm">
+                      {response.mensagem_final_segurança}
+                    </div>
+                  )}
+                  <button
+                    onClick={() => { setResponse(null); setQuestion('') }}
+                    className="w-full border py-2 rounded-lg"
+                  >
+                    Nova pergunta
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
 
 ================================================================================
 === 📋 MINI MANUAL DO EDUARDO (5 REGRAS PARA O DESÂNIMO) ===
