@@ -6114,6 +6114,299 @@ FUTURO: Criar ETAPA X – PROTÓTIPO RADAR #2
 STATUS: ⏳ BRAINSTORM COMPLETO – VISÃO DE LONGO PRAZO
 
 ================================================================================
+=== 🏭 FÁBRICA DE SAAS: ETAPAS 11-31 (VISÃO COMPLETA) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT + Eduardo (visão expandida do replicador)
+Status: PLANO MESTRE – VISÃO DE LONGO PRAZO
+
+PREMISSA DO EDUARDO:
+"Triângulo, quadrado, hexágono, 20 lados, 100 lados → tanto faz, a forma é só a casca.
+O céu é o limite. Eu quero ter 10, 20, 50 SaaS sendo gerenciados por UMA pessoa só
+(eu) com ajuda de um exército de IAs."
+
+--------------------------------------------------------------------------------
+VISÃO GERAL DOS ANDARES
+--------------------------------------------------------------------------------
+
+ANDAR 1 – RADAR NARCISISTA 1.0 FECHADO
+├── ETAPA 11-16 → Dashboards, loja, segurança, telemetria
+
+ANDAR 2 – RADAR ENGINE MULTI-PRODUTO
+├── ETAPA 17-20 → Um código só, vários produtos/temas
+
+ANDAR 3 – FÁBRICA DE SAAS (REPLICADOR + ORÁCULO)
+├── ETAPA 21-25 → Replicador semi-automático
+├── ETAPA 26-28 → Oráculo do Fundador (IA que te orienta)
+
+ANDAR 4 – MULTI-PLATAFORMA
+├── ETAPA 29-31 → Web + PWA + base pra app (APK/iOS)
+
+LEGENDA DE DIFICULDADE:
+🟢 FÁCIL – só código/UX, conceito pronto
+🟡 MÉDIO – envolve mais de 1 módulo, IA ou billing
+🔴 DIFÍCIL – mexe em arquitetura, multi-produto ou custo
+🟣 MUITO DIFÍCIL – parte "fábrica total"/apps automáticos
+
+================================================================================
+ANDAR 1 – FECHAR RADAR NARCISISTA V1
+================================================================================
+
+ETAPA 11 – Dashboard Usuária (por planos) 🟡
+────────────────────────────────────────────
+Objetivo: organizar a "caminhada da heroína" dentro do app
+- Usar PLAN_TAXONOMY + DASHBOARD_MODULES que já existem
+- 1 dashboard único, módulos aparecem "bloqueados" para planos abaixo
+- Ao mudar de plano, módulos liberam (sem trocar de dashboard)
+- Caminho visual: VISITANTE → GUARDAR → JORNADA → DEFESA → PROFISSIONAL
+
+ETAPA 12 – Dashboard Profissional 🟡
+────────────────────────────────────────────
+Objetivo: 1 dashboard dedicado para profissionais (terapeutas, advogados)
+- Módulos: clientes acompanhados, casos vinculados, evidências, alertas, tarefas
+- Integração: reusa provas_evidencias, clarity_tests, journal_entries
+- Semáforo: vermelho em tudo que envolve segurança / hash / LGPD
+
+ETAPA 13 – Dashboard White-Label 🔴
+────────────────────────────────────────────
+Objetivo: permitir que parceiro tenha "seu Radar" com logo, cores, URL
+- Criar tabela tenants ou partners
+- Dashboard por tenant: nº usuárias, planos usados, módulos, riscos
+- Reuso: mesma base de módulos, só filtrando por tenant_id
+
+ETAPA 14 – Loja / Upgrades na Prática 🟡
+────────────────────────────────────────────
+Objetivo: tornar a troca de plano óbvia e simples dentro do dashboard
+- Mini loja dentro do dashboard: cards dos planos, o que libera, 1 clique → Stripe
+- Respeitar billing_plans e promoções
+
+ETAPA 15 – Telemetria & Health Check 🟡
+────────────────────────────────────────────
+Objetivo: instalar os "sensores" para o futuro Oráculo
+- Métricas: quantas terminam Teste, usam Diário, voltam em 7/30 dias, funil
+- Gravar em product_metrics ou content_insights
+- Estoque de dados para o Oráculo
+
+ETAPA 16 – Segurança & LGPD Hardening 🔴
+────────────────────────────────────────────
+Objetivo: garantir que o produto base é sólido antes de virar fábrica
+- Revisar: RLS, exportação de dados, apagar conta, botões de emergência
+- Ajustar: logs, disclaimers, rotas que não podem ser expostas em white-label
+
+================================================================================
+ANDAR 2 – RADAR ENGINE MULTI-PRODUTO
+================================================================================
+
+ETAPA 17 – Domínios / Produtos no Banco 🔴
+────────────────────────────────────────────
+Objetivo: um código só, várias "instâncias" de produto
+- Criar tabela products ou domains:
+  id, slug, nome_publico, segmento, nicho, risco, idiomas, status
+- Relacionar: content_items, content_collections, billing_plans → product_id
+- Radar Narcisista vira product_id = 1 (produto fundador)
+
+ETAPA 18 – Templates de Tema (Família, Nicho, Polígono) 🔴
+────────────────────────────────────────────
+Objetivo: ensinar o sistema o que é um template de produto
+- Criar product_templates:
+  RELACIONAMENTOS_ABUSIVOS, CO_PARENTING, ASSEDIO_TRABALHO, etc.
+- Cada template define:
+  - Forma (triângulo / quadrado / hexágono / 20 lados...)
+  - Módulos ativos (usando DASHBOARD_MODULES)
+  - Quantas IAs e para quê:
+    IA_Clareza, IA_Diário, IA_Plano_Segurança, IA_Curadoria, IA_Oráculo
+
+ETAPA 19 – Criar Produto Novo Manualmente 🟡
+────────────────────────────────────────────
+Objetivo: antes do "botão mágico", testar o fluxo manual
+- Página /admin/produtos: listar, criar novo a partir de template
+- Ao criar: clonar estrutura de dashboard, configuração de módulos, placeholders
+
+ETAPA 20 – Conteúdo Base Automático (Semi-auto) 🔴
+────────────────────────────────────────────
+Objetivo: quando cria produto, IA já prepara o mínimo de conteúdo
+- IA gera: 3-5 FAQs, 1-2 coleções Academy, textos de landing, disclaimers
+- Tudo nasce como status='draft', visibility='private'
+- Você aprova na curadoria antes de ir pro ar
+
+================================================================================
+ANDAR 3 – FÁBRICA DE SAAS (REPLICADOR + ORÁCULO)
+================================================================================
+
+ETAPA 21 – Wizard do Replicador (V1 – Temas Irmãos) 🔴
+────────────────────────────────────────────
+Objetivo: gerador de produto baseado em perguntas + IA
+- Página /admin/fabrica/criar-produto
+- Perguntas:
+  1. Segmento (relacionamentos, trabalho, família)
+  2. Tipo de dor (abuso, conflito, decisão difícil)
+  3. Risco (emocional, financeiro, físico, jurídico)
+  4. Mercado alvo, idioma, país
+  5. Tema/frase livre (ex: "chefe abusivo no setor de vendas")
+- Wizard escolhe template, define polígono, liga/desliga módulos, propõe IAs
+- V1: só temas irmãos e adaptáveis
+
+ETAPA 22 – Mapa de Reaproveitamento & Grau de Dificuldade 🟣
+────────────────────────────────────────────
+Objetivo: o replicador não mente, te diz quanto dá para reaproveitar
+- Quando digita tema (ex: "unha de cachorro", "engenharia nuclear"):
+  IA classifica: Segmento, Nicho, Subnicho, Risco, Afinidade
+- Saída:
+  - 0-30%: começar do zero → alerta vermelho
+  - 30-60%: engine como esqueleto, precisa muito módulo específico
+  - 60-90%: ótimo candidato, pequena adaptação
+  - 90-100%: quase irmão, só trocar texto
+- VOCÊ DECIDE: "Mesmo assim quero ir" ou "não vale a pena"
+
+ETAPA 23 – Replicador V2 (Criação Técnica Semi-Automática) 🟣
+────────────────────────────────────────────
+Objetivo: além de conteúdo, gerar estrutura técnica do novo produto
+- A partir do Wizard:
+  - Cria product no banco
+  - Associa planos
+  - Cria configurações de dashboard
+  - Gera rotas base, configs de IA, prompts, coleções
+- Tudo no mesmo monorepo (50 "instâncias", não 50 projetos separados)
+
+ETAPA 24 – Oráculo do Fundador (Visão Geral de Todos os SaaS) 🔴
+────────────────────────────────────────────
+Objetivo: IA interna que olha todos os produtos e te diz o que está bom/ruim
+- Tabela de telemetria cross-produto:
+  - Por produto: novas usuárias/dia, uso de módulos, conversão, churn, custo IA
+- Página /admin/oraculo:
+  - Cards por produto, ranking fortes/fracos
+- IA Oráculo responde:
+  - "Onde estou perdendo mais gente?"
+  - "Qual produto tem maior retorno por minuto investido?"
+  - "Se eu melhorar X, quanto impacto provável?"
+
+ETAPA 25 – Sugeridor de Novos Produtos (Temas & Nichos) 🟣
+────────────────────────────────────────────
+Objetivo: sistema sugere novos SaaS baseado em:
+- O que usuárias pedem (tags, buscas)
+- O que está em alta (Google Trends, dentro do limite ético)
+- O que é "irmão" dos produtos que dão certo
+- Saída: Lista de ideias com score de demanda, complexidade, afinidade, monetização
+- Pipeline de novos SaaS possíveis → você escolhe 1 e manda o Wizard tocar
+
+================================================================================
+ANDAR 3.5 – ORÁCULO AVANÇADO
+================================================================================
+
+ETAPA 26 – Oráculo V2: Sugestões Proativas 🔴
+────────────────────────────────────────────
+Objetivo: IA que não só responde, mas te avisa proativamente
+- Alertas: "Produto X caiu 30% essa semana, quer ver por quê?"
+- Sugestões: "Se você adicionar módulo Y no produto Z, estimo +15% retenção"
+- Comparações: "Produto A tem 3x mais engajamento que B, mesmo público"
+
+ETAPA 27 – Oráculo V3: Análise de Mercado 🟣
+────────────────────────────────────────────
+Objetivo: IA que olha o mercado externo
+- Monitora: Google Trends, Reddit, Twitter/X, notícias
+- Sugere: "Tema X está crescendo, você tem 85% de reuso, quer criar?"
+- Alerta: "Concorrente lançou produto similar, veja diferenças"
+
+ETAPA 28 – Oráculo V4: Planejamento Estratégico 🟣
+────────────────────────────────────────────
+Objetivo: IA que te ajuda a planejar o ano/trimestre
+- Pergunta: "Qual seu objetivo? Receita? Usuárias? Novos produtos?"
+- Sugere: "Para atingir X, você precisa de Y produtos com Z conversão"
+- Simula: "Se você investir A horas em B, resultado provável é C"
+
+================================================================================
+ANDAR 4 – MULTI-PLATAFORMA (WEB + APK + iOS)
+================================================================================
+
+ETAPA 29 – PWA Bem Feito 🟡
+────────────────────────────────────────────
+Objetivo: deixar o Radar Engine pronto para ser "quase app"
+- manifest.json, ícones, splash, offline básico, layout mobile first
+- Permite instalar como "app" no Android/iOS pelo navegador
+
+ETAPA 30 – Template de App (Capacitor/Expo) 🔴
+────────────────────────────────────────────
+Objetivo: criar 1 projeto padrão mobile que consome o Radar Engine via API
+- App "container": login, webview/componentes, notificações push
+- App lê qual product é o "dono", cores, logo, nome
+- Para cada novo SaaS: gera variação configurada, não totalmente nova
+
+ETAPA 31 – Semi-automação de Build (APK / TestFlight) 🟣
+────────────────────────────────────────────
+Objetivo: diminuir atrito, sem prometer magia total
+- Scripts que trocam ícone, nome, colors, disparam build em CI
+- Entregam APK/IPA para subir nas lojas
+- Conectado ao Wizard: ao criar produto, marca "quero app próprio?"
+
+================================================================================
+RESUMO: QUANTIDADE DE IAs POR POLÍGONO
+================================================================================
+
+TRIÂNGULO (3 lados):
+├── IA_Clareza (Teste)
+├── IA_Diário (Registro)
+└── IA_Coach (Conversa)
+
+QUADRADO (4 lados):
+├── + IA_Segurança (Plano de Segurança)
+
+PENTÁGONO (5 lados):
+├── + IA_Curadoria (Conteúdos)
+
+HEXÁGONO (6 lados):
+├── + IA_Academy (Educação)
+
+OCTÓGONO (8 lados):
+├── + IA_Provas (Evidências)
+├── + IA_Rede (Apoio)
+
+DECÁGONO+ (10+ lados):
+├── + IA_Jurídico
+├── + IA_Financeiro
+├── + IA_Oráculo (Visão geral)
+└── + IAs específicas do nicho
+
+⚠️ REGRA: O número de IAs escala com a complexidade do polígono.
+   Cada IA tem um papel específico e prompts dedicados.
+
+================================================================================
+TABELA RESUMO: ETAPAS 11-31
+================================================================================
+
+┌───────┬─────────────────────────────────────────┬────────────┬───────────────┐
+│ ETAPA │ DESCRIÇÃO                               │ DIFICULDADE│ ANDAR         │
+├───────┼─────────────────────────────────────────┼────────────┼───────────────┤
+│ 11    │ Dashboard Usuária (por planos)          │ 🟡 MÉDIO   │ 1 - Radar V1  │
+│ 12    │ Dashboard Profissional                  │ 🟡 MÉDIO   │ 1 - Radar V1  │
+│ 13    │ Dashboard White-Label                   │ 🔴 DIFÍCIL │ 1 - Radar V1  │
+│ 14    │ Loja / Upgrades na Prática              │ 🟡 MÉDIO   │ 1 - Radar V1  │
+│ 15    │ Telemetria & Health Check               │ 🟡 MÉDIO   │ 1 - Radar V1  │
+│ 16    │ Segurança & LGPD Hardening              │ 🔴 DIFÍCIL │ 1 - Radar V1  │
+├───────┼─────────────────────────────────────────┼────────────┼───────────────┤
+│ 17    │ Domínios / Produtos no Banco            │ 🔴 DIFÍCIL │ 2 - Engine    │
+│ 18    │ Templates de Tema (Polígono)            │ 🔴 DIFÍCIL │ 2 - Engine    │
+│ 19    │ Criar Produto Novo Manualmente          │ 🟡 MÉDIO   │ 2 - Engine    │
+│ 20    │ Conteúdo Base Automático                │ 🔴 DIFÍCIL │ 2 - Engine    │
+├───────┼─────────────────────────────────────────┼────────────┼───────────────┤
+│ 21    │ Wizard do Replicador V1                 │ 🔴 DIFÍCIL │ 3 - Fábrica   │
+│ 22    │ Mapa de Reaproveitamento                │ 🟣 MUITO   │ 3 - Fábrica   │
+│ 23    │ Replicador V2 (Técnico)                 │ 🟣 MUITO   │ 3 - Fábrica   │
+│ 24    │ Oráculo do Fundador                     │ 🔴 DIFÍCIL │ 3 - Fábrica   │
+│ 25    │ Sugeridor de Novos Produtos             │ 🟣 MUITO   │ 3 - Fábrica   │
+├───────┼─────────────────────────────────────────┼────────────┼───────────────┤
+│ 26    │ Oráculo V2: Sugestões Proativas         │ 🔴 DIFÍCIL │ 3.5 - Oráculo │
+│ 27    │ Oráculo V3: Análise de Mercado          │ 🟣 MUITO   │ 3.5 - Oráculo │
+│ 28    │ Oráculo V4: Planejamento Estratégico    │ 🟣 MUITO   │ 3.5 - Oráculo │
+├───────┼─────────────────────────────────────────┼────────────┼───────────────┤
+│ 29    │ PWA Bem Feito                           │ 🟡 MÉDIO   │ 4 - Multi     │
+│ 30    │ Template de App (Capacitor/Expo)        │ 🔴 DIFÍCIL │ 4 - Multi     │
+│ 31    │ Semi-automação de Build                 │ 🟣 MUITO   │ 4 - Multi     │
+└───────┴─────────────────────────────────────────┴────────────┴───────────────┘
+
+TOTAL: 21 ETAPAS (11-31)
+ANTES ERA: 17 etapas / AGORA: 31 etapas
+
+================================================================================
 === 🎛️ ANÁLISE: CONTROLE DA CURADORIA (CENSURA + ATIVAÇÃO) ===
 ================================================================================
 Fonte: [CHATGPT] Conversa 03/12/2025
@@ -6429,5 +6722,5 @@ ACORDO DE USO DEFINIDO:
 - Código travado → Fluxos críticos, IA sensível, Segurança, Billing
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 21:20 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 21:30 UTC-5
 ================================================================================
