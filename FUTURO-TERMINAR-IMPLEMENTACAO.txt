@@ -19388,16 +19388,22 @@ FIM DO ESCOPO - VERSÃO CONSOLIDADA 04/12/2025 07:13 UTC-5
 
 [TAREFA 9]
 - Descrição: Integrar Sidebar admin com adminCoreMenu + ícone "?" em cada menu abrindo help
-- Status: PENDENTE
+- Status: CONCLUIDO
 - Origem: ESCOPO - Fase 17 (ADMIN MENU CORE) + PRÓXIMAS AÇÕES SUGERIDAS item 8
-- Arquivos envolvidos: components/admin/Sidebar.tsx, lib/admin-core-menu.ts, lib/menu-help-registry.ts
+- Arquivos envolvidos:
+  - components/admin/AdminSidebar.tsx (CRIADO - 350 linhas)
+  - lib/menu-help-registry.ts (ATUALIZADO - adicionada getHelpForRoute)
 - SQL consolidado: N/A
+- Implementado em: 04/12/2025 14:00 UTC-5
 
 [TAREFA 10]
 - Descrição: Integrar frontpage com plan_catalog dinamicamente (ler planos do banco)
-- Status: PENDENTE
-- Origem: ESCOPO - Fase 3 (Dívidas Técnicas) + PRÓXIMAS AÇÕES SUGERIDAS item 8
-- Arquivos envolvidos: app/page.tsx, app/api/plans/route.ts
+- Status: CONCLUIDO
+- Origem: ESCOPO - Fase 3 (Dívidas Técnicas) + PRÓXIMAS AÇÕES SUGERIDAS item 9
+- Arquivos envolvidos:
+  - app/api/plan-catalog/route.ts (CRIADO - 180 linhas)
+  - hooks/usePlanCatalog.ts (CRIADO - 200 linhas)
 - SQL consolidado: N/A
+- Implementado em: 04/12/2025 14:05 UTC-5
 
 === FIM IMPLEMENTAÇÃO ===

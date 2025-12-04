@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 13:20 UTC-5
+Última atualização: 04/12/2025 14:15 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -1411,9 +1411,50 @@ TAREFAS CONCLUÍDAS ATÉ AGORA:
 ├── TAREFA 6: lib/ai-router.ts → ✅
 ├── TAREFA 7: Funções de simulação → ✅
 ├── TAREFA 8: Telas admin faltantes → ✅
-└── TAREFAS 3,4,5,9,10 → ⏳ PENDENTE
+├── TAREFA 9: AdminSidebar + help → ✅
+├── TAREFA 10: API plan-catalog → ✅
+└── TAREFAS 3,4,5 → ⏳ PENDENTE
 
 TypeScript: ✅ Passou sem erros
+
+================================================================================
+SESSÃO 04/12/2025 14:10 UTC-5 – TAREFAS 9 E 10 CONCLUÍDAS
+================================================================================
+
+[TAREFA 9] ADMIN SIDEBAR INTEGRADA
+
+Arquivo NOVO: components/admin/AdminSidebar.tsx (350 linhas)
+- Consome adminCoreMenu para estrutura do menu
+- Agrupa itens por categoria com expansão/colapso
+- Ícone "?" em cada item que abre modal de help
+- Modal de help com: o_que_e, para_que_serve, quando_usar, como_funciona
+- Suporta colapso/expansão da sidebar
+- Destaca item ativo baseado na rota atual
+
+Arquivo ATUALIZADO: lib/menu-help-registry.ts
+- Adicionada função getHelpForRoute() para buscar help por rota
+
+[TAREFA 10] API PLAN-CATALOG
+
+Arquivo NOVO: app/api/plan-catalog/route.ts (180 linhas)
+- GET /api/plan-catalog - Busca planos do banco
+- Formata features e limits para frontend
+- Adiciona campos derivados (isFree, isPopular, icon, color)
+
+Arquivo NOVO: hooks/usePlanCatalog.ts (200 linhas)
+- Hook usePlanCatalog() com fallback para dados hardcoded
+- Hook useConsumerCatalogPlans() para planos B2C
+- Hook usePlanByKey() para buscar plano específico
+
+TAREFAS CONCLUÍDAS: 7 de 10 (70%)
+├── TAREFA 1: SQL_CONSOLIDADO_01_BASE.sql → ✅
+├── TAREFA 2: plan_catalog com 4 planos → ✅
+├── TAREFA 6: lib/ai-router.ts → ✅
+├── TAREFA 7: Funções de simulação → ✅
+├── TAREFA 8: Telas admin faltantes → ✅
+├── TAREFA 9: AdminSidebar + help → ✅
+├── TAREFA 10: API plan-catalog → ✅
+└── TAREFAS 3,4,5 → ⏳ PENDENTE (requerem execução manual no Supabase)
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF

@@ -618,6 +618,21 @@ export function hasMenuHelp(audience: MenuHelpAudience, route: string): boolean 
   return getMenuHelp(audience, route) !== null
 }
 
+/**
+ * Busca help por rota em todos os audiences (para uso no AdminSidebar)
+ */
+export function getHelpForRoute(route: string): MenuHelpBlock | null {
+  const allHelps = [
+    ...adminMenuHelp,
+    ...usuariaMenuHelp,
+    ...profissionalMenuHelp,
+    ...whitelabelMenuHelp,
+    ...geradorMenuHelp
+  ]
+  
+  return allHelps.find(block => block.route === route) || null
+}
+
 // ============================================================================
 // EXPORT DEFAULT
 // ============================================================================
@@ -627,6 +642,7 @@ const MenuHelpRegistry = {
   getAllMenuHelps,
   getMenuHelpById,
   hasMenuHelp,
+  getHelpForRoute,
   adminMenuHelp,
   usuariaMenuHelp,
   profissionalMenuHelp,
