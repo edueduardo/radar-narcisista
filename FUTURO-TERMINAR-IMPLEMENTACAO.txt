@@ -7448,6 +7448,55 @@ O Windsurf VERIFICOU que a ETAPA 11.1 JÁ ESTAVA IMPLEMENTADA no código:
 CONCLUSÃO: ETAPA 11.1 JÁ ESTAVA 100% IMPLEMENTADA!
 
 ================================================================================
+=== 📋 PROMPT MESTRE ETAPA 11.1 (BACKUP) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (criação do prompt)
+Status: BACKUP PARA REFERÊNCIA FUTURA
+
+NOTA: Este prompt foi criado pelo ChatGPT para ser colado no Windsurf.
+A ETAPA 11.1 já foi verificada como IMPLEMENTADA, então este prompt
+serve apenas como documentação/referência para futuras etapas similares.
+
+NOME DO PROMPT: RADAR – ETAPA 11.1 – DASHBOARD USUÁRIA COM TRILHA DO HERÓI
+
+ESTRUTURA DO PROMPT:
+├── ETAPA 0 – Leitura e sincronização (obrigatória)
+├── ETAPA 1 – Objetivo da ETAPA 11.1 (clareza)
+├── ETAPA 2 – Ajustes na infra (se necessário)
+├── ETAPA 3 – Novo layout do /dashboard (usuária)
+├── ETAPA 4 – Responsivo (mobile) e acessibilidade
+├── ETAPA 5 – Não quebrar o que já existe
+├── ETAPA 6 – Atualizar documentação (TXT)
+├── ETAPA 7 – Build, teste manual, git + deploy
+└── ETAPA FINAL – Resumo para o Eduardo
+
+ARQUIVOS ENVOLVIDOS:
+├── lib/plan-taxonomy.ts
+├── lib/plan-dashboard-modules.ts
+├── lib/dashboard-user-layout.ts
+├── app/dashboard/page.tsx
+├── app/dashboard/page.BACKUP_ETAPA11.tsx
+├── ATLAS-RADAR-NARCISISTA.txt
+├── ROADMAP-RADAR.txt
+└── TUDO PARA O GPT.txt
+
+OBJETIVO:
+Transformar o /dashboard da usuária em um painel organizado em 5 passos:
+1. Entender
+2. Registrar
+3. Conversar
+4. Proteger
+5. Recursos
+
+REGRAS:
+├── NÃO mexer em migrations, schema de banco, rotas de API
+├── NÃO alterar fluxos críticos do Triângulo, Plano de Segurança ou IA
+├── Foco é VISUAL/ORGANIZAÇÃO do dashboard
+├── Reaproveitar componentes existentes
+└── Manter responsivo (mobile)
+
+================================================================================
 === 📊 IMPLEMENTAR WINDSURF + EDUARDO ===
 ================================================================================
 Fonte: Consolidação de todas as auditorias do chat
@@ -7525,5 +7574,5 @@ FUTURO:
 TOTAL FUTURO: 14 blocos
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 22:20 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 22:25 UTC-5
 ================================================================================
