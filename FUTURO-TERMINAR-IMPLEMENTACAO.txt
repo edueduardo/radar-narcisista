@@ -8600,6 +8600,7 @@ WINDSURF:
 | Dev | MANUAL-DEV-RADAR.txt | ❌ Não existe |
 | ENGINE | MANUAL-ENGINE-RADAR.txt | ⏳ FUTURO |
 | FÁBRICA | MANUAL-FABRICA-RADAR.txt | ⏳ FUTURO |
+| WHITE-LABEL | MANUAL-WHITELABEL-RADAR.txt | ⏳ FUTURO (ETAPA 13) |
 
 --------------------------------------------------------------------------------
 5. CICLO DE MANUAIS (INTEGRADO AO CICLO RADAR)
@@ -8655,5 +8656,87 @@ IMAGENS (PLACEHOLDERS):
 └── Eduardo depois faz print e salva em /docs/img
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:30 UTC-5
+=== 📋 MANUAL WHITE-LABEL (ESQUELETO PLANEJADO) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (estrutura planejada)
+Status: ⏳ FUTURO – Criar quando ETAPA 13 for implementada
+
+ARQUIVO: MANUAL-WHITELABEL-RADAR.txt
+
+PÚBLICO-ALVO:
+├── Parceiros que compram Radar "com a cara deles"
+├── Clínicas, consultórios, empresas
+└── Profissionais que querem marca própria
+
+HERANÇA:
+├── Herda partes do MANUAL-PROFISSIONAL (como usar com clientes)
+└── Acrescenta: personalização, contrato, limites, escala
+
+--------------------------------------------------------------------------------
+ESTRUTURA PLANEJADA DO MANUAL WHITE-LABEL
+--------------------------------------------------------------------------------
+
+1. INTRODUÇÃO
+   1.1 O que é o Radar White-Label
+   1.2 O que você pode personalizar
+   1.3 O que você NÃO pode alterar (core, ética, LGPD)
+
+2. PRIMEIROS PASSOS
+   2.1 Como ativar seu plano White-Label
+   2.2 Acessando seu painel de parceiro
+   2.3 Configuração inicial
+
+3. PERSONALIZAÇÃO DA MARCA
+   3.1 Logo (upload, dimensões recomendadas)
+   3.2 Cores (cor principal, secundária, fundo)
+   3.3 Nome exibido (ex: "Radar da Clínica X")
+   3.4 Domínio customizado (FUTURO)
+       - Como configurar DNS
+       - SSL automático
+
+4. GERENCIANDO SEUS CLIENTES
+   4.1 Como convidar clientes (código de convite)
+   4.2 Fluxo de aceite pelo cliente
+   4.3 Permissões de compartilhamento (share_*)
+   4.4 Relatórios por cliente
+   4.5 Exportação de dados
+
+5. LIMITES E PLANOS
+   5.1 Quantos clientes você pode ter
+   5.2 Limites de uso de IA
+   5.3 Como fazer upgrade
+   5.4 Cobrança e faturamento
+
+6. ÉTICA E RESPONSABILIDADES
+   6.1 O Radar NÃO é laudo, perícia ou terapia
+   6.2 Você continua responsável pela avaliação profissional
+   6.3 Como citar o Radar em documentos
+   6.4 LGPD: seus deveres como controlador de dados
+
+7. SUPORTE E CONTATO
+   7.1 Como abrir chamado
+   7.2 FAQ do parceiro
+   7.3 Atualizações e novidades
+
+8. BOAS PRÁTICAS
+   8.1 Como apresentar o Radar para seus clientes
+   8.2 Exemplos de uso em contexto clínico
+   8.3 Exemplos de uso em contexto jurídico
+   8.4 O que evitar
+
+--------------------------------------------------------------------------------
+QUANDO CRIAR ESTE MANUAL?
+--------------------------------------------------------------------------------
+
+GATILHO: Quando ETAPA 13 (White-Label V1) for implementada
+
+AÇÕES NA ETAPA 13:
+├── Criar MANUAL-WHITELABEL-RADAR.txt
+├── Atualizar MANUAL-PROFISSIONAL-RADAR.txt (incluir "modo parceiro")
+├── Registrar no ATLAS + ROADMAP + TUDO PARA O GPT
+└── Adicionar testes no TESTES-RADAR.txt
+
+================================================================================
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:35 UTC-5
 ================================================================================
