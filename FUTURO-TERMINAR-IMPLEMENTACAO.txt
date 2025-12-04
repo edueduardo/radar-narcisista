@@ -5748,10 +5748,150 @@ CRITÉRIO DE SUCESSO:
 
 FIM DO PROMPT – ETAPA 10
 
-IDEIAS FUTURAS (APÓS ETAPA 14):
+IDEIAS FUTURAS (APÓS ETAPA 17):
 - Integração com Google Trends/YouTube/TikTok (fontes externas)
 - App React Native + Notificações Push
 - Integração WhatsApp + Typebot + Z-API
+- RADAR ENGINE (Reprodutor de SaaS multi-tema) ← BRAINSTORM ABAIXO
+
+================================================================================
+=== 🚀 BRAINSTORM: RADAR ENGINE (REPRODUTOR DE SAAS MULTI-TEMA) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT + Eduardo (brainstorm de visão futura)
+Status: APENAS CONVERSA – VISÃO DE LONGO PRAZO
+
+PERGUNTA DO EDUARDO:
+"E se eu digitar um tema (pescaria, namoro, traição, burnout) e automaticamente
+ele criar tudo pra mim? Front, back, stack, tudo montado. É possível ou doideira?"
+
+--------------------------------------------------------------------------------
+RESPOSTA: O QUE É POSSÍVEL vs O QUE É DOIDEIRA
+--------------------------------------------------------------------------------
+
+✅ DOIDEIRA BOA (POSSÍVEL):
+- Aproveitar o Radar como ENGINE pra outros temas
+- Você já construiu metade do caminho sem perceber
+- O coração do Radar é um framework genérico de:
+  "Dor confusa + registro estruturado + IA guiando + educação + métrica + segurança"
+
+❌ DOIDEIRA PERIGOSA (NÃO POSSÍVEL 100%):
+- Digitar qualquer palavra e gerar produto completo
+- Sem revisão humana técnica/jurídica/ética
+- Colocar no ar pra pessoas frágeis usarem
+
+--------------------------------------------------------------------------------
+O QUE O RADAR JÁ TEM DE GENÉRICO (NÃO É SÓ NARCISISMO)
+--------------------------------------------------------------------------------
+
+Peças que NÃO são sobre narcisismo, são sobre ESTRUTURA:
+- Usuário, plano, assinatura
+- Diário (texto/voz)
+- Check-ins / entry types
+- Chat IA com guardrails
+- Plano de segurança (padrão reaproveitável)
+- Conteúdos (content_items, content_collections, content_insights)
+- FanPage Viva (dados agregados + conteúdos curados)
+- Academy
+- Taxonomia de planos + módulos de dashboard
+- Semáforo de edição e curadoria manual
+
+--------------------------------------------------------------------------------
+TEMAS QUE SE ADAPTAM BEM AO RADAR ENGINE
+--------------------------------------------------------------------------------
+
+┌─────────────────────────────────┬────────────────────────────────────────────┐
+│ Tema                            │ Por que encaixa                            │
+├─────────────────────────────────┼────────────────────────────────────────────┤
+│ Relacionamento abusivo          │ O que já é (Radar Narcisista)              │
+│ Co-parenting tóxico             │ Diário de episódios, provas, risco         │
+│ Bullying / assédio moral        │ Registro, provas, orientação               │
+│ Burnout / exaustão no trabalho  │ Diário de situações, saúde mental          │
+│ Dependência emocional           │ Clareza, registro, IA empática             │
+│ Dívidas e desespero financeiro  │ Registrar cobranças, plano de ação         │
+│ Luto complicado                 │ Diário, IA de apoio, educação              │
+│ Vícios comportamentais leves    │ Registro, padrões, orientação              │
+└─────────────────────────────────┴────────────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+ESTRUTURA PROPOSTA: RADAR ENGINE
+--------------------------------------------------------------------------------
+
+1️⃣ TABELA domains (ou verticals)
+   - id, slug (narcisismo, coparent, burnout, bullying)
+   - nome_publico (Radar Narcisista, Radar Co-Parent, Radar Burnout)
+   - tipo (relacional, saúde mental leve, jurídico, financeiro)
+   - nivel_risco (baixo, médio, alto)
+   - linguas (pt-BR, en-US, es-ES)
+   - ativo (sim/não)
+   - template_base (qual "modelo" usar)
+
+2️⃣ KITS DE TEMPLATE (não palavra solta)
+
+   Template "Relacionamentos e Conflitos":
+   - Serve pra: narcisismo, co-parent, traição, violência emocional
+   - Foca em: diário de episódios, risco físico/psicológico, provas, IA empática
+
+   Template "Trabalho e Burnout":
+   - Serve pra: assédio moral, burnout, demissão abusiva
+   - Foca em: diário de situações, provas, saúde mental, limites
+
+   Template "Dinheiro e Dívidas":
+   - Serve pra: endividamento, abuso financeiro
+   - Foca em: registrar cobranças, ameaças, plano de ação financeiro
+
+   Template "Bullying Escolar / Universitário":
+   - Foca em: registros, provas, orientação pra pais/gestores, risco
+
+3️⃣ O QUE O KIT GERARIA AUTOMATICAMENTE
+
+   Ao criar novo domínio, o engine clonaria/cadastraria:
+   - Planos (visitante, guardar, jornada, defesa) com novo nome
+   - Módulos de dashboard mapeados
+   - Textos base da landing adaptados via IA
+   - Conteúdo inicial em content_items e content_collections
+   - Prompt base das IAs ajustado pro tema
+   - Tudo em modo RASCUNHO com semáforo VERMELHO/AMARELO
+
+   ⚠️ NADA IRIA AO AR SEM:
+   - Passar pelo crivo do Eduardo
+   - Talvez crivo de profissional parceiro (psicólogo, advogado)
+
+4️⃣ CONFIG POR DOMÍNIO (CURADORIA)
+
+   {
+     "curadoria_ia_ativa": true/false,
+     "fontes_permitidas": ["google_news", "reddit", "youtube", "artigos_academicos"],
+     "janela_tempo": "7d" | "30d" | "90d"
+   }
+
+   - IA NUNCA publica nada sozinha
+   - Sempre gera sugestões → content_suggestions → você aprova
+   - Você decide quando rodar:
+     "Rodar curadoria para RADAR NARCISISTA (últimos 30 dias)"
+     "Rodar curadoria para RADAR BURNOUT (últimos 90 dias)"
+
+--------------------------------------------------------------------------------
+CAMINHO EQUILIBRADO
+--------------------------------------------------------------------------------
+
+Transformar o Radar em um FRAMEWORK MULTI-TEMA de:
+"dor + clareza + registro + IA + educação"
+
+Com:
+- Templates por tipo de problema
+- Muita curadoria humana na camada final
+- Revisão técnica/jurídica/ética obrigatória
+
+PRÓXIMOS PASSOS (SE QUISER CONTINUAR):
+1. Listar 5-7 "temas irmãos" (burnout, bullied, co-parent, abuso financeiro)
+2. Mapear que partes do Radar se aplicam iguais, quais mudam
+3. Decidir se vira:
+   - Outro produto separado
+   - "Radar Hub" com vários "Radars" dentro
+   - Linha de white-labels específicos
+
+STATUS: ⏳ APENAS BRAINSTORM – NÃO É REQUISITO AINDA
 
 ================================================================================
 === 🎛️ ANÁLISE: CONTROLE DA CURADORIA (CENSURA + ATIVAÇÃO) ===
@@ -6069,5 +6209,5 @@ ACORDO DE USO DEFINIDO:
 - Código travado → Fluxos críticos, IA sensível, Segurança, Billing
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 21:00 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 21:10 UTC-5
 ================================================================================
