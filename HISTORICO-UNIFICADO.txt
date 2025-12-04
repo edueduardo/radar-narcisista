@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 03/12/2025 23:45 UTC-5
+Última atualização: 04/12/2025 00:10 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -207,19 +207,56 @@ SEMÁFORO DE EDIÇÃO
 └── Qualquer coisa marcada como "crítico"
 
 ================================================================================
-COMMITS RECENTES
+COMMITS RECENTES (SESSÃO 03-04/12/2025)
 ================================================================================
 
-2b9487a - ETAPA 11.2 CONCLUIDA + ETAPA 12 Prompt Mestre criado
-86bf1ff - ETAPA 11.2: Prompt Mestre criado + Sequencia logica
-bb5bfd8 - BACKUP: Prompt Mestre ETAPA 11.1 documentado
-0d8131a - AUDITORIA: Registro CICLO RADAR 5 TXT
-df4f0d2 - BACKUP TXT: Referencia ao arquivo de backup
-ae54c6f - MUNDOS-MESCLADOS: GPT + Windsurf + Ciclos
-a5849f3 - BACKUP COMPLETO: Chat ETAPAS 8-11
-30fab83 - ETAPA 11.1: Verificado - Trilha do Heroi
-d493176 - PLANO MESTRE COMPLETO: Blocos A B C
-0453b7d - WHITE LABEL: Dois niveis de personalizacao
+0e6d7aa - AUDITORIA-MASTER-PREMIUM.txt criado + SEQUENCIA CONSOLIDADA
+66f75d7 - NOVO BLOCO C+M+O (CLEAN+MANUAIS+ORACULO) com checklists
+ecdd1ef - ETAPAs CLEAN detalhadas + MANUAIS detalhados + ORDEM OFICIAL
+7613948 - HISTORICO-UNIFICADO atualizado
+2aefe84 - ORACULO + LIMPEZA + LAMPADA + SEQUENCIA OFICIAL COMPLETA
+213da5a - BLOCO MANUAIS obrigatorio em todos os prompts
+93f6f7b - Manual White-Label esqueleto planejado
+d271932 - Sistema de Manuais + Prompt Ciclo de Manuais
+ffd2aad - Documentacao completa ENGINE + FABRICA
+aa9d77c - PACOTE 12.1.2+12.2 CONCLUIDO + PACOTE 12.3+13 Prompt
+
+================================================================================
+NOVOS ARQUIVOS CRIADOS (SESSÃO 03-04/12/2025)
+================================================================================
+
+├── AUDITORIA-MASTER-PREMIUM.txt (~350 linhas)
+│   └── Prompt de auditoria rigorosa com checklists
+│
+└── FUTURO-TERMINAR-IMPLEMENTACAO.txt (~9692 linhas)
+    ├── BLOCO C – CLEAN (C1, C2, C3)
+    ├── BLOCO M – MANUAIS (M1-M6)
+    ├── BLOCO O – ORÁCULO (O1, O2)
+    ├── ENGINE + FÁBRICA documentados
+    ├── SEQUÊNCIA CONSOLIDADA para prompts
+    └── PAINEL PRO EDUARDO com ✅/❌
+
+================================================================================
+PRÓXIMOS PASSOS (ORDEM OFICIAL)
+================================================================================
+
+FASE 1 – FECHAR RADAR:
+├── 1. ⚠️ Rodar migrations no Supabase (OBRIGATÓRIO)
+├── 2. 🔜 PACOTE 12.3 + 13 (Exportação + White-Label V1)
+├── 3. 🔜 C1 – CLEAN-USUÁRIA
+├── 4. 🔜 C2 – CLEAN-PROF
+└── 5. 🔜 C3 – CLEAN-ADMIN
+
+FASE 2 – MANUAIS:
+├── 6. 🔜 M1 – Índice Geral
+├── 7. 🔜 M2 – Manual Usuária
+├── 8. 🔜 M3 – Manual Profissional
+├── 9. 🔜 M4 – Manual Admin
+└── 10. 🔜 M5 – Manual Dev/Engine
+
+FASE 3 – ORÁCULO:
+├── 11. ⏳ O1 – ORÁCULO-V1
+└── 12. ⏳ O2 – ORÁCULO-ENGINE
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF
