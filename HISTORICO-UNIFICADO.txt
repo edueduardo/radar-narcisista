@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 07:51 UTC-5
+Última atualização: 04/12/2025 08:07 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -1270,6 +1270,42 @@ FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
 └── 10 blocos documentados (A-J)
 
 TOTAL DE FASES: ANTES ERA 33 / AGORA: 34
+
+================================================================================
+SESSÃO 04/12/2025 08:07 UTC-5 – FASE 35 ADICIONADA (ATUALIZAÇÃO VIA ZIP)
+================================================================================
+
+NOVO CONTEÚDO EXTRAÍDO DO CHAT:
+
+PERGUNTA DO EDU:
+"Entra atualização via enviar arquivo ZIP?"
+
+CONTEXTO:
+- Após definir modelo de 3 camadas (CORE + TEMPLATES + INSTÂNCIAS)
+- Dúvida: como distribuir atualizações para SaaS filhos?
+
+OPÇÕES DOCUMENTADAS:
+1. ATUALIZAÇÃO AUTOMÁTICA (recomendada)
+2. ATUALIZAÇÃO VIA ZIP/PACOTE
+3. HÍBRIDO (críticas automáticas, opcionais via ZIP)
+
+ESTRUTURA DO ZIP (se implementado):
+- manifest.json (versões, changes, migrations)
+- /migrations/ (SQL files)
+- /patches/ (código alterado)
+- /templates/ (atualizações de templates)
+- /docs/ (CHANGELOG, UPGRADE_GUIDE)
+
+TABELAS SUGERIDAS:
+- saas_update_packages
+- saas_update_logs
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 35 – GERADOR SAAS: ATUALIZAÇÃO VIA ZIP/PACOTE
+├── 35 FASES organizadas com 515 itens
+└── 6 blocos documentados (A-F)
+
+TOTAL DE FASES: ANTES ERA 34 / AGORA: 35
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF

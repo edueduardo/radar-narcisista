@@ -19154,10 +19154,124 @@ BLOCO J – TABELAS SUGERIDAS (SUPABASE)
 | 32 | MAPA DO SISTEMA AUTOMATIZADO | 35 | 📝 CONCEITUAL |
 | 33 | ESCALABILIDADE BLOCOS (10-1000) + RADAR VISUAL | 40 | 📝 CONCEITUAL |
 | 34 | GERADOR SAAS: ARQUITETURA ATUALIZAÇÃO EM CADEIA | 45 | 📝 CONCEITUAL |
+| 35 | GERADOR SAAS: ATUALIZAÇÃO VIA ZIP/PACOTE | 20 | 📝 CONCEITUAL |
 
-TOTAL: 495 itens em 34 fases
+TOTAL: 515 itens em 35 fases
 
-TOTAL DE FASES: ANTES ERA 33 / AGORA: 34
+================================================================================
+FASE 35 – GERADOR DE SAAS: ATUALIZAÇÃO VIA ZIP/PACOTE
+================================================================================
+Fonte: [CHATGPT] Chat 04/12/2025 08:07 UTC-5 - Pergunta sobre atualização via ZIP
+Autoria: ChatGPT (planejamento) + Eduardo (decisões) + Windsurf (execução)
+Status: 📝 CONCEITUAL - AGUARDANDO DETALHAMENTO
+
+--------------------------------------------------------------------------------
+BLOCO A – CONCEITO: ATUALIZAÇÃO VIA PACOTE/ZIP
+--------------------------------------------------------------------------------
+
+PERGUNTA DO EDU:
+"Entra atualização via enviar arquivo ZIP?"
+
+CONTEXTO:
+- Após definir o modelo de 3 camadas (CORE + TEMPLATES + INSTÂNCIAS)
+- Surgiu a dúvida: como distribuir atualizações para SaaS filhos?
+- Opção: enviar pacote ZIP com as atualizações
+
+--------------------------------------------------------------------------------
+BLOCO B – OPÇÕES DE DISTRIBUIÇÃO DE ATUALIZAÇÕES
+--------------------------------------------------------------------------------
+
+OPÇÃO 1 – ATUALIZAÇÃO AUTOMÁTICA (RECOMENDADA):
+- SaaS filhos apontam para versão do CORE
+- Quando CORE sobe de versão, filhos podem migrar automaticamente
+- Sem necessidade de enviar arquivos
+- Requer: infraestrutura de deploy compartilhada
+
+OPÇÃO 2 – ATUALIZAÇÃO VIA ZIP/PACOTE:
+- Admin baixa pacote ZIP com a nova versão
+- Faz upload no painel do SaaS filho
+- Sistema aplica as atualizações
+- Útil para: SaaS filhos em servidores próprios
+
+OPÇÃO 3 – HÍBRIDO:
+- Atualizações críticas: automáticas
+- Atualizações opcionais: via pacote/ZIP
+- Admin escolhe quando aplicar
+
+--------------------------------------------------------------------------------
+BLOCO C – ESTRUTURA DO PACOTE ZIP (SE IMPLEMENTADO)
+--------------------------------------------------------------------------------
+
+CONTEÚDO DO ZIP:
+1. manifest.json:
+   - from_version: "1.3.0"
+   - to_version: "1.4.0"
+   - changes: [...]
+   - migrations: [...]
+   - breaking_changes: [...]
+
+2. /migrations/:
+   - SQL files para atualizar banco
+
+3. /patches/:
+   - Arquivos de código alterados
+
+4. /templates/:
+   - Atualizações de templates (se houver)
+
+5. /docs/:
+   - CHANGELOG.md
+   - UPGRADE_GUIDE.md
+
+--------------------------------------------------------------------------------
+BLOCO D – FLUXO DE ATUALIZAÇÃO VIA ZIP
+--------------------------------------------------------------------------------
+
+1. ADMIN GLOBAL gera pacote ZIP:
+   - Seleciona versão de origem e destino
+   - Sistema empacota migrations + patches + docs
+
+2. ADMIN DO SAAS FILHO recebe o ZIP:
+   - Via email, download, ou painel
+
+3. ADMIN DO SAAS FILHO faz upload:
+   - No painel /admin/atualizacoes
+   - Sistema valida o manifest.json
+
+4. SISTEMA APLICA:
+   - Roda migrations
+   - Aplica patches
+   - Atualiza core_version no banco
+
+5. CONFIRMAÇÃO:
+   - Log de atualização
+   - Notificação para admin global
+
+--------------------------------------------------------------------------------
+BLOCO E – TABELAS SUGERIDAS (SUPABASE)
+--------------------------------------------------------------------------------
+
+1. saas_update_packages (pacotes gerados):
+   - id, from_version, to_version, package_url
+   - created_at, created_by
+
+2. saas_update_logs (histórico de atualizações):
+   - id, instance_id, from_version, to_version
+   - method ('auto' | 'zip' | 'manual')
+   - status ('pending' | 'applied' | 'failed')
+   - applied_at, applied_by, notes
+
+--------------------------------------------------------------------------------
+BLOCO F – PENDÊNCIAS / PRÓXIMOS PASSOS
+--------------------------------------------------------------------------------
+
+[ ] Definir se atualização via ZIP é necessária
+[ ] Se sim, detalhar estrutura do manifest.json
+[ ] Criar UI /admin/atualizacoes para upload
+[ ] Criar API /api/updates/apply para processar ZIP
+[ ] Criar script de geração de pacotes
+
+TOTAL DE FASES: ANTES ERA 34 / AGORA: 35
 
 ================================================================================
 🎯 PRÓXIMAS AÇÕES SUGERIDAS (SEM "OU", SEM "OPCIONAIS")
