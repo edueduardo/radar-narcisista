@@ -5217,11 +5217,101 @@ RESUMO EM UMA LINHA POR ETAPA
 
 ETAPA 9:  Painel de Curadoria + Semáforo de Edição ✅ CONCLUÍDA
 ETAPA 10: Infra de Planos & Famílias + Módulos Dashboard ✅ CONCLUÍDA
-ETAPA 11: Redesenho Dashboard do Usuário (Trilha do Herói) (PROMPT PRONTO)
-ETAPA 12: Dashboard Profissional (B2B light)
-ETAPA 13: Dashboard White-Label (B2B full)
-ETAPA 14: Loja simplificada (2-3 add-ons reais)
-ETAPA 15: Teste com 5 usuárias beta
+ETAPA 11: Redesenho Dashboard do USUÁRIO (Trilha do Herói) (PROMPT PRONTO)
+ETAPA 12: Dashboard PROFISSIONAL (Terapeuta/Advogado)
+ETAPA 13: Dashboard WHITE-LABEL (Parceiro B2B/ONG)
+ETAPA 14: Painel de Planos & Módulos (Admin)
+ETAPA 15: Loja simplificada (2-3 add-ons reais)
+ETAPA 16: Dashboard Global do Admin (visão macro) [OPCIONAL]
+ETAPA 17: Teste com 5 usuárias beta
+
+================================================================================
+=== 📊 CLARIFICAÇÃO: QUAIS DASHBOARDS SERÃO REFORMULADOS ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (resposta à pergunta do Eduardo)
+Status: ESCOPO DEFINIDO
+
+PERGUNTA DO EDUARDO:
+"Quais são os dashboards que vai ser reformulado, redesenhado, ajustado?
+Quais vão passar por tirar, botar, mudar de posição, acrescentar, apagar?"
+
+--------------------------------------------------------------------------------
+RESPOSTA: TABELA DE DASHBOARDS E QUANDO SERÃO REFORMULADOS
+--------------------------------------------------------------------------------
+
+┌─────────────────────────────────┬─────────────────────┬─────────────────────────┐
+│ Dashboard                       │ Usuário-alvo        │ Etapa de REFORMA        │
+├─────────────────────────────────┼─────────────────────┼─────────────────────────┤
+│ Dashboard do Usuário (/dashboard)│ Pessoa comum       │ ETAPA 11 (AGORA)        │
+│ Dashboard Profissional          │ Terapeuta/Advogado  │ ETAPA 12                │
+│ Dashboard White-Label           │ Parceiro B2B/ONG    │ ETAPA 13                │
+│ Painel de Planos & Módulos      │ Admin (Eduardo)     │ ETAPA 14                │
+│ Dashboard Global do Admin       │ Admin (visão macro) │ ETAPA 16 (SE QUISER)    │
+└─────────────────────────────────┴─────────────────────┴─────────────────────────┘
+
+--------------------------------------------------------------------------------
+DETALHAMENTO POR DASHBOARD
+--------------------------------------------------------------------------------
+
+1️⃣ DASHBOARD DO USUÁRIO (/dashboard) – ETAPA 11 (AGORA)
+   Persona: pessoa que usa o Radar (visitante/guardar/jornada/defesa/profissional)
+   O que vai acontecer:
+   - Reorganizar TUDO em formato de trilha do herói do Triângulo
+   - Entender → Registrar → Conversar → Proteger → Provas/Recursos
+   - Reposicionar cards (teste, diário, chat, plano de segurança)
+   - Esconder/mostrar módulos conforme o plano
+   - Mostrar módulos bloqueados com cadeado/teaser
+   - Limpar excesso de informação solta
+   ⚠️ SEM mudar segurança, LGPD e regras críticas
+
+2️⃣ DASHBOARD PROFISSIONAL – ETAPA 12
+   Rota alvo: /profissional ou /app/pro
+   Persona: terapeuta, advogado(a), profissional parceiro
+   O que deve acontecer:
+   - Visão dos casos em que foi autorizado
+   - Acesso a relatórios/exportações específicos
+   - Nada de ver dado de quem não autorizou (ética máxima)
+   - Painel de trabalho próprio
+
+3️⃣ DASHBOARD WHITE-LABEL – ETAPA 13
+   Rota alvo: /admin/parceiros ou /whitelabel
+   Persona: empresa/ONG que compra o Radar para um grupo
+   O que deve acontecer:
+   - Ver uso agregado (sem dados pessoais)
+   - Acompanhar planos ativos, volume de uso, métricas gerais
+   - Configurar "versão deles" do Radar (logo, cores)
+
+4️⃣ PAINEL DE PLANOS & MÓDULOS – ETAPA 14
+   Rota: /admin/planos (já existe) + melhorias
+   Persona: Admin (Eduardo)
+   O que deve acontecer:
+   - Ver cada plano (Guardar, Jornada, Defesa)
+   - Marcar quais módulos de dashboard cada plano libera
+   - Ver "preview" do dashboard daquele plano
+   - Ligar/desligar módulo por plano
+
+5️⃣ DASHBOARD GLOBAL DO ADMIN – ETAPA 16 (OPCIONAL)
+   Rota: /admin/dashboard
+   Persona: Admin (Eduardo)
+   O que seria:
+   - Visão geral de TUDO
+   - Cards de risco, uso, planos
+   - Métricas agregadas
+   ⚠️ Só entra se Eduardo bater o martelo
+
+--------------------------------------------------------------------------------
+RESUMO DIRETO
+--------------------------------------------------------------------------------
+
+AGORA (ETAPA 11):
+→ SÓ o Dashboard do Usuário (/dashboard)
+
+DEPOIS:
+→ Dashboard Profissional (ETAPA 12)
+→ Dashboard White-Label (ETAPA 13)
+→ Painel de Planos & Módulos (ETAPA 14)
+→ Dashboard Global do Admin (ETAPA 16, se quiser)
 
 ================================================================================
 === ✅ ETAPA 10 CONCLUÍDA – INFRA DE PLANOS, FAMÍLIAS E MÓDULOS ===
@@ -5888,5 +5978,5 @@ ACORDO DE USO DEFINIDO:
 - Código travado → Fluxos críticos, IA sensível, Segurança, Billing
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 20:45 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 20:55 UTC-5
 ================================================================================
