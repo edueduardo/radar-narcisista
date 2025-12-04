@@ -9863,6 +9863,203 @@ Para cada item ❌ virar ✅, precisa:
 └── 6. Commit + Push
 
 ================================================================================
+=== 📋 PROMPT COMPLETO BLOCO 14-20 (COPIAR PARA WINDSURF) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT
+Status: PROMPT PRONTO PARA EXECUÇÃO
+
+NOME DO PROMPT: RADAR – BLOCO 14–20 (LOJA, BETA, ORÁCULO, LIMPEZA, MANUAIS, LÂMPADA)
+
+CONTEXTO RÁPIDO (ESTADO ATUAL – JÁ IMPLEMENTADO)
+- Projeto: radar-narcisista (Next.js 16, TS, Supabase, Stripe, etc.)
+- PROMPT MESTRE – RADAR MANUTENÇÃO 5 TXT já está em uso
+- ETAPAS JÁ CONCLUÍDAS: 10, 11, 11.1, 11.2, 12, 12.1, 12.1.1, 12.1.2, 12.2, 12.3, 13
+
+=====================================================================
+REGRAS GERAIS DO BLOCO 14–20 (NÃO QUEBRAR)
+=====================================================================
+
+1) NÃO PULAR ETAPAS
+   - Ordem oficial: 14 → 15 → 16 → 17 → 18 → 19 → 20
+   - Só mexer numa etapa quando todas anteriores estiverem concluídas
+
+2) SUGESTÕES / IDEIAS / OPINIÕES
+   - PODE sugerir, mas NUNCA implementar fora de etapa numerada
+   - Registrar em ROADMAP-RADAR.txt (BACKLOG) ou LAMPADA-RADAR.txt
+
+3) MANUAIS
+   - Criação pesada na ETAPA 19
+   - Desde já: anotar gaps de manual na LÂMPADA
+
+4) LÂMPADA GERAL
+   - ETAPA 20 cria LAMPADA-RADAR.txt
+   - Até lá: pensar que tipo de observações registrar
+
+5) LIMITES
+   - NÃO mexer em: RLS crítica, fluxos de segurança, mensagens éticas
+
+=====================================================================
+ETAPA 14 – LOJA SIMPLIFICADA (ADD-ONS REAIS)
+=====================================================================
+
+OBJETIVO: Transformar /loja numa loja simples mas verdadeira
+- 2-3 add-ons reais
+- Conexão com Stripe/planos existentes
+- Integração com /planos e /dashboard
+
+PASSOS:
+1. Ler ATLAS → seção planos/loja + código de /loja, /planos, APIs
+2. Definir quais add-ons são possíveis agora
+3. Ajustar /loja com cards de produtos
+4. Conectar com Stripe (reaproveitar existente)
+5. Documentação: ATLAS, ROADMAP, Lâmpada
+
+=====================================================================
+ETAPA 15 – BETA COM 5 USUÁRIAS
+=====================================================================
+
+OBJETIVO: Preparar sistema para BETA real
+- Observabilidade
+- Coleta leve de feedback
+- Sinalização interna de quem é beta
+
+PASSOS:
+1. Ler /admin/beta-testers
+2. Conferir se existe tabela beta_tester
+3. Ajustar /admin/beta-testers
+4. Opcional: tag "BETA" no /dashboard
+5. Documentação: ATLAS, ROADMAP, TESTES
+
+=====================================================================
+ETAPA 16 – ORÁCULO V1 (ANALYTICS CONSOLIDADO)
+=====================================================================
+
+OBJETIVO: Criar ORÁCULO V1 - métricas básicas
+- Agregação de dados
+- Views/endpoints
+- UX em /admin para leitura
+
+MÉTRICAS MÍNIMAS:
+- Uso de Teste de Clareza
+- Uso de Diário
+- Uso de Chat/Coach
+- Planos mais usados
+
+PASSOS:
+1. Ler /admin/analytics, /admin/metricas, /admin/insights
+2. Definir local único: /admin/oraculo ou evolução de /admin/analytics
+3. Implementar funções de agregação
+4. Página admin com métricas legíveis
+5. Documentação: ATLAS, ROADMAP, Lâmpada
+
+=====================================================================
+ETAPA 17 – LIMPEZA / UNIFICAÇÃO DE DASHBOARDS
+=====================================================================
+
+OBJETIVO: Reduzir confusão entre múltiplos dashboards
+- /dashboard, /dashboard-premium, /dashboard-v2, /dashboard-profissional
+
+PASSOS:
+1. Ler código e UX de cada dashboard
+2. Classificar: PRINCIPAL vs LEGADO
+3. Manter um dashboard principal por persona
+4. Esconder ou marcar legados
+5. Documentação: ATLAS, ROADMAP, Lâmpada
+
+=====================================================================
+ETAPA 18 – LIMPEZA / ADMIN & MAPA DO SISTEMA
+=====================================================================
+
+OBJETIVO: Organizar /admin
+- Menus, ferramentas, rascunhos vs produção
+
+PASSOS:
+1. Ler /admin/menu-config, /admin/mapa-sistema, etc.
+2. Classificar: CORE, LABS, LEGADOS
+3. Organizar menus em seções
+4. Conectar Oráculo e White-label no menu
+5. Documentação: ATLAS, ROADMAP, Lâmpada
+
+=====================================================================
+ETAPA 19 – MANUAIS (USUÁRIA, PROFISSIONAL, ADMIN, DEV, WHITE-LABEL)
+=====================================================================
+
+OBJETIVO: Criar base dos manuais em Markdown
+
+ARQUIVOS A CRIAR:
+- docs/MANUAL-USUARIA.md
+- docs/MANUAL-PROFISSIONAL.md
+- docs/MANUAL-ADMIN.md
+- docs/MANUAL-DEV.md
+- docs/MANUAL-WHITELABEL.md
+
+PASSOS:
+1. Ler ATLAS, TUDO PARA O GPT, ROADMAP
+2. Estruturar seções: O que é, Para que serve, Passo a passo, Avisos/LGPD
+3. NÃO inventar funcionalidades
+4. Integrar links nos lugares certos
+5. Seção "Perguntas em aberto" ligada à Lâmpada
+
+=====================================================================
+ETAPA 20 – LÂMPADA GERAL (OBSERVAÇÕES E PENDÊNCIAS)
+=====================================================================
+
+OBJETIVO: Repositório central de observações, riscos, ideias
+
+ARQUIVO: LAMPADA-RADAR.txt
+
+ESTRUTURA:
+[1] Bugs / riscos técnicos
+[2] Pontos de confusão da usuária
+[3] Pontos de confusão do profissional
+[4] Decisões de produto que merecem revisão
+[5] Ideias de futuro (engine, fábrica, etc.)
+
+PASSOS:
+1. Criar LAMPADA-RADAR.txt
+2. Preencher com observações das etapas anteriores
+3. Opcional: criar /admin/lampada
+4. A partir daqui: sempre adicionar 💡 quando perceber algo relevante
+
+=====================================================================
+RESUMO OBRIGATÓRIO AO FINAL DE CADA ETAPA
+=====================================================================
+
+1) Arquivos modificados/criados
+2) O que foi implementado de fato
+3) O que NÃO foi feito e por quê
+4) Atualizações em: ATLAS, ROADMAP, TUDO, TESTES, MANUAIS, LAMPADA
+5) Sugestão de próxima AÇÃO
+
+FIM DO PROMPT – RADAR BLOCO 14–20
+
+--------------------------------------------------------------------------------
+💡 LÂMPADAS IMPORTANTES
+--------------------------------------------------------------------------------
+
+💡 1. MIGRATIONS OBRIGATÓRIAS (antes de testar profissional/white-label):
+   ├── 20241201_create_professional_clients.sql
+   ├── 20241201_fix_professional_clients_nullable.sql
+   └── 20241201_create_professional_brand.sql
+
+💡 2. ETAPA 14 (Loja):
+   └── Reaproveitar AO MÁXIMO o que já existe de Stripe
+
+💡 3. MANUAIS (ETAPA 19):
+   └── Base já está em ATLAS + TUDO PARA O GPT + TESTES
+
+💡 4. LAMPADA-RADAR.txt (ETAPA 20):
+   └── Vira "memo do futuro Eduardo" para não esquecer pendências
+
+--------------------------------------------------------------------------------
+COMANDO PARA INICIAR
+--------------------------------------------------------------------------------
+
+Quando quiser começar, diga:
+"Vou executar o CICLO RADAR 5 TXT completo e depois a ETAPA 14."
+
+================================================================================
 === 📋 MINI MANUAL DO EDUARDO (5 REGRAS PARA O DESÂNIMO) ===
 ================================================================================
 Fonte: [CHATGPT] Conversa 04/12/2025
