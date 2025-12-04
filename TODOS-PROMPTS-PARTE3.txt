@@ -1,0 +1,187 @@
+================================================================================
+TODOS OS PROMPTS COMPLETOS - PARTE 3 DE 3
+================================================================================
+
+================================================================================
+PATCH 4: REGRAS DE COMUNICAÇÃO WINDSURF ↔ CHATGPT
+================================================================================
+
+Arquivo: docs/REGRAS-COMUNICACAO-IA.md
+
+Regras:
+1. Sugestões aparecem ANTES da execução
+2. "Melhorias opcionais" vira "MELHORIAS IDENTIFICADAS"
+3. Proibido usar "ou" em "Próxima ação sugerida"
+4. Windsurf escreve resumos em formato padrão
+
+WINDSURF: VERIFIQUE SE IMPLEMENTADO. RESPONDA "PATCH 4: [STATUS]"
+
+================================================================================
+PATCH 5: ORGANIZAÇÃO DOS BLOCOS 10-40
+================================================================================
+
+BLOCO 21-25 (FECHADO):
+- 21: Billing & Add-ons
+- 22: Oráculo V2 Integrado
+- 23: Segurança & Observabilidade
+- 24: Manuais & Links
+- 25: QA Técnico
+
+BLOCO 26-30 (FUTURO):
+- 26: Oráculo V2 multiperfil
+- 27: ORACULO_V2_CORE + Gerador de SaaS
+- 28: Limites e billing do Oráculo
+- 29: Logging avançado
+- 30: Documentação Oráculo + Gerador
+
+BLOCO 31-35 (FUTURO):
+- 31: Painel central de IAs
+- 32: Matriz IA × Menu × Plano × Perfil
+- 33: Avatares / Personas de IA
+- 34: Menus do Admin + HELP
+- 35: Modo simulação
+
+BLOCO 36-40 (FUTURO):
+- 36: Gerador de SaaS: Mãe com tema
+- 37: Gerador de SaaS: Em branco
+- 38: Admin externo único (hub)
+- 39: Gestão de planos avançados
+- 40: Documentação de clonagem
+
+WINDSURF: VERIFIQUE SE IMPLEMENTADO. RESPONDA "PATCH 5: [STATUS]"
+
+================================================================================
+PATCH 6: GERENCIAMENTO DE IAs POR MENU / PLANO / PERFIL
+================================================================================
+
+REQUISITOS:
+- Ver TODAS as IAs cadastradas
+- Ligar/desligar IA por MENU, PERFIL, PLANO
+- Painel de carga/uso das IAs
+
+TABELAS:
+- ai_providers (id, key, nome_exibicao, status, custo_estimado)
+- ai_menus (id, menu_key, descricao)
+- ai_menu_providers (id, menu_id, provider_id, modo, peso, ativo)
+- ai_plan_overrides (id, plan_key, menu_key, provider_id, limite_diario)
+- ai_usage_logs (id, user_id, menu_key, provider_key, tokens_in, tokens_out)
+
+CÓDIGO:
+- lib/ai-router.ts
+  - getProvidersForMenu()
+  - callAIForMenu()
+  - callCollaborativeAI()
+
+UI ADMIN:
+- /admin/configurar-ias
+- /admin/ia-matrix
+- /admin/ia-analytics
+
+WINDSURF: VERIFIQUE SE IMPLEMENTADO. RESPONDA "PATCH 6: [STATUS]"
+
+================================================================================
+PATCH 7: MENU ADMIN + HELP POR MENU
+================================================================================
+
+ESTRUTURA DO MENU (8 GRUPOS):
+1. Visão Geral & Controle (9 itens)
+2. Pessoas & Acessos (5 itens)
+3. Planos, Billing & Promoções (5 itens)
+4. IAs & Orquestração (10 itens)
+5. Produto & Funcionalidades (7 itens)
+6. Front & Conteúdos (8 itens)
+7. Governança & LGPD (5 itens)
+8. Laboratório & Dev (6 itens)
+
+TOTAL: 55 itens de menu
+
+HELP POR MENU:
+- Tabela admin_menu_help ou lib/menu-help-registry.ts
+- Botão "?" em cada menu
+- Modal com explicação leiga
+
+ARQUIVOS:
+- lib/admin-core-menu.ts
+- lib/menu-help-registry.ts
+- docs/MENU-HELP-ADMIN.md
+
+WINDSURF: VERIFIQUE SE IMPLEMENTADO. RESPONDA "PATCH 7: [STATUS]"
+
+================================================================================
+PATCH 8: AVATARES / PERSONAS DE IA
+================================================================================
+
+CONCEITO:
+- Usuária vê "Dra. Clara" (não "Claude")
+- Cada persona tem nome, avatar, tom de voz
+
+TABELAS:
+- ai_personas (id, slug, display_name, avatar_url, tone, description)
+- ai_persona_bindings (id, persona_id, provider_id, menu_key)
+
+CÓDIGO:
+- lib/ai-personas.ts
+- getSafeDisplayForUser()
+
+UI:
+- Admin configura personas
+- Usuária vê persona (não provider)
+
+WINDSURF: VERIFIQUE SE IMPLEMENTADO. RESPONDA "PATCH 8: [STATUS]"
+
+================================================================================
+PATCH 9: MODO SIMULAÇÃO / IMPERSONATION
+================================================================================
+
+REQUISITOS:
+- Admin pode simular: usuária, profissional, whitelabel, gerador
+- Banner fixo: "Você está simulando X"
+- Botão "Encerrar simulação"
+- Log de todas as simulações
+
+TABELAS:
+- impersonation_sessions (id, admin_id, target_user_id, target_role, started_at, ended_at)
+
+CÓDIGO:
+- lib/impersonation.ts
+- components/ImpersonationBanner.tsx
+- /api/admin/impersonation
+
+UI:
+- /admin/simulacao (buscar usuário, iniciar simulação)
+
+SEGURANÇA:
+- Ações destrutivas bloqueadas em modo simulação
+- Logs registram que foi simulação
+
+WINDSURF: VERIFIQUE SE IMPLEMENTADO. RESPONDA "PATCH 9: [STATUS]"
+
+================================================================================
+RESUMO FINAL - CHECKLIST PARA WINDSURF
+================================================================================
+
+PROMPTS:
+[ ] PROMPT 1: Etapa 7.2 - Plano de Integração
+[ ] PROMPT 2: Etapa 7.3 - Implementação
+[ ] PROMPT 3: Mapeamento do Projeto
+[ ] PROMPT 4: Mega Prompt de Auditoria
+
+PATCHES:
+[ ] PATCH 1: JournalEntryType Timeline
+[ ] PATCH 2: BLOCO 21-25 Pós-MVP
+[ ] PATCH 3: Oráculo Correção Conceitual
+[ ] PATCH 4: Regras de Comunicação
+[ ] PATCH 5: Organização Blocos 10-40
+[ ] PATCH 6: IAs por Menu/Plano/Perfil
+[ ] PATCH 7: Menu Admin + Help
+[ ] PATCH 8: Avatares/Personas
+[ ] PATCH 9: Modo Simulação
+
+WINDSURF: PARA CADA ITEM, RESPONDA:
+- IMPLEMENTADO (100%)
+- PARCIAL (X%) - o que falta
+- NÃO IMPLEMENTADO - implementar agora
+
+================================================================================
+FIM DOS PROMPTS E PATCHES COMPLETOS
+================================================================================

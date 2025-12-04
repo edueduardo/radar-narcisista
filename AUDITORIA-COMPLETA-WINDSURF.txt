@@ -1,0 +1,448 @@
+================================================================================
+AUDITORIA COMPLETA - TODOS OS PROMPTS E PATCHES
+================================================================================
+Gerado em: 04/12/2025 07:20 UTC-5
+Autor: ChatGPT + Eduardo
+Para: Windsurf verificar e implementar
+
+INSTRUÇÃO: Cole este arquivo inteiro no Windsurf.
+Para cada PROMPT e PATCH, o Windsurf deve responder:
+- IMPLEMENTADO (100%)
+- PARCIAL (X%) - listar o que falta
+- NÃO IMPLEMENTADO - implementar agora
+
+================================================================================
+                              4 PROMPTS
+================================================================================
+
+────────────────────────────────────────────────────────────────────────────────
+PROMPT 1: ETAPA 7.2 – PLANO DE INTEGRAÇÃO (PLANO DE SEGURANÇA + TRIÂNGULO)
+────────────────────────────────────────────────────────────────────────────────
+
+1. DISPARO AUTOMÁTICO (Clareza → Plano de Segurança)
+   - Se hasPhysicalRisk = true (categoria fisico >= 30%):
+     - Salvar has_physical_risk = true em clarity_tests
+     - Mostrar banner no Dashboard
+     - Criar risk_alert com source='clarity_test', level='HIGH'/'CRITICAL'
+
+2. DETECÇÃO VIA CHAT (regex)
+   - Regex: /\b(me\s+bateu|me\s+agrediu|ameaç|vai\s+me\s+matar|medo\s+de\s+morrer|violência|apanho|socou|empurrou|estrangul)/i
+   - Mostrar banner: "🚨 Percebemos um possível risco."
+   - Criar risk_alert com source='chat'
+
+3. PERSISTÊNCIA (Plano → Diário)
+   - Ao salvar plano, criar entrada no diário com entry_type='safety_plan'
+
+4. API /api/safety-plan
+   - GET: retorna plano do usuário
+   - POST: cria novo plano
+   - PATCH: atualiza plano
+
+5. DASHBOARD
+   - Card "Plano de Segurança" com status colorido
+   - Banners de alerta baseados em hasPhysicalRisk
+
+6. BADGES NO DIÁRIO
+   - Badge 🛡️ para entry_type='safety_plan'
+
+WINDSURF RESPONDA: "PROMPT 1: [IMPLEMENTADO/PARCIAL/NÃO IMPLEMENTADO]"
+
+────────────────────────────────────────────────────────────────────────────────
+PROMPT 2: ETAPA 7.3 – IMPLEMENTAÇÃO (CODAR)
+────────────────────────────────────────────────────────────────────────────────
+
+MISSÃO: Implementar integração Plano de Segurança + Triângulo de Risco
+
+ORDEM DE IMPLEMENTAÇÃO:
+
+ETAPA 1 – TIPOS E SCHEMA
+- Adicionar 'safety_plan' ao JournalEntryType em types/database.ts
+- Verificar tabelas: clarity_tests, risk_alerts, journal_entries, safety_plans
+
+ETAPA 2 – API /api/safety-plan
+- Criar app/api/safety-plan/route.ts
+- GET: retorna plano do usuário autenticado
+- POST: cria novo plano
+- PATCH: atualiza plano existente
+- Após POST/PATCH: criar entrada no diário
+
+ETAPA 3 – PÁGINA /plano-seguranca
+- Usar API /api/safety-plan (não Supabase direto)
+- Status: NOT_STARTED, IN_PROGRESS, READY
+
+ETAPA 4 – DISPARO VIA TESTE DE CLAREZA
+- Em app/api/clarity/activate-profile/route.ts
+- Quando hasPhysicalRisk = true: criar risk_alert
+
+ETAPA 5 – DASHBOARD
+- Card "Plano de Segurança" com ícone Shield
+- Banners de alerta
+
+ETAPA 6 – DETECÇÃO NO CHAT
+- Regex em app/chat/page.tsx
+- Banner + risk_alert em app/api/chat/route.ts
+
+ETAPA 7 – DIÁRIO E BADGES
+- Badge 🛡️ em app/diario/page.tsx
+- Badge 🛡️ em app/diario/timeline/page.tsx
+
+WINDSURF RESPONDA: "PROMPT 2: [IMPLEMENTADO/PARCIAL/NÃO IMPLEMENTADO]"
+
+────────────────────────────────────────────────────────────────────────────────
+PROMPT 3: MAPEAMENTO COMPLETO DO PROJETO
+────────────────────────────────────────────────────────────────────────────────
+
+ETAPA 1 – LEITURA GERAL
+- Listar docs: README, TUDO_PARA_O_GPT.txt, ATLAS, ROADMAP, LAMPADA, TESTES
+- Listar pastas: app/, lib/, components/, database/, docs/
+
+ETAPA 2 – MAPA DA ARQUITETURA
+- Stack: Next.js 16, TypeScript, Tailwind, Supabase, Stripe, Vercel
+- Módulos: landing, dashboard, diário, chat, admin, etc.
+- Banco: tabelas principais e relações
+
+ETAPA 3 – CLASSIFICAR
+- IMPLEMENTADO / PARCIAL / PLANEJADO
+
+ETAPA 4 – CRIAR RESUMO BASE
+- Visão geral, stack, módulos, banco, próximos passos
+
+WINDSURF RESPONDA: "PROMPT 3: [IMPLEMENTADO/PARCIAL/NÃO IMPLEMENTADO]"
+
+────────────────────────────────────────────────────────────────────────────────
+PROMPT 4: MEGA PROMPT DE AUDITORIA GERAL
+────────────────────────────────────────────────────────────────────────────────
+
+ETAPA A – LEITURA DOS DOCS
+- TUDO PARA O GPT.txt
+- ATLAS-RADAR-NARCISISTA.txt
+- ROADMAP-RADAR.txt
+- LAMPADA-RADAR.txt
+- docs/PATCH-ORACULO.md
+- docs/REGRAS-COMUNICACAO-IA.md
+- CHECKLIST-POS-MVP.md
+
+ETAPA B – AUDITORIA DOS REQUISITOS
+- Verificar cada requisito no código
+- Classificar: IMPLEMENTADO / PARCIAL / NÃO IMPLEMENTADO
+- Implementar o que falta
+
+ETAPA C – MATRIZ GLOBAL DE IAs
+Tabelas:
+- ai_providers
+- ai_menus
+- ai_menu_providers
+- ai_plan_overrides
+- ai_usage_logs
+
+Código:
+- lib/ai-router.ts
+
+UI Admin:
+- /admin/ia-matrix
+- /admin/ia-analytics
+
+ETAPA D – MODO SIMULAÇÃO
+- Admin simula: usuária, profissional, whitelabel
+- Tabela impersonation_sessions
+- Banner "Você está simulando X"
+
+ETAPA E – HELP POR MENU
+- Tabela admin_menu_help
+- Botão "?" em cada menu
+
+ETAPA F – ORGANIZAÇÃO DO MENU ADMIN
+- FUNDAMENTAL: planos, usuários, billing, IA
+- PRODUTO: diário, teste de clareza
+- CONTEÚDO: curadoria, biblioteca
+- EXPERIMENTAL: beta
+- SISTEMA: frontpage, config
+
+ETAPA G – SINCRONIZAÇÃO COM GERADOR DE SAAS
+- Documentar CORE COMPARTILHADO
+
+WINDSURF RESPONDA: "PROMPT 4: [IMPLEMENTADO/PARCIAL/NÃO IMPLEMENTADO]"
+
+================================================================================
+                              9 PATCHES
+================================================================================
+
+────────────────────────────────────────────────────────────────────────────────
+PATCH 1: JournalEntryType NA TIMELINE
+────────────────────────────────────────────────────────────────────────────────
+
+Problema: Timeline não reconhece 'safety_plan'
+Arquivo: app/diario/timeline/page.tsx (linha 82)
+Solução: Adicionar 'safety_plan' à definição local do tipo
+
+WINDSURF RESPONDA: "PATCH 1: [IMPLEMENTADO/PARCIAL/NÃO IMPLEMENTADO]"
+
+────────────────────────────────────────────────────────────────────────────────
+PATCH 2: BLOCO 21-25 PÓS-MVP
+────────────────────────────────────────────────────────────────────────────────
+
+ETAPA 21 – Billing Sólido & Add-ons:
+- Tabela user_addons + RLS
+- Webhook Stripe
+- APIs /api/addons e /api/addons/consume
+- lib/user-addons.ts
+
+ETAPA 22 – Oráculo V2 Integrado:
+- API /api/oraculo-v2
+- Tabela oraculo_logs + migration
+- OraculoButton.tsx
+- docs/ORACULO-V2-PROMPT.md
+
+ETAPA 23 – Segurança Técnica:
+- lib/rate-limit.ts
+- lib/logger.ts
+- /api/health
+
+ETAPA 24 – Manuais:
+- 5 manuais atualizados (USUÁRIA, PROFISSIONAL, ADMIN, DEV, WHITELABEL)
+
+ETAPA 25 – QA Técnico:
+- CHECKLIST-POS-MVP.md
+
+WINDSURF RESPONDA: "PATCH 2: [IMPLEMENTADO/PARCIAL/NÃO IMPLEMENTADO]"
+
+────────────────────────────────────────────────────────────────────────────────
+PATCH 3: ORÁCULO – CORREÇÃO CONCEITUAL
+────────────────────────────────────────────────────────────────────────────────
+
+BLOCO 21-25 (ATUAL):
+- ORÁCULO V1 = painel /admin/oraculo → só ADMIN
+- ORÁCULO V2 = IA de suporte → apenas ADMIN neste bloco
+
+BLOCO 26-30 (FUTURO):
+- ORÁCULO V2 MULTIPERFIL para todos os perfis
+- ORACULO_V2_CORE como módulo compartilhado
+
+REGRA: Se texto antigo disser "Oráculo para usuária AGORA"
+→ ENTENDER COMO: "FUTURO BLOCO 26-30"
+
+Arquivo: docs/PATCH-ORACULO.md
+
+WINDSURF RESPONDA: "PATCH 3: [IMPLEMENTADO/PARCIAL/NÃO IMPLEMENTADO]"
+
+────────────────────────────────────────────────────────────────────────────────
+PATCH 4: REGRAS DE COMUNICAÇÃO WINDSURF ↔ CHATGPT
+────────────────────────────────────────────────────────────────────────────────
+
+Arquivo: docs/REGRAS-COMUNICACAO-IA.md
+
+Regras:
+1. Sugestões aparecem ANTES da execução
+2. "Melhorias opcionais" vira "MELHORIAS IDENTIFICADAS"
+3. Proibido usar "ou" em "Próxima ação sugerida"
+4. Windsurf escreve resumos em formato padrão
+
+WINDSURF RESPONDA: "PATCH 4: [IMPLEMENTADO/PARCIAL/NÃO IMPLEMENTADO]"
+
+────────────────────────────────────────────────────────────────────────────────
+PATCH 5: ORGANIZAÇÃO DOS BLOCOS 10-40
+────────────────────────────────────────────────────────────────────────────────
+
+BLOCO 21-25 (FECHADO):
+- 21: Billing & Add-ons
+- 22: Oráculo V2 Integrado
+- 23: Segurança & Observabilidade
+- 24: Manuais & Links
+- 25: QA Técnico
+
+BLOCO 26-30 (FUTURO):
+- 26: Oráculo V2 multiperfil
+- 27: ORACULO_V2_CORE + Gerador de SaaS
+- 28: Limites e billing do Oráculo
+- 29: Logging avançado
+- 30: Documentação Oráculo + Gerador
+
+BLOCO 31-35 (FUTURO):
+- 31: Painel central de IAs
+- 32: Matriz IA × Menu × Plano × Perfil
+- 33: Avatares / Personas de IA
+- 34: Menus do Admin + HELP
+- 35: Modo simulação
+
+BLOCO 36-40 (FUTURO):
+- 36: Gerador de SaaS: Mãe com tema
+- 37: Gerador de SaaS: Em branco
+- 38: Admin externo único (hub)
+- 39: Gestão de planos avançados
+- 40: Documentação de clonagem
+
+WINDSURF RESPONDA: "PATCH 5: [IMPLEMENTADO/PARCIAL/NÃO IMPLEMENTADO]"
+
+────────────────────────────────────────────────────────────────────────────────
+PATCH 6: GERENCIAMENTO DE IAs POR MENU / PLANO / PERFIL
+────────────────────────────────────────────────────────────────────────────────
+
+REQUISITOS:
+- Ver TODAS as IAs cadastradas (OpenAI, Claude, Together, Grok, etc.)
+- Ligar/desligar IA por MENU, PERFIL, PLANO
+- Painel de carga/uso das IAs
+
+TABELAS A CRIAR:
+- ai_providers (id, key, nome_exibicao, status, custo_estimado)
+- ai_menus (id, menu_key, descricao)
+- ai_menu_providers (id, menu_id, provider_id, modo, peso, ativo)
+- ai_plan_overrides (id, plan_key, menu_key, provider_id, limite_diario)
+- ai_usage_logs (id, user_id, menu_key, provider_key, tokens_in, tokens_out)
+
+CÓDIGO A CRIAR:
+- lib/ai-router.ts
+  - getProvidersForMenu()
+  - callAIForMenu()
+  - callCollaborativeAI()
+
+UI ADMIN:
+- /admin/configurar-ias
+- /admin/ia-matrix
+- /admin/ia-analytics
+
+WINDSURF RESPONDA: "PATCH 6: [IMPLEMENTADO/PARCIAL/NÃO IMPLEMENTADO]"
+
+────────────────────────────────────────────────────────────────────────────────
+PATCH 7: MENU ADMIN + HELP POR MENU
+────────────────────────────────────────────────────────────────────────────────
+
+ESTRUTURA DO MENU (8 GRUPOS, 55 ITENS):
+
+1. Visão Geral & Controle (9 itens)
+   - Dashboard Admin, Estatísticas, Logs, Oráculo, Simulação, etc.
+
+2. Pessoas & Acessos (5 itens)
+   - Usuários, Profissionais, Admins, Convites, Permissões
+
+3. Planos, Billing & Promoções (5 itens)
+   - Planos, Preços, Cupons, Promoções, Relatórios
+
+4. IAs & Orquestração (10 itens)
+   - Provedores, Matriz, Personas, Analytics, Limites, etc.
+
+5. Produto & Funcionalidades (7 itens)
+   - Diário, Chat, Teste de Clareza, Plano de Segurança, etc.
+
+6. Front & Conteúdos (8 itens)
+   - Frontpage, Blog, FAQ, Biblioteca, Curadoria, etc.
+
+7. Governança & LGPD (5 itens)
+   - Termos, Privacidade, Consentimentos, Exportação, Exclusão
+
+8. Laboratório & Dev (6 itens)
+   - Beta Features, Easter Eggs, A/B Testing, Webhooks, etc.
+
+HELP POR MENU:
+- Arquivo: lib/menu-help-registry.ts
+- Botão "?" em cada menu
+- Modal com explicação leiga
+
+ARQUIVOS:
+- lib/admin-core-menu.ts (estrutura do menu)
+- lib/menu-help-registry.ts (textos de ajuda)
+- docs/MENU-HELP-ADMIN.md (documentação)
+
+WINDSURF RESPONDA: "PATCH 7: [IMPLEMENTADO/PARCIAL/NÃO IMPLEMENTADO]"
+
+────────────────────────────────────────────────────────────────────────────────
+PATCH 8: AVATARES / PERSONAS DE IA
+────────────────────────────────────────────────────────────────────────────────
+
+CONCEITO:
+- Usuária vê "Dra. Clara" (não "Claude")
+- Cada persona tem nome, avatar, tom de voz
+
+TABELAS:
+- ai_personas (id, slug, display_name, avatar_url, tone, description)
+- ai_persona_bindings (id, persona_id, provider_id, menu_key)
+
+CÓDIGO:
+- lib/ai-personas.ts
+- getSafeDisplayForUser() - retorna persona, não provider
+
+UI:
+- Admin configura personas em /admin/ia-personas
+- Usuária vê persona (não provider)
+
+MIGRATION: database/migrate-ai-personas.sql
+
+WINDSURF RESPONDA: "PATCH 8: [IMPLEMENTADO/PARCIAL/NÃO IMPLEMENTADO]"
+
+────────────────────────────────────────────────────────────────────────────────
+PATCH 9: MODO SIMULAÇÃO / IMPERSONATION
+────────────────────────────────────────────────────────────────────────────────
+
+REQUISITOS:
+- Admin pode simular: usuária, profissional, whitelabel, gerador
+- Banner fixo: "Você está simulando X"
+- Botão "Encerrar simulação"
+- Log de todas as simulações
+
+TABELA:
+- impersonation_sessions
+  - id, admin_id, target_user_id, target_role, target_tenant_id
+  - started_at, ended_at, reason
+
+CÓDIGO:
+- lib/impersonation.ts
+  - startImpersonation()
+  - endImpersonation()
+  - getEffectiveSession()
+  - ensureNotImpersonatingForDangerousAction()
+
+- components/ImpersonationBanner.tsx
+  - Banner fixo no topo
+  - Mostra quem está sendo simulado
+  - Botão "Encerrar simulação"
+
+- /api/admin/impersonation
+  - POST: iniciar simulação
+  - DELETE: encerrar simulação
+
+UI:
+- /admin/simulacao
+  - Buscar usuário
+  - Selecionar perfil
+  - Iniciar simulação
+
+SEGURANÇA:
+- Ações destrutivas bloqueadas em modo simulação
+- Logs registram que foi simulação
+- Cookie rn_impersonation com dados da sessão
+
+MIGRATION: database/migrate-impersonation.sql
+
+WINDSURF RESPONDA: "PATCH 9: [IMPLEMENTADO/PARCIAL/NÃO IMPLEMENTADO]"
+
+================================================================================
+                         CHECKLIST FINAL
+================================================================================
+
+PROMPTS:
+[ ] PROMPT 1: Etapa 7.2 - Plano de Integração
+[ ] PROMPT 2: Etapa 7.3 - Implementação
+[ ] PROMPT 3: Mapeamento do Projeto
+[ ] PROMPT 4: Mega Prompt de Auditoria
+
+PATCHES:
+[ ] PATCH 1: JournalEntryType Timeline
+[ ] PATCH 2: BLOCO 21-25 Pós-MVP
+[ ] PATCH 3: Oráculo Correção Conceitual
+[ ] PATCH 4: Regras de Comunicação
+[ ] PATCH 5: Organização Blocos 10-40
+[ ] PATCH 6: IAs por Menu/Plano/Perfil
+[ ] PATCH 7: Menu Admin + Help
+[ ] PATCH 8: Avatares/Personas
+[ ] PATCH 9: Modo Simulação
+
+================================================================================
+WINDSURF: APÓS VERIFICAR TUDO, GERE UM RESUMO COM:
+
+1. STATUS DE CADA PROMPT (1-4)
+2. STATUS DE CADA PATCH (1-9)
+3. LISTA DO QUE FALTA IMPLEMENTAR
+4. IMPLEMENTAR O QUE FALTA AGORA
+
+================================================================================
+FIM DO ARQUIVO DE AUDITORIA COMPLETA
+================================================================================

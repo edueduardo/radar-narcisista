@@ -1,0 +1,85 @@
+================================================================================
+TODOS OS PROMPTS COMPLETOS - PARTE 1 DE 3
+================================================================================
+Gerado em: 04/12/2025 07:18 UTC-5
+Instrução: Cole cada bloco no Windsurf. Se já foi feito, ele dirá. Se não, executa.
+================================================================================
+
+================================================================================
+PROMPT 1: ETAPA 7.2 – PLANO DE INTEGRAÇÃO
+================================================================================
+
+## 1. DISPARO AUTOMÁTICO (Clareza → Plano de Segurança)
+- Se `hasPhysicalRisk = true` (categoria `fisico` >= 30%):
+  1. Salvar `has_physical_risk = true` em `clarity_tests`
+  2. Mostrar banner no Dashboard
+  3. Criar `risk_alert` com source='clarity_test', level='HIGH'/'CRITICAL'
+
+## 2. DETECÇÃO VIA CHAT (regex)
+Regex: /\b(me\s+bateu|me\s+agrediu|ameaç|vai\s+me\s+matar|medo\s+de\s+morrer|violência|apanho|socou|empurrou|estrangul)/i
+- Mostrar banner: "🚨 Percebemos um possível risco."
+- Criar `risk_alert` com source='chat'
+
+## 3. PERSISTÊNCIA (Plano → Diário)
+- Ao salvar plano, criar entrada no diário com entry_type='safety_plan'
+
+## 4. API `/api/safety-plan`
+- GET: retorna plano do usuário
+- POST: cria novo plano
+- PATCH: atualiza plano
+
+## 5. DASHBOARD
+- Card "Plano de Segurança" com status colorido (NOT_STARTED/IN_PROGRESS/READY)
+- Banners de alerta baseados em hasPhysicalRisk
+
+## 6. BADGES NO DIÁRIO
+- Badge 🛡️ para entry_type='safety_plan'
+
+WINDSURF: VERIFIQUE SE IMPLEMENTADO. RESPONDA "PROMPT 1: [STATUS]"
+
+================================================================================
+PROMPT 2: ETAPA 7.3 – IMPLEMENTAÇÃO (CODAR)
+================================================================================
+
+MISSÃO: Implementar integração Plano de Segurança + Triângulo de Risco
+
+ETAPAS:
+1. Adicionar 'safety_plan' ao JournalEntryType em types/database.ts
+2. Criar API /api/safety-plan/route.ts (GET/POST/PATCH)
+3. Atualizar /plano-seguranca para usar a API
+4. Disparo automático via Teste de Clareza (risk_alert)
+5. Dashboard: card + banners
+6. Chat: regex de detecção + banner + risk_alert
+7. Diário: badges para safety_plan
+
+REGRAS:
+- NÃO dizer que fez se não fez
+- NÃO quebrar o build
+- Mostrar arquivos alterados no final
+
+WINDSURF: VERIFIQUE SE IMPLEMENTADO. RESPONDA "PROMPT 2: [STATUS]"
+
+================================================================================
+PROMPT 3: MAPEAMENTO COMPLETO DO PROJETO
+================================================================================
+
+ETAPA 1 – LEITURA GERAL DO REPO
+- Listar docs: README, TUDO_PARA_O_GPT.txt, ATLAS, etc.
+- Listar pastas: app/, lib/, components/, database/, etc.
+
+ETAPA 2 – MAPA DA ARQUITETURA
+- Stack: Next.js 16, TypeScript, Tailwind, Supabase, Stripe
+- Módulos: landing, dashboard, diário, chat, admin, etc.
+- Banco: tabelas principais e relações
+
+ETAPA 3 – CLASSIFICAR
+- IMPLEMENTADO / PARCIAL / PLANEJADO
+
+ETAPA 4 – CRIAR RADAR_NARCISISTA_RESUMO_BASE_v1
+- Visão geral, stack, módulos, banco, próximos passos
+
+WINDSURF: VERIFIQUE SE IMPLEMENTADO. RESPONDA "PROMPT 3: [STATUS]"
+
+================================================================================
+FIM DA PARTE 1 - CONTINUE COM PARTE 2
+================================================================================

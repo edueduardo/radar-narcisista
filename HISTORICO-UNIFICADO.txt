@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 06:52 UTC-5
+Última atualização: 04/12/2025 07:30 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -583,6 +583,433 @@ FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
 └── Cada fase com fonte de auditoria identificada
 
 TOTAL DE FASES: ANTES ERA 16 / AGORA: 17
+
+================================================================================
+SESSÃO 04/12/2025 06:57 UTC-5 – PATCH NÚCLEO DE INTERFACES
+================================================================================
+
+O QUE FOI AUDITADO:
+├── PATCH NÚCLEO DE INTERFACES → ✅ JÁ IMPLEMENTADO
+│   ├── lib/ui-core-registry.ts (712 linhas)
+│   ├── 25 grupos definidos (5 audiences)
+│   ├── 95 telas registradas
+│   └── 14 funções auxiliares
+
+ESTRUTURA POR AUDIENCE:
+| AUDIENCE | GRUPOS | TELAS |
+|----------|--------|-------|
+| admin | 8 | 55 |
+| user | 5 | 16 |
+| professional | 4 | 8 |
+| whitelabel | 4 | 8 |
+| generator | 4 | 8 |
+| TOTAL | 25 | 95 |
+
+REGRA AUTO-ENCAIXE:
+Toda vez que surgir uma nova tela:
+1. Registrar em uiCoreRegistry.screens
+2. Definir groupId, audience, priority
+3. Automaticamente entra no menu/dashboard correto
+
+PENDÊNCIAS IDENTIFICADAS:
+├── Sidebar ADMIN consumir uiCoreRegistry
+├── Dashboard USUÁRIA consumir getUserDashboardSections()
+├── Dashboard PROFISSIONAL consumir getProfessionalDashboardSections()
+├── Criar rotas WHITE-LABEL (/whitelabel/*)
+└── Criar rotas GERADOR DE SAAS (/admin/gerador-saas/*)
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 18 – PATCH NÚCLEO DE INTERFACES
+├── 18 FASES organizadas com 120 itens
+└── Cada fase com fonte de auditoria identificada
+
+TOTAL DE FASES: ANTES ERA 17 / AGORA: 18
+
+================================================================================
+SESSÃO 04/12/2025 06:58 UTC-5 – MATRIZ DE IAs
+================================================================================
+
+O QUE FOI AUDITADO:
+├── MATRIZ DE IAs → ✅ PARCIALMENTE IMPLEMENTADO
+│   ├── lib/ai-config-core.ts (625 linhas)
+│   ├── database/migrate-ai-config-core.sql (738 linhas)
+│   ├── /admin/ia-matrix/page.tsx (527 linhas)
+│   ├── /admin/configurar-ias/page.tsx (716 linhas)
+│   └── 14 pastas admin de IA existentes
+
+TABELAS SQL DEFINIDAS:
+1. ai_providers_core - Provedores de IA
+2. ai_features_core - Features que usam IA
+3. ai_feature_providers_core - Quais IAs por feature
+4. ai_plan_matrix - Configuração por plano/perfil
+5. ai_group_overrides - Exceções por grupo/usuário
+
+PENDÊNCIAS IDENTIFICADAS:
+├── Executar migrate-ai-config-core.sql no Supabase
+├── Seed inicial com providers/features
+├── Features consumirem AIConfigCore
+└── Integrar com GERADOR DE SAAS
+
+REGRA CRÍTICA: ROTEADOR DE IA
+Todas as features que usam IA devem:
+1. Chamar AIConfigCore.getProvidersForContext()
+2. Verificar limites com checkLimits()
+3. Registrar uso com logUsage()
+4. NUNCA chamar OpenAI/Claude direto no código
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 19 – MATRIZ DE IAs
+├── 19 FASES organizadas com 132 itens
+└── Cada fase com fonte de auditoria identificada
+
+TOTAL DE FASES: ANTES ERA 18 / AGORA: 19
+
+================================================================================
+SESSÃO 04/12/2025 06:59 UTC-5 – MATRIZ GLOBAL DE IAs
+================================================================================
+
+O QUE FOI AUDITADO:
+├── MATRIZ GLOBAL DE IAs → ⚠️ PARCIALMENTE IMPLEMENTADO
+│   ├── 9 tabelas existem (mas 2 são duplicadas)
+│   ├── 4 tabelas faltam
+│   ├── 3 funções faltam
+│   └── Features ainda chamam OpenAI direto
+
+TABELAS EXISTENTES:
+✅ ai_providers, ai_providers_core (DUPLICADAS!)
+✅ ai_features_core, ai_feature_providers_core
+✅ ai_plan_matrix, ai_group_overrides
+✅ ai_personas, ai_persona_bindings, ai_persona_logs
+
+TABELAS FALTANDO:
+❌ ai_menus (menus/features do sistema)
+❌ ai_capabilities (capacidades: chat, diario, etc.)
+❌ ai_menu_providers (ligação menu → provider)
+❌ ai_usage_logs (logs de uso de IA)
+
+FUNÇÕES FALTANDO:
+❌ routeAIRequest() - Roteador central de IA
+❌ getAvailableProviders() - Lista providers para contexto
+❌ chooseProvider() - Escolhe provider por peso
+
+REGRA CRÍTICA:
+NADA MAIS CHAMA "OpenAI diretamente no código de feature".
+Todas as features passam a chamar:
+  routeAIRequest({ featureKey, menuKey, userRole, planKey, tenantKey, payload })
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 20 – MATRIZ GLOBAL DE IAs
+├── 20 FASES organizadas com 155 itens
+└── Cada fase com fonte de auditoria identificada
+
+TOTAL DE FASES: ANTES ERA 19 / AGORA: 20
+
+================================================================================
+SESSÃO 04/12/2025 07:04 UTC-5 – MODO SIMULAÇÃO + PENTE FINO
+================================================================================
+
+O QUE FOI AUDITADO:
+
+=== FASE 21 – MODO SIMULAÇÃO MULTIPERFIL ===
+✅ lib/impersonation.ts (424 linhas)
+✅ components/ImpersonationBanner.tsx (163 linhas)
+✅ /api/admin/impersonation/route.ts
+✅ database/migrate-impersonation.sql
+⚠️ Falta: /admin/simulacao, getEffectiveSession(), cookie, middleware
+
+=== FASE 22 – PENTE FINO / LACUNAS GERAIS ===
+
+BLOCO A – AVATARES/PERSONAS:
+✅ ai_personas, lib/ai-personas.ts, /admin/ia-personas
+⚠️ Falta: getSafeDisplayForUser(), telas exibir persona
+
+BLOCO B – HELP POR MENU:
+✅ lib/menu-help-registry.ts (638 linhas)
+⚠️ Falta: tabela admin_menu_help, ícone "?", help para todos menus
+
+BLOCO C – ORGANIZAÇÃO MENU ADMIN:
+✅ lib/admin-core-menu.ts, lib/ui-core-registry.ts
+⚠️ Falta: docs/ADMIN-MENU-MAP.md, sidebar consumir adminCoreMenu
+
+BLOCO D – IA POR PLANO/PROMO:
+✅ ai_plan_matrix, ai_group_overrides
+⚠️ Falta: UI com aba "Planos & Promoções"
+
+BLOCO E – VISÃO GLOBAL IAs:
+⚠️ Falta: ai_usage_logs, /admin/ia-analytics
+
+BLOCO F – GERADOR + CONTROL TOWER:
+⚠️ Falta: docs/GERADOR-CORE.md, Control Tower (futuro)
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionadas FASES 21 e 22
+├── 22 FASES organizadas com 188 itens
+└── Cada fase com fonte de auditoria identificada
+
+TOTAL DE FASES: ANTES ERA 20 / AGORA: 22
+
+================================================================================
+SESSÃO 04/12/2025 07:05 UTC-5 – AUDITORIA GERAL BLOCO 21-25
+================================================================================
+
+Fonte: TUDO-PARA-O-GPT-v2 - Auditoria Geral Radar Narcisista
+
+=== BLOCO 21-25 - STATUS ===
+✅ ETAPA 21 - Billing Sólido & Add-ons: CONCLUÍDA
+✅ ETAPA 22 - Oráculo V2 Integrado: CONCLUÍDA
+✅ ETAPA 23 - Segurança Técnica: CONCLUÍDA
+✅ ETAPA 24 - Manuais & Links: CONCLUÍDA
+✅ ETAPA 25 - QA Pós-MVP: CONCLUÍDA
+
+=== PATCHES - STATUS ===
+✅ ORÁCULO: CONFORME (100%)
+⚠️ MATRIZ DE IAs GLOBAL: PARCIAL (60%)
+⚠️ MODO SIMULAÇÃO: PARCIAL (50%)
+⚠️ PENTE FINO: PARCIAL (55%)
+
+=== ARQUIVOS CONFIRMADOS ===
+BILLING: migrate-user-addons.sql, lib/user-addons.ts, /api/addons
+ORÁCULO: migrate-oraculo-logs.sql, ORACULO-V2-PROMPT.md, PATCH-ORACULO.md
+SEGURANÇA: rate-limit.ts, logger.ts, pino-logger.ts, /api/health
+MANUAIS: MANUAL-ADMIN/USUARIA/PROFISSIONAL/DEV/WHITELABEL.md
+QA: CHECKLIST-POS-MVP.md, LAMPADA-RADAR.txt, TESTES-RADAR.txt
+IAs: ai-config-core.ts, ai-personas.ts, menu-help-registry.ts, impersonation.ts
+
+=== ITENS FALTANDO ===
+TABELAS: ai_menus, ai_capabilities, ai_menu_providers, ai_usage_logs
+FUNÇÕES: routeAIRequest(), getAvailableProviders(), chooseProvider()
+TELAS: /admin/simulacao, /admin/ia-analytics
+DOCS: ADMIN-MENU-MAP.md, GERADOR-CORE.md
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 23 – AUDITORIA BLOCO 21-25
+├── 23 FASES organizadas com 213 itens
+└── Próximas ações sugeridas listadas
+
+TOTAL DE FASES: ANTES ERA 22 / AGORA: 23
+
+================================================================================
+SESSÃO 04/12/2025 07:11 UTC-5 – PENTE FINO COMPLETO (PROMPTS + PATCHES)
+================================================================================
+
+Fonte: Chat completo dividido em partes + AUDITORIA_PROMPTS_PATCHES_COMPLETO.txt
+
+=== ARQUIVO EXISTENTE IDENTIFICADO ===
+AUDITORIA_PROMPTS_PATCHES_COMPLETO.txt (1060 linhas)
+Contém: 4 PROMPTS + 9 PATCHES + 1 Migration SQL
+
+=== STATUS DOS PATCHES ===
+✅ PATCH 1 (JournalEntryType): 100%
+✅ PATCH 2 (BLOCO 21-25): 100%
+✅ PATCH 3 (ORÁCULO): 100%
+✅ PATCH 4 (Regras Comunicação): 100%
+✅ PATCH 5 (Blocos 10-40): 100%
+⚠️ PATCH 6 (IAs por Menu): 60%
+⚠️ PATCH 7 (Menu Admin + Help): 55%
+✅ PATCH 8 (Avatares/Personas): 70%
+⚠️ PATCH 9 (Modo Simulação): 50%
+
+=== MIGRATIONS CONFIRMADAS ===
+✅ migrate-ai-config-core.sql
+✅ migrate-ai-personas.sql
+✅ migrate-impersonation.sql
+✅ migrate-user-addons.sql
+✅ migrate-oraculo-logs.sql
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 24 – AUDITORIA PROMPTS/PATCHES
+├── 24 FASES organizadas com 232 itens
+└── Todos os prompts e patches mapeados com status
+
+TOTAL DE FASES: ANTES ERA 23 / AGORA: 24
+
+================================================================================
+SESSÃO 04/12/2025 07:13 UTC-5 – PROMPTS CONSOLIDADOS (RADAR-AUDITORIA-PROMPTS-ALL)
+================================================================================
+
+Fonte: TXT Único com Todos os Prompts para o Windsurf
+
+=== 6 PROMPTS CONSOLIDADOS ===
+| PROMPT | DESCRIÇÃO | STATUS | % |
+|--------|-----------|--------|---|
+| 01 | BLOCO 21-25 | ✅ IMPLEMENTADO | 95% |
+| 02 | MATRIZ GLOBAL DE IAs | ⚠️ PARCIAL | 55% |
+| 03 | IAs por Plano/Promo | ⚠️ PARCIAL | 40% |
+| 04 | Frontpage Dinâmica | ⚠️ PARCIAL | 30% |
+| 05 | Modo Simulação | ⚠️ PARCIAL | 50% |
+| 06 | Help por Menu | ⚠️ PARCIAL | 45% |
+
+=== ITENS FALTANDO ===
+TABELAS: ai_menus, ai_menu_providers, ai_usage_logs, admin_menu_help
+FUNÇÕES: lib/ai-router.ts, getProvidersForMenu(), callAIForMenu()
+TELAS: /admin/simulacao, /admin/ia-analytics, /admin/ia-planos
+DOCS: ADMIN-MENU-MAP.md, GERADOR-CORE.md
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 25 – PROMPTS CONSOLIDADOS
+├── 25 FASES organizadas com 262 itens
+└── Todos os 6 prompts mapeados com status
+
+TOTAL DE FASES: ANTES ERA 24 / AGORA: 25
+
+================================================================================
+SESSÃO 04/12/2025 07:20 UTC-5 – ARQUIVOS TXT COMPLETOS GERADOS
+================================================================================
+
+ARQUIVOS CRIADOS PARA COLAR NO WINDSURF:
+
+1. AUDITORIA-COMPLETA-WINDSURF.txt (ARQUIVO ÚNICO CONSOLIDADO)
+   - 4 PROMPTS completos
+   - 9 PATCHES completos
+   - Checklist final
+   - Instruções para Windsurf verificar e implementar
+
+2. TODOS-PROMPTS-PARTE1.txt (Prompts 1-3)
+3. TODOS-PROMPTS-PARTE2.txt (Prompt 4 + Patches 1-3)
+4. TODOS-PROMPTS-PARTE3.txt (Patches 4-9 + Checklist)
+
+INSTRUÇÃO:
+Cole o arquivo AUDITORIA-COMPLETA-WINDSURF.txt no Windsurf.
+Para cada PROMPT e PATCH, ele deve responder:
+- IMPLEMENTADO (100%)
+- PARCIAL (X%) - o que falta
+- NÃO IMPLEMENTADO - implementar agora
+
+================================================================================
+SESSÃO 04/12/2025 07:21 UTC-5 – MEGA AUDITOR PARTE 1 (BLOCOS A-J)
+================================================================================
+
+ARQUIVO CRIADO: MEGA-AUDITOR-PARTE1-COMPLETO.txt
+
+CONTEÚDO:
+- BLOCO A: ETAPAS 21-25 (Pós-MVP)
+- BLOCO B: PATCH ORÁCULO (V1/V2)
+- BLOCO C: ORÁCULO MULTIPERFIL (Futuro)
+- BLOCO D: MATRIZ GLOBAL DE IAs
+- BLOCO E: IAs POR PLANO/PROMO
+- BLOCO F: FRONTPAGE DINÂMICA
+- BLOCO G: MODO SIMULAÇÃO
+- BLOCO H: HELP POR MENU
+- BLOCO I: ORGANIZAÇÃO ADMIN
+- BLOCO J: AVATARES/PERSONAS
+
+INSTRUÇÃO:
+Cole o arquivo MEGA-AUDITOR-PARTE1-COMPLETO.txt no Windsurf.
+Ele vai verificar cada bloco e responder:
+- CONCLUÍDO / PARCIAL / NÃO IMPLEMENTADO
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 26 – MEGA AUDITOR PARTE 1
+├── 26 FASES organizadas com 272 itens
+└── Todos os 10 blocos mapeados com status
+
+TOTAL DE FASES: ANTES ERA 25 / AGORA: 26
+
+================================================================================
+SESSÃO 04/12/2025 07:24 UTC-5 – ARQUIVO MEGA COMPLETO GERADO
+================================================================================
+
+ARQUIVO CRIADO: RADAR-PROMPTS-PATCHES-MEGA-COMPLETO.txt
+
+CONTEÚDO COMPLETO:
+
+PARTE 1 - 4 PROMPTS:
+- PROMPT 1: Etapa 7.2 – Plano de Integração
+- PROMPT 2: Etapa 7.3 – Implementação
+- PROMPT 3: Mapeamento do Projeto
+- PROMPT 4: Mega Prompt de Auditoria
+
+PARTE 2 - 9 PATCHES:
+- PATCH 1: JournalEntryType Timeline
+- PATCH 2: BLOCO 21-25 Pós-MVP
+- PATCH 3: Oráculo Correção Conceitual
+- PATCH 4: Regras de Comunicação
+- PATCH 5: Organização Blocos 10-40
+- PATCH 6: IAs por Menu/Plano/Perfil
+- PATCH 7: Menu Admin + Help
+- PATCH 8: Avatares/Personas
+- PATCH 9: Modo Simulação
+
+PARTE 3 - CHECKLIST FINAL
+
+INSTRUÇÃO:
+Cole o arquivo RADAR-PROMPTS-PATCHES-MEGA-COMPLETO.txt no Windsurf.
+Para cada PROMPT e PATCH, ele deve responder:
+- IMPLEMENTADO / PARCIAL / NÃO IMPLEMENTADO
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 27 – ARQUIVO MEGA COMPLETO
+├── 27 FASES organizadas com 285 itens
+└── 4 prompts + 9 patches mapeados
+
+TOTAL DE FASES: ANTES ERA 26 / AGORA: 27
+
+================================================================================
+SESSÃO 04/12/2025 07:28 UTC-5 – ARQUIVO TXT DO CHAT ORIGINAL IDENTIFICADO
+================================================================================
+
+ARQUIVO FONTE DO CHATGPT:
+c:\Users\teste\Desktop\2025-11-30 14-19-37-Plano_de_integra__o.txt
+
+TAMANHO: 2.167.440 bytes (64.822 linhas)
+CONTEÚDO: Chat completo do ChatGPT de 30/11/2025
+
+PROMPTS E PATCHES EXTRAÍDOS:
+✅ PROMPT 1: Etapa 7.2 – Plano de Integração (linhas 5-225)
+✅ PROMPT 2: Etapa 7.3 – Implementação (linhas 433-609)
+✅ PROMPT 3: Mapeamento do Projeto (linhas 794-1000+)
+✅ PATCH 1: Correção JournalEntryType (linhas 635-650)
+
+(Arquivo contém mais prompts e patches nas linhas seguintes)
+
+ARQUIVOS JÁ GERADOS COM CONTEÚDO COMPLETO:
+1. RADAR-PROMPTS-PATCHES-MEGA-COMPLETO.txt (4 prompts + 9 patches)
+2. MEGA-AUDITOR-PARTE1-COMPLETO.txt (10 blocos A-J)
+3. AUDITORIA-COMPLETA-WINDSURF.txt (versão resumida)
+
+INSTRUÇÃO:
+Os arquivos acima já contêm TODO o conteúdo extraído do chat original.
+Cole qualquer um deles no Windsurf para auditoria.
+
+================================================================================
+SESSÃO 04/12/2025 07:30 UTC-5 – FASE 28 ADICIONADA (AVATAR/TTS + PERPLEXITY)
+================================================================================
+
+NOVO CONTEÚDO EXTRAÍDO DO CHAT:
+
+1. MÓDULO AVATAR/TTS (Revoicer/Speechelo/ElevenLabs):
+   - Frontpage/Marketing: vídeos explicativos
+   - Conteúdo Educacional: áudio/vídeo
+   - White-label: módulo opcional premium
+   - NUNCA jogar dados sensíveis para serviço externo
+
+2. PERPLEXITY STYLE (ORÁCULO V2/V3 CORE):
+   - Criar "Perplexity interno" em vez de usar externo
+   - ORÁCULO V2 CORE com "modo Perplexity"
+   - Citar fontes internas: manuais, docs, LÂMPADA, ROADMAP
+
+3. ORQUESTRADOR DE IAs (QUEM MANDA NAS IAs):
+   - QUEM MANDA É O ADMIN (Eduardo)
+   - Núcleo só executa as regras definidas
+   - Perplexity só entra onde você mandar
+   - Nada de IA nova se plugar sozinha
+
+4. ARQUITETURA EM 3 CAMADAS:
+   - CAMADA 1: Mapa de IAs (quem existe e o que sabe fazer)
+   - CAMADA 2: Regras por Função do Sistema
+   - CAMADA 3: Orquestrador (triangulação do núcleo)
+
+5. ESTRATÉGIAS DE EXECUÇÃO:
+   - Single-model: só 1 modelo responde
+   - Colaborativo paralelo: 3 IAs + árbitro
+   - Pipeline sequencial: rascunho → crítica → refino
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 28 – AVATAR/TTS + PERPLEXITY + ORQUESTRADOR
+├── 28 FASES organizadas com 300 itens
+└── Arquitetura de 3 camadas documentada
+
+TOTAL DE FASES: ANTES ERA 27 / AGORA: 28
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF

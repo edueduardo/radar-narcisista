@@ -1,0 +1,768 @@
+RADAR NARCISISTA – MEGA AUDITOR (PARTE 1)
+=========================================
+
+IDENTIDADE
+
+Você é um DEV SÊNIOR rodando no Windsurf, com o repositório do projeto RADAR NARCISISTA aberto.
+
+Stack:
+
+- Next.js 16 + TypeScript (App Router)
+- TailwindCSS
+- Supabase (Postgres + Auth + RLS + migrations)
+- Stripe (planos, add-ons, promoções)
+- Deploy na Vercel
+
+OBJETIVO DESTE ARQUIVO
+
+Este arquivo NÃO é um resumo bonitinho.
+
+Ele é uma ORDEM DE AUDITORIA:
+
+1) Ler este arquivo COMPLETO, sem pular seção.
+2) Ler o código do projeto (frontend, backend, supabase, docs).
+3) Para cada bloco de especificação:
+   - Ver se está 100% IMPLEMENTADO.
+   - Se estiver PARCIAL, completar.
+   - Se NÃO estiver implementado, implementar agora.
+4) No final, responder com um RESUMO EXECUTIVO:
+   - Bloco X: CONCLUÍDO / PARCIAL / NÃO IMPLEMENTADO (agora implementado).
+   - Arquivos tocados.
+   - Riscos/dívidas que ficaram.
+
+REGRAS GERAIS
+
+- NÃO MENTIR:
+  - Se não implementou, não marque como feito.
+  - Se ficou pela metade, marque PARCIAL e explique.
+- NÃO QUEBRAR O BUILD:
+  - Seguir padrão de código existente.
+  - Usar libs que já estão no package.json sempre que possível.
+- DOCUMENTAÇÃO:
+  Sempre que mexer em algo relevante, atualizar:
+  - docs/TUDO PARA O GPT.txt
+  - docs/ATLAS-RADAR-NARCISISTA.txt
+  - docs/ROADMAP-RADAR.txt
+  - docs/TESTES-RADAR.txt
+  - docs/LAMPADA-RADAR.txt
+- "PRÓXIMAS AÇÕES" NA SUA RESPOSTA:
+  - Não usar a palavra "opcional".
+  - Não usar a palavra "ou" dentro de bullet point.
+  - Cada bullet é uma ação independente, direta.
+
+A PARTIR DAQUI, CADA BLOCO É COISA QUE PRECISA ESTAR IMPLEMENTADA / AUDITADA.
+
+
+==========================================================
+BLOCO A – RADAR NARCISISTA – ETAPAS 21–25 (PÓS-MVP 1.0)
+==========================================================
+
+[RESUMO DE ALTO NÍVEL – VOCÊ DEVE TER O TXT COMPLETO DE 21–25 NO REPO]
+
+Existe um arquivo "PROJETO COMPLETO ATUALIZADO – Radar Narcisista BR" com as ETAPAS 1–20.
+
+Além disso, existe o BLOCO 21–25, que define:
+
+- ETAPA 21 – Billing Sólido & Add-ons:
+  - Tabela user_addons (id, user_id, addon_key, stripe_price_id, status, created_at, updated_at).
+  - Webhook Stripe atualizando user_addons.
+  - Integração com lib/addons-config.ts.
+  - Fluxo de compra ponta a ponta testado.
+
+- ETAPA 22 – Oráculo V2 Integrado:
+  - Rota POST /api/oraculo-v2 com contrato JSON estável.
+  - Tabela oraculo_logs no Supabase.
+  - Botão "Perguntar ao Oráculo" em telas relevantes.
+  - Manuais atualizados (usuária, profissional, admin, dev, whitelabel) explicando o Oráculo.
+
+- ETAPA 23 – Segurança & Observabilidade:
+  - Rate limiting em rotas de IA e auth.
+  - Logger estruturado centralizado.
+  - Endpoint /api/health.
+  - Problema de cache/admin registrado e, se possível, mitigado.
+
+- ETAPA 24 – Manuais & Links Internos:
+  - Manuais alinhados com o estado real do app.
+  - Links no app para os manuais certos.
+  - TESTES-RADAR.txt com roteiro de revisão.
+
+- ETAPA 25 – QA Técnico & Checklist Pós-MVP:
+  - Migrations consistentes.
+  - Testes básicos automatizados.
+  - Fluxos críticos testados manualmente.
+  - LAMPADA-RADAR.txt com dívidas técnicas.
+
+TAREFA PARA ESTE BLOCO A:
+
+1) Localizar o texto completo do BLOCO 21–25 no repositório (docs).
+   - Se não existir, CRIAR docs/BLOCO-21-25.txt usando o texto que o Eduardo colar depois.
+2) Conferir, no código, se cada ETAPA 21–25 está:
+   - CONCLUÍDA, PARCIAL, ou NÃO IMPLEMENTADA.
+3) Corrigir/implementar o que faltar, mantendo:
+   - Consistência com o resto do projeto.
+   - Segurança (RLS, env, etc.).
+4) Registrar no resumo final o status de cada ETAPA.
+
+
+==========================================================
+BLOCO B – PATCH ORÁCULO (V1 painel / V2 IA só admin neste bloco)
+==========================================================
+
+DECISÃO:
+
+1) ORÁCULO V1:
+   - É o PAINEL em /admin/oraculo.
+   - Uso EXCLUSIVO de ADMIN.
+   - Mostra métricas e visão geral do sistema.
+
+2) ORÁCULO V2:
+   - É a IA de suporte (IA "Oráculo V2").
+   - Neste BLOCO 21–25:
+     - Só é usada pelo ADMIN.
+     - Front: botões de Oráculo dentro de telas de admin.
+     - user_role efetivo: "admin".
+
+3) Qualquer referência antiga a Oráculo V2 para usuária/profissional/dev/whitelabel AGORA:
+   - Deve ser tratada como "planejado para futuro bloco (26–30)".
+
+TAREFA PARA ESTE BLOCO B:
+
+1) Conferir se:
+   - /admin/oraculo existe e é painel para admin (V1).
+   - /api/oraculo-v2 existe (ou rota equivalente) e só é exposta para admin neste bloco.
+2) Conferir se o front não expõe Oráculo V2 para usuária/profissional neste momento.
+3) Se houver código/UX contrariando isso, ajustar:
+   - Ou removendo acesso.
+   - Ou colocando feature flags claras e desligadas para não admin.
+4) Documentar:
+   - Em LAMPADA-RADAR.txt: "Futuro: abrir Oráculo V2 para outros perfis no BLOCO 26–30".
+
+
+==========================================================
+BLOCO C – PATCH 2 – ORÁCULO MULTIPERFIL & GERADOR DE SAAS (FUTURO)
+==========================================================
+
+DECISÃO:
+
+1) BLOCO 21–25 (AGORA):
+   - Oráculo V1 = painel /admin/oraculo (só admin).
+   - Oráculo V2 = IA só para admin.
+
+2) BLOCO 26–30 (FUTURO):
+   - Oráculo V2 MULTIPERFIL:
+     - user_role = usuaria, profissional, admin, dev, whitelabel, etc.
+   - ORÁCULO_V2_CORE:
+     - Módulo reutilizável para todos os SaaS gerados pelo GERADOR DE SAAS.
+
+TAREFA PARA ESTE BLOCO C:
+
+1) Não implementar agora front multiperfil do Oráculo.
+2) Registrar no ROADMAP-RADAR.txt:
+   - "BLOCO 26–30 – Oráculo V2 multiperfil + core compartilhado com Gerador de SaaS".
+3) Registrar na LÂMPADA:
+   - Ideia clara de como isso deve funcionar no futuro (sem implementar agora).
+
+
+==========================================================
+BLOCO D – MATRIZ GLOBAL DE IAs (IA MATRIX POR MENU)
+==========================================================
+
+OBJETIVO:
+
+Criar uma camada de configuração que responde:
+
+- Quais IAs existem (OpenAI, Claude, Together, Grok, etc.).
+- Em qual MENU/funcionalidade cada IA age (chat, diário, teste de clareza, oráculo, curadoria, etc.).
+- Em qual MODO (single, colaborativa, fallback, voto).
+- Com quais RESTRIÇÕES por plano / promoção / tenant / cliente específico.
+
+IMPLEMENTAÇÃO ESPERADA (ALTA NÍVEL):
+
+1) Tabelas em Supabase (nomes podem variar, mas a ideia é essa):
+
+   ai_providers
+   ├── id (uuid, PK)
+   ├── key (text, unique) -- ex: "openai", "claude", "together", "grok"
+   ├── display_name (text) -- ex: "OpenAI GPT-4"
+   ├── status (text) -- "active", "inactive", "deprecated"
+   ├── cost_estimate (numeric) -- custo estimado por 1k tokens
+   ├── created_at (timestamptz)
+   └── updated_at (timestamptz)
+
+   ai_menus
+   ├── id (uuid, PK)
+   ├── menu_key (text, unique) -- ex: "chat", "diario", "teste_clareza", "oraculo_v2", "curadoria"
+   ├── display_name (text) -- ex: "Chat de Apoio", "Diário", "Teste de Clareza"
+   ├── context_type (text) -- "admin", "user", "professional", "whitelabel", "generator"
+   ├── created_at (timestamptz)
+   └── updated_at (timestamptz)
+
+   ai_menu_providers
+   ├── id (uuid, PK)
+   ├── menu_id (uuid, FK → ai_menus)
+   ├── provider_id (uuid, FK → ai_providers)
+   ├── mode (text) -- "single", "collaborative", "fallback", "vote"
+   ├── weight (integer) -- peso para colaborativo/fallback
+   ├── fallback_order (integer) -- ordem no fallback
+   ├── is_active (boolean)
+   ├── created_at (timestamptz)
+   └── updated_at (timestamptz)
+
+   ai_plan_overrides
+   ├── id (uuid, PK)
+   ├── plan_key (text) -- ex: "free", "plus", "pro", "agency", "whitelabel_x", "promo_black_friday"
+   ├── menu_id (uuid, FK → ai_menus)
+   ├── provider_id (uuid, FK → ai_providers)
+   ├── mode_override (text, nullable)
+   ├── is_active_override (boolean, nullable)
+   ├── scope (text) -- "global", "tenant", "user", "promo"
+   ├── tenant_id (uuid, nullable)
+   ├── user_id (uuid, nullable)
+   ├── daily_limit (integer, nullable)
+   ├── monthly_limit (integer, nullable)
+   ├── created_at (timestamptz)
+   └── updated_at (timestamptz)
+
+   ai_usage_logs
+   ├── id (uuid, PK)
+   ├── user_id (uuid, nullable)
+   ├── tenant_id (uuid, nullable)
+   ├── menu_id (uuid, FK → ai_menus)
+   ├── provider_id (uuid, FK → ai_providers)
+   ├── mode_used (text)
+   ├── tokens_in (integer)
+   ├── tokens_out (integer)
+   ├── cost_estimate (numeric)
+   ├── success (boolean)
+   ├── error_message (text, nullable)
+   ├── created_at (timestamptz)
+   └── (index on user_id, menu_id, created_at)
+
+2) Biblioteca de roteamento de IA:
+
+   lib/ai-router.ts (ou parecido), com funções como:
+
+   // Retorna lista de providers disponíveis para um menu/plano/tenant/user
+   export async function getProvidersForMenu({
+     menuKey,
+     planKey,
+     tenantId,
+     userId
+   }: {
+     menuKey: string
+     planKey: string
+     tenantId?: string
+     userId?: string
+   }): Promise<AIProvider[]>
+
+   // Chama a IA apropriada para um menu, respeitando configurações
+   export async function callAIForMenu({
+     menuKey,
+     planKey,
+     tenantId,
+     userId,
+     input,
+     context
+   }: {
+     menuKey: string
+     planKey: string
+     tenantId?: string
+     userId?: string
+     input: string
+     context?: Record<string, any>
+   }): Promise<AIResponse>
+
+   // Chama múltiplas IAs em modo colaborativo
+   export async function callCollaborativeAI({
+     providers,
+     mode,
+     input,
+     context
+   }: {
+     providers: AIProvider[]
+     mode: 'collaborative' | 'fallback' | 'vote'
+     input: string
+     context?: Record<string, any>
+   }): Promise<AIResponse>
+
+3) UI no Admin:
+
+   Tela para:
+   - Gerenciar provedores de IA (ativos/inativos).
+   - Ver quais IAs estão ligadas a cada menu.
+   - Ver estatísticas básicas de uso.
+
+   Páginas:
+   - /admin/configurar-ias (já existe? verificar)
+   - /admin/ia-matrix (matriz visual menu x provider)
+   - /admin/ia-analytics (estatísticas de uso)
+
+4) Integração:
+
+   Os pontos do código que chamam IA (chat, diário, teste, oráculo, curadoria, etc.)
+   devem passar pela camada de roteamento, e não falar direto com "openai" na mão.
+
+TAREFA PARA ESTE BLOCO D:
+
+1) Ver se alguma parte disso já existe (Mapa de IAs atual).
+2) Ajustar/estender para atender essa visão de "Matriz Global".
+3) Garantir que a matriz seja a "fonte única da verdade" para IA por menu.
+
+
+==========================================================
+BLOCO E – CONTROLE DE IAs POR PLANO / PROMO / CLIENTE
+==========================================================
+
+OBJETIVO:
+
+Permitir que o ADMIN defina:
+
+- Para cada PLANO (free, plus, pro, agency, whitelabel-X…)
+- Para cada PROMOÇÃO (ex.: Black Friday 2025)
+- Para um TENANT (white-label específico)
+- Para um CLIENTE específico
+
+quais IAs são usadas em cada MENU e em qual modo.
+
+IMPLEMENTAÇÃO ESPERADA:
+
+1) Usar/estender ai_plan_overrides (tabela do BLOCO D).
+
+2) Criar tela no admin (ou estender a de IA Matrix) para:
+   - Selecionar plano/promo/tenant/cliente.
+   - Ver e editar quais IAs estão ligadas a cada menu.
+   - Definir limites diários/mensais por plano.
+
+3) Garantir que:
+   - A front page de planos/leads use essa mesma fonte de verdade
+     para mostrar o que cada plano oferece.
+   - Quando usuário faz upgrade, as novas IAs ficam disponíveis automaticamente.
+
+TAREFA PARA ESTE BLOCO E:
+
+1) Verificar se ai_plan_overrides existe e está sendo usado.
+2) Criar/ajustar tela /admin/ia-planos para gerenciar overrides.
+3) Integrar com a lógica de billing/planos existente.
+
+
+==========================================================
+BLOCO F – FRONT PAGE DINÂMICA POR PLANOS / ADD-ONS
+==========================================================
+
+OBJETIVO:
+
+A landing/front page de planos NÃO pode estar hard-coded.
+
+Ela deve:
+
+- Ler de uma configuração real de planos/add-ons,
+- Saber o que cada plano oferece,
+- Entender promoções (ex.: lote Black Friday com extras),
+- Exibir isso na tabela de comparação.
+
+IMPLEMENTAÇÃO ESPERADA:
+
+1) Criar uma "fonte de verdade" para planos:
+
+   Tabela plan_catalog (ou similar):
+   ├── id (uuid, PK)
+   ├── plan_key (text, unique) -- "free", "plus", "pro", "agency"
+   ├── display_name (text)
+   ├── description (text)
+   ├── price_monthly (numeric)
+   ├── price_yearly (numeric)
+   ├── stripe_price_id_monthly (text)
+   ├── stripe_price_id_yearly (text)
+   ├── features (jsonb) -- lista de features incluídas
+   ├── ai_features (jsonb) -- quais IAs estão incluídas
+   ├── limits (jsonb) -- limites de uso
+   ├── is_active (boolean)
+   ├── is_promo (boolean)
+   ├── promo_label (text, nullable) -- "Black Friday 2025"
+   ├── sort_order (integer)
+   ├── created_at (timestamptz)
+   └── updated_at (timestamptz)
+
+2) Fazer a landing ler essa fonte:
+   - API /api/plans que retorna planos ativos
+   - Componente de pricing que renderiza dinamicamente
+
+3) Garantir que, ao mudar configurações no admin (planos/IA/add-ons),
+   a landing reflita isso automaticamente.
+
+TAREFA PARA ESTE BLOCO F:
+
+1) Verificar se plan_catalog existe.
+2) Criar/ajustar para incluir features e ai_features.
+3) Atualizar landing para ler do banco, não de constantes.
+
+
+==========================================================
+BLOCO G – MODO SIMULAÇÃO / IMPERSONATION (ADMIN → USUÁRIA/PRO/WHITELABEL)
+==========================================================
+
+OBJETIVO:
+
+Permitir que o ADMIN:
+
+- Entre em "modo usuário",
+- Simule a experiência:
+  - da usuária final,
+  - do profissional,
+  - do dono de white-label (tenant),
+para suporte e testes.
+
+IMPLEMENTAÇÃO ESPERADA:
+
+1) Tabela impersonation_sessions:
+
+   impersonation_sessions
+   ├── id (uuid, PK)
+   ├── admin_id (uuid, FK → users) -- quem está simulando
+   ├── target_user_id (uuid, FK → users) -- quem está sendo simulado
+   ├── target_role (text) -- "user", "professional", "whitelabel_admin"
+   ├── target_tenant_id (uuid, nullable) -- se for whitelabel
+   ├── reason (text, nullable) -- motivo da simulação
+   ├── started_at (timestamptz)
+   ├── ended_at (timestamptz, nullable)
+   └── created_at (timestamptz)
+
+2) Mecanismo no backend:
+
+   lib/impersonation.ts:
+
+   // Inicia sessão de simulação
+   export async function startImpersonation({
+     adminId,
+     targetUserId,
+     targetRole,
+     targetTenantId,
+     reason
+   }): Promise<ImpersonationSession>
+
+   // Encerra sessão de simulação
+   export async function endImpersonation(sessionId: string): Promise<void>
+
+   // Retorna sessão efetiva (real ou simulada)
+   export async function getEffectiveSession(request: Request): Promise<{
+     realUserId: string
+     effectiveUserId: string
+     effectiveRole: string
+     isImpersonating: boolean
+     tenantId?: string
+   }>
+
+   // Bloqueia ação se estiver simulando
+   export function ensureNotImpersonatingForDangerousAction(session: EffectiveSession): void
+
+3) UI:
+
+   /admin/simulacao:
+   - Buscar usuário por email/nome
+   - Selecionar perfil a simular
+   - Botão "Iniciar Simulação"
+
+   components/ImpersonationBanner.tsx:
+   - Banner fixo no topo quando em simulação
+   - Mostra: "Você está simulando [nome] ([perfil])"
+   - Botão "Encerrar Simulação"
+   - Tempo decorrido
+
+4) Segurança:
+
+   - Ações destrutivas (deletar conta, etc.) bloqueadas em simulação
+   - Logs registram que ação foi feita em modo simulação
+   - Cookie rn_impersonation com dados da sessão
+
+TAREFA PARA ESTE BLOCO G:
+
+1) Verificar se lib/impersonation.ts existe.
+2) Verificar se components/ImpersonationBanner.tsx existe.
+3) Verificar se /admin/simulacao existe.
+4) Completar o que faltar.
+
+
+==========================================================
+BLOCO H – HELP / MANUAL EMBUTIDO EM CADA MENU
+==========================================================
+
+OBJETIVO:
+
+Qualquer tela com menu lateral (admin, profissional, whitelabel, gerador, etc.)
+precisa de um HELP PARA LEIGO que explique:
+
+- O que é aquilo,
+- Para que serve,
+- Como usar passo a passo,
+- Dúvidas comuns.
+
+IMPLEMENTAÇÃO ESPERADA:
+
+1) Estrutura de dados para help:
+
+   Opção A - Tabela no banco:
+   admin_menu_help
+   ├── id (uuid, PK)
+   ├── menu_key (text, unique)
+   ├── audience (text) -- "admin", "user", "professional", "whitelabel", "generator"
+   ├── title (text)
+   ├── content_md (text) -- markdown
+   ├── created_at (timestamptz)
+   └── updated_at (timestamptz)
+
+   Opção B - Arquivo de config:
+   lib/menu-help-registry.ts com objeto tipado
+
+2) UI:
+
+   - Ícone "?" ou "Ajuda" em cada menu
+   - Ao clicar, abre modal/side-panel com:
+     - Título
+     - Conteúdo em markdown renderizado
+     - Link para manual completo (se houver)
+
+3) Conteúdo mínimo para cada menu do admin:
+
+   - Dashboard: O que é, métricas principais
+   - Usuários: Como gerenciar usuários
+   - Planos: Como configurar planos e preços
+   - IAs: Como configurar provedores de IA
+   - Oráculo: O que é o Oráculo, como usar
+   - Curadoria: Como aprovar/rejeitar conteúdos
+   - Logs: Como interpretar logs
+   - etc.
+
+TAREFA PARA ESTE BLOCO H:
+
+1) Verificar se lib/menu-help-registry.ts existe.
+2) Verificar se há componente de help modal.
+3) Verificar se menus têm ícone de ajuda.
+4) Completar o que faltar.
+
+
+==========================================================
+BLOCO I – ORGANIZAÇÃO DO ADMIN + DASHBOARDS + GERADOR & WHITE-LABEL
+==========================================================
+
+OBJETIVO:
+
+Organizar o menu administrativo em ordem de prioridade lógica:
+
+- Primeiro o que é crítico pro negócio (planos, billing, IA, usuários),
+- Depois ferramentas avançadas (orquestrador, oráculo, etc.),
+- Depois coisas auxiliares (beta test, logs, etc.).
+
+E garantir coerência:
+
+- Painel da usuária,
+- Painel do profissional,
+- Painel do white-label,
+- Painel do gerador de SaaS.
+
+ESTRUTURA PROPOSTA (8 GRUPOS):
+
+1. Visão Geral & Controle (admin-core-overview)
+   - Dashboard Admin
+   - Estatísticas Gerais
+   - Logs do Sistema
+   - Oráculo (V1 painel)
+   - Simulação de Usuário
+   - Health Check
+   - Alertas
+   - Notificações
+   - Atividade Recente
+
+2. Pessoas & Acessos (admin-core-people)
+   - Usuários
+   - Profissionais
+   - Administradores
+   - Convites
+   - Permissões
+
+3. Planos, Billing & Promoções (admin-core-billing)
+   - Planos
+   - Preços
+   - Cupons
+   - Promoções
+   - Relatórios Financeiros
+
+4. IAs & Orquestração (admin-core-ai)
+   - Provedores de IA
+   - Matriz IA x Menu
+   - Personas/Avatares
+   - Analytics de IA
+   - Limites por Plano
+   - Configurações de IA
+   - Oráculo V2 (IA)
+   - Logs de IA
+   - Custos de IA
+   - Fallbacks
+
+5. Produto & Funcionalidades (admin-core-product)
+   - Diário
+   - Chat
+   - Teste de Clareza
+   - Plano de Segurança
+   - Timeline
+   - Relatórios
+   - Exportação
+
+6. Front & Conteúdos (admin-core-front)
+   - Frontpage
+   - Blog
+   - FAQ
+   - Biblioteca
+   - Curadoria
+   - Manuais
+   - Termos
+   - Privacidade
+
+7. Governança & LGPD (admin-core-governance)
+   - Consentimentos
+   - Exportação de Dados
+   - Exclusão de Dados
+   - Auditoria
+   - Compliance
+
+8. Laboratório & Dev (admin-core-lab)
+   - Beta Features
+   - Easter Eggs
+   - A/B Testing
+   - Webhooks
+   - API Keys
+   - Documentação Dev
+
+TAREFA PARA ESTE BLOCO I:
+
+1) Verificar se lib/admin-core-menu.ts existe com essa estrutura.
+2) Verificar se sidebar do admin usa essa estrutura.
+3) Ajustar ordem/agrupamento conforme proposto.
+4) Documentar em ATLAS-RADAR-NARCISISTA.txt.
+
+
+==========================================================
+BLOCO J – AVATARES/PERSONAS PARA IAs (SEM EXPOR NOME REAL DO PROVEDOR)
+==========================================================
+
+OBJETIVO:
+
+Quando o usuário/profissional ver a IA aparecer, NÃO deve ver:
+
+- "OpenAI",
+- "Claude",
+- "Together",
+- "Grok".
+
+Ele deve ver:
+
+- Um avatar/persona/nome amigável,
+- Ex.: "Dra. Clara", "Analista Lúcida", "Guardião de Provas", etc.
+
+ADMIN continua sabendo quais provedores reais estão por trás.
+
+IMPLEMENTAÇÃO ESPERADA:
+
+1) Tabelas:
+
+   ai_personas
+   ├── id (uuid, PK)
+   ├── slug (text, unique) -- "dra_clara", "analista_lucida"
+   ├── display_name (text) -- "Dra. Clara"
+   ├── avatar_url (text, nullable)
+   ├── tone (text) -- "empathetic", "professional", "friendly"
+   ├── description (text)
+   ├── greeting (text) -- mensagem de boas-vindas
+   ├── is_active (boolean)
+   ├── created_at (timestamptz)
+   └── updated_at (timestamptz)
+
+   ai_persona_bindings
+   ├── id (uuid, PK)
+   ├── persona_id (uuid, FK → ai_personas)
+   ├── provider_id (uuid, FK → ai_providers)
+   ├── menu_key (text) -- em qual menu essa persona aparece
+   ├── is_default (boolean)
+   ├── created_at (timestamptz)
+   └── updated_at (timestamptz)
+
+2) Código:
+
+   lib/ai-personas.ts:
+
+   // Retorna persona para exibir ao usuário (não o provider real)
+   export async function getSafeDisplayForUser({
+     menuKey,
+     providerId
+   }): Promise<{
+     displayName: string
+     avatarUrl?: string
+     greeting?: string
+   }>
+
+   // Admin pode ver o provider real
+   export async function getProviderDetails(providerId: string): Promise<AIProvider>
+
+3) UI:
+
+   - No chat/diário/etc: mostrar avatar e nome da persona
+   - No admin: mostrar persona + provider real entre parênteses
+   - Tela /admin/ia-personas para gerenciar personas
+
+TAREFA PARA ESTE BLOCO J:
+
+1) Verificar se ai_personas existe no banco.
+2) Verificar se lib/ai-personas.ts existe.
+3) Verificar se UI mostra persona ao usuário.
+4) Completar o que faltar.
+
+
+==========================================================
+FIM DA PARTE 1
+==========================================================
+
+INSTRUÇÃO FINAL PARA ESTA PARTE:
+
+1) Leia todos os blocos A até J.
+2) Para cada bloco, verifique no código:
+   - CONCLUÍDO, PARCIAL, NÃO IMPLEMENTADO.
+3) Implemente o que faltar.
+4) No resumo da sua resposta:
+   - Liste, bloco a bloco, o status.
+   - Liste arquivos tocados.
+   - Liste dívidas técnicas remanescentes.
+
+FORMATO DA RESPOSTA ESPERADA:
+
+================================================================================
+RESUMO EXECUTIVO - AUDITORIA MEGA AUDITOR PARTE 1
+================================================================================
+
+BLOCO A - ETAPAS 21-25:
+├── ETAPA 21 (Billing): [CONCLUÍDO/PARCIAL/NÃO IMPLEMENTADO]
+├── ETAPA 22 (Oráculo V2): [STATUS]
+├── ETAPA 23 (Segurança): [STATUS]
+├── ETAPA 24 (Manuais): [STATUS]
+└── ETAPA 25 (QA): [STATUS]
+
+BLOCO B - PATCH ORÁCULO: [STATUS]
+BLOCO C - ORÁCULO MULTIPERFIL (FUTURO): [STATUS]
+BLOCO D - MATRIZ GLOBAL DE IAs: [STATUS]
+BLOCO E - IAs POR PLANO/PROMO: [STATUS]
+BLOCO F - FRONTPAGE DINÂMICA: [STATUS]
+BLOCO G - MODO SIMULAÇÃO: [STATUS]
+BLOCO H - HELP POR MENU: [STATUS]
+BLOCO I - ORGANIZAÇÃO ADMIN: [STATUS]
+BLOCO J - AVATARES/PERSONAS: [STATUS]
+
+ARQUIVOS TOCADOS:
+- [lista de arquivos criados/modificados]
+
+DÍVIDAS TÉCNICAS:
+- [lista de itens que ficaram pendentes]
+
+PRÓXIMAS AÇÕES:
+1. [ação 1]
+2. [ação 2]
+3. [ação 3]
+
+================================================================================

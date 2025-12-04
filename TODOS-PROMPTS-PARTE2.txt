@@ -1,0 +1,138 @@
+================================================================================
+TODOS OS PROMPTS COMPLETOS - PARTE 2 DE 3
+================================================================================
+
+================================================================================
+PROMPT 4: MEGA PROMPT DE AUDITORIA GERAL
+================================================================================
+
+IDENTIDADE: Dev sênior no Windsurf, projeto RADAR NARCISISTA
+Stack: Next.js 16 + TypeScript + Tailwind + Supabase + Stripe + Vercel
+
+REGRAS:
+1. NÃO mentir
+2. NÃO marcar como "feito" se não implementou
+3. Nunca usar "opcional" - usar "MELHORIAS IDENTIFICADAS"
+4. Nunca usar "ou" em bullets - dividir em bullets separados
+
+ETAPAS:
+
+A) LEITURA DOS DOCS
+- TUDO PARA O GPT.txt
+- ATLAS-RADAR-NARCISISTA.txt
+- ROADMAP-RADAR.txt
+- LAMPADA-RADAR.txt
+- docs/PATCH-ORACULO.md
+- docs/REGRAS-COMUNICACAO-IA.md
+- CHECKLIST-POS-MVP.md
+
+B) AUDITORIA DOS REQUISITOS
+- Verificar cada requisito no código
+- Classificar: IMPLEMENTADO / PARCIAL / NÃO IMPLEMENTADO
+- Implementar o que falta
+
+C) MATRIZ GLOBAL DE IAs
+Tabelas:
+- ai_providers (id, key, nome_exibicao, status, custo_estimado)
+- ai_menus (id, menu_key, descricao)
+- ai_menu_providers (id, menu_id, provider_id, modo, peso, ativo)
+- ai_plan_overrides (id, plan_key, menu_key, provider_id, limite_diario)
+- ai_usage_logs (id, user_id, menu_key, provider_key, tokens_in, tokens_out)
+
+Código:
+- lib/ai-router.ts com getProvidersForMenu(), callAIForMenu()
+
+UI Admin:
+- /admin/ia-matrix
+- /admin/ia-analytics
+
+D) MODO SIMULAÇÃO / IMPERSONATION
+- Admin pode entrar como usuária, profissional, whitelabel
+- Tabela impersonation_sessions
+- Log de todas as simulações
+- Banner "Você está simulando X"
+
+E) HELP / MANUAL POR MENU
+- Tabela admin_menu_help
+- Botão "?" em cada menu do admin
+- Modal com explicação leiga
+
+F) ORGANIZAÇÃO DO MENU ADMIN
+Grupos:
+- FUNDAMENTAL: planos, usuários, billing, IA, oráculo
+- PRODUTO: diário, teste de clareza, relatórios
+- CONTEÚDO: curadoria, biblioteca, blog
+- EXPERIMENTAL: beta, easter eggs
+- SISTEMA: frontpage, config, LGPD
+
+G) SINCRONIZAÇÃO COM GERADOR DE SAAS
+- Documentar CORE COMPARTILHADO
+- Separar módulos reutilizáveis
+
+H) RESUMO FINAL
+- Tabela de auditoria
+- Dívidas técnicas
+- Melhorias identificadas
+- Próximas ações
+
+WINDSURF: VERIFIQUE SE IMPLEMENTADO. RESPONDA "PROMPT 4: [STATUS]"
+
+================================================================================
+PATCH 1: JournalEntryType NA TIMELINE
+================================================================================
+
+Problema: Timeline não reconhece 'safety_plan'
+Arquivo: app/diario/timeline/page.tsx (linha 82)
+Solução: Adicionar 'safety_plan' à definição local do tipo
+
+WINDSURF: VERIFIQUE SE IMPLEMENTADO. RESPONDA "PATCH 1: [STATUS]"
+
+================================================================================
+PATCH 2: BLOCO 21-25 PÓS-MVP
+================================================================================
+
+ETAPA 21 – Billing Sólido & Add-ons:
+- Tabela user_addons + RLS
+- Webhook Stripe
+- APIs /api/addons e /api/addons/consume
+- lib/user-addons.ts
+
+ETAPA 22 – Oráculo V2 Integrado:
+- API /api/oraculo-v2
+- Tabela oraculo_logs + migration
+- OraculoButton.tsx
+- docs/ORACULO-V2-PROMPT.md
+
+ETAPA 23 – Segurança Técnica:
+- lib/rate-limit.ts
+- lib/logger.ts
+- /api/health
+
+ETAPA 24 – Manuais:
+- 5 manuais atualizados
+
+ETAPA 25 – QA Técnico:
+- CHECKLIST-POS-MVP.md
+
+WINDSURF: VERIFIQUE SE IMPLEMENTADO. RESPONDA "PATCH 2: [STATUS]"
+
+================================================================================
+PATCH 3: ORÁCULO – CORREÇÃO CONCEITUAL
+================================================================================
+
+BLOCO 21-25 (ATUAL):
+- ORÁCULO V1 = painel /admin/oraculo → só ADMIN
+- ORÁCULO V2 = IA de suporte → apenas ADMIN neste bloco
+
+BLOCO 26-30 (FUTURO):
+- ORÁCULO V2 MULTIPERFIL para todos os perfis
+- ORACULO_V2_CORE como módulo compartilhado
+
+REGRA: Se texto antigo disser "Oráculo para usuária AGORA"
+→ ENTENDER COMO: "FUTURO BLOCO 26-30"
+
+WINDSURF: VERIFIQUE SE IMPLEMENTADO. RESPONDA "PATCH 3: [STATUS]"
+
+================================================================================
+FIM DA PARTE 2 - CONTINUE COM PARTE 3
+================================================================================
