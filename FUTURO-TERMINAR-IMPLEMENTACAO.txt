@@ -8738,5 +8738,196 @@ AÇÕES NA ETAPA 13:
 └── Adicionar testes no TESTES-RADAR.txt
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:35 UTC-5
+=== 📋 BLOCO MANUAIS – INCLUIR EM TODOS OS PROMPTS ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (criação do bloco)
+Status: ✅ OBRIGATÓRIO EM TODOS OS PROMPTS GRANDES
+
+REGRA: A partir de agora, TODO prompt grande do Windsurf vai ter este bloco.
+Ele sempre roda DEPOIS do CICLO RADAR 5 TXT e da ETAPA principal.
+Ele NUNCA inventa feature: só descreve o que já existe e marca o que é futuro.
+
+--------------------------------------------------------------------------------
+BLOCO EXTRA – MANUAIS HUMANOS
+--------------------------------------------------------------------------------
+
+⚠️ REGRAS ABSOLUTAS DOS MANUAIS:
+
+1. NÃO descrever como "disponível" algo que NÃO existe no código
+   └── Se não implementado → marcar como "PLANEJADO" ou "FUTURO"
+
+2. NÃO remover manual existente sem dizer claramente no resumo
+
+3. Tudo deve bater com:
+   ├── ATLAS-RADAR-NARCISISTA.txt
+   ├── TUDO PARA O GPT.txt
+   ├── ROADMAP-RADAR.txt
+   ├── TESTES-RADAR.txt
+   └── Código real (app/, lib/, components/, app/api/…)
+
+4. Se algo depender de feature não implementada:
+   └── Criar seção, mas marcar "(AINDA NÃO IMPLEMENTADO – PLANEJADO PARA ETAPA X)"
+
+5. Se não conseguir atualizar algum manual:
+   └── Explicar no resumo final
+
+--------------------------------------------------------------------------------
+ETAPA M.0 – ARQUIVOS DE MANUAL (LOCALIZAÇÃO)
+--------------------------------------------------------------------------------
+
+Criar/atualizar na pasta docs/:
+
+├── docs/MANUAL-USUARIA-RADAR.txt
+├── docs/MANUAL-PROFISSIONAL-RADAR.txt
+├── docs/MANUAL-ADMIN-RADAR.txt
+├── docs/MANUAL-DEV-RADAR.txt
+├── docs/MANUAL-WHITELABEL-RADAR.txt (quando ETAPA 13)
+├── docs/MANUAL-ENGINE-RADAR.txt (quando ENGINE)
+└── docs/MANUAL-FABRICA-RADAR.txt (quando FÁBRICA)
+
+⚠️ NÃO obrigado a preencher todos em todas as etapas
+⚠️ MAS DEVE atualizar os impactados pela ETAPA atual
+
+--------------------------------------------------------------------------------
+ETAPA M.1 – MANUAL DA USUÁRIA
+--------------------------------------------------------------------------------
+
+ARQUIVO: docs/MANUAL-USUARIA-RADAR.txt
+PÚBLICO: Usuária final (leiga)
+
+ESTRUTURA:
+├── CAPA: nome, versão, data
+├── 1. Visão geral do Radar
+├── 2. Como criar conta e entrar
+├── 3. Dashboard – visão geral (trilha do herói, planos)
+├── 4. Módulos principais:
+│   ├── Teste de Clareza
+│   ├── Diário
+│   ├── Chat/Coach IA
+│   ├── Plano de Segurança
+│   └── Estatísticas
+├── 5. Planos (grátis / Jornada / Defesa / Profissional)
+├── 6. Privacidade, segurança e botão de emergência
+└── 7. Como pedir ajuda (contato / suporte)
+
+ATUALIZAR QUANDO: ETAPA 11.x, 12.x (parte usuária)
+
+--------------------------------------------------------------------------------
+ETAPA M.2 – MANUAL DO PROFISSIONAL
+--------------------------------------------------------------------------------
+
+ARQUIVO: docs/MANUAL-PROFISSIONAL-RADAR.txt
+PÚBLICO: Psicólogas, advogadas, assistentes sociais
+
+ESTRUTURA:
+├── CAPA
+├── 1. Para quem é o Radar Profissional
+├── 2. Como ativar o plano profissional
+├── 3. Dashboard Profissional:
+│   ├── visão geral
+│   └── cards e métricas
+├── 4. Convidar clientes (códigos de convite)
+├── 5. O que o profissional consegue ver (limites, ética, LGPD)
+├── 6. Relatórios e exportações (existente vs. futuro)
+├── 7. Como revogar acesso ou encerrar acompanhamento
+└── 8. Boas práticas éticas (não substituir laudo/terapia/perícia)
+
+ATUALIZAR QUANDO: ETAPA 12.x, 13
+
+--------------------------------------------------------------------------------
+ETAPA M.3 – MANUAL DO ADMIN
+--------------------------------------------------------------------------------
+
+ARQUIVO: docs/MANUAL-ADMIN-RADAR.txt
+PÚBLICO: Quem opera o /admin
+
+ESTRUTURA:
+├── CAPA
+├── 1. Acesso ao painel admin
+├── 2. Mapa das páginas /admin
+├── 3. Curadoria de conteúdo (semáforo, sugestões, publicados)
+├── 4. Frontpage e A/B tests
+├── 5. Custos de IA, logs e limites
+├── 6. LGPD e exportação de dados
+└── 7. Riscos: o que NÃO mexer sem dev
+
+ATUALIZAR QUANDO: ETAPA 8, 9, 10, 13, ENGINE, FÁBRICA
+
+--------------------------------------------------------------------------------
+ETAPA M.4 – MANUAL DO DEV
+--------------------------------------------------------------------------------
+
+ARQUIVO: docs/MANUAL-DEV-RADAR.txt
+PÚBLICO: Devs que vão dar manutenção
+
+ESTRUTURA:
+├── Setup local (Node, npm, comandos)
+├── Variáveis de ambiente (.env.local)
+├── Comandos principais (dev, build, lint, test)
+├── Estrutura de pastas (app/, lib/, components/, database/, scripts/)
+├── Fluxos críticos:
+│   ├── Teste de Clareza
+│   ├── Diário
+│   ├── Chat/Coach
+│   ├── Plano de Segurança
+│   └── Profissional/Clientes
+├── Como rodar migrations
+├── Como funciona o CICLO RADAR 5 TXT
+└── Como funcionam os MANUAIS
+
+ATUALIZAR QUANDO: novas migrations, novos fluxos grandes
+
+--------------------------------------------------------------------------------
+ETAPA M.5 – MANUAIS FUTUROS (WHITE LABEL, ENGINE, FÁBRICA)
+--------------------------------------------------------------------------------
+
+ARQUIVOS:
+├── docs/MANUAL-WHITELABEL-RADAR.txt (ETAPA 13+)
+├── docs/MANUAL-ENGINE-RADAR.txt (ENGINE.*)
+└── docs/MANUAL-FABRICA-RADAR.txt (FÁBRICA.*)
+
+REGRA: Se ainda não mexer com isso, criar com:
+└── Texto: "Ainda não implementado, planejado para ETAPA X"
+
+--------------------------------------------------------------------------------
+ETAPA M.FINAL – RESUMO DOS MANUAIS (OBRIGATÓRIO)
+--------------------------------------------------------------------------------
+
+No RESUMO FINAL de cada ETAPA, incluir SEMPRE:
+
+1) Quais manuais foram criados/atualizados:
+   ├── MANUAL-USUARIA-RADAR.txt: [o que mudou]
+   ├── MANUAL-PROFISSIONAL-RADAR.txt: [o que mudou]
+   ├── MANUAL-ADMIN-RADAR.txt: [o que mudou]
+   ├── MANUAL-DEV-RADAR.txt: [o que mudou]
+   ├── MANUAL-WHITELABEL-RADAR.txt: [se mudou]
+   ├── MANUAL-ENGINE-RADAR.txt: [se mudou]
+   └── MANUAL-FABRICA-RADAR.txt: [se mudou]
+
+2) O que NÃO foi feito e por quê
+
+3) Sugestão de próxima atualização de manual
+
+================================================================================
+=== 📊 STATUS CONSOLIDADO DOS MANUAIS ===
+================================================================================
+
+| Manual | Arquivo | Status | Quando Criar |
+|--------|---------|--------|--------------|
+| Usuária | MANUAL-USUARIA-RADAR.txt | ❌ Não existe | PRÓXIMO PROMPT |
+| Profissional | MANUAL-PROFISSIONAL-RADAR.txt | ❌ Não existe | PRÓXIMO PROMPT |
+| Admin | MANUAL-ADMIN-RADAR.txt | ❌ Não existe | PRÓXIMO PROMPT |
+| Dev | MANUAL-DEV-RADAR.txt | ❌ Não existe | PRÓXIMO PROMPT |
+| White-Label | MANUAL-WHITELABEL-RADAR.txt | ⏳ FUTURO | ETAPA 13 |
+| ENGINE | MANUAL-ENGINE-RADAR.txt | ⏳ FUTURO | ENGINE.1 |
+| FÁBRICA | MANUAL-FABRICA-RADAR.txt | ⏳ FUTURO | FÁBRICA.1 |
+
+💡 PONTO IDEAL PARA CRIAR OS 4 MANUAIS PRINCIPAIS:
+├── Após ETAPA 11.x (dashboard usuária completo)
+├── Após ETAPA 12.x (profissional completo)
+└── Antes de ETAPA 13 (white-label)
+
+================================================================================
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:40 UTC-5
 ================================================================================
