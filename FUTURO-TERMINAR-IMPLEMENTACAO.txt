@@ -11710,12 +11710,290 @@ SE ESTIVER NO CONTEXTO DO GERADOR DE SAAS:
 └─────────────────────────────────────────────────────────────────────────────┘
 
 ================================================================================
+=== 🔧 PATCH 3A – CONTROLE DO ORÁCULO V2 POR PLANO, PERFIL E LIMITES ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: PATCH COMPLEMENTAR – DEFINE CONTROLE DE ACESSO (BLOCO 26-30)
+
+Este PATCH COMPLEMENTA os PATCHES anteriores do ORÁCULO.
+NÃO MUDA NADA DO BLOCO 21-25.
+APENAS DEFINE COMO O ORÁCULO V2 MULTIPERFIL FUNCIONA EM TERMOS DE CONTROLE.
+
+--------------------------------------------------------------------------------
+1. SEPARAÇÃO FINAL DOS ORÁCULOS (VERSÃO OFICIAL)
+--------------------------------------------------------------------------------
+
+ORÁCULO V1 (painel):
+├── Rota: /admin/oraculo
+├── Apenas ADMIN/DONO do produto usa
+└── Não tem limitação por plano, é ferramenta interna
+
+ORÁCULO V2 (IA de suporte):
+├── Rota de API: /api/oraculo-v2
+├── Núcleo de IA que responde dúvidas dentro do sistema
+├── Na etapa atual (21-25): focado em ADMIN
+└── No futuro (26-30): passa a ser MULTIPERFIL
+
+--------------------------------------------------------------------------------
+2. ORÁCULO V2 MULTIPERFIL – PERFIS QUE PODEM USAR (BLOCO 26-30)
+--------------------------------------------------------------------------------
+
+No BLOCO 26-30, o ORÁCULO V2 poderá ser ativado para:
+├── user_role = "usuaria"
+├── user_role = "profissional"
+├── user_role = "admin"
+├── user_role = "dev"
+├── user_role = "whitelabel"
+└── outros perfis via GERADOR DE SAAS (ONG, consultoria, etc.)
+
+MÓDULO ORÁCULO_V2_CORE:
+├── Capaz de atender múltiplos perfis
+└── SEMPRE controlado pelo ADMIN (dono do produto) via configurações
+
+--------------------------------------------------------------------------------
+3. CONTROLE PELO ADMIN – LIGA/DESLIGA + ESCALA 0-100%
+--------------------------------------------------------------------------------
+
+O ADMIN precisa ter CONTROLE TOTAL sobre o uso do ORÁCULO V2.
+
+REGRAS:
+
+Para cada PLANO (free, pro, premium, enterprise) e PERFIL (usuária, profissional):
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ STATUS DE ACESSO                                                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 0 = DESATIVADO (Oráculo V2 não aparece nem responde)                        │
+│ 1 = MODO TESTE/LIMITADO (uso liberado com limites)                          │
+│ 2 = MODO COMPLETO (sem limites, ou limites muito altos)                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ LIMITES POR PERÍODO (todos opcionais de configuração)                       │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ limite_diario      → Quantas perguntas por dia                              │
+│ limite_semanal     → Quantas perguntas por semana                           │
+│ limite_quinzenal   → Quantas perguntas por quinzena                         │
+│ limite_mensal      → Quantas perguntas por mês                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+O ADMIN ESCOLHE:
+├── Se o plano terá acesso
+├── Quanto poderá usar
+└── Se é temporário (ex.: liberar só durante período de teste)
+
+O ADMIN PODE ALTERAR A QUALQUER MOMENTO:
+├── Liberar Oráculo V2 em plano free só durante uma semana
+├── Reduzir limite se custo de IA ficar alto
+└── Desativar totalmente num cenário de emergência
+
+QUANDO O LIMITE FOR ATINGIDO:
+├── Oráculo não responde mais normalmente
+├── Mostra mensagem explicando que limite foi atingido
+└── Pode sugerir upgrade de plano ou aguardar próximo ciclo
+
+--------------------------------------------------------------------------------
+4. ESTRUTURA DE DADOS (CONCEITO PARA IMPLEMENTAÇÃO FUTURA)
+--------------------------------------------------------------------------------
+
+Tabela oraculo_plan_settings:
+├── id (uuid)
+├── plan_slug (text) → "free", "pro", "enterprise"
+├── user_role (text) → "usuaria", "profissional", "whitelabel"
+├── status (int) → 0 = off, 1 = teste, 2 = completo
+├── limite_diario (int)
+├── limite_semanal (int)
+├── limite_quinzenal (int)
+├── limite_mensal (int)
+├── created_at (timestamptz)
+└── updated_at (timestamptz)
+
+Tabela oraculo_usage:
+├── id (uuid)
+├── user_id (uuid)
+├── user_role (text)
+├── plan_slug (text)
+├── periodo_ref (text) → "2025-12-01-dia", "2025-12-semana-01"
+├── qtd_perguntas (int)
+├── created_at (timestamptz)
+└── updated_at (timestamptz)
+
+O ORÁCULO V2 deve consultar essas estruturas ANTES de responder.
+
+--------------------------------------------------------------------------------
+5. GERADOR DE SAAS + ORÁCULO_V2_CORE
+--------------------------------------------------------------------------------
+
+No contexto do GERADOR DE SAAS:
+├── Cada SaaS gerado pode nascer com ORÁCULO_V2_CORE integrado
+├── Para cada SaaS, o ADMIN pode:
+│   ├── Habilitar Oráculo V2 para alguns perfis/planos
+│   ├── Configurar limites por plano/perfil
+│   └── Usar Oráculo V2 como diferencial em planos pagos
+└── Oráculo V2 = "Módulo acoplável com controle de acesso"
+
+================================================================================
+=== 🔧 PATCH 3B – ETAPA 31 – REFORMA INTELIGENTE DA FRONT PAGE ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: NOVA ETAPA – PÓS BLOCO 1-30
+
+Este PATCH DEFINE a ETAPA 31: REFORMULAR A FRONT PAGE.
+NÃO mexe na "parte viva" (app logada) que já está formatada.
+
+--------------------------------------------------------------------------------
+1. OBJETIVO DA ETAPA 31
+--------------------------------------------------------------------------------
+
+Criar uma FRONT PAGE ÚNICA, ENXUTA E INTELIGENTE que:
+├── Conte a história COMPLETA do Radar (até etapa 30)
+├── Mostre claramente:
+│   ├── Para quem é (usuária, profissional, ONGs, whitelabel, parceiros)
+│   ├── O que o sistema faz HOJE (sem inventar futuro)
+│   ├── Como o Oráculo entra como diferencial
+│   └── Como o GERADOR DE SAAS entra como oportunidade futura
+└── Permita que a pessoa:
+    ├── Se cadastre (usuária final)
+    ├── Entre em contato (profissional, ONG, parceiro whitelabel)
+    └── Entenda rapidamente se o produto é para ela
+
+PRINCÍPIO: Menos texto "burro" e repetitivo, mais texto "inteligente".
+
+--------------------------------------------------------------------------------
+2. PONTOS QUE PRECISAM SER REFORMULADOS
+--------------------------------------------------------------------------------
+
+1) HISTÓRIA DO PRODUTO:
+   ├── Radar como sistema de registro de fatos e clareza
+   ├── Oráculo V1 (painel de inteligência interna para admin)
+   ├── Roadmap claro para Oráculo V2 multiperfil
+   └── Presença futura do GERADOR DE SAAS
+
+2) PERFIS ATENDIDOS:
+   ├── Usuária individual em relacionamento abusivo
+   ├── Profissional (psicólogo, terapeuta, advogado)
+   ├── ONGs / projetos sociais
+   ├── Parceiros whitelabel
+   └── Interessados em licenciar ou gerar SaaS
+
+3) CHAMADAS PARA AÇÃO (CTAs):
+   ├── CTA para usuária final (criar conta / experimentar)
+   ├── CTA para profissionais/ONGs (falar com você)
+   └── CTA para whitelabel / gerador de SaaS (contato comercial)
+
+4) EVITAR REPETIÇÃO:
+   ├── Cortar blocos repetitivos
+   ├── Unir seções que dizem a mesma coisa
+   └── Priorizar blocos que ajudam a tomar decisão
+
+--------------------------------------------------------------------------------
+3. ESTRUTURA SUGERIDA DA NOVA FRONT PAGE
+--------------------------------------------------------------------------------
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 1) HERO (TOPO DA PÁGINA)                                                    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ ├── Título curto e forte                                                    │
+│ ├── Subtítulo explicando em uma frase o que o Radar faz                     │
+│ ├── 1 CTA principal (Criar conta / Começar agora)                           │
+│ └── 1 CTA secundária (Sou profissional / ONG / parceiro)                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 2) "PARA QUEM É"                                                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 4-5 cards:                                                                  │
+│ ├── Usuária individual                                                      │
+│ ├── Profissional                                                            │
+│ ├── ONG / projeto social                                                    │
+│ ├── Parceiro whitelabel                                                     │
+│ └── Interessado em SaaS (licença ou gerador)                                │
+│ Cada card com 2-3 bullets de benefício                                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 3) COMO FUNCIONA (VISÃO DE MÓDULOS)                                         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Três blocos principais:                                                     │
+│ ├── Registro de fatos e evidências                                          │
+│ ├── Análises, gráficos e painéis                                            │
+│ └── Oráculo e inteligência (V1 hoje + V2 roadmap)                           │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 4) PLANOS E PERFIS                                                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ ├── Plano Free (com ou sem Oráculo V2 – respeitar PATCH 3A)                 │
+│ ├── Planos pagos, se já existirem                                           │
+│ └── Explicar que profissionais/ONGs podem ter condições especiais           │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 5) PROFISSIONAIS / ONGs / WHITELABEL                                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Seção específica convidando:                                                │
+│ ├── Para conversar sobre uso em casos clínicos/jurídicos                    │
+│ ├── Para uso em grupos, projetos, redes de apoio                            │
+│ └── Para whitelabel e integrações mais profundas                            │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 6) ORÁCULO & ROADMAP (SEM VENDER O QUE NÃO EXISTE)                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ ├── Oráculo V1 (admin) já existe                                            │
+│ ├── Oráculo V2 multiperfil está planejado (BLOCO 26-30)                     │
+│ └── Falar sobre limites, segurança, ética (sem prometer além)               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 7) BLOCO FINAL – CHAMADA CLARA                                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Repetir 2-3 caminhos:                                                       │
+│ ├── Criar conta agora (usuária)                                             │
+│ ├── Falar com você (profissionais/ONGs/parceiros)                           │
+│ └── Se inscrever para novidades do GERADOR DE SAAS                          │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+4. O QUE A ETAPA 31 AUTORIZA MEXER
+--------------------------------------------------------------------------------
+
+✅ PODE:
+├── Cortar texto da front page que hoje é redundante
+├── Unir seções parecidas
+├── Reorganizar a ordem das seções
+├── Atualizar chamadas, títulos, subtítulos
+└── Adicionar ou remover blocos de marketing
+
+❌ NÃO PODE:
+├── Prometer features que ainda não existem
+└── Apagar a essência do Radar (registro de fatos, clareza, segurança)
+
+--------------------------------------------------------------------------------
+5. REGISTRO EM LÂMPADA / ROADMAP
+--------------------------------------------------------------------------------
+
+NA LÂMPADA-RADAR.txt:
+├── 💡 ETAPA 31 – REFORMA INTELIGENTE DA FRONT PAGE
+├── Atualizar a landing pública para refletir tudo que foi feito da ETAPA 1-30
+├── Ficar mais enxuta, sem repetição, mas mais inteligente
+└── Incluir seções claras para todos os perfis
+
+NO ROADMAP-RADAR.txt:
+├── ETAPA 31 – NOVA FRONT PAGE (PÓS 1-30)
+├── Redesenhar a front page única, segmentada por perfil
+├── Ajustar narrativa: Radar + Oráculo V1 + Roadmap Oráculo V2 + Gerador de SaaS
+└── Simplificar, remover repetições e deixar o texto funcionar como vendedor inteligente
+
+================================================================================
 === 📊 CONTAGEM FINAL DE ETAPAS ===
 ================================================================================
 
 ANTES ERA: 89 etapas
-AGORA: 89 etapas (sem alteração, apenas correção conceitual + futuro explícito)
+AGORA: 90 etapas (+1 ETAPA 31 – Reforma Front Page)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 03:55 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 04:00 UTC-5
 ================================================================================
