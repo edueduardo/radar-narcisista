@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 05:45 UTC-5
+Última atualização: 04/12/2025 05:50 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -374,6 +374,18 @@ PATCH 8 – UX/UI DO GERADOR DE SAAS:
 │   └── Usuário baixa/clona e abre no Windsurf
 ├── Layout da página /admin/gerador-saas definido
 └── Tabela saas_projects definida
+
+PATCH 9 – ADMIN DINÂMICO (SEM DEPLOY):
+├── Regra fundamental: "Toggle/slider no admin → banco → sem deploy"
+├── DEPLOY = só quando muda CÓDIGO
+├── PAINEL ADMIN = configuração dinâmica (IAs, planos, features)
+├── Três camadas de config:
+│   ├── CAMADA 1: Global (template/mãe)
+│   ├── CAMADA 2: Por produto/tenant
+│   └── CAMADA 3: Por usuário/cliente
+├── Problema atual: tela de IAs colaborativas mostra "0 configuradas"
+│   └── Porque tabelas de config no Supabase estão zeradas
+└── Solução: conectar tela ao banco, orquestrador lê config do banco
 
 REGRA FIXA:
 ├── NENHUMA ETAPA está completa sem atualizar TODOS os TXTs e Manuais

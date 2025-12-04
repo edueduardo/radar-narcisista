@@ -14432,12 +14432,243 @@ META:
 └── = Virar a chave de "projeto que suga" → "projeto que paga"
 
 ================================================================================
+=== 🔧 PATCH 9 – ADMIN DINÂMICO (SEM DEPLOY) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: PATCH CRÍTICO – DEFINE COMO ADMIN CONTROLA O SISTEMA SEM DEPLOY
+
+Este PATCH define a regra fundamental:
+"Tudo que for toggle/slider no admin deve refletir direto no banco
+e ser lido pelo orquestrador, SEM depender de deploy."
+
+--------------------------------------------------------------------------------
+1. PROBLEMA ATUAL
+--------------------------------------------------------------------------------
+
+O que está acontecendo:
+├── As 4 IAs funcionam (OpenAI, Together, Claude, Grok)
+├── Estão ativas via ambiente → chaves no Vercel (OPENAI_API_KEY, etc.)
+├── O código do Radar já chama essas IAs direto
+├── MAS: a tela "Configuração de IAs Colaborativas" mostra:
+│   └── "13 no total • 0 configuradas • 0 ativas • 0 funcionando"
+└── Porque a tela está lendo tabelas de config no Supabase que estão zeradas
+
+RESULTADO:
+├── Motor de IA está funcionando
+├── Tela de IA colaborativa está "de fachada"
+└── O código do orquestrador ainda não obedece 100% essa tela
+
+--------------------------------------------------------------------------------
+2. REGRA FUNDAMENTAL: DEPLOY vs PAINEL ADMIN
+--------------------------------------------------------------------------------
+
+DEPLOY (Vercel / GitHub):
+├── SÓ quando você muda CÓDIGO
+│   ├── Nova tela
+│   ├── Nova rota
+│   ├── Novo tipo de IA
+│   └── Bugfix
+└── NÃO para mudar configuração
+
+PAINEL ADMIN:
+├── Serve para mudar CONFIGURAÇÃO DINÂMICA
+│   ├── Quais IAs entram em cada etapa
+│   ├── Thresholds, pesos
+│   ├── Ativar/desativar features
+│   ├── Planos
+│   └── Etc.
+└── SEM precisar redeploy
+
+COMO FUNCIONA POR BAIXO:
+├── Você muda algo no admin
+├── O front chama uma rota (/api/admin/...)
+├── Essa rota grava num banco (Supabase)
+├── Quando a usuária usa o sistema, o backend lê essa config do banco
+└── Nada disso precisa de deploy
+
+--------------------------------------------------------------------------------
+3. TRÊS CAMADAS DE CONFIGURAÇÃO
+--------------------------------------------------------------------------------
+
+CAMADA 1 – GLOBAL (TEMPLATE/MÃE):
+├── Tabelas que dizem:
+│   ├── Quais IAs existem
+│   ├── Quais "papéis" existem (Análise, Votação, Consenso, Transparência)
+│   └── Lógica padrão de colaboração
+└── Controlada pelo admin "mestre" (você)
+
+CAMADA 2 – POR PRODUTO/TENANT:
+├── Radar "mãe" é um tenant
+├── Cada white label / SaaS gerado vira outro tenant
+├── Cada tenant tem:
+│   ├── Quais IAs estão ativas
+│   ├── Plano X, Y, Z
+│   └── Limites por plano
+└── Controlada pelo admin de cada tenant
+
+CAMADA 3 – POR USUÁRIO/CLIENTE:
+├── Permissões específicas:
+│   ├── Esse grupo tem pacote promocional Black Friday
+│   ├── Esse cliente ganhou IA extra
+│   └── Esse grupo tem Oráculo V2 liberado
+└── Controlada por overrides individuais
+
+TUDO ISSO DEVE ESTAR EM TABELAS DE BANCO, NÃO EM CÓDIGO.
+
+--------------------------------------------------------------------------------
+4. COMO O PAINEL ADMIN ENTRA NISSO
+--------------------------------------------------------------------------------
+
+PAINEL ADMIN "MESTRE" (SEU):
+├── Edita a camada global (template)
+├── Pode abrir telas para editar tenants / planos / pacotes
+└── Controla tudo
+
+PAINEL ADMIN DENTRO DE CADA SAAS GERADO:
+├── Controla só aquele filho (tenant)
+├── Dentro dos limites que você deixou no template
+└── Autonomia limitada
+
+RESULTADO:
+├── APK, app, site, white label → todos chamam as mesmas APIs
+├── As APIs consultam o banco, não o código
+├── Você não precisa de deploy para ligar/desligar IA, plano, pacote
+└── Deploy só quando mexeu em código
+
+--------------------------------------------------------------------------------
+5. O QUE DEVE SER CONTROLADO SEM DEPLOY
+--------------------------------------------------------------------------------
+
+VIA PAINEL ADMIN (SEM DEPLOY):
+├── Ativar/desativar IA colaborativa
+├── Configurar quais IAs participam de cada etapa
+├── Mudar thresholds e pesos
+├── Ativar/desativar features por plano
+├── Criar/editar planos e preços
+├── Configurar add-ons
+├── Gerenciar usuários e permissões
+├── Configurar frontpage dinâmica
+├── Gerenciar conteúdos
+└── Configurar Oráculo
+
+VIA DEPLOY (MUDANÇA DE CÓDIGO):
+├── Adicionar novo tipo de IA
+├── Mudar layout de telas
+├── Mudar lógica do orquestrador
+├── Adicionar novas rotas/APIs
+├── Bugfixes
+└── Novas features estruturais
+
+--------------------------------------------------------------------------------
+6. TABELAS DE CONFIGURAÇÃO NECESSÁRIAS
+--------------------------------------------------------------------------------
+
+TABELAS JÁ EXISTENTES (VERIFICAR SE ESTÃO SENDO USADAS):
+├── ai_providers → Provedores de IA
+├── ai_personas → Personas/Avatares de IA
+├── ai_persona_bindings → Ligação Persona → Contexto
+├── plan_catalog → Catálogo de planos
+├── feature_profiles → Perfis de features
+├── user_feature_overrides → Overrides individuais
+└── oraculo_settings → Configurações do Oráculo
+
+TABELAS A CRIAR/VERIFICAR:
+├── ai_collaborative_config → Configuração de IA colaborativa
+│   ├── provider_key
+│   ├── is_active
+│   ├── participates_in_analysis
+│   ├── participates_in_voting
+│   ├── participates_in_consensus
+│   ├── weight
+│   └── tenant_id (para multi-tenant)
+├── system_settings → Configurações gerais do sistema
+│   ├── key
+│   ├── value
+│   └── tenant_id
+└── tenant_config → Configuração por tenant
+    ├── tenant_id
+    ├── name
+    ├── settings_json
+    └── created_at
+
+--------------------------------------------------------------------------------
+7. FLUXO CORRETO DE CONFIGURAÇÃO
+--------------------------------------------------------------------------------
+
+QUANDO ADMIN MUDA ALGO NA TELA:
+├── 1. Admin clica em toggle/slider
+├── 2. Frontend chama API: POST /api/admin/ai-config
+├── 3. API valida permissões
+├── 4. API grava no Supabase (tabela ai_collaborative_config)
+├── 5. API retorna sucesso
+├── 6. Frontend atualiza UI
+└── 7. Próxima requisição do sistema já usa a nova config
+
+QUANDO USUÁRIA USA O SISTEMA:
+├── 1. Usuária faz ação (ex: análise de texto)
+├── 2. Backend consulta ai_collaborative_config no Supabase
+├── 3. Backend monta lista de IAs ativas para aquela função
+├── 4. Backend chama as IAs conforme config
+└── 5. Resultado é retornado
+
+NENHUM DEPLOY NECESSÁRIO.
+
+--------------------------------------------------------------------------------
+8. GERADOR DE SAAS NESSA ARQUITETURA
+--------------------------------------------------------------------------------
+
+QUANDO GERA UM NOVO SAAS:
+├── Clona o "template" (modelo de banco + features)
+├── Cria um novo projeto ou novo tenant
+├── Esse novo SaaS nasce com:
+│   ├── Tela de admin própria
+│   ├── Estrutura de IAs colaborativas
+│   └── Lógica de planos/add-ons
+└── A partir dali, é "um novo ser vivo"
+
+OPÇÕES DE CONTROLE:
+├── Deixar o filho seguir a própria vida (cliente mexe no admin dele)
+└── Manter painel "mestre" onde você vê todos os tenants
+
+MECÂNICA É A MESMA:
+├── Painel admin mexe em banco
+├── App lê banco
+└── Deploy só para mudar código
+
+--------------------------------------------------------------------------------
+9. RESPOSTA DIRETA À PERGUNTA
+--------------------------------------------------------------------------------
+
+PERGUNTA: "O que eu faço aqui vai direto pro site ou precisa de deploy?"
+
+RESPOSTA:
+├── IDEALMENTE: Não deveria precisar de deploy para ligar/desligar IA ou plano
+├── O painel admin foi desenhado para ser o controle na nuvem
+├── HOJE: Ainda não está 100% plugado no motor de IAs
+│   └── Por isso você vê "0 configuradas"
+└── ARQUITETURA CERTA:
+    ├── Admin = configuração dinâmica em banco
+    └── Deploy = mudança de código
+
+--------------------------------------------------------------------------------
+10. PRÓXIMA AÇÃO SUGERIDA
+--------------------------------------------------------------------------------
+
+- Verificar se tabela ai_collaborative_config existe no Supabase
+- Se não existir, criar com as colunas necessárias
+- Conectar a tela de "Configuração de IAs Colaborativas" à tabela
+- Fazer o orquestrador de IA ler essa tabela antes de chamar as IAs
+- Testar: mudar config no admin → verificar se afeta o comportamento
+- Documentar no ATLAS e ROADMAP
+
+================================================================================
 === 📊 CONTAGEM FINAL DE ETAPAS ===
 ================================================================================
 
 ANTES ERA: 101 etapas
-AGORA: 101 etapas (sem alteração, apenas ANÁLISE FINANCEIRA adicionada)
+AGORA: 101 etapas (sem alteração, apenas PATCH 9 adicionado)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 05:45 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 05:50 UTC-5
 ================================================================================
