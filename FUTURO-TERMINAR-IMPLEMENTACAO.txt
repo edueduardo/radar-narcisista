@@ -11576,12 +11576,146 @@ CRITÉRIOS DE CONCLUSÃO:
 └── Commit + push + deploy ok
 
 ================================================================================
+=== 🔧 PATCH 2 – ORÁCULO MULTIPERFIL E GERADOR DE SAAS (FUTURO 26-30) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: PATCH COMPLEMENTAR – DEFINE O FUTURO EXPLÍCITO
+
+Este PATCH COMPLEMENTA o PATCH ANTERIOR do ORÁCULO.
+NÃO ALTERA o que já foi decidido para o BLOCO 21-25.
+APENAS DEIXA EXPLÍCITO o que acontece DEPOIS (BLOCO 26-30) e NO GERADOR DE SAAS.
+
+--------------------------------------------------------------------------------
+1. ESCOPO ATUAL (RELEMBRE) – BLOCO 21-25
+--------------------------------------------------------------------------------
+
+ORÁCULO V1 (painel):
+├── Rota: /admin/oraculo
+├── Uso: SOMENTE ADMIN / DONO DO PRODUTO
+└── Status: JÁ EXISTE
+
+ORÁCULO V2 (IA de suporte):
+├── Rota de API: /api/oraculo-v2
+├── Neste bloco 21-25:
+│   ├── Implementação focada em ADMIN
+│   ├── user_role usado na prática: "admin"
+│   └── Botões / UI de Oráculo aparecem apenas em telas de admin
+└── NADA DISSO MUDA
+
+--------------------------------------------------------------------------------
+2. DECISÃO OFICIAL PARA O FUTURO – BLOCO 26-30
+--------------------------------------------------------------------------------
+
+A partir do BLOCO 26-30 (NÃO AGORA), o plano é:
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 1) ORÁCULO V2 MULTIPERFIL                                                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ O mesmo núcleo de IA (ORÁCULO V2) passará a atender TODOS os perfis:        │
+│                                                                             │
+│ ├── user_role = "usuaria"                                                   │
+│ ├── user_role = "profissional"                                              │
+│ ├── user_role = "admin"                                                     │
+│ ├── user_role = "dev"                                                       │
+│ ├── user_role = "whitelabel"                                                │
+│ └── (e outros perfis futuros, se o GERADOR DE SAAS criar)                   │
+│                                                                             │
+│ Isso precisa aparecer de forma EXPLÍCITA no ROADMAP e na LÂMPADA:           │
+│ → "BLOCO 26-30: ORÁCULO V2 MULTIPERFIL (todos os perfis)"                   │
+│                                                                             │
+│ NÃO é recurso escondido, nem "talvez".                                      │
+│ É um item CLARO de roadmap: "Futuro, depois do 25."                         │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 2) ACOPLAR O ORÁCULO EM TODA A PLATAFORMA                                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Objetivo: o ORÁCULO V2 vira um MÓDULO CENTRAL ("ORACULO_V2_CORE") que:      │
+│                                                                             │
+│ ├── É usado no Radar Narcisista                                             │
+│ ├── Pode ser reutilizado em outros produtos                                 │
+│ └── Inclusive pelo GERADOR DE SAAS                                          │
+│                                                                             │
+│ Significa:                                                                  │
+│ ├── Todo SaaS gerado pelo GERADOR DE SAAS pode, opcionalmente, nascer com:  │
+│ │   ├── ORACULO_V2_CORE embutido                                            │
+│ │   ├── Suporte a múltiplos user_role                                       │
+│ │   └── Estrutura de resposta em JSON padronizada                           │
+│ └── Flags por plano/perfil para habilitar/desabilitar                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 3) GERADOR DE SAAS + ORÁCULO                                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ No documento do GERADOR DE SAAS (quando existir), registrar:                │
+│                                                                             │
+│ "O GERADOR DE SAAS tem acesso ao módulo ORACULO_V2_CORE.                    │
+│  Para cada SaaS gerado:                                                     │
+│  ├── Pode criar endpoints como /api/oraculo reutilizando o mesmo núcleo     │
+│  ├── Pode mapear perfis (usuário final, admin, parceiro, dev) para user_role│
+│  └── Pode ligar/desligar o Oráculo por plano/feature flag"                  │
+│                                                                             │
+│ Ou seja:                                                                    │
+│ ├── O Oráculo NÃO é "só do Radar"                                           │
+│ └── Ele é um MÓDULO COMPARTILHADO que o GERADOR DE SAAS pode plug-in/out    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+3. COMO REGISTRAR ISSO NA LÂMPADA E NO ROADMAP
+--------------------------------------------------------------------------------
+
+NA LÂMPADA-RADAR.txt (ideias futuras):
+├── 💡 ORÁCULO V2 MULTIPERFIL (BLOCO 26-30)
+├── Expandir o uso do ORÁCULO V2 para TODOS os perfis:
+│   usuária, profissional, admin, dev, whitelabel
+└── Unificar em um módulo ORACULO_V2_CORE reutilizável pelo GERADOR DE SAAS
+
+NO ROADMAP-RADAR.txt:
+├── BLOCO 26-30 – ORÁCULO V2 MULTIPERFIL + CORE COMPARTILHADO
+├── Abrir Oráculo para usuária/profissional/dev/whitelabel com regras de segurança
+├── Integrar ORACULO_V2_CORE ao GERADOR DE SAAS
+└── Criar flags por plano/perfil para habilitar ou desabilitar o Oráculo em cada SaaS
+
+--------------------------------------------------------------------------------
+4. REGRAS PARA WINDSURF E CHATGPT (INTERPRETAÇÃO)
+--------------------------------------------------------------------------------
+
+SE EM QUALQUER TEXTO ANTIGO APARECER:
+"Oráculo para usuária/profissional/etc AGORA"
+→ ENTENDER COMO: OBJETIVO DE FUTURO BLOCO 26-30, NÃO IMPLEMENTADO EM 21-25
+
+SE ESTIVER NO CONTEXTO DO GERADOR DE SAAS:
+├── Assumir que o ORACULO_V2 será um MÓDULO ACOPLÁVEL em todos os SaaS gerados
+├── Respeitando perfis e planos
+└── MAS ISSO É EXECUTADO DEPOIS DO BLOCO 25
+
+--------------------------------------------------------------------------------
+5. RESUMO EXECUTIVO (VERSÃO CURTA)
+--------------------------------------------------------------------------------
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PATCH 2 – ORÁCULO MULTIPERFIL & GERADOR DE SAAS                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ BLOCO 21-25 (ATUAL):                                                        │
+│ ├── ORÁCULO V1 = painel /admin/oraculo, só admin (já existe)                │
+│ └── ORÁCULO V2 = IA de suporte, por enquanto usada só pelo ADMIN            │
+│                                                                             │
+│ BLOCO 26-30 (FUTURO EXPLÍCITO, NÃO OCULTO):                                 │
+│ ├── ORÁCULO V2 MULTIPERFIL para TODOS os perfis:                            │
+│ │   usuária, profissional, admin, dev, whitelabel                           │
+│ ├── ORACULO_V2_CORE se torna módulo compartilhado                           │
+│ ├── Acoplável a todos os SaaS gerados pelo GERADOR DE SAAS                  │
+│ └── ROADMAP e LÂMPADA DEVEM registrar isso claramente como BLOCO 26-30      │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
 === 📊 CONTAGEM FINAL DE ETAPAS ===
 ================================================================================
 
 ANTES ERA: 89 etapas
-AGORA: 89 etapas (sem alteração, apenas correção conceitual)
+AGORA: 89 etapas (sem alteração, apenas correção conceitual + futuro explícito)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 03:50 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 03:55 UTC-5
 ================================================================================
