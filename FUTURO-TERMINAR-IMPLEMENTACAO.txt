@@ -10264,6 +10264,321 @@ melhorias que devem ser analisadas pelo ChatGPT.
 | 7 | Verificar migrations no Supabase | 🔴 ALTA |
 
 ================================================================================
+=== 🔮 ORÁCULO V2 – PLANO COMPLETO DE IMPLEMENTAÇÃO ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: PRONTO PARA IMPLEMENTAÇÃO IMEDIATA
+
+--------------------------------------------------------------------------------
+OBJETIVO DO ORÁCULO V2
+--------------------------------------------------------------------------------
+
+"Ser o assistente central de suporte ao uso do Radar Narcisista, adaptando
+a linguagem ao tipo de usuário (Usuária / Profissional / Admin / Dev / Whitelabel),
+usando como base os manuais oficiais + políticas de segurança + LGPD, sem inventar
+feature que não existe e sem substituir terapia/advocacia."
+
+--------------------------------------------------------------------------------
+ENTRADAS MÍNIMAS (PAYLOAD DA API)
+--------------------------------------------------------------------------------
+
+POST /api/oraculo-v2
+
+{
+  "user_role": "usuaria|profissional|admin|dev|whitelabel",
+  "manual_context": "qual manual vem a dúvida",
+  "language": "pt-BR",
+  "url_atual": "rota/tela dentro do app",
+  "question": "texto bruto da usuária",
+  "plan": "free|pro|profissional|etc"
+}
+
+--------------------------------------------------------------------------------
+SAÍDA PADRÃO (JSON)
+--------------------------------------------------------------------------------
+
+{
+  "modo": "faq|tutorial|alerta_risco|bug_suspeito",
+  "risco": "baixo|medio|alto",
+  "titulo_curto": "Frase de resumo da resposta",
+  "resposta_principal": "Texto em linguagem adequada ao perfil",
+  "passos": ["Passo 1...", "Passo 2..."],
+  "links_sugeridos": [
+    {
+      "tipo": "manual",
+      "manual": "usuaria|profissional|admin|dev|whitelabel",
+      "secao": "2. FUNCIONALIDADES PRINCIPAIS",
+      "slug": "dashboard-explicado"
+    }
+  ],
+  "mensagem_final_segurança": "Aviso padrão de limites, se aplicável"
+}
+
+--------------------------------------------------------------------------------
+PERSONAS E TOM POR PERFIL
+--------------------------------------------------------------------------------
+
+1) USUÁRIA:
+   ├── Tom: Simples, humano, acolhedor
+   ├── Evitar jargão técnico
+   └── Transformar confusão em ação: "Clique em X", "Acesse Y"
+
+2) PROFISSIONAL:
+   ├── Tom: Indicadores, padrões, séries históricas
+   ├── Mostrar como extrair insights
+   └── Reforçar: decisões clínicas/jurídicas são do profissional
+
+3) ADMIN:
+   ├── Tom: Gestão de conta, permissões, segurança, logs
+   └── Objetivo, tipo manual de sistema
+
+4) DEV:
+   ├── Tom: Endpoints, erros HTTP, payloads, chaves de API
+   └── Exemplos genéricos sem inventar endpoints
+
+5) WHITELABEL:
+   ├── Tom: Configuração para clientes, branding, multi-contas
+   └── Limites da marca própria vs. núcleo Radar
+
+--------------------------------------------------------------------------------
+TEMAS SENSÍVEIS E RISCO
+--------------------------------------------------------------------------------
+
+O ORÁCULO NUNCA:
+├── Diagnostica narcisismo, TPN, ou qualquer transtorno
+├── Dá parecer jurídico ou diz o que "o juiz vai decidir"
+└── Aconselha diretamente "se separar", "denunciar"
+
+SE A PERGUNTA ENVOLVER:
+├── Violência física
+├── Ameaça direta
+├── Suicídio ou autoagressão
+├── Risco imediato
+
+ENTÃO:
+├── Marcar risco = "alto"
+├── Responder com cuidado, em tom de apoio
+└── Incluir mensagem final obrigatória de segurança
+
+--------------------------------------------------------------------------------
+MELHORIAS NOS MANUAIS (SEÇÃO NOVA EM TODOS)
+--------------------------------------------------------------------------------
+
+ADICIONAR EM TODOS OS 5 MANUAIS:
+
+X. COMO USAR O ORÁCULO (IA DE SUPORTE)
+├── O que o Oráculo responde (uso do sistema, dúvidas de navegação)
+├── O que NÃO responde (diagnóstico, aconselhamento jurídico, terapia)
+├── Como fazer perguntas boas (objetivas, com contexto)
+├── Como sinalizar: "Isso parece um bug/problema técnico"
+└── Botões de acesso: "Perguntar ao Oráculo" direto da tela
+
+POLÍTICA DE USO DE IA (FINAL DO DOCUMENTO):
+├── A IA não substitui psicoterapia, atendimento médico ou jurídico
+├── Não fornece diagnóstico de transtornos de personalidade
+├── Em situações de risco imediato, procure serviços de emergência
+└── Toda interação pode ser registrada (anonimizada)
+
+--------------------------------------------------------------------------------
+MANUAL-USUÁRIA – ADIÇÕES ESPECÍFICAS
+--------------------------------------------------------------------------------
+
+2. FUNCIONALIDADES PRINCIPAIS (adicionar):
+└── "Onde o Oráculo aparece na tela" (ícone, balão de ajuda, atalho)
+
+3. CASOS DE USO PRÁTICOS (exemplos de perguntas):
+├── "Não entendi esse gráfico, o que significa?"
+├── "Como registrar um episódio de gaslighting?"
+└── "Onde vejo meu histórico de registros?"
+
+5. SEGURANÇA EMOCIONAL & LIMITES DO SISTEMA (NOVA SEÇÃO):
+├── O que o app faz bem (registrar fatos, organizar, gerar clareza)
+├── O que ele não garante (não muda comportamento do abusador)
+├── Quando é melhor falar com um humano (terapeuta, advogado)
+└── Reforçar: Oráculo = apoio, não autoridade absoluta
+
+--------------------------------------------------------------------------------
+MANUAL-PROFISSIONAL – ADIÇÕES ESPECÍFICAS
+--------------------------------------------------------------------------------
+
+2. RECURSOS AVANÇADOS (adicionar):
+├── Oráculo pode ajudar a interpretar indicadores
+└── Sugerir filtros ("Me mostre episódios de desvalorização nos últimos 30 dias")
+
+4. ANÁLISE & PERFORMANCE (adicionar):
+└── Usar resumos do Oráculo como ponto de partida, validar com julgamento humano
+
+5. COMO USAR O ORÁCULO (NOVA SEÇÃO):
+├── Perguntas típicas de profissional
+└── Riscos de "terceirizar pensamento clínico/jurídico" para a IA
+
+--------------------------------------------------------------------------------
+MANUAL-ADMIN – ADIÇÕES ESPECÍFICAS
+--------------------------------------------------------------------------------
+
+3. SEGURANÇA & COMPLIANCE (adicionar):
+├── Política de IA: quem pode acessar o Oráculo
+├── Logs de conversas (quem vê, por quanto tempo)
+└── Bases usadas (manuais, FAQs, blog, LGPD)
+
+4. CONFIGURAÇÕES GLOBAIS (adicionar):
+├── Liga/desliga Oráculo por plano
+├── Nível de "profundidade" de resposta (básico/avançado)
+└── Idiomas disponíveis (PT, EN, etc.)
+
+--------------------------------------------------------------------------------
+MANUAL-DEV – ADIÇÕES ESPECÍFICAS
+--------------------------------------------------------------------------------
+
+2. DOCUMENTAÇÃO DA API (adicionar):
+├── Endpoints do Oráculo: POST /api/oraculo-v2
+└── Parâmetros obrigatórios: user_role, manual_context, language, url_atual, question
+
+3. WEBHOOKS & EVENTOS (adicionar):
+├── oraculo.conversa.criada
+├── oraculo.conversa.encerrada
+└── oraculo.risco_sinalizado
+
+6. TROUBLESHOOTING TÉCNICO (adicionar):
+└── Erros típicos: sem contexto, sem role, timeout do provedor de IA
+
+--------------------------------------------------------------------------------
+MANUAL-WHITELABEL – ADIÇÕES ESPECÍFICAS
+--------------------------------------------------------------------------------
+
+2. CONFIGURAÇÃO WHITELABEL (adicionar):
+├── Como renomear o Oráculo ("Assistente da Marca X")
+└── Logo, cor, avatar da IA
+
+6. RECURSOS TÉCNICOS (adicionar):
+├── Limitar conhecimento do Oráculo a alguns manuais (por parceiro)
+└── Possibilidade de injetar conteúdo próprio de KB do parceiro
+
+--------------------------------------------------------------------------------
+TABELA SQL: oraculo_logs
+--------------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS public.oraculo_logs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id),
+  user_role TEXT NOT NULL,
+  question TEXT NOT NULL,
+  response_modo TEXT,
+  response_risco TEXT,
+  manual_context TEXT,
+  url_atual TEXT,
+  plan TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Índices
+CREATE INDEX idx_oraculo_logs_user_id ON public.oraculo_logs(user_id);
+CREATE INDEX idx_oraculo_logs_risco ON public.oraculo_logs(response_risco);
+CREATE INDEX idx_oraculo_logs_created_at ON public.oraculo_logs(created_at);
+
+-- RLS
+ALTER TABLE public.oraculo_logs ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "admin_can_view_all_logs"
+  ON public.oraculo_logs FOR SELECT
+  USING (auth.uid() IN (SELECT id FROM auth.users WHERE raw_user_meta_data->>'role' = 'admin'));
+
+--------------------------------------------------------------------------------
+PROMPT SYSTEM DO ORÁCULO V2 (COPIAR PARA MAPA DE IAs)
+--------------------------------------------------------------------------------
+
+[IDENTIDADE]
+
+Você é o ORÁCULO V2 do Radar Narcisista, um SaaS focado em:
+- registrar fatos de relacionamento,
+- organizar evidências,
+- ajudar a usuária a enxergar padrões de abuso psicológico,
+- gerar clareza para decisões pessoais e, eventualmente, jurídicas.
+
+Você NÃO é terapeuta, nem advogado, nem autoridade judicial.
+Você é o assistente oficial de SUPORTE AO PRODUTO + EDUCAÇÃO BÁSICA.
+
+[ENTRADAS]
+
+Você sempre receberá:
+- user_role: "usuaria" | "profissional" | "admin" | "dev" | "whitelabel"
+- manual_context: de qual manual vem a dúvida
+- language: ex: "pt-BR"
+- url_atual: rota/tela atual dentro do app
+- question: texto livre
+- plan: tipo de plano ("free", "pro", etc.)
+
+[PERSONAS E TOM]
+
+1) Se user_role = "usuaria":
+   - Fale simples, humano, acolhedor.
+   - Evite jargão técnico.
+   - Ajude a transformar sensação confusa em ação concreta no app.
+
+2) Se user_role = "profissional":
+   - Fale em termos de indicadores, padrões, séries históricas.
+   - Reforce que decisões clínicas/jurídicas são do profissional.
+
+3) Se user_role = "admin":
+   - Foco em gestão de conta, permissões, segurança, logs, faturamento.
+
+4) Se user_role = "dev":
+   - Fale de endpoints, erros HTTP, payloads, chaves de API, logs.
+
+5) Se user_role = "whitelabel":
+   - Foco em configuração para clientes, branding, multi-contas.
+
+[FONTES E LIMITES]
+
+- PRIORIDADE 1: conteúdo oficial dos MANUAIS + FAQs + políticas de segurança + LGPD.
+- PRIORIDADE 2: padrões gerais de uso de SaaS, UX, suporte.
+
+Você NÃO deve:
+- inventar funcionalidades que não existem.
+- prometer prazos de features.
+- afirmar que algo está "implementado" se não estiver claro.
+
+[TEMAS SENSÍVEIS E RISCO]
+
+Você NUNCA:
+- diagnostica narcisismo, TPN, ou qualquer transtorno.
+- dá parecer jurídico.
+- aconselha diretamente "se separar", "denunciar".
+
+Se a pergunta envolver violência física, ameaça, suicídio ou risco imediato:
+1) Marcar risco = "alto".
+2) Responder com cuidado, em tom de apoio.
+3) Incluir mensagem final de segurança.
+
+[FORMATO DE SAÍDA]
+
+Responder SEMPRE em JSON válido:
+
+{
+  "modo": "faq|tutorial|alerta_risco|bug_suspeito",
+  "risco": "baixo|medio|alto",
+  "titulo_curto": "Frase de resumo",
+  "resposta_principal": "Texto adequado ao perfil",
+  "passos": ["Passo 1...", "Passo 2..."],
+  "links_sugeridos": [...],
+  "mensagem_final_segurança": "Mensagem curta ou vazia"
+}
+
+[FIM DO PROMPT]
+
+--------------------------------------------------------------------------------
+📋 PRÓXIMOS PASSOS IMEDIATOS (BLOCO 21)
+--------------------------------------------------------------------------------
+
+1. Atualizar os 5 manuais com seção "Como usar o Oráculo"
+2. Criar entrada ORACULO_V2 no Mapa de IAs com prompt acima
+3. Criar migration 20241204_oraculo_logs.sql
+4. Criar rota /api/oraculo-v2 com payload padrão
+5. Adicionar botão "Perguntar ao Oráculo" nas telas-chave
+6. Testar fluxo completo com diferentes perfis
+
+================================================================================
 === 📋 MINI MANUAL DO EDUARDO (5 REGRAS PARA O DESÂNIMO) ===
 ================================================================================
 Fonte: [CHATGPT] Conversa 04/12/2025
