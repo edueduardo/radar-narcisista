@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 12:45 UTC-5
+Última atualização: 04/12/2025 13:20 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -1371,6 +1371,47 @@ TAREFAS CONCLUÍDAS ATÉ AGORA:
 ├── TAREFA 6: lib/ai-router.ts → ✅
 ├── TAREFA 7: Funções de simulação → ✅
 └── TAREFAS 3,4,5,8,9,10 → ⏳ PENDENTE
+
+TypeScript: ✅ Passou sem erros
+
+================================================================================
+SESSÃO 04/12/2025 13:15 UTC-5 – TAREFA 8 CONCLUÍDA
+================================================================================
+
+[TAREFA 8] TELAS ADMIN FALTANTES - 3 PÁGINAS CRIADAS
+
+1. /admin/simulacao (app/admin/simulacao/page.tsx - 520 linhas)
+   - Painel de Impersonação/Ver Como
+   - Busca e seleção de usuário
+   - Início/encerramento de sessão
+   - Histórico de sessões com detalhes
+   - Cards de estatísticas
+   - Integra com lib/impersonation.ts
+
+2. /admin/ia-analytics (app/admin/ia-analytics/page.tsx - 480 linhas)
+   - Dashboard de métricas de IA
+   - Cards: requisições, tokens, custo, tempo, sucesso
+   - Gráfico de uso diário
+   - Tabela por provider
+   - Tabela por feature
+   - Filtro por período (24h, 7d, 30d, 90d)
+   - Dados mock para demonstração
+
+3. /admin/ia-planos (app/admin/ia-planos/page.tsx - 510 linhas)
+   - Configuração de IAs por plano
+   - Seleção de plano (Free, Basic, Premium, Professional)
+   - Adicionar/remover providers
+   - Configurar limites diário/mensal
+   - Ativar/desativar features por provider
+   - Resumo do plano
+
+TAREFAS CONCLUÍDAS ATÉ AGORA:
+├── TAREFA 1: SQL_CONSOLIDADO_01_BASE.sql → ✅
+├── TAREFA 2: plan_catalog com 4 planos → ✅
+├── TAREFA 6: lib/ai-router.ts → ✅
+├── TAREFA 7: Funções de simulação → ✅
+├── TAREFA 8: Telas admin faltantes → ✅
+└── TAREFAS 3,4,5,9,10 → ⏳ PENDENTE
 
 TypeScript: ✅ Passou sem erros
 

@@ -19377,10 +19377,14 @@ FIM DO ESCOPO - VERSÃO CONSOLIDADA 04/12/2025 07:13 UTC-5
 
 [TAREFA 8]
 - Descrição: Criar telas admin faltantes: /admin/simulacao, /admin/ia-analytics, /admin/ia-planos
-- Status: PENDENTE
+- Status: CONCLUIDO
 - Origem: ESCOPO - Fase 21 (MODO SIMULAÇÃO) + Fase 19 (MATRIZ DE IAs) + PRÓXIMAS AÇÕES SUGERIDAS item 6
-- Arquivos envolvidos: app/admin/simulacao/page.tsx, app/admin/ia-analytics/page.tsx, app/admin/ia-planos/page.tsx
+- Arquivos envolvidos:
+  - app/admin/simulacao/page.tsx (CRIADO - 520 linhas)
+  - app/admin/ia-analytics/page.tsx (CRIADO - 480 linhas)
+  - app/admin/ia-planos/page.tsx (CRIADO - 510 linhas)
 - SQL consolidado: N/A
+- Implementado em: 04/12/2025 13:15 UTC-5
 
 [TAREFA 9]
 - Descrição: Integrar Sidebar admin com adminCoreMenu + ícone "?" em cada menu abrindo help
