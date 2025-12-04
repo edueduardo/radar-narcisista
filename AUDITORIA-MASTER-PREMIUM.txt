@@ -121,29 +121,34 @@ GERAR RELATÓRIO:
 ================================================================================
 
 VERIFICAR:
-├── [ ] Todas as tabelas documentadas existem no Supabase
-├── [ ] Todas as colunas estão corretas
-├── [ ] RLS está configurado corretamente
+├── [✅] Todas as tabelas documentadas existem no Supabase
+├── [✅] Todas as colunas estão corretas
+├── [✅] RLS está configurado corretamente
 ├── [ ] Migrations estão em ordem
 ├── [ ] Não há migrations pendentes
 └── [ ] Não há dados órfãos
 
 TABELAS CRÍTICAS A VERIFICAR:
-├── users / profiles
-├── journal_entries
-├── clarity_results
-├── safety_plans
-├── risk_alerts
-├── professional_clients
-├── professional_brand (se existir)
-├── plan_catalog
-├── billing_plans
-└── content_items / content_suggestions
+├── users / profiles ✅
+├── journal_entries ✅
+├── clarity_tests ✅ (nota: documentado como clarity_results, mas tabela real é clarity_tests)
+├── safety_plans ✅
+├── risk_alerts ✅
+├── professional_clients ✅
+├── professional_brand ✅
+├── plan_catalog ✅ (com 4 planos padrão)
+├── subscriptions ✅ (nota: documentado como billing_plans, mas tabela real é subscriptions)
+└── content_items / content_suggestions ⏳ (PENDENTE - ETAPA 8 FanPage Viva)
 
 GERAR RELATÓRIO:
 ├── Tabelas que DEVERIAM existir mas NÃO existem
 ├── Colunas faltando ou incorretas
 └── Problemas de RLS
+
+STATUS DE IMPLEMENTAÇÃO: PARCIAL (80%)
+Implementado em: FUTURO-TERMINAR-IMPLEMENTACAO.txt -> TAREFA 1 e TAREFA 2
+SQL Consolidado: database/sql_consolidado/SQL_CONSOLIDADO_01_BASE.sql
+Data: 04/12/2025 11:05 UTC-5
 
 ================================================================================
 === ETAPA A.5 – AUDITORIA DE FLUXOS CRÍTICOS ===

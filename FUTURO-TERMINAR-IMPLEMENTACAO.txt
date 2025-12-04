@@ -19317,5 +19317,81 @@ TOTAL DE FASES: ANTES ERA 34 / AGORA: 35
    - Frontpage ler plan_catalog dinamicamente
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 07:13 UTC-5
+FIM DO ESCOPO - VERSÃO CONSOLIDADA 04/12/2025 07:13 UTC-5
 ================================================================================
+
+=== IMPLEMENTAÇÃO – WINDSURF + EDUARDO ===
+
+[TAREFA 1]
+- Descrição: Criar SQL_CONSOLIDADO_01_BASE.sql com a base completa do banco de dados (tipos, tabelas principais, RLS, índices, triggers)
+- Status: CONCLUIDO
+- Origem: ESCOPO - Fase 11 (Migrations) + ROADMAP-RADAR.txt (SQLs pendentes) + schema.sql existente
+- Arquivos envolvidos: database/sql_consolidado/SQL_CONSOLIDADO_01_BASE.sql
+- SQL consolidado: SQL_CONSOLIDADO_01_BASE.sql
+- Implementado em: 04/12/2025 11:05 UTC-5
+
+[TAREFA 2]
+- Descrição: Verificar e documentar estrutura de tabelas existentes vs. documentadas, garantindo que plan_catalog tenha os 4 planos padrão
+- Status: CONCLUIDO
+- Origem: ESCOPO - Fase 3 (Dívidas Técnicas) + AUDITORIA-MASTER-PREMIUM.txt (ETAPA A.4)
+- Arquivos envolvidos: database/sql_consolidado/SQL_CONSOLIDADO_01_BASE.sql (inclui INSERT de planos)
+- SQL consolidado: SQL_CONSOLIDADO_01_BASE.sql
+- Implementado em: 04/12/2025 11:05 UTC-5
+
+[TAREFA 3]
+- Descrição: Executar migrations pendentes de alta prioridade (migrate-user-addons.sql, migrate-planos-core.sql) no Supabase
+- Status: PENDENTE
+- Origem: ROADMAP-RADAR.txt - SQLs PENDENTES DE EXECUÇÃO (Prioridade Alta)
+- Arquivos envolvidos: database/migrate-user-addons.sql, database/migrate-planos-core.sql
+- SQL consolidado: SQL_CONSOLIDADO_02_ADDONS_PLANOS.sql (a criar após execução)
+
+[TAREFA 4]
+- Descrição: Unificar tabelas duplicadas ai_providers + ai_providers_core em uma única tabela
+- Status: PENDENTE
+- Origem: ESCOPO - Fase 20 (MATRIZ GLOBAL DE IAs) + PRÓXIMAS AÇÕES SUGERIDAS item 2
+- Arquivos envolvidos: database/migrate-ai-config-core.sql, lib/ai-config-core.ts
+- SQL consolidado: SQL_CONSOLIDADO_02_ADDONS_PLANOS.sql (a criar)
+
+[TAREFA 5]
+- Descrição: Criar tabelas faltantes: ai_menus, ai_menu_providers, ai_usage_logs, admin_menu_help
+- Status: PENDENTE
+- Origem: ESCOPO - Fase 20 (MATRIZ GLOBAL DE IAs) + PRÓXIMAS AÇÕES SUGERIDAS item 3
+- Arquivos envolvidos: database/sql_consolidado/SQL_CONSOLIDADO_02_ADDONS_PLANOS.sql (a criar)
+- SQL consolidado: SQL_CONSOLIDADO_02_ADDONS_PLANOS.sql
+
+[TAREFA 6]
+- Descrição: Criar lib/ai-router.ts com funções: getProvidersForMenu(), callAIForMenu(), callCollaborativeAI(), routeAIRequest()
+- Status: PENDENTE
+- Origem: ESCOPO - Fase 20 (MATRIZ GLOBAL DE IAs) + PRÓXIMAS AÇÕES SUGERIDAS item 4
+- Arquivos envolvidos: lib/ai-router.ts (a criar)
+- SQL consolidado: N/A
+
+[TAREFA 7]
+- Descrição: Criar funções de simulação: getEffectiveSession(), ensureNotImpersonatingForDangerousAction()
+- Status: PENDENTE
+- Origem: ESCOPO - Fase 21 (MODO SIMULAÇÃO) + PRÓXIMAS AÇÕES SUGERIDAS item 5
+- Arquivos envolvidos: lib/impersonation.ts (atualizar)
+- SQL consolidado: N/A
+
+[TAREFA 8]
+- Descrição: Criar telas admin faltantes: /admin/simulacao, /admin/ia-analytics, /admin/ia-planos
+- Status: PENDENTE
+- Origem: ESCOPO - Fase 21 (MODO SIMULAÇÃO) + Fase 19 (MATRIZ DE IAs) + PRÓXIMAS AÇÕES SUGERIDAS item 6
+- Arquivos envolvidos: app/admin/simulacao/page.tsx, app/admin/ia-analytics/page.tsx, app/admin/ia-planos/page.tsx
+- SQL consolidado: N/A
+
+[TAREFA 9]
+- Descrição: Integrar Sidebar admin com adminCoreMenu + ícone "?" em cada menu abrindo help
+- Status: PENDENTE
+- Origem: ESCOPO - Fase 17 (ADMIN MENU CORE) + PRÓXIMAS AÇÕES SUGERIDAS item 8
+- Arquivos envolvidos: components/admin/Sidebar.tsx, lib/admin-core-menu.ts, lib/menu-help-registry.ts
+- SQL consolidado: N/A
+
+[TAREFA 10]
+- Descrição: Integrar frontpage com plan_catalog dinamicamente (ler planos do banco)
+- Status: PENDENTE
+- Origem: ESCOPO - Fase 3 (Dívidas Técnicas) + PRÓXIMAS AÇÕES SUGERIDAS item 8
+- Arquivos envolvidos: app/page.tsx, app/api/plans/route.ts
+- SQL consolidado: N/A
+
+=== FIM IMPLEMENTAÇÃO ===
