@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 14:50 UTC-5
+Última atualização: 04/12/2025 16:20 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -1496,6 +1496,27 @@ PARTE 5 - SEED DATA:
 - 4 feature profiles padrão
 
 PRÓXIMO PASSO: Executar SQL_CONSOLIDADO_02_ADDONS_AI_MENUS.sql no Supabase SQL Editor
+
+================================================================================
+SESSÃO 04/12/2025 16:15 UTC-5 – DOCUMENTAÇÃO CRIADA
+================================================================================
+
+Arquivos NOVOS:
+- docs/ADMIN-MENU-MAP.md (180 linhas) - Mapa completo do menu admin
+- docs/GERADOR-CORE.md (250 linhas) - Núcleo do gerador de SaaS
+
+ADMIN-MENU-MAP.md contém:
+- Todos os 8 grupos do menu admin
+- 55 itens detalhados com rotas e status
+- Resumo de implementação por grupo
+- Próximas implementações pendentes
+
+GERADOR-CORE.md contém:
+- Arquitetura do gerador
+- Módulos core reaproveitáveis
+- Fluxo de geração
+- Tabelas do gerador
+- Temas disponíveis
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF

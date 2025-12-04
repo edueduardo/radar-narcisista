@@ -19307,8 +19307,8 @@ TOTAL DE FASES: ANTES ERA 34 / AGORA: 35
    - /admin/ia-planos
 
 7. Criar documentos faltantes:
-   - docs/ADMIN-MENU-MAP.md
-   - docs/GERADOR-CORE.md
+   - docs/ADMIN-MENU-MAP.md ✅ CRIADO
+   - docs/GERADOR-CORE.md ✅ CRIADO
 
 8. Integrar componentes:
    - Sidebar consumir adminCoreMenu
