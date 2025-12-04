@@ -7497,6 +7497,59 @@ REGRAS:
 └── Manter responsivo (mobile)
 
 ================================================================================
+=== 📋 PROMPT MESTRE ETAPA 11.2 (AJUSTES FINOS) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (criação do prompt)
+Status: 🔜 PRÓXIMO NA SEQUÊNCIA
+
+NOME DO PROMPT: RADAR – ETAPA 11.2 – AJUSTES FINOS DO DASHBOARD DA USUÁRIA
+
+OBJETIVO GERAL:
+Aperfeiçoar o /dashboard da usuária depois da ETAPA 11.1, SEM refazer tudo:
+├── Melhorar a lógica do "passo atual" da trilha do herói (timeline)
+├── Deixar UX MOBILE mais suave e legível
+├── Ajustar microcópias (textos curtos) para ficarem mais claras e empáticas
+└── NÃO mudar regra de negócio, nem IA, nem fluxo crítico
+
+ESTRUTURA DO PROMPT:
+├── ETAPA 0 – Leitura e sincronização
+├── ETAPA 1 – Ajustar lógica do "passo atual"
+├── ETAPA 2 – Ajustes de UX mobile
+├── ETAPA 3 – Microcópia e texto (sem mudar ética)
+├── ETAPA 4 – Atualização dos TXT
+├── ETAPA 5 – Build, testes manuais e resumo
+└── RESUMO FINAL (obrigatório)
+
+HEURÍSTICA DO PASSO ATUAL (EXEMPLO):
+├── Se NUNCA fez teste de clareza → passo = "Entender"
+├── Se já fez teste, mas poucos registros no diário → passo = "Registrar"
+├── Se já tem diário ativo, mas pouco uso de chat → passo = "Conversar"
+├── Se já usou chat e tem indicação de risco → passo = "Proteger"
+└── Se já passou por tudo → passo = "Recursos"
+
+AJUSTES MOBILE:
+├── Container com overflow-x-auto na timeline
+├── Itens com largura mínima confortável
+├── Espaçamento adequado entre passos
+├── Indicação visual clara do passo atual
+├── Cards em 1 coluna no mobile
+└── Headings coerentes (H2/H3)
+
+MICROCÓPIA:
+├── Linguagem simples, acolhedora, sem jargão técnico
+├── SEM prometer cura, diagnóstico, laudo, terapia
+├── SEM romantizar abuso ou violência
+└── SEM linguagem sensacionalista
+
+REGRAS:
+├── NÃO mexer em migrations, schema de banco, rotas de API
+├── NÃO criar novas dependências pesadas
+├── NÃO alterar fluxos críticos
+├── PRESERVAR sidebar, header, mobile nav, footer, emergência
+└── Se algo não for possível, registrar no ROADMAP
+
+================================================================================
 === 📊 IMPLEMENTAR WINDSURF + EDUARDO ===
 ================================================================================
 Fonte: Consolidação de todas as auditorias do chat
@@ -7504,7 +7557,7 @@ Autoria: Windsurf + Eduardo
 Status: ATUALIZAÇÃO CONTÍNUA
 
 ANTES ERA: 31 etapas
-AGORA: 31 etapas (ETAPA 11.1 já implementada)
+AGORA: 32 etapas (ETAPA 11.2 adicionada)
 
 --------------------------------------------------------------------------------
 FASES COMPLETAS (IMPLEMENTAR WINDSURF + EDUARDO)
@@ -7516,7 +7569,8 @@ BLOCO A – RADAR NARCISISTA BR (PRODUTO-MÃE)
 ├── ETAPA 10 – Taxonomia de Planos ✅ FEITO
 ├── ETAPA 11 – Trilha do Herói (infra) ✅ FEITO
 ├── ETAPA 11.1 – Trilha Visual no Dashboard ✅ FEITO
-├── ETAPA 12 – Dashboard Profissional 🔜 PRÓXIMO
+├── ETAPA 11.2 – Ajustes Finos Dashboard 🔜 PRÓXIMO
+├── ETAPA 12 – Dashboard Profissional ⏳ FUTURO
 ├── ETAPA 13 – Dashboard White-Label ⏳ FUTURO
 ├── ETAPA 14 – Loja / Upgrades ⏳ FUTURO
 ├── ETAPA 15 – Beta com 5 usuárias ⏳ FUTURO
@@ -7537,15 +7591,31 @@ BLOCO C – FÁBRICA DE SAAS + WHITE LABEL
 └── FABRICA.5 – Nichos irmãos/não-irmãos ⏳ FUTURO
 
 --------------------------------------------------------------------------------
-PRÓXIMO CICLO: CICLO 2
+PRÓXIMO CICLO: CICLO 2 (ETAPA 11.2)
 --------------------------------------------------------------------------------
 
-[PASSO=GPT-2] ETAPA 12 + ENGINE.1-PREP
+[PASSO=GPT-2] ETAPA 11.2 (Ajustes Finos)
+├── Prompt Mestre ETAPA 11.2 criado ✅
+├── Melhorar heurística do passo atual
+├── Ajustes UX mobile
+└── Microcópia e textos
+
+[PASSO-WINDSURF-2] Implementar ETAPA 11.2
+├── Ajustar app/dashboard/page.tsx
+├── Refinar lib/dashboard-user-layout.ts (se necessário)
+├── Atualizar TXTs
+└── Build + git + resumo
+
+--------------------------------------------------------------------------------
+CICLO 3: ETAPA 12 + ENGINE.1-PREP (APÓS 11.2)
+--------------------------------------------------------------------------------
+
+[PASSO=GPT-3] ETAPA 12 + ENGINE.1-PREP
 ├── Definir Dashboard Profissional
 ├── Desenhar ENGINE.1 (project_id)
 └── Entregar prompts para Windsurf
 
-[PASSO-WINDSURF-2] Implementar
+[PASSO-WINDSURF-3] Implementar
 ├── Criar /dashboard/pro
 ├── Adicionar project_id nas tabelas principais
 └── Build + git + resumo
@@ -7563,16 +7633,16 @@ IMPLEMENTADO:
 TOTAL IMPLEMENTADO: 5 blocos
 
 PRÓXIMO:
-├── ETAPA 12 (Dashboard Profissional)
-└── ENGINE.1-PREP (project_id)
-TOTAL PRÓXIMO: 2 blocos
+└── ETAPA 11.2 (Ajustes Finos Dashboard)
+TOTAL PRÓXIMO: 1 bloco
 
 FUTURO:
+├── ETAPA 12 (Dashboard Profissional)
 ├── ETAPA 13-16 (Radar V1)
-├── ENGINE.2-5 (Motor)
+├── ENGINE.1-5 (Motor)
 └── FABRICA.1-5 (Fábrica)
-TOTAL FUTURO: 14 blocos
+TOTAL FUTURO: 15 blocos
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 22:25 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 22:30 UTC-5
 ================================================================================
