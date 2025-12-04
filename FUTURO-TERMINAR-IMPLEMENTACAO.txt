@@ -5042,12 +5042,13 @@ STATUS ATUAL:
 ✅ ETAPA 8.2 CONCLUÍDA – APIs Admin + IA Curadora (9 endpoints, 10 arquivos)
 ✅ ETAPA 8.3 CONCLUÍDA – Telas Admin (4 páginas)
 ✅ ETAPA 8.4 CONCLUÍDA – FanPage Viva (7 arquivos, 4 seções dinâmicas)
-⚠️ AÇÃO PENDENTE: Rodar migration no Supabase (SQL Editor)
-⚠️ AÇÃO PENDENTE: Alimentar conteúdo via admin (FAQs, Mundo, Academy)
+✅ ETAPA 9 CONCLUÍDA – Painel de Curadoria + Semáforo (4 arquivos, 5 alterados)
+✅ Migration rodada no Supabase (6 tabelas + seed data)
 
 🎉 FASE 2 (FANPAGE VIVA + COMERCIAL) 100% CONCLUÍDA!
+🎉 ETAPA 9 (CURADORIA + SEMÁFORO) 100% CONCLUÍDA!
 
-🔜 PRÓXIMO: ETAPA 9 – Painel de Curadoria + Semáforo de Edição (prompt pronto)
+🔜 PRÓXIMO: ETAPA 10 – Infra de Planos & Famílias (prompt pronto)
 
 ================================================================================
 === 📋 PLANO OFICIAL DE ETAPAS 10-14 (ORGANIZAÇÃO FINAL) ===
@@ -5212,12 +5213,188 @@ Base para B2B full (vender licenças do Radar)
 RESUMO EM UMA LINHA POR ETAPA
 --------------------------------------------------------------------------------
 
-ETAPA 9:  Painel de Curadoria + Semáforo de Edição (PROMPT PRONTO)
-ETAPA 10: Arrumar o cérebro de planos & famílias & features
+ETAPA 9:  Painel de Curadoria + Semáforo de Edição ✅ CONCLUÍDA
+ETAPA 10: Arrumar o cérebro de planos & famílias & features (PROMPT PRONTO)
 ETAPA 11: Construir Home do Radar em 4 blocos + Designer de Dashboard
 ETAPA 12: Reorganizar Admin em 4 grandes caminhos
 ETAPA 13: Criar Dashboard do Profissional (B2B light)
 ETAPA 14: Criar Dashboard White-Label (B2B full)
+
+================================================================================
+=== ✅ ETAPA 9 CONCLUÍDA – PAINEL DE CURADORIA + SEMÁFORO DE EDIÇÃO ===
+================================================================================
+Fonte: [WINDSURF] Execução 03/12/2025
+Autoria: Windsurf (Cascade)
+
+ARQUIVOS CRIADOS (4):
+1. lib/curadoria-config.ts
+   - getCuradoriaConfig() / updateCuradoriaConfig()
+   - Armazena em frontpage_config (key='curadoria_config')
+
+2. app/api/admin/curadoria/config/route.ts
+   - GET: retorna config atual
+   - PATCH: faz merge seguro e salva
+
+3. components/admin/EditSemaforoBadge.tsx
+   - EditSemaforoBadge: chip/pill com bolinha colorida
+   - SemaforoCard: card completo com descrição
+   - SemaforoExplanation: explicação das 3 zonas
+
+4. app/admin/curadoria/page.tsx
+   - Painel central de curadoria
+   - Resumo (sugestões, publicados, coleções)
+   - Config IA Curadora (on/off + tipos)
+   - Explicação do semáforo
+
+ARQUIVOS ALTERADOS (5):
+- /admin/conteudos/sugestoes/page.tsx → SemaforoCard amarelo
+- /admin/conteudos/publicados/page.tsx → SemaforoCard verde
+- /admin/conteudos/colecoes/page.tsx → SemaforoCard verde
+- /admin/conteudos/insights/page.tsx → SemaforoCard amarelo
+- admin-features-registry.ts → Novo ID 'curadoria_central'
+
+SISTEMA DE SEMÁFORO:
+🟢 VERDE: Conteúdos publicados, FAQs, Academy
+🟡 AMARELA: Sugestões IA, métricas, planos
+🔴 VERMELHA: Triângulo, Plano de Segurança, prompts IA
+
+CONFIGURAÇÃO DA CURADORIA:
+{
+  "enabled": false,
+  "allowed_types": {
+    "article": true, "faq": true, "video": false,
+    "story": false, "image": false
+  }
+}
+
+BUILD: ✅ 145 páginas (antes 143)
+GIT: ✅ Commitado e pushado
+
+--------------------------------------------------------------------------------
+🚀 PROMPT ETAPA 10 – INFRA DE PLANOS, FAMÍLIAS E MÓDULOS
+--------------------------------------------------------------------------------
+
+NOME DO PROMPT: RADAR – ETAPA 10 – INFRA DE PLANOS, FAMÍLIAS E MÓDULOS DE DASHBOARD
+
+OBJETIVO:
+Preparar infraestrutura central de planos para os próximos passos de DASHBOARD:
+- Definir "famílias" de plano (free, journey, defense, professional, promo)
+- Criar matriz tipada de MÓDULOS DE DASHBOARD por plano
+- NÃO mudar telas do usuário ainda (isso será ETAPA 11+)
+- NÃO criar migrations novas
+- Reaproveitar tudo que já existe (PLANS, plan-limits, usePlanLimits)
+
+⚠️ REGRAS ABSOLUTAS:
+1. Ler TXTs GPS antes de codar
+2. NÃO mentir sobre o que foi feito
+3. NÃO quebrar o que já funciona
+4. Semáforo: Planos = ZONA AMARELA
+5. Rodar build e atualizar TXTs ao final
+
+====================================================
+ETAPA 0 – LEITURA E AUDITORIA RÁPIDA
+====================================================
+0.1 Ler: lib/plans-config.ts, hooks/usePlanLimits.ts, app/admin/planos/page.tsx
+0.2 Confirmar: PlanLevel, PLANS, getUserPlanLevel, checkChatLimit, etc.
+0.3 Confirmar: ETAPA 4 (admin de planos) já concluída
+
+====================================================
+ETAPA 1 – INVENTÁRIO EXPLÍCITO
+====================================================
+1.1 Resumir situação atual em lib/docs/plans-notes.md
+1.2 Lista de PlanLevel: visitante, guardar, jornada, defesa, profissional
+1.3 Limites por plano: testes_mes, entradas_diario_mes, mensagens_chat_dia, etc.
+
+====================================================
+ETAPA 2 – CRIAR TAXONOMIA DE PLANOS (PlanFamily)
+====================================================
+2.1 Criar: lib/plan-taxonomy.ts
+
+export type PlanFamily = 'free' | 'journey' | 'defense' | 'professional' | 'promo'
+
+export interface PlanTaxonomy {
+  level: PlanLevel
+  family: PlanFamily
+  audience: 'consumer' | 'professional'
+  baseForPromotions?: boolean
+}
+
+export const PLAN_TAXONOMY: Record<PlanLevel, PlanTaxonomy> = {
+  visitante: { level: 'visitante', family: 'free', audience: 'consumer' },
+  guardar: { level: 'guardar', family: 'free', audience: 'consumer', baseForPromotions: true },
+  jornada: { level: 'jornada', family: 'journey', audience: 'consumer', baseForPromotions: true },
+  defesa: { level: 'defesa', family: 'defense', audience: 'consumer', baseForPromotions: true },
+  profissional: { level: 'profissional', family: 'professional', audience: 'professional' },
+}
+
+export function getPlanFamily(level: PlanLevel): PlanFamily
+export function isProfessionalPlan(level: PlanLevel): boolean
+
+====================================================
+ETAPA 3 – MATRIZ DE MÓDULOS DE DASHBOARD
+====================================================
+3.1 Criar: lib/plan-dashboard-modules.ts
+
+export type DashboardModuleId =
+  | 'onboarding' | 'teste_clareza' | 'diario' | 'chat_ia'
+  | 'plano_seguranca' | 'provas_evidencias' | 'academy'
+  | 'fanpage_viva' | 'conteudos_curados'
+
+export interface DashboardModuleConfig {
+  id: DashboardModuleId
+  label: string
+  description: string
+  order: number
+  visibleFor: PlanLevel[]
+  showLockedFor?: PlanLevel[]
+  limitKey?: keyof PlanLimit | null
+}
+
+export const DASHBOARD_MODULES: DashboardModuleConfig[] = [
+  { id: 'onboarding', label: 'Primeiros passos', order: 10, visibleFor: ['guardar', 'jornada', 'defesa', 'profissional'] },
+  { id: 'teste_clareza', label: 'Teste de Clareza', order: 20, visibleFor: [...], limitKey: 'testes_mes' },
+  { id: 'diario', label: 'Diário seguro', order: 30, visibleFor: [...], limitKey: 'entradas_diario_mes' },
+  { id: 'chat_ia', label: 'Radar IA', order: 40, visibleFor: [...], limitKey: 'mensagens_chat_dia' },
+  { id: 'plano_seguranca', label: 'Plano de segurança', order: 50, visibleFor: ['jornada', 'defesa', 'profissional'] },
+  { id: 'provas_evidencias', label: 'Provas & Evidências', order: 60, visibleFor: ['defesa', 'profissional'], showLockedFor: ['guardar', 'jornada'] },
+  { id: 'academy', label: 'Radar Academy', order: 70, visibleFor: ['jornada', 'defesa', 'profissional'], showLockedFor: ['guardar'] },
+  { id: 'fanpage_viva', label: 'Radar em números', order: 80, visibleFor: [...] },
+  { id: 'conteudos_curados', label: 'Conteúdos curados', order: 90, visibleFor: [...] },
+]
+
+====================================================
+ETAPA 4 – AJUSTES EM plans-config (SE NECESSÁRIO)
+====================================================
+4.1 Verificar coerência de PlanLevel com PLAN_TAXONOMY
+4.2 NÃO criar novos planos nem mudar preços
+
+====================================================
+ETAPA 5 – SEMÁFORO EM /admin/planos
+====================================================
+5.1 Importar EditSemaforoBadge
+5.2 Adicionar no topo: zone="yellow", area="Planos & promoções"
+
+====================================================
+ETAPA 6 – BUILD
+====================================================
+6.1 npm run build
+6.2 Confirmar que passa sem erros
+
+====================================================
+ETAPA 7 – DOCUMENTAÇÃO
+====================================================
+7.1 ATLAS: Nova seção ETAPA 10
+7.2 ROADMAP: Marcar como CONCLUÍDA
+7.3 TUDO PARA O GPT: Adicionar bloco com resumo
+
+CRITÉRIO DE SUCESSO:
+✅ lib/plan-taxonomy.ts existe com PlanFamily + PLAN_TAXONOMY
+✅ lib/plan-dashboard-modules.ts existe com DASHBOARD_MODULES
+✅ /admin/planos exibe EditSemaforoBadge zone="yellow"
+✅ npm run build passa
+✅ TXTs atualizados
+
+FIM DO PROMPT – ETAPA 10
 
 IDEIAS FUTURAS (APÓS ETAPA 14):
 - Integração com Google Trends/YouTube/TikTok (fontes externas)
@@ -5540,5 +5717,5 @@ ACORDO DE USO DEFINIDO:
 - Código travado → Fluxos críticos, IA sensível, Segurança, Billing
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 20:20 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 20:35 UTC-5
 ================================================================================
