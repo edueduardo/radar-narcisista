@@ -5043,12 +5043,14 @@ STATUS ATUAL:
 ✅ ETAPA 8.3 CONCLUÍDA – Telas Admin (4 páginas)
 ✅ ETAPA 8.4 CONCLUÍDA – FanPage Viva (7 arquivos, 4 seções dinâmicas)
 ✅ ETAPA 9 CONCLUÍDA – Painel de Curadoria + Semáforo (4 arquivos, 5 alterados)
+✅ ETAPA 10 CONCLUÍDA – Infra de Planos & Famílias (2 arquivos, 1 alterado)
 ✅ Migration rodada no Supabase (6 tabelas + seed data)
 
 🎉 FASE 2 (FANPAGE VIVA + COMERCIAL) 100% CONCLUÍDA!
 🎉 ETAPA 9 (CURADORIA + SEMÁFORO) 100% CONCLUÍDA!
+🎉 ETAPA 10 (PLANOS + MÓDULOS) 100% CONCLUÍDA!
 
-🔜 PRÓXIMO: ETAPA 10 – Infra de Planos & Famílias (prompt pronto)
+🔜 PRÓXIMO: ETAPA 11 – Redesenho Dashboard do Usuário (prompt pronto)
 
 ================================================================================
 === 📋 PLANO OFICIAL DE ETAPAS 10-14 (ORGANIZAÇÃO FINAL) ===
@@ -5214,11 +5216,180 @@ RESUMO EM UMA LINHA POR ETAPA
 --------------------------------------------------------------------------------
 
 ETAPA 9:  Painel de Curadoria + Semáforo de Edição ✅ CONCLUÍDA
-ETAPA 10: Arrumar o cérebro de planos & famílias & features (PROMPT PRONTO)
-ETAPA 11: Construir Home do Radar em 4 blocos + Designer de Dashboard
-ETAPA 12: Reorganizar Admin em 4 grandes caminhos
-ETAPA 13: Criar Dashboard do Profissional (B2B light)
-ETAPA 14: Criar Dashboard White-Label (B2B full)
+ETAPA 10: Infra de Planos & Famílias + Módulos Dashboard ✅ CONCLUÍDA
+ETAPA 11: Redesenho Dashboard do Usuário (Trilha do Herói) (PROMPT PRONTO)
+ETAPA 12: Dashboard Profissional (B2B light)
+ETAPA 13: Dashboard White-Label (B2B full)
+ETAPA 14: Loja simplificada (2-3 add-ons reais)
+ETAPA 15: Teste com 5 usuárias beta
+
+================================================================================
+=== ✅ ETAPA 10 CONCLUÍDA – INFRA DE PLANOS, FAMÍLIAS E MÓDULOS ===
+================================================================================
+Fonte: [WINDSURF] Execução 03/12/2025
+Autoria: Windsurf (Cascade)
+
+ARQUIVOS CRIADOS (2):
+1. lib/plan-taxonomy.ts
+   - PlanFamily: 'free' | 'journey' | 'defense' | 'professional' | 'promo'
+   - PLAN_TAXONOMY: Record<PlanLevel, PlanTaxonomy>
+   - Funções: getPlanFamily(), isProfessionalPlan(), getPlanTier(), comparePlanLevels()
+
+2. lib/plan-dashboard-modules.ts
+   - DashboardModuleId: 12 módulos definidos
+   - DASHBOARD_MODULES: array com configuração completa
+   - Funções: getModulesForPlan(), isModuleAvailable(), getLockedModules()
+
+ARQUIVOS ALTERADOS (1):
+- app/admin/planos/page.tsx → SemaforoCard amarelo (zona sensível)
+
+TAXONOMIA DE PLANOS:
+┌─────────────┬─────────────┬──────────────┬──────┐
+│ PlanLevel   │ Family      │ Audience     │ Tier │
+├─────────────┼─────────────┼──────────────┼──────┤
+│ visitante   │ free        │ consumer     │ 0    │
+│ guardar     │ free        │ consumer     │ 1    │
+│ jornada     │ journey     │ consumer     │ 2    │
+│ defesa      │ defense     │ consumer     │ 3    │
+│ profissional│ professional│ professional │ 4    │
+└─────────────┴─────────────┴──────────────┴──────┘
+
+MÓDULOS DE DASHBOARD (12):
+┌────────────────────┬─────────────┬──────────┐
+│ Módulo             │ Visível     │ Crítico  │
+├────────────────────┼─────────────┼──────────┤
+│ onboarding         │ guardar+    │ ❌       │
+│ triangulo_status   │ guardar+    │ ✅       │
+│ teste_clareza      │ guardar+    │ ✅       │
+│ diario             │ guardar+    │ ✅       │
+│ chat_ia            │ guardar+    │ ✅       │
+│ plano_seguranca    │ jornada+    │ ✅       │
+│ evolucao           │ jornada+    │ ❌       │
+│ provas_evidencias  │ defesa+     │ ❌       │
+│ academy            │ jornada+    │ ❌       │
+│ fanpage_viva       │ guardar+    │ ❌       │
+│ conteudos_curados  │ guardar+    │ ❌       │
+│ clientes           │ profissional│ ❌       │
+└────────────────────┴─────────────┴──────────┘
+
+BUILD: ✅ 145 páginas (mantido)
+GIT: ✅ Commitado e pushado
+ESPELHO: ✅ 375 arquivos
+
+--------------------------------------------------------------------------------
+🚀 PROMPT ETAPA 11 – REDESENHO DO DASHBOARD DO USUÁRIO (TRILHA DO HERÓI)
+--------------------------------------------------------------------------------
+
+NOME DO PROMPT: RADAR – ETAPA 11 – REDESENHO DO DASHBOARD DO USUÁRIO
+
+OBJETIVO:
+Redesenhar o /dashboard do USUÁRIO FINAL, transformando em uma TRILHA CLARA
+(caminhada do herói) que:
+- Respeita a lógica do Triângulo (clareza → registro → apoio → segurança → provas)
+- Adapta o que aparece conforme o plano (free/guardar/jornada/defesa/profissional)
+- Mostra módulos bloqueados com "cadeado" (teaser) quando não estão incluídos
+- NÃO altera a lógica de risco, LGPD, plano de segurança ou testes
+
+⚠️ REGRAS ABSOLUTAS:
+1. NÃO criar novas migrations de banco
+2. NÃO alterar RLS, políticas de segurança ou tabelas críticas
+3. NÃO tocar em prompts de IA sensíveis
+4. NÃO remover o banner de risco físico nem o card de Plano de Segurança
+5. Manter o dashboard RÁPIDO e sem regressão
+
+====================================================
+ETAPA 0 – LEITURA RÁPIDA (CÓDIGO + TXT)
+====================================================
+0.1 Ler ATLAS seção [3.4] DASHBOARD
+0.2 Ler código: app/dashboard/page.tsx, lib/plan-taxonomy.ts, lib/plan-dashboard-modules.ts
+0.3 Escrever MINI-RESUMO do que o /dashboard exibe hoje
+
+====================================================
+ETAPA 1 – AJUSTAR METADADOS DOS MÓDULOS
+====================================================
+1.1 Abrir lib/plan-dashboard-modules.ts
+1.2 Garantir campos: id, label, description, icon, heroStep, minPlanLevel, critical, showLockedTeaser
+1.3 heroStep define posição na trilha:
+    1 = Entender (Teste/Perfil)
+    2 = Registrar (Diário)
+    3 = Conversar (Chat IA)
+    4 = Proteger (Plano de Segurança / Alertas)
+    5 = Guardar Provas / Recursos Extras
+
+====================================================
+ETAPA 2 – FUNÇÃO DE LAYOUT DO DASHBOARD
+====================================================
+2.1 Criar: lib/dashboard-user-layout.ts
+2.2 Tipo DashboardSection:
+    - id: 'entender' | 'registrar' | 'conversar' | 'proteger' | 'provas_e_recursos'
+    - title, description, heroStep
+    - modules: { moduleId, enabled, visible, locked, label, description, critical }[]
+2.3 Função buildUserDashboardLayout(input): DashboardSection[]
+    - input: currentPlanLevel, hasClarityProfile, hasRecentJournalEntries, hasActiveSafetyPlan, hasPhysicalRisk
+    - Prioriza segurança: Se hasPhysicalRisk && !hasActiveSafetyPlan → seção "Proteger" em destaque
+
+====================================================
+ETAPA 3 – REFAZER app/dashboard/page.tsx
+====================================================
+3.1 Criar BACKUP: app/dashboard/page.BACKUP_ETAPA3.tsx
+3.2 Manter: hooks de clareza, diário, alertas, safety-plan
+3.3 Calcular flags: hasClarityProfile, hasRecentJournalEntries, hasActiveSafetyPlan, hasPhysicalRisk, currentPlanLevel
+3.4 Chamar buildUserDashboardLayout() para obter sections
+3.5 Novo layout visual:
+    - Topo: "Sua Trilha no Radar" + subtítulo adaptado ao estado
+    - BANNER de risco físico (se aplicável)
+    - CARD de Plano de Segurança
+    - Seções por trilha (heroStep 1-5):
+      1) ENTENDER A SITUAÇÃO
+      2) REGISTRAR O QUE ACONTECE
+      3) CONVERSAR COM O RADAR
+      4) CUIDAR DA SEGURANÇA
+      5) GUARDAR PROVAS / RECURSOS
+    - Módulos locked: ícone cadeado + "Disponível no Radar X"
+
+====================================================
+ETAPA 4 – ESTADOS POR PLANO
+====================================================
+4.1 Usar lib/plan-taxonomy.ts para determinar currentPlanLevel
+4.2 Regras:
+    - VISITANTE/GUARDAR: teste_clareza, diario, chat_ia
+    - JORNADA: + plano_seguranca, evolucao, conteúdos
+    - DEFESA: + provas_evidencias, relatórios
+    - PROFISSIONAL: dashboard usuário + dashboard pro (ETAPA 12)
+4.3 Se não houver assinatura → tratar como 'guardar'
+
+====================================================
+ETAPA 5 – ROTEIRO DE TESTES MANUAIS
+====================================================
+Documentar cenários:
+A) Usuário novo, sem teste, sem diário, plano básico
+B) Usuário com teste feito, diário com entradas, sem plano segurança
+C) Usuário com risco físico detectado, sem plano segurança
+D) Usuário plano JORNADA
+E) Usuário plano DEFESA
+
+====================================================
+ETAPA 6 – ATUALIZAR TXTs
+====================================================
+6.1 ATLAS: Atualizar seção [3.4] DASHBOARD
+6.2 ROADMAP: Marcar ETAPA 11 como CONCLUÍDA
+6.3 TUDO PARA O GPT: Adicionar bloco com resumo
+
+====================================================
+ETAPA 7 – BUILD + RESUMO FINAL
+====================================================
+7.1 npm run build
+7.2 Entregar: arquivos criados, modificados, confirmação build, explicação do comportamento
+
+CRITÉRIO DE SUCESSO:
+✅ lib/dashboard-user-layout.ts existe com buildUserDashboardLayout()
+✅ app/dashboard/page.tsx redesenhado com trilha do herói
+✅ Banner de risco + Card Plano Segurança mantidos
+✅ Módulos aparecem por plano (enabled/locked)
+✅ npm run build passa
+✅ TXTs atualizados
+
+FIM DO PROMPT – ETAPA 11
 
 ================================================================================
 === ✅ ETAPA 9 CONCLUÍDA – PAINEL DE CURADORIA + SEMÁFORO DE EDIÇÃO ===
@@ -5717,5 +5888,5 @@ ACORDO DE USO DEFINIDO:
 - Código travado → Fluxos críticos, IA sensível, Segurança, Billing
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 20:35 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 20:45 UTC-5
 ================================================================================
