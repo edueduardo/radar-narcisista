@@ -11116,5 +11116,312 @@ E eu reencaixo tudo:
 💡 Você não está sozinho nessa parte intelectual do projeto.
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 00:15 UTC-5
+=== 📋 BLOCO 21-25 COMPLETO (PÓS-MVP 1.0) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT
+Status: PROMPT PRONTO PARA EXECUÇÃO NO WINDSURF
+
+--------------------------------------------------------------------------------
+VISÃO GERAL – BLOCO 21-25
+--------------------------------------------------------------------------------
+
+| ETAPA | Nome | Foco |
+|-------|------|------|
+| 21 | Billing Sólido & Add-ons | Stripe + user_addons |
+| 22 | ORÁCULO V2 Integrado | IA + Logs + Botão |
+| 23 | Segurança Técnica | Logs + Rate Limit |
+| 24 | Manuais & Links | Produto = Documentação |
+| 25 | QA Técnico | Checklist Pós-MVP 1.0 |
+
+================================================================================
+ETAPA 21 – BILLING SÓLIDO & ADD-ONS (STRIPE + USER_ADDONS)
+================================================================================
+
+OBJETIVO:
+Deixar venda de add-ons consistente: Stripe + banco + acesso no app alinhados.
+
+TAREFAS OBRIGATÓRIAS:
+
+1. Criar tabela user_addons no Supabase:
+   ├── id (uuid, pk)
+   ├── user_id (uuid, fk)
+   ├── addon_key (text)
+   ├── stripe_price_id (text)
+   ├── status (text)
+   ├── created_at (timestamptz)
+   └── updated_at (timestamptz)
+
+2. RLS segura em user_addons:
+   └── Usuária só enxerga o que é dela
+
+3. Ajustar webhook Stripe para add-ons:
+   ├── Processar checkout.session.completed
+   ├── Processar invoice.paid
+   └── Registrar na user_addons
+
+4. Garantir lib/addons-config.ts alinhado:
+   ├── addon_key
+   └── stripePriceId
+
+5. Atualizar .env.example com variáveis Stripe
+
+6. Testar fluxo completo:
+   ├── Abrir loja
+   ├── Iniciar checkout
+   ├── Concluir pagamento
+   ├── Verificar user_addons
+   └── Verificar acesso ao add-on
+
+CRITÉRIOS DE CONCLUSÃO:
+├── Fluxo de compra funciona ponta a ponta
+├── user_addons reflete compras realizadas
+├── Documentação atualizada (ATLAS, ROADMAP, TESTES, TUDO)
+└── Commit + push + deploy Vercel ok
+
+================================================================================
+ETAPA 22 – ORÁCULO V2 INTEGRADO (IA + LOGS + BOTÃO)
+================================================================================
+
+OBJETIVO:
+Transformar o Oráculo em módulo oficial: endpoint, logs, botão no front, JSON.
+
+TAREFAS OBRIGATÓRIAS:
+
+1. Criar/ajustar rota POST /api/oraculo-v2:
+   ├── Receber: user_role, manual_context, language, url_atual, question, plan
+   ├── Chamar IA ORACULO_V2 com prompt SYSTEM
+   └── Devolver JSON: modo, risco, titulo_curto, resposta_principal, passos, links, mensagem_final
+
+2. Criar tabela oraculo_logs no Supabase:
+   ├── id, user_id, user_role, plan, url_atual, question
+   ├── resposta_modo, resposta_risco, resposta_json (jsonb)
+   ├── flag_risco_alto, created_at
+   └── RLS limitada a service_role em admin
+
+3. Integrar botão "Perguntar ao Oráculo":
+   ├── Dashboard da usuária
+   ├── Dashboard profissional
+   └── Páginas de manuais
+
+4. Garantir que o botão:
+   ├── Abre modal/painel
+   ├── Envia POST para /api/oraculo-v2
+   └── Renderiza resposta JSON
+
+5. Atualizar manuais:
+   ├── USUÁRIA: seção "Como usar o Oráculo" + limites
+   ├── PROFISSIONAL: Oráculo como apoio, não diagnóstico
+   ├── ADMIN: política de IA, governança, logs
+   ├── DEV: endpoint, contrato JSON
+   └── WHITELABEL: renomear/usar Oráculo sob marca
+
+CRITÉRIOS DE CONCLUSÃO:
+├── /api/oraculo-v2 responde JSON válido
+├── oraculo_logs registra chamadas
+├── Botão funciona nas telas definidas
+├── Manuais atualizados
+└── Commit + push + deploy ok
+
+================================================================================
+ETAPA 23 – SEGURANÇA TÉCNICA & OBSERVABILIDADE
+================================================================================
+
+OBJETIVO:
+Fechar mínimo de segurança técnica + visibilidade do sistema.
+
+TAREFAS OBRIGATÓRIAS:
+
+1. Implementar rate limiting:
+   ├── Rotas de IA (incluindo /api/oraculo-v2)
+   ├── Login / signup
+   └── Rotas de diário se houver risco
+
+2. Padronizar logger estruturado:
+   ├── Função central de log
+   ├── Tipos: info, warn, error
+   ├── Rota e user_id quando disponível
+   └── Correlação com request_id
+
+3. Criar endpoint /api/health:
+   └── Retornar status básico (banco ok, env ok)
+
+4. Tratar problema de cache/menu admin:
+   ├── Corrigir se possível
+   └── Registrar na LÂMPADA como dívida técnica
+
+5. Atualizar TESTES-RADAR.txt:
+   ├── Procedimentos para validar rate limit
+   ├── Procedimentos para validar logs
+   └── Procedimento de healthcheck
+
+CRITÉRIOS DE CONCLUSÃO:
+├── Rotas sensíveis protegidas por rate limit
+├── Logs estruturados em pontos críticos
+├── Healthcheck funcional
+├── LÂMPADA atualizada
+└── Commit + push + deploy ok
+
+================================================================================
+ETAPA 24 – MANUAIS & LINKS INTERNOS
+================================================================================
+
+OBJETIVO:
+Alinhar produto real com manuais e conectar app à documentação.
+
+TAREFAS OBRIGATÓRIAS:
+
+1. Ler os 5 manuais lado a lado com o app:
+   ├── USUÁRIA
+   ├── PROFISSIONAL
+   ├── ADMIN
+   ├── DEV
+   └── WHITELABEL
+
+2. Ajustar trechos onde manual promete algo que:
+   ├── Não existe
+   └── Não está igual
+
+3. Criar links dentro do app para:
+   ├── Manual usuária: onboarding, dashboard, ajuda
+   ├── Manual profissional: /profissional, relatórios
+   ├── Manual admin: /admin, configurações
+   ├── Manual dev: /dados-e-ia, API
+   └── Manual whitelabel: área de parceiros
+
+4. Atualizar TESTES-RADAR.txt:
+   └── Roteiros de teste "humano" de leitura dos manuais
+
+CRITÉRIOS DE CONCLUSÃO:
+├── Manuais alinhados com produto atual
+├── App com links claros para manuais
+├── TESTES-RADAR com roteiro de revisão
+└── Commit + push + deploy ok
+
+================================================================================
+ETAPA 25 – QA TÉCNICO + CHECKLIST PÓS-MVP 1.0
+================================================================================
+
+OBJETIVO:
+Fechar rodada de QA que dá segurança mínima de "MVP 1.x confiável".
+
+TAREFAS OBRIGATÓRIAS:
+
+1. Verificar migrations no Supabase:
+   ├── Garantir migrations críticas aplicadas
+   └── Ajustar scripts com IF NOT EXISTS
+
+2. Criar testes automatizados mínimos:
+   └── Smoke tests de build e rotas principais
+
+3. Rodar teste manual dos fluxos:
+   ├── Login / signup
+   ├── Registro de diário
+   ├── Teste de clareza
+   ├── Compra de add-on (ETAPA 21)
+   └── Uso do Oráculo V2 (ETAPA 22)
+
+4. Atualizar TESTES-RADAR.txt:
+   ├── Lista de testes automatizados
+   └── Lista de testes manuais mínimos
+
+5. Atualizar LAMPADA-RADAR.txt:
+   ├── Dívidas técnicas abertas
+   └── Ideias para BLOCO 26-30 (apenas listadas)
+
+CRITÉRIOS DE CONCLUSÃO:
+├── Migrations consistentes
+├── Testes automatizados básicos existentes
+├── Fluxos principais testados manualmente
+├── LÂMPADA e ROADMAP claros
+└── Commit final + deploy Vercel concluído
+
+================================================================================
+=== 📋 PROMPT COMPLETO – RADAR BLOCO 21-25 (COPIAR PARA WINDSURF) ===
+================================================================================
+
+RADAR NARCISISTA – BLOCO 21–25
+PÓS-MVP 1.0 – CONSOLIDAÇÃO, ORÁCULO V2 E QUALIDADE
+
+[IDENTIDADE DESTE BLOCO]
+
+Você é um dev sênior trabalhando no projeto RADAR NARCISISTA.
+
+Stack principal:
+- Next.js 16 + TypeScript
+- TailwindCSS
+- Supabase (Postgres + Auth + RLS + Migrations)
+- Stripe para billing / add-ons
+- Deploy na Vercel
+
+Já existe:
+- MVP 1.0 com etapas 1–20 concluídas
+- Admin, Mapa de IAs, Orquestrador de Fluxos de IA
+- TUDO PARA O GPT.txt, ATLAS, ROADMAP, TESTES, LÂMPADA
+- Módulos de diário, teste de clareza, dashboards, loja, beta testers, Oráculo V1, manuais
+
+Este BLOCO 21–25 é para:
+- consolidar billing de add-ons
+- criar ORÁCULO V2 integrado
+- melhorar segurança técnica e observabilidade
+- alinhar manuais com o produto
+- fechar uma rodada de QA pós-MVP
+
+IMPORTANTE:
+- Você NÃO tem permissão de mentir
+- Não marque como "feito" o que não fez
+- Se algo ficar metade feito, registre como metade feito (e anote na LÂMPADA)
+- Siga as etapas 21 → 22 → 23 → 24 → 25 na ordem
+
+[REGRAS GERAIS]
+
+1) Ordem obrigatória: 21 → 22 → 23 → 24 → 25
+2) Ao terminar CADA ETAPA, atualize: TUDO, ATLAS, ROADMAP, TESTES, LÂMPADA
+3) Commits claros por etapa
+4) Evite "ou" nas sugestões, use bullets distintos
+5) Não exponha chaves privadas
+
+[ETAPA 21 – Billing Sólido & Add-ons]
+- Criar tabela user_addons
+- Ajustar webhook Stripe
+- Testar fluxo completo
+
+[ETAPA 22 – ORÁCULO V2 Integrado]
+- Criar /api/oraculo-v2
+- Criar tabela oraculo_logs
+- Integrar botão nas telas
+- Atualizar manuais
+
+[ETAPA 23 – Segurança Técnica]
+- Rate limiting
+- Logger estruturado
+- Healthcheck
+- Tratar cache admin
+
+[ETAPA 24 – Manuais & Links]
+- Alinhar manuais com app
+- Criar links internos
+
+[ETAPA 25 – QA Técnico]
+- Verificar migrations
+- Criar testes automatizados
+- Testar fluxos principais
+- Atualizar LÂMPADA
+
+[FIM DO BLOCO 21–25]
+
+Quando terminar ETAPA 25, responda com:
+- Resumo geral das 5 etapas
+- Lista de dívidas técnicas remanescentes
+- Sugestão de título para BLOCO 26-30
+
+================================================================================
+=== 📊 CONTAGEM FINAL DE ETAPAS ===
+================================================================================
+
+ANTES ERA: 84 etapas
+AGORA: 89 etapas (+5 do BLOCO 21-25)
+
+================================================================================
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 03:20 UTC-5
 ================================================================================
