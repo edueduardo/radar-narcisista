@@ -5049,10 +5049,180 @@ STATUS ATUAL:
 
 🔜 PRÓXIMO: ETAPA 9 – Painel de Curadoria + Semáforo de Edição (prompt pronto)
 
-IDEIAS FUTURAS (AGUARDANDO APROVAÇÃO APÓS ETAPA 9):
-- Redesenho Dashboards (Usuário/Admin/Pro/White-Label)
-- Famílias de Plano + Matriz de Módulos
+================================================================================
+=== 📋 PLANO OFICIAL DE ETAPAS 10-14 (ORGANIZAÇÃO FINAL) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (organização de ideias antigas + novas)
+Status: PLANO APROVADO – SEQUÊNCIA DEFINIDA
+
+CONTEXTO:
+Eduardo pediu para organizar TODAS as ideias (antigas + recentes) numa sequência
+clara de próximas etapas. Não é "jogar fora o passado", é encaixar tudo no lugar
+certo da fila.
+
+--------------------------------------------------------------------------------
+ETAPA 10 – INFRA DE PLANOS & FAMÍLIAS + planFeatures
+--------------------------------------------------------------------------------
+Fonte da ideia: Conversa sobre "família de plano + matriz de módulos"
+
+OBJETIVO:
+Preparar o "cérebro" que amarra plano ←→ features ←→ dashboard
+
+BLOCOS:
+1. Famílias de plano no sistema de billing
+   - Garantir que cada plano de billing_plans tenha campo family
+   - Famílias: GUARDAR, JORNADA, DEFESA, PRO
+   - Planos promocionais (Black Friday, etc.) apontam para uma família
+
+2. Mapa de features por família
+   - Implementar planFeatures (código ou tabela):
+     const planFeatures = {
+       GUARDAR: ['TESTE_CLAREZA', 'DIARIO_TEXTO'],
+       JORNADA: [...GUARDAR, 'DIARIO_VOZ', 'COACH_IA', 'ACADEMY_BASICO'],
+       DEFESA: [...JORNADA, 'PLANO_SEGURANCA', 'RELATORIOS'],
+       PROFISSIONAL: [...DEFESA, 'PAINEL_PRO_CLIENTES']
+     }
+
+3. Compatibilidade com limites atuais
+   - Não quebrar APP_PLAN_LIMITS existente
+   - Começar a centralizar
+
+RESULTADO:
+Quando perguntar "posso mostrar Diário em voz para este usuário?"
+→ Resposta vem de planFeatures + family, não de "if plano === 'Jornada'"
+
+--------------------------------------------------------------------------------
+ETAPA 11 – DESIGNER DE DASHBOARD DO USUÁRIO + HOME DO RADAR
+--------------------------------------------------------------------------------
+Fonte da ideia: Conversa sobre "caminhada do herói" + "dashboard único"
+
+OBJETIVO:
+Criar o novo "Home do Radar" em 4 blocos, controlado por planFeatures
+
+BLOCOS:
+1. Tela /admin/dashboards/usuario
+   - Preview à esquerda, configuração à direita
+   - Seções: Seu Passo Atual (fixa), Hoje, Módulos do Radar, Seu Plano
+   - Botão "configurar por família de plano" → abre matriz 🔴🟡🟢
+
+2. Tela /admin/planos (Planos & Famílias)
+   - Lista de planos com seleção de família
+   - Criar plano novo → escolhe família → dashboard já sabe como se comportar
+
+3. Novo /dashboard do usuário ("Home do Radar")
+   - Bloco 1: Seu passo atual (GPS emocional)
+   - Bloco 2: Hoje (3-4 ações rápidas)
+   - Bloco 3: Seus módulos (cards com lock/CTA por plano)
+   - Bloco 4: Seu plano (nome, benefícios, upgrade)
+   - Reutilizar componentes do Dashboard V2 antigo (page-old-backup)
+
+RESULTADO:
+- Usuária sente caminhada clara (GPS emocional)
+- Admin decide quais módulos aparecem por família de plano
+
+--------------------------------------------------------------------------------
+ETAPA 12 – REORGANIZAÇÃO DO ADMIN EM 4 GRANDES ÁREAS
+--------------------------------------------------------------------------------
+Fonte da ideia: Conversa sobre "Dashboard do Admin – Caminho do Guardião"
+
+OBJETIVO:
+Deixar o admin menos "ninho de cobra" e mais "caminho do guardião"
+
+BLOCOS:
+1. Sidebar com 5 grupos claros:
+   - Radar Vivo
+   - Conteúdos & FanPage Viva
+   - Usuárias & Planos
+   - Segurança & Risco
+   - Configuração & White-Label
+
+2. Radar Vivo (Home do Admin)
+   - Mini "Radar em Números"
+   - Cards: riscos críticos, atividade do Triângulo, fila de sugestões
+
+3. Conteúdos & FanPage Viva
+   - Agrupar /admin/conteudos/* + config de seções da home
+
+4. Usuárias & Planos
+   - Lista de usuárias, plano atual, uso
+   - Atalho "ver como usuária" (futuro)
+
+5. Segurança & Risco
+   - risk_alerts, logs, estatísticas admin_only
+
+6. Configuração & White-Label
+   - Limites por plano, config de profissionais, base B2B
+
+RESULTADO:
+Admin conta a caminhada do gestor, não um monte de tela solta
+
+--------------------------------------------------------------------------------
+ETAPA 13 – DASHBOARD DO PROFISSIONAL
+--------------------------------------------------------------------------------
+Fonte da ideia: Conversa sobre "Dashboard do Profissional"
+
+OBJETIVO:
+Preparar experiência Pro para psicólogas/advogadas/coaches
+
+BLOCOS:
+1. Home Profissional
+   - Lista de clientes que deram permissão
+   - Status: nova entrada de diário, novo teste, plano revisado
+   - Filtros por risco (alta prioridade, acompanhamento normal)
+
+2. Tela da Cliente
+   - Gráfico de evolução de clareza
+   - Contagem de episódios, alertas de risco
+   - PDFs autorizados
+   - SEM editar diário, só leitura do que foi compartilhado
+
+3. Integração com planos Pro
+   - Usar planFeatures.PRO para liberar essas telas
+
+RESULTADO:
+Profissionais podem acompanhar clientes com segurança e ética
+
+--------------------------------------------------------------------------------
+ETAPA 14 – DASHBOARD WHITE-LABEL
+--------------------------------------------------------------------------------
+Fonte da ideia: Conversa sobre "Dashboard White-Label"
+
+OBJETIVO:
+Permitir vender o Radar como serviço licenciado para outras marcas
+
+BLOCOS:
+1. Home White-Label
+   - "Sua instância do Radar"
+   - Nº de usuários, planos mais usados, atividade geral
+
+2. Aba Configuração (marca)
+   - Logo, cores, textos específicos (nome comercial)
+
+3. Aba Contrato/Faturamento
+   - Plano do parceiro, limite de usuários
+
+4. Integração com Admin Mestre
+   - Admin global vê todas as instâncias com visão agregada
+
+RESULTADO:
+Base para B2B full (vender licenças do Radar)
+
+--------------------------------------------------------------------------------
+RESUMO EM UMA LINHA POR ETAPA
+--------------------------------------------------------------------------------
+
+ETAPA 9:  Painel de Curadoria + Semáforo de Edição (PROMPT PRONTO)
+ETAPA 10: Arrumar o cérebro de planos & famílias & features
+ETAPA 11: Construir Home do Radar em 4 blocos + Designer de Dashboard
+ETAPA 12: Reorganizar Admin em 4 grandes caminhos
+ETAPA 13: Criar Dashboard do Profissional (B2B light)
+ETAPA 14: Criar Dashboard White-Label (B2B full)
+
+IDEIAS FUTURAS (APÓS ETAPA 14):
 - Integração com Google Trends/YouTube/TikTok (fontes externas)
+- App React Native + Notificações Push
+- Integração WhatsApp + Typebot + Z-API
 
 ================================================================================
 === 🎛️ ANÁLISE: CONTROLE DA CURADORIA (CENSURA + ATIVAÇÃO) ===
@@ -5370,5 +5540,5 @@ ACORDO DE USO DEFINIDO:
 - Código travado → Fluxos críticos, IA sensível, Segurança, Billing
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 20:10 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 20:20 UTC-5
 ================================================================================
