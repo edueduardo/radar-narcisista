@@ -5891,7 +5891,227 @@ PRÓXIMOS PASSOS (SE QUISER CONTINUAR):
    - "Radar Hub" com vários "Radars" dentro
    - Linha de white-labels específicos
 
-STATUS: ⏳ APENAS BRAINSTORM – NÃO É REQUISITO AINDA
+================================================================================
+=== 📊 MAPA COMPLETO: 20 TEMAS IRMÃOS + 10 ADAPTÁVEIS + PROIBIDOS ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (análise completa de segmentos/nichos)
+Status: BRAINSTORM DETALHADO – VISÃO DE LONGO PRAZO
+
+--------------------------------------------------------------------------------
+SEÇÃO 1: 20 TEMAS IRMÃOS (90-100% REAPROVEITÁVEL)
+--------------------------------------------------------------------------------
+
+┌────┬─────────────────────────────────────┬─────────────────────┬───────────────┐
+│ #  │ TEMA                                │ SEGMENTO            │ REUSO         │
+├────┼─────────────────────────────────────┼─────────────────────┼───────────────┤
+│ 1  │ Abuso Emocional em Relacionamentos  │ Relacionamentos     │ 95-100%       │
+│ 2  │ Traição + Recuperação/Término       │ Relacionamentos     │ 90-100%       │
+│ 3  │ Abuso LGBT+ em Relacionamentos      │ Relacionamentos     │ 90-95%        │
+│ 4  │ Co-Parent Tóxico                    │ Família/Guarda      │ 90-100%       │
+│ 5  │ Alienação Parental                  │ Família             │ 90-95%        │
+│ 6  │ Abuso entre Irmãos/Parentes         │ Família ampliada    │ 85-90%        │
+│ 7  │ Assédio Moral no Trabalho           │ Trabalho/Carreira   │ 90-95%        │
+│ 8  │ Burnout + Ambiente Tóxico           │ Trabalho/Saúde      │ 80-90%        │
+│ 9  │ Sócio/Parceria Tóxica               │ Negócios            │ 85-90%        │
+│ 10 │ Assédio Sexual no Trabalho          │ Trabalho/Integridade│ 70-80%        │
+│ 11 │ Bullying Escolar                    │ Educação            │ 80-90%        │
+│ 12 │ Bullying Universitário/Repúblicas   │ Educação/Juventude  │ 80-90%        │
+│ 13 │ Reputação Online/Cyberbullying      │ Vida Digital        │ 70-85%        │
+│ 14 │ Abuso por Líder Religioso           │ Comunidade/Religião │ 80-90%        │
+│ 15 │ Abuso em Grupos de Amizade          │ Vida Social         │ 80-90%        │
+│ 16 │ Abuso Financeiro no Casal           │ Finanças+Relação    │ 85-95%        │
+│ 17 │ Abuso Financeiro Familiar           │ Família+Dinheiro    │ 80-90%        │
+│ 18 │ Dependência Emocional/Apego         │ Saúde Emocional     │ 80-90%        │
+│ 19 │ Luto + Pessoa Tóxica no Entorno     │ Luto                │ 70-85%        │
+│ 20 │ Violência Psicológica entre Amigos  │ Amizades            │ 80-90%        │
+└────┴─────────────────────────────────────┴─────────────────────┴───────────────┘
+
+--------------------------------------------------------------------------------
+SEÇÃO 2: 10 TEMAS NÃO-IRMÃOS MAS ADAPTÁVEIS (70-90% COM MÓDULOS EXTRAS)
+--------------------------------------------------------------------------------
+
+┌────┬─────────────────────────────────────┬─────────────────────┬───────────────┐
+│ #  │ TEMA                                │ ADAPTAÇÃO NECESSÁRIA│ REUSO         │
+├────┼─────────────────────────────────────┼─────────────────────┼───────────────┤
+│ 1  │ Dívidas + Cobrança Abusiva          │ +Mapa financeiro    │ 80%           │
+│ 2  │ Burnout Empreendedor (solopreneur)  │ +Módulo metas/agenda│ 85%           │
+│ 3  │ Conflitos com Vizinhos/Condomínio   │ +Mapa de ocorrências│ 70-80%        │
+│ 4  │ Conflitos Pais vs Escola            │ +Canal oficial      │ 75-85%        │
+│ 5  │ Conflitos em Comunidades Online     │ +Logs de servidor   │ 80-90%        │
+│ 6  │ Conflitos com Prestadores Serviço   │ +Linha do tempo     │ 80-90%        │
+│ 7  │ Micro-Empresas vs Plataformas       │ +Evidências contrato│ 70-85%        │
+│ 8  │ Divórcio Complexo (patrimônio)      │ +Módulo patrimonial │ 85-90%        │
+│ 9  │ Conflitos com Seguradoras           │ +Módulo sinistros   │ 70-80%        │
+│ 10 │ Artistas/Atletas vs Empresários     │ +Módulos específicos│ 60-80%        │
+└────┴─────────────────────────────────────┴─────────────────────┴───────────────┘
+
+--------------------------------------------------------------------------------
+SEÇÃO 3: TEMAS PROIBIDOS OU EXTREMAMENTE RESTRITOS ⚠️
+--------------------------------------------------------------------------------
+
+❌ NÃO RECOMENDO (ou só com estrutura MUITO diferente):
+
+1. SAÚDE MENTAL PESADA:
+   - Esquizofrenia, bipolar, transtornos graves
+   - Suicídio / auto-mutilação como foco central
+   - Dependência química pesada (álcool, cocaína, opióides)
+
+2. CRIMES SEXUAIS:
+   - Pedofilia
+   - Estupro
+   - Exploração sexual
+
+3. DOENÇAS GRAVES DE ALTA COMPLEXIDADE:
+   - Câncer em contexto médico
+   - HIV em contexto médico
+
+4. ORIENTAÇÃO JURÍDICO-CRIMINAL:
+   - "Faça isso para ganhar o processo" (substituindo advogado)
+
+⚠️ NESSES CASOS, O ENGINE PODERIA SER NO MÁXIMO:
+   - Diário protegido + organizador de informações
+   - Mensagens ultra neutras + disclaimers brutais
+   - SEMPRE empurrando para médico/advogado/serviços oficiais
+   - NÃO vender como "produto principal" sem parceria séria
+
+--------------------------------------------------------------------------------
+SEÇÃO 4: MAPA DE REAPROVEITAMENTO VISUAL
+--------------------------------------------------------------------------------
+
+🟢 90-100% PRONTO (plug and play):
+   - Narcisismo (atual)
+   - Abuso emocional em relacionamentos
+   - Co-parent tóxico / alienação parental
+   - Abuso financeiro no casal
+   - Assédio moral no trabalho
+   - Sócio abusivo
+   - Bullying psicológico
+
+🟡 80-90% PRONTO (pequenos módulos extras):
+   - Burnout ligado a abuso
+   - Reputação online / cyberbullying
+   - Conflitos com escola
+   - Vizinhos / condomínio
+   - Dívida + cobrança abusiva
+   - Prestadores de serviço
+
+🟠 60-80% PRONTO (mais extensões, "quadrado" ou "hexágono"):
+   - Temas com forte componente financeiro/jurídico
+   - Temas que misturam saúde mental + física pesada
+
+🔴 <60% / COMEÇAR DO ZERO:
+   - Coisas técnicas/comerciais sem "dor emocional + abuso"
+   - "SaaS para produtividade neutra"
+   - Temas médicos puros
+
+--------------------------------------------------------------------------------
+SEÇÃO 5: SUBNICHOS E NANO-NICHOS (MINAS DE OURO)
+--------------------------------------------------------------------------------
+
+RELACIONAMENTOS:
+├── Gaslighting crônico
+├── Silêncio punitivo
+├── Controle financeiro no casal
+├── Ciúme obsessivo / controle de celular
+├── "Vou tirar os filhos de você" como chantagem
+├── "Você é louca, ninguém vai acreditar"
+└── Parceiro que grava tudo e ameaça usar contra você
+
+CO-PARENTING:
+├── Alienação parental
+├── Descumprimento de acordo de visitas
+├── "Sumir com a criança"
+├── Comunicação hostil via WhatsApp
+├── Prints para juiz / advogada
+└── Frases típicas que a criança repete
+
+TRABALHO:
+├── Chefia abusiva
+├── Colega que sabota
+├── Humilhação em reuniões
+├── Metas abusivas com ameaças
+├── "Reunião de massacre semanal"
+└── Grupo de WhatsApp usado pra humilhar
+
+BULLYING:
+├── Zuação constante
+├── Exclusão de grupos
+├── Bullying virtual (WhatsApp, Instagram)
+├── Trotes abusivos
+└── Cancelamento / difamação online
+
+--------------------------------------------------------------------------------
+SEÇÃO 6: TRIÂNGULO vs QUADRADO vs HEXÁGONO
+--------------------------------------------------------------------------------
+
+O TRIÂNGULO BASE (mínimo):
+1. CLAREZA (entender o que está acontecendo)
+2. REGISTRO (Diário / Provas)
+3. AÇÃO/PROTEÇÃO (Plano, próximos passos)
+
+QUADRADO (+ 1 lado):
++ REDE DE APOIO (profissionais, grupos, ONGs)
+
+PENTÁGONO (+ 2 lados):
++ DIMENSÃO JURÍDICA/FINANCEIRA
++ EDUCAÇÃO ESTRUTURADA (Academy)
+
+HEXÁGONO (+ 3 lados):
++ MONITORAMENTO DE SAÚDE
++ INTEGRAÇÃO COM TERCEIROS (advogado, psicólogo)
++ COMUNIDADE DE PARES
+
+⚠️ REGRA: O triângulo é o MÍNIMO. Você pluga mais lados conforme o tema pede.
+   Tecnicamente = lista de módulos ativos por domínio (DASHBOARD_MODULES)
+
+--------------------------------------------------------------------------------
+SEÇÃO 7: COMO SERIA O REPRODUTOR DE SAAS TECNICAMENTE
+--------------------------------------------------------------------------------
+
+1️⃣ TABELA domains (ou products):
+   - id, slug, nome_publico, template_type, status, pais/idioma, nivel_risco
+
+2️⃣ TABELA domain_settings:
+   - JSON com: texto landing, módulos ativos, prompts IA, cores/branding
+
+3️⃣ BIBLIOTECA DE TEMPLATES:
+   - RELACIONAMENTOS_ABUSIVOS
+   - CO_PARENTING
+   - ASSEDIO_TRABALHO
+   - BULLYING_ESCOLAR
+   - ABUSO_FINANCEIRO
+
+4️⃣ PIPELINE DE CRIAÇÃO:
+   a) Escolher template + nome + idioma + público
+   b) Sistema copia layout da landing como esqueleto
+   c) IA gera textos adaptados (hero, seções, FAQ, disclaimers)
+   d) Gera conteúdo inicial (content_items, content_collections)
+   e) Tudo nasce em status="draft", visibility="private"
+   f) Admin revisa e aprova em /admin/domains/[slug]/review
+
+5️⃣ ADMIN MULTI-DOMÍNIO:
+   - /admin/domains → lista de produtos
+   - /admin/domains/[slug]/review → revisar landing, Academy, prompts
+   - Botão "Publicar produto"
+
+--------------------------------------------------------------------------------
+SEÇÃO 8: PRÓXIMOS PASSOS SUGERIDOS
+--------------------------------------------------------------------------------
+
+AGORA: Terminar Radar Narcisista (ETAPA 11-17)
+
+DEPOIS: Escolher 3-4 temas prioritários:
+1. Radar Co-Parent Tóxico
+2. Radar Chefe Abusivo (Assédio Moral)
+3. Radar Bullying Escolar
+4. Radar Abuso Financeiro
+
+FUTURO: Criar ETAPA X – PROTÓTIPO RADAR #2
+- Implementar 1 segundo produto usando o mesmo engine
+- Criar /admin/domains e template geral
+
+STATUS: ⏳ BRAINSTORM COMPLETO – VISÃO DE LONGO PRAZO
 
 ================================================================================
 === 🎛️ ANÁLISE: CONTROLE DA CURADORIA (CENSURA + ATIVAÇÃO) ===
@@ -6209,5 +6429,5 @@ ACORDO DE USO DEFINIDO:
 - Código travado → Fluxos críticos, IA sensível, Segurança, Billing
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 21:10 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 21:20 UTC-5
 ================================================================================
