@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 07:40 UTC-5
+Última atualização: 04/12/2025 07:45 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -1095,6 +1095,139 @@ FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
 └── 8 blocos documentados (A-H)
 
 TOTAL DE FASES: ANTES ERA 29 / AGORA: 30
+
+================================================================================
+SESSÃO 04/12/2025 07:43 UTC-5 – FASE 31 ADICIONADA (DIAGRAMAS MERMAID)
+================================================================================
+
+NOVO CONTEÚDO EXTRAÍDO DO CHAT:
+
+1. DIAGRAMAS MERMAID COMPLETOS:
+   - Arquitetura Geral do Ecossistema
+   - Governança de IAs (Lab + Simulações)
+   - Fluxo de Escolha de IA numa Requisição
+   - Mapa de Menus do Admin (Completo)
+
+2. OUTROS ORGANOGRAMAS SUGERIDOS:
+   - Mapa de Menus do Admin + Help embutido
+   - Fluxos da Usuária (lado B2C)
+   - Fluxo do Profissional / White Label (lado B2B)
+   - Painel Global de IA & Carga
+   - Pipeline do Gerador de SaaS
+   - Governança & Auditoria
+
+3. IMAGENS GERADAS PELO CHATGPT:
+   - radar_arquitetura_geral.png
+   - radar_arquitetura_radar_mae.png
+   - radar_arquitetura_gerador_saas.png
+   - radar_arquitetura_ia_orquestracao.png
+
+4. MAPA DE MENUS DO ADMIN (8 GRUPOS):
+   - Dashboard Geral
+   - Planos & Promoções
+   - Gestão de IAs
+   - Oráculos
+   - Usuários & Tenants
+   - Gerador de SaaS
+   - Billing & Add-ons
+   - Observabilidade & Governança
+   - Frontpage & Marketing
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 31 – DIAGRAMAS MERMAID + MAPA DE MENUS ADMIN
+├── 31 FASES organizadas com 375 itens
+└── 6 blocos documentados (A-F)
+
+TOTAL DE FASES: ANTES ERA 30 / AGORA: 31
+
+================================================================================
+SESSÃO 04/12/2025 07:45 UTC-5 – FASE 32 ADICIONADA (MAPA AUTOMATIZADO)
+================================================================================
+
+NOVO CONTEÚDO EXTRAÍDO DO CHAT:
+
+1. MAPA VIVO DO SISTEMA:
+   - Gerado automaticamente a partir do que já existe
+   - Menus, IAs, fluxos, planos, SaaS filhos
+   - Em formato visual (organograma / Mermaid / diagrama)
+
+2. SUGESTÕES AUTOMÁTICAS EM CIMA DO MAPA:
+   - "Aqui está subaproveitando IA X"
+   - "Esse menu não está ligado a nenhum plano"
+   - "Esse SaaS filho está sem Oráculo"
+
+3. FERRAMENTAS DE TERCEIROS RECOMENDADAS:
+   - CodeSee Maps (https://www.codesee.io/)
+   - AppMap (https://appmap.io/)
+   - Hotjar / Fullstory / PostHog
+   - Storybook
+
+4. DEVTOOL INTERNO (GPS DA APLICAÇÃO):
+   - Overlay em cima da app mostrando fluxo, rota, IA usada
+   - Painel /admin/visual-mapa com organograma
+
+5. TABELAS SUGERIDAS:
+   - system_nodes (nós do sistema)
+   - system_edges (ligações entre nós)
+   - system_suggestions (sugestões da IA)
+
+6. ROTAS API SUGERIDAS:
+   - GET /api/system-map/nodes
+   - GET /api/system-map/edges
+   - GET /api/system-map/mermaid
+   - POST /api/system-map/suggestions
+   - POST /api/system-map/sync
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 32 – MAPA DO SISTEMA AUTOMATIZADO
+├── 32 FASES organizadas com 410 itens
+└── 8 blocos documentados (A-H)
+
+TOTAL DE FASES: ANTES ERA 31 / AGORA: 32
+
+================================================================================
+SESSÃO 04/12/2025 07:45 UTC-5 – FASE 33 ADICIONADA (ESCALABILIDADE BLOCOS)
+================================================================================
+
+NOVO CONTEÚDO EXTRAÍDO DO CHAT:
+
+1. CONCEITO: BLOCO NÃO É PASTA, É TAG:
+   - Cada bloco é um registro com id, faixa, tipo, status
+   - Features guardam referência aos blocos: blocos: [21, 22, 26]
+   - Se amanhã existir bloco 847, só adiciona na lista
+
+2. RADAR VISUAL COM 1000 BLOCOS:
+   - Filtrar por bloco atual, últimos 3, intervalo específico
+   - Filtrar por tipo: fluxos IA, menus, ORÁCULO_V2, Perplexity
+   - "Fatias do elefante", não o elefante inteiro
+
+3. ORGANIZAÇÃO DE ARQUIVOS TXT POR FAIXAS:
+   - docs/BLOCOS/BL010-019.txt
+   - docs/BLOCOS/BL020-029.txt
+   - (até o infinito)
+
+4. RADAR VISUAL INTERNO (/admin/radar-visual):
+   - Painel lateral com filtros
+   - Canvas central (graph)
+   - Highlight do nó atual
+   - Integração com Triângulo de IAs
+   - Modo simulação para novas IAs
+
+5. FASE 1 (ALÍVIO RÁPIDO):
+   - Criar MAPA-DO-SISTEMA.json
+   - Criar diagrama Mermaid automático
+   - Regra de ouro: "Criou rota nova? Atualiza o JSON."
+
+6. FASE 2 (RADAR VISUAL INTERNO):
+   - Página /admin/radar-visual
+   - Acoplar ao Gerador de SaaS
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 33 – ESCALABILIDADE BLOCOS (10-1000) + RADAR VISUAL
+├── 33 FASES organizadas com 450 itens
+└── 8 blocos documentados (A-H)
+
+TOTAL DE FASES: ANTES ERA 32 / AGORA: 33
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF

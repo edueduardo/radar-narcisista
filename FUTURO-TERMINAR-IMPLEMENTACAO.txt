@@ -18126,7 +18126,764 @@ ETAPA C – Mapa de IAs por menu/função + visão por plano/perfil
 
 TOTAL: 345 itens em 30 fases
 
-TOTAL DE FASES: ANTES ERA 29 / AGORA: 30
+================================================================================
+FASE 31 – DIAGRAMAS MERMAID COMPLETOS + MAPA DE MENUS ADMIN
+================================================================================
+Fonte: [CHATGPT] Chat 04/12/2025 07:43 UTC-5 - Diagramas e Mapa de Menus
+Autoria: ChatGPT (planejamento) + Eduardo (decisões) + Windsurf (execução)
+Status: 📝 CONCEITUAL - PRONTO PARA IMPLEMENTAR
+
+--------------------------------------------------------------------------------
+BLOCO A – DIAGRAMA 1: ARQUITETURA GERAL DO ECOSSISTEMA
+--------------------------------------------------------------------------------
+
+ARQUIVO: docs/ARQUITETURA-ECOSSISTEMA.mmd
+
+ESTRUTURA MERMAID:
+- EDU / DONO DO ECOSSISTEMA
+- SAAS MÃE (Radar Narcisista)
+- GERADOR DE SAAS (Cria novos SaaS)
+- SAAS FILHOS GERADOS:
+  - Filho com tema (ex.: Violência Psicológica)
+  - Filho em branco (só estrutura)
+  - Filho White Label (marca de parceiro)
+- DASHBOARDS:
+  - Dashboard Usuária
+  - Dashboard Profissional
+  - Dashboard White Label
+  - Dashboard Admin Global
+- INFRA COMPARTILHADA:
+  - Supabase / Postgres
+  - Stripe Billing/Add-ons
+  - Orquestrador de IA (Mapa de IAs + Fluxos)
+  - Logs / Auditoria
+- PROVEDORES DE IA:
+  - OpenAI, DeepSeek, Together, Grok, Perplexity, Outras futuras
+- ORÁCULOS:
+  - Oráculo V1 (Painel /admin/oraculo)
+  - Oráculo V2 (IA de suporte, admin-only no bloco 21-25)
+
+--------------------------------------------------------------------------------
+BLOCO B – DIAGRAMA 2: GOVERNANÇA DE IAs (LAB + SIMULAÇÕES)
+--------------------------------------------------------------------------------
+
+ARQUIVO: docs/ARQUITETURA-IA-GOVERNANCA.mmd
+
+FLUXO:
+EDU/DONO → LAB DE IAs / GOVERNANÇA
+
+SEÇÕES DO LAB:
+1. Cadastro de IAs (OpenAI, DeepSeek, Perplexity...)
+2. Cenários & Simulações (combinações de IAs)
+3. Presets de Configuração (pacotes prontos)
+4. Aplicar em Produção (por plano / perfil / menu)
+
+APLICAÇÃO NOS MUNDOS:
+- SAAS MÃE (Radar)
+- SaaS Filhos (temáticos, em branco, whitelabel)
+- Gerador de SaaS (config base dos SaaS gerados)
+- Mapa de IAs por Menu/Função (chat, diário, oráculo...)
+- Orquestrador de IA
+
+--------------------------------------------------------------------------------
+BLOCO C – DIAGRAMA 3: FLUXO DE ESCOLHA DE IA NUMA REQUISIÇÃO
+--------------------------------------------------------------------------------
+
+ARQUIVO: docs/ARQUITETURA-IA-FLUXO.mmd
+
+FLUXO:
+1. Usuária/Profissional faz uma ação (ex.: envia mensagem no chat)
+2. API do SaaS (/api/chat, /api/diario, /api/oraculo-v2)
+3. Resolver contexto (perfil, plano, menu/função)
+4. Consultar Mapa de IAs (função + plano + perfil)
+5. Encontrar cenário/preset de IA (ex.: Chat_Equilibrado)
+6. Orquestrador de IA (aplica estratégia)
+7. Dispara para IAs segundo estratégia (single, voting, resumo)
+8. Provedores de IA respondem (OpenAI, DeepSeek, Grok, Perplexity)
+9. Coleta de respostas
+10. Combinar/Escolher resposta final (votação, ranking)
+11. Resposta vai para o usuário
+12. Logs / Auditoria (custo, latência, IA usada)
+
+--------------------------------------------------------------------------------
+BLOCO D – OUTROS ORGANOGRAMAS QUE FAZEM SENTIDO
+--------------------------------------------------------------------------------
+
+1. MAPA DE MENUS DO ADMIN + HELP EMBUTIDO:
+   - Cada menu (Planos, Promoções, IAs, Oráculo, Usuários, White Label, Gerador)
+   - O que ele controla
+   - Quais IAs usa
+   - Que perfis são afetados
+
+2. FLUXOS DA USUÁRIA (lado B2C):
+   - Jornada: cadastro → onboarding → diário → teste de clareza → planos → addons → Oráculo
+   - Onde entra IA, billing, logs
+
+3. FLUXO DO PROFISSIONAL / WHITE LABEL (lado B2B):
+   - Como ele cria sua marca
+   - Gerencia clientes
+   - Vê relatórios
+   - Usa Oráculo
+   - Configura IA pros clientes dele
+
+4. PAINEL GLOBAL DE IA & CARGA ("radar das IAs"):
+   - Quais IAs existem
+   - Onde cada uma está plugada
+   - Como liga/desliga/limita por plano e por SaaS filho
+
+5. PIPELINE DO GERADOR DE SAAS (modo técnico):
+   - Entrada: Tema/brief + parâmetros
+   - Geração: schema, menus, front, back, oráculo, conectores de IA, billing
+   - Saída: repositório + deploy + documentação espelho
+
+6. GOVERNANÇA & AUDITORIA:
+   - Logs, oraculo_logs, auditoria de prompts
+   - Uso de IA, limites, fraudes
+
+--------------------------------------------------------------------------------
+BLOCO E – DIAGRAMA 4: MAPA DE MENUS DO ADMIN (COMPLETO)
+--------------------------------------------------------------------------------
+
+ARQUIVO: docs/ARQUITETURA-ADMIN-MENUS.mmd
+
+ESTRUTURA:
+
+ADMIN - RADAR / MÃE:
+├── Dashboard Geral
+├── PLANOS & PROMOÇÕES:
+│   ├── Planos base (Free / Pro / Profissional / White Label)
+│   ├── Promoções (Black Friday, Lotes, Campanhas)
+│   └── Regras por Plano (add-ons, limites IA, features)
+├── GESTÃO DE IAs:
+│   ├── Catálogo de IAs (OpenAI, DeepSeek, Together, Grok, Perplexity)
+│   ├── Regras por Menu (chat, diário, teste, oráculo, gerador SaaS)
+│   ├── Regras por Plano (free/pro/profissional/whitelabel)
+│   ├── Regras por SaaS Filho (overrides)
+│   └── Simulações de Carga & Custo
+├── ORÁCULOS:
+│   ├── Oráculo V1 (Painel /admin/oraculo)
+│   ├── Oráculo V2 Admin (/api/oraculo-v2)
+│   └── Planejado: Oráculo V2 Multiperfil (BLOCO 26-30)
+├── USUÁRIOS & TENANTS:
+│   ├── Usuárias finais
+│   ├── Profissionais
+│   ├── White Labels
+│   ├── SaaS Filhos (Gerador de SaaS)
+│   └── Clusters de Promoções (lotes, grupos especiais)
+├── GERADOR DE SAAS:
+│   ├── Brief/Tema
+│   ├── Gerar SaaS Temático
+│   ├── Gerar SaaS em Branco (core técnico)
+│   ├── Clonar Configs de IA/Planos
+│   └── Documentação Espelho para cada SaaS
+├── BILLING & ADD-ONS:
+│   ├── Stripe Plans
+│   ├── user_addons
+│   ├── Regras de Add-on por Plano
+│   └── Regras de Add-on por SaaS Filho
+├── OBSERVABILIDADE & GOVERNANÇA:
+│   ├── Logs de IA (oraculo_logs, chat, diário)
+│   ├── Auditoria de Ações Admin
+│   ├── Rate limiting (IA, auth, APIs)
+│   └── Healthchecks & Alertas
+└── FRONTPAGE & MARKETING:
+    ├── Frontpage Mãe (Radar Narcisista)
+    ├── Frontpage Templates para SaaS Filhos
+    └── Mensagens por Plano & Promoção
+
+LIGAÇÕES PRINCIPAIS:
+- Dashboard Geral → Todos os módulos
+- Planos & Promoções → Billing & Add-ons
+- Gestão de IAs → Oráculos
+- Gestão de IAs → Gerador de SaaS
+- Usuários & Tenants → Gerador de SaaS
+- Gerador de SaaS → Billing & Add-ons
+- Observabilidade → Oráculos
+- Observabilidade → Gestão de IAs
+
+--------------------------------------------------------------------------------
+BLOCO F – IMAGENS GERADAS PELO CHATGPT
+--------------------------------------------------------------------------------
+
+IMAGENS DISPONÍVEIS PARA DOWNLOAD:
+
+1. radar_arquitetura_geral.png
+   - Visão geral do ecossistema
+
+2. radar_arquitetura_radar_mae.png
+   - Radar Narcisista – SaaS Mãe
+
+3. radar_arquitetura_gerador_saas.png
+   - Gerador de SaaS – Visão Geral
+
+4. radar_arquitetura_ia_orquestracao.png
+   - Camada de IA – Orquestração
+
+================================================================================
+📊 RESUMO CONSOLIDADO - TODAS AS 31 FASES
+================================================================================
+
+| # | FASE | ITENS | STATUS |
+|---|------|-------|--------|
+| 1 | Completar Triângulo | 2 | ⏳ Pendente |
+| 2 | FanPage Viva | 4 | ⏳ Pendente |
+| 3 | Dívidas Técnicas | 2 | ⏳ Pendente |
+| 4 | Gerador de SaaS | 2 | ⏳ Pendente |
+| 5 | AI_CONFIG_CORE | 7 | ✅ Parcial |
+| 6 | Oráculo V2 Multiperfil | 4 | ⏳ Futuro (BLOCO 26-30) |
+| 7 | Control Hub Externo | 5 | ⏳ Futuro |
+| 8 | Avançado | 3 | ⏳ Futuro |
+| 9 | Auditoria Master V1 | 9 | ⏳ Pendente |
+| 10 | Verificar Patches | 10 | ⏳ Pendente |
+| 11 | Migrations | 3 | ⏳ Pendente |
+| 12 | Testes Manuais | 8 | ⏳ Pendente |
+| 13 | Documentação | 7 | ⏳ Pendente |
+| 14 | Deploy e Go-Live | 6 | ⏳ Pendente |
+| 15 | Auditoria V2 | 10 | ⏳ Pendente |
+| 16 | Avatares/Personas IA | 12 | ✅ Parcial (70%) |
+| 17 | ADMIN MENU CORE | 10 | ✅ Parcial |
+| 18 | NÚCLEO DE INTERFACES | 16 | ✅ Parcial |
+| 19 | MATRIZ DE IAs | 12 | ✅ Parcial |
+| 20 | MATRIZ GLOBAL DE IAs | 23 | ⚠️ Parcial (60%) |
+| 21 | MODO SIMULAÇÃO | 11 | ✅ Parcial (50%) |
+| 22 | PENTE FINO / LACUNAS | 22 | ✅ Parcial (55%) |
+| 23 | AUDITORIA BLOCO 21-25 | 25 | ✅ CONCLUÍDA |
+| 24 | AUDITORIA PROMPTS/PATCHES | 19 | ✅ MAPEADA |
+| 25 | PROMPTS CONSOLIDADOS | 30 | ✅ MAPEADA |
+| 26 | MEGA AUDITOR PARTE 1 | 10 | ✅ PRONTO P/ EXECUTAR |
+| 27 | ARQUIVO MEGA COMPLETO | 13 | ✅ PRONTO P/ EXECUTAR |
+| 28 | AVATAR/TTS + PERPLEXITY + ORQUESTRADOR | 15 | 📝 CONCEITUAL |
+| 29 | LABORATÓRIO DE IAs (SIMULAÇÃO) | 20 | 📝 CONCEITUAL |
+| 30 | ARQUITETURA VISUAL + ORGANOGRAMAS + MOCKUPS | 25 | 📝 CONCEITUAL |
+| 31 | DIAGRAMAS MERMAID + MAPA DE MENUS ADMIN | 30 | 📝 CONCEITUAL |
+
+TOTAL: 375 itens em 31 fases
+
+================================================================================
+FASE 32 – MAPA DO SISTEMA AUTOMATIZADO + FERRAMENTAS DE TERCEIROS
+================================================================================
+Fonte: [CHATGPT] Chat 04/12/2025 07:45 UTC-5 - Automatização do Mapa
+Autoria: ChatGPT (planejamento) + Eduardo (decisões) + Windsurf (execução)
+Status: 📝 CONCEITUAL - PRONTO PARA IMPLEMENTAR
+
+--------------------------------------------------------------------------------
+BLOCO A – O QUE VOCÊ ESTÁ PEDINDO (TRADUZIDO EM MODO DEV)
+--------------------------------------------------------------------------------
+
+1. MAPA VIVO DO SISTEMA:
+   - Gerado automaticamente a partir do que já existe
+   - Menus, IAs, fluxos, planos, SaaS filhos
+   - Em formato visual (organograma / Mermaid / diagrama)
+
+2. SUGESTÕES AUTOMÁTICAS EM CIMA DO MAPA:
+   - "Aqui está subaproveitando IA X"
+   - "Esse menu não está ligado a nenhum plano"
+   - "Esse SaaS filho está sem Oráculo"
+
+3. RODANDO EM LOOP (NÃO SÓ UMA VEZ):
+   - Atualizou menu/IA/plano → mapa atualiza
+   - Gerou SaaS novo → ele já nasce com o mapa básico + sugestões
+
+REQUISITO:
+👉 Ter um "Mapa do Sistema" como DADO, não como desenho manual
+
+--------------------------------------------------------------------------------
+BLOCO B – COMO AUTOMATIZAR (VISÃO EM 3 BLOCOS)
+--------------------------------------------------------------------------------
+
+=== BLOCO B.1 – FONTE DA VERDADE DO MAPA ===
+
+Criar um modelo de dados do mapa:
+
+1. Tabela/JSON com NÓS (nodes):
+   - tipo: menu, ia_provider, fluxo, plano, saas_filho, oraculo
+   - id: admin_planos, ia_openai, fluxo_diario, plano_pro, tenant_X
+
+2. Tabela/JSON com LIGAÇÕES (edges):
+   - de: admin_planos
+   - para: plano_pro
+   - relação: GERENCIA
+
+ONDE GUARDAR:
+- Tabelas Supabase: system_nodes, system_edges
+- OU JSON versionado: database/MAPA-SISTEMA.json
+
+REGRA:
+👉 Sempre que criar menu/IA/fluxo novo → registrar nesse MAPA
+
+=== BLOCO B.2 – GERAR O DIAGRAMA AUTOMATICAMENTE ===
+
+Criar um gerador de diagramas:
+
+1. Script ou endpoint:
+   - node scripts/generate-system-map.ts
+   - GET /api/system-map/mermaid
+
+2. O gerador:
+   - Lê system_nodes + system_edges (ou JSON)
+   - Joga dentro de template Mermaid
+   - Salva em docs/MAPA-SISTEMA.mmd
+   - OU mostra direto em /admin/mapa-sistema
+
+RESULTADO:
+✅ Clicar em "Mapa do Sistema" no admin e ver o organograma atual
+✅ SEM precisar desenhar nada na mão
+
+GERADOR DE SAAS:
+- Quando cria SaaS filho:
+  - Cria os nodes do filho
+  - Conecta com IAs, planos, menus dele
+  - Gera o mapa desse filho automaticamente
+
+=== BLOCO B.3 – GERAR SUGESTÕES AUTOMÁTICAS ===
+
+Página /admin/mapa-sistema chama:
+POST /api/system-map/suggestions
+
+Backend manda para a IA:
+{
+  "nodes": [...],
+  "edges": [...],
+  "context": "RADAR NARCISISTA + GERADOR DE SAAS",
+  "regras": [
+    "todo SaaS filho precisa ter pelo menos 1 IA de chat",
+    "planos não podem ficar sem menus principais",
+    "usuária não pode perder acesso a diário e teste de clareza"
+  ]
+}
+
+IA responde com sugestões:
+- "Menu X não está ligado a nenhum plano"
+- "A IA DeepSeek só está sendo usada em 1 fluxo"
+- "Esse SaaS filho não tem Oráculo V2 habilitado"
+
+Mostrar ao lado do diagrama num quadro de "Sugestões do Sistema"
+
+--------------------------------------------------------------------------------
+BLOCO C – FERRAMENTAS DE TERCEIROS RECOMENDADAS
+--------------------------------------------------------------------------------
+
+=== FERRAMENTAS QUE MAPEIAM O SISTEMA A PARTIR DO CÓDIGO ===
+
+1. CodeSee Maps:
+   - Lê o repositório
+   - Gera mapas interativos dos módulos, rotas, dependências
+   - Dá pra anotar, agrupar por contexto (admin, usuária, oráculo)
+   - Ajuda a responder: "quando entro em /dashboard, que arquivos participam?"
+   - URL: https://www.codesee.io/
+
+2. AppMap:
+   - Gera diagramas de execução baseado em trace (chamadas reais)
+   - Você roda testes ou usa a app, ele grava
+   - Mostra: request → controllers → services → DB → resposta
+   - Parece um "organograma em movimento" do backend
+   - URL: https://appmap.io/
+
+=== FERRAMENTAS QUE MOSTRAM FLUXO DE TELAS / NAVEGAÇÃO ===
+
+3. Hotjar / Fullstory / PostHog:
+   - Gravam sessões de usuários
+   - Mostram mapas de navegação: de qual página pra qual
+   - Funil, onde para
+   - Organograma de uso real
+
+4. Storybook:
+   - Catálogo visual da interface
+   - Cada componente vira uma "história"
+   - Ajuda a entender como a UI se organiza
+
+=== FERRAMENTAS VISUAIS MANUAIS (AUTOMATIZÁVEIS) ===
+
+5. Figma / FigJam / Draw.io / Mermaid:
+   - Puxar estrutura (arquivo de rotas, menus, flows)
+   - Gerar automaticamente diagramas Mermaid ou JSON
+
+--------------------------------------------------------------------------------
+BLOCO D – DEVTOOL INTERNO (GPS DA APLICAÇÃO)
+--------------------------------------------------------------------------------
+
+CONCEITO:
+"Você está aqui no nó X, vindo do nó Y, esses são os caminhos"
+Mostrando a tela de verdade + grafo de navegação
+
+IMPLEMENTAÇÃO:
+
+1. DevTool interno no próprio Radar:
+   - Overlay em cima da app mostrando:
+     - Nome do fluxo
+     - Rota
+     - IA usada
+     - "Próximos nós possíveis"
+
+2. Painel /admin/visual-mapa com:
+   - Organograma (Mermaid ou lib de grafo JS)
+   - Highlight do nó atual
+
+ISTO É TOTALMENTE CODÁVEL.
+
+--------------------------------------------------------------------------------
+BLOCO E – SCRIPT DE COLETA DE METADADOS DO SISTEMA
+--------------------------------------------------------------------------------
+
+SCRIPT LÊ:
+- Rotas Next.js (app/)
+- Config de IA (OpenAI, DeepSeek, Together, Grok)
+- Config de planos, menus
+
+GERA JSON:
+{
+  "areas": ["admin", "usuario", "profissional", "whitelabel", "geradorSaaS"],
+  "rotas": [
+    { "path": "/dashboard", "area": "usuario", "usaIA": ["openai", "deepseek"] },
+    { "path": "/admin/oraculo", "area": "admin", "usaIA": ["openai", "grok"] }
+  ],
+  "fluxos": [
+    { "nome": "Diario", "passos": ["/diario/novo", "/diario/[id]", "/estatisticas/mes"] }
+  ]
+}
+
+SCRIPT QUE CONVERTE JSON → MERMAID:
+- Gera diagramas automaticamente
+- Comando: npm run gerar-diagramas
+
+IA EM CIMA DO JSON:
+- Manda JSON + contexto
+- "Me sugere melhorias de arquitetura, gargalos de IA, pontos de falha"
+- IA vira mentor de arquitetura em cima do mapa real
+
+--------------------------------------------------------------------------------
+BLOCO F – PLANO DE AÇÃO PARA O WINDSURF
+--------------------------------------------------------------------------------
+
+1. Criar doc "RADAR-MAPPA-SISTEMA.md":
+   - Blocos: Admin core, Usuária core, Profissional core, Oráculo core, Gerador de SaaS core
+
+2. Criar script que lê as rotas (app/) e gera JSON:
+   - 100% automatizável
+   - JSON vira fonte de verdade pros diagramas
+
+3. Criar diagrama Mermaid por camada:
+   - Visual de alto nível: Navegador → Next.js → Supabase → Provedores de IA → Stripe
+   - Visual por persona: fluxos da usuária, fluxos do admin
+
+4. DevTool interno (futuro):
+   - No modo dev: botãozinho "ver grafo desta tela"
+   - Abre painel lateral com o nó atual dentro do organograma
+
+--------------------------------------------------------------------------------
+BLOCO G – TABELAS SUGERIDAS
+--------------------------------------------------------------------------------
+
+1. system_nodes (nós do sistema):
+   - id, type, name, area, metadata_json
+   - created_at, updated_at
+
+2. system_edges (ligações entre nós):
+   - id, from_node_id, to_node_id, relation_type
+   - metadata_json, created_at
+
+3. system_suggestions (sugestões da IA):
+   - id, node_id, suggestion_text, severity
+   - status (pending/resolved), created_at
+
+--------------------------------------------------------------------------------
+BLOCO H – ROTAS API SUGERIDAS
+--------------------------------------------------------------------------------
+
+1. GET /api/system-map/nodes
+   - Lista todos os nós do sistema
+
+2. GET /api/system-map/edges
+   - Lista todas as ligações
+
+3. GET /api/system-map/mermaid
+   - Gera diagrama Mermaid a partir dos dados
+
+4. POST /api/system-map/suggestions
+   - Gera sugestões da IA em cima do mapa
+
+5. POST /api/system-map/sync
+   - Sincroniza mapa com o código atual
+
+================================================================================
+📊 RESUMO CONSOLIDADO - TODAS AS 32 FASES
+================================================================================
+
+| # | FASE | ITENS | STATUS |
+|---|------|-------|--------|
+| 1 | Completar Triângulo | 2 | ⏳ Pendente |
+| 2 | FanPage Viva | 4 | ⏳ Pendente |
+| 3 | Dívidas Técnicas | 2 | ⏳ Pendente |
+| 4 | Gerador de SaaS | 2 | ⏳ Pendente |
+| 5 | AI_CONFIG_CORE | 7 | ✅ Parcial |
+| 6 | Oráculo V2 Multiperfil | 4 | ⏳ Futuro (BLOCO 26-30) |
+| 7 | Control Hub Externo | 5 | ⏳ Futuro |
+| 8 | Avançado | 3 | ⏳ Futuro |
+| 9 | Auditoria Master V1 | 9 | ⏳ Pendente |
+| 10 | Verificar Patches | 10 | ⏳ Pendente |
+| 11 | Migrations | 3 | ⏳ Pendente |
+| 12 | Testes Manuais | 8 | ⏳ Pendente |
+| 13 | Documentação | 7 | ⏳ Pendente |
+| 14 | Deploy e Go-Live | 6 | ⏳ Pendente |
+| 15 | Auditoria V2 | 10 | ⏳ Pendente |
+| 16 | Avatares/Personas IA | 12 | ✅ Parcial (70%) |
+| 17 | ADMIN MENU CORE | 10 | ✅ Parcial |
+| 18 | NÚCLEO DE INTERFACES | 16 | ✅ Parcial |
+| 19 | MATRIZ DE IAs | 12 | ✅ Parcial |
+| 20 | MATRIZ GLOBAL DE IAs | 23 | ⚠️ Parcial (60%) |
+| 21 | MODO SIMULAÇÃO | 11 | ✅ Parcial (50%) |
+| 22 | PENTE FINO / LACUNAS | 22 | ✅ Parcial (55%) |
+| 23 | AUDITORIA BLOCO 21-25 | 25 | ✅ CONCLUÍDA |
+| 24 | AUDITORIA PROMPTS/PATCHES | 19 | ✅ MAPEADA |
+| 25 | PROMPTS CONSOLIDADOS | 30 | ✅ MAPEADA |
+| 26 | MEGA AUDITOR PARTE 1 | 10 | ✅ PRONTO P/ EXECUTAR |
+| 27 | ARQUIVO MEGA COMPLETO | 13 | ✅ PRONTO P/ EXECUTAR |
+| 28 | AVATAR/TTS + PERPLEXITY + ORQUESTRADOR | 15 | 📝 CONCEITUAL |
+| 29 | LABORATÓRIO DE IAs (SIMULAÇÃO) | 20 | 📝 CONCEITUAL |
+| 30 | ARQUITETURA VISUAL + ORGANOGRAMAS + MOCKUPS | 25 | 📝 CONCEITUAL |
+| 31 | DIAGRAMAS MERMAID + MAPA DE MENUS ADMIN | 30 | 📝 CONCEITUAL |
+| 32 | MAPA DO SISTEMA AUTOMATIZADO | 35 | 📝 CONCEITUAL |
+
+TOTAL: 410 itens em 32 fases
+
+================================================================================
+FASE 33 – ESCALABILIDADE DE BLOCOS (10-1000) + RADAR VISUAL INTERNO
+================================================================================
+Fonte: [CHATGPT] Chat 04/12/2025 07:45 UTC-5 - Escalabilidade e Radar Visual
+Autoria: ChatGPT (planejamento) + Eduardo (decisões) + Windsurf (execução)
+Status: 📝 CONCEITUAL - PRONTO PARA IMPLEMENTAR
+
+--------------------------------------------------------------------------------
+BLOCO A – CONCEITO: BLOCO NÃO É PASTA, É TAG
+--------------------------------------------------------------------------------
+
+EM VEZ DE:
+"Bloco 21–25 = um monte de coisa hard-coded em arquivo específico"
+
+TRATAR CADA BLOCO COMO:
+Um registro com:
+- id_bloco: 21, 22, 23…
+- faixa: "21–25", "26–30", etc.
+- tipo: mvp, pós-mvp, experimento, infra, etc.
+- status: planejado, em_andamento, concluido
+
+CADA FEATURE/MENU/ROTA/FLUXO DE IA GUARDA REFERÊNCIA AOS BLOCOS:
+{
+  "id": "oraculo_v2",
+  "tipo": "fluxo_ia",
+  "rotas": ["/api/oraculo-v2", "/admin/oraculo"],
+  "perfis": ["admin"],
+  "ias": ["openai", "deepseek"],
+  "blocos": [21, 22, 26]
+}
+
+REGRA:
+👉 Se amanhã existir bloco 847, você só adiciona 847 na lista
+👉 Nada quebra. Não precisa redesenhar a estrutura inteira.
+
+--------------------------------------------------------------------------------
+BLOCO B – RADAR VISUAL COM 1000 BLOCOS (FILTRAR E AGRUPAR)
+--------------------------------------------------------------------------------
+
+NO JSON / METADADOS:
+Cada nó (tela, menu, fluxo de IA, tabela) tem:
+- blocos: [lista]
+- versao_minima: "1.0.21"
+- versao_maxima (opcional, se algo for deprecado)
+
+NO PAINEL /admin/radar-visual:
+Você NUNCA olha "10–1000" de uma vez. Em vez disso:
+
+1. FILTRO "Mostrar apenas":
+   - Bloco atual (BLOCO_ATUAL)
+   - Últimos 3 blocos
+   - Um intervalo específico: 21–25, 90–110
+
+2. FILTRO "Tipo de coisa":
+   - Só fluxos de IA
+   - Só menus
+   - Só coisas que tocam ORÁCULO_V2
+   - Só coisas que usam Perplexity
+
+VISUALMENTE:
+👉 Você enxerga "fatias do elefante", não o elefante inteiro
+
+--------------------------------------------------------------------------------
+BLOCO C – ORGANIZAÇÃO DE ARQUIVOS TXT POR FAIXAS DE BLOCOS
+--------------------------------------------------------------------------------
+
+ESTRUTURA SUGERIDA:
+docs/BLOCOS/BL010-019.txt
+docs/BLOCOS/BL020-029.txt
+docs/BLOCOS/BL030-039.txt
+...
+docs/BLOCOS/BL210-219.txt
+(até o infinito se quiser)
+
+DENTRO DE CADA ARQUIVO:
+1. Cabeçalho do bloco
+2. Objetivo
+3. Estado (planejado / feito / parcialmente feito)
+4. Prompts usados nesse bloco (na íntegra)
+5. Patches desse bloco (inteiros, código incluso)
+6. Resumo do que foi de fato implementado
+
+REGRA:
+👉 Se amanhã existir BLOCO 847–850, você só cria mais um arquivo nesse padrão
+👉 Windsurf/ChatGPT continuam sabendo "onde encaixar" as coisas
+
+--------------------------------------------------------------------------------
+BLOCO D – ESCALABILIDADE DE LÓGICA DE IA (100, 200, 1000 BLOCOS)
+--------------------------------------------------------------------------------
+
+BLOCOS SÃO TIMELINE DE DESENVOLVIMENTO.
+
+A LÓGICA DE QUAL IA FAZ O QUÊ NÃO DEPENDE DO NÚMERO DE BLOCOS.
+DEPENDE DE:
+- Configuração por menu / fluxo
+- Configuração por perfil (usuária, profissional, admin, whitelabel, gerador)
+- Configuração por plano (free, pró, promo X, etc.)
+
+MECANISMO:
+- "Triângulo de IA" por menu/fluxo
+- Matriz de: PERFIL × PLANO × FLUXO × IAs ativas
+
+DESDE QUE ISSO ESTEJA MODELADO COMO DADOS:
+👉 O número de blocos não estoura nada
+👉 Só aumenta a linha do tempo e o histórico
+
+--------------------------------------------------------------------------------
+BLOCO E – RADAR VISUAL INTERNO (FEATURE OFICIAL DO SAAS)
+--------------------------------------------------------------------------------
+
+ROTA: /admin/radar-visual
+
+PAINEL LATERAL:
+- Filtros:
+  - Perfil (usuária, profissional, admin, whitelabel, gerador)
+  - Tipo (telas, APIs, fluxos IA, menus, tabelas)
+  - IA (OpenAI, DeepSeek, Together, Grok, Perplexity, etc.)
+  - Blocos (intervalo)
+
+CANVAS CENTRAL (GRAPH):
+- Mostra nós (telas, IAs, APIs, tabelas, etc.)
+- Highlight: nó da tela atual que você está acessando
+- Clicar em qualquer nó → ver:
+  - "Quais IAs usam aqui"
+  - "Quais planos têm acesso"
+  - "Quais logs / métricas existem"
+
+INTEGRAÇÃO COM TRIÂNGULO DE IAs:
+- Cada menu/tela teria um "triângulo IA" com:
+  - IA principal
+  - IA secundária
+  - Funções auxiliares (resumo, análise de risco, etc.)
+- Representado visualmente (icones/cores)
+
+MODO SIMULAÇÃO PARA NOVAS IAs:
+- Você clica em "Adicionar IA de teste (Perplexity)"
+- Escolhe: "Quer simular em quais fluxos?" (chat, curadoria, oráculo, etc.)
+- O sistema:
+  - Calcula impacto (quantidade de chamadas, custos aproximados, etc.)
+  - Mostra mapa com "IA nova" em amarelo, sem realmente ativar ainda
+
+--------------------------------------------------------------------------------
+BLOCO F – FASE 1: ALÍVIO RÁPIDO (SEM DEV PESADO)
+--------------------------------------------------------------------------------
+
+1. CRIAR "MAPA-DO-SISTEMA.json" ÚNICO NO REPO:
+   Cada item: rota / módulo / fluxo IA / tabela / menu admin
+   Campos:
+   - id, tipo (tela, api, ia_flux, tabela, menu_admin)
+   - path (/dashboard, /api/chat, ORACULO_V2, etc.)
+   - uses_ia: [openai, deepseek, grok, together, perplexity]
+   - perfil: [usuaria, profissional, admin, whitelabel, gerador]
+   - descricao_curta
+   - links_relacionados: outras rotas / docs / txts
+   - blocos: [21, 22, 26]
+
+2. CRIAR DIAGRAMA MERMAID AUTOMÁTICO:
+   - Script que gera .md com mermaid a partir do JSON
+   - Abre isso num viewer (GitHub já renderiza Mermaid)
+
+3. REGRA DE OURO:
+   "Criou rota nova / menu novo / IA nova? Atualiza o JSON."
+
+--------------------------------------------------------------------------------
+BLOCO G – FASE 2: RADAR VISUAL INTERNO (QUANDO FASE 1 ESTIVER ESTÁVEL)
+--------------------------------------------------------------------------------
+
+CRIAR PÁGINA /admin/radar-visual COM:
+
+1. Painel lateral com filtros
+2. Canvas central (graph)
+3. Highlight do nó atual
+4. Integração com Triângulo de IAs
+5. Modo simulação para novas IAs
+
+ACOPLAR AO GERADOR DE SAAS:
+- Cada SaaS gerado já nasce com o seu próprio "radar visual" de arquitetura
+
+--------------------------------------------------------------------------------
+BLOCO H – MODELO DE BLOCO FORMAL
+--------------------------------------------------------------------------------
+
+DOC OU JSON COM:
+- id
+- faixa
+- status
+- descricao_curta
+
+CONVENÇÃO:
+"Sempre que criarmos um bloco novo, registramos aqui ANTES de sair codando."
+
+ATUALIZAR "MAPA DO SISTEMA" PARA JÁ SUPORTAR blocos: []
+Mesmo que hoje só tenha 10–40, já deixa o campo preparado.
+Isso evita remendo no futuro.
+
+================================================================================
+📊 RESUMO CONSOLIDADO - TODAS AS 33 FASES
+================================================================================
+
+| # | FASE | ITENS | STATUS |
+|---|------|-------|--------|
+| 1 | Completar Triângulo | 2 | ⏳ Pendente |
+| 2 | FanPage Viva | 4 | ⏳ Pendente |
+| 3 | Dívidas Técnicas | 2 | ⏳ Pendente |
+| 4 | Gerador de SaaS | 2 | ⏳ Pendente |
+| 5 | AI_CONFIG_CORE | 7 | ✅ Parcial |
+| 6 | Oráculo V2 Multiperfil | 4 | ⏳ Futuro (BLOCO 26-30) |
+| 7 | Control Hub Externo | 5 | ⏳ Futuro |
+| 8 | Avançado | 3 | ⏳ Futuro |
+| 9 | Auditoria Master V1 | 9 | ⏳ Pendente |
+| 10 | Verificar Patches | 10 | ⏳ Pendente |
+| 11 | Migrations | 3 | ⏳ Pendente |
+| 12 | Testes Manuais | 8 | ⏳ Pendente |
+| 13 | Documentação | 7 | ⏳ Pendente |
+| 14 | Deploy e Go-Live | 6 | ⏳ Pendente |
+| 15 | Auditoria V2 | 10 | ⏳ Pendente |
+| 16 | Avatares/Personas IA | 12 | ✅ Parcial (70%) |
+| 17 | ADMIN MENU CORE | 10 | ✅ Parcial |
+| 18 | NÚCLEO DE INTERFACES | 16 | ✅ Parcial |
+| 19 | MATRIZ DE IAs | 12 | ✅ Parcial |
+| 20 | MATRIZ GLOBAL DE IAs | 23 | ⚠️ Parcial (60%) |
+| 21 | MODO SIMULAÇÃO | 11 | ✅ Parcial (50%) |
+| 22 | PENTE FINO / LACUNAS | 22 | ✅ Parcial (55%) |
+| 23 | AUDITORIA BLOCO 21-25 | 25 | ✅ CONCLUÍDA |
+| 24 | AUDITORIA PROMPTS/PATCHES | 19 | ✅ MAPEADA |
+| 25 | PROMPTS CONSOLIDADOS | 30 | ✅ MAPEADA |
+| 26 | MEGA AUDITOR PARTE 1 | 10 | ✅ PRONTO P/ EXECUTAR |
+| 27 | ARQUIVO MEGA COMPLETO | 13 | ✅ PRONTO P/ EXECUTAR |
+| 28 | AVATAR/TTS + PERPLEXITY + ORQUESTRADOR | 15 | 📝 CONCEITUAL |
+| 29 | LABORATÓRIO DE IAs (SIMULAÇÃO) | 20 | 📝 CONCEITUAL |
+| 30 | ARQUITETURA VISUAL + ORGANOGRAMAS + MOCKUPS | 25 | 📝 CONCEITUAL |
+| 31 | DIAGRAMAS MERMAID + MAPA DE MENUS ADMIN | 30 | 📝 CONCEITUAL |
+| 32 | MAPA DO SISTEMA AUTOMATIZADO | 35 | 📝 CONCEITUAL |
+| 33 | ESCALABILIDADE BLOCOS (10-1000) + RADAR VISUAL | 40 | 📝 CONCEITUAL |
+
+TOTAL: 450 itens em 33 fases
+
+TOTAL DE FASES: ANTES ERA 32 / AGORA: 33
 
 ================================================================================
 🎯 PRÓXIMAS AÇÕES SUGERIDAS (SEM "OU", SEM "OPCIONAIS")
