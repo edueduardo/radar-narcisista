@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 17:05 UTC-5
+Última atualização: 04/12/2025 17:55 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -1545,6 +1545,23 @@ Telas que JÁ EXISTIAM:
 - /admin/conteudos/publicados
 - /admin/conteudos/colecoes
 - /admin/conteudos/insights
+
+================================================================================
+SESSÃO 04/12/2025 17:50 UTC-5 – HELP INTEGRADO NA SIDEBAR
+================================================================================
+
+Arquivo MODIFICADO: components/AdminSidebarV2.tsx (+115 linhas)
+
+Funcionalidades adicionadas:
+- Ícone "?" aparece ao passar o mouse em cada item do menu
+- Ao clicar no "?", abre modal com ajuda contextual
+- Modal exibe: O que é, Para que serve, Quando usar, Passo a passo, Exemplos, Avisos
+- Links para menus relacionados no modal
+- Integração com menu-help-registry.ts via getHelpForRoute()
+
+A sidebar agora consome:
+- ui-core-registry.ts para estrutura do menu
+- menu-help-registry.ts para textos de ajuda
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF

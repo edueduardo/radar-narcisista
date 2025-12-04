@@ -11,13 +11,15 @@ import {
   Menu,
   X,
   Sparkles,
-  Trash2
+  Trash2,
+  HelpCircle
 } from 'lucide-react'
 import { 
   getMenuForAudience, 
   type InterfaceGroup, 
   type InterfaceScreen 
 } from '@/lib/ui-core-registry'
+import { getHelpForRoute, MenuHelpBlock } from '@/lib/menu-help-registry'
 
 /**
  * AdminSidebarV2 - Sidebar do Admin usando UI Core Registry
@@ -34,6 +36,7 @@ export default function AdminSidebarV2() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [expandedGroups, setExpandedGroups] = useState<string[]>(['admin_overview', 'admin_ai_core'])
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [helpModal, setHelpModal] = useState<MenuHelpBlock | null>(null)
   
   // Carregar menu do registry
   const menu = getMenuForAudience('admin')
@@ -141,37 +144,54 @@ export default function AdminSidebarV2() {
               <div className="ml-2 border-l border-slate-700">
                 {screens.map(screen => {
                   const active = isActive(screen.route)
+                  const help = getHelpForRoute(screen.route)
                   
                   return (
-                    <Link
-                      key={screen.id}
-                      href={screen.isPlaceholder ? '#' : screen.route}
-                      className={`flex items-center gap-2 px-3 py-2 text-sm transition-colors ${
-                        screen.isPlaceholder
-                          ? 'text-slate-600 cursor-not-allowed'
-                          : screen.isNew
-                            ? 'bg-green-600/10 text-green-400 hover:bg-green-600/20'
-                            : active
-                              ? 'bg-purple-600/20 text-purple-400 border-r-2 border-purple-500'
-                              : 'text-slate-400 hover:bg-slate-800 hover:text-white'
-                      }`}
-                      onClick={e => screen.isPlaceholder && e.preventDefault()}
-                    >
-                      {screen.icon && <span>{screen.icon}</span>}
-                      <span className="truncate flex-1">{screen.label}</span>
+                    <div key={screen.id} className="flex items-center group">
+                      <Link
+                        href={screen.isPlaceholder ? '#' : screen.route}
+                        className={`flex items-center gap-2 px-3 py-2 text-sm transition-colors flex-1 ${
+                          screen.isPlaceholder
+                            ? 'text-slate-600 cursor-not-allowed'
+                            : screen.isNew
+                              ? 'bg-green-600/10 text-green-400 hover:bg-green-600/20'
+                              : active
+                                ? 'bg-purple-600/20 text-purple-400 border-r-2 border-purple-500'
+                                : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                        }`}
+                        onClick={e => screen.isPlaceholder && e.preventDefault()}
+                      >
+                        {screen.icon && <span>{screen.icon}</span>}
+                        <span className="truncate flex-1">{screen.label}</span>
+                        
+                        {screen.isNew && (
+                          <span className="bg-green-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                            NEW
+                          </span>
+                        )}
+                        
+                        {screen.isPlaceholder && (
+                          <span className="text-[10px] text-slate-600">
+                            Em breve
+                          </span>
+                        )}
+                      </Link>
                       
-                      {screen.isNew && (
-                        <span className="bg-green-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-                          NEW
-                        </span>
+                      {/* Help Icon */}
+                      {help && (
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            setHelpModal(help)
+                          }}
+                          className="p-1 mr-1 opacity-0 group-hover:opacity-100 hover:bg-slate-700 rounded text-slate-500 hover:text-purple-400 transition-all"
+                          title="Ajuda"
+                        >
+                          <HelpCircle className="w-3.5 h-3.5" />
+                        </button>
                       )}
-                      
-                      {screen.isPlaceholder && (
-                        <span className="text-[10px] text-slate-600">
-                          Em breve
-                        </span>
-                      )}
-                    </Link>
+                    </div>
                   )
                 })}
               </div>
@@ -238,6 +258,114 @@ export default function AdminSidebarV2() {
 
       {/* Spacer for content */}
       <div className={`hidden lg:block ${sidebarOpen ? 'w-64' : 'w-16'} flex-shrink-0 transition-all duration-300`} />
+
+      {/* Help Modal */}
+      {helpModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
+          <div className="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-lg max-h-[80vh] overflow-hidden">
+            <div className="p-4 border-b border-slate-800 flex items-center justify-between">
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                <HelpCircle className="w-5 h-5 text-purple-400" />
+                {helpModal.titulo}
+              </h3>
+              <button
+                onClick={() => setHelpModal(null)}
+                className="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-4 overflow-y-auto max-h-[60vh] space-y-4">
+              {/* O que é */}
+              <div>
+                <h4 className="text-sm font-semibold text-purple-400 mb-1">O que é:</h4>
+                <p className="text-slate-300 text-sm">{helpModal.o_que_e}</p>
+              </div>
+              
+              {/* Para que serve */}
+              <div>
+                <h4 className="text-sm font-semibold text-purple-400 mb-1">Para que serve:</h4>
+                <p className="text-slate-300 text-sm">{helpModal.para_que_serve}</p>
+              </div>
+              
+              {/* Quando usar */}
+              <div>
+                <h4 className="text-sm font-semibold text-purple-400 mb-1">Quando usar:</h4>
+                <p className="text-slate-300 text-sm">{helpModal.quando_usar}</p>
+              </div>
+              
+              {/* Passo a passo */}
+              {helpModal.passo_a_passo && helpModal.passo_a_passo.length > 0 && (
+                <div>
+                  <h4 className="text-sm font-semibold text-purple-400 mb-2">Passo a passo:</h4>
+                  <ol className="space-y-1">
+                    {helpModal.passo_a_passo.map((item: string, i: number) => (
+                      <li key={i} className="text-sm text-slate-400 flex items-start gap-2">
+                        <span className="text-purple-400 font-bold">{i + 1}.</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+              
+              {/* Exemplos */}
+              {helpModal.exemplos && helpModal.exemplos.length > 0 && (
+                <div>
+                  <h4 className="text-sm font-semibold text-purple-400 mb-2">Exemplos:</h4>
+                  <ul className="space-y-1">
+                    {helpModal.exemplos.map((ex: string, i: number) => (
+                      <li key={i} className="text-sm text-slate-400 flex items-start gap-2">
+                        <span className="text-green-400 mt-0.5">✓</span>
+                        {ex}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              
+              {/* Avisos */}
+              {helpModal.avisos && helpModal.avisos.length > 0 && (
+                <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
+                  <h4 className="text-sm font-semibold text-yellow-400 mb-2">⚠️ Avisos:</h4>
+                  <ul className="space-y-1">
+                    {helpModal.avisos.map((aviso: string, i: number) => (
+                      <li key={i} className="text-sm text-yellow-200/80">• {aviso}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              
+              {/* Ligações com outros menus */}
+              {helpModal.ligacoes_com_outros_menus && helpModal.ligacoes_com_outros_menus.length > 0 && (
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-400 mb-2">Relacionados:</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {helpModal.ligacoes_com_outros_menus.map((route: string, i: number) => (
+                      <Link
+                        key={i}
+                        href={route}
+                        onClick={() => setHelpModal(null)}
+                        className="text-xs px-2 py-1 bg-slate-800 hover:bg-slate-700 rounded text-purple-400"
+                      >
+                        {route}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="p-4 border-t border-slate-800 flex justify-end">
+              <button
+                onClick={() => setHelpModal(null)}
+                className="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm font-medium"
+              >
+                Entendi
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }
