@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 03:20 UTC-5
+Última atualização: 04/12/2025 04:30 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -241,20 +241,52 @@ O QUE FOI FEITO:
 └── FUTURO-TERMINAR-IMPLEMENTACAO.txt atualizado (~11.428 linhas)
 
 CONTAGEM DE ETAPAS:
-├── ANTES: 84 etapas
-└── AGORA: 89 etapas (+5 do BLOCO 21-25)
+├── ANTES: 89 etapas
+└── AGORA: 91 etapas (+2: ETAPA 31 Front Page + ETAPA 32 Matriz Oráculo)
 
 ================================================================================
-PRÓXIMOS PASSOS (BLOCO 21-25)
+SESSÃO 04/12/2025 04:30 UTC-5 – RESUMO COMPLETO
+================================================================================
+
+PATCHES APLICADOS:
+├── PATCH 1 – Oráculo V2 só ADMIN (BLOCO 21-25)
+├── PATCH 2 – Oráculo V2 MULTIPERFIL + GERADOR DE SAAS (BLOCO 26-30)
+├── PATCH 3A – Controle por plano/perfil + limites de uso
+├── PATCH 3B – ETAPA 31 – Reforma Front Page
+├── PATCH 4 – ETAPA 32 – Matriz Oráculo V1/V2 multi-instância
+└── REGRA FIXA – Documentação obrigatória para ETAPAS 21-32
+
+CONSTITUIÇÃO & NORTE:
+├── HERÓI DA HISTÓRIA: A USUÁRIA FINAL
+├── ARTIGO 1: Oráculo V1 = painel admin, NUNCA para usuária/profissional
+├── ARTIGO 2: Oráculo V2 = suporte ao uso, NUNCA diagnóstico
+├── ARTIGO 3: Instâncias separadas, dados não se misturam
+└── ARTIGO 4: O app NUNCA promete diagnóstico/resultado jurídico
+
+MATRIZ ORÁCULO:
+├── Radar Mestre: usuária/profissional → só V2 | admin → V1+V2
+├── Whitelabel: admin do parceiro → V1 (dados dele) + V2
+└── Gerador SaaS: opção de incluir V1 e/ou V2 na criação
+
+================================================================================
+PRÓXIMOS PASSOS (BLOCO 21-32)
 ================================================================================
 
 | ETAPA | Nome | Foco |
 |-------|------|------|
 | 21 | Billing Sólido & Add-ons | Stripe + user_addons |
-| 22 | ORÁCULO V2 Integrado | IA + Logs + Botão |
+| 22 | ORÁCULO V2 Integrado | IA + Logs + Botão (só admin) |
 | 23 | Segurança Técnica | Logs + Rate Limit |
 | 24 | Manuais & Links | Produto = Documentação |
 | 25 | QA Técnico | Checklist Pós-MVP 1.0 |
+| 26-30 | ORÁCULO V2 MULTIPERFIL | Todos os perfis + controle |
+| 31 | REFORMA FRONT PAGE | Marketing inteligente |
+| 32 | MATRIZ MULTI-INSTÂNCIA | V1/V2 em Whitelabel/Gerador |
+
+REGRA FIXA:
+├── NENHUMA ETAPA está completa sem atualizar TODOS os TXTs e Manuais
+├── Formato de commit: "ETAPA XX – [descrição] (código + documentação sincronizados)"
+└── PROIBIDO marcar como concluída se docs não refletirem realidade
 
 COMANDO PARA INICIAR:
 "Vou executar o CICLO RADAR 5 TXT completo e depois a ETAPA 21"
