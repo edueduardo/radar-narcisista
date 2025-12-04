@@ -11416,12 +11416,172 @@ Quando terminar ETAPA 25, responda com:
 - Sugestão de título para BLOCO 26-30
 
 ================================================================================
+=== 🔧 PATCH ORÁCULO – CORREÇÃO CONCEITUAL (PRIORIDADE MÁXIMA) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: PATCH ATIVO – PRIORIDADE SOBRE TEXTOS ANTIGOS
+
+Este patch ajusta TUDO que foi escrito antes sobre "Oráculo" neste projeto.
+VALENDO A PARTIR DE AGORA.
+
+Sempre que este documento for lido (Windsurf / ChatGPT / humano), considerar
+este PATCH como PRIORIDADE sobre qualquer texto antigo que diga o contrário.
+
+--------------------------------------------------------------------------------
+1. DOIS ORÁCULOS DIFERENTES (NOMES OFICIAIS)
+--------------------------------------------------------------------------------
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ORÁCULO V1 – PAINEL ADMIN                                                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Rota: /admin/oraculo                                                        │
+│ Função: painel de métricas e visão geral do produto                         │
+│ Perfil: SOMENTE ADMIN / DONO DO PRODUTO                                     │
+│ Status: JÁ EXISTE                                                           │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ORÁCULO V2 – IA INTERNA DE SUPORTE                                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Rota de API: /api/oraculo-v2                                                │
+│ Função: IA que ajuda a entender o produto, dados, métricas, erros           │
+│ NESTE BLOCO 21-25: uso EXCLUSIVO DO ADMIN                                   │
+│ FUTURO (BLOCO 26-30): poderá ser aberta para outros perfis                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+2. CORREÇÃO DE ENTENDIMENTO (POR QUE DEU CONFUSÃO)
+--------------------------------------------------------------------------------
+
+├── O primeiro "Oráculo" criado foi o ORÁCULO V1, DENTRO DO ADMIN
+│   → a cabeça fixou isso como "ferramenta só do Edu"
+│
+├── Depois o conceito foi expandido para uma IA que poderia atender
+│   outros perfis, mas usando o mesmo nome "Oráculo", gerando confusão
+│
+└── A PARTIR DESTE PATCH:
+    ├── ORÁCULO V1 = painel (já está claro, continua igual)
+    └── ORÁCULO V2 = IA, mas NESTE BLOCO 21-25 É SÓ PARA ADMIN
+
+⚠️ REGRA DE INTERPRETAÇÃO:
+Qualquer texto anterior que diga que o Oráculo V2 "já atende usuária,
+profissional, dev, whitelabel" deve ser lido como:
+→ "PLANEJADO PARA FUTURO BLOCO (26-30), NÃO IMPLEMENTADO AGORA."
+
+--------------------------------------------------------------------------------
+3. DECISÃO OFICIAL PARA O BLOCO 21-25
+--------------------------------------------------------------------------------
+
+NESTE BLOCO (21-25):
+
+1. ORÁCULO V1 (painel /admin/oraculo)
+   └── Continua como está: painel de métricas, visão geral, só ADMIN
+
+2. ORÁCULO V2 (IA de suporte)
+   ├── Backend: rota /api/oraculo-v2 + tabela oraculo_logs → CRIAR AGORA
+   ├── Prompt do ORÁCULO V2 → PRONTO (como especificado)
+   ├── FRONT: botão do Oráculo APENAS PARA ADMIN
+   │   └── Telas: /admin/oraculo, /admin, /admin/lampada
+   ├── user_role utilizado na prática: "admin"
+   └── Outros roles (usuaria, profissional, dev, whitelabel):
+       └── Previstos no prompt/config, mas NÃO expostos no front
+
+3. ABERTURA PARA OUTROS PERFIS (FUTURO)
+   └── SOMENTE em BLOCO FUTURO (26-30), com:
+       ├── feature flag por perfil
+       ├── controle de risco
+       ├── atualização de manuais
+       └── ajuste de UI
+
+💡 REGISTRAR NA LÂMPADA:
+"IDEIA FUTURA: Abrir ORÁCULO V2 (IA) para outros perfis
+(usuária/profissional/dev/whitelabel) APÓS BLOCO 25,
+com flags por plano/perfil."
+
+--------------------------------------------------------------------------------
+4. COMO O WINDSURF E O CHATGPT DEVEM LER ISSO
+--------------------------------------------------------------------------------
+
+1. SE ALGUM TEXTO ANTIGO DISSER:
+   "Oráculo V2 atende usuária/profissional/dev/whitelabel agora"
+   → ENTENDER COMO: "PLANEJADO, NÃO IMPLEMENTADO NESTE BLOCO 21-25"
+
+2. SE HOUVER DÚVIDA DE COMPORTAMENTO ATUAL:
+   ├── ORÁCULO V1: painel /admin/oraculo, só admin
+   └── ORÁCULO V2: IA chamada só pelo admin, em rotas/admin, user_role="admin"
+
+3. QUANDO FOR GERAR TAREFAS / COMMITS NO BLOCO 21-25:
+   ├── Referência a "Oráculo para usuária/profissional" → FUTURO
+   ├── ROADMAP → FUTURO
+   ├── LÂMPADA → "Idea / Futuro Bloco 26-30"
+   └── NÃO implementar front público para Oráculo V2 agora
+
+--------------------------------------------------------------------------------
+5. RESUMO EXECUTIVO (VERSÃO CURTA)
+--------------------------------------------------------------------------------
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PATCH ORÁCULO – BLOCO 21-25                                                 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ • ORÁCULO V1 = painel /admin/oraculo → só ADMIN (já existe)                 │
+│ • ORÁCULO V2 = IA de suporte → NESTE BLOCO é apenas para ADMIN              │
+│ • Qualquer menção a Oráculo V2 para usuária/profissional/dev/whitelabel     │
+│   = FUTURO (bloco 26-30), não implementada agora                            │
+│ • Windsurf e ChatGPT devem considerar este patch como prioridade            │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+6. ATUALIZAÇÃO DA ETAPA 22 (CORRIGIDA)
+--------------------------------------------------------------------------------
+
+ETAPA 22 – ORÁCULO V2 INTEGRADO (VERSÃO CORRIGIDA)
+
+OBJETIVO:
+Criar o ORÁCULO V2 como IA de suporte EXCLUSIVA PARA ADMIN neste bloco.
+
+TAREFAS OBRIGATÓRIAS:
+
+1. Criar rota POST /api/oraculo-v2:
+   ├── Receber: user_role, manual_context, language, url_atual, question, plan
+   ├── Chamar IA ORACULO_V2 com prompt SYSTEM
+   └── Devolver JSON estruturado
+
+2. Criar tabela oraculo_logs no Supabase:
+   ├── id, user_id, user_role, plan, url_atual, question
+   ├── resposta_modo, resposta_risco, resposta_json (jsonb)
+   ├── flag_risco_alto, created_at
+   └── RLS limitada a service_role em admin
+
+3. Integrar botão "Perguntar ao Oráculo" APENAS NO ADMIN:
+   ├── /admin/oraculo (principal)
+   ├── /admin (dashboard admin)
+   └── /admin/lampada (se existir)
+
+4. NÃO FAZER NESTE BLOCO:
+   ├── ❌ Botão do Oráculo no dashboard da usuária
+   ├── ❌ Botão do Oráculo no dashboard profissional
+   ├── ❌ Botão do Oráculo nas páginas de manuais públicos
+   └── ❌ Liberação de user_role diferente de "admin"
+
+5. Atualizar manuais:
+   ├── ADMIN: seção "Como usar o Oráculo V2" (só admin)
+   └── DEV: endpoint /api/oraculo-v2, contrato JSON
+
+CRITÉRIOS DE CONCLUSÃO:
+├── /api/oraculo-v2 responde JSON válido
+├── oraculo_logs registra chamadas
+├── Botão funciona APENAS nas telas de admin
+├── LÂMPADA registra "Oráculo V2 para outros perfis = FUTURO"
+└── Commit + push + deploy ok
+
+================================================================================
 === 📊 CONTAGEM FINAL DE ETAPAS ===
 ================================================================================
 
-ANTES ERA: 84 etapas
-AGORA: 89 etapas (+5 do BLOCO 21-25)
+ANTES ERA: 89 etapas
+AGORA: 89 etapas (sem alteração, apenas correção conceitual)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 03:20 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 03:50 UTC-5
 ================================================================================
