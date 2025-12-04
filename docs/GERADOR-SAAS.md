@@ -1,8 +1,49 @@
 # GERADOR DE SAAS - Documentação Completa
 
-> **Versão:** 1.0  
-> **Data:** 03/12/2025  
-> **Status:** FASE 1 COMPLETA (Doc + UI Admin)
+> **Versão:** 1.1  
+> **Data:** 04/12/2025  
+> **Status:** FASE 1 COMPLETA (Doc + UI Admin) + REGRA GLOBAL DEFINIDA
+
+---
+
+## ⚠️ REGRA GLOBAL CRÍTICA
+
+**TUDO QUE EXISTE NO RADAR = CORE DO GERADOR DE SAAS**
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ REGRA: O GERADOR DE SAAS herda e reaproveita TODO o design do Radar        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│ Quando Eduardo falar sobre:                                                 │
+│ ├── Admin                                                                   │
+│ ├── Dashboards (usuária, profissional, white label)                         │
+│ ├── Oráculos (V1/V2)                                                        │
+│ ├── Planos, limites, add-ons                                                │
+│ ├── Segurança, logs, LGPD, Observabilidade                                  │
+│ └── Manuais, documentação                                                   │
+│                                                                             │
+│ VOCÊ DEVE ASSUMIR:                                                          │
+│ 1) Isso faz parte do CORE da plataforma Radar                               │
+│ 2) Isso também faz parte do CORE do GERADOR DE SAAS                         │
+│ 3) Isso precisa estar documentado para reuso                                │
+│                                                                             │
+│ NÃO trate "Gerador de SaaS" como só a ÚLTIMA coisa que ele falou.           │
+│ Trate como: "O GERADOR herda TODO o design do Radar, por padrão."           │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Módulos CORE Compartilhados
+
+| Módulo | Função | Status |
+|--------|--------|--------|
+| **ORACULO_V2_CORE** | IA de suporte reutilizável | ✅ Definido |
+| **PLANOS_CORE** | Sistema de features/perfis/cohorts | ✅ Definido |
+| **CONTROL_TOWER** | Gerenciamento de projetos | ✅ Definido |
+| **TELEMETRY_CORE** | Observabilidade centralizada | ✅ Definido |
+| **HELPDESK_CORE** | Sistema de suporte | ✅ Definido |
+| **ADDONS_CORE** | Créditos e add-ons | ✅ Definido |
+| **PERSONAS_CORE** | Sistema de Avatares de IA | ✅ Definido |
 
 ---
 
