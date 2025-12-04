@@ -13034,6 +13034,71 @@ Assim eu evito divergência:
 ├── Se está marcado pro plano no catálogo
 └── É porque o perfil atual realmente tem aquele recurso
 
+--------------------------------------------------------------------------------
+8. GERADOR DE SAAS – COMO ESTE PATCH SE APLICA
+--------------------------------------------------------------------------------
+
+REGRA GERAL:
+├── Tudo que existir como conceito de Admin, Dashboard, Planos, Features
+├── Deve ser visto como BLUEPRINT PADRÃO que o GERADOR DE SAAS pode copiar
+└── "No administrador, eu tenho isso" = "Isso também existe no GERADOR DE SAAS"
+
+MÓDULO COMPARTILHADO: PLANOS_CORE
+├── Mesmo espírito do ORACULO_V2_CORE
+├── Implementa:
+│   ├── Tabelas de features
+│   ├── feature_profiles
+│   ├── plan_catalog
+│   ├── user_feature_overrides
+│   └── Cálculo de direitos finais
+└── Regras:
+    ├── O Radar Narcisista é 1 instância que usa o PLANOS_CORE
+    ├── O GERADOR DE SAAS pode reutilizar esse mesmo módulo
+    ├── Criar planos/features/profiles próprios para cada SaaS gerado
+    └── Manter a mesma lógica de direitos adquiridos e promoções
+
+REFLEXO DAS TELAS NO GERADOR DE SAAS:
+├── Se o admin do Radar ganha uma tela "Configurar planos e perfis":
+│   └── O GERADOR DE SAAS ganha capacidade de gerar telas equivalentes
+├── Se o dashboard da usuária mostrar "o que meu plano inclui":
+│   └── O GERADOR DE SAAS pode gerar a mesma experiência
+└── Qualquer SaaS criado pelo GERADOR pode:
+    ├── Nascer com o PLANOS_CORE embutido
+    ├── Definir seus próprios feature_key específicos de domínio
+    └── Reaproveitar a mesma mecânica de promo, cohorts, overrides
+
+--------------------------------------------------------------------------------
+9. EXEMPLOS DE FEATURES PARA O SISTEMA
+--------------------------------------------------------------------------------
+
+FEATURES CORE:
+├── diario_ilimitado
+├── oraculo_v2_admin
+├── oraculo_v2_usuaria
+├── relatorios_pdf_defesa
+├── white_label_branding
+├── multi_cliente_profissional
+├── limite_diario_50_entries
+├── limite_diario_500_entries
+├── voz_transcricao
+├── dashboard_profissional
+├── oraculo_v2_core_incluido
+├── has_addon_credit_pack_X
+└── max_professional_clients
+
+FEATURES ORÁCULO:
+├── has_oraculo_v2_admin
+├── has_oraculo_v2_usuaria
+├── oraculo_v2_daily_limit
+├── oraculo_v2_weekly_limit
+└── oraculo_v2_monthly_limit
+
+FEATURES DEFESA:
+├── has_pdf_evidencias
+├── has_exportacao_timeline
+├── has_cadeia_custodia
+└── has_relatorio_forense
+
 ================================================================================
 === 🔮 BLOCO 31-35 – CATÁLOGO DE PLANOS, PERFIS E COHORTS ===
 ================================================================================
@@ -13205,12 +13270,39 @@ Ao concluir a ETAPA 35, responder com:
    └── PRÓXIMA AÇÃO SUGERIDA em bulletpoints
 
 ================================================================================
+=== 🔗 REGRA CRÍTICA: ADMIN + DASHBOARD = GERADOR DE SAAS ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: REGRA OBRIGATÓRIA
+
+REGRA:
+├── Tudo que for verdade no ADMIN do Radar → vira matéria-prima do GERADOR DE SAAS
+├── Tudo que for verdade no DASHBOARD do Radar → vira matéria-prima do GERADOR DE SAAS
+└── "No administrador, eu tenho isso" = "Isso também existe no GERADOR DE SAAS"
+
+MÓDULOS COMPARTILHADOS (CORES):
+├── ORACULO_V2_CORE → IA de suporte reutilizável
+├── PLANOS_CORE → Sistema de features/perfis/cohorts reutilizável
+└── [FUTUROS] → Outros módulos que surgirem seguem a mesma lógica
+
+APLICAÇÃO PRÁTICA:
+├── Se eu crio uma tela no /admin do Radar:
+│   └── O GERADOR DE SAAS deve poder gerar tela equivalente
+├── Se eu crio uma funcionalidade no dashboard da usuária:
+│   └── O GERADOR DE SAAS deve poder gerar funcionalidade equivalente
+└── Qualquer SaaS gerado pode:
+    ├── Nascer com os CORES embutidos
+    ├── Definir seus próprios dados específicos de domínio
+    └── Reaproveitar toda a mecânica já construída
+
+================================================================================
 === 📊 CONTAGEM FINAL DE ETAPAS ===
 ================================================================================
 
-ANTES ERA: 96 etapas
-AGORA: 101 etapas (+5 do BLOCO 31-35: ETAPAS 31, 32, 33, 34, 35)
+ANTES ERA: 101 etapas
+AGORA: 101 etapas (sem alteração, apenas regra ADMIN+DASHBOARD=GERADOR adicionada)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 05:10 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 05:15 UTC-5
 ================================================================================

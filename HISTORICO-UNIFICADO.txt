@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 05:10 UTC-5
+Última atualização: 04/12/2025 05:15 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -327,6 +327,16 @@ PATCH 5 – PLANOS & FEATURES:
 ├── Cada cliente compra um PERFIL específico, não um "plano genérico"
 ├── Promoções = perfis diferentes (profissional_bf_2025, free_promo_natal)
 └── Exceções individuais = overrides por usuário
+
+REGRA CRÍTICA: ADMIN + DASHBOARD = GERADOR DE SAAS:
+├── Tudo que for verdade no ADMIN do Radar → vira matéria-prima do GERADOR DE SAAS
+├── Tudo que for verdade no DASHBOARD do Radar → vira matéria-prima do GERADOR DE SAAS
+└── "No administrador, eu tenho isso" = "Isso também existe no GERADOR DE SAAS"
+
+MÓDULOS COMPARTILHADOS (CORES):
+├── ORACULO_V2_CORE → IA de suporte reutilizável
+├── PLANOS_CORE → Sistema de features/perfis/cohorts reutilizável
+└── [FUTUROS] → Outros módulos seguem a mesma lógica
 
 REGRA FIXA:
 ├── NENHUMA ETAPA está completa sem atualizar TODOS os TXTs e Manuais
