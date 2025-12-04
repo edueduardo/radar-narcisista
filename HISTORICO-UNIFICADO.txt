@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 05:25 UTC-5
+Última atualização: 04/12/2025 05:30 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -352,6 +352,16 @@ PATCH 6 – GERADOR DE SAAS & SAAS GERADOS:
 │   ├── TESTES-<NOME-DO-SAAS>.txt
 │   └── LAMPADA-<NOME-DO-SAAS>.txt
 └── Objetivo: dono do SaaS pode pegar o KIT, colar no ChatGPT e evoluir sozinho
+
+PATCH 7 – MÃE, CORE BRANCO, FILHOS (3 NÍVEIS):
+├── NÍVEL 1: RADAR-CORE (MÃE) – Projeto principal
+├── NÍVEL 2: CORE BRANCO (Template neutro) – Sem tema, infraestrutura completa
+├── NÍVEL 3: SAAS TEMÁTICOS/ÚNICOS (Filhos) – Com tema específico
+├── TRÊS MODOS DO GERADOR:
+│   ├── MODO 1: SAAS Temático direto da MÃE
+│   ├── MODO 2: CORE BRANCO (neutro)
+│   └── MODO 3: SAAS a partir de CORE BRANCO existente
+└── ORIGEM-CORE.txt obrigatório em todo projeto gerado
 
 REGRA FIXA:
 ├── NENHUMA ETAPA está completa sem atualizar TODOS os TXTs e Manuais

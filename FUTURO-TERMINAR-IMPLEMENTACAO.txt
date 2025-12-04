@@ -13645,12 +13645,219 @@ PATCH 6 – GERADOR DE SAAS & SAAS GERADOS
 └── Windsurf e ChatGPT devem respeitar essa separação e sempre registrar nos TXTs
 
 ================================================================================
+=== 🔧 PATCH 7 – MÃE, CORE BRANCO, FILHOS (3 NÍVEIS DE LINHAGEM) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: PATCH CRÍTICO – DEFINE MODELO DE LINHAGEM DO GERADOR
+
+Este PATCH adiciona um nível intermediário na árvore de geração:
+├── ANTES: MÃE → GERADOR → SAAS TEMÁTICO
+└── AGORA: MÃE → CORE BRANCO (neutro) → SAAS TEMÁTICOS/ÚNICOS
+
+--------------------------------------------------------------------------------
+1. MODELO DE LINHAGEM – 3 NÍVEIS
+--------------------------------------------------------------------------------
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ NÍVEL 1: RADAR-CORE (MÃE)                                                   │
+│ ├── Projeto principal, atual                                                │
+│ ├── Guarda os módulos CORE:                                                 │
+│ │   ├── ORACULO_V2_CORE                                                     │
+│ │   ├── PLANOS_CORE                                                         │
+│ │   ├── Segurança, LGPD, rate-limit, logs                                   │
+│ │   ├── Admin completo                                                      │
+│ │   └── Dashboards                                                          │
+│ └── TXTs principais (TUDO, ATLAS, ROADMAP, TESTES, LÂMPADA)                 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NÍVEL 2: CORE BRANCO (TEMPLATE NEUTRO)                                      │
+│ ├── Gerado a partir da MÃE                                                  │
+│ ├── Mesma infraestrutura (planos, oráculos, segurança, admin)               │
+│ ├── SEM textos, copy e narrativas de tema                                   │
+│ ├── Já nasce INDEPENDENTE da MÃE                                            │
+│ └── Pode ser usado como:                                                    │
+│     ├── Produto final (personalizar manualmente)                            │
+│     └── Novo "template mãe" de uma linhagem                                 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NÍVEL 3: SAAS TEMÁTICOS/ÚNICOS (FILHOS)                                     │
+│ ├── Gerado a partir da MÃE ou de um CORE BRANCO                             │
+│ ├── Código próprio, repositório próprio, ambiente próprio                   │
+│ ├── KIT DE DOCS próprio                                                     │
+│ └── NÃO recebe atualizações automáticas                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+2. TRÊS MODOS DO GERADOR DE SAAS
+--------------------------------------------------------------------------------
+
+MODO 1 – Criar SAAS TEMÁTICO a partir da MÃE (RADAR-CORE):
+├── Você escolhe: tema, perfis, idioma
+├── Gerador clona o CORE, aplica o tema
+└── Gera produto final: SAAS TEMÁTICO com docs próprios
+
+MODO 2 – Criar CORE BRANCO (Template neutro):
+├── Gerador clona o CORE da MÃE
+├── Zera textos de tema (pontos sensíveis, persona, copy)
+├── Mantém toda a infraestrutura (planos, oráculo, segurança, admin)
+└── Gera projeto-base neutro com docs próprios
+
+MODO 3 – Criar SAAS a partir de um CORE BRANCO existente:
+├── Escolhe qual Core Branco (ex.: CORE-BRANCO-CLINICAS v2)
+├── Escolhe o tema fino (ex.: "clínicas de fertilidade")
+└── Gera o SaaS temático a partir desse core
+
+--------------------------------------------------------------------------------
+3. CORE BRANCO – DETALHES
+--------------------------------------------------------------------------------
+
+DEFINIÇÃO:
+├── Projeto gerado a partir do RADAR-CORE
+├── Com mesma infraestrutura (planos, oráculos, segurança, admin)
+└── Porém SEM textos, copy e narrativas de tema (sem "narcisismo", etc.)
+
+O CORE BRANCO:
+├── Já nasce INDEPENDENTE da MÃE:
+│   ├── Outro repo/pasta
+│   └── Com ambiente próprio
+├── Já nasce com KIT DE DOCS próprio:
+│   ├── TUDO PARA O GPT – CORE-BRANCO-<ID>.txt
+│   ├── ATLAS-CORE-BRANCO-<ID>.txt
+│   ├── ROADMAP-CORE-BRANCO-<ID>.txt
+│   ├── TESTES-CORE-BRANCO-<ID>.txt
+│   └── LAMPADA-CORE-BRANCO-<ID>.txt
+└── Pode ser usado de dois jeitos:
+    ├── Como produto final (personalizar manualmente)
+    └── Como novo "template mãe" de uma linhagem
+
+--------------------------------------------------------------------------------
+4. ARQUIVO ORIGEM-CORE.txt (OBRIGATÓRIO)
+--------------------------------------------------------------------------------
+
+Todo projeto gerado deve ter um arquivo ORIGEM-CORE.txt com:
+
+```
+================================================================================
+ORIGEM-CORE.txt
+================================================================================
+
+origem: "RADAR-CORE"
+versao_base: "BLOCO-21-25"
+tipo: "CORE-BRANCO" | "SAAS-TEMATICO"
+data_criacao: "04/12/2025"
+gerador: "GERADOR-DE-SAAS@v1.0"
+tema: "<nome do tema>" | "NEUTRO"
+descricao: "<descrição curta do projeto>"
+
+================================================================================
+HISTÓRICO DE UPGRADES
+================================================================================
+
+(vazio inicialmente, preencher quando aplicar upgrades do RADAR-CORE)
+
+================================================================================
+```
+
+--------------------------------------------------------------------------------
+5. KIT MÍNIMO DE DOCS PARA QUALQUER PROJETO GERADO
+--------------------------------------------------------------------------------
+
+CORE BRANCO:
+├── TUDO PARA O GPT – CORE-BRANCO-<ID>.txt
+├── ATLAS-CORE-BRANCO-<ID>.txt
+├── ROADMAP-CORE-BRANCO-<ID>.txt
+├── TESTES-CORE-BRANCO-<ID>.txt
+├── LAMPADA-CORE-BRANCO-<ID>.txt
+└── ORIGEM-CORE.txt
+
+SAAS TEMÁTICO:
+├── TUDO PARA O GPT – <NOME-DO-SAAS>.txt
+├── ATLAS-<NOME-DO-SAAS>.txt
+├── ROADMAP-<NOME-DO-SAAS>.txt
+├── TESTES-<NOME-DO-SAAS>.txt
+├── LAMPADA-<NOME-DO-SAAS>.txt
+└── ORIGEM-CORE.txt
+
+--------------------------------------------------------------------------------
+6. REGRA DE DESVINCULAÇÃO
+--------------------------------------------------------------------------------
+
+DECISÃO OFICIAL:
+├── Todo projeto gerado (CORE BRANCO ou SAAS temático)
+│   já nasce DESVINCULADO da MÃE para efeitos de código
+├── A vinculação com o RADAR-CORE passa a ser apenas:
+│   └── "foi baseado em RADAR-CORE@versão-X" (guardado em ORIGEM-CORE.txt)
+└── Nada é atualizado automaticamente no filho só porque a MÃE evoluiu
+
+Para atualizar um filho:
+├── Planejar como bloco de upgrade específico
+├── Anotar no ROADMAP e na LÂMPADA desse projeto
+└── Aplicar manualmente as melhorias
+
+--------------------------------------------------------------------------------
+7. FLUXO VISUAL COMPLETO
+--------------------------------------------------------------------------------
+
+```
+                    ┌─────────────────────┐
+                    │   RADAR-CORE (MÃE)  │
+                    │   Projeto Principal │
+                    └──────────┬──────────┘
+                               │
+           ┌───────────────────┼───────────────────┐
+           │                   │                   │
+           ▼                   ▼                   ▼
+┌──────────────────┐ ┌──────────────────┐ ┌──────────────────┐
+│ MODO 1           │ │ MODO 2           │ │ MODO 3           │
+│ SAAS Temático    │ │ CORE BRANCO      │ │ SAAS de Core     │
+│ direto da MÃE    │ │ (neutro)         │ │ Branco existente │
+└────────┬─────────┘ └────────┬─────────┘ └────────┬─────────┘
+         │                    │                    │
+         ▼                    ▼                    ▼
+┌──────────────────┐ ┌──────────────────┐ ┌──────────────────┐
+│ SAAS IGREJAS     │ │ CORE-BRANCO-001  │ │ SAAS CLINICAS    │
+│ (independente)   │ │ (independente)   │ │ (independente)   │
+│ + KIT DE DOCS    │ │ + KIT DE DOCS    │ │ + KIT DE DOCS    │
+└──────────────────┘ └────────┬─────────┘ └──────────────────┘
+                              │
+                    ┌─────────┴─────────┐
+                    │                   │
+                    ▼                   ▼
+          ┌──────────────────┐ ┌──────────────────┐
+          │ SAAS FERTILIDADE │ │ SAAS PSICOLOGIA  │
+          │ (independente)   │ │ (independente)   │
+          │ + KIT DE DOCS    │ │ + KIT DE DOCS    │
+          └──────────────────┘ └──────────────────┘
+```
+
+--------------------------------------------------------------------------------
+8. MELHORIAS IDENTIFICADAS
+--------------------------------------------------------------------------------
+
+- Consolidar este PATCH em docs/PATCH-GERADOR-SAAS.md
+- Criar ORIGEM-CORE.txt como padrão para todos os projetos
+- Ajustar ROADMAP-RADAR.txt e LAMPADA-RADAR.txt para registrar os 3 modos
+- Definir formato padrão dos KIT de DOCS para qualquer novo SaaS gerado
+- Implementar UI do MODO 2 (Core Branco) no /admin/gerador-saas
+- Implementar UI do MODO 3 (SaaS de Core Branco) no /admin/gerador-saas
+
+--------------------------------------------------------------------------------
+9. PRÓXIMA AÇÃO SUGERIDA
+--------------------------------------------------------------------------------
+
+- Criar/atualizar docs/PATCH-GERADOR-SAAS.md com o texto deste PATCH
+- Criar ORIGEM-CORE.txt no RADAR-CORE documentando a versão atual
+- Ajustar LAMPADA-RADAR.txt e ROADMAP-RADAR.txt registrando os 3 modos
+- Definir modelo de KIT DE DOCS para novos projetos
+- Implementar MODO 2 (Core Branco) no Gerador de SaaS
+- Implementar MODO 3 (SaaS de Core Branco) no Gerador de SaaS
+
+================================================================================
 === 📊 CONTAGEM FINAL DE ETAPAS ===
 ================================================================================
 
 ANTES ERA: 101 etapas
-AGORA: 101 etapas (sem alteração, apenas PATCH 6 adicionado)
+AGORA: 101 etapas (sem alteração, apenas PATCH 7 adicionado)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 05:25 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 05:30 UTC-5
 ================================================================================
