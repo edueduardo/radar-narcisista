@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 16:20 UTC-5
+Última atualização: 04/12/2025 17:05 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -1517,6 +1517,34 @@ GERADOR-CORE.md contém:
 - Fluxo de geração
 - Tabelas do gerador
 - Temas disponíveis
+
+================================================================================
+SESSÃO 04/12/2025 17:00 UTC-5 – TELAS FANPAGE VIVA
+================================================================================
+
+Arquivos NOVOS:
+- app/admin/fanpage/config/page.tsx (450 linhas) - Config blocos da frontpage
+- app/admin/academy/page.tsx (550 linhas) - Gestão de trilhas de aprendizado
+
+/admin/fanpage/config:
+- 6 blocos configuráveis (Radar em Números, FAQ, Radar no Mundo, Academy, Depoimentos, Clima)
+- Toggle ativar/desativar por bloco
+- Reordenação por drag
+- Config de max items e refresh interval
+- Modal de configuração avançada (JSON)
+
+/admin/academy:
+- CRUD de trilhas de aprendizado
+- 4 tipos de aula: video, article, quiz, exercise
+- 3 níveis: iniciante, intermediário, avançado
+- Controle de publicação e premium
+- Estatísticas de inscritos e conclusão
+
+Telas que JÁ EXISTIAM:
+- /admin/conteudos/sugestoes (597 linhas)
+- /admin/conteudos/publicados
+- /admin/conteudos/colecoes
+- /admin/conteudos/insights
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF

@@ -19311,10 +19311,16 @@ TOTAL DE FASES: ANTES ERA 34 / AGORA: 35
    - docs/GERADOR-CORE.md ✅ CRIADO
 
 8. Integrar componentes:
-   - Sidebar consumir adminCoreMenu
-   - Ícone "?" em cada menu abrindo help
+   - Sidebar consumir adminCoreMenu ✅ (AdminSidebar.tsx criado)
+   - Ícone "?" em cada menu abrindo help ✅ (AdminSidebar.tsx)
    - UI usuário exibir persona (não nome técnico)
-   - Frontpage ler plan_catalog dinamicamente
+   - Frontpage ler plan_catalog dinamicamente ✅ (usePlanCatalog.ts)
+
+9. Telas FANPAGE VIVA:
+   - /admin/fanpage/config ✅ CRIADO
+   - /admin/academy ✅ CRIADO
+   - /admin/conteudos/sugestoes ✅ JÁ EXISTIA
+   - /admin/conteudos/publicados ✅ JÁ EXISTIA
 
 ================================================================================
 FIM DO ESCOPO - VERSÃO CONSOLIDADA 04/12/2025 07:13 UTC-5
