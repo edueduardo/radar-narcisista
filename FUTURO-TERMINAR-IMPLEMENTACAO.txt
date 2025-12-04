@@ -7680,14 +7680,86 @@ REGRAS:
 └── Se RLS não puder ser aplicado, registrar como tarefa ALTA
 
 ================================================================================
+=== 📋 PROMPT MESTRE ETAPA 12.1.1 (PÁGINA ACEITE CONVITE) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (criação do prompt)
+Status: 🔜 PRÓXIMO NA SEQUÊNCIA (após rodar migration)
+
+NOME DO PROMPT: RADAR – ETAPA 12.1.1 – PÁGINA DE ACEITE DE CONVITE (CLIENTE)
+
+PRÉ-REQUISITOS:
+├── ETAPA 12 (Dashboard Profissional V1) ✅
+├── ETAPA 12.1 (Infra Clientes Profissionais) ✅
+└── Migration rodada no Supabase ⚠️ OBRIGATÓRIO
+
+OBJETIVO:
+Criar a página de aceite de convite para clientes, fechando o fluxo:
+Profissional gera código → cliente recebe → cliente aceita → vínculo ACTIVE
+
+ESTRUTURA DO PROMPT:
+├── ETAPA 0 – Leitura e sincronização
+├── ETAPA 1 – Definir a rota da página de aceite
+├── ETAPA 2 – Lógica de validação do código
+├── ETAPA 3 – Escolher o que compartilhar (share_*)
+├── ETAPA 4 – UX, texto e ética
+├── ETAPA 5 – Testes manuais + TXT
+├── ETAPA 6 – Build, CICLO RADAR 5 TXT e resumo
+└── RESUMO FINAL (obrigatório)
+
+ROTAS A CRIAR:
+├── /aceitar-convite (com campo para digitar código)
+└── /aceitar-convite/[codigo] (link direto com código na URL)
+
+API A CRIAR/AJUSTAR:
+├── /api/professional/invite/validate (validar código)
+└── /api/professional/clients/[id] (atualizar para aceite)
+
+FLUXO DO CLIENTE:
+├── 1. Recebe código do profissional
+├── 2. Acessa /aceitar-convite ou /aceitar-convite/[codigo]
+├── 3. Se não logado → login/cadastro → volta para aceite
+├── 4. Vê dados do profissional e opções share_*
+├── 5. Escolhe o que compartilhar (checkboxes)
+├── 6. Confirma → status vira 'active'
+└── 7. Mensagem de sucesso + CTA
+
+CAMPOS share_* (checkboxes):
+├── share_clarity (Teste de Clareza)
+├── share_diary (Diário)
+├── share_chat (Resumos de Chat)
+├── share_safety (Plano de Segurança)
+└── share_alerts (Alertas de Risco)
+
+MICROCÓPIA OBRIGATÓRIA:
+├── O que o profissional poderá ver
+├── Radar NÃO substitui diagnóstico/terapia/laudo/parecer
+├── Profissional continua responsável pelas decisões
+└── Pessoa pode rever/revogar acesso no futuro
+
+REGRAS:
+├── Seguir etapas na ordem (0 → 1 → 2 → 3 → 4 → 5 → 6)
+├── Se algo extra for necessário, documentar no resumo
+├── NÃO modificar migrations antigas
+├── NÃO alterar fluxos críticos
+├── LGPD: deixar claríssimo o que será compartilhado
+└── Mobile: funcionar bem em ~360px
+
+ETAPAS FUTURAS RELACIONADAS:
+├── ETAPA 12.1.2 – Revogação de Acesso pelo Cliente
+├── ETAPA 12.2 – Relatórios agregados por cliente
+├── ETAPA 12.3 – Exportação em massa
+└── ETAPA 12.4 – Painel do Cliente com Profissionais Conectados
+
+================================================================================
 === 📊 IMPLEMENTAR WINDSURF + EDUARDO ===
 ================================================================================
 Fonte: Consolidação de todas as auditorias do chat
 Autoria: Windsurf + Eduardo
 Status: ATUALIZAÇÃO CONTÍNUA
 
-ANTES ERA: 32 etapas
-AGORA: 35 etapas (ETAPA 11.3, 12.1, 12.2, 12.3 adicionadas como futuras)
+ANTES ERA: 35 etapas
+AGORA: 39 etapas (ETAPA 12.1.1, 12.1.2, 12.4 adicionadas)
 
 --------------------------------------------------------------------------------
 FASES COMPLETAS (IMPLEMENTAR WINDSURF + EDUARDO)
@@ -7702,7 +7774,12 @@ BLOCO A – RADAR NARCISISTA BR (PRODUTO-MÃE)
 ├── ETAPA 11.2 – Ajustes Finos Dashboard ✅ FEITO (Windsurf cfbf8cf)
 ├── ETAPA 11.3 – Refinamentos Opcionais ⏳ BACKLOG (animação, gamificação)
 ├── ETAPA 12 – Dashboard Profissional V1 ✅ FEITO (Windsurf d2a67d4)
-├── ETAPA 12.1 – Infra Clientes Profissionais 🔜 PRÓXIMO
+├── ETAPA 12.1 – Infra Clientes Profissionais ✅ FEITO (Windsurf 8061006)
+├── ETAPA 12.1.1 – Página Aceite Convite 🔜 PRÓXIMO (após rodar migration)
+├── ETAPA 12.1.2 – Revogação de Acesso ⏳ FUTURO
+├── ETAPA 12.2 – Relatórios Agregados ⏳ FUTURO
+├── ETAPA 12.3 – Exportação em Massa ⏳ FUTURO
+├── ETAPA 12.4 – Painel Cliente c/ Profissionais ⏳ FUTURO
 ├── ETAPA 13 – Dashboard White-Label ⏳ FUTURO
 ├── ETAPA 14 – Loja / Upgrades ⏳ FUTURO
 ├── ETAPA 15 – Beta com 5 usuárias ⏳ FUTURO
@@ -7777,33 +7854,65 @@ RESULTADO ETAPA 12:
 └── Build: 146 páginas
 
 --------------------------------------------------------------------------------
-PRÓXIMO CICLO: CICLO 4 (ETAPA 12.1)
+CICLO 4: ETAPA 12.1 ✅ CONCLUÍDO
 --------------------------------------------------------------------------------
 
-[PASSO=GPT-4] ETAPA 12.1 (Infra Clientes Profissionais)
+[PASSO=GPT-4] ETAPA 12.1 (Infra Clientes Profissionais) ✅
 ├── Prompt Mestre ETAPA 12.1 criado ✅
-├── Criar tabela professional_clients
-├── Criar API /api/professional/clients
-├── Criar lib/professional-clients.ts
-└── Ligar Dashboard Profissional à tabela
+├── Criar tabela professional_clients ✅
+├── Criar API /api/professional/clients ✅
+├── Criar lib (inline no dashboard) ✅
+└── Ligar Dashboard Profissional à tabela ✅
 
-[PASSO-WINDSURF-4] Implementar ETAPA 12.1
-├── Criar migration para professional_clients
-├── Criar API e lib
-├── Atualizar app/dashboard-profissional/page.tsx
+[PASSO-WINDSURF-4] Implementar ETAPA 12.1 ✅
+├── Criar migration para professional_clients ✅
+├── Criar API GET/POST e [id] GET/PATCH/DELETE ✅
+├── Atualizar app/dashboard-profissional/page.tsx ✅
+├── Atualizar TXTs ✅
+├── Build + git + resumo ✅
+└── Commit: 8061006
+
+RESULTADO ETAPA 12.1:
+├── Tabela professional_clients com RLS
+├── Campos: professional_id, client_id, status, invite_code, share_*
+├── API GET /api/professional/clients (listar)
+├── API POST /api/professional/clients (criar convite)
+├── API GET/PATCH/DELETE /api/professional/clients/[id]
+├── Dashboard com modal de convite funcional
+├── Tabela de clientes com dados reais
+└── Build: 147 páginas
+
+⚠️ AÇÃO OBRIGATÓRIA: Rodar migration no Supabase!
+└── database/migrations/20241201_create_professional_clients.sql
+
+--------------------------------------------------------------------------------
+PRÓXIMO CICLO: CICLO 5 (ETAPA 12.1.1)
+--------------------------------------------------------------------------------
+
+[PASSO=GPT-5] ETAPA 12.1.1 (Página Aceite Convite)
+├── Prompt Mestre ETAPA 12.1.1 criado ✅
+├── Criar /aceitar-convite e /aceitar-convite/[codigo]
+├── API validação de código
+├── Formulário share_* com checkboxes
+└── Microcópia ética obrigatória
+
+[PASSO-WINDSURF-5] Implementar ETAPA 12.1.1
+├── Criar app/aceitar-convite/page.tsx
+├── Criar app/aceitar-convite/[codigo]/page.tsx
+├── Criar/ajustar API de validação
 ├── Atualizar TXTs
 └── Build + git + resumo
 
 --------------------------------------------------------------------------------
-CICLO 5: ENGINE.1-PREP (APÓS ETAPA 12.1)
+CICLO 6: ENGINE.1-PREP (APÓS ETAPA 12.1.1)
 --------------------------------------------------------------------------------
 
-[PASSO=GPT-5] ENGINE.1-PREP
+[PASSO=GPT-6] ENGINE.1-PREP
 ├── Desenhar ENGINE.1 (project_id)
 ├── Definir como adicionar multi-tenant sem quebrar
 └── Entregar prompt para Windsurf
 
-[PASSO-WINDSURF-5] Implementar ENGINE.1-PREP
+[PASSO-WINDSURF-6] Implementar ENGINE.1-PREP
 ├── Adicionar project_id nas tabelas principais
 ├── Criar helpers de multi-tenant
 └── Build + git + resumo
@@ -7819,11 +7928,12 @@ IMPLEMENTADO:
 ├── ETAPA 11 (Trilha do Herói - infra)
 ├── ETAPA 11.1 (Trilha Visual no Dashboard)
 ├── ETAPA 11.2 (Ajustes Finos Dashboard)
-└── ETAPA 12 (Dashboard Profissional V1)
-TOTAL IMPLEMENTADO: 7 blocos
+├── ETAPA 12 (Dashboard Profissional V1)
+└── ETAPA 12.1 (Infra Clientes Profissionais)
+TOTAL IMPLEMENTADO: 8 blocos
 
 PRÓXIMO:
-└── ETAPA 12.1 (Infra Clientes Profissionais)
+└── ETAPA 12.1.1 (Página Aceite Convite) ⚠️ Requer migration no Supabase
 TOTAL PRÓXIMO: 1 bloco
 
 BACKLOG (OPCIONAL):
@@ -7831,12 +7941,13 @@ BACKLOG (OPCIONAL):
 TOTAL BACKLOG: 1 bloco
 
 FUTURO:
-├── ETAPA 12.2-12.3 (Profissional V2/V3)
+├── ETAPA 12.1.2 (Revogação de Acesso)
+├── ETAPA 12.2-12.4 (Profissional V2/V3/V4)
 ├── ETAPA 13-16 (Radar V1)
 ├── ENGINE.1-5 (Motor)
 └── FABRICA.1-5 (Fábrica)
-TOTAL FUTURO: 16 blocos
+TOTAL FUTURO: 19 blocos
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 22:55 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:00 UTC-5
 ================================================================================
