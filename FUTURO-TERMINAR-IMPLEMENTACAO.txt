@@ -7834,6 +7834,96 @@ REGRAS:
 └── Ideias grandes → registrar no ROADMAP como V2/V3
 
 ================================================================================
+=== 📋 PROMPT PACOTE PROFISSIONAL 12.3 + 13 ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (criação do prompt)
+Status: 🔜 PRÓXIMO NA SEQUÊNCIA (após PACOTE 12.1.2+12.2)
+
+NOME DO PROMPT: RADAR – PACOTE PROFISSIONAL 12.3 + 13
+
+PRÉ-REQUISITOS:
+├── ETAPA 12.1.2 (Revogação de Acesso) ✅
+├── ETAPA 12.2 (Relatório Básico) ✅
+└── Migrations rodadas no Supabase ⚠️ OBRIGATÓRIO
+
+OBJETIVO:
+Implementar 2 ETAPAs juntas para ganhar velocidade:
+├── 12.3 – Exportação em Massa (V1, PDF/CSV)
+└── 13 – Infra White-label Profissional (V1, estrutura base)
+
+ESTRUTURA DO PROMPT:
+├── ETAPA 0 – Leitura, sincronização e checagem
+├── ETAPA 12.3 – Exportação em Massa (V1)
+├── ETAPA 13 – Infra White-label Profissional (V1)
+├── ETAPA 3 – Atualizar TXT (ATLAS, ROADMAP, TUDO, TESTES)
+├── ETAPA 4 – Build + CICLO RADAR 5 TXT + Resumo
+└── RESUMO FINAL (obrigatório)
+
+=== ETAPA 12.3 – EXPORTAÇÃO EM MASSA ===
+
+PONTO DE ENTRADA:
+└── /dashboard-profissional/clientes/[id] (botões de export)
+
+FUNCIONALIDADES:
+├── Botão "Exportar dados (PDF)"
+├── Botão "Exportar CSV (beta)" [opcional]
+├── Respeitar share_* (só dados autorizados)
+└── Respeitar RLS e LGPD
+
+OPÇÕES DE IMPLEMENTAÇÃO:
+├── Opção A (V1): HTML → print do navegador → PDF
+└── Opção B: API dedicada /api/professional/reports/[clientId]/export
+
+CAMPOS MÍNIMOS PARA EXPORT:
+├── Teste de Clareza (se share_clarity)
+├── Diário (se share_diary) → contagem, títulos
+├── Chat (se share_chat) → número de sessões
+└── Plano de Segurança (se share_safety) → SIM/NÃO
+
+TEXTO ÉTICO OBRIGATÓRIO:
+├── "Este material é um apoio para o profissional"
+├── "Não substitui parecer técnico, diagnóstico, laudo ou perícia"
+└── "Baseia-se em registros feitos pela própria usuária"
+
+=== ETAPA 13 – INFRA WHITE-LABEL V1 ===
+
+TABELA A CRIAR:
+├── professional_brand ou professional_profiles
+│   ├── professional_id (FK)
+│   ├── display_name (string)
+│   ├── brand_color (string, ex: #FF3366)
+│   ├── logo_url (string)
+│   ├── created_at, updated_at
+└── RLS: profissional só vê/edita sua própria linha
+
+API A CRIAR:
+├── GET /api/professional/brand (retorna config)
+└── POST/PUT /api/professional/brand (cria/atualiza)
+
+UI DE CONFIGURAÇÃO:
+├── Formulário em /dashboard-profissional ou /configuracoes-profissional
+├── Campos: Nome exibido, Cor principal, Logo URL
+└── Botão "Salvar marca"
+
+APLICAR BRAND:
+├── No /dashboard-profissional → título, badge, acento
+└── No /aceitar-convite → nome do profissional [opcional]
+
+ETAPAS FUTURAS RELACIONADAS:
+├── ETAPA 13.1 – Domínios customizados
+├── ETAPA 13.2 – Upload de logo
+└── ETAPA 12.3 V2 – PDF automático, CSV avançado
+
+REGRAS:
+├── Seguir etapas na ordem (0 → 12.3 → 13 → 3 → 4)
+├── Se algo extra for necessário, documentar no resumo
+├── NÃO mexer em migrations antigas
+├── NÃO quebrar LGPD, RLS, segurança ou ética
+├── Sugestões extras permitidas se ligadas às ETAPAs
+└── Ideias grandes → registrar no ROADMAP como V2/V3
+
+================================================================================
 === 📊 IMPLEMENTAR WINDSURF + EDUARDO ===
 ================================================================================
 Fonte: Consolidação de todas as auditorias do chat
@@ -7841,7 +7931,7 @@ Autoria: Windsurf + Eduardo
 Status: ATUALIZAÇÃO CONTÍNUA
 
 ANTES ERA: 39 etapas
-AGORA: 39 etapas (ETAPA 12.1.1 concluída, PACOTE 12.1.2+12.2 próximo)
+AGORA: 41 etapas (ETAPA 13.1, 13.2 adicionadas como futuras)
 
 --------------------------------------------------------------------------------
 FASES COMPLETAS (IMPLEMENTAR WINDSURF + EDUARDO)
@@ -7858,11 +7948,13 @@ BLOCO A – RADAR NARCISISTA BR (PRODUTO-MÃE)
 ├── ETAPA 12 – Dashboard Profissional V1 ✅ FEITO (Windsurf d2a67d4)
 ├── ETAPA 12.1 – Infra Clientes Profissionais ✅ FEITO (Windsurf 8061006)
 ├── ETAPA 12.1.1 – Página Aceite Convite ✅ FEITO (Windsurf bc5f5a4)
-├── ETAPA 12.1.2 – Revogação de Acesso 🔜 PRÓXIMO (PACOTE)
-├── ETAPA 12.2 – Relatórios Agregados 🔜 PRÓXIMO (PACOTE)
-├── ETAPA 12.3 – Exportação em Massa ⏳ FUTURO
+├── ETAPA 12.1.2 – Revogação de Acesso ✅ FEITO (Windsurf e339875)
+├── ETAPA 12.2 – Relatórios Agregados ✅ FEITO (Windsurf e339875)
+├── ETAPA 12.3 – Exportação em Massa 🔜 PRÓXIMO (PACOTE)
 ├── ETAPA 12.4 – Painel Cliente c/ Profissionais ⏳ FUTURO
-├── ETAPA 13 – Dashboard White-Label ⏳ FUTURO
+├── ETAPA 13 – Infra White-Label V1 🔜 PRÓXIMO (PACOTE)
+├── ETAPA 13.1 – Domínios Customizados ⏳ FUTURO
+├── ETAPA 13.2 – Upload de Logo ⏳ FUTURO
 ├── ETAPA 14 – Loja / Upgrades ⏳ FUTURO
 ├── ETAPA 15 – Beta com 5 usuárias ⏳ FUTURO
 └── ETAPA 16 – Segurança & LGPD Hardening ⏳ FUTURO
@@ -8001,33 +8093,63 @@ RESULTADO ETAPA 12.1.1:
 └── 2. database/migrations/20241201_fix_professional_clients_nullable.sql
 
 --------------------------------------------------------------------------------
-PRÓXIMO CICLO: CICLO 6 (PACOTE 12.1.2 + 12.2)
+CICLO 6: PACOTE 12.1.2 + 12.2 ✅ CONCLUÍDO
 --------------------------------------------------------------------------------
 
-[PASSO=GPT-6] PACOTE PROFISSIONAL 12.1.2 + 12.2
+[PASSO=GPT-6] PACOTE PROFISSIONAL 12.1.2 + 12.2 ✅
 ├── Prompt Mestre PACOTE criado ✅
-├── 12.1.2: Revogação de acesso pelo cliente
-├── 12.2: Relatório básico por cliente
+├── 12.1.2: Revogação de acesso pelo cliente ✅
+├── 12.2: Relatório básico por cliente ✅
+└── Ganhar velocidade com 2 ETAPAs juntas ✅
+
+[PASSO-WINDSURF-6] Implementar PACOTE 12.1.2 + 12.2 ✅
+├── Criar /configuracoes/profissionais ✅
+├── Criar /dashboard-profissional/clientes/[id] ✅
+├── APIs de revogação/pausa/retomada ✅
+├── Relatório com share_* respeitados ✅
+├── Atualizar TXTs ✅
+├── Build + git + resumo ✅
+└── Commit: e339875
+
+RESULTADO PACOTE 12.1.2 + 12.2:
+├── /configuracoes/profissionais (gestão pelo cliente)
+├── /dashboard-profissional/clientes/[id] (relatório)
+├── API /api/client/connections (GET)
+├── API /api/client/connections/[id] (PATCH)
+├── API /api/professional/reports/[clientId] (GET)
+├── Cliente pode revogar/pausar/retomar/editar share_*
+├── Profissional vê relatório respeitando share_*
+└── Build: 152 páginas
+
+--------------------------------------------------------------------------------
+PRÓXIMO CICLO: CICLO 7 (PACOTE 12.3 + 13)
+--------------------------------------------------------------------------------
+
+[PASSO=GPT-7] PACOTE PROFISSIONAL 12.3 + 13
+├── Prompt Mestre PACOTE criado ✅
+├── 12.3: Exportação em Massa (PDF/CSV)
+├── 13: Infra White-Label V1 (brand)
 └── Ganhar velocidade com 2 ETAPAs juntas
 
-[PASSO-WINDSURF-6] Implementar PACOTE 12.1.2 + 12.2
-├── Criar /configuracoes/profissionais
-├── Criar /dashboard-profissional/clientes/[id]
-├── APIs de revogação/pausa/retomada
-├── Relatório com share_* respeitados
+[PASSO-WINDSURF-7] Implementar PACOTE 12.3 + 13
+├── Botões de export em /dashboard-profissional/clientes/[id]
+├── Migration professional_brand
+├── API /api/professional/brand
+├── UI de configuração de marca
+├── Aplicar brand no dashboard
 ├── Atualizar TXTs
 └── Build + git + resumo
 
 --------------------------------------------------------------------------------
-CICLO 7: ENGINE.1-PREP (APÓS PACOTE)
+CICLO 8: ENGINE.1-PREP (APÓS PACOTE 12.3+13)
 --------------------------------------------------------------------------------
 
-[PASSO=GPT-7] ENGINE.1-PREP
+[PASSO=GPT-8] ENGINE.1-PREP
 ├── Desenhar ENGINE.1 (project_id)
 ├── Definir como adicionar multi-tenant sem quebrar
 └── Entregar prompt para Windsurf
 
-[PASSO-WINDSURF-7] Implementar ENGINE.1-PREP
+[PASSO-WINDSURF-8] Implementar ENGINE.1-PREP
 ├── Adicionar project_id nas tabelas principais
 ├── Criar helpers de multi-tenant
 └── Build + git + resumo
@@ -8045,12 +8167,14 @@ IMPLEMENTADO:
 ├── ETAPA 11.2 (Ajustes Finos Dashboard)
 ├── ETAPA 12 (Dashboard Profissional V1)
 ├── ETAPA 12.1 (Infra Clientes Profissionais)
-└── ETAPA 12.1.1 (Página Aceite Convite)
-TOTAL IMPLEMENTADO: 9 blocos
-
-PRÓXIMO (PACOTE):
+├── ETAPA 12.1.1 (Página Aceite Convite)
 ├── ETAPA 12.1.2 (Revogação de Acesso)
 └── ETAPA 12.2 (Relatório Básico por Cliente)
+TOTAL IMPLEMENTADO: 11 blocos
+
+PRÓXIMO (PACOTE):
+├── ETAPA 12.3 (Exportação em Massa)
+└── ETAPA 13 (Infra White-Label V1)
 TOTAL PRÓXIMO: 2 blocos (em 1 PACOTE)
 
 ⚠️ AÇÃO OBRIGATÓRIA ANTES DO PACOTE:
@@ -8062,12 +8186,13 @@ BACKLOG (OPCIONAL):
 TOTAL BACKLOG: 1 bloco
 
 FUTURO:
-├── ETAPA 12.3-12.4 (Profissional V3/V4)
-├── ETAPA 13-16 (Radar V1)
+├── ETAPA 12.4 (Painel Cliente c/ Profissionais)
+├── ETAPA 13.1-13.2 (White-Label V2/V3)
+├── ETAPA 14-16 (Radar V1)
 ├── ENGINE.1-5 (Motor)
 └── FABRICA.1-5 (Fábrica)
 TOTAL FUTURO: 17 blocos
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:10 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:20 UTC-5
 ================================================================================
