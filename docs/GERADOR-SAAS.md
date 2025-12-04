@@ -468,3 +468,70 @@ ai_transparency_settings (scope, show_persona_name, show_persona_avatar)
 - [ ] APIs /api/control-plane em cada instância
 - [ ] Visão consolidada de IA, planos e custos
 - [ ] Billing centralizado
+
+---
+
+## 🔧 PATCH 6 – SAAS GERADOS (SIMBIOSE + INDEPENDÊNCIA)
+
+### Conceito Principal
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ RADAR-CORE (Projeto Mãe)                                                    │
+│ ├── Módulos CORE (ORACULO_V2_CORE, PLANOS_CORE, etc.)                       │
+│ ├── Admin completo                                                          │
+│ ├── Dashboards                                                              │
+│ └── Docs principais (TUDO, ATLAS, ROADMAP, TESTES, LÂMPADA)                 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                              ↓ GERADOR DE SAAS ↓                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ SAAS GERADO (INSTÂNCIA)                                                     │
+│ ├── Código PRÓPRIO                                                          │
+│ ├── Docs PRÓPRIOS (TUDO, ATLAS, ROADMAP, TESTES, LÂMPADA)                   │
+│ ├── Banco de dados PRÓPRIO                                                  │
+│ └── INDEPENDENTE de updates automáticos do Radar                            │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### KIT MÍNIMO DE DOCS para cada SaaS Gerado
+
+Cada novo SaaS gerado nasce com:
+
+| Arquivo | Função |
+|---------|--------|
+| `TUDO PARA O GPT - <NOME>.txt` | Arquivo-mãe com contexto, blocos, decisões |
+| `ATLAS-<NOME>.txt` | Mapa de módulos, rotas, tabelas, IAs, planos |
+| `ROADMAP-<NOME>.txt` | Blocos 1-5, 6-10, etc. desse SaaS |
+| `TESTES-<NOME>.txt` | Como testar rotas, fluxos, IAs, LGPD |
+| `LAMPADA-<NOME>.txt` | Ideias, dívidas técnicas, insights futuros |
+
+### Objetivo
+
+O dono do SaaS pode:
+1. Pegar só esse KIT
+2. Colar no ChatGPT
+3. Continuar evoluindo aquele SaaS de forma autônoma
+4. Sem precisar voltar ao contexto do Radar
+
+### Fluxo Completo
+
+```
+PASSO 1: CONFIGURAÇÃO
+├── Admin acessa /admin/gerador-saas
+├── Escolhe tema/vertente (ex.: "co-parent", "igrejas")
+└── Define: nome, público, perfis, módulos, tom de voz
+
+PASSO 2: GERAÇÃO
+├── Clica em "Gerar SaaS"
+├── Sistema copia código, substitui placeholders
+├── Gera KIT DE DOCS com nome do projeto
+└── Cria ORIGEM-CORE.txt (referência à versão do Radar)
+
+PASSO 3: INDEPENDÊNCIA
+├── Novo SaaS nasce com código, docs e banco próprios
+└── A partir daqui, evolui separadamente do RADAR-CORE
+
+PASSO 4: EVOLUÇÃO AUTÔNOMA
+├── Dono pode pegar o KIT, colar no ChatGPT
+└── Continuar evoluindo sozinho
+```

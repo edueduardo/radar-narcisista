@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 05:20 UTC-5
+Última atualização: 04/12/2025 05:25 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -337,6 +337,21 @@ MÓDULOS COMPARTILHADOS (CORES):
 ├── ORACULO_V2_CORE → IA de suporte reutilizável
 ├── PLANOS_CORE → Sistema de features/perfis/cohorts reutilizável
 └── [FUTUROS] → Outros módulos seguem a mesma lógica
+
+PATCH 6 – GERADOR DE SAAS & SAAS GERADOS:
+├── RADAR-CORE = projeto mãe, guarda os módulos CORE
+├── GERADOR DE SAAS = usa o RADAR-CORE como blueprint para criar NOVOS SaaS
+├── Cada SAAS GERADO nasce:
+│   ├── Com código próprio
+│   ├── Com docs próprios (TUDO / ATLAS / ROADMAP / TESTES / LÂMPADA)
+│   └── Independente de updates automáticos do Radar
+├── KIT MÍNIMO DE DOCS para cada SaaS gerado:
+│   ├── TUDO PARA O GPT - <NOME-DO-SAAS>.txt
+│   ├── ATLAS-<NOME-DO-SAAS>.txt
+│   ├── ROADMAP-<NOME-DO-SAAS>.txt
+│   ├── TESTES-<NOME-DO-SAAS>.txt
+│   └── LAMPADA-<NOME-DO-SAAS>.txt
+└── Objetivo: dono do SaaS pode pegar o KIT, colar no ChatGPT e evoluir sozinho
 
 REGRA FIXA:
 ├── NENHUMA ETAPA está completa sem atualizar TODOS os TXTs e Manuais

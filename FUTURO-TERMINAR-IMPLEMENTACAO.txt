@@ -13424,12 +13424,233 @@ segurança, etc. do Radar, por padrão."
     └── Deixe a decisão para o Eduardo + ChatGPT antes de avançar
 
 ================================================================================
+=== 🔧 PATCH 6 – GERADOR DE SAAS & SAAS GERADOS (SIMBIOSE + INDEPENDÊNCIA) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: PATCH CRÍTICO – DEFINE CICLO DE VIDA DOS SAAS GERADOS
+
+Este PATCH ajusta TUDO que for escrito sobre:
+├── "Gerador de SaaS"
+├── "SaaS gerado pelo Gerador"
+└── Relação entre RADAR NARCISISTA e outros produtos gerados
+
+VALENDO A PARTIR DE AGORA.
+
+--------------------------------------------------------------------------------
+1. PAPÉIS OFICIAIS
+--------------------------------------------------------------------------------
+
+1) RADAR-CORE (Projeto "mãe"):
+   ├── Aqui vivem os módulos centrais:
+   │   ├── ORACULO_V2_CORE
+   │   ├── PLANOS_CORE
+   │   ├── Segurança, LGPD, logging, etc.
+   ├── Admin completo
+   ├── Dashboards
+   └── Docs principais:
+       ├── TUDO PARA O GPT.txt
+       ├── ATLAS-RADAR-NARCISISTA.txt
+       ├── ROADMAP-RADAR.txt
+       ├── TESTES-RADAR.txt
+       ├── LAMPADA-RADAR.txt
+       ├── PATCH-ORACULO.md
+       ├── REGRAS-COMUNICACAO-IA.md
+       └── BLOCO 1-20, 21-25, 26-30, 31-35, etc.
+
+2) GERADOR DE SAAS:
+   ├── Ferramenta que usa o RADAR-CORE como blueprint
+   ├── Funções:
+   │   ├── Receber tema/vertente (ex.: "co-parent", "igrejas", "clínicas")
+   │   ├── Configurar: público, perfis, tom de voz, módulos ativados
+   │   └── Gerar um novo projeto completo:
+   │       ├── Frontpage
+   │       ├── App interna
+   │       ├── Banco de dados
+   │       ├── Stack configurada
+   │       └── Módulos CORE copiados
+
+3) SAAS GERADO (INSTÂNCIA):
+   ├── Cada vez que o Gerador é usado, nasce um NOVO SAAS
+   ├── Este SaaS:
+   │   ├── Tem VIDA PRÓPRIA
+   │   ├── Tem CÓDIGO PRÓPRIO
+   │   ├── Tem DOCS PRÓPRIOS
+   │   └── NÃO é atualizado automaticamente pelas mudanças do RADAR-CORE
+   └── Pode ser:
+       ├── Um produto do próprio Eduardo
+       ├── Um white label
+       └── Um SaaS para um cliente específico
+
+--------------------------------------------------------------------------------
+2. SIMBIOSE: O QUE O RADAR-CORE ENTREGA AO GERADOR
+--------------------------------------------------------------------------------
+
+REGRA GLOBAL:
+"Tudo que for estruturado no RADAR-CORE como padrão de produto
+(planos, oráculos, segurança, LGPD, logging, admin, dashboards, docs)
+passa a ser parte do CORE DO GERADOR DE SAAS."
+
+ISTO INCLUI:
+├── ORACULO_V2_CORE (IA multiperfil)
+├── PLANOS_CORE (features, feature_profiles, plan_catalog, overrides)
+├── LGPD / export / apagar conta / consentimentos
+├── Segurança técnica (rate-limit, logs, healthcheck)
+├── Estrutura de manuais (usuária, profissional, admin, dev, whitelabel)
+└── Padrão dos arquivos:
+    ├── TUDO PARA O GPT
+    ├── ATLAS
+    ├── ROADMAP
+    ├── TESTES
+    ├── LÂMPADA
+    └── PATCHes
+
+Sempre que o RADAR-CORE ganhar um módulo CORE desse tipo:
+├── O GERADOR DE SAAS deve ser capaz de reutilizar esse módulo como template
+├── Opcionalmente ativar/desativar por SaaS gerado
+└── Documentar essa herança
+
+--------------------------------------------------------------------------------
+3. INDEPENDÊNCIA: O QUE ACONTECE QUANDO UM SAAS É GERADO
+--------------------------------------------------------------------------------
+
+DECISÃO OFICIAL:
+"Depois que o Gerador cria um novo SaaS, ELE SE TORNA INDEPENDENTE.
+Não recebe updates automáticos do RADAR-CORE."
+
+O SaaS gerado vira outro repositório/pasta com:
+├── Seu próprio package.json, .env.example, schema.sql / migrations
+├── Seus próprios componentes, páginas, rotas
+└── Seus próprios módulos CORE (copiados do template)
+
+Se no futuro o RADAR-CORE evoluir (ex.: PLANOS_CORE v2, ORACULO_V3):
+├── O SaaS gerado só será atualizado se o DONO decidir:
+│   ├── Aplicar um "pacote de upgrade"
+│   ├── Rodar migrations específicas
+│   └── Manualmente portar essas melhorias
+└── Nenhum SaaS gerado é "refém" das mudanças do RADAR-CORE
+
+--------------------------------------------------------------------------------
+4. CLONE DE DOCUMENTAÇÃO PARA CADA SAAS GERADO
+--------------------------------------------------------------------------------
+
+REGRA OBRIGATÓRIA:
+"Cada novo SaaS gerado deve nascer com o seu próprio KIT DE DOCS,
+seguindo o mesmo modelo do Radar, mas com nome próprio."
+
+KIT MÍNIMO DE DOCS PARA CADA SAAS GERADO:
+├── TUDO PARA O GPT - <NOME-DO-SAAS>.txt
+│   └── Arquivo-mãe com contexto, blocos, decisões
+├── ATLAS-<NOME-DO-SAAS>.txt
+│   └── Mapa de módulos, rotas, tabelas, IAs, planos
+├── ROADMAP-<NOME-DO-SAAS>.txt
+│   └── Blocos 1-5, 6-10, etc. desse SaaS
+├── TESTES-<NOME-DO-SAAS>.txt
+│   └── Como testar rotas, fluxos, IAs, LGPD
+├── LAMPADA-<NOME-DO-SAAS>.txt
+│   └── Ideias, dívidas técnicas, insights futuros
+└── (opcional) PATCH-<NOME-DO-SAAS>.md
+    └── Decisões conceituais específicas desse projeto
+
+ESSES ARQUIVOS DEVEM SER INICIALIZADOS COM:
+├── Resumo do tema
+├── Perfis de usuário
+├── Módulos ativados (oráculo, planos, etc.)
+├── Stack
+└── Informação de qual versão do RADAR-CORE serviu de base
+    Ex.: "Baseado em RADAR-CORE@BLOCO-31-35"
+
+OBJETIVO:
+├── Permitir que o dono do SaaS pegue só esse KIT
+├── Cole no ChatGPT
+└── Continue evoluindo aquele SaaS de forma autônoma
+
+--------------------------------------------------------------------------------
+5. REGRA PARA WINDSURF & CHATGPT (QUANDO ESTIVEREM NUM SAAS GERADO)
+--------------------------------------------------------------------------------
+
+1) Se os arquivos do projeto forem:
+   ├── TUDO PARA O GPT - COPARENT.txt
+   ├── ATLAS-COPARENT.txt
+   ├── ROADMAP-COPARENT.txt
+   └── etc.
+
+   ENTÃO Windsurf/ChatGPT devem entender que:
+   ├── Estão trabalhando NO SAAS COPARENT (ou equivalente)
+   └── NÃO no RADAR-CORE
+
+2) Mesmo assim, devem manter a mesma disciplina:
+   ├── Usar blocos (1-5, 6-10, 31-35, etc.)
+   ├── Registrar tudo em TUDO / ATLAS / ROADMAP / TESTES / LÂMPADA
+   └── Nunca mentir que implementou o que não implementou
+
+3) Se houver necessidade de reaproveitar algo novo do RADAR-CORE:
+   ├── Registrar isso na LÂMPADA do SaaS gerado:
+   │   "💡 IDEA: importar PLANOS_CORE v2 do RADAR-CORE"
+   ├── Planejar como bloco futuro nesse SaaS
+   └── Só aplicar se o dono quiser
+
+--------------------------------------------------------------------------------
+6. FLUXO COMPLETO DO GERADOR DE SAAS
+--------------------------------------------------------------------------------
+
+PASSO 1: CONFIGURAÇÃO
+├── Admin acessa /admin/gerador-saas
+├── Escolhe tema/vertente (ex.: "co-parent", "igrejas")
+├── Define:
+│   ├── Nome do projeto
+│   ├── Público-alvo
+│   ├── Perfis de usuário
+│   ├── Módulos a incluir (oráculo, planos, etc.)
+│   └── Tom de voz
+
+PASSO 2: GERAÇÃO
+├── Clica em "Gerar SaaS"
+├── Sistema:
+│   ├── Copia código do RADAR-CORE
+│   ├── Substitui placeholders
+│   ├── Gera KIT DE DOCS com nome do projeto
+│   ├── Cria ORIGEM-CORE.txt (referência à versão do Radar)
+│   └── Prepara para deploy
+
+PASSO 3: INDEPENDÊNCIA
+├── Novo SaaS nasce com:
+│   ├── Código próprio
+│   ├── Docs próprios
+│   ├── Banco de dados próprio
+│   └── Vida própria
+└── A partir daqui, evolui separadamente do RADAR-CORE
+
+PASSO 4: EVOLUÇÃO AUTÔNOMA
+├── Dono do SaaS pode:
+│   ├── Pegar o KIT DE DOCS
+│   ├── Colar no ChatGPT
+│   └── Continuar evoluindo sozinho
+└── Sem precisar voltar ao contexto do Radar
+
+--------------------------------------------------------------------------------
+7. RESUMO EXECUTIVO (CURTO)
+--------------------------------------------------------------------------------
+
+PATCH 6 – GERADOR DE SAAS & SAAS GERADOS
+
+├── RADAR-CORE = projeto mãe, guarda os módulos CORE
+├── GERADOR DE SAAS = usa o RADAR-CORE como blueprint para criar NOVOS SaaS
+├── Cada SAAS GERADO nasce:
+│   ├── Com código próprio
+│   ├── Com docs próprios (TUDO / ATLAS / ROADMAP / TESTES / LÂMPADA)
+│   └── Independente de updates automáticos do Radar
+├── TODA evolução estruturante no RADAR-CORE deve ser pensada como módulo CORE
+│   reutilizável pelo GERADOR DE SAAS
+└── Windsurf e ChatGPT devem respeitar essa separação e sempre registrar nos TXTs
+
+================================================================================
 === 📊 CONTAGEM FINAL DE ETAPAS ===
 ================================================================================
 
 ANTES ERA: 101 etapas
-AGORA: 101 etapas (sem alteração, apenas PROMPT FINAL adicionado)
+AGORA: 101 etapas (sem alteração, apenas PATCH 6 adicionado)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 05:20 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 05:25 UTC-5
 ================================================================================
