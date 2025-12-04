@@ -12312,12 +12312,154 @@ CRITÉRIOS DE CONCLUSÃO:
 └── Commit + push + deploy ok
 
 ================================================================================
+=== 📋 REGRA FIXA – DOCUMENTAÇÃO OBRIGATÓRIA (ETAPAS 21-32) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: REGRA OBRIGATÓRIA – NENHUMA ETAPA ESTÁ COMPLETA SEM ISSO
+
+A PARTIR DAS ETAPAS 21-32, VOCÊ TEM A SEGUINTE OBRIGAÇÃO:
+
+➜ NENHUMA ETAPA É CONSIDERADA 100% CONCLUÍDA SE A DOCUMENTAÇÃO NÃO ESTIVER ALINHADA.
+
+--------------------------------------------------------------------------------
+1. ARQUIVOS QUE DEVEM SER ATUALIZADOS EM CADA ETAPA
+--------------------------------------------------------------------------------
+
+DOCUMENTAÇÃO TÉCNICA (OBRIGATÓRIO):
+├── ATLAS-RADAR-NARCISISTA.txt
+├── TUDO PARA O GPT.txt
+├── LAMPADA-RADAR.txt (se houver bug, confusão, dívida técnica ou ideia futura)
+├── ROADMAP-RADAR.txt
+├── TESTES-RADAR.txt
+├── FUTURO-TERMINAR-IMPLEMENTACAO.txt
+└── ESPELHOS relevantes:
+    ├── ESPELHO-CODIGO-RADAR.txt
+    ├── ESPELHO-INDICE-ETAPAS.txt
+    └── ESPELHO-ENXUTO-RADAR.txt
+
+MANUAIS (QUANDO IMPACTAR EXPERIÊNCIA/TELAS/FLUXOS/PERFIS/IA/PLANOS):
+├── docs/MANUAL-USUARIA.md
+├── docs/MANUAL-PROFISSIONAL.md
+├── docs/MANUAL-ADMIN.md
+├── docs/MANUAL-DEV.md
+└── docs/MANUAL-WHITELABEL.md
+
+--------------------------------------------------------------------------------
+2. SE UMA ETAPA NÃO IMPACTAR ALGUM ARQUIVO
+--------------------------------------------------------------------------------
+
+Você deve escrever EXPRESSAMENTE no resumo da etapa:
+"Documentação: esta etapa NÃO alterou [NOME_DO_ARQUIVO]."
+
+NÃO é permitido simplesmente ignorar.
+Você deve mostrar que PENSOU e DECIDIU que não impacta.
+
+--------------------------------------------------------------------------------
+3. FORMATO DO RESUMO POR ETAPA (OBRIGATÓRIO)
+--------------------------------------------------------------------------------
+
+[RESUMO ETAPA XX – STATUS]
+
+- Objetivo da etapa:
+  (frase curta, clara)
+
+- Arquivos de código alterados:
+  • lista de arquivos.tsx/.ts/.sql/etc
+
+- Arquivos de documentação atualizados:
+  • ATLAS-RADAR-NARCISISTA.txt (o que mudou em 1 linha)
+  • TUDO PARA O GPT.txt (o que mudou em 1 linha)
+  • ROADMAP-RADAR.txt (o que mudou em 1 linha)
+  • LAMPADA-RADAR.txt (se houve)
+  • TESTES-RADAR.txt
+  • MANUAIS (listar quais foram tocados)
+
+- Pendências:
+  • itemizar o que FALTOU (se houver)
+
+- Commit:
+  • hash/resumo do commit
+
+--------------------------------------------------------------------------------
+4. COMMIT MENSAGEM PADRÃO (ETAPAS 21-32)
+--------------------------------------------------------------------------------
+
+FORMATO:
+"ETAPA XX – [descrição curta] (código + documentação sincronizados)"
+
+EXEMPLOS:
+├── "ETAPA 21 – Flags do Oráculo V2 por plano (código + documentação sincronizados)"
+├── "ETAPA 22 – API oraculo-v2 + logs (código + documentação sincronizados)"
+├── "ETAPA 31 – Reforma Front Page (código + documentação sincronizados)"
+└── "ETAPA 32 – Matriz Oráculo multi-instância (código + documentação sincronizados)"
+
+--------------------------------------------------------------------------------
+5. PROIBIÇÕES
+--------------------------------------------------------------------------------
+
+❌ PROIBIDO marcar uma etapa como "concluída" se:
+├── ATLAS, TUDO PARA O GPT e ROADMAP não estiverem refletindo a realidade
+└── FUTURO-TERMINAR-IMPLEMENTACAO.txt não estiver atualizado
+
+❌ PROIBIDO criar funcionalidade nova sem:
+└── Pelo menos 1 linha nos manuais afetados (quando fizer sentido)
+
+❌ PROIBIDO alterar comportamento de planos/limites/IA sem:
+├── Atualizar MANUAL-ADMIN
+└── Se for o caso, MANUAL-USUARIA / MANUAL-PROFISSIONAL
+
+--------------------------------------------------------------------------------
+6. APLICAÇÃO POR BLOCO DE ETAPAS
+--------------------------------------------------------------------------------
+
+ETAPA 21-25 (BLOCO ATUAL):
+├── Foco em ORÁCULO V1 (admin), flags de controle, limites por plano
+├── Segurança, logs, rate limiting
+└── MANUAIS: ADMIN, DEV
+
+ETAPA 26-30 (FUTURO):
+├── Foco em ORÁCULO V2 para perfis (usuária, profissional, admin, dev, whitelabel)
+└── MANUAIS: TODOS (cada perfil tem seção de Oráculo)
+
+ETAPA 31 (FRONT PAGE):
+├── Mensagem de marketing, descrição de tecnologia
+├── Perfis atendidos, presença dos Oráculos
+└── MANUAIS: Atualizar referências à front page
+
+ETAPA 32 (MATRIZ MULTI-INSTÂNCIA):
+├── Integração Oráculos V1/V2 com Whitelabel e Gerador de SaaS
+├── Como aparece para admin de whitelabel
+├── Quais opções aparecem no gerador (com/sem IA, V1, V2)
+└── MANUAIS: ADMIN, DEV, WHITELABEL
+
+--------------------------------------------------------------------------------
+7. LEMBRETE PARA O WINDSURF
+--------------------------------------------------------------------------------
+
+SEMPRE QUE RECEBER UM PEDIDO DE ETAPA, LEMBRAR:
+
+"Ao final desta etapa, quero ver no resumo o que foi atualizado em:
+├── ATLAS
+├── TUDO PARA O GPT
+├── ROADMAP
+├── LÂMPADA
+├── TESTES
+├── FUTURO-TERMINAR-IMPLEMENTACAO
+└── MANUAIS
+
+Se algum não foi impactado, escreva explicitamente que não foi."
+
+ATUALIZAÇÃO DE DOCUMENTAÇÃO NÃO É "EXTRA", É PARTE DA ETAPA.
+SE O CÓDIGO MUDOU E A DOCUMENTAÇÃO FICOU PARA TRÁS, A ETAPA CONTINUA INCOMPLETA.
+
+================================================================================
 === 📊 CONTAGEM FINAL DE ETAPAS ===
 ================================================================================
 
-ANTES ERA: 90 etapas
-AGORA: 91 etapas (+1 ETAPA 32 – Matriz Oráculo Multi-Instância)
+ANTES ERA: 91 etapas
+AGORA: 91 etapas (sem alteração, apenas regra de documentação adicionada)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 04:25 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 04:30 UTC-5
 ================================================================================
