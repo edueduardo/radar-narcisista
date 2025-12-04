@@ -5047,11 +5047,12 @@ STATUS ATUAL:
 
 🎉 FASE 2 (FANPAGE VIVA + COMERCIAL) 100% CONCLUÍDA!
 
-IDEIAS FUTURAS (AGUARDANDO APROVAÇÃO):
-- Semáforo de Edição (🟢🟡🔴)
+🔜 PRÓXIMO: ETAPA 9 – Painel de Curadoria + Semáforo de Edição (prompt pronto)
+
+IDEIAS FUTURAS (AGUARDANDO APROVAÇÃO APÓS ETAPA 9):
 - Redesenho Dashboards (Usuário/Admin/Pro/White-Label)
 - Famílias de Plano + Matriz de Módulos
-- Painel de Controle da Curadoria (on/off + filtros + fontes externas)
+- Integração com Google Trends/YouTube/TikTok (fontes externas)
 
 ================================================================================
 === 🎛️ ANÁLISE: CONTROLE DA CURADORIA (CENSURA + ATIVAÇÃO) ===
@@ -5222,11 +5223,152 @@ STATUS ATUAL:
 ⏳ APENAS CONVERSA – Não virou prompt ainda
 ⏳ Aguardando Eduardo aprovar após ETAPA 8.4
 
+================================================================================
+=== 🚀 PROMPT ETAPA 9 – PAINEL DE CURADORIA + SEMÁFORO DE EDIÇÃO ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (prompt completo para Windsurf)
+Status: PRONTO PARA EXECUTAR
+
+NOME DO PROMPT: RADAR – ETAPA 9 – PAINEL DE CURADORIA + SEMÁFORO DE EDIÇÃO
+
+⚠️ REGRAS ABSOLUTAS DA ETAPA 9
+
+1. Não criar nem rodar testes automatizados (Jest, Playwright etc.).
+2. Não alterar TESTES-RADAR.txt.
+3. Não integrar nada com Builder.io nesta etapa.
+4. Não criar nenhum processo de curadoria "automática em looping".
+5. Não inventar novas tabelas se já existir algo equivalente.
+6. Não quebrar o build.
+7. Não dizer que atualizou arquivo se não abriu e editou de verdade.
+
+ARQUIVOS-TEXTO GPS (SOMENTE LEITURA RÁPIDA):
+- ATLAS-RADAR-NARCISISTA.txt
+- ROADMAP-RADAR.txt
+- TUDO PARA O GPT.txt
+- ESPELHO-CODIGO-RADAR.txt
+
+====================================================
+ETAPA 0 – LEITURA RÁPIDA DE CONTEXTO
+====================================================
+0.1 Confirmar que ETAPA 8.1–8.4 já aparecem como concluídas
+0.2 Confirmar que sistema de conteúdo (tabelas content_*) existe
+0.3 Escanear código: lib/content-insights.ts, lib/frontpage-content.ts, etc.
+
+====================================================
+ETAPA 1 – CONFIGURAÇÃO DA CURADORIA (ON/OFF + TIPOS)
+====================================================
+1.1 Verificar se já existe tabela app_settings
+1.2 Criar/atualizar entry 'curadoria_config' com estrutura JSON:
+    {
+      "enabled": false,
+      "allowed_types": {
+        "article": true, "faq": true, "video": false,
+        "story": false, "image": false
+      }
+    }
+1.3 Criar helper lib/curadoria-config.ts:
+    - getCuradoriaConfig()
+    - updateCuradoriaConfig(partialConfig)
+
+====================================================
+ETAPA 2 – API DE CONFIG DA CURADORIA
+====================================================
+2.1 Criar rota: /api/admin/curadoria/config
+2.2 Métodos:
+    - GET: retorna curadoria_config atual
+    - PATCH: faz merge seguro e salva
+2.3 NUNCA disparar IA Curadora automaticamente
+
+====================================================
+ETAPA 3 – COMPONENTE DE SEMÁFORO DE EDIÇÃO
+====================================================
+3.1 Criar: components/admin/EditSemaforoBadge.tsx
+3.2 Props: level ('green'|'yellow'|'red'), label, description
+3.3 Render: chip/pill com bolinha colorida + tooltip
+3.4 Cores Tailwind:
+    - green: bg-emerald-100 / text-emerald-700
+    - yellow: bg-amber-100 / text-amber-700
+    - red: bg-rose-100 / text-rose-700
+
+====================================================
+ETAPA 4 – PAINEL CENTRAL /admin/curadoria
+====================================================
+4.1 Criar: app/admin/curadoria/page.tsx
+4.2 Buscar: curadoria_config + contagens (sugestões, itens, coleções)
+4.3 UI em 3 blocos:
+
+BLOCO 1 – Resumo da Curadoria:
+- Badge "IA Curadora LIGADA/DESLIGADA"
+- Contadores: X sugestões pendentes, Y publicados, Z coleções
+- Links para outras telas admin
+
+BLOCO 2 – Configuração da IA Curadora:
+- Switch "Ativar IA Curadora" → curadoria_config.enabled
+- Toggles por tipo: article, faq, video, story, image
+
+BLOCO 3 – Explicação do Semáforo:
+- Zona Verde: conteúdo, títulos, resumos, FAQ
+- Zona Amarela: textos de planos, avisos sensíveis
+- Zona Vermelha: fluxos críticos, prompts IA, risco
+
+====================================================
+ETAPA 5 – APLICAR O SEMÁFORO NAS TELAS EXISTENTES
+====================================================
+5.1 /admin/conteudos/sugestoes → Zona Amarela
+5.2 /admin/conteudos/publicados → Zona Verde
+5.3 /admin/conteudos/colecoes → Zona Verde
+5.4 /admin/conteudos/insights → Zona Amarela
+5.5 /admin/frontpage-editor (se existir) → aviso misto
+5.6 Botão "Pedir IA Curadora":
+    - Se enabled=false → desabilitar com tooltip
+    - Se enabled=true → botão normal
+
+====================================================
+ETAPA 6 – ATUALIZAÇÃO DOS TXT
+====================================================
+6.1 TUDO PARA O GPT.txt: Adicionar seção ETAPA 9
+6.2 ROADMAP-RADAR.txt: Marcar como concluído
+6.3 ATLAS-RADAR-NARCISISTA.txt: Atualizar com novas rotas/componentes
+
+====================================================
+ETAPA 7 – BUILD E RESUMO FINAL
+====================================================
+7.1 Rodar npm run build
+7.2 Corrigir erros se houver
+7.3 Produzir resumo: arquivos criados, alterados, confirmações
+
+FIM DO PROMPT – ETAPA 9
+
+--------------------------------------------------------------------------------
+O QUE A ETAPA 9 VAI ENTREGAR
+--------------------------------------------------------------------------------
+
+1. PAINEL /admin/curadoria:
+   - Controle central da IA Curadora
+   - On/off por tipo de conteúdo
+   - Visão geral de sugestões/publicados/coleções
+
+2. COMPONENTE EditSemaforoBadge:
+   - Visual de zona de edição (🟢🟡🔴)
+   - Reutilizável em todas as telas admin
+
+3. SEMÁFORO NAS TELAS:
+   - /admin/conteudos/sugestoes → 🟡 Amarela
+   - /admin/conteudos/publicados → 🟢 Verde
+   - /admin/conteudos/colecoes → 🟢 Verde
+   - /admin/conteudos/insights → 🟡 Amarela
+
+4. GARANTIAS:
+   - IA Curadora continua 100% manual
+   - Nada é publicado sem passar pelo admin
+   - Eduardo sabe onde pode/não pode mexer
+
 ACORDO DE USO DEFINIDO:
 - Admin próprio → Conteúdo vivo, Academy, Config FanPage
 - Builder.io (opcional) → Marketing puro, campanhas separadas
 - Código travado → Fluxos críticos, IA sensível, Segurança, Billing
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 19:55 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 20:10 UTC-5
 ================================================================================
