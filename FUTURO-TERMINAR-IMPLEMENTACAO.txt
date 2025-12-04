@@ -7752,14 +7752,96 @@ ETAPAS FUTURAS RELACIONADAS:
 └── ETAPA 12.4 – Painel do Cliente com Profissionais Conectados
 
 ================================================================================
+=== 📋 PROMPT PACOTE PROFISSIONAL 12.1.2 + 12.2 ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (criação do prompt)
+Status: 🔜 PRÓXIMO NA SEQUÊNCIA (após rodar migrations)
+
+NOME DO PROMPT: RADAR – PACOTE PROFISSIONAL 12.1.2 + 12.2
+
+PRÉ-REQUISITOS:
+├── ETAPA 12 (Dashboard Profissional V1) ✅
+├── ETAPA 12.1 (Infra Clientes Profissionais) ✅
+├── ETAPA 12.1.1 (Página Aceite Convite) ✅
+└── Migrations rodadas no Supabase ⚠️ OBRIGATÓRIO
+
+OBJETIVO:
+Implementar 2 ETAPAs juntas para ganhar velocidade:
+├── 12.1.2 – Revogação/gestão de acesso pelo cliente (LGPD)
+└── 12.2 – Relatório básico por cliente para profissional (V1)
+
+ESTRUTURA DO PROMPT:
+├── ETAPA 0 – Leitura, sincronização e checagem
+├── ETAPA 1 – 12.1.2: Revogação e gestão de acesso pelo cliente
+├── ETAPA 2 – 12.2: Relatório básico por cliente (V1)
+├── ETAPA 3 – Atualizar TXT (ATLAS, ROADMAP, TUDO, TESTES)
+├── ETAPA 4 – Build + CICLO RADAR 5 TXT + Resumo
+└── RESUMO FINAL (obrigatório)
+
+=== ETAPA 12.1.2 – REVOGAÇÃO DE ACESSO ===
+
+ROTA A CRIAR:
+└── /configuracoes/profissionais (gestão de profissionais conectados)
+
+FUNCIONALIDADES:
+├── Ver lista de profissionais conectados
+├── Ver status de cada conexão (pending/active/paused/revoked)
+├── Ver o que está sendo compartilhado (share_*)
+├── Revogar acesso (status → 'revoked')
+├── Pausar acesso (status → 'paused') [opcional]
+├── Retomar acesso (status → 'active') [opcional]
+└── Editar share_* sem revogar tudo [opcional]
+
+TEXTO ÉTICO OBRIGATÓRIO:
+├── Usuária decide quem pode ver dados dela
+├── Pode revogar ou alterar acesso a qualquer momento
+├── Revogar NÃO apaga registros antigos automaticamente
+└── Radar NÃO é laudo, perícia, terapia ou parecer técnico
+
+=== ETAPA 12.2 – RELATÓRIO BÁSICO POR CLIENTE ===
+
+ROTA A CRIAR:
+└── /dashboard-profissional/clientes/[id] (visão detalhada do cliente)
+
+CONTEÚDO DO RELATÓRIO (baseado em share_*):
+├── Se share_clarity → última pontuação do Teste de Clareza
+├── Se share_diary → contagem de entradas, média por semana
+├── Se share_chat → contagem de sessões, resumo do tom
+└── Se share_safety → existe plano de segurança? flag de risco?
+
+FORMA DO RELATÓRIO:
+├── Página HTML estruturada com seções
+├── Botão "Imprimir / Salvar em PDF" (print do navegador)
+└── PDF automático → registrar como V2 no ROADMAP
+
+TEXTO ÉTICO OBRIGATÓRIO:
+├── "Este relatório é uma visão de apoio"
+├── "Não substitui parecer técnico, diagnóstico, laudo ou perícia"
+└── "O profissional continua responsável pela interpretação"
+
+API E RLS:
+├── Garantir via RLS que só profissional vinculado acessa
+├── Respeitar share_* (não expor campos não autorizados)
+└── Filtrar por professional_id logado
+
+REGRAS:
+├── Seguir etapas na ordem (0 → 1 → 2 → 3 → 4)
+├── Se algo extra for necessário, documentar no resumo
+├── NÃO apagar ou alterar migrations já rodadas
+├── NÃO quebrar LGPD, RLS, segurança ou ética
+├── Sugestões extras permitidas se ligadas às ETAPAs
+└── Ideias grandes → registrar no ROADMAP como V2/V3
+
+================================================================================
 === 📊 IMPLEMENTAR WINDSURF + EDUARDO ===
 ================================================================================
 Fonte: Consolidação de todas as auditorias do chat
 Autoria: Windsurf + Eduardo
 Status: ATUALIZAÇÃO CONTÍNUA
 
-ANTES ERA: 35 etapas
-AGORA: 39 etapas (ETAPA 12.1.1, 12.1.2, 12.4 adicionadas)
+ANTES ERA: 39 etapas
+AGORA: 39 etapas (ETAPA 12.1.1 concluída, PACOTE 12.1.2+12.2 próximo)
 
 --------------------------------------------------------------------------------
 FASES COMPLETAS (IMPLEMENTAR WINDSURF + EDUARDO)
@@ -7775,9 +7857,9 @@ BLOCO A – RADAR NARCISISTA BR (PRODUTO-MÃE)
 ├── ETAPA 11.3 – Refinamentos Opcionais ⏳ BACKLOG (animação, gamificação)
 ├── ETAPA 12 – Dashboard Profissional V1 ✅ FEITO (Windsurf d2a67d4)
 ├── ETAPA 12.1 – Infra Clientes Profissionais ✅ FEITO (Windsurf 8061006)
-├── ETAPA 12.1.1 – Página Aceite Convite 🔜 PRÓXIMO (após rodar migration)
-├── ETAPA 12.1.2 – Revogação de Acesso ⏳ FUTURO
-├── ETAPA 12.2 – Relatórios Agregados ⏳ FUTURO
+├── ETAPA 12.1.1 – Página Aceite Convite ✅ FEITO (Windsurf bc5f5a4)
+├── ETAPA 12.1.2 – Revogação de Acesso 🔜 PRÓXIMO (PACOTE)
+├── ETAPA 12.2 – Relatórios Agregados 🔜 PRÓXIMO (PACOTE)
 ├── ETAPA 12.3 – Exportação em Massa ⏳ FUTURO
 ├── ETAPA 12.4 – Painel Cliente c/ Profissionais ⏳ FUTURO
 ├── ETAPA 13 – Dashboard White-Label ⏳ FUTURO
@@ -7886,33 +7968,66 @@ RESULTADO ETAPA 12.1:
 └── database/migrations/20241201_create_professional_clients.sql
 
 --------------------------------------------------------------------------------
-PRÓXIMO CICLO: CICLO 5 (ETAPA 12.1.1)
+CICLO 5: ETAPA 12.1.1 ✅ CONCLUÍDO
 --------------------------------------------------------------------------------
 
-[PASSO=GPT-5] ETAPA 12.1.1 (Página Aceite Convite)
+[PASSO=GPT-5] ETAPA 12.1.1 (Página Aceite Convite) ✅
 ├── Prompt Mestre ETAPA 12.1.1 criado ✅
-├── Criar /aceitar-convite e /aceitar-convite/[codigo]
-├── API validação de código
-├── Formulário share_* com checkboxes
-└── Microcópia ética obrigatória
+├── Criar /aceitar-convite e /aceitar-convite/[codigo] ✅
+├── API validação de código ✅
+├── Formulário share_* com checkboxes ✅
+└── Microcópia ética obrigatória ✅
 
-[PASSO-WINDSURF-5] Implementar ETAPA 12.1.1
-├── Criar app/aceitar-convite/page.tsx
-├── Criar app/aceitar-convite/[codigo]/page.tsx
-├── Criar/ajustar API de validação
+[PASSO-WINDSURF-5] Implementar ETAPA 12.1.1 ✅
+├── Criar app/aceitar-convite/page.tsx ✅
+├── Criar app/api/professional/invite/validate/route.ts ✅
+├── Criar app/api/professional/invite/accept/route.ts ✅
+├── Migration fix: client_id nullable ✅
+├── Atualizar TXTs ✅
+├── Build + git + resumo ✅
+└── Commit: bc5f5a4
+
+RESULTADO ETAPA 12.1.1:
+├── Página /aceitar-convite com fluxo completo
+├── API /api/professional/invite/validate
+├── API /api/professional/invite/accept
+├── Migration fix para client_id nullable
+├── Fluxo: código → validar → escolher share_* → aceitar
+├── Microcópia ética implementada
+└── Build: 150 páginas
+
+⚠️ AÇÃO OBRIGATÓRIA: Rodar AMBAS migrations no Supabase!
+├── 1. database/migrations/20241201_create_professional_clients.sql
+└── 2. database/migrations/20241201_fix_professional_clients_nullable.sql
+
+--------------------------------------------------------------------------------
+PRÓXIMO CICLO: CICLO 6 (PACOTE 12.1.2 + 12.2)
+--------------------------------------------------------------------------------
+
+[PASSO=GPT-6] PACOTE PROFISSIONAL 12.1.2 + 12.2
+├── Prompt Mestre PACOTE criado ✅
+├── 12.1.2: Revogação de acesso pelo cliente
+├── 12.2: Relatório básico por cliente
+└── Ganhar velocidade com 2 ETAPAs juntas
+
+[PASSO-WINDSURF-6] Implementar PACOTE 12.1.2 + 12.2
+├── Criar /configuracoes/profissionais
+├── Criar /dashboard-profissional/clientes/[id]
+├── APIs de revogação/pausa/retomada
+├── Relatório com share_* respeitados
 ├── Atualizar TXTs
 └── Build + git + resumo
 
 --------------------------------------------------------------------------------
-CICLO 6: ENGINE.1-PREP (APÓS ETAPA 12.1.1)
+CICLO 7: ENGINE.1-PREP (APÓS PACOTE)
 --------------------------------------------------------------------------------
 
-[PASSO=GPT-6] ENGINE.1-PREP
+[PASSO=GPT-7] ENGINE.1-PREP
 ├── Desenhar ENGINE.1 (project_id)
 ├── Definir como adicionar multi-tenant sem quebrar
 └── Entregar prompt para Windsurf
 
-[PASSO-WINDSURF-6] Implementar ENGINE.1-PREP
+[PASSO-WINDSURF-7] Implementar ENGINE.1-PREP
 ├── Adicionar project_id nas tabelas principais
 ├── Criar helpers de multi-tenant
 └── Build + git + resumo
@@ -7929,25 +8044,30 @@ IMPLEMENTADO:
 ├── ETAPA 11.1 (Trilha Visual no Dashboard)
 ├── ETAPA 11.2 (Ajustes Finos Dashboard)
 ├── ETAPA 12 (Dashboard Profissional V1)
-└── ETAPA 12.1 (Infra Clientes Profissionais)
-TOTAL IMPLEMENTADO: 8 blocos
+├── ETAPA 12.1 (Infra Clientes Profissionais)
+└── ETAPA 12.1.1 (Página Aceite Convite)
+TOTAL IMPLEMENTADO: 9 blocos
 
-PRÓXIMO:
-└── ETAPA 12.1.1 (Página Aceite Convite) ⚠️ Requer migration no Supabase
-TOTAL PRÓXIMO: 1 bloco
+PRÓXIMO (PACOTE):
+├── ETAPA 12.1.2 (Revogação de Acesso)
+└── ETAPA 12.2 (Relatório Básico por Cliente)
+TOTAL PRÓXIMO: 2 blocos (em 1 PACOTE)
+
+⚠️ AÇÃO OBRIGATÓRIA ANTES DO PACOTE:
+├── Rodar migration 1: 20241201_create_professional_clients.sql
+└── Rodar migration 2: 20241201_fix_professional_clients_nullable.sql
 
 BACKLOG (OPCIONAL):
 └── ETAPA 11.3 (Refinamentos: animação, gamificação)
 TOTAL BACKLOG: 1 bloco
 
 FUTURO:
-├── ETAPA 12.1.2 (Revogação de Acesso)
-├── ETAPA 12.2-12.4 (Profissional V2/V3/V4)
+├── ETAPA 12.3-12.4 (Profissional V3/V4)
 ├── ETAPA 13-16 (Radar V1)
 ├── ENGINE.1-5 (Motor)
 └── FABRICA.1-5 (Fábrica)
-TOTAL FUTURO: 19 blocos
+TOTAL FUTURO: 17 blocos
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:00 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:10 UTC-5
 ================================================================================

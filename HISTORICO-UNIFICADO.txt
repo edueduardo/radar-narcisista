@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 03/12/2025 23:00 UTC-5
+Última atualização: 03/12/2025 23:10 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -101,17 +101,19 @@ ETAPAS IMPLEMENTADAS (STATUS ATUAL)
 ├── ETAPA 11.1 – Trilha Visual no Dashboard
 ├── ETAPA 11.2 – Ajustes Finos Dashboard (Windsurf cfbf8cf)
 ├── ETAPA 12 – Dashboard Profissional V1 (Windsurf d2a67d4)
-└── ETAPA 12.1 – Infra Clientes Profissionais (Windsurf 8061006)
+├── ETAPA 12.1 – Infra Clientes Profissionais (Windsurf 8061006)
+└── ETAPA 12.1.1 – Página Aceite Convite (Windsurf bc5f5a4)
 
-🔜 PRÓXIMO:
-└── ETAPA 12.1.1 – Página Aceite Convite ⚠️ Requer migration no Supabase
+🔜 PRÓXIMO (PACOTE):
+├── ETAPA 12.1.2 – Revogação de Acesso
+└── ETAPA 12.2 – Relatório Básico por Cliente
+⚠️ Requer rodar AMBAS migrations no Supabase primeiro!
 
 ⏳ BACKLOG (OPCIONAL):
 └── ETAPA 11.3 – Refinamentos (animação, gamificação)
 
 ⏳ FUTURO:
-├── ETAPA 12.1.2 – Revogação de Acesso
-├── ETAPA 12.2-12.4 – Profissional V2/V3/V4
+├── ETAPA 12.3-12.4 – Profissional V3/V4
 ├── ETAPA 13-16 – Radar V1
 ├── ENGINE.1-5 – Motor Replicador
 └── FABRICA.1-5 – Fábrica de SaaS
