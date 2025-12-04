@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 06:05 UTC-5
+Última atualização: 04/12/2025 06:52 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -427,6 +427,162 @@ REGRA FIXA:
 
 COMANDO PARA INICIAR:
 "Vou executar o CICLO RADAR 5 TXT completo e depois a ETAPA 21"
+
+================================================================================
+SESSÃO 04/12/2025 06:37 UTC-5 – PATCH CONTROL PLANE
+================================================================================
+
+O QUE FOI VERIFICADO:
+├── PATCH CONTROL PLANE GLOBAL → ✅ JÁ IMPLEMENTADO
+│   ├── docs/CONTROL-PLANE.md (229 linhas)
+│   ├── lib/control-plane.ts (473 linhas)
+│   ├── Referências no ATLAS
+│   └── Referências no TUDO PARA O GPT
+
+CONCEITO CONTROL PLANE:
+├── TRÊS CAMADAS: Código (deploy) + Configuração (banco) + Control Plane (painel)
+├── MODO A: Admin local por instância (/admin) → ATUAL ✅
+├── MODO B: Control Hub externo → FUTURO BLOCO 46-50
+└── Simbiose com Gerador de SaaS e White Label
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionado PATCH CONTROL PLANE GLOBAL
+├── Criada seção "IMPLEMENTAR WINDSURF + EDUARDO"
+├── 14 FASES organizadas com 72 itens
+└── Cada fase com fonte de auditoria identificada
+
+TOTAL DE FASES: ANTES ERA 13 / AGORA: 14
+
+================================================================================
+SESSÃO 04/12/2025 06:38 UTC-5 – AUDITORIA DA AUDITORIA V2
+================================================================================
+
+O QUE FOI CRIADO:
+├── AUDITORIA-DA-AUDITORIA-V2.txt → NOVO ARQUIVO
+│   ├── Super-auditoria MAIS RIGOROSA que a V1
+│   ├── 7 BLOCOS de verificação (A até G)
+│   ├── 150+ itens de checklist
+│   └── Formato de resposta obrigatório
+
+O QUE A AUDITORIA V1 NÃO COBRIU:
+├── Verificação dos 11 PATCHES aplicados
+├── Verificação do BLOCO 31-35 (AI_CONFIG_CORE)
+├── Verificação do CONTROL PLANE
+├── Verificação de integração entre componentes
+└── Verificação de migrations pendentes
+
+SUPER-CHECKLIST V2 (7 BLOCOS):
+├── BLOCO A: Verificação de arquivos críticos
+├── BLOCO B: Verificação de rotas/páginas
+├── BLOCO C: Verificação de APIs
+├── BLOCO D: Verificação de tabelas no Supabase
+├── BLOCO E: Verificação de funcionalidades
+├── BLOCO F: Verificação de patches aplicados
+└── BLOCO G: Verificação do BLOCO 31-35
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 15 – Auditoria da Auditoria V2
+├── 15 FASES organizadas com 82 itens
+└── Cada fase com fonte de auditoria identificada
+
+TOTAL DE FASES: ANTES ERA 14 / AGORA: 15
+
+================================================================================
+SESSÃO 04/12/2025 06:42 UTC-5 – REGRA GIT COMO FONTE DA VERDADE
+================================================================================
+
+REGRA MEMORIZADA:
+├── Git é a FONTE DA VERDADE para verificar implementação
+├── Eduardo atualiza o Git minuto a minuto
+├── NÃO confiar apenas em documentação - verificar no código real
+└── Repositório: https://github.com/edueduardo/radar-narcisista
+
+QUANDO CONSULTAR GIT:
+├── "confere isso no Git"
+├── "faz auditoria da auditoria"
+├── "vê se o Windsurf realmente implementou"
+├── "compara prompt X com o código"
+└── Qualquer assunto de código/implementação
+
+FLUXO DE AUDITORIA:
+├── 1. Eduardo manda prompt/texto
+├── 2. Windsurf verifica no Git se foi implementado
+├── 3. Windsurf compara documentação vs. código real
+├── 4. Windsurf reporta: ✅ Implementado / ⚠️ Parcial / ❌ Não implementado
+└── 5. Windsurf implementa o que falta (se autorizado)
+
+TOTAL DE FASES: ANTES ERA 15 / AGORA: 15 (sem alteração)
+
+================================================================================
+SESSÃO 04/12/2025 06:44 UTC-5 – PATCH AVATARES/PERSONAS DE IA
+================================================================================
+
+CONCEITO PRINCIPAL:
+├── PROVIDERS REAIS (só admin vê): OpenAI, Claude, Together, Grok
+├── PERSONAS/AVATARES (usuário vê): Mentora Calma, Analista Lógico, etc.
+└── Admin vê TUDO: provider real + persona + contexto + logs
+
+TABELAS A CRIAR:
+├── ai_providers (se não existir)
+├── ai_personas (NOVA)
+└── ai_persona_bindings (NOVA)
+
+PERSONAS PADRÃO:
+├── 🕊️ Mentora Calma (acolhimento)
+├── 🧠 Analista Lógico (estrutura/fatos)
+├── 🛡️ Guardião de Segurança (alertas de risco)
+└── 📚 Curador de Conteúdo (biblioteca/blog)
+
+ARQUIVOS A CRIAR:
+├── lib/ai-personas.ts
+├── /admin/ia-personas
+└── /admin/ia-analytics
+
+INTEGRAÇÃO:
+├── Gerador de SaaS nasce com esse sistema CORE
+├── WhiteLabel usa personas customizáveis
+└── Logs expandidos com persona_slug + provider_key
+
+TOTAL DE FASES: ANTES ERA 15 / AGORA: 16
+
+================================================================================
+SESSÃO 04/12/2025 06:52 UTC-5 – PATCH ADMIN MENU CORE
+================================================================================
+
+O QUE FOI AUDITADO:
+├── PATCH ADMIN MENU CORE → ✅ JÁ IMPLEMENTADO
+│   ├── lib/admin-core-menu.ts (700 linhas)
+│   ├── 8 grupos organizados por prioridade
+│   ├── 55 itens de menu definidos
+│   ├── 11 funções auxiliares
+│   └── 49 pastas admin existentes
+
+ESTRUTURA DOS 8 GRUPOS:
+1. Visão Geral & Controle (admin-core-overview) - 9 itens
+2. Pessoas & Acessos (admin-core-people) - 5 itens
+3. Planos, Billing & Promoções (admin-core-billing) - 5 itens
+4. IAs & Orquestração (admin-core-ai) - 10 itens
+5. Produto & Funcionalidades (admin-core-product) - 7 itens
+6. Front & Conteúdos (admin-core-front) - 8 itens
+7. Governança & LGPD (admin-core-governance) - 5 itens
+8. Laboratório & Dev (admin-core-lab) - 6 itens
+
+PENDÊNCIAS IDENTIFICADAS:
+├── 11 itens são placeholders (precisam implementação real)
+├── Sidebar do admin precisa consumir adminCoreMenu
+└── Documentação em docs/MANUAL-ADMIN.md precisa ser atualizada
+
+REGRA CRÍTICA:
+ADMIN + DASHBOARD = GERADOR DE SAAS
+├── Tudo que for verdade no ADMIN do Radar → vira matéria-prima do GERADOR DE SAAS
+└── "No administrador, eu tenho isso" = "Isso também existe no GERADOR DE SAAS"
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 17 – PATCH ADMIN MENU CORE
+├── 17 FASES organizadas com 104 itens
+└── Cada fase com fonte de auditoria identificada
+
+TOTAL DE FASES: ANTES ERA 16 / AGORA: 17
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF

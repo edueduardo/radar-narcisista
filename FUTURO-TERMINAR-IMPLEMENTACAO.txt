@@ -15050,5 +15050,1152 @@ ANTES ERA: 106 etapas
 AGORA: 106 etapas (TXT MESTRE criado, sem novas etapas)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 06:05 UTC-5
+=== 🎛️ PATCH CONTROL PLANE GLOBAL (SESSÃO 04/12/2025 06:37 UTC-5) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: ✅ JÁ IMPLEMENTADO NO CÓDIGO
+
+VERIFICAÇÃO WINDSURF:
+├── docs/CONTROL-PLANE.md → ✅ EXISTE (229 linhas)
+├── lib/control-plane.ts → ✅ EXISTE (473 linhas)
+├── Referências no ATLAS → ✅ EXISTE
+└── Referências no TUDO PARA O GPT → ✅ EXISTE
+
+--------------------------------------------------------------------------------
+1. CONCEITO – TRÊS CAMADAS CLARAS
+--------------------------------------------------------------------------------
+
+1) CÓDIGO (APP):
+   ├── Projeto Next.js (Radar, White Label X, SaaS Y…)
+   └── Versão de código só muda com DEPLOY (Vercel)
+
+2) CONFIGURAÇÃO (BANCO / METADADOS):
+   ├── IA ligada/desligada por menu, plano, grupo, usuário
+   ├── Planos, promoções, grupos, limites, feature flags
+   └── NÃO precisa de deploy: lidas do banco em tempo real
+
+3) CONTROL PLANE (PAINEL DO DONO):
+   ├── Interface usada pelo EDUARDO para controlar tudo
+   ├── MODO A: DENTRO do próprio SaaS (/admin) → ATUAL
+   └── MODO B: EM APP SEPARADO ("Control Hub") → FUTURO BLOCO 46-50
+
+--------------------------------------------------------------------------------
+2. MODOS DE ADMINISTRAÇÃO
+--------------------------------------------------------------------------------
+
+MODO A – ADMIN LOCAL POR INSTÂNCIA (ATUAL):
+├── Cada SaaS tem seu próprio /admin
+├── Admin grava configurações no banco da instância
+├── Eduardo como SUPER-ADMIN acessa qualquer instância
+└── STATUS: ✅ IMPLEMENTADO
+
+MODO B – CONTROL HUB EXTERNO (FUTURO):
+├── Projeto separado: nylus-control-hub
+├── Painel único do dono para todas as instâncias
+├── Ver lista: Radar-mãe, White Labels, SaaS gerados
+├── Configuração centralizada sem deploy
+└── STATUS: ⏳ PLANEJADO PARA BLOCO 46-50
+
+--------------------------------------------------------------------------------
+3. COMO AS MUDANÇAS CHEGAM NA VERCEL
+--------------------------------------------------------------------------------
+
+MUDANÇA DE CONFIGURAÇÃO (SEM DEPLOY):
+├── Ativar/desativar IA numa feature
+├── Escolher quais IAs vão fazer diário, teste de clareza, oráculo
+├── Criar grupo "Promo Black Friday" com IA extra
+├── Liberar mais IAs para um plano premium
+├── Mudar thresholds, limites, flags
+└── FLUXO: Admin → Supabase → Efeito imediato
+
+MUDANÇA DE CÓDIGO (COM DEPLOY):
+├── Nova página, novo componente React
+├── Nova rota /api complexa
+├── Mudança de esquema de dados que exige migration
+├── Nova lógica de orquestrador de IA
+└── FLUXO: Código → Git → Vercel → Deploy
+
+ADMIN LOCAL vs ADMIN NUVEM:
+├── localhost:3000/admin → gerencia instância local (dev)
+├── radar-narcisista.vercel.app/admin → gerencia produção
+└── Comportamento IDÊNTICO, só muda qual banco está conectado
+
+--------------------------------------------------------------------------------
+4. SIMBIOSE COM GERADOR DE SAAS E WHITE LABEL
+--------------------------------------------------------------------------------
+
+GERADOR DE SAAS:
+├── Quando cria nova instância (SaaS filho):
+│   ├── Copia "core de configuração" de IA e planos
+│   ├── Estrutura de tabelas + valores default + painéis admin
+│   └── Nova instância é SER VIVO INDEPENDENTE
+├── Tem seu próprio /admin, banco, painéis personalizados
+└── NÃO depende do Radar-mãe após geração
+
+WHITE LABEL:
+├── Instância controlada por outro dono
+├── Eduardo (SUPER-ADMIN) define:
+│   ├── Quais poderes de IA o dono vê
+│   └── Limites máximos de uso de IA
+└── Dono do white label vê só o que foi liberado
+
+--------------------------------------------------------------------------------
+5. ARQUIVOS IMPLEMENTADOS
+--------------------------------------------------------------------------------
+
+docs/CONTROL-PLANE.md:
+├── Visão geral das 3 camadas
+├── MODO A e MODO B documentados
+├── Diagramas ASCII
+├── Simbiose com Gerador de SaaS
+├── White Label (limites e permissões)
+└── Regras para Windsurf/ChatGPT
+
+lib/control-plane.ts:
+├── Tipos: ConfigCategory, ConfigScope, ConfigEntry, InstanceInfo
+├── getConfig() – busca configuração com prioridade
+├── setConfig() – define configuração
+├── isIAActive() – verifica se IA está ativa
+├── getIALimit() – obtém limite de uso
+├── getInstanceInfo() – info da instância
+├── isMainInstance(), isWhiteLabelInstance(), isSaaSFilho()
+├── isFeatureEnabled(), getFeatureValue()
+└── DEFAULT_IA_LIMITS por plano
+
+--------------------------------------------------------------------------------
+6. O QUE FALTA (FUTURO)
+--------------------------------------------------------------------------------
+
+BLOCO 46-50 – CONTROL HUB EXTERNO:
+├── [ ] Projeto separado nylus-control-hub
+├── [ ] APIs /api/control-plane/* em cada instância
+├── [ ] Visão consolidada multi-instância
+├── [ ] Billing centralizado
+└── [ ] Dashboard único do dono
+
+================================================================================
+================================================================================
+===                    IMPLEMENTAR WINDSURF + EDUARDO                        ===
+================================================================================
+================================================================================
+Última atualização: 04/12/2025 06:37 UTC-5
+Autoria: Windsurf (auditoria) + ChatGPT (planejamento) + Eduardo (decisões)
+
+TOTAL DE FASES: ANTES ERA 13 / AGORA: 14
+
+================================================================================
+FASE 1 – COMPLETAR TRIÂNGULO (PRIORIDADE ALTA)
+================================================================================
+Fonte: [CHATGPT] Análise ETAPA 7.2/7.3 + AUDITORIA-MASTER-PREMIUM.txt
+
+1.1. [ ] Detecção via Diário (tags graves)
+    - Arquivo: app/dashboard/page.tsx
+    - Descrição: Contagem de tags graves nos últimos 30 dias
+    - Tags: ameaca_velada, explosao, agressao_verbal, ameacas
+    - Regra: Após N=3 episódios graves em 30 dias, sugerir revisão do plano
+
+1.2. [ ] Criação automática de risk_alert no diário
+    - Arquivo: app/api/journal/route.ts
+    - Descrição: Quando usuário salva entrada com tags graves, criar risk_alert
+
+================================================================================
+FASE 2 – FANPAGE VIVA (ETAPA 8)
+================================================================================
+Fonte: [CHATGPT] ETAPA 8 + Memórias do sistema
+
+Tabelas JÁ CRIADAS: content_items, content_sources, content_decisions, radar_pulse
+
+2.1. [ ] Admin /admin/conteudos/sugestoes
+2.2. [ ] Admin /admin/conteudos/publicados
+2.3. [ ] Admin /admin/fanpage/config
+2.4. [ ] Blocos dinâmicos na frontpage (Radar em Números, FAQ, Radar no Mundo, Academy)
+
+================================================================================
+FASE 3 – DÍVIDAS TÉCNICAS
+================================================================================
+Fonte: [CHATGPT] Análise de código + ATLAS
+
+3.1. [ ] Integração frontpage com plan_catalog
+3.2. [ ] Stripe price_id reais (configurar IDs reais do Stripe)
+
+================================================================================
+FASE 4 – GERADOR DE SAAS
+================================================================================
+Fonte: [CHATGPT] PATCH 6, 7, 8 + docs/GERADOR-SAAS.md
+
+4.1. [ ] Modo 3 do Gerador na UI (SAAS a partir de CORE BRANCO)
+4.2. [ ] GitHub API (criar repos automaticamente)
+
+================================================================================
+FASE 5 – BLOCO 31-35: AI_CONFIG_CORE
+================================================================================
+Fonte: [CHATGPT] BLOCO 31-35 + PATCH BLOCO 31-35
+
+5.1. [ ] Criar tabelas AI_CONFIG_CORE no Supabase:
+    - ai_providers_core
+    - ai_features_core
+    - ai_feature_providers_core
+    - ai_plan_matrix
+    - ai_group_overrides
+
+5.2. [ ] Criar tabelas adicionais:
+    - ai_feature_menu_map
+    - ai_usage_stats_daily
+
+5.3. [ ] Criar funções SQL:
+    - ai_get_providers_for_context()
+    - ai_get_menu_config()
+    - ai_get_user_ia_profile()
+
+5.4. [ ] Seed inicial (OpenAI, Anthropic, Together, Grok)
+
+5.5. [ ] Ligar painel admin à config de IA (ler/escrever no banco)
+
+5.6. [ ] Criar lib/ai-config-core.ts:
+    - getProvidersForRequest()
+    - checkAndConsumeLimits()
+
+5.7. [ ] Criar telas admin:
+    - /admin/ia-matrix
+    - /admin/ia-mapa-menus
+    - /admin/ia-carga
+    - /admin/ia-grupos
+
+================================================================================
+FASE 6 – ORÁCULO V2 MULTIPERFIL (BLOCO 26-30)
+================================================================================
+Fonte: [CHATGPT] PATCH ORÁCULO + docs/PATCH-ORACULO.md
+
+6.1. [ ] Oráculo V2 para usuária
+6.2. [ ] Oráculo V2 para profissional
+6.3. [ ] Oráculo V2 para whitelabel
+6.4. [ ] ORACULO_V2_CORE como módulo compartilhado
+
+================================================================================
+FASE 7 – CONTROL HUB EXTERNO (BLOCO 46-50)
+================================================================================
+Fonte: [CHATGPT] PATCH CONTROL PLANE GLOBAL
+
+7.1. [ ] Projeto separado nylus-control-hub
+7.2. [ ] APIs /api/control-plane/* em cada instância
+7.3. [ ] Visão consolidada multi-instância
+7.4. [ ] Billing centralizado
+7.5. [ ] Dashboard único do dono
+
+================================================================================
+FASE 8 – AVANÇADO (FUTURO)
+================================================================================
+Fonte: [CHATGPT] Ideias Diamante + Memórias do sistema
+
+8.1. [ ] Detecção via IA no chat (análise semântica)
+8.2. [ ] Notificações push/email quando risk_alert é criado
+8.3. [ ] 8 Ideias Diamante:
+    - Clima Emocional do Radar, Hoje
+    - Linha do Tempo Global
+    - Radar Academy
+    - IA Aprendiz de Editor
+    - Perguntas da Semana
+    - Sinais de Alerta em Alta
+    - Biblioteca Viva do Mundo
+    - Conteúdo Contextual no Dashboard
+
+================================================================================
+FASE 9 – AUDITORIA MASTER PREMIUM
+================================================================================
+Fonte: [WINDSURF] AUDITORIA-MASTER-PREMIUM.txt
+
+9.1. [ ] Executar ETAPA A.1 – Auditoria de estrutura de arquivos
+9.2. [ ] Executar ETAPA A.2 – Auditoria de rotas e páginas
+9.3. [ ] Executar ETAPA A.3 – Auditoria de APIs
+9.4. [ ] Executar ETAPA A.4 – Auditoria de banco de dados
+9.5. [ ] Executar ETAPA A.5 – Auditoria de fluxos críticos (5 fluxos)
+9.6. [ ] Executar ETAPA A.6 – Auditoria de segurança e LGPD
+9.7. [ ] Executar ETAPA A.7 – Auditoria de ética e microcópia
+9.8. [ ] Executar ETAPA A.8 – Auditoria de documentação
+9.9. [ ] Gerar ETAPA A.FINAL – Relatório consolidado
+
+================================================================================
+FASE 10 – VERIFICAR PROMPTS-MESTRES-RADAR.txt
+================================================================================
+Fonte: [WINDSURF] PROMPTS-MESTRES-RADAR.txt
+
+10.1. [ ] Verificar PATCH 1 – Oráculo V2 só admin
+10.2. [ ] Verificar PATCH 2 – Oráculo V2 multiperfil (futuro)
+10.3. [ ] Verificar PATCH 3A – Controle por plano/perfil
+10.4. [ ] Verificar PATCH 3B – Reforma Front Page
+10.5. [ ] Verificar PATCH 4 – Constituição + Matriz Oráculo
+10.6. [ ] Verificar PATCH 5 – Planos & Features
+10.7. [ ] Verificar PATCH 6 – Gerador de SaaS
+10.8. [ ] Verificar PATCH 7 – Mãe, Core Branco, Filhos
+10.9. [ ] Verificar PATCH 8 – UX/UI do Gerador
+10.10. [ ] Verificar PATCH 9 – Admin Dinâmico
+
+================================================================================
+FASE 11 – MIGRATIONS PENDENTES
+================================================================================
+Fonte: [WINDSURF] Análise de código + HISTORICO-UNIFICADO.txt
+
+11.1. [ ] Executar migrate-user-addons.sql no Supabase
+11.2. [ ] Executar migrate-oraculo-logs.sql no Supabase
+11.3. [ ] Executar migrate-ai-config-core.sql no Supabase (quando criado)
+
+================================================================================
+FASE 12 – TESTES MANUAIS PÓS-IMPLEMENTAÇÃO
+================================================================================
+Fonte: [CHATGPT] CHECKLIST-POS-MVP.md + TESTES-RADAR.txt
+
+12.1. [ ] Testar fluxo completo de Teste de Clareza
+12.2. [ ] Testar fluxo completo de Diário
+12.3. [ ] Testar fluxo completo de Chat IA
+12.4. [ ] Testar fluxo completo de Plano de Segurança
+12.5. [ ] Testar fluxo completo de Profissional/Cliente
+12.6. [ ] Testar pagamento Stripe (add-ons)
+12.7. [ ] Testar Oráculo V2 (admin)
+12.8. [ ] Testar healthcheck /api/health
+
+================================================================================
+FASE 13 – DOCUMENTAÇÃO FINAL
+================================================================================
+Fonte: [CHATGPT] Regras de comunicação + MANUAL-ADMIN.md
+
+13.1. [ ] Atualizar TUDO PARA O GPT.txt
+13.2. [ ] Atualizar ATLAS-RADAR-NARCISISTA.txt
+13.3. [ ] Atualizar ROADMAP-RADAR.txt
+13.4. [ ] Atualizar LAMPADA-RADAR.txt
+13.5. [ ] Atualizar TESTES-RADAR.txt
+13.6. [ ] Atualizar MANUAL-ADMIN.md
+13.7. [ ] Atualizar MANUAL-USUARIO.md
+
+================================================================================
+FASE 14 – DEPLOY E GO-LIVE (NOVA)
+================================================================================
+Fonte: [CHATGPT] PATCH CONTROL PLANE + Memórias do sistema
+
+14.1. [ ] Verificar variáveis de ambiente na Vercel
+14.2. [ ] Configurar Stripe em produção (Price IDs reais)
+14.3. [ ] Executar migrations em produção
+14.4. [ ] Testar admin em produção (radar-narcisista.vercel.app/admin)
+14.5. [ ] Verificar se configurações do banco refletem na produção
+14.6. [ ] Documentar processo de deploy
+
+================================================================================
+📊 RESUMO DAS FASES
+================================================================================
+
+| # | FASE | ITENS | STATUS |
+|---|------|-------|--------|
+| 1 | Completar Triângulo | 2 | ⏳ Pendente |
+| 2 | FanPage Viva | 4 | ⏳ Pendente |
+| 3 | Dívidas Técnicas | 2 | ⏳ Pendente |
+| 4 | Gerador de SaaS | 2 | ⏳ Pendente |
+| 5 | AI_CONFIG_CORE | 7 | ⏳ Pendente |
+| 6 | Oráculo V2 Multiperfil | 4 | ⏳ Futuro |
+| 7 | Control Hub Externo | 5 | ⏳ Futuro |
+| 8 | Avançado | 3 | ⏳ Futuro |
+| 9 | Auditoria Master | 9 | ⏳ Pendente |
+| 10 | Verificar Patches | 10 | ⏳ Pendente |
+| 11 | Migrations | 3 | ⏳ Pendente |
+| 12 | Testes Manuais | 8 | ⏳ Pendente |
+| 13 | Documentação | 7 | ⏳ Pendente |
+| 14 | Deploy e Go-Live | 6 | ⏳ Pendente |
+
+TOTAL: 72 itens em 14 fases
+
+================================================================================
+=== 🔍 AUDITORIA DA AUDITORIA – V2 (SESSÃO 04/12/2025 06:38 UTC-5) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: ARQUIVO CRIADO - AUDITORIA-DA-AUDITORIA-V2.txt
+
+OBJETIVO:
+├── Super-auditoria MAIS RIGOROSA que a V1
+├── Verifica o que a AUDITORIA V1 deixou passar
+├── Confirma se TODOS os prompts foram REALMENTE executados
+├── Considera cenário onde TUDO está conectado e funcionando
+└── Gera relatório HONESTO do que foi feito vs. prometido
+
+O QUE A AUDITORIA V1 NÃO COBRIU:
+├── Verificação dos 11 PATCHES aplicados
+├── Verificação do BLOCO 31-35 (AI_CONFIG_CORE)
+├── Verificação do CONTROL PLANE
+├── Verificação de integração entre componentes
+└── Verificação de migrations pendentes
+
+SUPER-CHECKLIST CRIADO (7 BLOCOS):
+├── BLOCO A: Verificação de arquivos críticos (30+ itens)
+├── BLOCO B: Verificação de rotas/páginas (25+ itens)
+├── BLOCO C: Verificação de APIs (20+ itens)
+├── BLOCO D: Verificação de tabelas no Supabase (30+ itens)
+├── BLOCO E: Verificação de funcionalidades (30+ itens)
+├── BLOCO F: Verificação de patches aplicados (11 patches)
+└── BLOCO G: Verificação do BLOCO 31-35 (AI_CONFIG_CORE)
+
+FORMATO DE RESPOSTA OBRIGATÓRIO:
+├── Resumo executivo com tabela
+├── O que a V1 deixou passar
+├── Mentiras detectadas
+├── Itens não implementados
+├── Itens parcialmente implementados
+├── Itens 100% implementados
+├── Ações corretivas executadas
+├── Dívidas técnicas restantes
+└── Opinião honesta do Windsurf
+
+================================================================================
+================================================================================
+===                    IMPLEMENTAR WINDSURF + EDUARDO                        ===
+================================================================================
+================================================================================
+Última atualização: 04/12/2025 06:38 UTC-5
+Autoria: Windsurf (auditoria) + ChatGPT (planejamento) + Eduardo (decisões)
+
+TOTAL DE FASES: ANTES ERA 14 / AGORA: 15
+
+================================================================================
+FASE 1 – COMPLETAR TRIÂNGULO (PRIORIDADE ALTA)
+================================================================================
+Fonte: [CHATGPT] Análise ETAPA 7.2/7.3 + AUDITORIA-MASTER-PREMIUM.txt
+
+1.1. [ ] Detecção via Diário (tags graves)
+    - Arquivo: app/dashboard/page.tsx
+    - Descrição: Contagem de tags graves nos últimos 30 dias
+    - Tags: ameaca_velada, explosao, agressao_verbal, ameacas
+    - Regra: Após N=3 episódios graves em 30 dias, sugerir revisão do plano
+
+1.2. [ ] Criação automática de risk_alert no diário
+    - Arquivo: app/api/journal/route.ts
+    - Descrição: Quando usuário salva entrada com tags graves, criar risk_alert
+
+================================================================================
+FASE 2 – FANPAGE VIVA (ETAPA 8)
+================================================================================
+Fonte: [CHATGPT] ETAPA 8 + Memórias do sistema
+
+Tabelas JÁ CRIADAS: content_items, content_sources, content_decisions, radar_pulse
+
+2.1. [ ] Admin /admin/conteudos/sugestoes
+2.2. [ ] Admin /admin/conteudos/publicados
+2.3. [ ] Admin /admin/fanpage/config
+2.4. [ ] Blocos dinâmicos na frontpage (Radar em Números, FAQ, Radar no Mundo, Academy)
+
+================================================================================
+FASE 3 – DÍVIDAS TÉCNICAS
+================================================================================
+Fonte: [CHATGPT] Análise de código + ATLAS
+
+3.1. [ ] Integração frontpage com plan_catalog
+3.2. [ ] Stripe price_id reais (configurar IDs reais do Stripe)
+
+================================================================================
+FASE 4 – GERADOR DE SAAS
+================================================================================
+Fonte: [CHATGPT] PATCH 6, 7, 8 + docs/GERADOR-SAAS.md
+
+4.1. [ ] Modo 3 do Gerador na UI (SAAS a partir de CORE BRANCO)
+4.2. [ ] GitHub API (criar repos automaticamente)
+
+================================================================================
+FASE 5 – BLOCO 31-35: AI_CONFIG_CORE
+================================================================================
+Fonte: [CHATGPT] BLOCO 31-35 + PATCH BLOCO 31-35
+
+5.1. [ ] Criar tabelas AI_CONFIG_CORE no Supabase:
+    - ai_providers_core
+    - ai_features_core
+    - ai_feature_providers_core
+    - ai_plan_matrix
+    - ai_group_overrides
+
+5.2. [ ] Criar tabelas adicionais:
+    - ai_feature_menu_map
+    - ai_usage_stats_daily
+
+5.3. [ ] Criar funções SQL:
+    - ai_get_providers_for_context()
+    - ai_get_menu_config()
+    - ai_get_user_ia_profile()
+
+5.4. [ ] Seed inicial (OpenAI, Anthropic, Together, Grok)
+
+5.5. [ ] Ligar painel admin à config de IA (ler/escrever no banco)
+
+5.6. [ ] Criar lib/ai-config-core.ts:
+    - getProvidersForRequest()
+    - checkAndConsumeLimits()
+
+5.7. [ ] Criar telas admin:
+    - /admin/ia-matrix
+    - /admin/ia-mapa-menus
+    - /admin/ia-carga
+    - /admin/ia-grupos
+
+================================================================================
+FASE 6 – ORÁCULO V2 MULTIPERFIL (BLOCO 26-30)
+================================================================================
+Fonte: [CHATGPT] PATCH ORÁCULO + docs/PATCH-ORACULO.md
+
+6.1. [ ] Oráculo V2 para usuária
+6.2. [ ] Oráculo V2 para profissional
+6.3. [ ] Oráculo V2 para whitelabel
+6.4. [ ] ORACULO_V2_CORE como módulo compartilhado
+
+================================================================================
+FASE 7 – CONTROL HUB EXTERNO (BLOCO 46-50)
+================================================================================
+Fonte: [CHATGPT] PATCH CONTROL PLANE GLOBAL
+
+7.1. [ ] Projeto separado nylus-control-hub
+7.2. [ ] APIs /api/control-plane/* em cada instância
+7.3. [ ] Visão consolidada multi-instância
+7.4. [ ] Billing centralizado
+7.5. [ ] Dashboard único do dono
+
+================================================================================
+FASE 8 – AVANÇADO (FUTURO)
+================================================================================
+Fonte: [CHATGPT] Ideias Diamante + Memórias do sistema
+
+8.1. [ ] Detecção via IA no chat (análise semântica)
+8.2. [ ] Notificações push/email quando risk_alert é criado
+8.3. [ ] 8 Ideias Diamante:
+    - Clima Emocional do Radar, Hoje
+    - Linha do Tempo Global
+    - Radar Academy
+    - IA Aprendiz de Editor
+    - Perguntas da Semana
+    - Sinais de Alerta em Alta
+    - Biblioteca Viva do Mundo
+    - Conteúdo Contextual no Dashboard
+
+================================================================================
+FASE 9 – AUDITORIA MASTER PREMIUM (V1)
+================================================================================
+Fonte: [WINDSURF] AUDITORIA-MASTER-PREMIUM.txt
+
+9.1. [ ] Executar ETAPA A.1 – Auditoria de estrutura de arquivos
+9.2. [ ] Executar ETAPA A.2 – Auditoria de rotas e páginas
+9.3. [ ] Executar ETAPA A.3 – Auditoria de APIs
+9.4. [ ] Executar ETAPA A.4 – Auditoria de banco de dados
+9.5. [ ] Executar ETAPA A.5 – Auditoria de fluxos críticos (5 fluxos)
+9.6. [ ] Executar ETAPA A.6 – Auditoria de segurança e LGPD
+9.7. [ ] Executar ETAPA A.7 – Auditoria de ética e microcópia
+9.8. [ ] Executar ETAPA A.8 – Auditoria de documentação
+9.9. [ ] Gerar ETAPA A.FINAL – Relatório consolidado
+
+================================================================================
+FASE 10 – VERIFICAR PROMPTS-MESTRES-RADAR.txt
+================================================================================
+Fonte: [WINDSURF] PROMPTS-MESTRES-RADAR.txt
+
+10.1. [ ] Verificar PATCH 1 – Oráculo V2 só admin
+10.2. [ ] Verificar PATCH 2 – Oráculo V2 multiperfil (futuro)
+10.3. [ ] Verificar PATCH 3A – Controle por plano/perfil
+10.4. [ ] Verificar PATCH 3B – Reforma Front Page
+10.5. [ ] Verificar PATCH 4 – Constituição + Matriz Oráculo
+10.6. [ ] Verificar PATCH 5 – Planos & Features
+10.7. [ ] Verificar PATCH 6 – Gerador de SaaS
+10.8. [ ] Verificar PATCH 7 – Mãe, Core Branco, Filhos
+10.9. [ ] Verificar PATCH 8 – UX/UI do Gerador
+10.10. [ ] Verificar PATCH 9 – Admin Dinâmico
+
+================================================================================
+FASE 11 – MIGRATIONS PENDENTES
+================================================================================
+Fonte: [WINDSURF] Análise de código + HISTORICO-UNIFICADO.txt
+
+11.1. [ ] Executar migrate-user-addons.sql no Supabase
+11.2. [ ] Executar migrate-oraculo-logs.sql no Supabase
+11.3. [ ] Executar migrate-ai-config-core.sql no Supabase (quando criado)
+
+================================================================================
+FASE 12 – TESTES MANUAIS PÓS-IMPLEMENTAÇÃO
+================================================================================
+Fonte: [CHATGPT] CHECKLIST-POS-MVP.md + TESTES-RADAR.txt
+
+12.1. [ ] Testar fluxo completo de Teste de Clareza
+12.2. [ ] Testar fluxo completo de Diário
+12.3. [ ] Testar fluxo completo de Chat IA
+12.4. [ ] Testar fluxo completo de Plano de Segurança
+12.5. [ ] Testar fluxo completo de Profissional/Cliente
+12.6. [ ] Testar pagamento Stripe (add-ons)
+12.7. [ ] Testar Oráculo V2 (admin)
+12.8. [ ] Testar healthcheck /api/health
+
+================================================================================
+FASE 13 – DOCUMENTAÇÃO FINAL
+================================================================================
+Fonte: [CHATGPT] Regras de comunicação + MANUAL-ADMIN.md
+
+13.1. [ ] Atualizar TUDO PARA O GPT.txt
+13.2. [ ] Atualizar ATLAS-RADAR-NARCISISTA.txt
+13.3. [ ] Atualizar ROADMAP-RADAR.txt
+13.4. [ ] Atualizar LAMPADA-RADAR.txt
+13.5. [ ] Atualizar TESTES-RADAR.txt
+13.6. [ ] Atualizar MANUAL-ADMIN.md
+13.7. [ ] Atualizar MANUAL-USUARIO.md
+
+================================================================================
+FASE 14 – DEPLOY E GO-LIVE
+================================================================================
+Fonte: [CHATGPT] PATCH CONTROL PLANE + Memórias do sistema
+
+14.1. [ ] Verificar variáveis de ambiente na Vercel
+14.2. [ ] Configurar Stripe em produção (Price IDs reais)
+14.3. [ ] Executar migrations em produção
+14.4. [ ] Testar admin em produção (radar-narcisista.vercel.app/admin)
+14.5. [ ] Verificar se configurações do banco refletem na produção
+14.6. [ ] Documentar processo de deploy
+
+================================================================================
+FASE 15 – AUDITORIA DA AUDITORIA V2 (NOVA)
+================================================================================
+Fonte: [CHATGPT] AUDITORIA-DA-AUDITORIA-V2.txt
+
+15.1. [ ] Executar BLOCO A – Verificação de arquivos críticos
+15.2. [ ] Executar BLOCO B – Verificação de rotas/páginas
+15.3. [ ] Executar BLOCO C – Verificação de APIs
+15.4. [ ] Executar BLOCO D – Verificação de tabelas no Supabase
+15.5. [ ] Executar BLOCO E – Verificação de funcionalidades
+15.6. [ ] Executar BLOCO F – Verificação de patches aplicados
+15.7. [ ] Executar BLOCO G – Verificação do BLOCO 31-35
+15.8. [ ] Gerar RELATÓRIO no formato obrigatório
+15.9. [ ] Identificar MENTIRAS (documentação vs. código real)
+15.10. [ ] Implementar/corrigir o que estiver faltando
+
+================================================================================
+📊 RESUMO DAS FASES
+================================================================================
+
+| # | FASE | ITENS | STATUS |
+|---|------|-------|--------|
+| 1 | Completar Triângulo | 2 | ⏳ Pendente |
+| 2 | FanPage Viva | 4 | ⏳ Pendente |
+| 3 | Dívidas Técnicas | 2 | ⏳ Pendente |
+| 4 | Gerador de SaaS | 2 | ⏳ Pendente |
+| 5 | AI_CONFIG_CORE | 7 | ⏳ Pendente |
+| 6 | Oráculo V2 Multiperfil | 4 | ⏳ Futuro |
+| 7 | Control Hub Externo | 5 | ⏳ Futuro |
+| 8 | Avançado | 3 | ⏳ Futuro |
+| 9 | Auditoria Master V1 | 9 | ⏳ Pendente |
+| 10 | Verificar Patches | 10 | ⏳ Pendente |
+| 11 | Migrations | 3 | ⏳ Pendente |
+| 12 | Testes Manuais | 8 | ⏳ Pendente |
+| 13 | Documentação | 7 | ⏳ Pendente |
+| 14 | Deploy e Go-Live | 6 | ⏳ Pendente |
+| 15 | Auditoria V2 | 10 | ⏳ Pendente |
+
+TOTAL: 82 itens em 15 fases
+
+================================================================================
+=== 🔗 REGRA GIT COMO FONTE DA VERDADE (SESSÃO 04/12/2025 06:42 UTC-5) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: REGRA MEMORIZADA
+
+REGRA IMPORTANTE:
+├── Git é a FONTE DA VERDADE para verificar implementação
+├── Eduardo atualiza o Git minuto a minuto
+├── NÃO confiar apenas em documentação - verificar no código real
+└── Repositório: https://github.com/edueduardo/radar-narcisista
+
+QUANDO CONSULTAR GIT:
+├── "confere isso no Git"
+├── "faz auditoria da auditoria"
+├── "vê se o Windsurf realmente implementou"
+├── "compara prompt X com o código"
+└── Qualquer assunto de código/implementação
+
+QUANDO NÃO CONSULTAR:
+├── Brainstorming conceitual
+└── Eduardo avisar: "agora é só ideia, não precisa ver Git"
+
+FLUXO DE AUDITORIA:
+├── 1. Eduardo manda prompt/texto
+├── 2. Windsurf verifica no Git se foi implementado
+├── 3. Windsurf compara documentação vs. código real
+├── 4. Windsurf reporta: ✅ Implementado / ⚠️ Parcial / ❌ Não implementado
+└── 5. Windsurf implementa o que falta (se autorizado)
+
+================================================================================
+=== 🎭 PATCH AVATARES/PERSONAS DE IA (SESSÃO 04/12/2025 06:44 UTC-5) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: PROMPT COMPLETO PARA EXECUTAR NO WINDSURF
+
+--------------------------------------------------------------------------------
+CONCEITO PRINCIPAL
+--------------------------------------------------------------------------------
+
+SEPARAÇÃO CLARA:
+├── PROVIDERS REAIS (só admin vê): OpenAI, Claude, Together, Grok
+├── PERSONAS/AVATARES (usuário vê): Mentora Calma, Analista Lógico, etc.
+└── Admin vê TUDO: provider real + persona + contexto + logs
+
+REGRA:
+├── Usuária/Profissional/WhiteLabel/SaaS Gerado → vê PERSONAS
+├── Admin → vê PROVIDERS REAIS + PERSONAS + LOGS
+└── Gerador de SaaS → nasce com esse sistema CORE
+
+--------------------------------------------------------------------------------
+ETAPA 1 – MODELO DE DADOS: PROVIDERS x PERSONAS
+--------------------------------------------------------------------------------
+
+1.1) TABELA ai_providers (se não existir):
+├── id (uuid, pk)
+├── key (text, unique) → "openai", "anthropic", "together", "grok"
+├── display_name (text) → só para ADMIN
+├── status (text) → "active", "disabled", "testing"
+├── type (text) → "llm", "embedding", "image"
+├── notes (text)
+└── created_at, updated_at
+
+1.2) TABELA ai_personas (NOVA):
+├── id (uuid, pk)
+├── slug (text, unique) → "mentora-calma", "analista-logico"
+├── display_name (text) → "Mentora Calma", "Analista Lógico"
+├── avatar_emoji (text) → "🧠", "🕊️", "🛡️"
+├── avatar_url (text, nullable)
+├── short_bio (text) → texto que aparece pro usuário
+├── default_provider_key (text) → fk para ai_providers.key
+├── fallback_providers (text[])
+├── roles_visible (text[]) → ["usuaria","profissional","admin","whitelabel","gerador"]
+├── is_collaborative_member (boolean)
+├── is_user_visible (boolean)
+├── is_internal_debug (boolean)
+└── created_at, updated_at
+
+1.3) TABELA ai_persona_bindings (NOVA):
+├── id (uuid, pk)
+├── persona_id (uuid, fk ai_personas)
+├── context_type (text) → "chat", "diario", "teste_clareza", "oraculo"
+├── context_key (text) → "chat_geral", "diario_analise", "oraculo_admin"
+├── allowed_profiles (text[]) → ["usuaria","profissional","admin","whitelabel","gerador"]
+├── allowed_plans (text[]) → ["free","pro","premium","white_label"]
+├── allowed_segments (text[]) → ["promocao_black_friday","grupo_beta"]
+├── is_default (boolean)
+├── weight (int) → peso no modo colaborativo
+└── created_at, updated_at
+
+--------------------------------------------------------------------------------
+ETAPA 2 – CAMADA DE CONFIGURAÇÃO
+--------------------------------------------------------------------------------
+
+2.1) CRIAR lib/ai-personas.ts:
+├── getActivePersonasForContext({ userId, role, plan, segment, contextType, contextKey })
+│   → retorna lista de personas com metadados pro front
+├── resolveProviderForPersona(personaSlug)
+│   → retorna provider_key + config interna
+└── Usar tabelas: ai_personas, ai_persona_bindings, ai_providers
+
+2.2) ADAPTAR Mapa de IAs / Configuração de Chat:
+├── Trabalhar com persona_slug em vez de provider direto
+├── Para ADMIN: mostrar tabela combinada (Persona + Provider + Contextos)
+└── Para USUÁRIO: mostrar apenas persona
+
+2.3) TOGGLE DE TRANSPARÊNCIA:
+├── Transparência LIGADA:
+│   ├── Usuária vê: avatar + nome da persona
+│   └── Opcionalmente: "Resposta gerada por equipe de IAs internas"
+├── Transparência DESLIGADA:
+│   └── Usuária vê: "Assistente do Radar" (genérico)
+└── ADMIN SEMPRE vê: provider real + persona + logs
+
+--------------------------------------------------------------------------------
+ETAPA 3 – CONTROLE FINO POR MENU, PLANO, PROMOÇÃO
+--------------------------------------------------------------------------------
+
+3.1) CRIAR /admin/ia-personas:
+├── Listagem de personas (nome, avatar, provider, perfis, status)
+├── Listagem de bindings por contexto
+├── Controles para:
+│   ├── Ativar/desativar persona em contexto
+│   ├── Ajustar peso no modo colaborativo
+│   └── Escolher personas padrão por plano
+└── Integração com planos e grupos de usuários
+
+3.2) INTEGRAÇÃO COM PLANOS E GRUPOS:
+├── Ligar grupos de usuários a allowed_segments
+├── Alterações no painel admin são lidas em tempo real
+└── SEM precisar de novo deploy
+
+--------------------------------------------------------------------------------
+ETAPA 4 – LOGS E TRANSPARÊNCIA PARA ADMIN
+--------------------------------------------------------------------------------
+
+4.1) EXPANDIR LOGS para incluir:
+├── persona_slug
+├── provider_key
+├── context_type, context_key
+├── plan
+├── segment
+└── user_role
+
+4.2) CRIAR PAINEL DE MONITORAMENTO (/admin/ia-analytics):
+├── Uso por persona (chamadas, tokens, erros)
+├── Uso por provider real
+├── Uso por plano (free, pro, promoções)
+├── Uso por segmento
+└── Filtragem por tempo (hora, dia, semana)
+
+--------------------------------------------------------------------------------
+ETAPA 5 – GERADOR DE SAAS & WHITE LABEL
+--------------------------------------------------------------------------------
+
+5.1) ATUALIZAR docs/GERADOR-SAAS.md:
+├── Descrever que Gerador reutiliza:
+│   ├── ai_providers
+│   ├── ai_personas
+│   └── ai_persona_bindings
+└── Como admin do SaaS gerado pode customizar
+
+5.2) TEMPLATE DE SEED para novos SaaS:
+├── Personas padrão:
+│   ├── 🕊️ Mentora Calma (acolhimento)
+│   ├── 🧠 Analista Lógico (estrutura/fatos)
+│   ├── 🛡️ Guardião de Segurança (alertas de risco)
+│   └── 📚 Curador de Conteúdo (biblioteca/blog)
+└── Providers mapeados para OpenAI/Claude/Together/Grok
+
+5.3) GARANTIR que novo SaaS:
+├── Ganha cópia das tabelas
+├── Segue vida própria (pode divergir, renomear, desativar)
+└── Nasce com cockpit de IA funcional
+
+--------------------------------------------------------------------------------
+RESUMO EXECUTIVO
+--------------------------------------------------------------------------------
+
+> PATCH AVATARES / PERSONAS DE IA – RADAR + GERADOR DE SAAS
+>
+> - Separar PROVIDERS reais de PERSONAS (avatares visíveis ao usuário)
+> - Usuária/profissional/whitelabel/saas só veem personas, nunca provedores
+> - Admin vê tudo: provider real, persona, contexto, plano, grupo, uso por minuto
+> - Criar tabelas: ai_providers, ai_personas, ai_persona_bindings
+> - Criar cockpit de IA e personas no admin
+> - Expandir logs para rastrear persona_slug + provider_key + contexto
+> - Integrar como CORE do GERADOR DE SAAS
+
+================================================================================
+================================================================================
+===                    IMPLEMENTAR WINDSURF + EDUARDO                        ===
+================================================================================
+================================================================================
+Última atualização: 04/12/2025 06:44 UTC-5
+Autoria: Windsurf (auditoria) + ChatGPT (planejamento) + Eduardo (decisões)
+
+TOTAL DE FASES: ANTES ERA 15 / AGORA: 16
+
+================================================================================
+FASE 1 – COMPLETAR TRIÂNGULO (PRIORIDADE ALTA)
+================================================================================
+Fonte: [CHATGPT] Análise ETAPA 7.2/7.3 + AUDITORIA-MASTER-PREMIUM.txt
+
+1.1. [ ] Detecção via Diário (tags graves)
+1.2. [ ] Criação automática de risk_alert no diário
+
+================================================================================
+FASE 2 – FANPAGE VIVA (ETAPA 8)
+================================================================================
+Fonte: [CHATGPT] ETAPA 8 + Memórias do sistema
+
+2.1. [ ] Admin /admin/conteudos/sugestoes
+2.2. [ ] Admin /admin/conteudos/publicados
+2.3. [ ] Admin /admin/fanpage/config
+2.4. [ ] Blocos dinâmicos na frontpage
+
+================================================================================
+FASE 3 – DÍVIDAS TÉCNICAS
+================================================================================
+Fonte: [CHATGPT] Análise de código + ATLAS
+
+3.1. [ ] Integração frontpage com plan_catalog
+3.2. [ ] Stripe price_id reais
+
+================================================================================
+FASE 4 – GERADOR DE SAAS
+================================================================================
+Fonte: [CHATGPT] PATCH 6, 7, 8 + docs/GERADOR-SAAS.md
+
+4.1. [ ] Modo 3 do Gerador na UI
+4.2. [ ] GitHub API
+
+================================================================================
+FASE 5 – BLOCO 31-35: AI_CONFIG_CORE
+================================================================================
+Fonte: [CHATGPT] BLOCO 31-35 + PATCH BLOCO 31-35
+
+5.1. [ ] Criar tabelas AI_CONFIG_CORE no Supabase
+5.2. [ ] Criar tabelas adicionais
+5.3. [ ] Criar funções SQL
+5.4. [ ] Seed inicial
+5.5. [ ] Ligar painel admin à config de IA
+5.6. [ ] Criar lib/ai-config-core.ts
+5.7. [ ] Criar telas admin
+
+================================================================================
+FASE 6 – ORÁCULO V2 MULTIPERFIL (BLOCO 26-30)
+================================================================================
+Fonte: [CHATGPT] PATCH ORÁCULO + docs/PATCH-ORACULO.md
+
+6.1. [ ] Oráculo V2 para usuária
+6.2. [ ] Oráculo V2 para profissional
+6.3. [ ] Oráculo V2 para whitelabel
+6.4. [ ] ORACULO_V2_CORE como módulo compartilhado
+
+================================================================================
+FASE 7 – CONTROL HUB EXTERNO (BLOCO 46-50)
+================================================================================
+Fonte: [CHATGPT] PATCH CONTROL PLANE GLOBAL
+
+7.1. [ ] Projeto separado nylus-control-hub
+7.2. [ ] APIs /api/control-plane/*
+7.3. [ ] Visão consolidada multi-instância
+7.4. [ ] Billing centralizado
+7.5. [ ] Dashboard único do dono
+
+================================================================================
+FASE 8 – AVANÇADO (FUTURO)
+================================================================================
+Fonte: [CHATGPT] Ideias Diamante + Memórias do sistema
+
+8.1. [ ] Detecção via IA no chat
+8.2. [ ] Notificações push/email
+8.3. [ ] 8 Ideias Diamante
+
+================================================================================
+FASE 9 – AUDITORIA MASTER PREMIUM (V1)
+================================================================================
+Fonte: [WINDSURF] AUDITORIA-MASTER-PREMIUM.txt
+
+9.1. [ ] Executar ETAPA A.1 – Auditoria de estrutura
+9.2. [ ] Executar ETAPA A.2 – Auditoria de rotas
+9.3. [ ] Executar ETAPA A.3 – Auditoria de APIs
+9.4. [ ] Executar ETAPA A.4 – Auditoria de banco
+9.5. [ ] Executar ETAPA A.5 – Auditoria de fluxos
+9.6. [ ] Executar ETAPA A.6 – Auditoria de segurança
+9.7. [ ] Executar ETAPA A.7 – Auditoria de ética
+9.8. [ ] Executar ETAPA A.8 – Auditoria de documentação
+9.9. [ ] Gerar ETAPA A.FINAL – Relatório consolidado
+
+================================================================================
+FASE 10 – VERIFICAR PROMPTS-MESTRES-RADAR.txt
+================================================================================
+Fonte: [WINDSURF] PROMPTS-MESTRES-RADAR.txt
+
+10.1. [ ] Verificar PATCH 1 – Oráculo V2 só admin
+10.2. [ ] Verificar PATCH 2 – Oráculo V2 multiperfil
+10.3. [ ] Verificar PATCH 3A – Controle por plano/perfil
+10.4. [ ] Verificar PATCH 3B – Reforma Front Page
+10.5. [ ] Verificar PATCH 4 – Constituição + Matriz Oráculo
+10.6. [ ] Verificar PATCH 5 – Planos & Features
+10.7. [ ] Verificar PATCH 6 – Gerador de SaaS
+10.8. [ ] Verificar PATCH 7 – Mãe, Core Branco, Filhos
+10.9. [ ] Verificar PATCH 8 – UX/UI do Gerador
+10.10. [ ] Verificar PATCH 9 – Admin Dinâmico
+
+================================================================================
+FASE 11 – MIGRATIONS PENDENTES
+================================================================================
+Fonte: [WINDSURF] Análise de código + HISTORICO-UNIFICADO.txt
+
+11.1. [ ] Executar migrate-user-addons.sql
+11.2. [ ] Executar migrate-oraculo-logs.sql
+11.3. [ ] Executar migrate-ai-config-core.sql
+
+================================================================================
+FASE 12 – TESTES MANUAIS PÓS-IMPLEMENTAÇÃO
+================================================================================
+Fonte: [CHATGPT] CHECKLIST-POS-MVP.md + TESTES-RADAR.txt
+
+12.1. [ ] Testar fluxo Teste de Clareza
+12.2. [ ] Testar fluxo Diário
+12.3. [ ] Testar fluxo Chat IA
+12.4. [ ] Testar fluxo Plano de Segurança
+12.5. [ ] Testar fluxo Profissional/Cliente
+12.6. [ ] Testar pagamento Stripe
+12.7. [ ] Testar Oráculo V2
+12.8. [ ] Testar healthcheck /api/health
+
+================================================================================
+FASE 13 – DOCUMENTAÇÃO FINAL
+================================================================================
+Fonte: [CHATGPT] Regras de comunicação + MANUAL-ADMIN.md
+
+13.1. [ ] Atualizar TUDO PARA O GPT.txt
+13.2. [ ] Atualizar ATLAS-RADAR-NARCISISTA.txt
+13.3. [ ] Atualizar ROADMAP-RADAR.txt
+13.4. [ ] Atualizar LAMPADA-RADAR.txt
+13.5. [ ] Atualizar TESTES-RADAR.txt
+13.6. [ ] Atualizar MANUAL-ADMIN.md
+13.7. [ ] Atualizar MANUAL-USUARIO.md
+
+================================================================================
+FASE 14 – DEPLOY E GO-LIVE
+================================================================================
+Fonte: [CHATGPT] PATCH CONTROL PLANE + Memórias do sistema
+
+14.1. [ ] Verificar variáveis de ambiente na Vercel
+14.2. [ ] Configurar Stripe em produção
+14.3. [ ] Executar migrations em produção
+14.4. [ ] Testar admin em produção
+14.5. [ ] Verificar configurações do banco
+14.6. [ ] Documentar processo de deploy
+
+================================================================================
+FASE 15 – AUDITORIA DA AUDITORIA V2
+================================================================================
+Fonte: [CHATGPT] AUDITORIA-DA-AUDITORIA-V2.txt
+
+15.1. [ ] Executar BLOCO A – Arquivos críticos
+15.2. [ ] Executar BLOCO B – Rotas/páginas
+15.3. [ ] Executar BLOCO C – APIs
+15.4. [ ] Executar BLOCO D – Tabelas Supabase
+15.5. [ ] Executar BLOCO E – Funcionalidades
+15.6. [ ] Executar BLOCO F – Patches aplicados
+15.7. [ ] Executar BLOCO G – BLOCO 31-35
+15.8. [ ] Gerar RELATÓRIO obrigatório
+15.9. [ ] Identificar MENTIRAS
+15.10. [ ] Implementar/corrigir o que falta
+
+================================================================================
+FASE 16 – PATCH AVATARES/PERSONAS DE IA (NOVA)
+================================================================================
+Fonte: [CHATGPT] PATCH AVATARES/PERSONAS 04/12/2025
+
+16.1. [ ] Criar tabela ai_providers (se não existir)
+16.2. [ ] Criar tabela ai_personas
+16.3. [ ] Criar tabela ai_persona_bindings
+16.4. [ ] Criar lib/ai-personas.ts
+16.5. [ ] Adaptar Mapa de IAs para usar personas
+16.6. [ ] Implementar toggle de transparência
+16.7. [ ] Criar /admin/ia-personas
+16.8. [ ] Integrar com planos e grupos
+16.9. [ ] Expandir logs (persona_slug, provider_key, context)
+16.10. [ ] Criar /admin/ia-analytics
+16.11. [ ] Atualizar docs/GERADOR-SAAS.md
+16.12. [ ] Criar template de seed para novos SaaS
+
+================================================================================
+📊 RESUMO DAS FASES
+================================================================================
+
+| # | FASE | ITENS | STATUS |
+|---|------|-------|--------|
+| 1 | Completar Triângulo | 2 | ⏳ Pendente |
+| 2 | FanPage Viva | 4 | ⏳ Pendente |
+| 3 | Dívidas Técnicas | 2 | ⏳ Pendente |
+| 4 | Gerador de SaaS | 2 | ⏳ Pendente |
+| 5 | AI_CONFIG_CORE | 7 | ⏳ Pendente |
+| 6 | Oráculo V2 Multiperfil | 4 | ⏳ Futuro |
+| 7 | Control Hub Externo | 5 | ⏳ Futuro |
+| 8 | Avançado | 3 | ⏳ Futuro |
+| 9 | Auditoria Master V1 | 9 | ⏳ Pendente |
+| 10 | Verificar Patches | 10 | ⏳ Pendente |
+| 11 | Migrations | 3 | ⏳ Pendente |
+| 12 | Testes Manuais | 8 | ⏳ Pendente |
+| 13 | Documentação | 7 | ⏳ Pendente |
+| 14 | Deploy e Go-Live | 6 | ⏳ Pendente |
+| 15 | Auditoria V2 | 10 | ⏳ Pendente |
+| 16 | Avatares/Personas IA | 12 | ⏳ Pendente |
+
+TOTAL: 94 itens em 16 fases
+
+================================================================================
+FASE 17 – PATCH ADMIN MENU CORE (NOVA)
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025 06:52 UTC-5
+Autoria: ChatGPT (planejamento) + Eduardo (decisões) + Windsurf (auditoria)
+Status: ✅ ESTRUTURA JÁ IMPLEMENTADA / ⚠️ PENDÊNCIAS IDENTIFICADAS
+
+--------------------------------------------------------------------------------
+OBJETIVO
+--------------------------------------------------------------------------------
+Organizar o MENU ADMINISTRATIVO como "core do império" antes de clonar pro
+GERADOR DE SAAS e pros WHITE-LABEL.
+
+--------------------------------------------------------------------------------
+STATUS ATUAL (AUDITADO)
+--------------------------------------------------------------------------------
+
+✅ 17.1. [IMPLEMENTADO] Arquivo lib/admin-core-menu.ts (700 linhas)
+✅ 17.2. [IMPLEMENTADO] 8 grupos organizados por prioridade:
+    | # | GRUPO | ID | ITENS |
+    |---|-------|-----|-------|
+    | 1 | Visão Geral & Controle | admin-core-overview | 9 |
+    | 2 | Pessoas & Acessos | admin-core-people | 5 |
+    | 3 | Planos, Billing & Promoções | admin-core-billing | 5 |
+    | 4 | IAs & Orquestração | admin-core-ai | 10 |
+    | 5 | Produto & Funcionalidades | admin-core-product | 7 |
+    | 6 | Front & Conteúdos | admin-core-front | 8 |
+    | 7 | Governança & LGPD | admin-core-governance | 5 |
+    | 8 | Laboratório & Dev | admin-core-lab | 6 |
+✅ 17.3. [IMPLEMENTADO] Funções auxiliares (11 funções)
+✅ 17.4. [IMPLEMENTADO] Tipagem TypeScript completa
+✅ 17.5. [IMPLEMENTADO] 49 pastas admin existentes
+
+--------------------------------------------------------------------------------
+PENDÊNCIAS IDENTIFICADAS
+--------------------------------------------------------------------------------
+
+⚠️ 17.6. [ ] Implementar 11 itens placeholder:
+    - /admin/profissionais
+    - /admin/equipe
+    - /admin/loja
+    - /admin/promocoes
+    - /admin/excecoes
+    - /admin/seguranca
+    - /admin/relatorios
+    - /admin/privacidade
+    - /admin/lgpd
+    - /admin/logs-legais
+    - /admin/repair-env
+
+⚠️ 17.7. [ ] Sidebar do admin consumir adminCoreMenu
+⚠️ 17.8. [ ] Atualizar docs/MANUAL-ADMIN.md com mapa do menu
+⚠️ 17.9. [ ] Atualizar ATLAS-RADAR-NARCISISTA.txt com estrutura do menu
+⚠️ 17.10. [ ] Atualizar TUDO PARA O GPT.txt com resumo do ADMIN MENU CORE
+
+--------------------------------------------------------------------------------
+REGRA CRÍTICA
+--------------------------------------------------------------------------------
+
+ADMIN + DASHBOARD = GERADOR DE SAAS:
+├── Tudo que for verdade no ADMIN do Radar → vira matéria-prima do GERADOR DE SAAS
+├── Tudo que for verdade no DASHBOARD do Radar → vira matéria-prima do GERADOR DE SAAS
+└── "No administrador, eu tenho isso" = "Isso também existe no GERADOR DE SAAS"
+
+================================================================================
+📊 RESUMO DAS FASES (ATUALIZADO)
+================================================================================
+
+| # | FASE | ITENS | STATUS |
+|---|------|-------|--------|
+| 1 | Completar Triângulo | 2 | ⏳ Pendente |
+| 2 | FanPage Viva | 4 | ⏳ Pendente |
+| 3 | Dívidas Técnicas | 2 | ⏳ Pendente |
+| 4 | Gerador de SaaS | 2 | ⏳ Pendente |
+| 5 | AI_CONFIG_CORE | 7 | ⏳ Pendente |
+| 6 | Oráculo V2 Multiperfil | 4 | ⏳ Futuro |
+| 7 | Control Hub Externo | 5 | ⏳ Futuro |
+| 8 | Avançado | 3 | ⏳ Futuro |
+| 9 | Auditoria Master V1 | 9 | ⏳ Pendente |
+| 10 | Verificar Patches | 10 | ⏳ Pendente |
+| 11 | Migrations | 3 | ⏳ Pendente |
+| 12 | Testes Manuais | 8 | ⏳ Pendente |
+| 13 | Documentação | 7 | ⏳ Pendente |
+| 14 | Deploy e Go-Live | 6 | ⏳ Pendente |
+| 15 | Auditoria V2 | 10 | ⏳ Pendente |
+| 16 | Avatares/Personas IA | 12 | ⏳ Pendente |
+| 17 | ADMIN MENU CORE | 10 | ✅ Parcial (5 OK, 5 pendente) |
+
+TOTAL: 104 itens em 17 fases
+
+TOTAL DE FASES: ANTES ERA 16 / AGORA: 17
+
+================================================================================
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 06:52 UTC-5
 ================================================================================

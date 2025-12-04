@@ -1,0 +1,553 @@
+================================================================================
+================================================================================
+===     AUDITORIA DA AUDITORIA – V2 (SUPER MEGA AUDITORIA RIGOROSA)          ===
+================================================================================
+================================================================================
+Criado: 04/12/2025 06:38 UTC-5
+Autoria: Windsurf + ChatGPT + Eduardo
+Versão: 2.0 (AUDITORIA DA AUDITORIA)
+
+================================================================================
+OBJETIVO DESTA SUPER-AUDITORIA
+================================================================================
+
+Esta é a AUDITORIA DA AUDITORIA - uma verificação MAIS DURA que:
+├── Pega TODOS os prompts/patches desde o início do chat
+├── Verifica o que a AUDITORIA ANTERIOR deixou passar
+├── Confirma se TODOS os prompts foram REALMENTE executados
+├── Considera o cenário onde TUDO está conectado e funcionando:
+│   ├── Todos os dashboards (usuária, profissional, white label, gerador)
+│   ├── Dashboard administrativo EXTERNO único (Control Hub)
+│   └── Tudo integrado com o Radar/SaaS
+└── Gera relatório HONESTO do que foi feito vs. o que foi prometido
+
+REGRA ABSOLUTA:
+"Se eu fosse o Windsurf honesto, aqui é onde eu teria mentido ou deixado passar"
+
+================================================================================
+================================================================================
+===                    PARTE 1: O QUE A AUDITORIA V1 COBRIU                   ===
+================================================================================
+================================================================================
+
+A AUDITORIA-MASTER-PREMIUM.txt (V1) cobriu:
+├── ETAPA A.0 – Leitura dos arquivos de referência
+├── ETAPA A.1 – Auditoria de estrutura de arquivos
+├── ETAPA A.2 – Auditoria de rotas e páginas
+├── ETAPA A.3 – Auditoria de APIs
+├── ETAPA A.4 – Auditoria de banco de dados
+├── ETAPA A.5 – Auditoria de fluxos críticos (5 fluxos)
+├── ETAPA A.6 – Auditoria de segurança e LGPD
+├── ETAPA A.7 – Auditoria de ética e microcópia
+├── ETAPA A.8 – Auditoria de documentação
+└── ETAPA A.FINAL – Relatório consolidado
+
+PROBLEMA DA V1:
+├── Todos os checkboxes estão [ ] vazios (não preenchidos)
+├── Nenhum resultado foi registrado
+├── Seção "RESULTADO DA ÚLTIMA AUDITORIA" está em branco
+└── A auditoria foi PLANEJADA mas NÃO EXECUTADA
+
+================================================================================
+================================================================================
+===                    PARTE 2: O QUE A V1 NÃO COBRIU                        ===
+================================================================================
+================================================================================
+
+LACUNAS IDENTIFICADAS NA AUDITORIA V1:
+
+1) NÃO VERIFICOU SE OS PATCHES FORAM APLICADOS:
+   ├── PATCH 1 – Oráculo V2 só admin
+   ├── PATCH 2 – Oráculo V2 multiperfil (futuro)
+   ├── PATCH 3A – Controle por plano/perfil
+   ├── PATCH 3B – Reforma Front Page
+   ├── PATCH 4 – Constituição + Matriz Oráculo
+   ├── PATCH 5 – Planos & Features
+   ├── PATCH 6 – Gerador de SaaS
+   ├── PATCH 7 – Mãe, Core Branco, Filhos
+   ├── PATCH 8 – UX/UI do Gerador
+   ├── PATCH 9 – Admin Dinâmico
+   └── PATCH CONTROL PLANE GLOBAL
+
+2) NÃO VERIFICOU O BLOCO 31-35 (AI_CONFIG_CORE):
+   ├── Tabelas ai_providers_core, ai_features_core, etc.
+   ├── Funções SQL
+   ├── Seed inicial
+   ├── lib/ai-config-core.ts
+   └── Telas admin de IA
+
+3) NÃO VERIFICOU O CONTROL PLANE:
+   ├── docs/CONTROL-PLANE.md
+   ├── lib/control-plane.ts
+   ├── MODO A (admin local) vs MODO B (Control Hub externo)
+   └── Simbiose com Gerador de SaaS
+
+4) NÃO VERIFICOU INTEGRAÇÃO ENTRE COMPONENTES:
+   ├── Dashboard usuária ↔ APIs ↔ Banco
+   ├── Dashboard profissional ↔ APIs ↔ Banco
+   ├── Admin ↔ Configurações ↔ Banco
+   ├── Gerador de SaaS ↔ Templates ↔ Banco
+   └── Control Plane ↔ Todas as instâncias
+
+5) NÃO VERIFICOU MIGRATIONS PENDENTES:
+   ├── migrate-user-addons.sql
+   ├── migrate-oraculo-logs.sql
+   └── migrate-ai-config-core.sql (se existir)
+
+================================================================================
+================================================================================
+===                    PARTE 3: SUPER-CHECKLIST RIGOROSO                     ===
+================================================================================
+================================================================================
+
+INSTRUÇÕES PARA O WINDSURF:
+Para cada item abaixo, você DEVE:
+1. Verificar SE EXISTE no código (não confiar em documentação)
+2. Verificar SE FUNCIONA (não apenas se compila)
+3. Marcar com:
+   - [x] CONFIRMADO – existe e funciona
+   - [~] PARCIAL – existe mas incompleto
+   - [ ] NÃO EXISTE – não encontrado no código
+   - [!] MENTIRA – documentação diz que existe mas NÃO existe
+
+================================================================================
+=== BLOCO A: VERIFICAÇÃO DE ARQUIVOS CRÍTICOS ===
+================================================================================
+
+A.1) ARQUIVOS DE DOCUMENTAÇÃO:
+├── [ ] FUTURO-TERMINAR-IMPLEMENTACAO.txt existe
+├── [ ] HISTORICO-UNIFICADO.txt existe
+├── [ ] ATLAS-RADAR-NARCISISTA.txt existe
+├── [ ] ROADMAP-RADAR.txt existe
+├── [ ] TUDO PARA O GPT.txt existe
+├── [ ] TESTES-RADAR.txt existe
+├── [ ] LAMPADA-RADAR.txt existe
+├── [ ] AUDITORIA-MASTER-PREMIUM.txt existe
+├── [ ] PROMPTS-MESTRES-RADAR.txt existe
+└── [ ] CHECKLIST-POS-MVP.md existe
+
+A.2) ARQUIVOS DE CÓDIGO CORE:
+├── [ ] lib/control-plane.ts existe e tem funções funcionais
+├── [ ] lib/ai-config-core.ts existe (ou equivalente)
+├── [ ] lib/plan-taxonomy.ts existe
+├── [ ] lib/plan-dashboard-modules.ts existe
+├── [ ] lib/dashboard-user-layout.ts existe
+├── [ ] lib/user-addons.ts existe
+├── [ ] lib/rate-limit.ts existe
+├── [ ] lib/logger.ts existe
+└── [ ] lib/saas-generator-core.ts existe
+
+A.3) ARQUIVOS DE DOCUMENTAÇÃO TÉCNICA:
+├── [ ] docs/CONTROL-PLANE.md existe
+├── [ ] docs/PATCH-ORACULO.md existe
+├── [ ] docs/REGRAS-COMUNICACAO-IA.md existe
+├── [ ] docs/GERADOR-SAAS.md existe
+├── [ ] docs/ORACULO-V2-PROMPT.md existe
+├── [ ] docs/AI-CONFIG-CORE.md existe
+├── [ ] docs/MANUAL-ADMIN.md existe
+└── [ ] docs/MANUAL-USUARIO.md existe
+
+A.4) ARQUIVOS DE MIGRATIONS:
+├── [ ] database/migrate-user-addons.sql existe
+├── [ ] database/migrate-oraculo-logs.sql existe
+└── [ ] database/migrate-ai-config-core.sql existe
+
+================================================================================
+=== BLOCO B: VERIFICAÇÃO DE ROTAS/PÁGINAS ===
+================================================================================
+
+B.1) ROTAS DA USUÁRIA:
+├── [ ] /dashboard existe e renderiza
+├── [ ] /teste-clareza existe e renderiza
+├── [ ] /diario existe e renderiza
+├── [ ] /diario/timeline existe e renderiza
+├── [ ] /chat existe e renderiza
+├── [ ] /plano-seguranca existe e renderiza
+├── [ ] /configuracoes existe e renderiza
+└── [ ] /configuracoes/profissionais existe e renderiza
+
+B.2) ROTAS DO PROFISSIONAL:
+├── [ ] /dashboard-profissional existe e renderiza
+├── [ ] /aceitar-convite existe e renderiza
+└── [ ] /relatorio/[clientId] existe e renderiza
+
+B.3) ROTAS DO ADMIN:
+├── [ ] /admin existe e renderiza
+├── [ ] /admin/usuarios existe e renderiza
+├── [ ] /admin/planos existe e renderiza
+├── [ ] /admin/configurar-ias existe e renderiza
+├── [ ] /admin/oraculo existe e renderiza
+├── [ ] /admin/gerador-saas existe e renderiza
+├── [ ] /admin/conteudos/sugestoes existe e renderiza
+├── [ ] /admin/conteudos/publicados existe e renderiza
+├── [ ] /admin/fanpage/config existe e renderiza
+├── [ ] /admin/ia-matrix existe e renderiza
+├── [ ] /admin/ia-mapa-menus existe e renderiza
+├── [ ] /admin/ia-carga existe e renderiza
+└── [ ] /admin/ia-grupos existe e renderiza
+
+================================================================================
+=== BLOCO C: VERIFICAÇÃO DE APIs ===
+================================================================================
+
+C.1) APIs DO TRIÂNGULO:
+├── [ ] /api/clarity-test ou /api/evaluate-clarity existe e funciona
+├── [ ] /api/journal existe e funciona (GET, POST)
+├── [ ] /api/chat existe e funciona
+├── [ ] /api/safety-plan existe e funciona (GET, POST, PATCH)
+└── [ ] /api/risk-alerts existe e funciona
+
+C.2) APIs DO PROFISSIONAL:
+├── [ ] /api/professional/clients existe e funciona
+├── [ ] /api/professional/invite/validate existe e funciona
+├── [ ] /api/professional/invite/accept existe e funciona
+├── [ ] /api/professional/reports/[clientId] existe e funciona
+└── [ ] /api/client/connections existe e funciona
+
+C.3) APIs DO ADMIN:
+├── [ ] /api/admin/users existe e funciona
+├── [ ] /api/admin/plans existe e funciona
+├── [ ] /api/admin/ai-config existe e funciona
+├── [ ] /api/oraculo-v2 existe e funciona
+├── [ ] /api/addons existe e funciona
+├── [ ] /api/addons/consume existe e funciona
+└── [ ] /api/health existe e funciona
+
+C.4) APIs DO CONTROL PLANE:
+├── [ ] /api/control-plane/config existe e funciona
+├── [ ] /api/control-plane/instance existe e funciona
+└── [ ] /api/control-plane/ia existe e funciona
+
+================================================================================
+=== BLOCO D: VERIFICAÇÃO DE TABELAS NO SUPABASE ===
+================================================================================
+
+D.1) TABELAS DO TRIÂNGULO:
+├── [ ] users/profiles existe
+├── [ ] journal_entries existe
+├── [ ] clarity_results existe
+├── [ ] safety_plans existe
+├── [ ] risk_alerts existe
+└── [ ] chat_messages existe (ou equivalente)
+
+D.2) TABELAS DO PROFISSIONAL:
+├── [ ] professional_clients existe
+├── [ ] professional_invites existe
+└── [ ] professional_brand existe
+
+D.3) TABELAS DE PLANOS:
+├── [ ] plan_catalog existe
+├── [ ] billing_plans existe
+├── [ ] features existe
+├── [ ] feature_profiles existe
+├── [ ] user_feature_overrides existe
+└── [ ] user_addons existe
+
+D.4) TABELAS DE CONTEÚDO:
+├── [ ] content_items existe
+├── [ ] content_sources existe
+├── [ ] content_decisions existe
+├── [ ] content_suggestions existe
+└── [ ] radar_pulse existe
+
+D.5) TABELAS DE IA (AI_CONFIG_CORE):
+├── [ ] ai_providers_core existe
+├── [ ] ai_features_core existe
+├── [ ] ai_feature_providers_core existe
+├── [ ] ai_plan_matrix existe
+├── [ ] ai_group_overrides existe
+├── [ ] ai_feature_menu_map existe
+├── [ ] ai_usage_stats_daily existe
+└── [ ] oraculo_logs existe
+
+D.6) TABELAS DO CONTROL PLANE:
+├── [ ] control_plane_configs existe
+├── [ ] control_plane_instance existe
+└── [ ] saas_projects existe
+
+================================================================================
+=== BLOCO E: VERIFICAÇÃO DE FUNCIONALIDADES ===
+================================================================================
+
+E.1) FUNCIONALIDADES DO TRIÂNGULO:
+├── [ ] Teste de Clareza salva resultado no banco
+├── [ ] Diário cria entrada com tags
+├── [ ] Chat IA responde e salva conversa
+├── [ ] Plano de Segurança salva e mostra status
+├── [ ] Detecção de risco via regex funciona
+├── [ ] risk_alert é criado automaticamente
+├── [ ] Badge 🛡️ aparece no diário
+└── [ ] Centro de Alertas funciona
+
+E.2) FUNCIONALIDADES DO PROFISSIONAL:
+├── [ ] Profissional cria convite
+├── [ ] Cliente aceita convite
+├── [ ] Profissional vê cliente no dashboard
+├── [ ] Profissional acessa relatório
+├── [ ] Cliente pode revogar acesso
+└── [ ] Exportação CSV funciona
+
+E.3) FUNCIONALIDADES DO ADMIN:
+├── [ ] Admin vê lista de usuários
+├── [ ] Admin gerencia planos
+├── [ ] Admin configura IAs
+├── [ ] Admin usa Oráculo V2
+├── [ ] Admin gerencia conteúdos
+└── [ ] Admin configura frontpage
+
+E.4) FUNCIONALIDADES DO CONTROL PLANE:
+├── [ ] getConfig() funciona
+├── [ ] setConfig() funciona
+├── [ ] isIAActive() funciona
+├── [ ] getIALimit() funciona
+├── [ ] getInstanceInfo() funciona
+├── [ ] isFeatureEnabled() funciona
+└── [ ] Configurações salvam no banco sem deploy
+
+E.5) FUNCIONALIDADES DO GERADOR DE SAAS:
+├── [ ] Página /admin/gerador-saas existe
+├── [ ] Formulário de criação funciona
+├── [ ] Backend clona template
+├── [ ] Kit de docs é gerado
+└── [ ] Card com ações aparece
+
+================================================================================
+=== BLOCO F: VERIFICAÇÃO DE PATCHES APLICADOS ===
+================================================================================
+
+F.1) PATCH 1 – ORÁCULO V2 SÓ ADMIN:
+├── [ ] Botão do Oráculo V2 aparece APENAS em /admin/*
+├── [ ] API /api/oraculo-v2 existe
+├── [ ] RLS dos logs está configurado
+└── [ ] docs/ORACULO-V2-PROMPT.md existe
+
+F.2) PATCH 2 – ORÁCULO V2 MULTIPERFIL (FUTURO):
+├── [ ] Documentado no ROADMAP como BLOCO 26-30
+├── [ ] Documentado na LÂMPADA como futuro
+└── [ ] NÃO implementado no código atual
+
+F.3) PATCH 3A – CONTROLE POR PLANO/PERFIL:
+├── [ ] Tabela plan_catalog existe
+├── [ ] Tabela feature_profiles existe
+├── [ ] Tabela user_feature_overrides existe
+└── [ ] Sistema de limites funciona
+
+F.4) PATCH 3B – REFORMA FRONT PAGE:
+├── [ ] Front page está funcional
+├── [ ] Integração com plan_catalog
+└── [ ] Blocos dinâmicos (se implementados)
+
+F.5) PATCH 4 – CONSTITUIÇÃO + MATRIZ ORÁCULO:
+├── [ ] Constituição documentada
+└── [ ] Matriz do Oráculo definida
+
+F.6) PATCH 5 – PLANOS & FEATURES:
+├── [ ] Arquitetura de 3 camadas implementada
+├── [ ] API de planos funciona
+└── [ ] Loja de planos funciona
+
+F.7) PATCH 6 – GERADOR DE SAAS:
+├── [ ] docs/GERADOR-SAAS.md existe
+├── [ ] Conceito de KIT DE DOCS documentado
+└── [ ] ORIGEM-CORE.txt definido
+
+F.8) PATCH 7 – MÃE, CORE BRANCO, FILHOS:
+├── [ ] 3 níveis de linhagem documentados
+├── [ ] 3 modos do gerador documentados
+└── [ ] Conceito em docs/GERADOR-SAAS.md
+
+F.9) PATCH 8 – UX/UI DO GERADOR:
+├── [ ] Página /admin/gerador-saas existe
+├── [ ] Tabela saas_projects existe
+└── [ ] Layout da página definido
+
+F.10) PATCH 9 – ADMIN DINÂMICO:
+├── [ ] Tela de IAs lê do banco
+├── [ ] Alterações salvam no Supabase
+└── [ ] Orquestrador lê config do banco
+
+F.11) PATCH CONTROL PLANE GLOBAL:
+├── [ ] docs/CONTROL-PLANE.md existe
+├── [ ] lib/control-plane.ts existe
+├── [ ] 3 camadas documentadas (Código, Config, Control Plane)
+├── [ ] MODO A (admin local) funciona
+└── [ ] MODO B (Control Hub) documentado como futuro
+
+================================================================================
+=== BLOCO G: VERIFICAÇÃO DE BLOCO 31-35 (AI_CONFIG_CORE) ===
+================================================================================
+
+G.1) ETAPA 31 – TABELAS CORE:
+├── [ ] ai_providers_core criada
+├── [ ] ai_features_core criada
+├── [ ] ai_feature_providers_core criada
+├── [ ] ai_plan_matrix criada
+├── [ ] ai_group_overrides criada
+├── [ ] Função SQL ai_get_providers_for_context criada
+└── [ ] Seed inicial aplicado
+
+G.2) ETAPA 32 – PAINEL ADMIN:
+├── [ ] Menus de IA aparecem no admin
+├── [ ] Tela lê dados reais do banco
+├── [ ] Edição salva no banco
+└── [ ] /admin/ia-matrix existe
+
+G.3) ETAPA 33 – ORQUESTRADOR:
+├── [ ] lib/ai-config-core.ts existe
+├── [ ] getProvidersForRequest() implementado
+├── [ ] checkAndConsumeLimits() implementado
+└── [ ] Orquestrador usa AI_CONFIG_CORE
+
+G.4) ETAPA 34 – GERADOR DE SAAS:
+├── [ ] docs/AI-CONFIG-CORE.md existe
+├── [ ] lib/saas-generator-core.ts existe
+└── [ ] Identificação de SaaS filho definida
+
+G.5) ETAPA 35 – QA:
+├── [ ] Testes executados
+├── [ ] CHECKLIST-POS-MVP.md atualizado
+└── [ ] TUDO PARA O GPT.txt atualizado
+
+G.6) PATCH BLOCO 31-35 – IA POR MENU:
+├── [ ] ai_feature_menu_map criada
+├── [ ] ai_usage_stats_daily criada
+├── [ ] ai_get_menu_config() criada
+├── [ ] ai_get_user_ia_profile() criada
+├── [ ] /admin/ia-mapa-menus existe
+├── [ ] /admin/ia-carga existe
+└── [ ] /admin/ia-grupos existe
+
+================================================================================
+================================================================================
+===                    PARTE 4: FORMATO DE RESPOSTA OBRIGATÓRIO              ===
+================================================================================
+================================================================================
+
+Após executar TODOS os checks acima, o Windsurf DEVE responder com:
+
+================================================================================
+# RELATÓRIO DA AUDITORIA DA AUDITORIA – V2
+================================================================================
+
+## 1. RESUMO EXECUTIVO
+
+| Categoria | Total | ✅ OK | ⚠️ Parcial | ❌ Não Existe | 🚨 Mentira |
+|-----------|-------|-------|------------|---------------|------------|
+| Arquivos  | X     | X     | X          | X             | X          |
+| Rotas     | X     | X     | X          | X             | X          |
+| APIs      | X     | X     | X          | X             | X          |
+| Tabelas   | X     | X     | X          | X             | X          |
+| Funções   | X     | X     | X          | X             | X          |
+| Patches   | X     | X     | X          | X             | X          |
+| TOTAL     | X     | X     | X          | X             | X          |
+
+## 2. O QUE A AUDITORIA V1 DEIXOU PASSAR
+
+(Lista de itens que a V1 não verificou ou marcou errado)
+
+## 3. MENTIRAS DETECTADAS
+
+(Lista de itens que a documentação diz que existe mas NÃO existe no código)
+
+## 4. ITENS NÃO IMPLEMENTADOS
+
+(Lista completa de tudo que NÃO foi implementado)
+
+## 5. ITENS PARCIALMENTE IMPLEMENTADOS
+
+(Lista de itens incompletos com % de conclusão)
+
+## 6. ITENS 100% IMPLEMENTADOS
+
+(Lista de itens que realmente funcionam)
+
+## 7. AÇÕES CORRETIVAS EXECUTADAS AGORA
+
+(Lista do que o Windsurf implementou/corrigiu nesta sessão)
+
+## 8. DÍVIDAS TÉCNICAS RESTANTES
+
+(O que ainda falta fazer, registrado na LÂMPADA)
+
+## 9. OPINIÃO HONESTA DO WINDSURF
+
+"Se eu fosse o Windsurf honesto, aqui é onde eu teria mentido ou deixado passar:"
+(Autocrítica sincera)
+
+================================================================================
+================================================================================
+===                    PARTE 5: CENÁRIO IDEAL (TUDO FUNCIONANDO)             ===
+================================================================================
+================================================================================
+
+QUANDO TUDO ESTIVER FUNCIONANDO, O SISTEMA DEVE:
+
+1) DASHBOARDS CONECTADOS:
+   ├── Dashboard Usuária → APIs → Supabase → Funciona
+   ├── Dashboard Profissional → APIs → Supabase → Funciona
+   ├── Dashboard Admin → APIs → Supabase → Funciona
+   ├── Dashboard White Label → APIs → Supabase → Funciona
+   └── Control Hub Externo → APIs → Supabase → Funciona
+
+2) ADMIN DINÂMICO (SEM DEPLOY):
+   ├── Eduardo muda config de IA no admin
+   ├── Config salva no Supabase
+   ├── Sistema lê nova config
+   └── Efeito imediato, sem deploy
+
+3) GERADOR DE SAAS:
+   ├── Eduardo clica em "Criar SaaS"
+   ├── Backend clona template
+   ├── Cria banco/projeto
+   ├── Gera kit de docs
+   └── SaaS filho nasce independente
+
+4) CONTROL PLANE:
+   ├── MODO A: Admin local (/admin) funciona
+   ├── MODO B: Control Hub externo (futuro)
+   ├── Eduardo gerencia tudo de um lugar
+   └── Configurações sem deploy
+
+5) INTEGRAÇÃO COMPLETA:
+   ├── Radar-mãe ↔ White Labels ↔ SaaS filhos
+   ├── Todos compartilham AI_CONFIG_CORE
+   ├── Todos têm painéis admin próprios
+   └── Eduardo tem visão consolidada
+
+================================================================================
+================================================================================
+===                    PARTE 6: INSTRUÇÕES FINAIS                            ===
+================================================================================
+================================================================================
+
+PARA O WINDSURF:
+
+1) Execute TODOS os checks dos BLOCOS A até G
+2) Marque cada item com [x], [~], [ ] ou [!]
+3) Gere o RELATÓRIO no formato obrigatório
+4) Implemente/corrija o que estiver faltando
+5) Seja HONESTO sobre o que não conseguiu fazer
+6) Atualize FUTURO-TERMINAR-IMPLEMENTACAO.txt
+7) Atualize HISTORICO-UNIFICADO.txt
+8) Faça commit com mensagem clara
+
+PARA O EDUARDO:
+
+1) Use este arquivo para verificar se o Windsurf está sendo honesto
+2) Compare o RELATÓRIO com o código real
+3) Se detectar mentira, confronte o Windsurf
+4) Mantenha este arquivo atualizado após cada auditoria
+
+================================================================================
+=== 📊 RESULTADO DA AUDITORIA DA AUDITORIA – V2 ===
+================================================================================
+
+DATA: [PREENCHER APÓS EXECUTAR]
+AUDITOR: Windsurf
+VERSÃO: V2
+
+[PREENCHER COM O RELATÓRIO COMPLETO APÓS EXECUÇÃO]
+
+================================================================================
+FIM DO ARQUIVO - AUDITORIA DA AUDITORIA V2
+================================================================================

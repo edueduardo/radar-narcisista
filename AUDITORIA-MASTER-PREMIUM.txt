@@ -349,5 +349,118 @@ DOCUMENTAÇÃO:
 ├── [ ] Manuais existem (se aplicável)
 
 ================================================================================
+=== 🆕 NOVA AUDITORIA: PATCH ADMIN MENU CORE (04/12/2025 06:52 UTC-5) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025 - Organização do ADMIN como "core do império"
+Autoria: ChatGPT (planejamento) + Eduardo (decisões) + Windsurf (auditoria)
+
+--------------------------------------------------------------------------------
+OBJETIVO DO PATCH
+--------------------------------------------------------------------------------
+
+Organizar o MENU ADMINISTRATIVO em grupos claros e ordenados por prioridade:
+├── Este ADMIN é o "projeto mãe"
+├── O GERADOR DE SAAS vai clonar esta organização como CORE
+└── White-labels e instâncias também herdam essa estrutura
+
+--------------------------------------------------------------------------------
+STATUS DA AUDITORIA: ✅ JÁ IMPLEMENTADO
+--------------------------------------------------------------------------------
+
+ARQUIVO ENCONTRADO: lib/admin-core-menu.ts (700 linhas)
+
+ESTRUTURA DOS 8 GRUPOS (CONFIRMADO NO CÓDIGO):
+
+| # | GRUPO | ID | ITENS | STATUS |
+|---|-------|-----|-------|--------|
+| 1 | Visão Geral & Controle | admin-core-overview | 9 | ✅ |
+| 2 | Pessoas & Acessos | admin-core-people | 5 | ✅ |
+| 3 | Planos, Billing & Promoções | admin-core-billing | 5 | ✅ |
+| 4 | IAs & Orquestração | admin-core-ai | 10 | ✅ |
+| 5 | Produto & Funcionalidades | admin-core-product | 7 | ✅ |
+| 6 | Front & Conteúdos | admin-core-front | 8 | ✅ |
+| 7 | Governança & LGPD | admin-core-governance | 5 | ✅ |
+| 8 | Laboratório & Dev | admin-core-lab | 6 | ✅ |
+
+TOTAL: 55 itens de menu em 8 grupos
+
+--------------------------------------------------------------------------------
+FUNÇÕES AUXILIARES IMPLEMENTADAS
+--------------------------------------------------------------------------------
+
+✅ getAllMenuGroups() - Retorna todos os grupos
+✅ getMenuGroup(groupId) - Retorna grupo específico
+✅ getMenuItem(itemId) - Retorna item pelo ID
+✅ getMenuItemByRoute(route) - Retorna item pela rota
+✅ getGroupForItem(itemId) - Retorna grupo de um item
+✅ getMenuForAudience(audience) - Filtra por audience
+✅ getAllMenuItems() - Retorna todos os itens (flat)
+✅ getPlaceholderItems() - Retorna placeholders
+✅ getNewItems() - Retorna itens novos
+✅ getTotalItemsCount() - Conta total
+✅ getImplementedItemsCount() - Conta implementados
+
+--------------------------------------------------------------------------------
+ITENS MARCADOS COMO PLACEHOLDER (A IMPLEMENTAR)
+--------------------------------------------------------------------------------
+
+| GRUPO | ITEM | ROTA |
+|-------|------|------|
+| Pessoas | Profissionais | /admin/profissionais |
+| Pessoas | Equipe Interna | /admin/equipe |
+| Planos | Loja / Add-ons | /admin/loja |
+| Planos | Promoções | /admin/promocoes |
+| Planos | Exceções Individuais | /admin/excecoes |
+| Produto | Plano de Segurança | /admin/seguranca |
+| Produto | Relatórios | /admin/relatorios |
+| Governança | Privacidade | /admin/privacidade |
+| Governança | LGPD / Exportar Dados | /admin/lgpd |
+| Governança | Logs Legais | /admin/logs-legais |
+| Lab | Repair Env | /admin/repair-env |
+
+TOTAL PLACEHOLDERS: 11 itens
+
+--------------------------------------------------------------------------------
+ITENS MARCADOS COMO NOVOS (isNew: true)
+--------------------------------------------------------------------------------
+
+| GRUPO | ITEM | ROTA |
+|-------|------|------|
+| IAs | IA Personas | /admin/ia-personas |
+
+--------------------------------------------------------------------------------
+PASTAS ADMIN EXISTENTES (49 PASTAS)
+--------------------------------------------------------------------------------
+
+✅ ab-testing, analytics, analytics-dashboard, auditoria-suporte
+✅ beta-testers, biblioteca, builder, chat, checklist-lancamento
+✅ comunidade, configurar-ias, conteudos, control-tower, curadoria
+✅ custos-ia, easter-eggs, equipe, estados, excecoes, fluxos-ia
+✅ frontpage, frontpage-editor, frontpage-visual, gerador-saas
+✅ gerenciar-ias, historias, ia-assistente, ia-carga, ia-mapa-menus
+✅ ia-matrix, ia-personas, insights, lgpd, logs-legais, loja
+✅ mapa-ias, mapa-sistema, menu-config, metricas, oraculo
+✅ oraculo-instances, oraculo-metricas, planos, planos-core
+✅ privacidade, profissionais, promocoes, quiz-generator
+
+--------------------------------------------------------------------------------
+CONCLUSÃO DA AUDITORIA
+--------------------------------------------------------------------------------
+
+✅ PATCH ADMIN MENU CORE: JÁ IMPLEMENTADO
+├── Arquivo lib/admin-core-menu.ts existe e está completo
+├── 8 grupos organizados por prioridade
+├── 55 itens de menu definidos
+├── 11 placeholders para implementação futura
+├── Funções auxiliares para manipulação do menu
+├── Tipagem TypeScript completa
+└── Pronto para ser usado pelo GERADOR DE SAAS
+
+⚠️ PENDÊNCIAS IDENTIFICADAS:
+├── 11 itens são placeholders (precisam de implementação real)
+├── Sidebar do admin precisa consumir adminCoreMenu
+└── Documentação em docs/MANUAL-ADMIN.md precisa ser atualizada
+
+================================================================================
 FIM DO ARQUIVO - AUDITORIA MASTER PREMIUM
 ================================================================================
