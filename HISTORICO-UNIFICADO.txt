@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 00:10 UTC-5
+Última atualização: 04/12/2025 03:20 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -93,31 +93,36 @@ JUSTIFICATIVA:
 ETAPAS IMPLEMENTADAS (STATUS ATUAL)
 ================================================================================
 
-✅ IMPLEMENTADO:
+✅ IMPLEMENTADO (MVP 1.0 CONCLUÍDO):
 ├── ETAPA 8.1-8.4 – FanPage Viva
 ├── ETAPA 9 – Curadoria + Semáforo
 ├── ETAPA 10 – Taxonomia de Planos
 ├── ETAPA 11 – Trilha do Herói (infra)
 ├── ETAPA 11.1 – Trilha Visual no Dashboard
-├── ETAPA 11.2 – Ajustes Finos Dashboard (Windsurf cfbf8cf)
-├── ETAPA 12 – Dashboard Profissional V1 (Windsurf d2a67d4)
-├── ETAPA 12.1 – Infra Clientes Profissionais (Windsurf 8061006)
-├── ETAPA 12.1.1 – Página Aceite Convite (Windsurf bc5f5a4)
-├── ETAPA 12.1.2 – Revogação de Acesso (Windsurf e339875)
-└── ETAPA 12.2 – Relatório Básico por Cliente (Windsurf e339875)
+├── ETAPA 11.2 – Ajustes Finos Dashboard
+├── ETAPA 12 – Dashboard Profissional V1
+├── ETAPA 12.1 – Infra Clientes Profissionais
+├── ETAPA 12.1.1 – Página Aceite Convite
+├── ETAPA 12.1.2 – Revogação de Acesso
+├── ETAPA 12.2 – Relatório Básico por Cliente
+├── ETAPA 12.3 – Exportação CSV
+├── ETAPA 13 – Infra White-Label V1
+├── ETAPA 14 – Loja Simplificada ✅
+├── ETAPA 15 – Beta com 5 Usuárias ✅
+├── ETAPA 16 – Oráculo V1 ✅
+├── ETAPA 17 – Limpeza Dashboards ✅
+├── ETAPA 18 – Limpeza Admin ✅
+├── ETAPA 19 – Manuais (5 arquivos) ✅
+└── ETAPA 20 – Lâmpada Geral ✅
 
-🔜 PRÓXIMO (PACOTE):
-├── ETAPA 12.3 – Exportação em Massa (PDF/CSV)
-└── ETAPA 13 – Infra White-Label V1 (brand)
-⚠️ Requer rodar AMBAS migrations no Supabase primeiro!
+🔜 PRÓXIMO (BLOCO 21-25 PÓS-MVP):
+├── ETAPA 21 – Billing Sólido & Add-ons (Stripe + user_addons)
+├── ETAPA 22 – ORÁCULO V2 Integrado (IA + Logs + Botão)
+├── ETAPA 23 – Segurança Técnica (Logs + Rate Limit)
+├── ETAPA 24 – Manuais & Links Internos
+└── ETAPA 25 – QA Técnico + Checklist Pós-MVP
 
-⏳ BACKLOG (OPCIONAL):
-└── ETAPA 11.3 – Refinamentos (animação, gamificação)
-
-⏳ FUTURO:
-├── ETAPA 12.4 – Painel Cliente c/ Profissionais
-├── ETAPA 13.1-13.2 – White-Label V2/V3
-├── ETAPA 14-16 – Radar V1
+⏳ FUTURO (BLOCO 26-30):
 ├── ENGINE.1-5 – Motor Replicador
 └── FABRICA.1-5 – Fábrica de SaaS
 
@@ -207,56 +212,52 @@ SEMÁFORO DE EDIÇÃO
 └── Qualquer coisa marcada como "crítico"
 
 ================================================================================
-COMMITS RECENTES (SESSÃO 03-04/12/2025)
+COMMITS RECENTES (SESSÃO 04/12/2025 03:20 UTC-5)
 ================================================================================
 
-0e6d7aa - AUDITORIA-MASTER-PREMIUM.txt criado + SEQUENCIA CONSOLIDADA
-66f75d7 - NOVO BLOCO C+M+O (CLEAN+MANUAIS+ORACULO) com checklists
-ecdd1ef - ETAPAs CLEAN detalhadas + MANUAIS detalhados + ORDEM OFICIAL
-7613948 - HISTORICO-UNIFICADO atualizado
-2aefe84 - ORACULO + LIMPEZA + LAMPADA + SEQUENCIA OFICIAL COMPLETA
-213da5a - BLOCO MANUAIS obrigatorio em todos os prompts
-93f6f7b - Manual White-Label esqueleto planejado
-d271932 - Sistema de Manuais + Prompt Ciclo de Manuais
-ffd2aad - Documentacao completa ENGINE + FABRICA
-aa9d77c - PACOTE 12.1.2+12.2 CONCLUIDO + PACOTE 12.3+13 Prompt
+df956c2 - BLOCO 21-25 COMPLETO - Billing + Oraculo V2 + Seguranca + Manuais + QA
+8ade23b - ORACULO V2 EXPANDIDO - Prompt completo + SQL + API route + Componente React
+5e2487a - ORACULO V2 COMPLETO - Plano de implementacao + Prompt + SQL + Melhorias manuais
+b6d5ac1 - BLOCO 14-20 CONCLUIDO - MVP 1.0 PRONTO! Documentacao completa
 
 ================================================================================
-NOVOS ARQUIVOS CRIADOS (SESSÃO 03-04/12/2025)
+SESSÃO 04/12/2025 – RESUMO
 ================================================================================
 
-├── AUDITORIA-MASTER-PREMIUM.txt (~350 linhas)
-│   └── Prompt de auditoria rigorosa com checklists
-│
-└── FUTURO-TERMINAR-IMPLEMENTACAO.txt (~9692 linhas)
-    ├── BLOCO C – CLEAN (C1, C2, C3)
-    ├── BLOCO M – MANUAIS (M1-M6)
-    ├── BLOCO O – ORÁCULO (O1, O2)
-    ├── ENGINE + FÁBRICA documentados
-    ├── SEQUÊNCIA CONSOLIDADA para prompts
-    └── PAINEL PRO EDUARDO com ✅/❌
+O QUE FOI FEITO:
+├── MVP 1.0 CONCLUÍDO (ETAPAs 1-20)
+├── BLOCO 14-20 documentado e fechado
+├── ORÁCULO V2 planejado completamente:
+│   ├── Prompt SYSTEM completo
+│   ├── SQL Migration oraculo_logs
+│   ├── Esqueleto API /api/oraculo-v2
+│   └── Componente AskOracleButton.tsx
+├── BLOCO 21-25 definido:
+│   ├── ETAPA 21 – Billing (user_addons + Stripe)
+│   ├── ETAPA 22 – Oráculo V2 Integrado
+│   ├── ETAPA 23 – Segurança Técnica
+│   ├── ETAPA 24 – Manuais & Links
+│   └── ETAPA 25 – QA Técnico
+└── FUTURO-TERMINAR-IMPLEMENTACAO.txt atualizado (~11.428 linhas)
+
+CONTAGEM DE ETAPAS:
+├── ANTES: 84 etapas
+└── AGORA: 89 etapas (+5 do BLOCO 21-25)
 
 ================================================================================
-PRÓXIMOS PASSOS (ORDEM OFICIAL)
+PRÓXIMOS PASSOS (BLOCO 21-25)
 ================================================================================
 
-FASE 1 – FECHAR RADAR:
-├── 1. ⚠️ Rodar migrations no Supabase (OBRIGATÓRIO)
-├── 2. 🔜 PACOTE 12.3 + 13 (Exportação + White-Label V1)
-├── 3. 🔜 C1 – CLEAN-USUÁRIA
-├── 4. 🔜 C2 – CLEAN-PROF
-└── 5. 🔜 C3 – CLEAN-ADMIN
+| ETAPA | Nome | Foco |
+|-------|------|------|
+| 21 | Billing Sólido & Add-ons | Stripe + user_addons |
+| 22 | ORÁCULO V2 Integrado | IA + Logs + Botão |
+| 23 | Segurança Técnica | Logs + Rate Limit |
+| 24 | Manuais & Links | Produto = Documentação |
+| 25 | QA Técnico | Checklist Pós-MVP 1.0 |
 
-FASE 2 – MANUAIS:
-├── 6. 🔜 M1 – Índice Geral
-├── 7. 🔜 M2 – Manual Usuária
-├── 8. 🔜 M3 – Manual Profissional
-├── 9. 🔜 M4 – Manual Admin
-└── 10. 🔜 M5 – Manual Dev/Engine
-
-FASE 3 – ORÁCULO:
-├── 11. ⏳ O1 – ORÁCULO-V1
-└── 12. ⏳ O2 – ORÁCULO-ENGINE
+COMANDO PARA INICIAR:
+"Vou executar o CICLO RADAR 5 TXT completo e depois a ETAPA 21"
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF
