@@ -6525,6 +6525,372 @@ EMPRESAS (RH / COMPLIANCE):
 STATUS: ✅ INTEGRADO AO PLANO (ETAPAS 13, 17, 19)
 
 ================================================================================
+=== 📋 PLANO MESTRE COMPLETO: BLOCOS A, B, C ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT + Eduardo (organização final de TUDO)
+Status: PLANO MESTRE DEFINITIVO
+
+PEDIDO DO EDUARDO:
+"Tudo o que a gente já falou, todo o chat inteiro, faz o passo a passo completo.
+Quando eu vendo White Label, o que eu gerencio? Qual é a minha parte?
+Desenvolvimento, conserto, helpdesk, inovação, implementação, tudo."
+
+================================================================================
+🧱 BLOCO A – RADAR NARCISISTA BR (PRODUTO-MÃE)
+================================================================================
+
+Objetivo: ter 1 SaaS muito sólido, real, vendendo, bonito, estável,
+que serve de MOLDE para tudo o resto.
+
+--------------------------------------------------------------------------------
+A.0 – FUNDAMENTOS DO PROJETO (JÁ FEITOS)
+--------------------------------------------------------------------------------
+✅ Stack definida: Next.js + Supabase + Stripe + IA multi-provider
+✅ Tabelas principais (diário, teste clareza, safety plan, risk alerts, billing_plans)
+✅ Fluxos básicos: cadastro, login, diário, teste de clareza, chat IA
+
+--------------------------------------------------------------------------------
+A.1 – DOCUMENTAÇÃO VIVA (CICLO RADAR 5 TXT)
+--------------------------------------------------------------------------------
+Função: manter ATLAS, ROADMAP, ESPELHO, TESTES, TUDO PARA O GPT alinhados ao código
+
+A.1.1 Sempre que rodar o CICLO RADAR 5 TXT:
+├── Atualiza ATLAS-RADAR → como o sistema realmente é hoje
+├── Atualiza TUDO PARA O GPT → narrativa de produto, limites, visão
+├── Atualiza ESPELHO-CODIGO → mapa de arquivos/rotas
+├── Atualiza ROADMAP → DONE / NEXT 7 DIAS / BACKLOG
+└── Atualiza TESTES-RADAR → catálogo de testes manuais
+
+A.1.2 Não mexe em código de produção nesse fluxo
+└── Só documenta e aponta o que deve entrar em próximas ETAPAS
+
+--------------------------------------------------------------------------------
+A.2 – FANPAGE VIVA + CONTEÚDO + COMERCIAL (ETAPAS 8.1-8.4 + 9)
+--------------------------------------------------------------------------------
+
+A.2.1 – Sistema de conteúdo (ETAPA 8.1 + 8.2 + 8.3 + 8.4) ✅ FEITO
+├── Tabelas: content_sources, content_items, content_suggestions,
+│            content_collections, content_collection_items, content_insights
+├── APIs admin: /api/admin/content/items, /suggestions, /collections,
+│               /insights/recompute, /curadoria/ia-sugerir
+├── Telas admin: /admin/conteudos/sugestoes, /publicados, /colecoes, /insights
+└── Frontpage viva: Radar em Números, FAQ dinâmico, Radar no Mundo, Academy
+
+A.2.2 – Curadoria + Semáforo (ETAPA 9) ✅ FEITO
+├── Painel /admin/curadoria com config on/off
+├── IA nunca publica nada sozinha: sempre passa pelo seu crivo
+└── Semáforo: 🟢 pode editar / 🟡 cuidado / 🔴 não mexer
+
+--------------------------------------------------------------------------------
+A.3 – PLANOS, FAMÍLIAS E MÓDULOS DE DASHBOARD (ETAPA 10 + 11-15)
+--------------------------------------------------------------------------------
+
+A.3.1 – Taxonomia de planos (ETAPA 10) ✅ FEITO
+├── Famílias: free, journey, defense, professional
+├── Planos: visitante, guardar, jornada, defesa, profissional
+└── Módulos do dashboard por plano
+
+A.3.2 – Redesenho dashboards por módulo (ETAPAS 11-15)
+
+ETAPA 11 – Dashboard Usuária (por plano) 🔜 PRÓXIMO
+├── Layout base com módulos que acendem/apagam conforme plano
+├── Módulos: onboarding, triangulo_status, teste_clareza, diário,
+│            chat_ia, plano_seguranca, evolução, provas_evidencias, academy
+├── Visitante: vê só parte + CTAs para assinar
+├── Guardar: desbloqueia diário, teste clareza, triangulo_status
+├── Jornada: desbloqueia plano de segurança, evolução, conteúdos
+└── Defesa: desbloqueia provas & evidências, relatórios, export
+
+ETAPA 12 – Dashboard Profissional
+├── Módulos: lista de clientes, visão de risco, progresso por cliente
+├── Materiais da Academy específicos para profissionais
+└── Semáforo forte (não mexer em provas/triângulo)
+
+ETAPA 13 – Dashboard White Label (estrutura base)
+├── Tema, logo, cores, domínios do cliente
+├── Limites: o que parceiro pode mudar sem quebrar ética/segurança
+└── Módulos: stats de uso, CMS de conteúdo dele
+
+ETAPA 14 – Loja Simplificada / Add-ons
+├── Upgrades de plano dentro do dashboard
+└── Add-ons: mais espaço, mais armazenamento, consultoria
+
+ETAPA 15 – Beta com 5 usuárias
+├── Convidar 5 pessoas para usar fluxo completo
+├── Dar feedback
+└── Medir clareza antes/depois
+
+================================================================================
+🚀 BLOCO B – RADAR ENGINE (MOTOR REPLICADOR DE SAAS)
+================================================================================
+
+Objetivo: transformar o Radar em "modelo" parametrizável por tema.
+Você aperta um botão, define o tema, e o sistema cria um novo SaaS.
+
+--------------------------------------------------------------------------------
+ENGINE.1 – PADRÃO ("MOLDE") DO SAAS GENÉRICO
+--------------------------------------------------------------------------------
+
+Pegar tudo do Radar e transformar em modelo genérico:
+
+ENTIDADES GENÉRICAS:
+├── users, sessions
+├── entries (diário / registros)
+├── insights (métricas)
+├── content_* (já existe)
+├── plans e plan_features
+└── alerts (risco/atenção)
+
+TRIÂNGULO/HEXÁGONO GENÉRICO:
+├── Em vez de "narcisismo", modelar como Dimensão A, B, C... até N
+├── Cada dimensão tem: perguntas, pesos, alertas, recomendações
+└── Radar atual vira o PRIMEIRO instanciamento do molde
+
+IA GENÉRICA:
+├── Camada de "coach" genérico
+├── Prompt configurável por tema
+└── Limites éticos por tipo de problema
+
+--------------------------------------------------------------------------------
+ENGINE.2 – ORQUESTRADOR DE TEMAS (TEMPLATE DE NICHOS)
+--------------------------------------------------------------------------------
+
+Tabela + UI para:
+├── Tema principal (ex: burnout, dependência, dívidas, ENEM, advogado)
+└── Árvore de nicho → subnicho → micro → nano
+
+EXEMPLO DE ÁRVORE:
+Segmento (macro): saúde, educação, jurídico, finanças, pets
+├── Nicho: "ansiedade em mães solo"
+│   ├── Subnicho: "pós-divórcio", "grávidas", "filhos especiais"
+│   └── Micro/nano: "mães solo brasileiras nos EUA com processo de guarda"
+
+ESSA ÁRVORE ALIMENTA:
+├── Quais perguntas vão para IA
+├── Quais módulos são ativados
+└── Qual tipo de conteúdo deve ser sugerido
+
+--------------------------------------------------------------------------------
+ENGINE.3 – WIZARD DE CRIAÇÃO DE NOVO SAAS
+--------------------------------------------------------------------------------
+
+Experiência: "Eu digito um tema e ele cria a estrutura inteira"
+
+PÁGINA: /admin/fabrica/criar-saas
+
+PREENCHE:
+├── Nome do tema
+├── Segmento (lista)
+├── Tipo de problema (emocional, técnico, educacional, jurídico)
+├── Público (B2C, B2B, profissional, misto)
+└── Nível de profundidade (triângulo / hexágono / 10 dimensões)
+
+O SISTEMA:
+├── Copia Template Base de config (módulos, plano de IA, estrutura)
+├── Cria "Projeto Lógico" na base (projects ou products)
+└── Tabela project_settings com JSON de temas, cores, limites, IAs
+
+V1: Multi-tenant dentro do mesmo app (chave project_id)
+V2 (futuro): Gera repositório separado via Git template
+
+--------------------------------------------------------------------------------
+ENGINE.4 – ORÁCULO (IA AUDITOR DE PORTFÓLIO)
+--------------------------------------------------------------------------------
+
+IA que olha:
+├── Uso do SaaS
+├── Métricas de engajamento
+├── Conversão de planos
+├── Risco
+├── Feedback das pessoas
+
+E TE DIZ:
+├── O que está bom
+├── O que está ruim
+├── Qual impacto de possíveis mudanças (% melhora esperada)
+└── Sugestões de novos temas/SaaS
+
+IMPLEMENTAÇÃO:
+├── Camada de métricas unificadas por projeto
+├── Rota /api/oraculo/analise-portifolio
+├── Prompt: "Você é um consultor que vê TODOS os meus projetos SaaS"
+└── Gera: ranking, alertas, ideias
+
+--------------------------------------------------------------------------------
+ENGINE.5 – MULTI-PLATAFORMA (WEB + APP)
+--------------------------------------------------------------------------------
+
+Mesma engine ter:
+├── Webpage (já temos: Next)
+└── App Android/iOS (APK)
+
+PASSO A PASSO:
+1. Garantir PWA bem feito (manifest.json, offline, ícone, splash)
+2. Gerar app com Capacitor ou Expo (reusa front web)
+3. Cada projeto herda capacidade de virar PWA/app
+
+================================================================================
+🏭 BLOCO C – FÁBRICA DE SAAS + WHITE LABEL
+================================================================================
+
+Objetivo: empacotar, clonar, vender, gerenciar vários SaaS / temas / clientes.
+
+--------------------------------------------------------------------------------
+FABRICA.1 – TIPOS DE "PRODUTO" QUE VOCÊ VENDE
+--------------------------------------------------------------------------------
+
+┌─────────────────────────┬────────────────────────────────────────────────────┐
+│ TIPO                    │ DESCRIÇÃO                                          │
+├─────────────────────────┼────────────────────────────────────────────────────┤
+│ 1. SaaS próprio         │ Você é dono total. Vende direto pro usuário final. │
+│    (Radar / outros)     │ Gestão completa: infra, suporte, evolução.         │
+├─────────────────────────┼────────────────────────────────────────────────────┤
+│ 2. White-label          │ Cliente entra como tenant: logo dele, domínio dele │
+│    "plataforma"         │ Você mantém: engine, segurança, features core.     │
+│    (RECOMENDADO)        │ Ele mantém: conteúdo, suporte ao cliente final.    │
+├─────────────────────────┼────────────────────────────────────────────────────┤
+│ 3. White-label          │ Você cria cópia separada, entrega código/deploy.   │
+│    "código"             │ Ele vira "dono operacional".                       │
+│                         │ Manutenção paga separado (opcional).               │
+└─────────────────────────┴────────────────────────────────────────────────────┘
+
+⚠️ RECOMENDAÇÃO: Focar em modelo 2 (plataforma multi-tenant)
+   É o que mais escala para 10, 20, 50 SaaS sob seu controle.
+
+--------------------------------------------------------------------------------
+FABRICA.2 – QUEM FAZ O QUÊ? (TABELA DE RESPONSABILIDADES)
+--------------------------------------------------------------------------------
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ SUA PARTE (ENGINE / PRODUTO)                                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ ✅ Arquitetura, banco, segurança, LGPD básico                               │
+│ ✅ Camada de IA (prompts, limites éticos, logs)                             │
+│ ✅ Fluxos críticos (triângulo/hexágono, alertas, provas)                    │
+│ ✅ Evolução de features core                                                │
+│ ✅ Infra (Supabase, Vercel, monitoramento)                                  │
+│ ✅ Recuperação de desastres, backups                                        │
+│ ✅ Helpdesk técnico (bugs, erros de sistema)                                │
+│ ✅ Inovação (novas features, novos módulos)                                 │
+│ ✅ Implementação de melhorias                                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PARTE DO CLIENTE WHITE-LABEL                                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 📝 Conteúdo específico (textos, FAQ, vídeos)                                │
+│ 📝 Atendimento ao usuário final (suporte, e-mail deles)                     │
+│ 📝 Estratégia comercial (preço final, campanhas)                            │
+│ 📝 Conformidade legal específica do país/segmento                           │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ SERVIÇOS ADICIONAIS (VOCÊ PODE VENDER À PARTE)                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 💰 Customização visual avançada                                             │
+│ 💰 Novos módulos exclusivos daquela clínica/escritório                      │
+│ 💰 Consultoria de dados (usando o Oráculo)                                  │
+│ 💰 Gestão de anúncios/performance                                           │
+│ 💰 Treinamento da equipe do cliente                                         │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+FABRICA.3 – FLUXO DE CRIAÇÃO DE UM WHITE-LABEL
+--------------------------------------------------------------------------------
+
+1. CLIENTE CHEGA: clínica X, escritório de advocacia, ONG, empresa
+
+2. VOCÊ NO PAINEL /admin/fabrica CRIA:
+   ├── Novo project com:
+   │   ├── Tema (ex: co-parenting, divórcio, endividamento)
+   │   ├── Escopo (triângulo ou estrutura maior)
+   │   └── Plano de IA (quais IAs, quantas, limites)
+
+3. SISTEMA GERA AUTOMATICAMENTE:
+   ├── Front com brand do cliente (cores/logo)
+   ├── Dashboards com módulos adequados ao segmento
+   └── Espaço de conteúdos para ele preencher
+
+4. VOCÊ ENTREGA:
+   ├── URL / app
+   ├── Treinamento rápido
+   └── Contrato definindo:
+       ├── 🟢 O que ele pode mexer
+       ├── 🟡 O que altera com cuidado
+       └── 🔴 O que ele não toca
+
+--------------------------------------------------------------------------------
+FABRICA.4 – ESCALANDO PARA 20-50 SAAS
+--------------------------------------------------------------------------------
+
+Para isso ser viável com UMA PESSOA SÓ (você):
+
+PRECISA DE:
+├── Oráculo olhando o portfólio (ENGINE.4)
+├── Painel consolidado de:
+│   ├── Faturamento por projeto
+│   ├── Saúde técnica (erros, uptime)
+│   ├── Uso de IA (custos)
+│   └── Churn/engajamento dos usuários finais
+
+A ROTINA VIRA:
+├── 1x por semana: olhar o Oráculo → priorizar ações
+└── 1x por mês: escolher:
+    ├── 1 SaaS para empurrar forte (campanha)
+    └── 1 SaaS para podar ou congelar (se não está tracionando)
+
+--------------------------------------------------------------------------------
+FABRICA.5 – NICHOS "IRMÃOS" x NÃO-IRMÃOS
+--------------------------------------------------------------------------------
+
+TEMAS IRMÃOS (MAIS FÁCEIS):
+Todos que lidam com emoções, tomada de decisão, risco, jornada de transformação:
+├── Burnout
+├── Vício em jogo
+├── Dívidas
+├── Procrastinação crônica
+├── Dependência emocional
+├── Luto
+├── Autoestima
+└── Relacionamentos tóxicos
+
+TEMAS NÃO-IRMÃOS MAS ADAPTÁVEIS:
+├── ENEM, concursos, estudos
+├── Gestão de pequenas empresas
+├── Finanças pessoais estruturadas
+├── Saúde crônica (diabetes, hipertensão) – com cuidado ético/médico
+└── Atendimento jurídico (organizar documentos, prazos, provas)
+
+TEMAS A EVITAR OU TRATAR COM MUITA CAUTELA:
+├── Prescrição médica direta
+├── Aconselhamento jurídico específico sem advogado
+└── Decisões de investimento com promessa de retorno
+
+⚠️ REGRA: O engine é genérico, mas uso em temas perigosos precisa de:
+   - Parceiros especialistas
+   - Disclaimers
+   - Talvez aprovação de conselho profissional
+
+================================================================================
+📋 COMO USAR ISSO NA PRÁTICA COM O WINDSURF
+================================================================================
+
+PROMPT 1 – MESTRE RADAR MANUTENÇÃO 5 TXT
+└── Continua igual, só para sync doc ↔ código
+
+PROMPT 2 – RADAR ETAPAS 8-15
+└── Tudo que é produto-mãe (FanPage, Dash, Curadoria, Loja, Beta)
+
+PROMPT 3 – ENGINE FÁBRICA DE SAAS
+└── ENGINE.1 a ENGINE.5 + FABRICA.1 a FABRICA.5
+    ├── Engine genérico
+    ├── Wizard de criação de projeto
+    ├── Oráculo
+    ├── Multi-tenant
+    └── White-label
+
+================================================================================
 === 🎛️ ANÁLISE: CONTROLE DA CURADORIA (CENSURA + ATIVAÇÃO) ===
 ================================================================================
 Fonte: [CHATGPT] Conversa 03/12/2025
@@ -6840,5 +7206,5 @@ ACORDO DE USO DEFINIDO:
 - Código travado → Fluxos críticos, IA sensível, Segurança, Billing
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 21:35 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 21:45 UTC-5
 ================================================================================
