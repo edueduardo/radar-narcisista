@@ -8991,28 +8991,33 @@ Ele é o lugar onde a ENGINE + FÁBRICA conversam com você em alto nível:
 
 Antes de ENGINE/FÁBRICA/ORÁCULO, precisamos de FAXINA E ORGANIZAÇÃO.
 
-=== 2.1 DASHBOARD DA USUÁRIA (ETAPA 11.CLEAN) ===
+=== 2.1 ETAPA 11.CLEAN-USUÁRIA – FAXINA DASHBOARD USUÁRIA ===
 
 STATUS ATUAL:
 ├── Trilha do herói (Entender → Registrar → Conversar → Proteger → Recursos) ✅
 ├── Heurística do passo atual ✅
-└── Várias seções antigas ainda existem (algumas redundantes)
+└── Várias seções antigas ainda existem (algumas redundantes) ⚠️
 
 OBJETIVO DA FAXINA:
 ├── Tirar bloco que não faz mais sentido
 ├── Garantir que só apareça o que for relevante pro plano
 └── Evitar "3 jeitos diferentes de ir pro mesmo lugar"
 
-PASSOS CONCRETOS:
-├── Mapear tudo que aparece hoje no /dashboard
-├── Marcar cada bloco como:
+PASSOS CONCRETOS (CHECKLIST):
+├── [ ] Listar todos os blocos que aparecem no /dashboard
+├── [ ] Marcar cada bloco como:
 │   ├── CORE (tem que ficar pro MVP)
-│   ├── NICE-TO-HAVE (pode ir pra seção "extras")
+│   ├── EXTRA (pode ir pra seção "recursos adicionais")
 │   └── LEGADO (pode sair ou ir pro admin)
-├── Conferir se todos os blocos estão em plan-dashboard-modules.ts
-└── Ajustar layout: 80% trilha do herói, 20% extras
+├── [ ] Remover/ocultar blocos LEGADO
+├── [ ] Unificar entradas duplicadas (vários caminhos pro mesmo lugar)
+├── [ ] Conferir se todos os blocos estão em plan-dashboard-modules.ts
+├── [ ] Ajustar layout: 80% trilha do herói, 20% extras
+└── [ ] Atualizar MANUAL-USUARIA-RADAR.txt
 
-=== 2.2 DASHBOARD PROFISSIONAL (ETAPA 12.CLEAN) ===
+STATUS: ❌ NÃO IMPLEMENTADO
+
+=== 2.2 ETAPA 12.CLEAN-PROF – FAXINA DASHBOARD PROFISSIONAL ===
 
 STATUS ATUAL:
 ├── /dashboard-profissional existe ✅
@@ -9023,15 +9028,22 @@ OBJETIVO DA FAXINA:
 ├── Painel simples: lista de clientes + estado + 1 clique pra relatório
 └── Deixar claro: "O que você vê é o que a cliente autorizou"
 
-PASSOS:
-├── Simplificar tabela de clientes: Nome, status, permissões, ações
-├── Conectar melhor: Dashboard ↔ páginas da cliente
-└── Depois: ETAPA 12.3 – exportação
+PASSOS CONCRETOS (CHECKLIST):
+├── [ ] Simplificar lista de clientes
+├── [ ] Deixar só colunas importantes (nome, status, permissões, ações)
+├── [ ] Garantir fluxo completo: convite → aceite → relatório → revogação
+├── [ ] Remover qualquer resquício "mock" no front
+├── [ ] Conectar melhor: Dashboard ↔ páginas da cliente
+├── [ ] Depois: ETAPA 12.3 – exportação
+└── [ ] Atualizar MANUAL-PROFISSIONAL-RADAR.txt
 
-=== 2.3 ADMIN (ETAPA 9.CLEAN) ===
+STATUS: ❌ NÃO IMPLEMENTADO
+
+=== 2.3 ETAPA 9.CLEAN-ADMIN – ORGANIZAÇÃO DO ADMIN ===
 
 STATUS ATUAL:
-└── Admin é meio "laboratório + cockpit + museu"
+├── Várias telas de admin criadas (mapa de IAs, fluxos, frontpage, etc.) ✅
+└── Admin é meio "laboratório + cockpit + museu" ⚠️
 
 OBJETIVO:
 ├── Admin limpo, dividido em:
@@ -9039,15 +9051,18 @@ OBJETIVO:
 │   ├── LABORATÓRIO / experimentos
 │   └── DEV / manutenção
 
-PASSOS:
-├── Listar todas as rotas /admin/*
-├── Classificar cada uma:
+PASSOS CONCRETOS (CHECKLIST):
+├── [ ] Listar todas as rotas /admin/*
+├── [ ] Classificar cada uma:
 │   ├── OPERACIONAL (curadoria, termos, analytics)
 │   ├── LAB (testes, ab-tests, fluxos IA experimentais)
 │   └── DEV (repair-env, hash, etc.)
-├── No menu admin: criar 3 grupos
-├── Esconder do menu: coisas muito experimentais
-└── Atualizar MANUAL-ADMIN-RADAR.txt
+├── [ ] Reorganizar o menu admin em 3 grupos
+├── [ ] Esconder do menu: coisas muito experimentais (acesso só via URL ou flag)
+├── [ ] Atualizar MANUAL-ADMIN-RADAR.txt com o que é seguro/proibido mexer
+└── [ ] Documentar no ATLAS-RADAR-NARCISISTA.txt
+
+STATUS: ❌ NÃO IMPLEMENTADO
 
 --------------------------------------------------------------------------------
 3. ETAPA LÂMPADA – OBSERVAÇÕES PARA O EDUARDO
@@ -9119,18 +9134,40 @@ BLOCO A – RADAR NARCISISTA (PRODUTO-MÃE)
 ⏳ ETAPA 16 – Segurança & LGPD Hardening
 
 --------------------------------------------------------------------------------
-BLOCO B – MANUAIS
+BLOCO B – MANUAIS (DETALHADO)
 --------------------------------------------------------------------------------
 
-🔜 ETAPA MANUAIS.1 – Criar 4 manuais base
-   ├── MANUAL-USUARIA-RADAR.txt
-   ├── MANUAL-PROFISSIONAL-RADAR.txt
-   ├── MANUAL-ADMIN-RADAR.txt
-   └── MANUAL-DEV-RADAR.txt
+🔜 ETAPA MANUAIS.1 – Definir estrutura dos manuais
+   ├── Índice padrão por perfil
+   ├── Template de capítulos
+   └── Onde ficam os arquivos (docs/)
 
-⏳ ETAPA MANUAIS.2 – Manual White-Label (após ETAPA 13)
-⏳ ETAPA MANUAIS.3 – Manual ENGINE (após ENGINE.1)
-⏳ ETAPA MANUAIS.4 – Manual FÁBRICA (após FÁBRICA.1)
+🔜 ETAPA MANUAIS.2-USUÁRIA – Manual da usuária (v1)
+   ├── Baseado no fluxo real do Radar
+   ├── Triângulo + trilha do herói + plano de segurança
+   └── Linguagem leiga, sem jargão
+
+🔜 ETAPA MANUAIS.3-PROF – Manual do profissional
+   ├── Como convidar clientes
+   ├── Ver relatório, revogar acesso
+   └── Limites éticos
+
+🔜 ETAPA MANUAIS.4-ADMIN – Manual do admin
+   ├── Como usar /admin
+   ├── O que é rotina, o que é "perigoso"
+   └── O que é só dev
+
+🔜 ETAPA MANUAIS.5-DEV – Manual técnico
+   ├── Stack, pastas, fluxo de deploy
+   ├── Como criar novo tema/SaaS usando ENGINE
+   └── Migrations, testes, RLS
+
+⏳ ETAPA MANUAIS.6-WL – Manual White-Label (após ETAPA 13)
+   ├── Como funciona pra quem compra "Radar com logo próprio"
+   └── Personalização, limites, contrato
+
+⏳ ETAPA MANUAIS.7-ENGINE – Manual ENGINE (após ENGINE.1)
+⏳ ETAPA MANUAIS.8-FABRICA – Manual FÁBRICA (após FÁBRICA.1)
 
 --------------------------------------------------------------------------------
 BLOCO C – ENGINE (MOTOR REPLICADOR)
@@ -9163,27 +9200,77 @@ BLOCO E – ORÁCULO
 ⏳ ORÁCULO.5 – Oráculo da fábrica (multi-SaaS)
 
 --------------------------------------------------------------------------------
-ORDEM SUGERIDA DE EXECUÇÃO
+ORDEM SUGERIDA DE EXECUÇÃO (DETALHADA)
 --------------------------------------------------------------------------------
 
 FASE 1 – FECHAR RADAR (PRÓXIMO):
-├── 1. Rodar migrations no Supabase ⚠️
-├── 2. PACOTE 12.3 + 13 (Exportação + White-Label V1)
-├── 3. ETAPA MANUAIS.1 (criar 4 manuais base)
-├── 4. ETAPA 11.CLEAN (limpeza dashboard usuária)
-├── 5. ETAPA 12.CLEAN (limpeza dashboard profissional)
-└── 6. ETAPA 9.CLEAN (limpeza admin)
+├── 1. ⚠️ Rodar migrations no Supabase (OBRIGATÓRIO)
+│   ├── 20241201_create_professional_clients.sql
+│   └── 20241201_fix_professional_clients_nullable.sql
+├── 2. 🔜 PACOTE 12.3 + 13 (Exportação + White-Label V1)
+├── 3. 🔜 ETAPA 11.CLEAN-USUÁRIA (limpeza dashboard usuária)
+├── 4. 🔜 ETAPA 12.CLEAN-PROF (limpeza dashboard profissional)
+└── 5. 🔜 ETAPA 9.CLEAN-ADMIN (limpeza admin em 3 grupos)
 
-FASE 2 – ENGINE:
-├── 7. ENGINE.1 (project_id)
-├── 8. ENGINE.2 (temas)
-└── 9. ORÁCULO.1 (esqueleto)
+FASE 2 – MANUAIS:
+├── 6. 🔜 ETAPA MANUAIS.1 (estrutura dos manuais)
+├── 7. 🔜 ETAPA MANUAIS.2-USUÁRIA (manual da usuária)
+├── 8. 🔜 ETAPA MANUAIS.3-PROF (manual do profissional)
+├── 9. 🔜 ETAPA MANUAIS.4-ADMIN (manual do admin)
+└── 10. 🔜 ETAPA MANUAIS.5-DEV (manual técnico)
 
-FASE 3 – FÁBRICA:
-├── 10. FÁBRICA.1 (painel de projetos)
-├── 11. FÁBRICA.2 (wizard IA)
-└── 12. ORÁCULO.5 (multi-SaaS)
+FASE 3 – ENGINE:
+├── 11. ⏳ ENGINE.1 (project_id)
+├── 12. ⏳ ENGINE.2 (temas)
+└── 13. ⏳ ORÁCULO.1 (esqueleto)
+
+FASE 4 – FÁBRICA:
+├── 14. ⏳ FÁBRICA.1 (painel de projetos)
+├── 15. ⏳ FÁBRICA.2 (wizard IA)
+└── 16. ⏳ ORÁCULO.5 (multi-SaaS)
+
+--------------------------------------------------------------------------------
+ORDEM GERAL PARA TODOS OS PROMPTS (NÃO PULAR)
+--------------------------------------------------------------------------------
+
+1) SEMPRE rodar CICLO RADAR 5 TXT antes de qualquer mudança
+
+2) RESPEITAR a sequência de ETAPAS (não inventar ordem):
+   ├── ETAPA 11.CLEAN-USUÁRIA
+   ├── ETAPA 12.CLEAN-PROF
+   ├── ETAPA 9.CLEAN-ADMIN
+   └── MANUAIS.1 → MANUAIS.2 → MANUAIS.3 → MANUAIS.4 → MANUAIS.5
+
+3) SE precisar criar algo fora do planejado (sugestão, ideia, opinião):
+   ├── Batizar como nova ETAPA (ex.: ETAPA 11.4, ETAPA 9.1, MANUAIS.7)
+   ├── Registrar no ROADMAP-RADAR.txt
+   └── Mencionar no RESUMO FINAL na seção LÂMPADA
+
+4) SEMPRE incluir no resumo final:
+   ├── ✅ / ❌ para cada etapa tocada
+   └── Seção "LÂMPADA – Observações para o Eduardo"
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:45 UTC-5
+=== 📊 RESUMO RÁPIDO PARA O EDUARDO ===
+================================================================================
+
+✅ FEITO:
+├── Dash usuária: trilha do herói + heurística → OK
+├── Dash profissional: base + clientes + convites + relatórios → OK (V1)
+└── Infra de convites/profissionais: criada + aceita + revoga → OK
+
+❌ FALTANDO:
+├── Faxina do que tem / não tem – usuária → ETAPA 11.CLEAN-USUÁRIA
+├── Faxina do que tem / não tem – profissional → ETAPA 12.CLEAN-PROF
+├── Faxina do que tem / não tem – admin → ETAPA 9.CLEAN-ADMIN
+└── Manuais (usuária, profissional, admin, dev, white-label) → MANUAIS.*
+
+💡 LÂMPADA GERAL:
+Essas 3 faxinas (usuária, profissional, admin) + manuais vão virar a base pra:
+├── O ORÁCULO te explicar o que está acontecendo
+├── A ENGINE/FÁBRICA replicar SaaS com menos caos
+└── Qualquer pessoa entender o sistema sem depender só da sua memória
+
+================================================================================
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:50 UTC-5
 ================================================================================
