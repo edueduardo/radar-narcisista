@@ -10,7 +10,7 @@ Autoria: Windsurf + ChatGPT + Eduardo
 COMANDO ESPECIAL: "HISTÓRICO"
 ================================================================================
 Quando Eduardo disser "HISTÓRICO", o Windsurf deve:
-1. Ler este arquivo completamente
+1. Ler este arquivo completamente + FUTURO-TERMINAR-IMPLEMENTACAO.TXT
 2. Confirmar: "Acessei o HISTORICO-UNIFICADO.txt e entendi o contexto."
 3. Continuar de onde parou
 
