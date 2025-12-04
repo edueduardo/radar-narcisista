@@ -9687,6 +9687,106 @@ QUANDO USAR:
 └── Para verificar se documentação bate com código
 
 ================================================================================
+=== 📋 RESULTADO WINDSURF – ETAPAS 12.3 + 13 CONCLUÍDAS ===
+================================================================================
+Fonte: [WINDSURF] Execução 04/12/2025
+Autoria: Windsurf
+Status: ✅ CONCLUÍDO
+
+--------------------------------------------------------------------------------
+ETAPA 12.3 – EXPORTAÇÃO CSV (V1) ✅
+--------------------------------------------------------------------------------
+
+ARQUIVOS MODIFICADOS:
+├── app/dashboard-profissional/clientes/[id]/page.tsx
+│   ├── +135 linhas (função handleExportCSV)
+│   ├── +2 linhas (import Download icon)
+│   └── +18 linhas (botão CSV na UI)
+
+FUNCIONALIDADE:
+├── Botão "CSV" na página de relatório do cliente
+├── Exporta dados autorizados pelo cliente
+└── Formato CSV para uso jurídico/profissional
+
+--------------------------------------------------------------------------------
+ETAPA 13 – INFRA WHITE-LABEL (V1) ✅
+--------------------------------------------------------------------------------
+
+ARQUIVOS CRIADOS:
+├── database/migrations/20241201_create_professional_brand.sql (+102 linhas)
+│   └── Tabela professional_brand com RLS
+├── app/api/professional/brand/route.ts (+202 linhas)
+│   └── API GET/POST para configuração de marca
+└── app/dashboard-profissional/marca/page.tsx (+432 linhas)
+    └── Página de configuração de marca white-label
+
+ARQUIVOS MODIFICADOS:
+├── app/dashboard-profissional/page.tsx
+│   └── +8 linhas (link "Configurar Marca" nos links rápidos)
+
+FUNCIONALIDADE:
+├── Profissional pode configurar:
+│   ├── Nome da marca
+│   ├── Cor principal (brand_color)
+│   └── URL do logo (logo_url)
+├── Preview em tempo real
+└── Salva no banco via API
+
+--------------------------------------------------------------------------------
+BUILD E DEPLOY
+--------------------------------------------------------------------------------
+
+BUILD: ✅ 154 páginas (2 novas)
+├── /dashboard-profissional/marca
+└── /api/professional/brand
+
+COMMIT: c5e9313 - "ETAPA 12.3 + 13: Exportacao CSV + Infra White-label V1"
+PUSH: ✅ GitHub → Vercel (deploy automático)
+
+--------------------------------------------------------------------------------
+⚠️ MIGRATIONS PENDENTES (EXECUTAR NO SUPABASE)
+--------------------------------------------------------------------------------
+
+ORDEM OBRIGATÓRIA:
+├── 1. 20241201_create_professional_clients.sql
+├── 2. 20241201_fix_professional_clients_nullable.sql
+└── 3. 20241201_create_professional_brand.sql (NOVA)
+
+--------------------------------------------------------------------------------
+💡 MELHORIAS IDENTIFICADAS PELO WINDSURF
+--------------------------------------------------------------------------------
+
+1. APLICAR MARCA NO CONVITE E RELATÓRIO
+   └── Quando cliente acessa /aceitar-convite, mostrar nome e cor do profissional
+
+2. UPLOAD DE LOGO VIA SUPABASE STORAGE
+   └── Atualmente usa URL externa, implementar upload direto
+
+3. INTEGRAR BRAND_COLOR NO HEADER
+   └── Usar a cor configurada no header/badges do dashboard
+
+4. EXPIRAÇÃO AUTOMÁTICA DE CONVITES
+   └── Convites pendentes há mais de 14 dias deveriam expirar
+
+================================================================================
+=== 📋 PROMPT BLOCO 14-20 (PRÓXIMAS ETAPAS) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT
+Status: PROMPT PRONTO PARA WINDSURF
+
+O prompt completo do BLOCO 14-20 foi gerado pelo ChatGPT e está pronto para uso.
+
+ETAPAS DO BLOCO 14-20:
+├── ETAPA 14 – Loja simplificada (2-3 add-ons reais)
+├── ETAPA 15 – Beta com 5 usuárias
+├── ETAPA 16 – Oráculo V1 (analytics consolidado)
+├── ETAPA 17 – Limpeza/Unificação de Dashboards
+├── ETAPA 18 – Limpeza/Admin & Mapa do Sistema
+├── ETAPA 19 – Manuais (usuária, profissional, admin, dev, white-label)
+└── ETAPA 20 – Lâmpada Geral (LAMPADA-RADAR.txt)
+
+================================================================================
 === 📋 MINI MANUAL DO EDUARDO (5 REGRAS PARA O DESÂNIMO) ===
 ================================================================================
 Fonte: [CHATGPT] Conversa 04/12/2025
