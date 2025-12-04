@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 05:30 UTC-5
+Última atualização: 04/12/2025 05:35 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -362,6 +362,18 @@ PATCH 7 – MÃE, CORE BRANCO, FILHOS (3 NÍVEIS):
 │   ├── MODO 2: CORE BRANCO (neutro)
 │   └── MODO 3: SAAS a partir de CORE BRANCO existente
 └── ORIGEM-CORE.txt obrigatório em todo projeto gerado
+
+PATCH 8 – UX/UI DO GERADOR DE SAAS:
+├── O que acontece ao clicar no botão:
+│   ├── Backend clona template, gera projeto, cria kit de docs
+│   ├── Mostra card com ações (GitHub, git clone, .zip, instruções)
+│   └── NÃO abre .exe, NÃO abre Windsurf automaticamente
+├── Fluxo prático:
+│   ├── Admin preenche formulário, clica em criar
+│   ├── Aparece card do projeto gerado
+│   └── Usuário baixa/clona e abre no Windsurf
+├── Layout da página /admin/gerador-saas definido
+└── Tabela saas_projects definida
 
 REGRA FIXA:
 ├── NENHUMA ETAPA está completa sem atualizar TODOS os TXTs e Manuais
