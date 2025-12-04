@@ -7550,14 +7550,81 @@ REGRAS:
 └── Se algo não for possível, registrar no ROADMAP
 
 ================================================================================
+=== 📋 PROMPT MESTRE ETAPA 12 (DASHBOARD PROFISSIONAL V1) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (criação do prompt)
+Status: ⏳ FUTURO (após ETAPA 11.2)
+
+NOME DO PROMPT: RADAR – ETAPA 12 – DASHBOARD PROFISSIONAL (V1)
+
+PRÉ-REQUISITOS:
+├── ETAPA 10 (Infra de Planos) ✅
+├── ETAPA 11 (Infra Dashboard) ✅
+├── ETAPA 11.1 (Trilha do Herói) ✅
+└── ETAPA 11.2 (Ajustes Finos) 🔜
+
+OBJETIVO:
+Criar a primeira versão do Dashboard Profissional (B2B), separado do dashboard
+da usuária, com:
+├── Rota própria: /dashboard-profissional
+├── Gating por plano (só plano "Profissional" acessa)
+├── Layout mínimo com seções básicas
+└── Estrutura para futuras funcionalidades
+
+ESTRUTURA DO PROMPT:
+├── ETAPA 0 – Leitura e sincronização
+├── ETAPA 1 – Objetivo da ETAPA 12
+├── ETAPA 2 – Lógica de acesso profissional
+├── ETAPA 3 – Layout do Dashboard Profissional (V1)
+├── ETAPA 4 – Atualização dos TXT
+├── ETAPA 5 – Build, testes manuais e resumo
+└── RESUMO FINAL (obrigatório)
+
+SEÇÕES DO DASHBOARD PROFISSIONAL:
+├── (A) Header / Boas-vindas Profissional
+│   ├── Título: "Radar Profissional"
+│   ├── Nome do profissional
+│   └── Badge com plano
+├── (B) Visão geral (cards)
+│   ├── Clientes conectados
+│   ├── Vagas disponíveis
+│   ├── Relatórios gerados (em breve)
+│   └── Exportações em massa (em breve)
+├── (C) Painel de clientes (estrutura)
+│   ├── Nome / Identificador
+│   ├── Status
+│   ├── Última atividade
+│   ├── Risco (em breve)
+│   └── Ações
+└── (D) Próximos passos (texto guia)
+
+GATING POR PLANO:
+├── Se NÃO logado → redirecionar para /login
+├── Se logado MAS sem plano profissional → redirecionar para /profissional
+└── Se plano profissional → renderizar dashboard
+
+REGRAS:
+├── NÃO criar migrations agora
+├── NÃO inventar tabelas no banco
+├── Se não existir tabela de clientes → UI com mock
+├── Registrar tarefas futuras no ROADMAP
+└── NÃO quebrar dashboard da usuária
+
+ETAPAS FUTURAS RELACIONADAS:
+├── ETAPA 12.1 – Infra de clientes profissionais (tabela, RLS)
+├── ETAPA 12.2 – Relatórios agregados para profissionais
+└── ETAPA 12.3 – Exportação em massa
+
+================================================================================
 === 📊 IMPLEMENTAR WINDSURF + EDUARDO ===
 ================================================================================
 Fonte: Consolidação de todas as auditorias do chat
 Autoria: Windsurf + Eduardo
 Status: ATUALIZAÇÃO CONTÍNUA
 
-ANTES ERA: 31 etapas
-AGORA: 32 etapas (ETAPA 11.2 adicionada)
+ANTES ERA: 32 etapas
+AGORA: 35 etapas (ETAPA 11.3, 12.1, 12.2, 12.3 adicionadas como futuras)
 
 --------------------------------------------------------------------------------
 FASES COMPLETAS (IMPLEMENTAR WINDSURF + EDUARDO)
@@ -7569,8 +7636,9 @@ BLOCO A – RADAR NARCISISTA BR (PRODUTO-MÃE)
 ├── ETAPA 10 – Taxonomia de Planos ✅ FEITO
 ├── ETAPA 11 – Trilha do Herói (infra) ✅ FEITO
 ├── ETAPA 11.1 – Trilha Visual no Dashboard ✅ FEITO
-├── ETAPA 11.2 – Ajustes Finos Dashboard 🔜 PRÓXIMO
-├── ETAPA 12 – Dashboard Profissional ⏳ FUTURO
+├── ETAPA 11.2 – Ajustes Finos Dashboard ✅ FEITO (Windsurf cfbf8cf)
+├── ETAPA 11.3 – Refinamentos Opcionais ⏳ BACKLOG (animação, gamificação)
+├── ETAPA 12 – Dashboard Profissional V1 🔜 PRÓXIMO
 ├── ETAPA 13 – Dashboard White-Label ⏳ FUTURO
 ├── ETAPA 14 – Loja / Upgrades ⏳ FUTURO
 ├── ETAPA 15 – Beta com 5 usuárias ⏳ FUTURO
@@ -7591,33 +7659,58 @@ BLOCO C – FÁBRICA DE SAAS + WHITE LABEL
 └── FABRICA.5 – Nichos irmãos/não-irmãos ⏳ FUTURO
 
 --------------------------------------------------------------------------------
-PRÓXIMO CICLO: CICLO 2 (ETAPA 11.2)
+CICLO 2: ETAPA 11.2 ✅ CONCLUÍDO
 --------------------------------------------------------------------------------
 
-[PASSO=GPT-2] ETAPA 11.2 (Ajustes Finos)
+[PASSO=GPT-2] ETAPA 11.2 (Ajustes Finos) ✅
 ├── Prompt Mestre ETAPA 11.2 criado ✅
-├── Melhorar heurística do passo atual
-├── Ajustes UX mobile
-└── Microcópia e textos
+├── Melhorar heurística do passo atual ✅
+├── Ajustes UX mobile ✅
+└── Microcópia e textos ✅
 
-[PASSO-WINDSURF-2] Implementar ETAPA 11.2
-├── Ajustar app/dashboard/page.tsx
-├── Refinar lib/dashboard-user-layout.ts (se necessário)
+[PASSO-WINDSURF-2] Implementar ETAPA 11.2 ✅
+├── Ajustar app/dashboard/page.tsx ✅
+├── Refinar lib/dashboard-user-layout.ts ✅
+├── Atualizar TXTs ✅
+├── Build + git + resumo ✅
+└── Commit: cfbf8cf
+
+RESULTADO ETAPA 11.2:
+├── Função getCurrentHeroStep() com heurística inteligente
+├── Microcópias refinadas em HERO_STEP_LABELS
+├── Badge "Você está aqui" no passo atual
+├── Passos completados mostram ✓ verde
+├── Mobile: scroll horizontal edge-to-edge
+└── Build: 145 páginas
+
+--------------------------------------------------------------------------------
+PRÓXIMO CICLO: CICLO 3 (ETAPA 12)
+--------------------------------------------------------------------------------
+
+[PASSO=GPT-3] ETAPA 12 (Dashboard Profissional V1)
+├── Prompt Mestre ETAPA 12 criado ✅
+├── Definir layout do Dashboard Profissional
+├── Gating por plano (só profissional acessa)
+└── Entregar prompt para Windsurf
+
+[PASSO-WINDSURF-3] Implementar ETAPA 12
+├── Criar app/dashboard-profissional/page.tsx
+├── Seções: Header, Visão Geral, Painel Clientes, Próximos Passos
 ├── Atualizar TXTs
 └── Build + git + resumo
 
 --------------------------------------------------------------------------------
-CICLO 3: ETAPA 12 + ENGINE.1-PREP (APÓS 11.2)
+CICLO 4: ENGINE.1-PREP (APÓS ETAPA 12)
 --------------------------------------------------------------------------------
 
-[PASSO=GPT-3] ETAPA 12 + ENGINE.1-PREP
-├── Definir Dashboard Profissional
+[PASSO=GPT-4] ENGINE.1-PREP
 ├── Desenhar ENGINE.1 (project_id)
-└── Entregar prompts para Windsurf
+├── Definir como adicionar multi-tenant sem quebrar
+└── Entregar prompt para Windsurf
 
-[PASSO-WINDSURF-3] Implementar
-├── Criar /dashboard/pro
+[PASSO-WINDSURF-4] Implementar ENGINE.1-PREP
 ├── Adicionar project_id nas tabelas principais
+├── Criar helpers de multi-tenant
 └── Build + git + resumo
 
 --------------------------------------------------------------------------------
@@ -7629,20 +7722,25 @@ IMPLEMENTADO:
 ├── ETAPA 9 (Curadoria + Semáforo)
 ├── ETAPA 10 (Taxonomia de Planos)
 ├── ETAPA 11 (Trilha do Herói - infra)
-└── ETAPA 11.1 (Trilha Visual no Dashboard)
-TOTAL IMPLEMENTADO: 5 blocos
+├── ETAPA 11.1 (Trilha Visual no Dashboard)
+└── ETAPA 11.2 (Ajustes Finos Dashboard)
+TOTAL IMPLEMENTADO: 6 blocos
 
 PRÓXIMO:
-└── ETAPA 11.2 (Ajustes Finos Dashboard)
+└── ETAPA 12 (Dashboard Profissional V1)
 TOTAL PRÓXIMO: 1 bloco
 
+BACKLOG (OPCIONAL):
+└── ETAPA 11.3 (Refinamentos: animação, gamificação)
+TOTAL BACKLOG: 1 bloco
+
 FUTURO:
-├── ETAPA 12 (Dashboard Profissional)
+├── ETAPA 12.1-12.3 (Profissional V2/V3)
 ├── ETAPA 13-16 (Radar V1)
 ├── ENGINE.1-5 (Motor)
 └── FABRICA.1-5 (Fábrica)
-TOTAL FUTURO: 15 blocos
+TOTAL FUTURO: 17 blocos
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 22:30 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 22:35 UTC-5
 ================================================================================
