@@ -18883,7 +18883,281 @@ Isso evita remendo no futuro.
 
 TOTAL: 450 itens em 33 fases
 
-TOTAL DE FASES: ANTES ERA 32 / AGORA: 33
+================================================================================
+FASE 34 – GERADOR DE SAAS: ARQUITETURA DE ATUALIZAÇÃO EM CADEIA
+================================================================================
+Fonte: [CHATGPT] Chat 04/12/2025 07:51 UTC-5 - Gerador de SaaS e Atualizações
+Autoria: ChatGPT (planejamento) + Eduardo (decisões) + Windsurf (execução)
+Status: 📝 CONCEITUAL - PRONTO PARA IMPLEMENTAR
+
+--------------------------------------------------------------------------------
+BLOCO A – MODELO DE 3 CAMADAS (CORE + TEMPLATES + INSTÂNCIAS)
+--------------------------------------------------------------------------------
+
+A PARTIR DE AGORA, o gerador de SaaS NÃO trabalha mais com "cópia de código puro".
+Ele passa a usar um modelo de 3 camadas:
+
+1. CORE (MÃE) – núcleo compartilhado, único
+2. TEMPLATES / TEMAS (FILHO TEMÁTICO OU EM BRANCO) – camada de personalização
+3. INSTÂNCIAS DE SAAS (FILHOS / NETOS) – cada produto gerado
+
+--------------------------------------------------------------------------------
+BLOCO B – CAMADA 1: CORE (MÃE)
+--------------------------------------------------------------------------------
+
+Representa o núcleo comum de todos os SaaS gerados:
+- Autenticação, planos, billing, IA, Oráculo, logs, segurança, menu base, etc.
+
+CONCEITO:
+- Só existe UM core (por projeto/plataforma)
+- Ele é versionado: core_version = 1.0.0, 1.1.0, 1.2.3 etc.
+- O código do core NÃO é clonado para cada SaaS
+- Os SaaS apontam para uma versão do core
+
+REGRAS:
+- Qualquer evolução estrutural é feita no CORE
+- O CORE nunca "desce" para dentro do filho como fork independente
+- O painel global deve saber:
+  - qual SaaS está em qual core_version
+  - quais versões estão disponíveis
+  - quais SaaS são elegíveis para upgrade
+
+--------------------------------------------------------------------------------
+BLOCO C – CAMADA 2: TEMPLATES / TEMAS (FILHO TEMÁTICO OU EM BRANCO)
+--------------------------------------------------------------------------------
+
+Um Template é uma "roupa + configuração" aplicada em cima do CORE.
+
+EXEMPLOS:
+- template_radar_narcisista_v1
+- template_radar_narcisista_v2
+- template_branco_base_v1
+- template_clinica_trauma_v1
+
+CADA TEMPLATE DEFINE:
+- Frontpage (layout, seções, textos padrão)
+- Paleta de cores, fontes, identidade visual
+- Menus ativos/desativados
+- Módulos ligados/desligados (diário, oráculo público, comunidade, etc.)
+- Regras de IA (quais modelos em quais fluxos por padrão)
+- Textos base (FAQ, termos, onboarding, copy de vendas)
+
+REGRAS:
+- Template também é versionado: template_key + template_version
+- "Filho temático" = Template (NÃO é núcleo novo)
+- "Filho branco" = Template base minimalista
+
+--------------------------------------------------------------------------------
+BLOCO D – CAMADA 3: INSTÂNCIAS DE SAAS (FILHOS / NETOS)
+--------------------------------------------------------------------------------
+
+Cada SaaS gerado pelo gerador é uma instância que aponta para:
+- core_version
+- template_key
+- template_version
+- um bloco de customizações específicas (overrides)
+
+EXEMPLO DE MODELO:
+{
+  "id": "saas_meu_terapeuta",
+  "nome_publico": "Meu Terapeuta Radar",
+  "dominio": "meuterapeutaradar.com",
+  "core_version": "1.3.0",
+  "template_key": "radar_narcisista",
+  "template_version": "2.0.0",
+  "plan": "pro",
+  "status": "ativo",
+  "custom_overrides": {
+    "cores": {
+      "primaria": "#aa33ff",
+      "secundaria": "#222244"
+    },
+    "logo_url": "https://cdn.../logo.png",
+    "textos_especificos": {
+      "headline_frontpage": "Seu radar emocional personalizado"
+    }
+  }
+}
+
+IMPORTANTE:
+- A instância NÃO carrega uma cópia separada do core
+- A instância sabe: qual core usa, qual template aplica, quais overrides adiciona
+
+--------------------------------------------------------------------------------
+BLOCO E – ATUALIZAÇÕES PARTINDO DA MÃE (CORE)
+--------------------------------------------------------------------------------
+
+FLUXO CORRETO:
+1. Dev altera o CORE (mãe) → gera nova versão: core 1.4.0
+2. O painel global registra essa nova versão como disponível
+3. Para cada SaaS, o sistema sabe:
+   - saas_A → core 1.3.0
+   - saas_B → core 1.3.0
+   - saas_C → core 1.4.0
+4. A UI oferece:
+   - Atualizar todos elegíveis de 1.3.0 → 1.4.0
+   - Atualizar por grupo (por plano, por template, por cliente)
+   - Atualizar individualmente (um SaaS específico)
+
+REGRA OFICIAL:
+👉 Atualização sempre sai da MÃE (core) para as instâncias
+👉 Nunca se parte de um filho pra atualizar outros
+
+--------------------------------------------------------------------------------
+BLOCO F – ATUALIZAÇÕES PARTINDO DOS TEMPLATES
+--------------------------------------------------------------------------------
+
+Quando você altera um Template:
+- ex.: template_radar_narcisista_v1 → v2
+
+FLUXO:
+1. Dev altera o template (frontpage nova, menus, textos, etc.)
+2. Cria nova versão: template_radar_narcisista_v2
+3. Gerador / painel lista todas as instâncias usando template_v1
+4. Admin escolhe:
+   - migrar todas
+   - migrar um subconjunto
+   - migrar só projetos novos
+
+--------------------------------------------------------------------------------
+BLOCO G – CADEIA MÃE → TEMA → INSTÂNCIA
+--------------------------------------------------------------------------------
+
+1. MÃE (core) sobe de 1.3.0 → 1.4.0:
+   - Instâncias podem ser migradas de 1.3.0 → 1.4.0
+
+2. TEMPLATE sobe de v1 → v2:
+   - Instâncias podem ser migradas de template_v1 → v2
+
+NUNCA EXISTE:
+❌ filho-temático gerando outro núcleo independente
+❌ neto "mandando" atualização pra trás
+
+TODA ATUALIZAÇÃO VEM DE:
+✅ CORE (MÃE) ou
+✅ TEMPLATE (filho temático / branco)
+
+Instâncias apenas consomem essas atualizações.
+
+--------------------------------------------------------------------------------
+BLOCO H – REGRAS GERAIS (5 REGRAS OFICIAIS)
+--------------------------------------------------------------------------------
+
+REGRA 1 – CORE ÚNICO:
+O projeto-mãe define um núcleo único (CORE).
+SaaS gerados nunca copiam esse núcleo como fork independente.
+
+REGRA 2 – TEMPLATE ≠ CORE:
+Filhos temáticos e "branco" são Templates, não novos núcleos.
+Templates personalizam a experiência, mas continuam dependentes do CORE.
+
+REGRA 3 – INSTÂNCIA = PONTEIRO:
+Cada SaaS gerado é uma instância que aponta para:
+- core_version
+- template (key + version)
+- custom_overrides
+
+REGRA 4 – ATUALIZAÇÃO EM CADEIA:
+Atualizações vêm sempre:
+- da MÃE (core) para instâncias, e/ou
+- dos TEMPLATES para instâncias.
+Nunca partem de um filho pra outro.
+
+REGRA 5 – GERADOR DE SAAS RESPEITA ISSO EM TUDO:
+Qualquer feature nova deve ser pensada no contexto:
+- CORE
+- TEMPLATE
+- INSTÂNCIA
+
+--------------------------------------------------------------------------------
+BLOCO I – COMO ISSO APARECE NO GERADOR (UI)
+--------------------------------------------------------------------------------
+
+No GERADOR de SaaS, ao criar um novo produto:
+
+1. ESCOLHA DO CORE:
+   "Core base: Radar Core 1.4.0 (recomendado)"
+
+2. ESCOLHA DO TEMPLATE:
+   - "Radar Narcisista (tema padrão)"
+   - "Branco Base"
+   - "Tema Saúde Emocional"
+   - "Tema Escola"
+
+3. CUSTOMIZAÇÕES:
+   - nome do SaaS
+   - domínio/subdomínio
+   - logo
+   - cores
+   - textos iniciais
+
+4. RESULTADO:
+   Cria uma instância com referências:
+   (core_version, template_key, template_version, custom_overrides)
+
+--------------------------------------------------------------------------------
+BLOCO J – TABELAS SUGERIDAS (SUPABASE)
+--------------------------------------------------------------------------------
+
+1. saas_cores (versões do núcleo):
+   - id, version, status, release_notes, created_at
+
+2. saas_templates (templates/temas):
+   - id, key, version, name, description, config_json
+   - created_at, updated_at
+
+3. saas_instances (instâncias geradas):
+   - id, name, domain, core_version, template_key, template_version
+   - custom_overrides_json, plan, status, created_at, updated_at
+
+4. saas_migrations (histórico de migrações):
+   - id, instance_id, from_core, to_core, from_template, to_template
+   - status, migrated_at, notes
+
+================================================================================
+📊 RESUMO CONSOLIDADO - TODAS AS 34 FASES
+================================================================================
+
+| # | FASE | ITENS | STATUS |
+|---|------|-------|--------|
+| 1 | Completar Triângulo | 2 | ⏳ Pendente |
+| 2 | FanPage Viva | 4 | ⏳ Pendente |
+| 3 | Dívidas Técnicas | 2 | ⏳ Pendente |
+| 4 | Gerador de SaaS | 2 | ⏳ Pendente |
+| 5 | AI_CONFIG_CORE | 7 | ✅ Parcial |
+| 6 | Oráculo V2 Multiperfil | 4 | ⏳ Futuro (BLOCO 26-30) |
+| 7 | Control Hub Externo | 5 | ⏳ Futuro |
+| 8 | Avançado | 3 | ⏳ Futuro |
+| 9 | Auditoria Master V1 | 9 | ⏳ Pendente |
+| 10 | Verificar Patches | 10 | ⏳ Pendente |
+| 11 | Migrations | 3 | ⏳ Pendente |
+| 12 | Testes Manuais | 8 | ⏳ Pendente |
+| 13 | Documentação | 7 | ⏳ Pendente |
+| 14 | Deploy e Go-Live | 6 | ⏳ Pendente |
+| 15 | Auditoria V2 | 10 | ⏳ Pendente |
+| 16 | Avatares/Personas IA | 12 | ✅ Parcial (70%) |
+| 17 | ADMIN MENU CORE | 10 | ✅ Parcial |
+| 18 | NÚCLEO DE INTERFACES | 16 | ✅ Parcial |
+| 19 | MATRIZ DE IAs | 12 | ✅ Parcial |
+| 20 | MATRIZ GLOBAL DE IAs | 23 | ⚠️ Parcial (60%) |
+| 21 | MODO SIMULAÇÃO | 11 | ✅ Parcial (50%) |
+| 22 | PENTE FINO / LACUNAS | 22 | ✅ Parcial (55%) |
+| 23 | AUDITORIA BLOCO 21-25 | 25 | ✅ CONCLUÍDA |
+| 24 | AUDITORIA PROMPTS/PATCHES | 19 | ✅ MAPEADA |
+| 25 | PROMPTS CONSOLIDADOS | 30 | ✅ MAPEADA |
+| 26 | MEGA AUDITOR PARTE 1 | 10 | ✅ PRONTO P/ EXECUTAR |
+| 27 | ARQUIVO MEGA COMPLETO | 13 | ✅ PRONTO P/ EXECUTAR |
+| 28 | AVATAR/TTS + PERPLEXITY + ORQUESTRADOR | 15 | 📝 CONCEITUAL |
+| 29 | LABORATÓRIO DE IAs (SIMULAÇÃO) | 20 | 📝 CONCEITUAL |
+| 30 | ARQUITETURA VISUAL + ORGANOGRAMAS + MOCKUPS | 25 | 📝 CONCEITUAL |
+| 31 | DIAGRAMAS MERMAID + MAPA DE MENUS ADMIN | 30 | 📝 CONCEITUAL |
+| 32 | MAPA DO SISTEMA AUTOMATIZADO | 35 | 📝 CONCEITUAL |
+| 33 | ESCALABILIDADE BLOCOS (10-1000) + RADAR VISUAL | 40 | 📝 CONCEITUAL |
+| 34 | GERADOR SAAS: ARQUITETURA ATUALIZAÇÃO EM CADEIA | 45 | 📝 CONCEITUAL |
+
+TOTAL: 495 itens em 34 fases
+
+TOTAL DE FASES: ANTES ERA 33 / AGORA: 34
 
 ================================================================================
 🎯 PRÓXIMAS AÇÕES SUGERIDAS (SEM "OU", SEM "OPCIONAIS")

@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 07:45 UTC-5
+Última atualização: 04/12/2025 07:51 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -1228,6 +1228,48 @@ FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
 └── 8 blocos documentados (A-H)
 
 TOTAL DE FASES: ANTES ERA 32 / AGORA: 33
+
+================================================================================
+SESSÃO 04/12/2025 07:51 UTC-5 – FASE 34 ADICIONADA (GERADOR SAAS CADEIA)
+================================================================================
+
+NOVO CONTEÚDO EXTRAÍDO DO CHAT:
+
+1. MODELO DE 3 CAMADAS:
+   - CORE (MÃE) – núcleo compartilhado, único
+   - TEMPLATES / TEMAS (FILHO TEMÁTICO OU EM BRANCO)
+   - INSTÂNCIAS DE SAAS (FILHOS / NETOS)
+
+2. REGRAS OFICIAIS (5):
+   - REGRA 1: CORE ÚNICO
+   - REGRA 2: TEMPLATE ≠ CORE
+   - REGRA 3: INSTÂNCIA = PONTEIRO
+   - REGRA 4: ATUALIZAÇÃO EM CADEIA
+   - REGRA 5: GERADOR RESPEITA ISSO EM TUDO
+
+3. CADEIA DE ATUALIZAÇÃO:
+   - MÃE (core) → INSTÂNCIAS
+   - TEMPLATE → INSTÂNCIAS
+   - NUNCA: filho → outro filho
+
+4. TABELAS SUGERIDAS:
+   - saas_cores (versões do núcleo)
+   - saas_templates (templates/temas)
+   - saas_instances (instâncias geradas)
+   - saas_migrations (histórico de migrações)
+
+5. UI DO GERADOR:
+   - Escolha do CORE
+   - Escolha do TEMPLATE
+   - Customizações
+   - Resultado: instância com referências
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 34 – GERADOR SAAS: ARQUITETURA ATUALIZAÇÃO EM CADEIA
+├── 34 FASES organizadas com 495 itens
+└── 10 blocos documentados (A-J)
+
+TOTAL DE FASES: ANTES ERA 33 / AGORA: 34
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF
