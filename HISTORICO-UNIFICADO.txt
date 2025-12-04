@@ -1,0 +1,237 @@
+================================================================================
+HISTÓRICO UNIFICADO - RADAR NARCISISTA
+================================================================================
+LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
+
+Última atualização: 03/12/2025 22:42 UTC-5
+Autoria: Windsurf + ChatGPT + Eduardo
+
+================================================================================
+COMANDO ESPECIAL: "HISTÓRICO"
+================================================================================
+Quando Eduardo disser "HISTÓRICO", o Windsurf deve:
+1. Ler este arquivo completamente
+2. Confirmar: "Acessei o HISTORICO-UNIFICADO.txt e entendi o contexto."
+3. Continuar de onde parou
+
+================================================================================
+VISÃO GERAL DO PROJETO
+================================================================================
+
+NOME: Radar Narcisista
+TIPO: SaaS para vítimas de abuso narcisista
+STACK: Next.js 16 + Supabase + Stripe + IA (OpenAI/Anthropic)
+REPO: https://github.com/edueduardo/radar-narcisista
+DEPLOY: Vercel (automático via push)
+
+ALMA DO PROJETO:
+"Uma ferramenta segura, ética e forense-amigável para vítimas de abuso 
+narcisista ganharem clareza, registro organizado e proteção, com apoio 
+de IA, sem mentir para elas."
+
+O TRIÂNGULO (3 PILARES):
+1. TESTE DE CLAREZA - nomear o abuso, psicoeducação, scores
+2. DIÁRIO / TIMELINE - registro cronológico, tags, valor probatório
+3. CHAT IA - NÃO gaslighta, NÃO diagnóstico, orienta buscar ajuda real
+
+================================================================================
+ARQUIVOS-CHAVE DO PROJETO
+================================================================================
+
+DOCUMENTAÇÃO:
+├── FUTURO-TERMINAR-IMPLEMENTACAO.txt (~7747 linhas) - Plano mestre
+├── HISTORICO-UNIFICADO.txt (este arquivo) - Histórico da conversa
+├── ATLAS-RADAR-NARCISISTA.txt - Mapa técnico do projeto
+├── ROADMAP-RADAR.txt - Tarefas e status
+├── TUDO PARA O GPT.txt - Visão de produto
+├── ESPELHO-CODIGO-RADAR.txt - Mapa de arquivos
+└── BACKUP-CHAT-RADAR-2025-12-03.txt - Backup do chat
+
+CÓDIGO PRINCIPAL:
+├── lib/plan-taxonomy.ts - Taxonomia de planos
+├── lib/plan-dashboard-modules.ts - Módulos do dashboard
+├── lib/dashboard-user-layout.ts - Layout e heurística do herói
+├── app/dashboard/page.tsx - Dashboard da usuária
+└── app/dashboard/page.BACKUP_ETAPA11.tsx - Backup do dashboard
+
+================================================================================
+METODOLOGIA: MUNDOS-MESCLADOS (GPT + WINDSURF)
+================================================================================
+
+🔵 PASSO=GPT (ChatGPT faz):
+├── Organizar ETAPAs, prioridades, riscos
+├── Definir módulos, trilha do herói, add-ons, dashboards
+├── Escrever prompts mestres para o Windsurf
+└── Auditar o que foi implementado
+
+🟣 PASSO-WINDSURF (Windsurf executa):
+├── Criar/alterar arquivos .ts, .tsx, schema.sql
+├── Rodar migrations, build, git, deploy
+├── Seguir o prompt do PASSO=GPT linha por linha
+└── Devolver resumo: arquivos criados, build ok, ETAPA concluída
+
+🟡 MUNDOS-MESCLADOS (Ciclo completo):
+1. Eduardo traz ideia / problema / próxima etapa
+2. PASSO=GPT: organiza ETAPA em linguagem Windsurf
+3. Eduardo copia o prompt e joga no Windsurf
+4. PASSO-WINDSURF: executa e devolve log
+5. Eduardo cola resultado no GPT
+6. PASSO=GPT: audita, confere, define próximo passo
+
+================================================================================
+CAMINHO ESCOLHIDO: CAMINHO 2 (MODERADO)
+================================================================================
+
+Radar continua prioridade, Engine vai nas "dobras" do processo.
+
+JUSTIFICATIVA:
+├── Infra de módulos/planos já está pronta
+├── Adicionar project_id é 1-2 dias de trabalho
+└── Radar é prioridade, mas não ficamos "cegos" para o futuro
+
+================================================================================
+ETAPAS IMPLEMENTADAS (STATUS ATUAL)
+================================================================================
+
+✅ IMPLEMENTADO:
+├── ETAPA 8.1-8.4 – FanPage Viva
+├── ETAPA 9 – Curadoria + Semáforo
+├── ETAPA 10 – Taxonomia de Planos
+├── ETAPA 11 – Trilha do Herói (infra)
+├── ETAPA 11.1 – Trilha Visual no Dashboard
+└── ETAPA 11.2 – Ajustes Finos Dashboard (Windsurf cfbf8cf)
+
+🔜 PRÓXIMO:
+└── ETAPA 12 – Dashboard Profissional V1
+
+⏳ BACKLOG (OPCIONAL):
+└── ETAPA 11.3 – Refinamentos (animação, gamificação)
+
+⏳ FUTURO:
+├── ETAPA 12.1-12.3 – Profissional V2/V3
+├── ETAPA 13-16 – Radar V1
+├── ENGINE.1-5 – Motor Replicador
+└── FABRICA.1-5 – Fábrica de SaaS
+
+================================================================================
+DETALHES DA ETAPA 11.2 (ÚLTIMA CONCLUÍDA)
+================================================================================
+
+RESULTADO:
+├── Função getCurrentHeroStep() com heurística inteligente
+├── Microcópias refinadas em HERO_STEP_LABELS
+├── Badge "Você está aqui" no passo atual
+├── Passos completados mostram ✓ verde
+├── Mobile: scroll horizontal edge-to-edge
+└── Build: 145 páginas
+
+HEURÍSTICA DO PASSO ATUAL:
+├── Se NUNCA fez teste de clareza → passo = "Entender"
+├── Se já fez teste, mas poucos registros no diário → passo = "Registrar"
+├── Se já tem diário ativo, mas pouco uso de chat → passo = "Conversar"
+├── Se já usou chat e tem indicação de risco → passo = "Proteger"
+└── Se já passou por tudo → passo = "Recursos"
+EXCEÇÃO: Risco físico sem plano pronto → força Passo 4 (Proteger)
+
+================================================================================
+PRÓXIMA ETAPA: ETAPA 12 (DASHBOARD PROFISSIONAL V1)
+================================================================================
+
+OBJETIVO:
+Criar a primeira versão do Dashboard Profissional (B2B), separado do dashboard
+da usuária, com:
+├── Rota própria: /dashboard-profissional
+├── Gating por plano (só plano "Profissional" acessa)
+├── Layout mínimo com seções básicas
+└── Estrutura para futuras funcionalidades
+
+SEÇÕES DO DASHBOARD PROFISSIONAL:
+├── (A) Header / Boas-vindas Profissional
+├── (B) Visão geral (cards)
+├── (C) Painel de clientes (estrutura)
+└── (D) Próximos passos (texto guia)
+
+REGRAS:
+├── NÃO criar migrations agora
+├── NÃO inventar tabelas no banco
+├── Se não existir tabela de clientes → UI com mock
+├── Registrar tarefas futuras no ROADMAP
+└── NÃO quebrar dashboard da usuária
+
+================================================================================
+REGRAS FUNDAMENTAIS (NUNCA QUEBRAR)
+================================================================================
+
+❌ NÃO FAZER:
+├── Testes/QA durante a construção
+├── Pensar em "MVP pequenininho"
+├── Focar em polimento antes de terminar
+├── Pular etapas na sequência
+├── Deletar conteúdo antigo dos TXTs
+└── Mexer em fluxos críticos sem autorização
+
+✅ FAZER:
+├── Construir o sistema INTEIRO com toda a infraestrutura
+├── Implementar todas as features planejadas
+├── Seguir a sequência lógica de ETAPAs
+├── Sempre acrescentar, nunca apagar
+├── Git + push após cada alteração
+└── Atualizar este HISTÓRICO após cada sessão
+
+================================================================================
+SEMÁFORO DE EDIÇÃO
+================================================================================
+
+🟢 ZONA VERDE (pode editar com liberdade):
+├── Conteúdos publicados (content_items)
+├── FAQs, Artigos, Radar Academy
+└── Coleções/trilhas
+
+🟡 ZONA AMARELA (editar com cuidado):
+├── Sugestões da IA Curadora
+├── Métricas / insights
+└── Planos / billing
+
+🔴 ZONA VERMELHA (NÃO mexer):
+├── Triângulo: Teste de Clareza, Diário, Chat/Coach, Plano de Segurança
+├── Prompts de IA sensíveis
+├── Regras de LGPD, hash, logs, segurança
+└── Qualquer coisa marcada como "crítico"
+
+================================================================================
+COMMITS RECENTES
+================================================================================
+
+2b9487a - ETAPA 11.2 CONCLUIDA + ETAPA 12 Prompt Mestre criado
+86bf1ff - ETAPA 11.2: Prompt Mestre criado + Sequencia logica
+bb5bfd8 - BACKUP: Prompt Mestre ETAPA 11.1 documentado
+0d8131a - AUDITORIA: Registro CICLO RADAR 5 TXT
+df4f0d2 - BACKUP TXT: Referencia ao arquivo de backup
+ae54c6f - MUNDOS-MESCLADOS: GPT + Windsurf + Ciclos
+a5849f3 - BACKUP COMPLETO: Chat ETAPAS 8-11
+30fab83 - ETAPA 11.1: Verificado - Trilha do Heroi
+d493176 - PLANO MESTRE COMPLETO: Blocos A B C
+0453b7d - WHITE LABEL: Dois niveis de personalizacao
+
+================================================================================
+INSTRUÇÕES PARA O WINDSURF
+================================================================================
+
+AO ABRIR O PROJETO:
+1. Ler este arquivo (HISTORICO-UNIFICADO.txt)
+2. Verificar o status atual das ETAPAs
+3. Continuar de onde parou
+
+AO RECEBER COMANDO "HISTÓRICO":
+1. Ler este arquivo completamente
+2. Confirmar: "Acessei o HISTORICO-UNIFICADO.txt e entendi o contexto."
+3. Aguardar próxima instrução
+
+AO FINALIZAR QUALQUER ETAPA:
+1. Atualizar este arquivo com o novo status
+2. Fazer git add + commit + push
+3. Informar Eduardo do que foi feito
+
+================================================================================
+FIM DO HISTÓRICO UNIFICADO
+================================================================================
