@@ -1,0 +1,445 @@
+================================================================================
+RADAR NARCISISTA – BACKUP GERAL DO CHAT
+(ETAPAS 8 a 11, FANPAGE VIVA, CURADORIA, DASHBOARDS, FÁBRICA DE SAAS)
+================================================================================
+Data de criação: 03/12/2025 22:00 UTC-5
+Autoria: ChatGPT + Eduardo + Windsurf (consolidação)
+
+================================================================================
+0. AVISO RÁPIDO
+================================================================================
+
+Este arquivo NÃO é a transcrição literal palavra-por-palavra de tudo,
+mas um resumo organizado de:
+- Tudo que foi decidido
+- Todas as etapas técnicas que o Windsurf executou
+- As ideias grandes que falamos (FanPage Viva, curadoria, dashboards, fábrica de SaaS, replicador, white-label)
+
+É pra servir como GPS de projeto e prompt base pros próximos ciclos.
+
+================================================================================
+1. CONTEXTO GERAL DO PROJETO NESTE CHAT
+================================================================================
+
+Projeto: SaaS "Radar Narcisista BR"
+Stack: Next.js + TS + Tailwind + Supabase + Stripe + IAs multi-provedor
+
+Núcleo: "Triângulo":
+├── Teste de Clareza
+├── Diário / Registro de episódios
+├── Coach IA
+└── Plano de Segurança
+
+Neste chat em específico, você queria:
+
+1. Tirar a landing de "site estático bonito" → virar uma FanPage Viva, alimentada por:
+   - Dados internos (Radar em Números)
+   - Conteúdo curado (FAQ, Radar no Mundo, Radar Academy)
+   - Sem perder a camada comercial (planos & preços, CTA)
+
+2. Ganhar um admin realmente usável, com:
+   - Curadoria por IA sempre passando pelo seu crivo
+   - Semáforo de edição (verde / amarelo / vermelho)
+   - Proteção contra "bagunça de Builder.io"
+
+3. Reorganizar dashboards:
+   - Usuária (vários planos)
+   - Profissional
+   - White-label
+   - Com trilha do herói clara
+
+4. Começar a desenhar a "fábrica / engine de SaaS":
+   - Um modelo que possa ser replicado para outros temas (irmãos e não-irmãos)
+   - Com oráculo de IA te ajudando a decidir nichos
+   - Com possibilidade de white-label
+   - E no futuro até gerar novos SaaS em série
+
+================================================================================
+2. LINHA DO TEMPO DAS ETAPAS TÉCNICAS (WINDSURF)
+================================================================================
+
+Aqui é o "log resumido" do que o Windsurf declarou ter feito, etapa por etapa.
+
+--------------------------------------------------------------------------------
+2.1 ETAPA 7.3 / 7.4 – ANTES DO PONTO DE CORTE DESTE CHAT
+--------------------------------------------------------------------------------
+
+7.3 – Plano de Segurança integrado ao Triângulo
+7.4 – Windsurf fez QA por inspeção de código (T1–T5 PASS)
+
+Tudo registrado nos TXTs:
+- ATLAS-RADAR-NARCISISTA.txt
+- ROADMAP-RADAR.txt
+- TUDO PARA O GPT.txt
+- TESTES-RADAR.txt
+- ESPELHO-CODIGO-RADAR.txt
+
+A partir daí, você decidiu:
+"Chega de QA por enquanto. Agora é construir sistema inteiro."
+
+--------------------------------------------------------------------------------
+2.2 ETAPA 8 – FANPAGE VIVA + CAMADA COMERCIAL
+--------------------------------------------------------------------------------
+
+A ETAPA 8 foi dividida em sub-etapas:
+
+8.1 – Migration do sistema de conteúdo
+├── Criada migration: database/migrations/20241130_create_content_system.sql
+├── Tabelas criadas:
+│   ├── content_sources
+│   ├── content_items
+│   ├── content_suggestions
+│   ├── content_collections
+│   ├── content_collection_items
+│   └── content_insights
+├── RLS: leitura pública controlada (visibilidade = 'public')
+└── Seeds: métricas iniciais + FAQs iniciais
+
+8.2 – APIs admin + IA Curadora
+├── /api/admin/content/items (CRUD de content_items)
+├── /api/admin/content/suggestions (CRUD de content_suggestions)
+├── /api/admin/content/collections (CRUD de content_collections)
+├── /api/admin/content/insights/recompute (Recalcula métricas)
+└── /api/admin/content/curadoria/ia-sugerir (IA Curadora)
+
+8.3 – Telas Admin de Conteúdo
+├── /admin/conteudos/sugestoes
+├── /admin/conteudos/publicados
+├── /admin/conteudos/colecoes
+└── /admin/conteudos/insights
+
+8.4 – Frontpage Viva (FanPage)
+├── lib/frontpage-content.ts
+├── app/api/frontpage/content/route.ts
+├── components/frontpage/RadarEmNumerosSection.tsx
+├── components/frontpage/FaqDinamicoSection.tsx
+├── components/frontpage/RadarNoMundoSection.tsx
+├── components/frontpage/RadarAcademySection.tsx
+├── components/frontpage/DynamicSections.tsx
+└── app/page.tsx atualizado
+
+--------------------------------------------------------------------------------
+2.3 ETAPA 9 – PAINEL DE CURADORIA + SEMÁFORO
+--------------------------------------------------------------------------------
+
+Objetivo:
+- Criar um painel de curadoria central
+- Criar um semáforo de edição (verde / amarelo / vermelho)
+- Definir o que o Builder.io pode mexer ou não
+
+Arquivos principais:
+├── lib/curadoria-config.ts
+├── app/api/admin/curadoria/config/route.ts
+├── components/admin/EditSemaforoBadge.tsx
+└── app/admin/curadoria/page.tsx
+
+Semáforo aplicado em:
+├── /admin/conteudos/sugestoes → amarelo
+├── /admin/conteudos/publicados → verde
+├── /admin/conteudos/colecoes → verde
+├── /admin/conteudos/insights → amarelo
+└── /admin/planos → amarelo
+
+Definição conceitual:
+├── Verde: pode editar com certa liberdade
+├── Amarelo: pode editar, mas com cuidado
+└── Vermelho: não mexer via Builder / low-code
+
+--------------------------------------------------------------------------------
+2.4 ETAPA 10 – Taxonomia de Planos + Módulos de Dashboard
+--------------------------------------------------------------------------------
+
+Criados:
+├── lib/plan-taxonomy.ts
+│   └── Famílias: visitante, guardar, jornada, defesa, profissional
+└── lib/plan-dashboard-modules.ts
+    └── Módulos: onboarding, triangulo_status, teste_clareza, diario,
+                 chat_ia, plano_seguranca, evolucao, provas_evidencias,
+                 academy, fanpage_viva, conteudos_curados, clientes
+
+--------------------------------------------------------------------------------
+2.5 ETAPA 11 – Trilha do Herói (Infra + Visual do Dashboard Usuária)
+--------------------------------------------------------------------------------
+
+Criado:
+├── lib/dashboard-user-layout.ts
+│   ├── buildUserDashboardLayout()
+│   ├── getWelcomeMessage()
+│   ├── getNextSuggestedAction()
+│   └── getCurrentHeroStep()
+└── app/dashboard/page.tsx (ATUALIZADO COM TRILHA VISUAL)
+
+Trilha pensada em 5 passos:
+├── 1. Entender (Teste de Clareza, Triângulo, Onboarding)
+├── 2. Registrar (Diário, Evolução)
+├── 3. Conversar (Chat IA / Coach)
+├── 4. Proteger (Plano de Segurança)
+└── 5. Recursos (Provas, Academy, Conteúdos)
+
+ETAPA 11.1 JÁ IMPLEMENTADA:
+├── Timeline horizontal dos 5 passos
+├── Badge "Você está aqui" para passo atual
+├── Heurística do passo atual via getCurrentHeroStep()
+├── Módulos agrupados por heroStep
+├── Cards de módulos bloqueados com CTA "Ver planos"
+├── Próxima ação sugerida
+└── Componente HeroModuleCard
+
+================================================================================
+3. FANPAGE VIVA vs LANDING ATUAL
+================================================================================
+
+ANTES (landing estática):
+├── Hero "Você não está imaginando coisas"
+├── Explicação de como funciona
+├── Seções educativas (abuso, ciclo, mitos, frases, histórias)
+├── Bloco de segurança (190, 188, 100, 181)
+├── FAQ, blog, planos (link)
+└── Avisos éticos e LGPD
+
+DEPOIS (FanPage Viva + comercial):
+├── Tudo acima MANTIDO
+├── + Radar em Números (dados agregados)
+├── + FAQ dinâmico
+├── + Radar no Mundo (conteúdo externo aprovado)
+├── + Radar Academy (trilhas/coleções)
+├── + Seção Planos & Preços dentro da home
+└── + Admin por trás para curadoria
+
+================================================================================
+4. BUILDER.IO, ADMIN E SEMÁFORO – DECISÃO CONCEITUAL
+================================================================================
+
+Só com o admin que já construímos, você já consegue:
+├── Editar conteúdos (artigos, FAQs, Academy)
+├── Aprovar/rejeitar sugestões da IA
+├── Montar trilhas
+└── Configurar o que aparece na home
+
+Builder.io é opcional e só recomendado para:
+├── Páginas de marketing menos críticas (/sobre, landing de campanhas)
+└── Variantes visuais de hero / header, banners
+
+Áreas PROIBIDAS ao Builder:
+├── Triângulo
+├── Plano de Segurança
+├── Prompts de IA
+├── Lógica de segurança, LGPD, hash, evidências
+└── Sistema de planos/Stripe
+
+================================================================================
+5. DASHBOARDS – USUÁRIA, PROFISSIONAIS, WHITE-LABEL
+================================================================================
+
+USUÁRIA FINAL:
+├── Um framework único de módulos (DASHBOARD_MODULES)
+├── Cada plano decide quais módulos estão desbloqueados
+├── Tela /dashboard organizada por Trilha do Herói (5 passos)
+└── Cada passo com cards dos módulos relevantes
+
+PROFISSIONAL (ETAPA 12):
+├── Dashboard próprio
+├── Visão de casos/usuárias (dentro dos limites éticos e LGPD)
+├── Ferramentas para profissionais
+└── Relatórios/agregados
+
+WHITE-LABEL (ETAPA 13):
+├── Mesma engine
+├── Branding diferente (logo, cores)
+├── Planos específicos
+└── Possibilidade de vender "Radar" adaptado
+
+ADMIN:
+├── Enxergar planos
+├── Ver métricas
+├── Controlar curadoria
+└── Ver e gerir múltiplos dashboards/produtos
+
+================================================================================
+6. FÁBRICA / ENGINE DE SAAS – IDEIA GRANDE
+================================================================================
+
+VISÃO GERAL DOS ANDARES:
+
+ANDAR 1 – RADAR NARCISISTA V1 FECHADO
+├── ETAPA 11-16 → Dashboards, loja, segurança, telemetria
+
+ANDAR 2 – RADAR ENGINE MULTI-PRODUTO
+├── ETAPA 17-20 → Um código só, vários produtos/temas
+
+ANDAR 3 – FÁBRICA DE SAAS (REPLICADOR + ORÁCULO)
+├── ETAPA 21-25 → Replicador semi-automático
+├── ETAPA 26-28 → Oráculo do Fundador
+
+ANDAR 4 – MULTI-PLATAFORMA
+├── ETAPA 29-31 → Web + PWA + base pra app (APK/iOS)
+
+--------------------------------------------------------------------------------
+ENGINE BASE (NÚCLEO)
+--------------------------------------------------------------------------------
+
+Um "Radar Engine" genérico, com:
+├── Módulos comuns: autenticação, planos & billing, diário/registro, IA de apoio
+├── Dashboards, logs e segurança
+├── Sistema de features, módulos de dashboard, semáforo de edição
+
+--------------------------------------------------------------------------------
+TEMPLATES DE DOMÍNIO (TEMA)
+--------------------------------------------------------------------------------
+
+Para cada tipo de problema/tema:
+├── Template com jornada (triângulo / quadrado / pentágono…)
+├── Módulos obrigatórios
+├── Tipos de dados
+├── Alertas/riscos
+└── Linguagem e ética específicas
+
+TEMAS IRMÃOS (90-100% reuso):
+├── Co-parenting tóxico
+├── Assédio moral no trabalho
+├── Abuso financeiro em relacionamentos
+├── Burnout / Esgotamento
+├── Dependência emocional
+├── Luto complicado
+├── Ansiedade em relacionamentos
+└── Autoestima pós-abuso
+
+TEMAS ADAPTÁVEIS (60-90% reuso):
+├── ENEM / Concursos
+├── Gestão de pequenas empresas
+├── Finanças pessoais
+├── Saúde crônica (com cuidado ético)
+└── Atendimento jurídico
+
+--------------------------------------------------------------------------------
+SPAWNER / GERADOR DE SAAS
+--------------------------------------------------------------------------------
+
+Uma camada onde:
+├── Você escolhe tema, template, tipo de polígono, complexidade
+└── O sistema gera uma nova instância com base no engine
+
+--------------------------------------------------------------------------------
+ORÁCULO
+--------------------------------------------------------------------------------
+
+Uma IA que:
+├── Monitora uso, churn, feedback, receita
+└── Entrega: o que funciona, o que está fraco, sugestões de novos temas
+
+--------------------------------------------------------------------------------
+WHITE-LABEL
+--------------------------------------------------------------------------------
+
+Parte que fica com o cliente:
+├── Branding, textos específicos, alguns fluxos
+
+Parte que continua sendo sua:
+├── Engine, segurança, IA central, atualizações, suporte
+
+================================================================================
+7. TABELA DE RESPONSABILIDADES (WHITE-LABEL)
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ SUA PARTE (ENGINE / PRODUTO)                                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ ✅ Arquitetura, banco, segurança, LGPD básico                               │
+│ ✅ Camada de IA (prompts, limites éticos, logs)                             │
+│ ✅ Fluxos críticos (triângulo/hexágono, alertas, provas)                    │
+│ ✅ Evolução de features core                                                │
+│ ✅ Infra (Supabase, Vercel, monitoramento)                                  │
+│ ✅ Recuperação de desastres, backups                                        │
+│ ✅ Helpdesk técnico (bugs, erros de sistema)                                │
+│ ✅ Inovação (novas features, novos módulos)                                 │
+│ ✅ Implementação de melhorias                                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PARTE DO CLIENTE WHITE-LABEL                                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 📝 Conteúdo específico (textos, FAQ, vídeos)                                │
+│ 📝 Atendimento ao usuário final (suporte, e-mail deles)                     │
+│ 📝 Estratégia comercial (preço final, campanhas)                            │
+│ 📝 Conformidade legal específica do país/segmento                           │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+8. PRÓXIMOS PASSOS (RESUMO DO QUE FICOU EM ABERTO)
+================================================================================
+
+ETAPA 11.1 – Dashboard da Usuária com Trilha Visual
+└── ✅ JÁ IMPLEMENTADA (verificado 03/12/2025)
+
+ETAPA 12 – Dashboard Profissional
+├── Criar dashboard específico para profissionais
+├── Visão de casos (dentro dos limites éticos)
+├── Ferramentas especializadas
+└── Relatórios
+
+ETAPA 13 – Dashboard White-Label
+├── Estrutura mínima para instâncias / tenants
+├── O que é personalizável
+└── O que é core
+
+ETAPA 14 – Loja / Upgrades na Prática
+├── Mini loja dentro do dashboard
+├── Cards dos planos, o que libera
+└── 1 clique → Stripe
+
+ETAPA 15 – Telemetria & Health Check
+├── Métricas: quantas terminam Teste, usam Diário, voltam em 7/30 dias
+└── Estoque de dados para o Oráculo
+
+ETAPA 16 – Segurança & LGPD Hardening
+├── Revisar RLS, exportação de dados, apagar conta
+└── Garantir produto base sólido antes de virar fábrica
+
+ETAPAS 17-31 – Engine + Fábrica + Multi-plataforma
+└── Ver detalhes em FUTURO-TERMINAR-IMPLEMENTACAO.txt
+
+================================================================================
+9. COMO USAR ESTE TXT
+================================================================================
+
+1. Como backup de conversa:
+   └── Colar no repositório local
+
+2. Como prompt base:
+   └── Quando for abrir novo chat, colar partes importantes para dar contexto
+
+3. Como checklist:
+   └── Usar seção 8 para guiar as próximas ETAPAS
+
+================================================================================
+10. ARQUIVOS DE REFERÊNCIA DO PROJETO
+================================================================================
+
+DOCUMENTAÇÃO PRINCIPAL:
+├── FUTURO-TERMINAR-IMPLEMENTACAO.txt (~7257 linhas)
+├── ATLAS-RADAR-NARCISISTA.txt
+├── ROADMAP-RADAR.txt
+├── TUDO PARA O GPT.txt
+├── ESPELHO-CODIGO-RADAR.txt
+└── ESPELHO-ENXUTO-RADAR.txt
+
+CÓDIGO DA TRILHA DO HERÓI:
+├── lib/plan-taxonomy.ts
+├── lib/plan-dashboard-modules.ts
+├── lib/dashboard-user-layout.ts
+└── app/dashboard/page.tsx
+
+CÓDIGO DA FANPAGE VIVA:
+├── lib/frontpage-content.ts
+├── app/api/frontpage/content/route.ts
+└── components/frontpage/*.tsx
+
+CÓDIGO DA CURADORIA:
+├── lib/curadoria-config.ts
+├── app/api/admin/curadoria/config/route.ts
+├── components/admin/EditSemaforoBadge.tsx
+└── app/admin/curadoria/page.tsx
+
+================================================================================
+FIM DO BACKUP TXT – 03/12/2025 22:00 UTC-5
+================================================================================
