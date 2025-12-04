@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 05:55 UTC-5
+Última atualização: 04/12/2025 06:00 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -404,6 +404,21 @@ BLOCO 31-35 – CONFIGURAÇÃO DINÂMICA DE IAs (PROMPT EXECUTÁVEL):
 ├── ETAPA 34: Expor AI_CONFIG_CORE para GERADOR DE SAAS
 │   └── docs/AI-CONFIG-CORE.md + lib/saas-generator-core.ts
 └── ETAPA 35: QA completo + resumo para ChatGPT
+
+PATCH BLOCO 31-35 – CONTROLE DE IA POR MENU E POR USUÁRIO:
+├── Princípio: "ADMIN enxerga em cada menu quais IAs trabalham"
+├── Tabelas adicionais:
+│   ├── ai_feature_menu_map (mapeia menu → feature de IA)
+│   └── ai_usage_stats_daily (estatísticas de uso)
+├── Funções SQL adicionais:
+│   ├── ai_get_menu_config()
+│   └── ai_get_user_ia_profile()
+├── Novas telas admin:
+│   ├── /admin/ia-mapa-menus (mapa de IA por menu)
+│   ├── /admin/ia-carga (visão de carga global)
+│   └── /admin/ia-grupos (visão por grupo promocional)
+├── Menu Usuários mostra "perfil IA" de cada usuário
+└── Clonagem do modelo de IA para SaaS filhos e White Label
 
 REGRA FIXA:
 ├── NENHUMA ETAPA está completa sem atualizar TODOS os TXTs e Manuais

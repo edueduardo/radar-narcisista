@@ -14836,12 +14836,195 @@ RESUMO EXECUTIVO (PARA COLAR NO TUDO PARA O GPT)
 > - AI_CONFIG_CORE é módulo central reutilizado pelo GERADOR DE SAAS.
 
 ================================================================================
+=== 🔧 PATCH BLOCO 31-35 – CONTROLE DE IA POR MENU E POR USUÁRIO ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: PATCH PRIORITÁRIO – COMPLEMENTA E APROFUNDA ETAPAS 31-35
+
+PRIORIDADE: Este PATCH tem prioridade sobre o texto antigo do BLOCO 31-35
+quando houver conflito.
+
+--------------------------------------------------------------------------------
+1. NOVO PRINCÍPIO OFICIAL
+--------------------------------------------------------------------------------
+
+"O Radar é gerenciado por IAs. O ADMIN precisa enxergar, em cada menu,
+em cada feature e em cada tipo de usuário/grupo, QUAIS IAs estão trabalhando,
+fazendo o quê e com que carga, com poder de ligar/desligar e ajustar."
+
+Isso vale para:
+├── Radar "mãe"
+├── SaaS filhos do GERADOR DE SAAS
+└── Instâncias White Label
+
+--------------------------------------------------------------------------------
+2. AJUSTES NA ETAPA 31 – MODELO DE DADOS ADICIONAL
+--------------------------------------------------------------------------------
+
+31.A) TABELA ai_feature_menu_map:
+├── id (uuid, pk)
+├── menu_key (text) → "admin.config-ias", "admin.usuarios", "app.diario"
+├── menu_path (text) → "/admin/configurar-ias", "/admin/usuarios", "/diario"
+├── feature_id (fk → ai_features_core)
+├── perfil_default (text) → "admin", "usuaria", "profissional"
+└── created_at, updated_at
+
+FUNÇÃO: Mapear cada menu/tela do sistema para uma feature de IA
+
+31.B) TABELA ai_usage_stats_daily:
+├── id (uuid, pk)
+├── date (date)
+├── user_id (uuid, nullable)
+├── plan_key (text)
+├── group_key (text, nullable)
+├── perfil (text)
+├── feature_id (fk → ai_features_core)
+├── provider_id (fk → ai_providers_core)
+├── calls (integer)
+├── tokens_input (bigint)
+├── tokens_output (bigint)
+├── custo_estimado (numeric)
+└── created_at
+
+FUNÇÃO: Monitorar uso das IAs para visão de carga
+
+31.C) FUNÇÕES SQL ADICIONAIS:
+
+ai_get_menu_config(p_menu_key text, p_plan_key text, p_perfil text):
+├── Retorna feature ligada ao menu
+├── Providers que trabalham naquele menu
+└── Limites e papeis
+
+ai_get_user_ia_profile(p_user_id uuid):
+├── Retorna plan_key
+├── group_keys ativos
+└── Matrix de features x providers para esse usuário
+
+--------------------------------------------------------------------------------
+3. AJUSTES NA ETAPA 32 – PAINEL ADMIN DE IA POR MENU
+--------------------------------------------------------------------------------
+
+32.A) VISÃO "MAPA DE IA POR MENU" (/admin/ia-mapa-menus):
+├── Lista de menus (menu_key / menu_path / descrição)
+├── Para cada menu:
+│   ├── Feature associada
+│   ├── Perfil principal
+│   ├── Lista de IAs ativas (provedores)
+│   ├── Papel da IA (análise, voto, consenso, transparência, geração)
+│   └── Indicador se está ligada para:
+│       ├── usuária
+│       ├── profissional
+│       ├── admin
+│       ├── whitelabel
+│       └── gerador
+└── Usa ai_feature_menu_map + ai_plan_matrix
+
+32.B) CONTROLES DE LIGAR/DESLIGAR IA POR MENU:
+├── Selecionar um menu e:
+│   ├── Ligar IA específica para aquele menu
+│   ├── Desligar IA específica daquele menu
+│   ├── Ajustar papel (ex.: IA participa só na análise, não no consenso)
+│   └── Ajustar limites diários/mensais para aquele contexto
+└── Alterações atualizam ai_plan_matrix e ai_feature_menu_map
+
+32.C) VISÃO DE CARGA GLOBAL DAS IAs (/admin/ia-carga):
+├── Gráficos e tabelas por provider:
+│   ├── calls, tokens, custo estimado
+│   └── Divisão por:
+│       ├── administrativo
+│       ├── usuárias
+│       ├── profissionais
+│       ├── whitelabel
+│       ├── gerador de SaaS
+│       └── grupos promocionais
+└── O ADMIN deve conseguir visualizar:
+    ├── Quais IAs estão mais sobrecarregadas
+    ├── Quais IAs quase não são usadas
+    └── Em quais menus/features a carga está concentrada
+
+--------------------------------------------------------------------------------
+4. AJUSTES NA ETAPA 33 – IA POR USUÁRIO E POR GRUPO
+--------------------------------------------------------------------------------
+
+33.A) INTEGRAÇÃO COM "MENU USUÁRIOS" (/admin/usuarios):
+├── Para cada usuário, mostrar:
+│   ├── Plano atual (plan_key)
+│   ├── Grupos especiais (group_keys)
+│   ├── Perfil principal (usuaria, profissional, admin)
+│   └── "Perfil IA" baseado em ai_get_user_ia_profile:
+│       ├── Features disponíveis
+│       ├── Provedores configurados para cada feature
+│       └── Limites principais
+└── Botão "Ver uso de IA" que abre painel com:
+    ├── Resumo de ai_usage_stats_daily para aquele user_id
+    ├── Features mais usadas
+    ├── Provedores mais usados
+    └── Custo estimado no período
+
+33.B) VISÃO POR GRUPO PROMOCIONAL (/admin/ia-grupos):
+├── Listar group_key ativos (promoções, betas, exclusivos)
+├── Para cada group_key:
+│   ├── Quantos usuários
+│   ├── Plano base
+│   ├── Overrides de IA (ai_group_overrides)
+│   └── Consumo agregado (ai_usage_stats_daily filtrado)
+└── Permitir ajustes:
+    ├── Ativar ou desativar IAs para determinado grupo
+    └── Ajustar limites sem mexer no plano padrão
+
+33.C) REGISTRO DE USO EM ai_usage_stats_daily:
+├── Orquestrador registra uso em logs brutos
+└── Alimenta ai_usage_stats_daily com processos de consolidação
+
+--------------------------------------------------------------------------------
+5. AJUSTES NA ETAPA 34 – GERADOR DE SAAS E WHITE LABEL
+--------------------------------------------------------------------------------
+
+34.A) CLONAGEM DO MODELO DE IA PARA SAAS FILHO:
+├── Cada SaaS filho gerado recebe cópia das tabelas:
+│   ├── ai_providers_core
+│   ├── ai_features_core
+│   ├── ai_feature_menu_map
+│   ├── ai_plan_matrix
+│   ├── ai_group_overrides
+│   └── ai_usage_stats_daily (estrutura, não dados)
+├── Configuração padrão derivada do Radar "mãe"
+└── Capacidade de ajustes locais no painel admin do SaaS filho
+
+34.B) PAINEL DO WHITE LABEL:
+├── Admin do cliente vê painel de IA semelhante ao Radar:
+│   ├── Mapa de IA por menu
+│   ├── Visão de carga de IA
+│   └── Controle de IA por plano e por grupo interno
+└── SUPER-ADMIN (Eduardo) deve:
+    ├── Definir limites máximos por IA para cada cliente
+    └── Ter visão consolidada de uso de IA de todos os SaaS filhos
+
+--------------------------------------------------------------------------------
+6. RESUMO EXECUTIVO DO PATCH
+--------------------------------------------------------------------------------
+
+> PATCH BLOCO 31–35 – CONTROLE DE IA POR MENU E POR USUÁRIO
+>
+> - Criadas estruturas para ligar cada menu/tela a uma feature de IA
+>   e a um perfil padrão (ai_feature_menu_map).
+> - Criado modelo de estatísticas diárias de uso de IA por usuário,
+>   plano, grupo e feature (ai_usage_stats_daily).
+> - Painel Admin exibe mapa completo de quais IAs trabalham em cada menu
+>   e em cada feature, com possibilidade de ligar/desligar sem deploy.
+> - "Menu Usuários" mostra o "perfil IA" de cada usuário, consumo de IA
+>   e relação com planos, grupos e promoções.
+> - Grupos promocionais e clientes exclusivos têm visão própria de IA.
+> - AI_CONFIG_CORE é clonável para SaaS filhos e White Label.
+
+================================================================================
 === 📊 CONTAGEM FINAL DE ETAPAS ===
 ================================================================================
 
-ANTES ERA: 101 etapas
-AGORA: 106 etapas (BLOCO 31-35 = +5 etapas)
+ANTES ERA: 106 etapas
+AGORA: 106 etapas (PATCH complementar, sem novas etapas)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 05:55 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 06:00 UTC-5
 ================================================================================
