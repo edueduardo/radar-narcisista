@@ -358,6 +358,204 @@ export async function getImpersonationStats(): Promise<{
 }
 
 // ============================================================================
+// FUNÇÕES DE SESSÃO EFETIVA (TAREFA 7)
+// ============================================================================
+
+/**
+ * Resultado da sessão efetiva
+ * Indica se o usuário atual é real ou está sendo simulado
+ */
+export interface EffectiveSession {
+  /** ID do usuário efetivo (real ou simulado) */
+  userId: string
+  /** Email do usuário efetivo */
+  userEmail: string
+  /** Role do usuário efetivo */
+  userRole: string
+  /** Se está em modo de impersonação */
+  isImpersonating: boolean
+  /** ID do admin que está simulando (se aplicável) */
+  adminId?: string
+  /** Email do admin que está simulando (se aplicável) */
+  adminEmail?: string
+  /** ID da sessão de impersonação (se aplicável) */
+  impersonationSessionId?: string
+  /** Motivo da impersonação (se aplicável) */
+  impersonationMotivo?: string
+}
+
+/**
+ * Obtém a sessão efetiva do usuário
+ * 
+ * Se o admin está simulando outro usuário, retorna os dados do usuário simulado.
+ * Caso contrário, retorna os dados do usuário real.
+ * 
+ * @param realUserId - ID do usuário autenticado (do token JWT)
+ * @param realUserEmail - Email do usuário autenticado
+ * @param realUserRole - Role do usuário autenticado
+ * @param impersonationToken - Token de impersonação (do cookie, se existir)
+ */
+export async function getEffectiveSession(
+  realUserId: string,
+  realUserEmail: string,
+  realUserRole: string,
+  impersonationToken?: string | null
+): Promise<EffectiveSession> {
+  // Se não há token de impersonação, retorna sessão real
+  if (!impersonationToken) {
+    return {
+      userId: realUserId,
+      userEmail: realUserEmail,
+      userRole: realUserRole,
+      isImpersonating: false
+    }
+  }
+
+  // Decodifica o token
+  const decoded = decodeImpersonationToken(impersonationToken)
+  if (!decoded) {
+    console.warn('[Impersonation] Token inválido, usando sessão real')
+    return {
+      userId: realUserId,
+      userEmail: realUserEmail,
+      userRole: realUserRole,
+      isImpersonating: false
+    }
+  }
+
+  // Verifica se a sessão ainda está ativa
+  const session = await getSessionById(decoded.sessionId)
+  if (!session || session.status !== 'ativa') {
+    console.warn('[Impersonation] Sessão não encontrada ou inativa')
+    return {
+      userId: realUserId,
+      userEmail: realUserEmail,
+      userRole: realUserRole,
+      isImpersonating: false
+    }
+  }
+
+  // Verifica se o admin da sessão é o usuário atual
+  if (session.admin_id !== realUserId) {
+    console.warn('[Impersonation] Admin da sessão não corresponde ao usuário atual')
+    return {
+      userId: realUserId,
+      userEmail: realUserEmail,
+      userRole: realUserRole,
+      isImpersonating: false
+    }
+  }
+
+  // Retorna sessão simulada
+  return {
+    userId: session.target_user_id,
+    userEmail: session.target_user_email,
+    userRole: session.target_user_role,
+    isImpersonating: true,
+    adminId: session.admin_id,
+    adminEmail: session.admin_email,
+    impersonationSessionId: session.id,
+    impersonationMotivo: session.motivo
+  }
+}
+
+/**
+ * Lista de ações perigosas que NÃO podem ser executadas durante impersonação
+ */
+export const DANGEROUS_ACTIONS = [
+  'delete_account',
+  'change_password',
+  'change_email',
+  'delete_all_data',
+  'export_all_data',
+  'revoke_professional_access',
+  'cancel_subscription',
+  'upgrade_plan',
+  'downgrade_plan',
+  'create_payment',
+  'modify_billing',
+  'admin_action',
+  'super_admin_action'
+] as const
+
+export type DangerousAction = typeof DANGEROUS_ACTIONS[number]
+
+/**
+ * Resultado da verificação de ação perigosa
+ */
+export interface DangerousActionCheck {
+  /** Se a ação é permitida */
+  allowed: boolean
+  /** Motivo do bloqueio (se não permitida) */
+  reason?: string
+  /** Ação que foi verificada */
+  action: string
+  /** Se está em modo de impersonação */
+  isImpersonating: boolean
+}
+
+/**
+ * Verifica se uma ação perigosa pode ser executada
+ * 
+ * REGRA: Ações perigosas NÃO podem ser executadas durante impersonação.
+ * Isso protege contra:
+ * - Admin deletar conta de usuário "por acidente"
+ * - Admin fazer alterações irreversíveis
+ * - Problemas de auditoria
+ * 
+ * @param effectiveSession - Sessão efetiva do usuário
+ * @param action - Ação que será executada
+ * @returns Resultado da verificação
+ */
+export function ensureNotImpersonatingForDangerousAction(
+  effectiveSession: EffectiveSession,
+  action: DangerousAction | string
+): DangerousActionCheck {
+  // Se não está impersonando, permite qualquer ação
+  if (!effectiveSession.isImpersonating) {
+    return {
+      allowed: true,
+      action,
+      isImpersonating: false
+    }
+  }
+
+  // Verifica se a ação é perigosa
+  const isDangerous = DANGEROUS_ACTIONS.includes(action as DangerousAction)
+
+  if (isDangerous) {
+    return {
+      allowed: false,
+      reason: `A ação "${action}" não pode ser executada durante simulação de usuário. Encerre a sessão de impersonação primeiro.`,
+      action,
+      isImpersonating: true
+    }
+  }
+
+  // Ação não é perigosa, permite
+  return {
+    allowed: true,
+    action,
+    isImpersonating: true
+  }
+}
+
+/**
+ * Middleware helper para verificar ação perigosa
+ * Lança erro se a ação não for permitida
+ */
+export function assertNotImpersonatingForDangerousAction(
+  effectiveSession: EffectiveSession,
+  action: DangerousAction | string
+): void {
+  const check = ensureNotImpersonatingForDangerousAction(effectiveSession, action)
+  
+  if (!check.allowed) {
+    throw new Error(check.reason || 'Ação não permitida durante impersonação')
+  }
+}
+
+// ============================================================================
 // COOKIE/TOKEN HELPERS
 // ============================================================================
 
@@ -417,7 +615,12 @@ export const IMPERSONATION = {
   // Helpers
   COOKIE_NAME: IMPERSONATION_COOKIE_NAME,
   generateToken: generateImpersonationToken,
-  decodeToken: decodeImpersonationToken
+  decodeToken: decodeImpersonationToken,
+  // Sessão Efetiva (TAREFA 7)
+  getEffectiveSession,
+  ensureNotImpersonatingForDangerousAction,
+  assertNotImpersonatingForDangerousAction,
+  DANGEROUS_ACTIONS
 }
 
 export default IMPERSONATION

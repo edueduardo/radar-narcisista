@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 11:10 UTC-5
+Última atualização: 04/12/2025 12:45 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -1340,6 +1340,39 @@ ARQUIVOS CRIADOS/MODIFICADOS:
 - database/sql_consolidado/SQL_CONSOLIDADO_01_BASE.sql (NOVO)
 - FUTURO-TERMINAR-IMPLEMENTACAO.txt (área IMPLEMENTAÇÃO adicionada)
 - HISTORICO-UNIFICADO.txt (este registro)
+
+================================================================================
+SESSÃO 04/12/2025 12:40 UTC-5 – TAREFAS 6 E 7 CONCLUÍDAS
+================================================================================
+
+TAREFAS IMPLEMENTADAS:
+
+[TAREFA 6] lib/ai-router.ts - ROTEADOR CENTRAL DE IAs
+- Arquivo NOVO: lib/ai-router.ts (420 linhas)
+- Funções implementadas:
+  ├── routeAIRequest() - Função principal que TODAS as features devem usar
+  ├── getProvidersForMenu() - Obtém providers para um menu
+  ├── callAIForMenu() - Wrapper conveniente
+  ├── callCollaborativeAI() - Múltiplas IAs respondem
+  └── callWithFallback() - Fallback automático entre providers
+- Inclui: cache, rate limiting, logging, modo colaborativo
+
+[TAREFA 7] lib/impersonation.ts - FUNÇÕES DE SIMULAÇÃO
+- Arquivo ATUALIZADO: lib/impersonation.ts (+200 linhas)
+- Funções implementadas:
+  ├── getEffectiveSession() - Retorna sessão real ou simulada
+  ├── ensureNotImpersonatingForDangerousAction() - Verifica ações perigosas
+  ├── assertNotImpersonatingForDangerousAction() - Lança erro se não permitido
+  └── DANGEROUS_ACTIONS - Lista de 13 ações bloqueadas durante simulação
+
+TAREFAS CONCLUÍDAS ATÉ AGORA:
+├── TAREFA 1: SQL_CONSOLIDADO_01_BASE.sql → ✅
+├── TAREFA 2: plan_catalog com 4 planos → ✅
+├── TAREFA 6: lib/ai-router.ts → ✅
+├── TAREFA 7: Funções de simulação → ✅
+└── TAREFAS 3,4,5,8,9,10 → ⏳ PENDENTE
+
+TypeScript: ✅ Passou sem erros
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF

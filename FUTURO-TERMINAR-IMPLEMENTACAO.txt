@@ -19361,17 +19361,19 @@ FIM DO ESCOPO - VERSÃO CONSOLIDADA 04/12/2025 07:13 UTC-5
 
 [TAREFA 6]
 - Descrição: Criar lib/ai-router.ts com funções: getProvidersForMenu(), callAIForMenu(), callCollaborativeAI(), routeAIRequest()
-- Status: PENDENTE
+- Status: CONCLUIDO
 - Origem: ESCOPO - Fase 20 (MATRIZ GLOBAL DE IAs) + PRÓXIMAS AÇÕES SUGERIDAS item 4
-- Arquivos envolvidos: lib/ai-router.ts (a criar)
+- Arquivos envolvidos: lib/ai-router.ts (CRIADO - 420 linhas)
 - SQL consolidado: N/A
+- Implementado em: 04/12/2025 12:35 UTC-5
 
 [TAREFA 7]
 - Descrição: Criar funções de simulação: getEffectiveSession(), ensureNotImpersonatingForDangerousAction()
-- Status: PENDENTE
+- Status: CONCLUIDO
 - Origem: ESCOPO - Fase 21 (MODO SIMULAÇÃO) + PRÓXIMAS AÇÕES SUGERIDAS item 5
-- Arquivos envolvidos: lib/impersonation.ts (atualizar)
+- Arquivos envolvidos: lib/impersonation.ts (ATUALIZADO - adicionadas 200 linhas)
 - SQL consolidado: N/A
+- Implementado em: 04/12/2025 12:40 UTC-5
 
 [TAREFA 8]
 - Descrição: Criar telas admin faltantes: /admin/simulacao, /admin/ia-analytics, /admin/ia-planos
