@@ -8460,5 +8460,200 @@ FÁBRICA.5 – GERAÇÃO AUTOMÁTICA (SONHO)
 └── Deploy automático
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:25 UTC-5
+=== 📖 SISTEMA DE MANUAIS DO RADAR ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (estrutura e conceito)
+Status: 🔜 PRÓXIMO APÓS PACOTE 12.3+13
+
+--------------------------------------------------------------------------------
+1. QUAIS MANUAIS E PRA QUEM?
+--------------------------------------------------------------------------------
+
+4 MANUAIS PRINCIPAIS (RADAR HOJE):
+
+1) MANUAL-USUARIA-RADAR.txt
+├── Linguagem simples, zero jargão
+├── Telas explicadas passo a passo
+├── Como criar conta, usar dashboard, teste, diário, chat, plano de segurança
+├── Histórias de uso e exemplos
+└── Quase um "guia de sobrevivência + tutorial"
+
+2) MANUAL-PROFISSIONAL-RADAR.txt
+├── Para psicólogas, advogadas, assistentes sociais
+├── O que o Radar é e o que NÃO é (não é laudo, não é perícia)
+├── Como usar dashboard profissional
+├── Como convidar clientes, ver atividade, ler relatórios
+├── Limites éticos e boas práticas
+└── Como citar em documentos jurídicos/clínicos
+
+3) MANUAL-ADMIN-RADAR.txt
+├── Para quem mexe na área /admin
+├── Como publicar conteúdo, rodar curadoria
+├── Como testar novos fluxos de IA
+├── Como verificar custos de IA
+├── Como ativar/desativar features
+└── Visão "como operar" (complementa ATLAS)
+
+4) MANUAL-DEV-RADAR.txt
+├── Para qualquer dev (você, freelancer, futuro time)
+├── Stack, como subir o projeto
+├── Pastas principais e responsabilidades
+├── Como rodar migrations e testes
+├── Padrões de código, RLS, LGPD
+└── "Entra no projeto e não quebra nada"
+
+2 MANUAIS FUTUROS (ENGINE/FÁBRICA):
+
+5) MANUAL-ENGINE-RADAR.txt (FUTURO)
+├── Explica project_id, projetos, multi-tema
+└── Referência para qualquer tema novo
+
+6) MANUAL-FABRICA-RADAR.txt (FUTURO)
+├── Painel "Eduardo CEO / fábrica de SaaS"
+├── Como criar novo SaaS, configurar tema, módulos
+└── Como ler o oráculo de portfólio
+
+--------------------------------------------------------------------------------
+2. QUEM FAZ O QUÊ?
+--------------------------------------------------------------------------------
+
+CHATGPT:
+├── Desenhar estrutura dos manuais (índice, capítulos)
+├── Escrever texto longo em PT-BR leigo
+├── Garantir coerência com ATLAS e código
+└── A cada ETAPA grande, atualizar texto do manual
+
+WINDSURF:
+├── Criar e manter arquivos físicos no projeto
+├── Atualizar como parte de um ciclo fixo
+├── Criar versões .md com placeholders de imagens
+└── Exemplo: ![Tela do Dashboard](docs/img/dashboard-step1.png)
+
+--------------------------------------------------------------------------------
+3. ESTRUTURA DOS MANUAIS
+--------------------------------------------------------------------------------
+
+=== MANUAL DA USUÁRIA ===
+1. Introdução (o que é o Radar, o que não é)
+2. Começando
+   2.1 Criar conta / entrar
+   2.2 Dashboard – visão geral (trilha do herói em 5 passos)
+3. Etapa 1 – Entender
+   - Teste de clareza
+   - Triângulo
+4. Etapa 2 – Registrar
+   - Diário (texto, voz)
+5. Etapa 3 – Conversar
+   - Chat com IA / Coach
+6. Etapa 4 – Proteger
+   - Plano de segurança
+   - Botão de emergência
+7. Etapa 5 – Recursos
+   - Biblioteca, estatísticas
+8. Privacidade, LGPD e limites
+
+=== MANUAL DO PROFISSIONAL ===
+1. O que é o Radar para profissionais
+2. Como obter acesso ao plano profissional
+3. Dashboard profissional
+   3.1 Visão geral
+   3.2 Lista de clientes
+   3.3 Convites (criar código)
+   3.4 Relatórios por cliente
+4. Fluxo de convite
+   - criar código → enviar → aceitar → permissões
+5. Limitações e ética
+   - não é laudo, não é perícia, não substitui terapia
+6. Boas práticas e exemplos de uso
+
+=== MANUAL DO ADMIN ===
+1. Quem pode ser admin
+2. Navegando na área /admin
+   - mapa de menus
+3. Conteúdos e curadoria
+4. Mapa de IAs e fluxos IA
+5. Planos e limites
+6. LGPD e segurança
+7. Rotinas de manutenção (checklist)
+
+=== MANUAL DO DEV ===
+1. Stack e requisitos (Node, npm, Supabase, Vercel…)
+2. Como rodar o projeto localmente
+3. Pastas principais (linkar com ESPELHO)
+4. Fluxos críticos:
+   - login, teste de clareza, diário, IA, dashboards
+5. Banco de dados e migrations
+6. Boas práticas (RLS, LGPD, logs)
+7. Como rodar testes
+8. Como criar novas features sem quebrar
+
+--------------------------------------------------------------------------------
+4. STATUS DOS MANUAIS
+--------------------------------------------------------------------------------
+
+| Manual | Arquivo | Status |
+|--------|---------|--------|
+| Usuária | MANUAL-USUARIA-RADAR.txt | ❌ Não existe |
+| Profissional | MANUAL-PROFISSIONAL-RADAR.txt | ❌ Não existe |
+| Admin | MANUAL-ADMIN-RADAR.txt | ❌ Não existe |
+| Dev | MANUAL-DEV-RADAR.txt | ❌ Não existe |
+| ENGINE | MANUAL-ENGINE-RADAR.txt | ⏳ FUTURO |
+| FÁBRICA | MANUAL-FABRICA-RADAR.txt | ⏳ FUTURO |
+
+--------------------------------------------------------------------------------
+5. CICLO DE MANUAIS (INTEGRADO AO CICLO RADAR)
+--------------------------------------------------------------------------------
+
+A cada ETAPA grande (11.x, 12.x, 13…) termina com:
+├── Código implementado
+├── TXT atualizados (ATLAS/ROADMAP)
+└── Manuais atualizados
+
+Isso resolve:
+├── "Não esquecer partes"
+├── "Não pular etapas"
+└── "Não me perder depois"
+
+================================================================================
+=== 📋 PROMPT MESTRE – RADAR CICLO DE MANUAIS ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (criação do prompt)
+Status: 🔜 EXECUTAR APÓS PACOTE 12.3+13
+
+NOME: RADAR – CICLO DE MANUAIS (USUÁRIA / PROFISSIONAL / ADMIN / DEV)
+
+OBJETIVO:
+Manter SEMPRE atualizados os 4 manuais principais do Radar,
+SEM INVENTAR COISA QUE O CÓDIGO NÃO TEM.
+
+REGRAS GERAIS:
+├── NÃO dizer que atualizou manual se não abriu e salvou o arquivo
+├── NÃO descrever feature como "já existe" se não estiver no código
+├── Se faltar informação, MARCAR como "PLANEJADO" ou "FUTURO"
+└── NÃO apagar seções antigas sem ter certeza
+
+ARQUIVOS DE MANUAL (na raiz ou em /docs):
+├── MANUAL-USUARIA-RADAR.txt
+├── MANUAL-PROFISSIONAL-RADAR.txt
+├── MANUAL-ADMIN-RADAR.txt
+└── MANUAL-DEV-RADAR.txt
+
+ESTRUTURA DO PROMPT:
+├── ETAPA 0 – Leitura rápida (ATLAS, ROADMAP, ESPELHO)
+├── ETAPA 1 – Manual da Usuária
+├── ETAPA 2 – Manual do Profissional
+├── ETAPA 3 – Manual do Admin
+├── ETAPA 4 – Manual do Dev
+├── ETAPA 5 – Imagens/Screenshots (placeholders)
+└── ETAPA FINAL – Resumo
+
+IMAGENS (PLACEHOLDERS):
+├── [IMAGEM SUGERIDA: Tela do dashboard – trilha do herói]
+├── [IMAGEM SUGERIDA: Fluxo de convite profissional-cliente]
+└── Eduardo depois faz print e salva em /docs/img
+
+================================================================================
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:30 UTC-5
 ================================================================================
