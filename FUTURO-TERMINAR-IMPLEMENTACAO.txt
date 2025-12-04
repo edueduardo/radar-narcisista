@@ -6891,6 +6891,52 @@ PROMPT 3 – ENGINE FÁBRICA DE SAAS
     └── White-label
 
 ================================================================================
+=== 🎯 ETAPA 11.1 – DASHBOARD USUÁRIA COM TRILHA VISUAL DO HERÓI ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (prompt completo para Windsurf)
+Status: PROMPT PRONTO PARA EXECUÇÃO
+
+CONTEXTO:
+- ETAPA 10 + ETAPA 11 (infra) já estão prontas
+- Visual do /dashboard continua o antigo
+- Agora é hora de aplicar a trilha visual sem quebrar nada
+
+OBJETIVO:
+Transformar o /dashboard do usuário em um painel que:
+1. Mostra claramente a "trilha do herói" em 5 passos
+2. Agrupa os módulos por heroStep usando a infra já criada
+3. Mostra o que a usuária JÁ TEM e o que está disponível COM UPGRADE
+4. NÃO muda regras de negócio, só organiza e apresenta melhor
+
+ESTRUTURA DESEJADA:
+1. Header / Boas-vindas (nome, mensagem, tag do plano)
+2. Trilha do Herói (timeline visual com 5 passos)
+3. Blocos por step (cards agrupados por etapa da jornada)
+
+ARQUIVOS ENVOLVIDOS:
+- lib/plan-taxonomy.ts
+- lib/plan-dashboard-modules.ts
+- lib/dashboard-user-layout.ts
+- app/dashboard/page.tsx
+- app/dashboard/page.BACKUP_ETAPA11.tsx
+
+STATUS: ✅ JÁ IMPLEMENTADA (verificado 03/12/2025)
+
+VERIFICAÇÃO REALIZADA:
+O arquivo app/dashboard/page.tsx JÁ CONTÉM:
+1. ✅ Timeline horizontal dos 5 passos (linhas 796-852)
+2. ✅ Badge "Você está aqui" para passo atual (linhas 821-827)
+3. ✅ Heurística do passo atual via getCurrentHeroStep() (linha 317)
+4. ✅ Módulos agrupados por heroStep (linhas 884-913)
+5. ✅ Cards de módulos bloqueados com CTA "Ver planos" (linhas 1929-1961)
+6. ✅ Próxima ação sugerida (linhas 855-878)
+7. ✅ Componente HeroModuleCard (linhas 1916-1997)
+8. ✅ Imports de plan-dashboard-modules e dashboard-user-layout (linhas 61-76)
+
+CONCLUSÃO: ETAPA 11.1 JÁ ESTÁ 100% IMPLEMENTADA NO CÓDIGO!
+
+================================================================================
 === 🎛️ ANÁLISE: CONTROLE DA CURADORIA (CENSURA + ATIVAÇÃO) ===
 ================================================================================
 Fonte: [CHATGPT] Conversa 03/12/2025
@@ -7206,5 +7252,5 @@ ACORDO DE USO DEFINIDO:
 - Código travado → Fluxos críticos, IA sensível, Segurança, Billing
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 21:45 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 22:00 UTC-5
 ================================================================================
