@@ -8929,5 +8929,261 @@ No RESUMO FINAL de cada ETAPA, incluir SEMPRE:
 └── Antes de ETAPA 13 (white-label)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:40 UTC-5
+=== 📚 EXPLICAÇÃO COMPLETA: ORÁCULO ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (explicação conceitual)
+Status: DOCUMENTAÇÃO PARA REFERÊNCIA FUTURA
+
+--------------------------------------------------------------------------------
+1. O QUE É O "ORÁCULO" NESTE PROJETO?
+--------------------------------------------------------------------------------
+
+Esquece misticismo. "Oráculo" aqui é:
+Um painel + IA que olha tudo que está acontecendo no(s) SaaS e te diz,
+em linguagem humana, o que está bom, o que está ruim e qual o próximo
+passo inteligente.
+
+=== 1.1 ORÁCULO DENTRO DO RADAR (PRODUTO ÚNICO) ===
+
+No nível do Radar atual, o oráculo faria coisas tipo:
+
+"🧭 Eduardo, 70% das usuárias param depois do teste de clareza.
+Se você melhorar o convite pro diário logo depois do teste, a retenção pode subir."
+
+"🔥 Pessoas com risco alto que NÃO criaram plano de segurança em 48h: 12.
+Vale mandar um lembrete suave ou empurrar esse módulo no dashboard."
+
+"💤 Chat IA quase não usado pelas pessoas do plano Jornada, mas muito usado no Defesa.
+Talvez o texto de chamada esteja fraco no Jornada."
+
+TECNICAMENTE:
+├── Lê logs + métricas de uso (teste, diário, chat, plano, convites)
+├── Gera insights: padrões, gargalos, abusos, custo de IA
+└── Sugere ações concretas: mudar copy, mudar ordem do dashboard, ajustar plano
+
+=== 1.2 ORÁCULO DA ENGINE / FÁBRICA (VÁRIOS SAAS) ===
+
+Quando você tiver vários SaaS rodando (Radar, ciúmes, burnout, co-parent, etc.),
+o oráculo vira o "cérebro da fábrica":
+
+"📊 Tema Radar tem LTV maior, mas CAC alto.
+Tema Burnout tem muita procura mas baixa conversão no checkout."
+
+"💰 Seu custo de IA estourou neste produto X;
+usuários estão usando demais o chat livre, quase nada o diário estruturado."
+
+"🧩 Esses dois temas estão com features quase idênticas.
+Talvez valha unificar a engine e vender como variação, não produto novo."
+
+RESUMO:
+├── No nível PRODUTO → oráculo ajuda a melhorar o Radar
+└── No nível FÁBRICA → oráculo te ajuda a decidir onde investir, cortar, escalar
+
+💡 IMPORTANTE: O oráculo NÃO é uma telinha qualquer.
+Ele é o lugar onde a ENGINE + FÁBRICA conversam com você em alto nível:
+├── "Se você fizer X, provável impacto é Y."
+└── "Se você não olhar para Z, seu risco é W."
+
+--------------------------------------------------------------------------------
+2. ETAPAS DE LIMPEZA E ORGANIZAÇÃO
+--------------------------------------------------------------------------------
+
+Antes de ENGINE/FÁBRICA/ORÁCULO, precisamos de FAXINA E ORGANIZAÇÃO.
+
+=== 2.1 DASHBOARD DA USUÁRIA (ETAPA 11.CLEAN) ===
+
+STATUS ATUAL:
+├── Trilha do herói (Entender → Registrar → Conversar → Proteger → Recursos) ✅
+├── Heurística do passo atual ✅
+└── Várias seções antigas ainda existem (algumas redundantes)
+
+OBJETIVO DA FAXINA:
+├── Tirar bloco que não faz mais sentido
+├── Garantir que só apareça o que for relevante pro plano
+└── Evitar "3 jeitos diferentes de ir pro mesmo lugar"
+
+PASSOS CONCRETOS:
+├── Mapear tudo que aparece hoje no /dashboard
+├── Marcar cada bloco como:
+│   ├── CORE (tem que ficar pro MVP)
+│   ├── NICE-TO-HAVE (pode ir pra seção "extras")
+│   └── LEGADO (pode sair ou ir pro admin)
+├── Conferir se todos os blocos estão em plan-dashboard-modules.ts
+└── Ajustar layout: 80% trilha do herói, 20% extras
+
+=== 2.2 DASHBOARD PROFISSIONAL (ETAPA 12.CLEAN) ===
+
+STATUS ATUAL:
+├── /dashboard-profissional existe ✅
+├── Convite, aceite, lista de clientes, relatório básico ✅
+└── Exportação em massa e mais visualizações ❌
+
+OBJETIVO DA FAXINA:
+├── Painel simples: lista de clientes + estado + 1 clique pra relatório
+└── Deixar claro: "O que você vê é o que a cliente autorizou"
+
+PASSOS:
+├── Simplificar tabela de clientes: Nome, status, permissões, ações
+├── Conectar melhor: Dashboard ↔ páginas da cliente
+└── Depois: ETAPA 12.3 – exportação
+
+=== 2.3 ADMIN (ETAPA 9.CLEAN) ===
+
+STATUS ATUAL:
+└── Admin é meio "laboratório + cockpit + museu"
+
+OBJETIVO:
+├── Admin limpo, dividido em:
+│   ├── OPERAÇÃO do dia a dia
+│   ├── LABORATÓRIO / experimentos
+│   └── DEV / manutenção
+
+PASSOS:
+├── Listar todas as rotas /admin/*
+├── Classificar cada uma:
+│   ├── OPERACIONAL (curadoria, termos, analytics)
+│   ├── LAB (testes, ab-tests, fluxos IA experimentais)
+│   └── DEV (repair-env, hash, etc.)
+├── No menu admin: criar 3 grupos
+├── Esconder do menu: coisas muito experimentais
+└── Atualizar MANUAL-ADMIN-RADAR.txt
+
+--------------------------------------------------------------------------------
+3. ETAPA LÂMPADA – OBSERVAÇÕES PARA O EDUARDO
+--------------------------------------------------------------------------------
+
+A "Lâmpada geral" é um bloco fixo de observações, insights e avisos:
+
+"💡 Eduardo, aqui temos 2 rotas fazendo a mesma coisa."
+"💡 Este módulo está muito complexo, sugerido quebrar na próxima etapa."
+"💡 Cuidado: este fluxo ainda não tem LGPD totalmente fechada."
+
+COMO IMPLEMENTAR NOS PROMPTS:
+
+Em todo prompt grande, adicionar no final:
+
+============================================================
+ETAPA LÂMPADA – OBSERVAÇÕES PARA O EDUARDO
+============================================================
+
+No RESUMO FINAL, você DEVE incluir uma seção "LÂMPADA" com:
+
+- 💡 Coisas que estão boas e devem ser preservadas
+- 💡 Coisas que estão confusas e precisam de limpeza futura
+- 💡 Riscos (técnicos, de custo, de LGPD, de UX)
+- 💡 Sugestões de ETAPAS FUTURAS (com nomes)
+
+Nada disso muda código diretamente, mas alimenta:
+- ROADMAP-RADAR.txt
+- MANUAIS (USUÁRIA, PROFISSIONAL, ADMIN, DEV)
+- Próximos prompts
+
+================================================================================
+=== 📋 SEQUÊNCIA OFICIAL COMPLETA (ATUALIZADA) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT + Eduardo
+Status: SEQUÊNCIA OFICIAL A SEGUIR
+
+--------------------------------------------------------------------------------
+BLOCO A – RADAR NARCISISTA (PRODUTO-MÃE)
+--------------------------------------------------------------------------------
+
+✅ ETAPA 8.1-8.4 – FanPage Viva
+✅ ETAPA 9 – Curadoria + Semáforo
+✅ ETAPA 10 – Taxonomia de Planos
+✅ ETAPA 11 – Trilha do Herói (infra)
+✅ ETAPA 11.1 – Trilha Visual no Dashboard
+✅ ETAPA 11.2 – Ajustes Finos Dashboard
+⏳ ETAPA 11.3 – Refinamentos Opcionais (BACKLOG)
+🔜 ETAPA 11.CLEAN – Limpeza Dashboard Usuária
+
+✅ ETAPA 12 – Dashboard Profissional V1
+✅ ETAPA 12.1 – Infra Clientes Profissionais
+✅ ETAPA 12.1.1 – Página Aceite Convite
+✅ ETAPA 12.1.2 – Revogação de Acesso
+✅ ETAPA 12.2 – Relatórios Agregados
+🔜 ETAPA 12.3 – Exportação em Massa (PACOTE)
+🔜 ETAPA 12.CLEAN – Limpeza Dashboard Profissional
+⏳ ETAPA 12.4 – Painel Cliente c/ Profissionais
+
+🔜 ETAPA 9.CLEAN – Limpeza Admin (organizar em 3 grupos)
+
+🔜 ETAPA 13 – Infra White-Label V1 (PACOTE)
+⏳ ETAPA 13.1 – Domínios Customizados
+⏳ ETAPA 13.2 – Upload de Logo
+
+⏳ ETAPA 14 – Loja / Upgrades
+⏳ ETAPA 15 – Beta com 5 usuárias
+⏳ ETAPA 16 – Segurança & LGPD Hardening
+
+--------------------------------------------------------------------------------
+BLOCO B – MANUAIS
+--------------------------------------------------------------------------------
+
+🔜 ETAPA MANUAIS.1 – Criar 4 manuais base
+   ├── MANUAL-USUARIA-RADAR.txt
+   ├── MANUAL-PROFISSIONAL-RADAR.txt
+   ├── MANUAL-ADMIN-RADAR.txt
+   └── MANUAL-DEV-RADAR.txt
+
+⏳ ETAPA MANUAIS.2 – Manual White-Label (após ETAPA 13)
+⏳ ETAPA MANUAIS.3 – Manual ENGINE (após ENGINE.1)
+⏳ ETAPA MANUAIS.4 – Manual FÁBRICA (após FÁBRICA.1)
+
+--------------------------------------------------------------------------------
+BLOCO C – ENGINE (MOTOR REPLICADOR)
+--------------------------------------------------------------------------------
+
+⏳ ENGINE.1 – Molde genérico (project_id)
+⏳ ENGINE.2 – Orquestrador de temas
+⏳ ENGINE.3 – Wizard de criação
+⏳ ENGINE.4 – Oráculo de portfólio
+⏳ ENGINE.5 – Multi-plataforma
+
+--------------------------------------------------------------------------------
+BLOCO D – FÁBRICA (SAAS FACTORY)
+--------------------------------------------------------------------------------
+
+⏳ FÁBRICA.1 – Painel de projetos
+⏳ FÁBRICA.2 – Wizard assistido por IA
+⏳ FÁBRICA.3 – White-label avançado
+⏳ FÁBRICA.4 – Governança centralizada
+⏳ FÁBRICA.5 – Geração automática (sonho)
+
+--------------------------------------------------------------------------------
+BLOCO E – ORÁCULO
+--------------------------------------------------------------------------------
+
+⏳ ORÁCULO.1 – Esqueleto do painel do oráculo
+⏳ ORÁCULO.2 – Métricas de uso (teste, diário, chat, plano)
+⏳ ORÁCULO.3 – Insights automáticos
+⏳ ORÁCULO.4 – Sugestões de ação
+⏳ ORÁCULO.5 – Oráculo da fábrica (multi-SaaS)
+
+--------------------------------------------------------------------------------
+ORDEM SUGERIDA DE EXECUÇÃO
+--------------------------------------------------------------------------------
+
+FASE 1 – FECHAR RADAR (PRÓXIMO):
+├── 1. Rodar migrations no Supabase ⚠️
+├── 2. PACOTE 12.3 + 13 (Exportação + White-Label V1)
+├── 3. ETAPA MANUAIS.1 (criar 4 manuais base)
+├── 4. ETAPA 11.CLEAN (limpeza dashboard usuária)
+├── 5. ETAPA 12.CLEAN (limpeza dashboard profissional)
+└── 6. ETAPA 9.CLEAN (limpeza admin)
+
+FASE 2 – ENGINE:
+├── 7. ENGINE.1 (project_id)
+├── 8. ENGINE.2 (temas)
+└── 9. ORÁCULO.1 (esqueleto)
+
+FASE 3 – FÁBRICA:
+├── 10. FÁBRICA.1 (painel de projetos)
+├── 11. FÁBRICA.2 (wizard IA)
+└── 12. ORÁCULO.5 (multi-SaaS)
+
+================================================================================
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:45 UTC-5
 ================================================================================
