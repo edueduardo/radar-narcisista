@@ -15019,12 +15019,36 @@ ai_get_user_ia_profile(p_user_id uuid):
 > - AI_CONFIG_CORE é clonável para SaaS filhos e White Label.
 
 ================================================================================
+=== 📄 TXT MESTRE DE AUDITORIA CRIADO ===
+================================================================================
+Fonte: [WINDSURF] 04/12/2025
+Autoria: Windsurf + Eduardo
+Status: ARQUIVO CRIADO PARA AUDITORIA COMPLETA
+
+ARQUIVO CRIADO: PROMPTS-MESTRES-RADAR.txt
+
+CONTEÚDO:
+├── Todos os PATCHes (1-9)
+├── BLOCO 31-35 completo
+├── PATCH BLOCO 31-35 (IA por menu e usuário)
+├── Instruções de auditoria para o Windsurf
+├── Checklist de verificação com [ ] para cada item
+└── Formato de resposta obrigatório
+
+COMO USAR:
+├── 1. Abrir novo chat no Windsurf
+├── 2. Copiar conteúdo do PROMPTS-MESTRES-RADAR.txt
+├── 3. Colar como primeira mensagem
+├── 4. Windsurf vai auditar e executar tudo que falta
+└── 5. Resposta final com resumo do que foi feito
+
+================================================================================
 === 📊 CONTAGEM FINAL DE ETAPAS ===
 ================================================================================
 
 ANTES ERA: 106 etapas
-AGORA: 106 etapas (PATCH complementar, sem novas etapas)
+AGORA: 106 etapas (TXT MESTRE criado, sem novas etapas)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 06:00 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 06:05 UTC-5
 ================================================================================

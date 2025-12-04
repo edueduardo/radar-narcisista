@@ -1,0 +1,417 @@
+================================================================================
+RADAR NARCISISTA – TXT MESTRE DE AUDITORIA E EXECUÇÃO
+================================================================================
+VERSÃO: 04/12/2025 06:05 UTC-5
+Autoria: ChatGPT + Eduardo
+Objetivo: Windsurf auditar e executar TODOS os prompts pendentes
+
+================================================================================
+[IDENTIDADE GERAL – QUEM VOCÊ É AGORA]
+================================================================================
+
+Você é um DEV SÊNIOR trabalhando no projeto **RADAR NARCISISTA**.
+
+Stack principal:
+- Next.js 16 + TypeScript (App Router)
+- TailwindCSS
+- Supabase (Postgres + Auth + RLS + Migrations)
+- Stripe (planos e add-ons)
+- Deploy na Vercel
+
+Você está rodando dentro do repositório local:
+C:\Users\teste\Desktop\SaaS sobre narcisismo\radar-narcisista
+
+Você tem acesso ao código e aos arquivos de documentação:
+- TUDO PARA O GPT.txt
+- ATLAS-RADAR-NARCISISTA.txt
+- ROADMAP-RADAR.txt
+- LAMPADA-RADAR.txt
+- TESTES-RADAR.txt
+- FUTURO-TERMINAR-IMPLEMENTACAO.txt
+- HISTORICO-UNIFICADO.txt
+- AUDITORIA-MASTER-PREMIUM.txt
+- docs/*.md (manuais, patches etc.)
+- database/*.sql
+- app/*, lib/*, components/*, etc.
+
+================================================================================
+[OBJETIVO DESTA SESSÃO]
+================================================================================
+
+Sua missão **AGORA** é:
+
+1. **LER E AUDITAR** todos os blocos de prompt abaixo, **mais** o que estiver em:
+   - FUTURO-TERMINAR-IMPLEMENTACAO.txt
+   - HISTORICO-UNIFICADO.txt
+   - TUDO PARA O GPT.txt
+   - ATLAS-RADAR-NARCISISTA.txt
+   - ROADMAP-RADAR.txt
+   - LAMPADA-RADAR.txt
+   - TESTES-RADAR.txt
+   - docs/PATCH-ORACULO.md
+   - docs/REGRAS-COMUNICACAO-IA.md
+   - docs/GERADOR-SAAS.md
+   - CHECKLIST-POS-MVP.md
+
+2. Para **cada bloco/patch**:
+   - Verificar no repositório atual:
+     - O que JÁ está implementado no código de verdade.
+     - O que está **parcialmente** implementado.
+     - O que **ainda não foi implementado**.
+   - Implementar, ajustar ou corrigir o que estiver faltando/incompleto.
+
+3. **NÃO MENTIR**:
+   - Não marcar como "feito" nada que você não fez.
+   - Se algo estiver só metade feito, registre como metade feito e complete agora.
+   - Se não conseguir implementar algum ponto, registre na LÂMPADA.
+
+4. Ao final, gerar um **RESUMO FINAL PARA O USUÁRIO** com:
+   - Lista das tarefas/blocos que estavam 100% implementados antes desta sessão.
+   - Lista das tarefas/blocos que você implementou agora.
+   - O que ainda ficou de dívida técnica.
+   - "OPINIÃO DO WINDSURF PARA O CHATGPT": sugestões e melhorias.
+
+================================================================================
+[REGRAS DE COMUNICAÇÃO WINDSURF ↔ CHATGPT]
+================================================================================
+
+1) NUNCA usar a palavra "opcional" ou variações/sinônimos.
+2) NUNCA escrever "ou" dentro de uma mesma bullet.
+3) Sempre que listar **MELHORIAS**, use o título: **MELHORIAS IDENTIFICADAS**
+4) Sempre que listar próximos passos, use o título: **PRÓXIMA AÇÃO SUGERIDA**
+5) Trate "PRÓXIMA AÇÃO SUGERIDA" como **coisas que DEVEM ser feitas**.
+6) No final de cada grande execução, inclua: **OPINIÃO DO WINDSURF PARA O CHATGPT**
+
+================================================================================
+================================================================================
+===                    LISTA DE PATCHES E BLOCOS A AUDITAR                   ===
+================================================================================
+================================================================================
+
+================================================================================
+PATCH 1 – ORÁCULO V2 SÓ ADMIN (BLOCO 21-25)
+================================================================================
+
+REGRA:
+- ORÁCULO V1 = painel /admin/oraculo → só ADMIN (já existe)
+- ORÁCULO V2 = IA de suporte → NESTE BLOCO é apenas para ADMIN
+- Qualquer menção a Oráculo V2 para usuária/profissional/dev/whitelabel = FUTURO
+
+VERIFICAR:
+- [ ] Botão do Oráculo V2 aparece APENAS em telas /admin
+- [ ] RLS dos logs do Oráculo está configurado
+- [ ] API /api/oraculo-v2 existe e funciona
+- [ ] Contracts JSON documentados em docs/ORACULO-V2-PROMPT.md
+
+================================================================================
+PATCH 2 – ORÁCULO V2 MULTIPERFIL (BLOCO 26-30) – FUTURO
+================================================================================
+
+REGRA:
+- ORÁCULO V2 MULTIPERFIL para TODOS os perfis: usuária, profissional, admin, dev, whitelabel
+- ORACULO_V2_CORE como módulo compartilhado
+- Acoplável a todos os SaaS gerados pelo GERADOR DE SAAS
+
+VERIFICAR:
+- [ ] ROADMAP-RADAR.txt tem seção BLOCO 26-30
+- [ ] LAMPADA-RADAR.txt tem registro do Oráculo multiperfil como futuro
+- [ ] NÃO implementar agora, apenas documentar
+
+================================================================================
+PATCH 3A – CONTROLE POR PLANO/PERFIL + LIMITES
+================================================================================
+
+VERIFICAR:
+- [ ] Tabela plan_catalog existe no Supabase
+- [ ] Tabela feature_profiles existe
+- [ ] Tabela user_feature_overrides existe
+- [ ] Sistema de limites por plano funciona
+
+================================================================================
+PATCH 3B – ETAPA 31 – REFORMA FRONT PAGE
+================================================================================
+
+VERIFICAR:
+- [ ] Front page está funcional
+- [ ] Integração com plan_catalog
+- [ ] Blocos dinâmicos (se implementados)
+
+================================================================================
+PATCH 4 – CONSTITUIÇÃO + ETAPA 32 MATRIZ ORÁCULO
+================================================================================
+
+VERIFICAR:
+- [ ] Constituição do projeto documentada
+- [ ] Matriz do Oráculo definida
+
+================================================================================
+PATCH 5 – PLANOS & FEATURES (CATÁLOGO + PERFIS + COHORTS)
+================================================================================
+
+ARQUITETURA DE 3 CAMADAS:
+1. Features (atômicas)
+2. Feature Profiles (pacotes versionados)
+3. Plan Catalog (vitrine)
+
+VERIFICAR:
+- [ ] Tabelas features, feature_profiles, plan_catalog existem
+- [ ] API de planos funciona
+- [ ] Loja de planos funciona
+
+================================================================================
+PATCH 6 – GERADOR DE SAAS & SAAS GERADOS (SIMBIOSE + INDEPENDÊNCIA)
+================================================================================
+
+CONCEITO:
+- RADAR-CORE = projeto mãe, guarda os módulos CORE
+- GERADOR DE SAAS = usa o RADAR-CORE como blueprint para criar NOVOS SaaS
+- Cada SAAS GERADO nasce com código próprio, docs próprios, independente
+
+KIT MÍNIMO DE DOCS para cada SaaS gerado:
+- TUDO PARA O GPT - <NOME-DO-SAAS>.txt
+- ATLAS-<NOME-DO-SAAS>.txt
+- ROADMAP-<NOME-DO-SAAS>.txt
+- TESTES-<NOME-DO-SAAS>.txt
+- LAMPADA-<NOME-DO-SAAS>.txt
+
+VERIFICAR:
+- [ ] docs/GERADOR-SAAS.md existe e está atualizado
+- [ ] Conceito de KIT DE DOCS documentado
+
+================================================================================
+PATCH 7 – MÃE, CORE BRANCO, FILHOS (3 NÍVEIS DE LINHAGEM)
+================================================================================
+
+MODELO DE LINHAGEM:
+- NÍVEL 1: RADAR-CORE (MÃE) – Projeto principal
+- NÍVEL 2: CORE BRANCO (Template neutro) – Sem tema, infraestrutura completa
+- NÍVEL 3: SAAS TEMÁTICOS/ÚNICOS (Filhos) – Com tema específico
+
+TRÊS MODOS DO GERADOR:
+- MODO 1: SAAS Temático direto da MÃE
+- MODO 2: CORE BRANCO (neutro)
+- MODO 3: SAAS a partir de CORE BRANCO existente
+
+VERIFICAR:
+- [ ] Conceito documentado em docs/GERADOR-SAAS.md
+- [ ] ORIGEM-CORE.txt definido como padrão
+
+================================================================================
+PATCH 8 – UX/UI DO GERADOR DE SAAS (FLUXO + LAYOUT + TABELA)
+================================================================================
+
+O QUE ACONTECE AO CLICAR NO BOTÃO:
+- Backend clona template, gera projeto, cria kit de docs
+- Mostra card com ações (GitHub, git clone, .zip, instruções)
+- NÃO abre .exe, NÃO abre Windsurf automaticamente
+
+TABELA saas_projects:
+- id, name, display_name, type, theme, description
+- origin_core, origin_version, github_url, zip_url, status
+- created_at, updated_at
+
+VERIFICAR:
+- [ ] Página /admin/gerador-saas existe (mesmo que simulação)
+- [ ] Tabela saas_projects existe no Supabase
+- [ ] Layout da página definido
+
+================================================================================
+PATCH 9 – ADMIN DINÂMICO (SEM DEPLOY)
+================================================================================
+
+REGRA FUNDAMENTAL:
+"Tudo que for toggle/slider no admin deve refletir direto no banco
+e ser lido pelo orquestrador, SEM depender de deploy."
+
+DEPLOY = só quando muda CÓDIGO
+PAINEL ADMIN = configuração dinâmica (IAs, planos, features)
+
+TRÊS CAMADAS DE CONFIG:
+- CAMADA 1: Global (template/mãe)
+- CAMADA 2: Por produto/tenant
+- CAMADA 3: Por usuário/cliente
+
+VERIFICAR:
+- [ ] Tela de IAs colaborativas lê do banco (não mockado)
+- [ ] Alterações no admin salvam no Supabase
+- [ ] Orquestrador lê config do banco
+
+================================================================================
+BLOCO 31-35 – CONFIGURAÇÃO DINÂMICA DE IAs (AI_CONFIG_CORE)
+================================================================================
+
+ETAPA 31 – TABELAS CORE:
+
+1) ai_providers_core:
+   - id, slug, display_name, status, custo_relativo, created_at, updated_at
+
+2) ai_features_core:
+   - id, slug, display_name, descricao_curta, created_at, updated_at
+
+3) ai_feature_providers_core:
+   - id, feature_id, provider_id, papel, peso, ativo, created_at, updated_at
+
+4) ai_plan_matrix:
+   - id, plan_key, feature_id, provider_id, perfil
+   - limite_diario, limite_mensal, ativo, origem, created_at, updated_at
+
+5) ai_group_overrides:
+   - id, group_key, user_id, plan_key_base, feature_id, provider_id
+   - perfil, limite_diario, limite_mensal, ativo, created_at, updated_at
+
+FUNÇÃO SQL:
+ai_get_providers_for_context(p_plan_key, p_feature_slug, p_perfil, p_group_key, p_user_id)
+
+SEED INICIAL:
+- Provedores: OpenAI, Anthropic Claude, Together, Grok
+- Features: diário, teste_clareza, chat, oráculo_admin, curadoria, relatórios
+- Matrix básica: Free, Pro, Expert
+
+VERIFICAR:
+- [ ] Tabelas criadas no Supabase
+- [ ] Função SQL criada
+- [ ] Seed aplicado
+
+--------------------------------------------------------------------------------
+
+ETAPA 32 – LIGAR PAINEL ADMIN À CONFIG DE IA:
+
+- Ativar todos os menus de IA no admin
+- Ler configuração real das tabelas (não mockado)
+- Mostrar indicadores: total_providers, configurados, ativos
+- Permitir edição por PLANO • FEATURE • PERFIL
+- Criar view "Planos x Features x IAs x Perfil" em /admin/ia-matrix
+
+VERIFICAR:
+- [ ] Menus de IA aparecem no admin
+- [ ] Tela lê dados reais do banco
+- [ ] Edição salva no banco
+
+--------------------------------------------------------------------------------
+
+ETAPA 33 – ORQUESTRADOR DE IA USANDO AI_CONFIG_CORE:
+
+- Criar lib/ai-config-core.ts:
+  - getProvidersForRequest(context) → lista de provedores
+  - checkAndConsumeLimits(context, provider) → verifica/registra consumo
+- Atualizar orquestrador para sempre chamar getProvidersForRequest
+- Garantir IA por plano e perfil
+
+VERIFICAR:
+- [ ] lib/ai-config-core.ts existe
+- [ ] Orquestrador usa getProvidersForRequest
+- [ ] Logging estruturado implementado
+
+--------------------------------------------------------------------------------
+
+ETAPA 34 – EXPOR AI_CONFIG_CORE PARA GERADOR DE SAAS:
+
+- Criar docs/AI-CONFIG-CORE.md
+- Criar função em lib/saas-generator-core.ts
+- Definir como identificar cada SaaS filho (tenant, projeto, slug)
+
+VERIFICAR:
+- [ ] docs/AI-CONFIG-CORE.md existe
+- [ ] lib/saas-generator-core.ts existe
+
+--------------------------------------------------------------------------------
+
+ETAPA 35 – QA COMPLETO + RESUMO PARA CHATGPT:
+
+- Testes manuais
+- Testes automatizados para lib/ai-config-core
+- Atualizar CHECKLIST-POS-MVP.md
+- Atualizar TUDO PARA O GPT.txt com resumo final
+
+VERIFICAR:
+- [ ] Testes executados
+- [ ] Docs atualizados
+
+================================================================================
+PATCH BLOCO 31-35 – CONTROLE DE IA POR MENU E POR USUÁRIO
+================================================================================
+
+TABELAS ADICIONAIS:
+
+1) ai_feature_menu_map:
+   - id, menu_key, menu_path, feature_id, perfil_default, created_at, updated_at
+
+2) ai_usage_stats_daily:
+   - id, date, user_id, plan_key, group_key, perfil
+   - feature_id, provider_id, calls, tokens_input, tokens_output
+   - custo_estimado, created_at
+
+FUNÇÕES SQL ADICIONAIS:
+- ai_get_menu_config(p_menu_key, p_plan_key, p_perfil)
+- ai_get_user_ia_profile(p_user_id)
+
+NOVAS TELAS ADMIN:
+- /admin/ia-mapa-menus (mapa de IA por menu)
+- /admin/ia-carga (visão de carga global)
+- /admin/ia-grupos (visão por grupo promocional)
+
+VERIFICAR:
+- [ ] Tabelas criadas
+- [ ] Funções SQL criadas
+- [ ] Telas admin criadas
+
+================================================================================
+================================================================================
+===                    INSTRUÇÕES FINAIS PARA O WINDSURF                     ===
+================================================================================
+================================================================================
+
+1) Leia tudo o que está neste TXT.
+
+2) Leia os arquivos de apoio no repositório:
+   - FUTURO-TERMINAR-IMPLEMENTACAO.txt
+   - HISTORICO-UNIFICADO.txt
+   - TUDO PARA O GPT.txt
+   - ATLAS-RADAR-NARCISISTA.txt
+   - ROADMAP-RADAR.txt
+   - LAMPADA-RADAR.txt
+   - TESTES-RADAR.txt
+   - docs/PATCH-ORACULO.md
+   - docs/REGRAS-COMUNICACAO-IA.md
+   - docs/GERADOR-SAAS.md
+   - CHECKLIST-POS-MVP.md
+
+3) Monte uma lista interna de tarefas necessárias.
+
+4) Para cada item marcado com [ ]:
+   - Se JÁ ESTÁ IMPLEMENTADO: marque como [x] e confirme
+   - Se NÃO ESTÁ IMPLEMENTADO: implemente agora
+   - Se está PARCIALMENTE implementado: complete
+
+5) Implemente tudo, com commits claros por bloco/etapa.
+
+6) Ao final, responda ao usuário com:
+
+================================================================================
+FORMATO DE RESPOSTA OBRIGATÓRIO
+================================================================================
+
+# RESUMO GERAL
+(visão geral do que foi auditado)
+
+# O QUE JÁ ESTAVA PRONTO
+(lista do que já estava 100% implementado)
+
+# O QUE FOI IMPLEMENTADO NESTA SESSÃO
+(lista do que você implementou agora)
+
+# DÍVIDAS TÉCNICAS
+(o que ainda falta, registrado na LÂMPADA)
+
+# MELHORIAS IDENTIFICADAS
+(sugestões de melhoria, sem usar "opcional")
+
+# PRÓXIMA AÇÃO SUGERIDA
+(próximos passos, sem usar "ou" dentro de bullets)
+
+# OPINIÃO DO WINDSURF PARA O CHATGPT
+(sua análise crítica do projeto)
+
+================================================================================
+FIM DO TXT MESTRE
+================================================================================
