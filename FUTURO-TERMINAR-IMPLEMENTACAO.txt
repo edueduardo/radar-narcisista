@@ -9769,6 +9769,70 @@ ORDEM OBRIGATÓRIA:
    └── Convites pendentes há mais de 14 dias deveriam expirar
 
 ================================================================================
+=== 📊 MAPA SIM/NÃO – O QUE ESTÁ IMPLEMENTADO ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: CLARIFICAÇÃO DO ESTADO ATUAL
+
+--------------------------------------------------------------------------------
+✅ SIM – JÁ IMPLEMENTADO (CÓDIGO + PROMPT + EXECUÇÃO)
+--------------------------------------------------------------------------------
+
+| ETAPA | Descrição | Status |
+|-------|-----------|--------|
+| 10 | Infra de Planos | ✅ IMPLEMENTADO |
+| 11 | Infra Dashboard Usuária | ✅ IMPLEMENTADO |
+| 11.1 | Trilha do Herói Visual | ✅ IMPLEMENTADO |
+| 11.2 | Heurística + Mobile + Microcópia | ✅ IMPLEMENTADO |
+| 12 | Dashboard Profissional V1 | ✅ IMPLEMENTADO |
+| 12.1 | Infra professional_clients | ✅ IMPLEMENTADO |
+| 12.1.1 | Página Aceite Convite | ✅ IMPLEMENTADO |
+| 12.1.2 | Revogação de Acesso | ✅ IMPLEMENTADO |
+| 12.2 | Relatório por Cliente | ✅ IMPLEMENTADO |
+| 12.3 | Exportação CSV | ✅ IMPLEMENTADO |
+| 13 | Infra White-Label V1 | ✅ IMPLEMENTADO |
+
+TOTAL IMPLEMENTADO: 11 blocos
+
+--------------------------------------------------------------------------------
+❌ NÃO – AINDA NÃO IMPLEMENTADO (SÓ IDEIA/ROADMAP)
+--------------------------------------------------------------------------------
+
+| ETAPA | Descrição | Status | Por quê NÃO? |
+|-------|-----------|--------|--------------|
+| 14 | Loja Simplificada | ❌ | Só ideia, sem prompt detalhado |
+| 15 | Beta com 5 usuárias | ❌ | Conceitual, não estruturado |
+| 16 | Oráculo V1 | ❌ | Visão existe, não virou etapa |
+| 17 | Limpeza Dashboards | ❌ | Planejado, não executado |
+| 18 | Limpeza Admin | ❌ | Planejado, não executado |
+| 19 | Manuais | ❌ | Estrutura definida, arquivos não criados |
+| 20 | Lâmpada Geral | ❌ | Conceito definido, arquivo não criado |
+| C1 | CLEAN-USUÁRIA | ❌ | Checklist pronto, não executado |
+| C2 | CLEAN-PROF | ❌ | Checklist pronto, não executado |
+| C3 | CLEAN-ADMIN | ❌ | Checklist pronto, não executado |
+| M1-M6 | Manuais detalhados | ❌ | Estrutura definida, não criados |
+| O1-O2 | Oráculo | ❌ | Conceito definido, não implementado |
+| ENGINE | Motor Replicador | ❌ | Visão futura |
+| FÁBRICA | SaaS Factory | ❌ | Visão futura |
+
+TOTAL NÃO IMPLEMENTADO: 14+ blocos
+
+--------------------------------------------------------------------------------
+⚠️ PENDÊNCIAS CRÍTICAS (BLOQUEIAM FUNCIONAMENTO)
+--------------------------------------------------------------------------------
+
+1. MIGRATIONS NO SUPABASE (OBRIGATÓRIO):
+   ├── 20241201_create_professional_clients.sql
+   ├── 20241201_fix_professional_clients_nullable.sql
+   └── 20241201_create_professional_brand.sql
+
+2. SEM ESSAS MIGRATIONS:
+   ├── Dashboard Profissional não funciona
+   ├── Convites não funcionam
+   └── White-Label não funciona
+
+================================================================================
 === 📋 PROMPT BLOCO 14-20 (PRÓXIMAS ETAPAS) ===
 ================================================================================
 Fonte: [CHATGPT] Conversa 04/12/2025
@@ -9785,6 +9849,18 @@ ETAPAS DO BLOCO 14-20:
 ├── ETAPA 18 – Limpeza/Admin & Mapa do Sistema
 ├── ETAPA 19 – Manuais (usuária, profissional, admin, dev, white-label)
 └── ETAPA 20 – Lâmpada Geral (LAMPADA-RADAR.txt)
+
+--------------------------------------------------------------------------------
+REGRA: TRANSFORMAR NÃO EM SIM
+--------------------------------------------------------------------------------
+
+Para cada item ❌ virar ✅, precisa:
+├── 1. Prompt detalhado com objetivo claro
+├── 2. Arquivos que devem ser tocados
+├── 3. O que pode / não pode mexer
+├── 4. Execução pelo Windsurf
+├── 5. Atualização dos 5 TXT
+└── 6. Commit + Push
 
 ================================================================================
 === 📋 MINI MANUAL DO EDUARDO (5 REGRAS PARA O DESÂNIMO) ===
