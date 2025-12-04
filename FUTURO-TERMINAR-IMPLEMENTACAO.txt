@@ -6407,6 +6407,124 @@ TOTAL: 21 ETAPAS (11-31)
 ANTES ERA: 17 etapas / AGORA: 31 etapas
 
 ================================================================================
+=== 🏷️ WHITE LABEL: DOIS NÍVEIS DE PERSONALIZAÇÃO ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT + Eduardo (clarificação sobre White Label)
+Status: VISÃO ESTRATÉGICA – INTEGRADA AO PLANO
+
+PERGUNTA DO EDUARDO:
+"Isso possibilita White Labels? Profissionais que querem ter para seus escritórios,
+vender, ter seu logo, sua marca?"
+
+--------------------------------------------------------------------------------
+RESPOSTA: SIM, DE DOIS JEITOS DIFERENTES
+--------------------------------------------------------------------------------
+
+1️⃣ WHITE LABEL "DENTRO DO MESMO PRODUTO" (MAIS SIMPLES)
+────────────────────────────────────────────────────────
+
+Quando o tema continua sendo o mesmo (ex: dependência emocional / abuso),
+mas muda:
+- Logo
+- Cores
+- Domínio (app.<nome deles>.com)
+- Textos ajustados para o público daquele grupo
+
+ETAPAS QUE JÁ CONTEMPLAM ISSO:
+- ETAPA 13 – Dashboard White-label
+- ETAPA 17 – Tabela products / tenants
+- ETAPA 19 – Criar produto a partir de template
+
+COMO FUNCIONA NA PRÁTICA:
+Uma clínica / escritório / grupo de profissionais compra "seu Radar" com:
+├── Logo deles
+├── Cores deles
+├── URL deles
+└── Rodando em cima do SEU engine
+
+VOCÊ CONTROLA:
+├── Planos disponíveis
+├── Quais módulos aparecem
+└── Quanto vê ou não vê de dados (privacidade total)
+
+2️⃣ WHITE LABEL "POR TEMA IRMÃO" (NÍVEL ACIMA)
+────────────────────────────────────────────────────────
+
+Aqui entra o REPLICADOR:
+- Mesma base de Triângulo / polígono, IA, diário, provas
+- Tema MUDA (ainda na família "dor emocional / abuso / conflito")
+
+DOIS NÍVEIS DE WHITE LABEL:
+
+┌─────────────────────────┬────────────────────────────────────────────────────┐
+│ NÍVEL                   │ O QUE É                                            │
+├─────────────────────────┼────────────────────────────────────────────────────┤
+│ White Label de TEMA     │ Você cria produto novo (engine adaptado pra dor)   │
+│ White Label de MARCA    │ Cada grupo tem "sua versão" com logo e ajustes     │
+└─────────────────────────┴────────────────────────────────────────────────────┘
+
+RESULTADO:
+- 1 código-base
+- Vários produtos
+- Vários parceiros em cima
+
+3️⃣ O QUE CONTINUA SENDO 100% SEU (E NÃO DELES)
+────────────────────────────────────────────────────────
+
+Mesmo no cenário mais agressivo de white label:
+
+SEU PATRIMÔNIO (NUNCA SAI):
+├── Engine
+├── Arquitetura
+├── Orquestrador de IA
+├── Replicador de SaaS
+├── Oráculo do Fundador
+└── Código-fonte
+
+O PARCEIRO COMPRA:
+├── Acesso
+├── Marca em cima
+└── Alguns ajustes finos de conteúdo ou fluxo
+
+4️⃣ MODELOS DE OFERTA WHITE LABEL (SUGESTÃO)
+────────────────────────────────────────────────────────
+
+┌─────────────────────────┬────────────────────────────────────────────────────┐
+│ MODELO                  │ COMO FUNCIONA                                      │
+├─────────────────────────┼────────────────────────────────────────────────────┤
+│ Licença Mensal          │ R$ X/mês por acesso ao engine + marca própria      │
+│ Setup + Mensal          │ R$ Y setup + R$ Z/mês (personalização inicial)     │
+│ Revenue Share           │ % da receita do parceiro (sem custo inicial)       │
+│ Por Usuária             │ R$ W por usuária ativa/mês                         │
+└─────────────────────────┴────────────────────────────────────────────────────┘
+
+5️⃣ EXEMPLOS DE PARCEIROS WHITE LABEL
+────────────────────────────────────────────────────────
+
+CLÍNICAS DE PSICOLOGIA:
+- "Radar [Nome da Clínica]"
+- Pacientes usam com marca da clínica
+- Terapeuta acompanha via Dashboard Profissional
+
+ESCRITÓRIOS DE ADVOCACIA:
+- "Radar [Nome do Escritório]"
+- Clientes registram episódios
+- Advogado acessa provas organizadas
+
+ONGs / INSTITUTOS:
+- "Radar [Nome da ONG]"
+- Atendidas usam gratuitamente
+- ONG paga licença mensal
+
+EMPRESAS (RH / COMPLIANCE):
+- "Radar [Nome da Empresa]"
+- Funcionários registram assédio
+- RH acompanha (com privacidade)
+
+STATUS: ✅ INTEGRADO AO PLANO (ETAPAS 13, 17, 19)
+
+================================================================================
 === 🎛️ ANÁLISE: CONTROLE DA CURADORIA (CENSURA + ATIVAÇÃO) ===
 ================================================================================
 Fonte: [CHATGPT] Conversa 03/12/2025
@@ -6722,5 +6840,5 @@ ACORDO DE USO DEFINIDO:
 - Código travado → Fluxos críticos, IA sensível, Segurança, Billing
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 21:30 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 21:35 UTC-5
 ================================================================================
