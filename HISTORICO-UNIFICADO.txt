@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 05:00 UTC-5
+Última atualização: 04/12/2025 05:10 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -241,8 +241,8 @@ O QUE FOI FEITO:
 └── FUTURO-TERMINAR-IMPLEMENTACAO.txt atualizado (~11.428 linhas)
 
 CONTAGEM DE ETAPAS:
-├── ANTES: 91 etapas
-└── AGORA: 96 etapas (+5 do BLOCO 26-30: ETAPAS 26, 27, 28, 29, 30)
+├── ANTES: 96 etapas
+└── AGORA: 101 etapas (+5 do BLOCO 31-35: ETAPAS 31, 32, 33, 34, 35)
 
 ================================================================================
 BLOCO 21-25 IMPLEMENTADO COM SUCESSO! (MVP 1.0.25)
@@ -312,8 +312,21 @@ PRÓXIMOS PASSOS (BLOCO 21-32)
 | 24 | Manuais & Links | Produto = Documentação |
 | 25 | QA Técnico | Checklist Pós-MVP 1.0 |
 | 26-30 | ORÁCULO V2 MULTIPERFIL | Todos os perfis + controle |
-| 31 | REFORMA FRONT PAGE | Marketing inteligente |
-| 32 | MATRIZ MULTI-INSTÂNCIA | V1/V2 em Whitelabel/Gerador |
+| 31-35 | CATÁLOGO DE PLANOS | Features + Perfis + Cohorts |
+
+BLOCO 31-35 – CATÁLOGO DE PLANOS, PERFIS E COHORTS:
+├── ETAPA 31 – Modelar tabelas (features, feature_profiles, plan_catalog)
+├── ETAPA 32 – Migrar planos atuais para perfis explícitos
+├── ETAPA 33 – Criar suporte a promoções/cohorts
+├── ETAPA 34 – Criar overrides individuais por usuário
+└── ETAPA 35 – Conectar front page + admin de planos
+
+PATCH 5 – PLANOS & FEATURES:
+├── Problema: "Plano" é tratado como botão global que muda todo mundo igual
+├── Solução: Separar FEATURES (recursos) de PERFIS (pacotes de features)
+├── Cada cliente compra um PERFIL específico, não um "plano genérico"
+├── Promoções = perfis diferentes (profissional_bf_2025, free_promo_natal)
+└── Exceções individuais = overrides por usuário
 
 REGRA FIXA:
 ├── NENHUMA ETAPA está completa sem atualizar TODOS os TXTs e Manuais

@@ -12822,12 +12822,395 @@ Ao concluir a ETAPA 30, responder com:
    └── PRÓXIMA AÇÃO SUGERIDA em bulletpoints
 
 ================================================================================
+=== 🔧 PATCH 5 – PLANOS & FEATURES (CATÁLOGO + PERFIS + COHORTS) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: PATCH CRÍTICO – RESOLVE PROBLEMA DE PLANOS/PROMOS/EXCLUSIVOS
+
+Este PATCH define a arquitetura correta para:
+├── Planos no catálogo (front page)
+├── Perfis de features (o que cada cliente realmente comprou)
+├── Promoções e cohorts (Black Friday, grupos especiais)
+└── Exceções individuais (cliente X tem algo a mais)
+
+--------------------------------------------------------------------------------
+1. O PROBLEMA QUE ESTE PATCH RESOLVE
+--------------------------------------------------------------------------------
+
+PROBLEMA ATUAL:
+├── "Plano" é tratado como botão global que muda todo mundo igual
+├── Se eu altero o plano "Profissional", TODOS os clientes mudam
+├── Promoções antigas são apagadas quando mudo o padrão
+└── Não consigo ter grupos com características diferentes
+
+EXEMPLOS DO PROBLEMA:
+├── Black Friday 2024: 1000 clientes compraram "Profissional com Oráculo incluso"
+├── Se eu mudar "Profissional" no catálogo, esses 1000 perdem o Oráculo
+├── Não tenho como dar algo exclusivo para um cliente específico
+└── Front page não reflete automaticamente o que está configurado
+
+SOLUÇÃO:
+├── Separar FEATURES (recursos atômicos) de PERFIS (pacotes de features)
+├── Cada cliente compra um PERFIL específico, não um "plano genérico"
+├── Promoções = perfis diferentes (profissional_bf_2025, free_promo_natal)
+└── Exceções individuais = overrides por usuário
+
+--------------------------------------------------------------------------------
+2. ARQUITETURA DE 3 CAMADAS
+--------------------------------------------------------------------------------
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ CAMADA 1 – FEATURES (RECURSOS ATÔMICOS)                                     │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Tabela: features                                                            │
+│ ├── id (uuid)                                                               │
+│ ├── key (text) → "diario_ilimitado", "oraculo_v2", "relatorios_pdf"         │
+│ ├── name (text) → "Diário Ilimitado"                                        │
+│ ├── description (text)                                                      │
+│ ├── category (text) → "core", "premium", "whitelabel"                       │
+│ └── created_at (timestamptz)                                                │
+│                                                                             │
+│ EXEMPLOS DE FEATURES:                                                       │
+│ ├── diario_ilimitado                                                        │
+│ ├── oraculo_v2                                                              │
+│ ├── relatorios_pdf                                                          │
+│ ├── white_label                                                             │
+│ ├── multiusuaria                                                            │
+│ ├── chat_ia_ilimitado                                                       │
+│ ├── teste_clareza_completo                                                  │
+│ ├── exportacao_evidencias                                                   │
+│ └── suporte_prioritario                                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ CAMADA 2 – FEATURE PROFILES (PACOTES DE FEATURES)                           │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Tabela: feature_profiles                                                    │
+│ ├── id (uuid)                                                               │
+│ ├── slug (text) → "free_v1", "profissional_bf_2025", "defesa_pro_v1"        │
+│ ├── name (text) → "Gratuito v1", "Profissional Black Friday 2025"           │
+│ ├── description (text)                                                      │
+│ ├── is_marketable (boolean) → aparece no catálogo atual?                    │
+│ ├── is_active (boolean) → pode ser vendido?                                 │
+│ ├── created_at (timestamptz)                                                │
+│ └── updated_at (timestamptz)                                                │
+│                                                                             │
+│ Tabela: feature_profile_items                                               │
+│ ├── id (uuid)                                                               │
+│ ├── profile_id (uuid) → FK para feature_profiles                            │
+│ ├── feature_key (text) → "oraculo_v2", "diario_ilimitado"                   │
+│ ├── enabled (boolean)                                                       │
+│ ├── limit_value (int) → ex: 10 perguntas/dia                                │
+│ └── extra_config (jsonb) → configurações adicionais                         │
+│                                                                             │
+│ EXEMPLOS DE PERFIS:                                                         │
+│ ├── free_v1 → diário limitado, sem Oráculo                                  │
+│ ├── free_promo_natal_2025 → diário limitado + 5 perguntas Oráculo           │
+│ ├── profissional_v1 → tudo padrão                                           │
+│ ├── profissional_bf_2025 → tudo + Oráculo ilimitado                         │
+│ ├── defesa_pro_v1 → tudo + exportação evidências                            │
+│ └── whitelabel_parceiro_x → customizado para parceiro X                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ CAMADA 3 – PLAN CATALOG (O QUE APARECE NA FRONT PAGE)                       │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Tabela: plan_catalog                                                        │
+│ ├── id (uuid)                                                               │
+│ ├── slug (text) → "gratuito", "profissional", "defesa", "whitelabel"        │
+│ ├── name (text) → "Plano Gratuito"                                          │
+│ ├── description (text)                                                      │
+│ ├── current_profile_id (uuid) → FK para feature_profiles                    │
+│ ├── stripe_price_id (text)                                                  │
+│ ├── price_monthly (decimal)                                                 │
+│ ├── price_yearly (decimal)                                                  │
+│ ├── display_order (int)                                                     │
+│ ├── is_visible (boolean)                                                    │
+│ ├── is_highlighted (boolean) → "mais popular"                               │
+│ └── created_at (timestamptz)                                                │
+│                                                                             │
+│ EXEMPLO:                                                                    │
+│ ├── "Profissional" → aponta para profissional_v3 (perfil atual)             │
+│ ├── Se eu mudar para profissional_v4, só novos clientes pegam               │
+│ └── Clientes antigos continuam com o perfil que compraram                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+3. NA HORA DA VENDA: CONGELAR O PERFIL
+--------------------------------------------------------------------------------
+
+Quando alguém compra, gravar em user_subscriptions:
+├── user_id
+├── plan_label (ex.: "Profissional")
+├── feature_profile_id (ex.: profissional_bf_2025) ← CONGELADO
+├── stripe_price_id
+├── stripe_subscription_id
+├── started_at
+├── cancel_at
+└── status
+
+REGRA CRÍTICA:
+├── Mesmo que eu mude o plano "Profissional" no catálogo para outro perfil
+├── Aquele cliente CONTINUA com profissional_bf_2025, INTACTO
+└── Isso resolve: padrão normal x promo x contrato antigo
+
+--------------------------------------------------------------------------------
+4. PROMOS E GRUPOS ESPECIAIS (COHORTS)
+--------------------------------------------------------------------------------
+
+Para situações como:
+├── Black Friday → 1000 clientes com Profissional + extras
+├── Outro período → Profissional com outros extras
+├── Free com extras A, Free com extras B
+
+SOLUÇÃO: Criar perfis por cohort:
+├── free_v1
+├── free_promo_natal_2025
+├── free_promo_whitelabel_parceiroX
+├── profissional_bf_2025
+├── profissional_parceiroY_vip
+
+Cada grupo de clientes daquele momento compra aquele perfil.
+Se mais tarde eu quiser desligar a venda daquela combinação:
+├── Marco o perfil como is_marketable = false (não aparece mais na frontpage)
+└── Mas as subscriptions antigas continuam apontando pra ele
+
+--------------------------------------------------------------------------------
+5. EXCEÇÕES INDIVIDUAIS (OVERRIDES)
+--------------------------------------------------------------------------------
+
+Quando eu quero dar algo só pra uma pessoa:
+
+Tabela: user_feature_overrides
+├── id (uuid)
+├── user_id (uuid)
+├── feature_key (text)
+├── override_type (text) → "grant", "revoke", "limit_custom"
+├── value (jsonb) → ex: {"limit": 100}
+├── reason (text) → "Presente para cliente VIP"
+├── granted_by (uuid) → admin que deu
+├── expires_at (timestamptz) → se for temporário
+└── created_at (timestamptz)
+
+CÁLCULO FINAL DO QUE O USUÁRIO TEM:
+├── 1. Pega o feature_profile base (do que ele comprou)
+├── 2. Aplica as overrides individuais em cima
+└── 3. Resultado final = o que ele enxerga no app
+
+--------------------------------------------------------------------------------
+6. FRONT PAGE NUNCA MAIS HARDCODED
+--------------------------------------------------------------------------------
+
+A front page ideal:
+├── NÃO tem mais check de "✅" escrito na mão no código
+├── Ela lê de uma tabela/view: plan_catalog_view
+└── No admin, eu defino quais features aparecem na comparação pública
+
+COMPORTAMENTO:
+├── Se eu marcar "Gratuito tem tudo" na configuração atual → front reflete
+├── Se eu alterar para "Gratuito não tem nada" no catálogo atual:
+│   ├── Só afeta NOVOS clientes que entrarem agora
+│   └── Subscriptions antigas já estão vinculadas aos perfis que compraram
+└── Front page mostra catálogo de HOJE, não reescreve o PASSADO
+
+--------------------------------------------------------------------------------
+7. CONECTANDO COM ORÁCULO, DEFESA, ETC.
+--------------------------------------------------------------------------------
+
+Dentro de feature_profile_items, eu tenho flags tipo:
+├── has_oraculo_v2
+├── oraculo_daily_limit
+├── has_white_label
+├── max_clients_profissional
+├── max_usuarios_free
+├── has_pdf_evidencias
+
+A front page:
+├── Mostra só alguns: "Inclui Oráculo", "Inclui PDF da Defesa"
+└── Internamente, o cálculo de acesso no sistema usa esses mesmos flags
+
+Assim eu evito divergência:
+├── Se está marcado pro plano no catálogo
+└── É porque o perfil atual realmente tem aquele recurso
+
+================================================================================
+=== 🔮 BLOCO 31-35 – CATÁLOGO DE PLANOS, PERFIS E COHORTS ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: PROMPT PRONTO PARA EXECUÇÃO (APÓS BLOCO 26-30)
+
+--------------------------------------------------------------------------------
+[ETAPA 31 – MODELAR TABELAS DE FEATURES, FEATURE_PROFILES, PLAN_CATALOG]
+--------------------------------------------------------------------------------
+
+Objetivo:
+└── Criar a estrutura de banco de dados para o novo modelo de planos
+
+Tarefas:
+├── Criar migration para tabela features:
+│   ├── id, key, name, description, category
+│   └── Inserir features iniciais (diario, oraculo, pdf, whitelabel, etc.)
+├── Criar migration para tabela feature_profiles:
+│   ├── id, slug, name, description, is_marketable, is_active
+│   └── Inserir perfis iniciais (free_v1, profissional_v1, defesa_v1, whitelabel_v1)
+├── Criar migration para tabela feature_profile_items:
+│   ├── id, profile_id, feature_key, enabled, limit_value, extra_config
+│   └── Mapear features para cada perfil
+├── Criar migration para tabela plan_catalog:
+│   ├── id, slug, name, current_profile_id, stripe_price_id, prices, display_order
+│   └── Inserir planos atuais apontando para perfis
+└── Documentar em docs/MODELO-PLANOS-FEATURES.md
+
+Critério de conclusão:
+├── Tabelas criadas no Supabase
+├── Dados iniciais inseridos
+├── Documentação atualizada
+└── Commit: "ETAPA 31 – Modelo de Features, Profiles e Plan Catalog"
+
+--------------------------------------------------------------------------------
+[ETAPA 32 – MIGRAR PLANOS ATUAIS PARA PERFIS EXPLÍCITOS]
+--------------------------------------------------------------------------------
+
+Objetivo:
+└── Converter os planos atuais (Free, Profissional, Defesa, White Label) para perfis
+
+Tarefas:
+├── Mapear planos atuais para feature_profiles:
+│   ├── free_v1 → features do plano gratuito atual
+│   ├── profissional_v1 → features do plano profissional atual
+│   ├── defesa_v1 → features do plano defesa atual
+│   └── whitelabel_v1 → features do plano whitelabel atual
+├── Atualizar plan_catalog para apontar para os perfis
+├── Criar helpers em lib/plan-features.ts:
+│   ├── getUserFeatures(userId) → retorna features do usuário
+│   ├── hasFeature(userId, featureKey) → verifica se tem feature
+│   └── getFeatureLimit(userId, featureKey) → retorna limite
+├── Atualizar user_subscriptions para incluir feature_profile_id
+└── Testar que nenhum cliente existente perdeu acesso
+
+Critério de conclusão:
+├── Planos atuais mapeados para perfis
+├── Helpers funcionando
+├── Nenhum cliente perdeu acesso
+└── Commit: "ETAPA 32 – Migração de planos para perfis explícitos"
+
+--------------------------------------------------------------------------------
+[ETAPA 33 – CRIAR SUPORTE A PROMOÇÕES/COHORTS]
+--------------------------------------------------------------------------------
+
+Objetivo:
+└── Permitir criar promoções com perfis específicos (Black Friday, etc.)
+
+Tarefas:
+├── Criar tela admin /admin/planos/perfis:
+│   ├── Listar todos os perfis
+│   ├── Criar novo perfil (ex: profissional_bf_2025)
+│   ├── Duplicar perfil existente
+│   └── Editar features de um perfil
+├── Criar tela admin /admin/planos/promocoes:
+│   ├── Listar promoções ativas
+│   ├── Criar nova promoção (nome, perfil, datas, código)
+│   └── Desativar promoção (is_marketable = false)
+├── Atualizar checkout para aceitar código de promoção:
+│   └── Se código válido, usa o perfil da promoção
+└── Documentar em MANUAL-ADMIN.md
+
+Critério de conclusão:
+├── Admin de perfis funcionando
+├── Admin de promoções funcionando
+├── Checkout aceita código de promoção
+└── Commit: "ETAPA 33 – Suporte a promoções e cohorts"
+
+--------------------------------------------------------------------------------
+[ETAPA 34 – CRIAR OVERRIDES INDIVIDUAIS POR USUÁRIO]
+--------------------------------------------------------------------------------
+
+Objetivo:
+└── Permitir dar/remover features específicas para usuários individuais
+
+Tarefas:
+├── Criar migration para tabela user_feature_overrides:
+│   ├── id, user_id, feature_key, override_type, value
+│   ├── reason, granted_by, expires_at, created_at
+│   └── RLS para admin
+├── Criar tela admin /admin/usuarios/[id]/features:
+│   ├── Ver features atuais do usuário (perfil + overrides)
+│   ├── Adicionar override (grant/revoke/limit_custom)
+│   └── Remover override
+├── Atualizar getUserFeatures() para aplicar overrides:
+│   ├── 1. Pega features do perfil base
+│   ├── 2. Aplica overrides individuais
+│   └── 3. Retorna resultado final
+└── Documentar em MANUAL-ADMIN.md
+
+Critério de conclusão:
+├── Tabela user_feature_overrides criada
+├── Admin de overrides funcionando
+├── getUserFeatures() aplica overrides
+└── Commit: "ETAPA 34 – Overrides individuais por usuário"
+
+--------------------------------------------------------------------------------
+[ETAPA 35 – CONECTAR FRONT PAGE + ADMIN DE PLANOS]
+--------------------------------------------------------------------------------
+
+Objetivo:
+└── Front page lê do catálogo dinâmico, não mais hardcoded
+
+Tarefas:
+├── Criar API /api/plans/catalog:
+│   └── Retorna planos visíveis com features para exibição
+├── Atualizar front page /planos:
+│   ├── Buscar dados de /api/plans/catalog
+│   ├── Renderizar cards dinamicamente
+│   └── Mostrar features de cada plano
+├── Criar tela admin /admin/planos/catalogo:
+│   ├── Editar planos do catálogo
+│   ├── Mudar perfil atual de um plano
+│   ├── Definir quais features aparecem na comparação
+│   └── Ordenar planos
+├── Atualizar comparação de planos na front page:
+│   └── Tabela dinâmica baseada em features
+└── Testar que front page reflete configuração do admin
+
+Critério de conclusão:
+├── Front page lê do catálogo dinâmico
+├── Admin de catálogo funcionando
+├── Comparação de planos dinâmica
+└── Commit: "ETAPA 35 – Front page conectada ao catálogo dinâmico"
+
+--------------------------------------------------------------------------------
+[FINAL DO BLOCO 31-35]
+--------------------------------------------------------------------------------
+
+Ao concluir a ETAPA 35, responder com:
+
+1) RESUMO GERAL DO BLOCO 31-35:
+   ├── O que foi entregue em cada etapa (31, 32, 33, 34, 35)
+   ├── Estado atual do sistema de planos/features
+   └── Como a front page está conectada
+
+2) LISTA DE DÍVIDAS TÉCNICAS REMANESCENTES:
+   ├── bugs conhecidos
+   ├── riscos
+   └── partes não implementadas
+
+3) SUGESTÃO DE TÍTULO PARA O PRÓXIMO BLOCO (36-40):
+   └── Sem detalhar tudo, apenas um título objetivo
+
+4) ⚠️ OPINIÃO DO WINDSURF PARA O CHATGPT:
+   ├── Opiniões técnicas sobre o projeto neste ponto
+   ├── MELHORIAS IDENTIFICADAS em bulletpoints
+   └── PRÓXIMA AÇÃO SUGERIDA em bulletpoints
+
+================================================================================
 === 📊 CONTAGEM FINAL DE ETAPAS ===
 ================================================================================
 
-ANTES ERA: 91 etapas
-AGORA: 96 etapas (+5 do BLOCO 26-30: ETAPAS 26, 27, 28, 29, 30)
+ANTES ERA: 96 etapas
+AGORA: 101 etapas (+5 do BLOCO 31-35: ETAPAS 31, 32, 33, 34, 35)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 05:00 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 05:10 UTC-5
 ================================================================================
