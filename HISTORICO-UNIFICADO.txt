@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 04:30 UTC-5
+Última atualização: 04/12/2025 05:00 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -241,8 +241,40 @@ O QUE FOI FEITO:
 └── FUTURO-TERMINAR-IMPLEMENTACAO.txt atualizado (~11.428 linhas)
 
 CONTAGEM DE ETAPAS:
-├── ANTES: 89 etapas
-└── AGORA: 91 etapas (+2: ETAPA 31 Front Page + ETAPA 32 Matriz Oráculo)
+├── ANTES: 91 etapas
+└── AGORA: 96 etapas (+5 do BLOCO 26-30: ETAPAS 26, 27, 28, 29, 30)
+
+================================================================================
+BLOCO 21-25 IMPLEMENTADO COM SUCESSO! (MVP 1.0.25)
+================================================================================
+
+ETAPAS IMPLEMENTADAS PELO WINDSURF:
+├── ETAPA 21 – Billing Sólido & Add-ons (commit fe61cb1)
+├── ETAPA 22 – Oráculo V2 Integrado (commit 0718c7c)
+├── ETAPA 23 – Segurança Técnica & Observabilidade (commit 31d6a2b)
+├── ETAPA 24 – Manuais & Links Internos (commit 52e0458)
+└── ETAPA 25 – QA Técnico + Checklist Pós-MVP (commit 9275f78)
+
+ARQUIVOS CRIADOS:
+├── database/migrate-user-addons.sql
+├── database/migrate-oraculo-logs.sql
+├── lib/user-addons.ts
+├── lib/rate-limit.ts
+├── lib/logger.ts
+├── app/api/addons/route.ts
+├── app/api/addons/consume/route.ts
+├── app/api/oraculo-v2/route.ts
+├── app/api/health/route.ts
+├── components/OraculoButton.tsx
+├── docs/ORACULO-V2-PROMPT.md
+├── docs/PATCH-ORACULO.md
+├── docs/REGRAS-COMUNICACAO-IA.md
+└── CHECKLIST-POS-MVP.md
+
+PENDÊNCIAS PARA PRODUÇÃO:
+├── Executar migrations no Supabase
+├── Configurar Stripe (Price IDs para add-ons)
+└── Testes manuais (pagamento, Oráculo V2, healthcheck)
 
 ================================================================================
 SESSÃO 04/12/2025 04:30 UTC-5 – RESUMO COMPLETO

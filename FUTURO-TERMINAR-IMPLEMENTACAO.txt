@@ -12454,12 +12454,380 @@ ATUALIZAÇÃO DE DOCUMENTAÇÃO NÃO É "EXTRA", É PARTE DA ETAPA.
 SE O CÓDIGO MUDOU E A DOCUMENTAÇÃO FICOU PARA TRÁS, A ETAPA CONTINUA INCOMPLETA.
 
 ================================================================================
+=== 🚀 BLOCO 21-25 IMPLEMENTADO COM SUCESSO! ===
+================================================================================
+Fonte: [WINDSURF] Sessão 04/12/2025
+Autoria: Windsurf + Eduardo
+Status: ✅ CONCLUÍDO - MVP 1.0.25
+
+ETAPAS IMPLEMENTADAS:
+├── ETAPA 21 – Billing Sólido & Add-ons (commit fe61cb1)
+│   ├── Tabela user_addons (migration)
+│   ├── Webhook Stripe para add-ons
+│   ├── APIs /api/addons e /api/addons/consume
+│   └── lib/user-addons.ts com helpers
+│
+├── ETAPA 22 – Oráculo V2 Integrado (commit 0718c7c)
+│   ├── API POST /api/oraculo-v2
+│   ├── Tabela oraculo_logs (migration)
+│   ├── Componente OraculoButton.tsx
+│   ├── Botão flutuante em /admin e /admin/oraculo
+│   └── docs/ORACULO-V2-PROMPT.md
+│
+├── ETAPA 23 – Segurança Técnica & Observabilidade (commit 31d6a2b)
+│   ├── lib/rate-limit.ts (rate limiting)
+│   ├── lib/logger.ts (logger estruturado)
+│   ├── GET /api/health (healthcheck)
+│   └── Rate limiting aplicado no Oráculo V2
+│
+├── ETAPA 24 – Manuais & Links Internos (commit 52e0458)
+│   ├── 5 manuais atualizados com links internos
+│   ├── Seção de Segurança no MANUAL-ADMIN
+│   └── Tabela de APIs no MANUAL-DEV
+│
+└── ETAPA 25 – QA Técnico + Checklist Pós-MVP (commit 9275f78)
+    ├── CHECKLIST-POS-MVP.md criado
+    ├── LÂMPADA-RADAR.txt atualizado
+    └── Documentação final consolidada
+
+MÉTRICAS FINAIS DO BLOCO 21-25:
+├── Build: ✅ 163 páginas
+├── ETAPAs concluídas: 5/5 (100%)
+├── Commits no bloco: 5
+├── Arquivos criados: 10+
+└── Bugs críticos: 0
+
+PENDÊNCIAS PARA PRODUÇÃO:
+├── Executar migrations no Supabase:
+│   ├── database/migrate-user-addons.sql
+│   └── database/migrate-oraculo-logs.sql
+├── Configurar Stripe:
+│   ├── Criar Price IDs para add-ons
+│   └── Verificar webhook secret
+└── Testes manuais:
+    ├── Fluxo de pagamento
+    ├── Oráculo V2
+    └── Healthcheck
+
+================================================================================
+=== 🔮 PROMPT COMPLETO – BLOCO 26-30 (ORÁCULO V2 MULTIPERFIL) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: PROMPT PRONTO PARA EXECUÇÃO
+
+--------------------------------------------------------------------------------
+RADAR NARCISISTA – BLOCO 26-30
+ORÁCULO V2 MULTIPERFIL + INFRA DE COMUNICAÇÃO IA
+--------------------------------------------------------------------------------
+
+[IDENTIDADE DESTE BLOCO]
+
+Você é um dev sênior trabalhando no projeto RADAR NARCISISTA.
+
+Stack principal:
+├── Next.js 16 + TypeScript
+├── TailwindCSS
+├── Supabase (Postgres + Auth + RLS + Migrations)
+├── Stripe para billing / add-ons
+└── Deploy na Vercel
+
+Estado atual:
+├── MVP 1.0 com etapas 1-20 concluídas
+├── BLOCO 21-25 CONCLUÍDO com sucesso (ETAPAS 21, 22, 23, 24, 25)
+├── Oráculo V1 (painel /admin/oraculo) funcionando
+├── Oráculo V2 (API /api/oraculo-v2) implementado para ADMIN:
+│   ├── Tabela oraculo_logs
+│   └── Botão Oráculo em /admin e /admin/oraculo
+├── Regras de comunicação IA registradas em:
+│   ├── docs/PATCH-ORACULO.md
+│   └── docs/REGRAS-COMUNICACAO-IA.md
+└── MANUAIS (Usuária, Profissional, Admin, Dev, Whitelabel) atualizados
+
+IMPORTANTE:
+├── Você NÃO tem permissão de mentir
+├── Não marque como "feito" o que não fez
+└── Se algo ficar pela metade, descreva exatamente o que foi feito e pendente
+
+--------------------------------------------------------------------------------
+[OBJETIVO DESTE BLOCO 26-30]
+--------------------------------------------------------------------------------
+
+Este BLOCO 26-30 é para:
+├── Fortalecer a INFRA de comunicação entre Windsurf ↔ ChatGPT
+├── Preparar e iniciar o ORÁCULO V2 MULTIPERFIL (com extremo cuidado de segurança)
+├── Criar o núcleo ORACULO_V2_CORE reutilizável
+└── Preparar o terreno para integração futura com o GERADOR DE SAAS
+
+--------------------------------------------------------------------------------
+[REGRAS GERAIS DESTE BLOCO]
+--------------------------------------------------------------------------------
+
+1) ORDEM OBRIGATÓRIA:
+   ├── Conclua ETAPA 26
+   ├── Depois ETAPA 27
+   ├── Depois ETAPA 28
+   ├── Depois ETAPA 29
+   └── Depois ETAPA 30
+   Não pule etapa sem registrar claramente o motivo e as pendências.
+
+2) DOCUMENTAÇÃO:
+   Ao terminar CADA ETAPA, você deve atualizar:
+   ├── TUDO PARA O GPT.txt
+   ├── ATLAS-RADAR-NARCISISTA.txt
+   ├── ROADMAP-RADAR.txt
+   ├── TESTES-RADAR.txt
+   ├── LAMPADA-RADAR.txt (se houver decisão, dívida técnica, bug ou ideia)
+   ├── MANUAIS relevantes (Usuária, Profissional, Admin, Dev, Whitelabel)
+   └── Qualquer ESPELHO associado
+
+   Se algum arquivo NÃO for impactado na etapa, escreva no resumo:
+   "Documentação: esta etapa NÃO alterou [NOME_DO_ARQUIVO]."
+
+3) COMMITS:
+   Um commit claro POR ETAPA:
+   ├── "ETAPA 26 – [descrição curta]"
+   ├── "ETAPA 27 – [descrição curta]"
+   └── ...
+   Commits devem representar código + documentação sincronizados.
+
+4) PADRÃO DE RESUMO (após cada etapa):
+
+   [RESUMO ETAPA XX – STATUS]
+
+   - Objetivo da etapa:
+     (frase clara)
+   - Arquivos de código criados/alterados:
+     • lista de arquivos.tsx/.ts/.sql/.md
+   - Arquivos de documentação atualizados:
+     • TUDO PARA O GPT.txt (o que mudou em 1 linha)
+     • ATLAS-RADAR-NARCISISTA.txt (1 linha)
+     • ROADMAP-RADAR.txt (1 linha)
+     • TESTES-RADAR.txt (1 linha)
+     • LAMPADA-RADAR.txt (1 linha, se houve)
+     • MANUAIS tocados (lista)
+   - Testes executados:
+     • testes automatizados
+     • testes manuais
+   - Riscos e dívidas técnicas:
+     • listar de forma objetiva
+
+   Em seguida, inclua OBRIGATORIAMENTE:
+
+   ⚠️ OPINIÃO DO WINDSURF PARA O CHATGPT
+   - Sugestões, ideias e opiniões técnicas
+   - Este bloco será lido pelo ChatGPT e usado como base de decisão
+
+   MELHORIAS IDENTIFICADAS
+   - Liste melhorias em bulletpoints
+   - NÃO use a palavra "opcional", nem variações, nem sinônimos
+   - NÃO use "ou" dentro dos bullets
+   - Cada bullet deve ser uma melhoria específica
+
+   PRÓXIMA AÇÃO SUGERIDA
+   - Liste em bulletpoints o que deve ser feito nas próximas etapas
+   - Essas ações são obrigatórias como plano pro projeto
+   - NÃO usar "opcional" e variações
+   - NÃO usar "ou" dentro dos bullets
+
+--------------------------------------------------------------------------------
+[ETAPA 26 – TEMPLATE DE RESUMO + CHECKLIST + PALAVRAS PROIBIDAS]
+--------------------------------------------------------------------------------
+
+Objetivo:
+├── Padronizar o formato de resumo para ChatGPT
+├── Criar checklist de revisão antes de enviar o resumo
+└── Reduzir risco de uso de "opcional" e "ou" em contextos proibidos
+
+Tarefas:
+├── Atualizar docs/FORMATO-RESUMO-ETAPAS.md:
+│   ├── Incluir template completo de RESUMO ETAPA XX
+│   └── Explicar claramente as seções obrigatórias
+├── Atualizar docs/REGRAS-COMUNICACAO-IA.md:
+│   └── Garantir que as regras sobre proibições estão claras
+├── Criar CHECKLIST de revisão:
+│   └── docs/CHECKLIST-RESUMO-IA.md
+└── Criar script de validação (se fizer sentido):
+    └── scripts/validar-resumo-ia.ts
+
+Critério de conclusão:
+├── FORMATO-RESUMO-ETAPAS.md atualizado com template claro
+├── REGRAS-COMUNICACAO-IA.md alinhado com esse BLOCO
+├── Checklist de revisão criado
+├── Documentação principal atualizada
+└── Commit: "ETAPA 26 – Template de resumo + checklist + regras de linguagem"
+
+--------------------------------------------------------------------------------
+[ETAPA 27 – ORACULO_V2_CORE (NÚCLEO REUTILIZÁVEL)]
+--------------------------------------------------------------------------------
+
+Objetivo:
+└── Transformar o Oráculo V2 em um núcleo reutilizável ORACULO_V2_CORE
+
+Tarefas:
+├── Criar módulo de core:
+│   └── lib/oraculo-core.ts
+├── Mover para esse módulo:
+│   ├── Construção do prompt
+│   ├── Chamada da IA
+│   └── Montagem do JSON de resposta:
+│       ├── modo
+│       ├── risco
+│       ├── titulo_curto
+│       ├── resposta_principal
+│       ├── passos
+│       ├── links_sugeridos
+│       └── mensagem_final_segurança
+├── Garantir que o core receba:
+│   ├── user_role
+│   ├── manual_context
+│   ├── language
+│   ├── url_atual
+│   ├── question
+│   └── plan
+├── Atualizar app/api/oraculo-v2/route.ts:
+│   └── Usar o ORACULO_V2_CORE
+└── Documentar o core em:
+    ├── docs/ORACULO-V2-PROMPT.md
+    └── docs/ORACULO-CORE.md
+
+Critério de conclusão:
+├── /api/oraculo-v2 usando ORACULO_V2_CORE
+├── Ponto único de verdade para a lógica do Oráculo
+├── Documentação atualizada
+└── Commit: "ETAPA 27 – ORACULO_V2_CORE (núcleo reutilizável)"
+
+--------------------------------------------------------------------------------
+[ETAPA 28 – PREPARAR MULTIPERFIL (SEM EXPOR TUDO NO FRONT AINDA)]
+--------------------------------------------------------------------------------
+
+Objetivo:
+├── Preparar o ORACULO_V2_CORE para tratar múltiplos perfis com segurança
+└── NÃO abrir o Oráculo para todos os perfis na UI ainda
+
+Tarefas:
+├── Atualizar ORACULO_V2_CORE para:
+│   └── Ajustar tom e resposta com base em user_role:
+│       ├── usuaria
+│       ├── profissional
+│       ├── admin
+│       ├── dev
+│       └── whitelabel
+├── Criar estrutura de configuração:
+│   └── Tabela oraculo_settings:
+│       ├── id
+│       ├── role
+│       ├── plan
+│       ├── enabled
+│       ├── daily_limit
+│       ├── weekly_limit
+│       └── monthly_limit
+├── Criar helpers em lib/oraculo-settings.ts:
+│   └── Verificar se user_id com certo role/plan pode usar o Oráculo
+├── Amarrar verificações na API /api/oraculo-v2:
+│   ├── Checar se está habilitado
+│   └── Checar se não passou do limite
+└── Atualizar MANUAL-ADMIN:
+    └── Seção explicando controle por plano/perfil
+
+Critério de conclusão:
+├── ORACULO_V2_CORE preparado para múltiplos roles
+├── Configuração por plano/perfil salva no banco
+├── API /api/oraculo-v2 respeita enabled/limits
+├── Documentação atualizada
+└── Commit: "ETAPA 28 – Infra multiperfil do Oráculo (flags por plano/perfil)"
+
+--------------------------------------------------------------------------------
+[ETAPA 29 – EXPOR ORÁCULO V2 PARA OUTROS PERFIS (Fase 1 controlada)]
+--------------------------------------------------------------------------------
+
+Objetivo:
+└── Começar a expor o Oráculo V2 para outros perfis de forma controlada
+
+Tarefas:
+├── Definir FASE 1 de exposição:
+│   └── Liberar para profissional e whitelabel primeiro
+├── Criar componentes de UI específicos:
+│   ├── components/OraculoHintProfissional.tsx
+│   └── components/OraculoHintWhitelabel.tsx
+├── Integrar na UI:
+│   ├── dashboard-profissional
+│   └── páginas de whitelabel
+├── Respeitar:
+│   ├── flags de oraculo_settings
+│   └── limites diários/semanais/mensais
+└── Atualizar MANUAIS:
+    ├── PROFISSIONAL: como usar o Oráculo V2
+    ├── WHITELABEL: como apresentar o Oráculo para clientes
+    └── ADMIN: como ligar/desligar por perfil/plano
+
+Critério de conclusão:
+├── Pelo menos um perfil além de admin usando Oráculo na UI
+├── Tudo respeitando flags e limites
+├── Manuais atualizados
+├── Documentação principal atualizada
+└── Commit: "ETAPA 29 – Oráculo V2 exposto a novos perfis (fase 1)"
+
+--------------------------------------------------------------------------------
+[ETAPA 30 – PREPARAR INTEGRAÇÃO COM GERADOR DE SAAS + QA]
+--------------------------------------------------------------------------------
+
+Objetivo:
+├── Documentar e preparar o uso do ORACULO_V2_CORE pelo GERADOR DE SAAS
+└── Fazer QA mínimo do Oráculo multiperfil
+
+Tarefas:
+├── Criar documento específico:
+│   └── docs/ORACULO-CORE-SAAS.md
+│       ├── Como o GERADOR DE SAAS pode reutilizar ORACULO_V2_CORE
+│       ├── Quais parâmetros precisa fornecer
+│       └── Como mapear perfis de um SaaS gerado
+├── Se já existir base do GERADOR DE SAAS:
+│   └── Criar pontos de integração mínima
+├── QA do Oráculo:
+│   ├── Adicionar testes mínimos para ORACULO_V2_CORE
+│   └── Atualizar TESTES-RADAR.txt
+└── Atualizar LÂMPADA:
+    ├── O que ficou pendente para bloco futuro
+    └── Riscos e novas ideias
+
+Critério de conclusão:
+├── doc ORACULO-CORE-SAAS.md criado
+├── QA mínimo do Oráculo V2 multiperfil documentado
+├── TESTES-RADAR.txt e ROADMAP-RADAR.txt atualizados
+└── Commit: "ETAPA 30 – Integração ORACULO_CORE com Gerador de SaaS + QA multiperfil"
+
+--------------------------------------------------------------------------------
+[FINAL DO BLOCO 26-30]
+--------------------------------------------------------------------------------
+
+Ao concluir a ETAPA 30, responder com:
+
+1) RESUMO GERAL DO BLOCO 26-30:
+   ├── O que foi entregue em cada etapa (26, 27, 28, 29, 30)
+   ├── Estado atual do Oráculo V2 multiperfil
+   └── Estado da integração com o GERADOR DE SAAS
+
+2) LISTA DE DÍVIDAS TÉCNICAS REMANESCENTES:
+   ├── bugs conhecidos
+   ├── riscos
+   └── partes não implementadas
+
+3) SUGESTÃO DE TÍTULO PARA O PRÓXIMO BLOCO (31-35):
+   └── Sem detalhar tudo, apenas um título objetivo
+
+4) ⚠️ OPINIÃO DO WINDSURF PARA O CHATGPT:
+   ├── Opiniões técnicas sobre o projeto neste ponto
+   ├── MELHORIAS IDENTIFICADAS em bulletpoints
+   └── PRÓXIMA AÇÃO SUGERIDA em bulletpoints
+
+================================================================================
 === 📊 CONTAGEM FINAL DE ETAPAS ===
 ================================================================================
 
 ANTES ERA: 91 etapas
-AGORA: 91 etapas (sem alteração, apenas regra de documentação adicionada)
+AGORA: 96 etapas (+5 do BLOCO 26-30: ETAPAS 26, 27, 28, 29, 30)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 04:30 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 05:00 UTC-5
 ================================================================================
