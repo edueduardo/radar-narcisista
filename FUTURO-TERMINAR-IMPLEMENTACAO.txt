@@ -6937,6 +6937,146 @@ O arquivo app/dashboard/page.tsx JÁ CONTÉM:
 CONCLUSÃO: ETAPA 11.1 JÁ ESTÁ 100% IMPLEMENTADA NO CÓDIGO!
 
 ================================================================================
+=== 🔄 MUNDOS-MESCLADOS: GPT + WINDSURF ===
+================================================================================
+Fonte: [CHATGPT + WINDSURF] Conversa 03/12/2025
+Autoria: ChatGPT + Windsurf + Eduardo (decisão estratégica)
+Status: CAMINHO 2 ESCOLHIDO (Radar + Engine em paralelo)
+
+--------------------------------------------------------------------------------
+DECISÃO: CAMINHO 2 – MODERADO (OFICIAL)
+--------------------------------------------------------------------------------
+
+Radar continua prioridade, Engine vai nas "dobras" do processo.
+
+JUSTIFICATIVA:
+├── Você já tem a infra de módulos/planos pronta
+├── Adicionar project_id agora é 1-2 dias de trabalho e facilita tudo depois
+└── O Radar continua sendo prioridade, mas não ficamos "cegos" para o futuro
+
+--------------------------------------------------------------------------------
+DEFINIÇÃO DOS PAPÉIS
+--------------------------------------------------------------------------------
+
+🔵 PASSO=GPT (ChatGPT faz):
+├── Organizar ETAPAs, prioridades, riscos
+├── Definir módulos, trilha do herói, add-ons, dashboards
+├── Escrever prompts mestres para o Windsurf
+└── Auditar o que foi implementado
+
+🟣 PASSO-WINDSURF (Windsurf executa):
+├── Criar/alterar arquivos .ts, .tsx, schema.sql
+├── Rodar migrations, build, git, deploy
+├── Seguir o prompt do PASSO=GPT linha por linha
+└── Devolver resumo: arquivos criados, build ok, ETAPA concluída
+
+🟡 MUNDOS-MESCLADOS (Ciclo completo):
+1. Eduardo traz ideia / problema / próxima etapa
+2. PASSO=GPT: organiza ETAPA em linguagem Windsurf
+3. Eduardo copia o prompt e joga no Windsurf
+4. PASSO-WINDSURF: executa e devolve log
+5. Eduardo cola resultado no GPT
+6. PASSO=GPT: audita, confere, define próximo passo
+
+--------------------------------------------------------------------------------
+CICLOS DE IMPLEMENTAÇÃO (CAMINHO 2)
+--------------------------------------------------------------------------------
+
+🔁 CICLO 1 – Dashboard Usuária + Infra Engine base
+────────────────────────────────────────────────────────────────────────────────
+
+[PASSO=GPT-1] ETAPA 11.1 (plano detalhado)
+├── Usar: plan-dashboard-modules.ts, dashboard-user-layout.ts
+├── Definir: layout visual, módulos por Step, CTAs de upgrade
+└── Escrever: PROMPT MESTRE ETAPA 11.1
+
+[PASSO-WINDSURF-1] Executar ETAPA 11.1
+├── Aplicar layout no /dashboard
+├── Garantir semáforo respeitado
+├── Build + git + resumo
+└── STATUS: ✅ JÁ IMPLEMENTADO (verificado 03/12/2025)
+
+🔁 CICLO 2 – Dashboard Profissional + ENGINE.1-PREP
+────────────────────────────────────────────────────────────────────────────────
+
+[PASSO=GPT-2] ETAPA 12 + ENGINE.1-PREP (desenho)
+├── Definir Dashboard Profissional: blocos, métricas, ética/LGPD
+├── Desenhar ENGINE.1: como entra project_id sem quebrar Radar
+└── Entregar 2 prompts: ETAPA 12 + ENGINE.1-PREP
+
+[PASSO-WINDSURF-2] Implementar Pro + project_id
+├── Criar /dashboard/pro ou similar
+├── Iniciar infra multi-projeto: fields, migrations, helpers
+└── STATUS: 🔜 PRÓXIMO
+
+🔁 CICLO 3 – Loja + Temas/Engine.2
+────────────────────────────────────────────────────────────────────────────────
+
+[PASSO=GPT-3] Loja + Temas (alta estratégia)
+├── Definir add-ons: upgrade Jornada, Defesa, Pro, Academy extra
+├── Desenhar interface de loja mínima
+├── Desenhar ENGINE.2: tabela de temas, nichos, subnichos
+└── Entregar prompts: ETAPA 14 + ENGINE.2
+
+[PASSO-WINDSURF-3] Implementar Loja + Tabela de Temas
+├── Implementar loja do Radar (mínimo viável)
+├── Criar estrutura de temas (dormindo, mas pronta)
+└── STATUS: ⏳ FUTURO
+
+🔁 CICLO 4 – Beta + Oráculo rascunho
+────────────────────────────────────────────────────────────────────────────────
+
+[PASSO=GPT-4] Beta & Oráculo V0
+├── Definir critérios de sucesso do beta (5 usuárias)
+├── Definir métricas a coletar
+├── Esboçar Oráculo V0: painéis, queries, insights
+└── Entregar prompts: ETAPA 15 + ENGINE.4-PREP
+
+[PASSO-WINDSURF-4] Instrumentação + telas de Oráculo
+├── Adicionar tracking básico
+├── Criar /admin/oraculo com gráficos simples
+└── STATUS: ⏳ FUTURO
+
+--------------------------------------------------------------------------------
+REGISTRO DE PASSOS (HISTÓRICO)
+--------------------------------------------------------------------------------
+
+[PASSO=GPT-0] – 03/12/2025 – ETAPAS 8-11 (planejamento)
+├── Definida FanPage Viva + Curadoria + Semáforo
+├── Definida taxonomia de planos + módulos de dashboard
+├── Definida trilha do herói (5 passos)
+├── Definida visão de Fábrica de SaaS (31 ETAPAs)
+└── Prompts mestres gerados para Windsurf
+
+[PASSO-WINDSURF-0] – 03/12/2025 – ETAPAS 8-11 (execução)
+├── Arquivos criados: lib/plan-taxonomy.ts, lib/plan-dashboard-modules.ts,
+│                     lib/dashboard-user-layout.ts
+├── Dashboard atualizado com trilha do herói visual
+├── Build OK, 145+ páginas
+├── Semáforo preservado
+└── Git push para GitHub
+
+--------------------------------------------------------------------------------
+COMPARATIVO: VISÃO GPT vs VISÃO WINDSURF
+--------------------------------------------------------------------------------
+
+┌─────────────────────────┬────────────────────────────┬────────────────────────────┐
+│ ITEM                    │ VISÃO GPT                  │ VISÃO WINDSURF             │
+├─────────────────────────┼────────────────────────────┼────────────────────────────┤
+│ Tempo Fase 1            │ 2-4 semanas                │ 4-6 semanas (mais realista)│
+│ ENGINE.1 quando?        │ Só depois de ETAPA 15      │ Pode preparar já (project_id)│
+│ Oráculo                 │ Precisa dados reais        │ Estrutura agora, dados depois│
+│ PWA/App                 │ PWA fácil                  │ PWA sim, App Store é burocracia│
+│ Multi-tenant            │ Recomendado                │ 100% de acordo             │
+│ Prioridade              │ Radar primeiro             │ Radar + Engine em paralelo │
+└─────────────────────────┴────────────────────────────┴────────────────────────────┘
+
+DECISÃO FINAL: CAMINHO 2 (Moderado)
+├── Radar continua prioridade
+├── Engine vai nas "dobras" do processo
+└── Validação com usuárias antes de escalar
+
+================================================================================
 === 🎛️ ANÁLISE: CONTROLE DA CURADORIA (CENSURA + ATIVAÇÃO) ===
 ================================================================================
 Fonte: [CHATGPT] Conversa 03/12/2025
@@ -7252,5 +7392,82 @@ ACORDO DE USO DEFINIDO:
 - Código travado → Fluxos críticos, IA sensível, Segurança, Billing
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 22:00 UTC-5
+=== 📊 IMPLEMENTAR WINDSURF + EDUARDO ===
+================================================================================
+Fonte: Consolidação de todas as auditorias do chat
+Autoria: Windsurf + Eduardo
+Status: ATUALIZAÇÃO CONTÍNUA
+
+ANTES ERA: 31 etapas
+AGORA: 31 etapas (ETAPA 11.1 já implementada)
+
+--------------------------------------------------------------------------------
+FASES COMPLETAS (IMPLEMENTAR WINDSURF + EDUARDO)
+--------------------------------------------------------------------------------
+
+BLOCO A – RADAR NARCISISTA BR (PRODUTO-MÃE)
+├── ETAPA 8.1-8.4 – FanPage Viva ✅ FEITO
+├── ETAPA 9 – Curadoria + Semáforo ✅ FEITO
+├── ETAPA 10 – Taxonomia de Planos ✅ FEITO
+├── ETAPA 11 – Trilha do Herói (infra) ✅ FEITO
+├── ETAPA 11.1 – Trilha Visual no Dashboard ✅ FEITO
+├── ETAPA 12 – Dashboard Profissional 🔜 PRÓXIMO
+├── ETAPA 13 – Dashboard White-Label ⏳ FUTURO
+├── ETAPA 14 – Loja / Upgrades ⏳ FUTURO
+├── ETAPA 15 – Beta com 5 usuárias ⏳ FUTURO
+└── ETAPA 16 – Segurança & LGPD Hardening ⏳ FUTURO
+
+BLOCO B – RADAR ENGINE (MOTOR REPLICADOR)
+├── ENGINE.1 – Molde genérico (project_id) 🔜 PRÓXIMO (em paralelo)
+├── ENGINE.2 – Orquestrador de temas ⏳ FUTURO
+├── ENGINE.3 – Wizard de criação ⏳ FUTURO
+├── ENGINE.4 – Oráculo ⏳ FUTURO
+└── ENGINE.5 – Multi-plataforma ⏳ FUTURO
+
+BLOCO C – FÁBRICA DE SAAS + WHITE LABEL
+├── FABRICA.1 – Tipos de produto ⏳ FUTURO
+├── FABRICA.2 – Responsabilidades ⏳ FUTURO
+├── FABRICA.3 – Fluxo white-label ⏳ FUTURO
+├── FABRICA.4 – Escalar 20-50 SaaS ⏳ FUTURO
+└── FABRICA.5 – Nichos irmãos/não-irmãos ⏳ FUTURO
+
+--------------------------------------------------------------------------------
+PRÓXIMO CICLO: CICLO 2
+--------------------------------------------------------------------------------
+
+[PASSO=GPT-2] ETAPA 12 + ENGINE.1-PREP
+├── Definir Dashboard Profissional
+├── Desenhar ENGINE.1 (project_id)
+└── Entregar prompts para Windsurf
+
+[PASSO-WINDSURF-2] Implementar
+├── Criar /dashboard/pro
+├── Adicionar project_id nas tabelas principais
+└── Build + git + resumo
+
+--------------------------------------------------------------------------------
+CONTAGEM TOTAL
+--------------------------------------------------------------------------------
+
+IMPLEMENTADO:
+├── ETAPA 8.1-8.4 (FanPage Viva)
+├── ETAPA 9 (Curadoria + Semáforo)
+├── ETAPA 10 (Taxonomia de Planos)
+├── ETAPA 11 (Trilha do Herói - infra)
+└── ETAPA 11.1 (Trilha Visual no Dashboard)
+TOTAL IMPLEMENTADO: 5 blocos
+
+PRÓXIMO:
+├── ETAPA 12 (Dashboard Profissional)
+└── ENGINE.1-PREP (project_id)
+TOTAL PRÓXIMO: 2 blocos
+
+FUTURO:
+├── ETAPA 13-16 (Radar V1)
+├── ENGINE.2-5 (Motor)
+└── FABRICA.1-5 (Fábrica)
+TOTAL FUTURO: 14 blocos
+
+================================================================================
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 22:10 UTC-5
 ================================================================================
