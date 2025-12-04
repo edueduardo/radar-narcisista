@@ -4810,9 +4810,88 @@ ETAPA 6 – BUILD + RESUMO
 FIM DO PROMPT.
 
 ================================================================================
+=== ✅ ETAPA 8.4 CONCLUÍDA – FANPAGE VIVA NA FRONTPAGE ===
+================================================================================
+Fonte: [WINDSURF] Execução 03/12/2025
+Autoria: Windsurf (Cascade)
+
+7 ARQUIVOS CRIADOS:
+
+1. lib/frontpage-content.ts
+   - getPublicInsights() → content_insights visibility='public' is_featured=true
+   - getPublicFaqItems() → content_items content_type='faq' visibility='public'
+   - getWorldNewsItems() → content_items source_type='external_world'
+   - getAcademyCollections() → content_collections + items visibility='public'
+
+2. app/api/frontpage/content/route.ts
+   - API pública GET para a landing buscar conteúdo dinâmico
+
+3. components/frontpage/RadarEmNumerosSection.tsx
+   - 3-4 cards de métricas públicas
+   - Formatação de valores (K, M, %)
+
+4. components/frontpage/FaqDinamicoSection.tsx
+   - Accordion com perguntas/respostas
+   - Suporte a Markdown no body
+
+5. components/frontpage/RadarNoMundoSection.tsx
+   - Grid de cards com conteúdo externo curado
+   - Link "Ler mais" abrindo em nova aba
+
+6. components/frontpage/RadarAcademySection.tsx
+   - Cards de trilhas/coleções
+   - Badge "Premium" se is_premium=true
+
+7. components/frontpage/DynamicSections.tsx
+   - Wrapper que busca dados via API e renderiza as 4 seções
+
+INTEGRAÇÃO NA LANDING:
+- app/page.tsx atualizado com DynamicSections
+- Posição: após Planos, antes de Seção Inclusiva
+
+SEQUÊNCIA DA HOME AGORA:
+1. Hero (emoção + CTA)
+2. Como funciona / Triângulo
+3. Ferramentas
+4. Planos & preços
+5. NOVO: Radar em Números (dinâmico)
+6. NOVO: FAQ Dinâmico
+7. NOVO: Radar no Mundo
+8. NOVO: Radar Academy
+9. Seções educativas existentes
+10. Avisos éticos, emergência
+
+GIT + DEPLOY:
+✅ git add -A
+✅ git commit - 2 commits (ETAPA 8.3 + 8.4)
+✅ git push - Enviado para origin/main
+✅ Vercel fará deploy automático
+
+BUILD: ✅ 143 páginas - Sem erros
+
+--------------------------------------------------------------------------------
+PRÓXIMOS PASSOS PRÁTICOS (PARA EDUARDO)
+--------------------------------------------------------------------------------
+
+PASSO 1 – GARANTIR QUE O BANCO ESTÁ ALINHADO:
+- Rodar migration 20241130_create_content_system.sql no Supabase
+- Conferir tabelas: content_items, content_suggestions, content_collections, etc.
+
+PASSO 2 – ALIMENTAR O MÍNIMO PRA FANPAGE VIVA APARECER:
+- /admin/conteudos/insights → Clicar "Recalcular métricas"
+- /admin/conteudos/publicados → Criar 3-5 FAQs (type='faq')
+- /admin/conteudos/publicados → Criar 3-6 cards "Radar no Mundo"
+- /admin/conteudos/colecoes → Montar 1-2 trilhas Academy
+
+PASSO 3 – OLHAR A HOME COMO USUÁRIA:
+- Abrir https://radar-narcisista.vercel.app/
+- Descer até depois dos Planos
+- Ver se Radar em Números, FAQ, Mundo, Academy estão coerentes
+
+================================================================================
 === 🎯 IMPLEMENTAR WINDSURF + EDUARDO (CHECKLIST FINAL) ===
 ================================================================================
-Última atualização: 03/12/2025 19:50 UTC-5
+Última atualização: 03/12/2025 20:00 UTC-5
 Autoria: Cascade (Windsurf) + ChatGPT + Eduardo
 
 ANTES: 13 FASES / 48 ITENS
@@ -4844,7 +4923,7 @@ FASE 1 - COMPLETAR TRIÂNGULO [0/2 ⏳]
 [⏳] 1.2. Criação automática de risk_alert no diário
 
 ================================================================================
-FASE 2 - FANPAGE VIVA COMPLETA + COMERCIAL (ETAPA 8) [7/9 🔄] ← EM EXECUÇÃO
+FASE 2 - FANPAGE VIVA COMPLETA + COMERCIAL (ETAPA 8) [9/9 ✅] ← CONCLUÍDA!
 ================================================================================
 [✅] 2.1. Tabelas base criadas no Supabase (content_items, content_sources, etc.)
 [✅] 2.2. Tabelas ETAPA 8.1 criadas (6 tabelas + RLS + seed data)
@@ -4854,9 +4933,12 @@ FASE 2 - FANPAGE VIVA COMPLETA + COMERCIAL (ETAPA 8) [7/9 🔄] ← EM EXECUÇÃ
 [✅] 2.5. Admin /admin/conteudos/publicados (ETAPA 8.3 CONCLUÍDA)
 [✅] 2.6. Admin /admin/conteudos/colecoes (ETAPA 8.3 CONCLUÍDA)
 [✅] 2.7. Admin /admin/conteudos/insights (ETAPA 8.3 CONCLUÍDA)
-     Build: 143 páginas (antes 139)
-[🔜] 2.8. Frontpage COMPLETA + COMERCIAL (ETAPA 8.4 - prompt pronto)
-[🔜] 2.9. Blueprint Visual implementado (ETAPA 8.4)
+[✅] 2.8. Frontpage COMPLETA + COMERCIAL (ETAPA 8.4 CONCLUÍDA)
+     - 7 arquivos criados (lib + API + 5 componentes)
+     - DynamicSections integrado em app/page.tsx
+[✅] 2.9. Blueprint Visual implementado (ETAPA 8.4 CONCLUÍDA)
+     - Radar em Números, FAQ, Mundo, Academy na landing
+     Build: 143 páginas
 
 ================================================================================
 FASE 3 - DÍVIDAS TÉCNICAS [0/2 ⏳]
@@ -4950,22 +5032,195 @@ TOTAL DE FASES: 13
 TOTAL DE ITENS: 48
 TOTAL DE IDEIAS DIAMANTE: 8
 
-ITENS CONCLUÍDOS: 15 (FASE 0 + ETAPA 8.1 + ETAPA 8.2 + ETAPA 8.3)
-ITENS EM EXECUÇÃO: 2 (ETAPA 8.4 próxima)
+ITENS CONCLUÍDOS: 17 (FASE 0 + FASE 2 COMPLETA)
+ITENS EM EXECUÇÃO: 0
 ITENS PENDENTES: 31
 
 STATUS ATUAL:
 ✅ WINDSURF COMPLETOU CICLO RADAR 5 TXT
 ✅ ETAPA 8.1 CONCLUÍDA – Migrations criadas (6 tabelas)
 ✅ ETAPA 8.2 CONCLUÍDA – APIs Admin + IA Curadora (9 endpoints, 10 arquivos)
-✅ ETAPA 8.3 CONCLUÍDA – Telas Admin (4 páginas, build 143 páginas)
+✅ ETAPA 8.3 CONCLUÍDA – Telas Admin (4 páginas)
+✅ ETAPA 8.4 CONCLUÍDA – FanPage Viva (7 arquivos, 4 seções dinâmicas)
 ⚠️ AÇÃO PENDENTE: Rodar migration no Supabase (SQL Editor)
-🔜 PRÓXIMO: ETAPA 8.4 – Frontpage Viva (prompt pronto no arquivo)
+⚠️ AÇÃO PENDENTE: Alimentar conteúdo via admin (FAQs, Mundo, Academy)
+
+🎉 FASE 2 (FANPAGE VIVA + COMERCIAL) 100% CONCLUÍDA!
 
 IDEIAS FUTURAS (AGUARDANDO APROVAÇÃO):
 - Semáforo de Edição (🟢🟡🔴)
 - Redesenho Dashboards (Usuário/Admin/Pro/White-Label)
 - Famílias de Plano + Matriz de Módulos
+- Painel de Controle da Curadoria (on/off + filtros + fontes externas)
+
+================================================================================
+=== 🎛️ ANÁLISE: CONTROLE DA CURADORIA (CENSURA + ATIVAÇÃO) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT + Eduardo (brainstorm de controle)
+Status: APENAS CONVERSA – NÃO É REQUISITO AINDA
+
+PERGUNTAS DO EDUARDO:
+1. "Vai entrar direto no site ou passa pelo meu crivo?"
+2. "Eu tenho que ter uma forma de ativar ou desativar a curadoria"
+3. "Eu tenho que ter a censura, o controle"
+
+--------------------------------------------------------------------------------
+1. HOJE: ENTRA DIRETO NO SITE OU PASSA PELO SEU CRIVO?
+--------------------------------------------------------------------------------
+
+RESPOSTA: NADA VAI DIRETO PRO SITE SEM SEU CRIVO.
+
+FLUXO ATUAL:
+1. IA Curadora (/api/admin/content/curadoria/ia-sugerir)
+   → NÃO publica nada direto
+   → Só cria registros em content_suggestions com status='pending'
+
+2. O que aparece na frontpage vem de:
+   → content_items com visibility='public' e status publicado
+
+3. Quem transforma content_suggestions → content_items?
+   → VOCÊ, na tela /admin/conteudos/sugestoes
+   → Você vê, edita se quiser, e só vira publicado quando VOCÊ aprovar
+
+📌 POR DESIGN: Você é o filtro final. Nada entra sem seu crivo.
+
+--------------------------------------------------------------------------------
+2. ATIVAR / DESATIVAR CURADORIA
+--------------------------------------------------------------------------------
+
+COMPORTAMENTO ATUAL:
+- A IA curadora SÓ roda quando você chama a rota (apertar botão)
+- NÃO existe job ou agendamento automático rodando 24/7
+- Se você não clicar em nada, ela fica quieta, não gasta token
+
+RESUMO:
+- Você "ativa" a curadoria quando clica pra pedir sugestão
+- Você "desativa" simplesmente não usando
+- Nenhuma IA trabalhando em background sem você pedir
+
+O QUE AINDA NÃO EXISTE (FUTURO):
+- Painelzinho /admin/conteudos/config com:
+  - Checkbox "Permitir IA curadora sugerir novos conteúdos" (on/off)
+  - Botão "Rodar curadoria agora"
+  - Presets: "últimos 7 dias", "últimos 30 dias"
+
+--------------------------------------------------------------------------------
+3. FILTROS POR TIPO (FOTO, VÍDEO, BLOG, NARRATIVA, ETC.)
+--------------------------------------------------------------------------------
+
+O QUE JÁ EXISTE NO SCHEMA:
+- content_type: 'article' | 'faq' | 'news' | 'lesson' | 'story'
+- Tags: ['video', 'podcast', 'image', 'dorama', 'romance']
+
+A IA CURADORA JÁ FAZ:
+- Recebe texto ou URL
+- Analisa
+- Monta sugestão com: título, resumo, tags, tipo sugerido, relevância
+
+O QUE NÃO EXISTE AINDA (FUTURO):
+- Na tela /admin/conteudos/sugestoes, criar filtros + switches:
+  - [ ] Incluir vídeos
+  - [ ] Incluir apenas artigos
+  - [ ] Incluir narrativas / contos / histórias
+- Painel para configurar: "Quando rodar curadoria, só quero: artigos e vídeos"
+
+--------------------------------------------------------------------------------
+4. CONEXÃO COM GOOGLE TRENDS, YOUTUBE, TIKTOK, ETC.
+--------------------------------------------------------------------------------
+
+⚠️ NADA DISSO ESTÁ IMPLEMENTADO HOJE.
+
+A IA curadora atual:
+- NÃO vai no Google Trends, Reddit, YouTube, TikTok
+- Depende de VOCÊ passar: texto, resumo, ou URL que você trouxe manualmente
+
+O QUE O EDUARDO QUER (VISÃO FUTURA):
+1. Escolher janela temporal: 1 ano, 6 meses, 30 dias, 7 dias, 3 dias
+2. Mandar a IA "olhar o mundo":
+   - Google Search / Trends
+   - YouTube / Instagram / TikTok
+   - Reddit, etc.
+3. Ela trazer: temas quentes, tipos de conteúdos, formatos
+4. Eduardo analisa, escolhe, transforma em: vídeos, histórias, blog posts, séries
+
+ISSO É UM NÍVEL A MAIS DO QUE TEMOS AGORA.
+Precisa de:
+- Integração externa (APIs ou scraping)
+- Mais prompts
+- Mais configuração no admin
+
+RESUMO:
+- Hoje: IA curadora funciona "sob demanda" com conteúdo que VOCÊ traz
+- Futuro: IA curadora que "olha o mundo" sozinha quando VOCÊ mandar rodar
+
+--------------------------------------------------------------------------------
+5. REGRAS CLARAS DO SISTEMA (O QUE EDUARDO QUER)
+--------------------------------------------------------------------------------
+
+1. ✅ NADA entra público sem passar por você
+   → JÁ GARANTIDO: curadoria → content_suggestions → você converte
+
+2. ✅ Você decide QUANDO a IA trabalha
+   → JÁ É MANUAL, sem jobs automáticos
+
+3. ⚠️ Você decide QUE TIPO de coisa ela traz
+   → PARCIAL: estruturas existem, mas não tem painel bonito com switches
+
+4. ✅ Você pode desligar a coleta, mas manter sugestões guardadas
+   → JÁ ACONTECE: sugestões ficam gravadas
+
+5. ⚠️ Você quer usar o que está "quente no mundo"
+   → NÃO IMPLEMENTADO: integração com Trends/YouTube/TikTok é visão futura
+
+--------------------------------------------------------------------------------
+PROPOSTA: PAINEL DE CURADORIA GLOBAL (FUTURO)
+--------------------------------------------------------------------------------
+
+Se Eduardo aprovar, criar /admin/curadoria/config com:
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ CONTROLE GERAL                                                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ [ON/OFF] Permitir IA curadora sugerir novos conteúdos                       │
+│ [BOTÃO] Rodar curadoria agora                                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ FILTROS DE TIPO                                                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ [ ] Artigos / Blog posts                                                    │
+│ [ ] Vídeos                                                                  │
+│ [ ] Podcasts                                                                │
+│ [ ] Imagens / Fotos                                                         │
+│ [ ] Narrativas / Contos / Doramas                                           │
+│ [ ] FAQs                                                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ JANELA TEMPORAL                                                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ ( ) Últimas 24 horas                                                        │
+│ ( ) Últimos 7 dias                                                          │
+│ ( ) Últimos 30 dias                                                         │
+│ ( ) Últimos 6 meses                                                         │
+│ ( ) Último ano                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ FONTES EXTERNAS (FUTURO)                                                    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ [ ] Google Trends                                                           │
+│ [ ] YouTube                                                                 │
+│ [ ] Instagram                                                               │
+│ [ ] TikTok                                                                  │
+│ [ ] Reddit                                                                  │
+│ [ ] Twitter/X                                                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+STATUS ATUAL:
+⏳ APENAS CONVERSA – Não virou prompt ainda
+⏳ Aguardando Eduardo aprovar após ETAPA 8.4
 
 ACORDO DE USO DEFINIDO:
 - Admin próprio → Conteúdo vivo, Academy, Config FanPage
