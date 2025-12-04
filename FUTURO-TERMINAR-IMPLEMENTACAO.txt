@@ -9251,6 +9251,257 @@ ORDEM GERAL PARA TODOS OS PROMPTS (NÃO PULAR)
    └── Seção "LÂMPADA – Observações para o Eduardo"
 
 ================================================================================
+=== 📋 NOVO BLOCO DE ETAPAS NUMERADAS (C + M + O) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT + Eduardo
+Status: SEQUÊNCIA OFICIAL A SEGUIR
+
+LEGENDA:
+├── C = CLEAN (faxina de telas)
+├── M = MANUAIS
+└── O = ORÁCULO / ENGINE DE ANÁLISE
+
+--------------------------------------------------------------------------------
+🔹 BLOCO C – CLEAN (ARRUMAR O QUE JÁ EXISTE)
+--------------------------------------------------------------------------------
+
+=== C1 – CLEAN-USUÁRIA (Dashboard da usuária) ===
+
+OBJETIVO:
+Deixar o /dashboard da usuária coerente, enxuto e alinhado com os módulos reais.
+
+O QUE FAZ:
+├── [ ] Listar todos os blocos/cards/seções que aparecem no /dashboard
+├── [ ] Para cada bloco, marcar:
+│   ├── CORE (essencial pro MVP)
+│   ├── EXTRA (legal, mas não essencial)
+│   └── LEGADO (sobrou de versões antigas / duplicado / confuso)
+├── [ ] Esconder ou remover do layout tudo que for LEGADO
+├── [ ] Unificar entradas que levam pro mesmo lugar
+├── [ ] Garantir que todo card está ligado a um módulo em plan-dashboard-modules.ts
+└── [ ] Atualizar MANUAL-USUARIA-RADAR.txt
+
+DEPENDE DE: ETAPA 11, 11.1, 11.2 (já concluídas)
+STATUS: ❌ NÃO IMPLEMENTADO
+
+=== C2 – CLEAN-PROF (Dashboard Profissional) ===
+
+OBJETIVO:
+Deixar o /dashboard-profissional focado no que importa:
+cliente, status, relatório, ações claras.
+
+O QUE FAZ:
+├── [ ] Revisar tabela de clientes (só colunas necessárias)
+├── [ ] Garantir fluxo completo: convite → aceite → relatório → revogação
+├── [ ] Remover qualquer dado "mock" ou texto que prometa coisa que não existe
+├── [ ] Ajustar textos para linguagem profissional + ética
+└── [ ] Atualizar MANUAL-PROFISSIONAL-RADAR.txt
+
+DEPENDE DE: ETAPA 12, 12.1, 12.1.1, 12.1.2, 12.2 (já concluídas)
+STATUS: ❌ NÃO IMPLEMENTADO
+
+=== C3 – CLEAN-ADMIN (Faxina /admin) ===
+
+OBJETIVO:
+Transformar o /admin num painel usável para operação, não só "parquinho dev".
+
+O QUE FAZ:
+├── [ ] Listar todas as rotas /admin/* (usando ESPELHO)
+├── [ ] Para cada rota, marcar:
+│   ├── OPERACAO (coisas do dia a dia / negócio)
+│   ├── LAB (experimentos, testes, mapa de IAs, fluxos)
+│   └── DEV (coisas que só dev deveria mexer)
+├── [ ] Reorganizar o menu do admin em 3 grupos
+├── [ ] Esconder do menu o que for muito arriscado (acesso só por URL)
+└── [ ] Preparar base para MANUAL-ADMIN-RADAR.txt
+
+DEPENDE DE: Toda a infra de admin já criada
+STATUS: ❌ NÃO IMPLEMENTADO
+
+--------------------------------------------------------------------------------
+🔹 BLOCO M – MANUAIS (DEPOIS DO CLEAN)
+--------------------------------------------------------------------------------
+
+A ideia: depois que limpamos as telas (CLEAN), congelar isso em manuais.
+
+=== M1 – MANUAIS.1 – Estrutura e Índice Padrão ===
+
+OBJETIVO:
+Definir um modelo de manual que será reaproveitado para todos os perfis.
+
+O QUE FAZ:
+├── [ ] Criar docs/MANUAIS-INDICE-GERAL.txt com esqueleto padrão:
+│   ├── Introdução (conceito do Radar)
+│   ├── Segurança / limites ("não é terapia, não é laudo…")
+│   ├── Passo a passo (capítulos numerados)
+│   ├── Perguntas frequentes
+│   └── Glossário
+└── [ ] Definir quais manuais vão existir
+
+STATUS: ❌ NÃO IMPLEMENTADO
+
+=== M2 – MANUAL-USUÁRIA (MANUAIS.2) ===
+
+OBJETIVO:
+Manual para a mulher usuária, bem leigo, passo a passo.
+
+BASE: Fluxo real do app: triângulo + trilha do herói + diário + plano de segurança
+
+O QUE FAZ:
+├── [ ] Criar docs/MANUAL-USUARIA-RADAR.txt
+├── [ ] Explicar em capítulos:
+│   ├── Como criar conta / login
+│   ├── Teste de clareza (pra que serve, o que NÃO é)
+│   ├── Diário (como usar, boas práticas)
+│   ├── Chat/Coach IA (limites, ética)
+│   ├── Plano de segurança (sem prometer proteção mágica)
+│   └── Dashboard: trilha do herói (5 etapas)
+
+STATUS: ❌ NÃO IMPLEMENTADO
+
+=== M3 – MANUAL-PROFISSIONAL (MANUAIS.3) ===
+
+OBJETIVO:
+Manual para psicólogas, advogadas e outros profissionais.
+
+O QUE FAZ:
+├── [ ] Criar docs/MANUAL-PROFISSIONAL-RADAR.txt
+├── [ ] Explicar:
+│   ├── O que o plano profissional faz e NÃO faz
+│   ├── Como convidar clientes
+│   ├── Como ver relatório por cliente
+│   ├── Como interpretar as telas (sem virar laudo)
+│   ├── Como exportar dados (quando existir 12.3)
+│   └── Como revogar acesso, ética, LGPD
+
+STATUS: ❌ NÃO IMPLEMENTADO
+
+=== M4 – MANUAL-ADMIN (MANUAIS.4) ===
+
+OBJETIVO:
+Manual para quem tiver acesso a /admin.
+
+O QUE FAZ:
+├── [ ] Criar docs/MANUAL-ADMIN-RADAR.txt
+├── [ ] Explicar:
+│   ├── Painéis de operação (o que pode mexer tranquilo)
+│   ├── Telas de laboratório (usar com cuidado)
+│   ├── Telas de dev (não mexer sem orientação)
+│   └── Fluxo de frontpage, curadoria, mapa de IAs
+
+STATUS: ❌ NÃO IMPLEMENTADO
+
+=== M5 – MANUAL-DEV/ENGINE (MANUAIS.5) ===
+
+OBJETIVO:
+Manual para você + futuros devs / para a ENGINE/FÁBRICA.
+
+O QUE FAZ:
+├── [ ] Criar docs/MANUAL-DEV-RADAR-ENGINE.txt
+├── [ ] Explicar:
+│   ├── Stack (Next, Supabase, IA, etc.)
+│   ├── CICLO RADAR 5 TXT
+│   ├── Como criar nova rota, novo módulo de dashboard
+│   └── Como adaptar o projeto pra outro tema (começo de ENGINE)
+
+STATUS: ❌ NÃO IMPLEMENTADO
+
+=== M6 – MANUAL-WHITE-LABEL (MANUAIS.6) ===
+
+OBJETIVO:
+Manual para quem compra um Radar "com a cara dele" (logo, domínio, etc.).
+
+IMPORTANTE: Fica mais pra frente, depois de ENGINE/FÁBRICA e contrato de white-label.
+
+STATUS: ⏳ FUTURO
+
+--------------------------------------------------------------------------------
+🔹 BLOCO O – ORÁCULO (RADAR ANALISANDO A SI MESMO)
+--------------------------------------------------------------------------------
+
+O "cérebro" que olha para dados e te fala:
+├── "onde está fraco"
+├── "onde vale focar"
+└── "qual SaaS/tema é mais promissor"
+
+=== O1 – ORÁCULO-V1 (Radar olhando para si mesmo) ===
+
+OBJETIVO:
+Criar o "oráculo interno" – um painel (ou IA) que analisa só o Radar Narcisista.
+
+O QUE FAZ:
+├── [ ] Identificar dados que já existem (logs, uso de diário, teste, plano)
+├── [ ] Criar relatórios internos pro Eduardo:
+│   ├── Taxa de completude da trilha do herói
+│   ├── Uso diário / semanal
+│   └── Gargalos (onde a usuária trava)
+└── [ ] Conectar com textos de recomendação no admin ou /oraculo
+
+STATUS: ❌ NÃO IMPLEMENTADO
+
+=== O2 – ORÁCULO-ENGINE (Radar te ajudando a criar novos SaaS) ===
+
+OBJETIVO:
+O oráculo evolui e passa a dizer:
+"nessa base que você tem, valeria criar tema X, Y, Z".
+
+O QUE FAZ:
+├── [ ] Ler dados de uso do Radar e sugestões
+├── [ ] Ajudar a priorizar novos temas (irmãos e não-irmãos)
+└── [ ] Gerar esqueleto de novo projeto (ENGINE)
+
+STATUS: ⏳ FUTURO (ENGINE/FÁBRICA)
+
+================================================================================
+=== 📊 PAINEL PRO EDUARDO – STATUS GERAL ===
+================================================================================
+
+DASHBOARDS & PROFISSIONAL:
+├── ✅ ETAPA 10 – Infra de Planos
+├── ✅ ETAPA 11 – Infra Dashboard Usuária
+├── ✅ ETAPA 11.1 – Trilha do Herói no /dashboard
+├── ✅ ETAPA 11.2 – Heurística do passo atual + microcópia
+├── ❌ C1 – CLEAN-USUÁRIA (faxina dashboard)
+├── ✅ ETAPA 12 – /dashboard-profissional V1
+├── ✅ ETAPA 12.1 – Tabela professional_clients + APIs
+├── ✅ ETAPA 12.1.1 – /aceitar-convite + APIs de convite
+├── ✅ ETAPA 12.1.2 – Configurações de profissionais / revogação
+├── ✅ ETAPA 12.2 – Relatório por cliente
+├── ❌ ETAPA 12.3 – Exportação em massa (PDF/CSV)
+└── ❌ C2 – CLEAN-PROF (faxina dashboard profissional)
+
+ADMIN & MANUAIS & ORÁCULO:
+├── ❌ C3 – CLEAN-ADMIN (/admin organizado em Operação/Lab/Dev)
+├── ❌ M1 – Índice Geral de Manuais
+├── ❌ M2 – Manual Usuária
+├── ❌ M3 – Manual Profissional
+├── ❌ M4 – Manual Admin
+├── ❌ M5 – Manual Dev/Engine
+├── ⏳ M6 – Manual White-label (FUTURO)
+├── ❌ O1 – ORÁCULO-V1 (Radar olhando para si mesmo)
+└── ⏳ O2 – ORÁCULO-ENGINE (FUTURO)
+
+================================================================================
+=== 💡 LÂMPADA – SUGESTÃO DE PRÓXIMA SEQUÊNCIA LÓGICA ===
+================================================================================
+
+Se a ideia é não pular passo e preparar terreno pra ENGINE/FÁBRICA:
+
+ORDEM RECOMENDADA:
+├── 1. C1 – CLEAN-USUÁRIA
+├── 2. C2 – CLEAN-PROF
+├── 3. C3 – CLEAN-ADMIN
+├── 4. M1 → M2 → M3 (índice + manuais usuária e profissional)
+├── 5. M4 → M5 (admin + dev/engine)
+└── 6. O1 – ORÁCULO-V1
+
+RESULTADO:
+├── Telas limpas
+├── Manual mínimo pronto
+└── Oráculo inicial para você mesmo
+
+================================================================================
 === 📊 RESUMO RÁPIDO PARA O EDUARDO ===
 ================================================================================
 
@@ -9260,17 +9511,18 @@ ORDEM GERAL PARA TODOS OS PROMPTS (NÃO PULAR)
 └── Infra de convites/profissionais: criada + aceita + revoga → OK
 
 ❌ FALTANDO:
-├── Faxina do que tem / não tem – usuária → ETAPA 11.CLEAN-USUÁRIA
-├── Faxina do que tem / não tem – profissional → ETAPA 12.CLEAN-PROF
-├── Faxina do que tem / não tem – admin → ETAPA 9.CLEAN-ADMIN
-└── Manuais (usuária, profissional, admin, dev, white-label) → MANUAIS.*
+├── C1 – CLEAN-USUÁRIA (faxina dashboard)
+├── C2 – CLEAN-PROF (faxina dashboard profissional)
+├── C3 – CLEAN-ADMIN (faxina admin)
+├── M1-M5 – Manuais (usuária, profissional, admin, dev)
+└── O1 – ORÁCULO-V1 (Radar olhando para si mesmo)
 
 💡 LÂMPADA GERAL:
-Essas 3 faxinas (usuária, profissional, admin) + manuais vão virar a base pra:
+Essas 3 faxinas (C1, C2, C3) + manuais (M1-M5) vão virar a base pra:
 ├── O ORÁCULO te explicar o que está acontecendo
 ├── A ENGINE/FÁBRICA replicar SaaS com menos caos
 └── Qualquer pessoa entender o sistema sem depender só da sua memória
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:50 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 23:55 UTC-5
 ================================================================================
