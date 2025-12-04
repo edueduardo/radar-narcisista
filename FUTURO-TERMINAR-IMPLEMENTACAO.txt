@@ -14663,12 +14663,185 @@ RESPOSTA:
 - Documentar no ATLAS e ROADMAP
 
 ================================================================================
+=== 🚀 BLOCO 31-35 – CONFIGURAÇÃO DINÂMICA DE IAs (PRONTO PARA WINDSURF) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 04/12/2025
+Autoria: ChatGPT + Eduardo
+Status: PROMPT COMPLETO PARA EXECUTAR NO WINDSURF
+
+Este é o PATCH EXECUTÁVEL para transformar a tela de IA em painel real de comando.
+
+--------------------------------------------------------------------------------
+ETAPA 31 – MAPEAR E MODELAR CONFIG DE IA (TABELAS CORE)
+--------------------------------------------------------------------------------
+
+OBJETIVO: Criar o "AI_CONFIG_CORE" no banco
+
+TABELAS A CRIAR:
+
+1) ai_providers_core:
+   ├── id (uuid, pk)
+   ├── slug (text, único: "openai", "anthropic", "together", "grok")
+   ├── display_name (text)
+   ├── status (text: "ativo", "desativado", "em_teste")
+   ├── custo_relativo (numeric)
+   └── created_at, updated_at
+
+2) ai_features_core:
+   ├── id (uuid, pk)
+   ├── slug (text, único: "diario", "teste_clareza", "chat_usuario", 
+   │         "oraculo_admin", "oraculo_profissional", "curadoria_conteudo",
+   │         "relatorios_juridicos")
+   ├── display_name (text)
+   ├── descricao_curta (text)
+   └── created_at, updated_at
+
+3) ai_feature_providers_core:
+   ├── id (uuid, pk)
+   ├── feature_id (fk → ai_features_core)
+   ├── provider_id (fk → ai_providers_core)
+   ├── papel (text: "analise", "votacao", "consenso", "transparencia", "geracao")
+   ├── peso (numeric)
+   ├── ativo (boolean)
+   └── created_at, updated_at
+
+4) ai_plan_matrix:
+   ├── id (uuid, pk)
+   ├── plan_key (text: "free", "pro", "expert", "whitelabel", "promo_black_friday")
+   ├── feature_id (fk → ai_features_core)
+   ├── provider_id (fk → ai_providers_core)
+   ├── perfil (text: "usuaria", "profissional", "admin", "whitelabel", "gerador")
+   ├── limite_diario (integer)
+   ├── limite_mensal (integer)
+   ├── ativo (boolean)
+   ├── origem (text: "padrao", "promo", "exclusivo")
+   └── created_at, updated_at
+
+5) ai_group_overrides:
+   ├── id (uuid, pk)
+   ├── group_key (text: "black_friday_2025", "grupo_beta_X", "cliente_exclusivo_Y")
+   ├── user_id (fk auth.users, nullable)
+   ├── plan_key_base (text)
+   ├── feature_id (fk → ai_features_core)
+   ├── provider_id (fk → ai_providers_core)
+   ├── perfil (text)
+   ├── limite_diario (integer, nullable)
+   ├── limite_mensal (integer, nullable)
+   ├── ativo (boolean)
+   └── created_at, updated_at
+
+FUNÇÃO SQL:
+ai_get_providers_for_context(
+  p_plan_key text,
+  p_feature_slug text,
+  p_perfil text,
+  p_group_key text default null,
+  p_user_id uuid default null
+) → retorna lista de providers com pesos e limites aplicados
+
+SEED INICIAL:
+├── Provedores: OpenAI, Anthropic Claude, Together, Grok
+├── Features: diário, teste_clareza, chat, oráculo_admin, curadoria, relatórios
+└── Matrix básica: Free, Pro, Expert
+
+--------------------------------------------------------------------------------
+ETAPA 32 – LIGAR PAINEL ADMIN À CONFIG DE IA (SEM DEPLOY)
+--------------------------------------------------------------------------------
+
+OBJETIVO: Transformar tela de IAs em painel real que lê/escreve no banco
+
+TAREFAS:
+├── Ativar todos os menus de IA no admin
+├── Ler configuração real das tabelas (não mockado)
+├── Mostrar indicadores: total_providers, configurados, ativos
+├── Permitir edição por PLANO • FEATURE • PERFIL:
+│   ├── Selecionar plano (Free, Pro, Expert, promo_black_friday)
+│   ├── Selecionar perfil (usuaria, profissional, admin, whitelabel, gerador)
+│   └── Para cada feature:
+│       ├── Marcar quais IAs estão ativas
+│       ├── Definir papel (Análise, Votação, Consenso, Transparência, Geração)
+│       └── Configurar limites diários e mensais
+├── Criar UI para grupos especiais (promoções, exclusivos)
+└── Criar view "Planos x Features x IAs x Perfil" em /admin/ia-matrix
+
+REGRA: Toda alteração chama API que escreve no banco, SEM DEPLOY.
+
+--------------------------------------------------------------------------------
+ETAPA 33 – ORQUESTRADOR DE IA USANDO AI_CONFIG_CORE
+--------------------------------------------------------------------------------
+
+OBJETIVO: Motor de IA obedece integralmente o AI_CONFIG_CORE
+
+TAREFAS:
+├── Mapear pontos de uso de IA:
+│   ├── /api/chat
+│   ├── /api/diario/analisar
+│   ├── /api/evaluate-clarity
+│   ├── /api/oraculo-v2
+│   ├── Curadoria de conteúdo
+│   └── Relatórios jurídicos
+├── Criar lib/ai-config-core.ts:
+│   ├── getProvidersForRequest(context) → lista de provedores
+│   └── checkAndConsumeLimits(context, provider) → verifica/registra consumo
+├── Atualizar orquestrador para:
+│   ├── Sempre chamar getProvidersForRequest
+│   └── Montar fluxo conforme configuração
+├── Garantir IA por plano e perfil:
+│   ├── Free usa IAs da matrix Free
+│   ├── Pro usa IAs da matrix Pro
+│   └── Perfis: usuaria, profissional, admin, whitelabel, gerador
+└── Incluir logging estruturado
+
+--------------------------------------------------------------------------------
+ETAPA 34 – EXPOR AI_CONFIG_CORE PARA GERADOR DE SAAS
+--------------------------------------------------------------------------------
+
+OBJETIVO: AI_CONFIG_CORE vira módulo reutilizável pelo GERADOR DE SAAS
+
+TAREFAS:
+├── Criar docs/AI-CONFIG-CORE.md
+├── Criar função em lib/saas-generator-core.ts:
+│   └── Exportar esquema AI_CONFIG_CORE para novos projetos
+├── Definir como identificar cada SaaS filho (tenant, projeto, slug)
+└── Garantir que planos, features e IA podem ser ajustados por SaaS filho
+
+--------------------------------------------------------------------------------
+ETAPA 35 – QA COMPLETO + RESUMO PARA CHATGPT
+--------------------------------------------------------------------------------
+
+OBJETIVO: Garantir estabilidade e documentar para ChatGPT
+
+TAREFAS:
+├── Testes manuais:
+│   ├── Mudar IA de Diário no admin → verificar efeito
+│   ├── Mudar IA do Oráculo V2 → verificar efeito
+│   ├── Criar plano promocional com IA diferente
+│   └── Criar grupo exclusivo e testar override
+├── Testes automatizados para lib/ai-config-core
+├── Atualizar CHECKLIST-POS-MVP.md
+└── Atualizar TUDO PARA O GPT.txt com resumo final
+
+--------------------------------------------------------------------------------
+RESUMO EXECUTIVO (PARA COLAR NO TUDO PARA O GPT)
+--------------------------------------------------------------------------------
+
+> BLOCO 31–35 – CONFIGURAÇÃO DINÂMICA DE IAs
+>
+> - Criado AI_CONFIG_CORE com tabelas de provedores, features, matrix por plano
+>   e overrides por grupo/cliente.
+> - Painel Admin de IA agora escreve no banco e controla:
+>   plano, feature, perfil, IA ativa, papel da IA e limites.
+> - Orquestrador de IA lê AI_CONFIG_CORE para decidir quais IAs usar.
+> - Não é necessário deploy para alterar quais IAs trabalham em cada parte.
+> - AI_CONFIG_CORE é módulo central reutilizado pelo GERADOR DE SAAS.
+
+================================================================================
 === 📊 CONTAGEM FINAL DE ETAPAS ===
 ================================================================================
 
 ANTES ERA: 101 etapas
-AGORA: 101 etapas (sem alteração, apenas PATCH 9 adicionado)
+AGORA: 106 etapas (BLOCO 31-35 = +5 etapas)
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 05:50 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 04/12/2025 05:55 UTC-5
 ================================================================================
