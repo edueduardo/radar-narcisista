@@ -7617,6 +7617,69 @@ ETAPAS FUTURAS RELACIONADAS:
 └── ETAPA 12.3 – Exportação em massa
 
 ================================================================================
+=== 📋 PROMPT MESTRE ETAPA 12.1 (INFRA CLIENTES PROFISSIONAIS) ===
+================================================================================
+Fonte: [CHATGPT] Conversa 03/12/2025
+Autoria: ChatGPT (criação do prompt)
+Status: 🔜 PRÓXIMO NA SEQUÊNCIA
+
+NOME DO PROMPT: RADAR – ETAPA 12.1 – INFRA DE CLIENTES PROFISSIONAIS
+
+PRÉ-REQUISITOS:
+├── ETAPA 10-11.2 (Dashboard usuária) ✅
+└── ETAPA 12 (Dashboard Profissional V1) ✅
+
+OBJETIVO:
+Ligar o Dashboard Profissional V1 a uma infra real de clientes no banco,
+SEM quebrar o que já existe, seguindo a ORDEM e SEM PULAR PASSOS.
+
+ESTRUTURA DO PROMPT:
+├── ETAPA 0 – Leitura e sincronização
+├── ETAPA 1 – Decisão sobre o schema (tabela de clientes)
+├── ETAPA 2 – API / lib para acessar clientes
+├── ETAPA 3 – Ligar o Dashboard Profissional à tabela
+├── ETAPA 4 – Testes manuais + TXT
+├── ETAPA 5 – Build, CICLO RADAR 5 TXT e resumo
+└── RESUMO FINAL (obrigatório)
+
+TABELA A CRIAR (se não existir):
+├── professional_clients
+│   ├── id (uuid, PK)
+│   ├── professional_id (uuid, FK → profiles)
+│   ├── client_id (uuid, FK → profiles)
+│   ├── status (text: active/paused/ended)
+│   ├── created_at (timestamptz)
+│   ├── updated_at (timestamptz)
+│   └── last_activity_at (timestamptz)
+├── Índices: professional_id, client_id
+└── RLS: profissional só vê seus próprios clientes
+
+API A CRIAR:
+├── /api/professional/clients (GET, POST)
+└── /api/professional/clients/[id] (PATCH, DELETE)
+
+LIB A CRIAR:
+├── lib/professional-clients.ts
+│   ├── getProfessionalClients(professionalId)
+│   ├── createProfessionalClient(...)
+│   └── updateProfessionalClientStatus(...)
+
+DASHBOARD A ATUALIZAR:
+├── app/dashboard-profissional/page.tsx
+│   ├── Buscar dados reais via API ou lib
+│   ├── Empty state: "Você ainda não conectou nenhum cliente"
+│   └── Lista: Nome/ID, Status, Última atividade, Ações
+
+REGRAS:
+├── Seguir etapas na ordem (0 → 1 → 2 → 3 → 4 → 5)
+├── Se algo extra for necessário, documentar no resumo
+├── NÃO editar migrations antigas
+├── NÃO remover colunas de tabelas existentes
+├── NÃO alterar rotas críticas (triângulo, segurança, LGPD, IA, Stripe)
+├── LGPD: guardar mínimo de informação necessária
+└── Se RLS não puder ser aplicado, registrar como tarefa ALTA
+
+================================================================================
 === 📊 IMPLEMENTAR WINDSURF + EDUARDO ===
 ================================================================================
 Fonte: Consolidação de todas as auditorias do chat
@@ -7638,7 +7701,8 @@ BLOCO A – RADAR NARCISISTA BR (PRODUTO-MÃE)
 ├── ETAPA 11.1 – Trilha Visual no Dashboard ✅ FEITO
 ├── ETAPA 11.2 – Ajustes Finos Dashboard ✅ FEITO (Windsurf cfbf8cf)
 ├── ETAPA 11.3 – Refinamentos Opcionais ⏳ BACKLOG (animação, gamificação)
-├── ETAPA 12 – Dashboard Profissional V1 🔜 PRÓXIMO
+├── ETAPA 12 – Dashboard Profissional V1 ✅ FEITO (Windsurf d2a67d4)
+├── ETAPA 12.1 – Infra Clientes Profissionais 🔜 PRÓXIMO
 ├── ETAPA 13 – Dashboard White-Label ⏳ FUTURO
 ├── ETAPA 14 – Loja / Upgrades ⏳ FUTURO
 ├── ETAPA 15 – Beta com 5 usuárias ⏳ FUTURO
@@ -7684,31 +7748,62 @@ RESULTADO ETAPA 11.2:
 └── Build: 145 páginas
 
 --------------------------------------------------------------------------------
-PRÓXIMO CICLO: CICLO 3 (ETAPA 12)
+CICLO 3: ETAPA 12 ✅ CONCLUÍDO
 --------------------------------------------------------------------------------
 
-[PASSO=GPT-3] ETAPA 12 (Dashboard Profissional V1)
+[PASSO=GPT-3] ETAPA 12 (Dashboard Profissional V1) ✅
 ├── Prompt Mestre ETAPA 12 criado ✅
-├── Definir layout do Dashboard Profissional
-├── Gating por plano (só profissional acessa)
-└── Entregar prompt para Windsurf
+├── Definir layout do Dashboard Profissional ✅
+├── Gating por plano (só profissional acessa) ✅
+└── Entregar prompt para Windsurf ✅
 
-[PASSO-WINDSURF-3] Implementar ETAPA 12
-├── Criar app/dashboard-profissional/page.tsx
-├── Seções: Header, Visão Geral, Painel Clientes, Próximos Passos
+[PASSO-WINDSURF-3] Implementar ETAPA 12 ✅
+├── Criar app/dashboard-profissional/page.tsx ✅
+├── Seções: Header, Visão Geral, Painel Clientes, Próximos Passos ✅
+├── Atualizar TXTs ✅
+├── Build + git + resumo ✅
+└── Commit: d2a67d4
+
+RESULTADO ETAPA 12:
+├── Nova rota: /dashboard-profissional
+├── Gating por plano: só usuários com plano 'profissional' acessam
+├── Tela "Área Exclusiva" para não-autorizados
+├── Header com boas-vindas e badge do plano
+├── 4 cards de métricas (Clientes, Vagas, Relatórios, Exportações)
+├── Painel de clientes com estrutura de tabela (V1, sem dados reais)
+├── Seção "Próximos Passos" explicando o roadmap
+├── Suporte a tema claro/escuro
+├── Aviso ético: "Não substitui parecer técnico, laudo, perícia ou terapia"
+└── Build: 146 páginas
+
+--------------------------------------------------------------------------------
+PRÓXIMO CICLO: CICLO 4 (ETAPA 12.1)
+--------------------------------------------------------------------------------
+
+[PASSO=GPT-4] ETAPA 12.1 (Infra Clientes Profissionais)
+├── Prompt Mestre ETAPA 12.1 criado ✅
+├── Criar tabela professional_clients
+├── Criar API /api/professional/clients
+├── Criar lib/professional-clients.ts
+└── Ligar Dashboard Profissional à tabela
+
+[PASSO-WINDSURF-4] Implementar ETAPA 12.1
+├── Criar migration para professional_clients
+├── Criar API e lib
+├── Atualizar app/dashboard-profissional/page.tsx
 ├── Atualizar TXTs
 └── Build + git + resumo
 
 --------------------------------------------------------------------------------
-CICLO 4: ENGINE.1-PREP (APÓS ETAPA 12)
+CICLO 5: ENGINE.1-PREP (APÓS ETAPA 12.1)
 --------------------------------------------------------------------------------
 
-[PASSO=GPT-4] ENGINE.1-PREP
+[PASSO=GPT-5] ENGINE.1-PREP
 ├── Desenhar ENGINE.1 (project_id)
 ├── Definir como adicionar multi-tenant sem quebrar
 └── Entregar prompt para Windsurf
 
-[PASSO-WINDSURF-4] Implementar ENGINE.1-PREP
+[PASSO-WINDSURF-5] Implementar ENGINE.1-PREP
 ├── Adicionar project_id nas tabelas principais
 ├── Criar helpers de multi-tenant
 └── Build + git + resumo
@@ -7723,11 +7818,12 @@ IMPLEMENTADO:
 ├── ETAPA 10 (Taxonomia de Planos)
 ├── ETAPA 11 (Trilha do Herói - infra)
 ├── ETAPA 11.1 (Trilha Visual no Dashboard)
-└── ETAPA 11.2 (Ajustes Finos Dashboard)
-TOTAL IMPLEMENTADO: 6 blocos
+├── ETAPA 11.2 (Ajustes Finos Dashboard)
+└── ETAPA 12 (Dashboard Profissional V1)
+TOTAL IMPLEMENTADO: 7 blocos
 
 PRÓXIMO:
-└── ETAPA 12 (Dashboard Profissional V1)
+└── ETAPA 12.1 (Infra Clientes Profissionais)
 TOTAL PRÓXIMO: 1 bloco
 
 BACKLOG (OPCIONAL):
@@ -7735,12 +7831,12 @@ BACKLOG (OPCIONAL):
 TOTAL BACKLOG: 1 bloco
 
 FUTURO:
-├── ETAPA 12.1-12.3 (Profissional V2/V3)
+├── ETAPA 12.2-12.3 (Profissional V2/V3)
 ├── ETAPA 13-16 (Radar V1)
 ├── ENGINE.1-5 (Motor)
 └── FABRICA.1-5 (Fábrica)
-TOTAL FUTURO: 17 blocos
+TOTAL FUTURO: 16 blocos
 
 ================================================================================
-FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 22:35 UTC-5
+FIM DO ARQUIVO - VERSÃO CONSOLIDADA 03/12/2025 22:55 UTC-5
 ================================================================================
