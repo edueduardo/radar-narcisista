@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 07:30 UTC-5
+Última atualização: 04/12/2025 07:40 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -1010,6 +1010,91 @@ FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
 └── Arquitetura de 3 camadas documentada
 
 TOTAL DE FASES: ANTES ERA 27 / AGORA: 28
+
+================================================================================
+SESSÃO 04/12/2025 07:38 UTC-5 – FASE 29 ADICIONADA (LABORATÓRIO DE IAs)
+================================================================================
+
+NOVO CONTEÚDO EXTRAÍDO DO CHAT:
+
+1. LABORATÓRIO DE IAs (MODO SIMULAÇÃO):
+   - IA nova NÃO entra direto em produção
+   - Aparece no "Laboratório de IAs / Simulações"
+   - Cria cenários de simulação (situações reais)
+   - Roda simulações com combinações de IAs
+   - Vê relatórios: custo, tempo, qualidade, risco
+   - Decide se aplica ou não em produção
+
+2. CENÁRIOS DE SIMULAÇÃO:
+   - Nome, função alvo, condições
+   - Constraints (custo, latência, risco)
+   - Pacote de prompts de teste
+
+3. SALVAR E APLICAR SIMULAÇÃO:
+   - Salvar como "preset"
+   - Aplicar em função/plano/perfil específico
+   - NÃO precisa deploy (está em banco/config)
+
+4. REGRA FUNDAMENTAL:
+   👉 A IA opina, VOCÊ decide
+   👉 Nada entra em produção sem confirmação
+
+5. TABELAS SUGERIDAS:
+   - ai_simulation_scenarios
+   - ai_simulation_runs
+   - ai_presets
+   - ai_preset_history
+
+6. TELAS ADMIN SUGERIDAS:
+   - /admin/ia-lab
+   - /admin/ia-lab/[scenario_id]
+   - /admin/ia-presets
+   - /admin/ia-presets/[preset_id]
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 29 – LABORATÓRIO DE IAs (SIMULAÇÃO)
+├── 29 FASES organizadas com 320 itens
+└── 7 blocos documentados (A-G)
+
+TOTAL DE FASES: ANTES ERA 28 / AGORA: 29
+
+================================================================================
+SESSÃO 04/12/2025 07:40 UTC-5 – FASE 30 ADICIONADA (ARQUITETURA VISUAL)
+================================================================================
+
+NOVO CONTEÚDO EXTRAÍDO DO CHAT:
+
+1. ORGANOGRAMAS MERMAID:
+   - ARQUITETURA-ECOSSISTEMA.mmd (Radar + Filhos + Gerador)
+   - ARQUITETURA-SAAS.mmd (Arquitetura interna de um SaaS)
+   - ARQUITETURA-IA-LAB.mmd (Mapa de IAs + Simulações)
+
+2. MOCKUPS DE TELAS:
+   - Dashboard Global do Ecossistema (/admin/ecossistema)
+   - Lab de IAs / Governança (/admin/ia-lab)
+   - Mapa de IAs por Menu/Função (/admin/ia-mapa)
+
+3. REGRA DE OURO:
+   Toda vez que criar ou alterar uma ETAPA importante:
+   → Atualizar os arquivos de arquitetura
+
+4. ARQUIVOS A CRIAR:
+   - docs/ARQUITETURA-ECOSSISTEMA.mmd
+   - docs/ARQUITETURA-SAAS.mmd
+   - docs/ARQUITETURA-IA-LAB.mmd
+   - docs/ARQUITETURA-RADAR.txt
+
+5. ETAPAS SUGERIDAS:
+   - ETAPA A: Dashboard Global do Ecossistema
+   - ETAPA B: Lab de IAs (Cadastro + Cenários + Presets)
+   - ETAPA C: Mapa de IAs por menu/função
+
+FUTURO-TERMINAR-IMPLEMENTACAO.txt ATUALIZADO:
+├── Adicionada FASE 30 – ARQUITETURA VISUAL + ORGANOGRAMAS + MOCKUPS
+├── 30 FASES organizadas com 345 itens
+└── 8 blocos documentados (A-H)
+
+TOTAL DE FASES: ANTES ERA 29 / AGORA: 30
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF

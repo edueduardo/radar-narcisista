@@ -17630,7 +17630,503 @@ PASSO 3 – Se um dia tiver 100 IAs:
 
 TOTAL: 300 itens em 28 fases
 
-TOTAL DE FASES: ANTES ERA 27 / AGORA: 28
+================================================================================
+FASE 29 – LABORATÓRIO DE IAs (MODO SIMULAÇÃO)
+================================================================================
+Fonte: [CHATGPT] Chat 04/12/2025 07:38 UTC-5 - Discussão sobre Lab de Simulação
+Autoria: ChatGPT (planejamento) + Eduardo (decisões) + Windsurf (execução)
+Status: 📝 CONCEITUAL - PRONTO PARA IMPLEMENTAR
+
+--------------------------------------------------------------------------------
+IDEIA CENTRAL: "LABORATÓRIO DE IAs" (MODO SIMULAÇÃO)
+--------------------------------------------------------------------------------
+
+CONCEITO:
+Quando você instala uma IA nova (ex.: Perplexity):
+1. Ela NÃO entra direto em produção
+2. Ela aparece no "Laboratório de IAs / Simulações"
+3. Nesse laboratório, você:
+   - Cria cenários de simulação (situações reais do sistema)
+   - Pede pro sistema rodar essas situações com combinações de IAs
+   - Vê relatórios comparando: custo, tempo, qualidade, risco
+   - Decide se aplica ou não aquela configuração em produção
+
+REGRA:
+👉 Instalar IA nova = liberar pra laboratório
+👉 Aplicar simulação = levar pro mundo real
+
+--------------------------------------------------------------------------------
+BLOCO A – O QUE É UM "CENÁRIO DE SIMULAÇÃO"
+--------------------------------------------------------------------------------
+
+ESTRUTURA DE UM CENÁRIO:
+
+1. Nome do cenário:
+   - "Chat usuária – crise emocional"
+   - "Oráculo V2 – admin, dúvidas de produto"
+   - "Relatório profissional – caso complexo"
+
+2. Função alvo:
+   - chat_geral_usuaria
+   - oraculo_v2_admin
+   - relatorio_profissional
+
+3. Condições:
+   - Perfil: usuária free / premium / profissional / admin
+   - Idioma: PT-BR (prioritário), EN
+   - Tamanho médio das perguntas
+
+4. Constraints / Prioridades:
+   - Máximo de custo por 1k tokens (barato / médio / caro)
+   - Máxima latência tolerada (ex: até 3s)
+   - Tolerância ao risco (baixa, média, alta – sempre baixa pro Radar)
+
+5. Pacote de prompts de teste:
+   - Lista de perguntas reais ou semi-reais
+   - Salvas no banco e versionadas
+
+REGRA:
+👉 Cenários criados uma vez, reaproveitados toda vez que entra IA nova
+
+--------------------------------------------------------------------------------
+BLOCO B – FLUXO QUANDO ENTRA IA NOVA
+--------------------------------------------------------------------------------
+
+PASSO 1: Cadastrar a nova IA (com capabilities, custo, etc.)
+
+PASSO 2: Sistema mostra:
+"Essa IA é boa pra: pesquisa web, respostas com fontes, etc."
+
+PASSO 3: Na tela de Laboratório/Simulações, aparece:
+"⚗️ Nova IA detectada: Perplexity.
+Deseja rodar simulações em quais cenários?"
+
+PASSO 4: Você escolhe:
+✅ Chat usuária – crise emocional (talvez não)
+✅ Oráculo V2 – admin
+✅ Relatórios profissionais
+✅ Gerador de SaaS – pesquisa de mercado
+
+PASSO 5: Sistema monta configurações de teste automáticas:
+- Config A: DeepSeek + OpenAI (setup atual, sem Perplexity)
+- Config B: DeepSeek + OpenAI + Perplexity como pesquisador
+- Config C: Perplexity como principal + OpenAI como filtro
+- Config D: DeepSeek como raciocínio + Perplexity como fontes
+
+PASSO 6: Roda o pacote de prompts de teste em todas as configs
+
+PASSO 7: Resultado vai pra relatório:
+- Custo médio por resposta
+- Latência média
+- Taxa de "resposta rejeitada por risco"
+- Avaliação de qualidade (por você ou por outra IA avaliadora)
+
+⚠️ NADA DISSO MEXE NA PRODUÇÃO AINDA. É SÓ LABORATÓRIO.
+
+--------------------------------------------------------------------------------
+BLOCO C – "SALVAR SIMULAÇÃO" E "APLICAR SIMULAÇÃO"
+--------------------------------------------------------------------------------
+
+SALVAR SIMULAÇÃO:
+- Guarda aquela combinação de IAs + estratégias como um "preset"
+- Ex.: "Preset Oráculo Admin – DeepSeek + OpenAI + Perplexity (pesquisa)"
+- Fica listado numa tabela de presets
+- Pode renomear, clonar, editar
+
+APLICAR SIMULAÇÃO:
+- Escolhe em qual função do sistema:
+  - Oráculo V2 admin
+  - Chat usuária
+  - Gerador de SaaS
+- Escolhe em quais planos/perfis:
+  - Só admin
+  - Só profissional premium
+  - etc.
+- Quando aplica:
+  - O preset vira a configuração ativa daquela função
+  - NÃO precisa deploy (está em banco/config)
+
+OPÇÕES ADICIONAIS:
+- "Aplicar em ambiente de teste / beta testers" primeiro
+- Depois promover pra produção total
+
+--------------------------------------------------------------------------------
+BLOCO D – SUGESTÃO DO SISTEMA (SEM ROUBAR CONTROLE)
+--------------------------------------------------------------------------------
+
+O SISTEMA PODE SUGERIR:
+- "Para cenário X, Perplexity parece melhor como 'pesquisa + fontes'"
+- "Custo de usar Perplexity como principal estoura o orçamento"
+
+MAS:
+- Ele NÃO ativa nada sozinho
+- Sempre tem:
+  - Botão: Aplicar
+  - Botão: Salvar como preset
+  - Botão: Descartar simulação
+
+REGRA:
+👉 A IA opina, VOCÊ decide
+
+--------------------------------------------------------------------------------
+BLOCO E – ENCAIXE NO GERADOR DE SAAS
+--------------------------------------------------------------------------------
+
+O motor de simulação vira um módulo central:
+AI_SIMULATION_LAB_CORE
+
+Quando você gera um novo SaaS:
+- Pode escolher:
+  - "Usar presets padrão do Radar Narcisista"
+  - "Rodar simulações para esse novo tema"
+- O GERADOR pode:
+  - Herdar presets do produto-mãe
+  - Sugerir variações adaptadas ao novo tema
+
+REGRA:
+👉 Nada entra em produção sem a tua confirmação
+
+--------------------------------------------------------------------------------
+BLOCO F – TABELAS SUGERIDAS
+--------------------------------------------------------------------------------
+
+1. ai_simulation_scenarios (cenários de simulação)
+   - id, name, function_key, conditions_json
+   - constraints_json, test_prompts_json
+   - created_at, updated_at
+
+2. ai_simulation_runs (execuções de simulação)
+   - id, scenario_id, config_json
+   - results_json (custo, latência, qualidade)
+   - created_at
+
+3. ai_presets (presets salvos)
+   - id, name, function_key, config_json
+   - is_active, applied_to_plans_json
+   - created_at, updated_at
+
+4. ai_preset_history (histórico de aplicações)
+   - id, preset_id, action (applied/reverted)
+   - applied_by, applied_at
+
+--------------------------------------------------------------------------------
+BLOCO G – TELAS ADMIN SUGERIDAS
+--------------------------------------------------------------------------------
+
+1. /admin/ia-lab
+   - Lista de cenários de simulação
+   - Botão "Criar novo cenário"
+   - Botão "Rodar simulação"
+
+2. /admin/ia-lab/[scenario_id]
+   - Detalhes do cenário
+   - Histórico de execuções
+   - Relatórios comparativos
+
+3. /admin/ia-presets
+   - Lista de presets salvos
+   - Botão "Aplicar"
+   - Botão "Clonar"
+   - Botão "Editar"
+
+4. /admin/ia-presets/[preset_id]
+   - Detalhes do preset
+   - Histórico de aplicações
+   - Botão "Reverter"
+
+================================================================================
+📊 RESUMO CONSOLIDADO - TODAS AS 29 FASES
+================================================================================
+
+| # | FASE | ITENS | STATUS |
+|---|------|-------|--------|
+| 1 | Completar Triângulo | 2 | ⏳ Pendente |
+| 2 | FanPage Viva | 4 | ⏳ Pendente |
+| 3 | Dívidas Técnicas | 2 | ⏳ Pendente |
+| 4 | Gerador de SaaS | 2 | ⏳ Pendente |
+| 5 | AI_CONFIG_CORE | 7 | ✅ Parcial |
+| 6 | Oráculo V2 Multiperfil | 4 | ⏳ Futuro (BLOCO 26-30) |
+| 7 | Control Hub Externo | 5 | ⏳ Futuro |
+| 8 | Avançado | 3 | ⏳ Futuro |
+| 9 | Auditoria Master V1 | 9 | ⏳ Pendente |
+| 10 | Verificar Patches | 10 | ⏳ Pendente |
+| 11 | Migrations | 3 | ⏳ Pendente |
+| 12 | Testes Manuais | 8 | ⏳ Pendente |
+| 13 | Documentação | 7 | ⏳ Pendente |
+| 14 | Deploy e Go-Live | 6 | ⏳ Pendente |
+| 15 | Auditoria V2 | 10 | ⏳ Pendente |
+| 16 | Avatares/Personas IA | 12 | ✅ Parcial (70%) |
+| 17 | ADMIN MENU CORE | 10 | ✅ Parcial |
+| 18 | NÚCLEO DE INTERFACES | 16 | ✅ Parcial |
+| 19 | MATRIZ DE IAs | 12 | ✅ Parcial |
+| 20 | MATRIZ GLOBAL DE IAs | 23 | ⚠️ Parcial (60%) |
+| 21 | MODO SIMULAÇÃO | 11 | ✅ Parcial (50%) |
+| 22 | PENTE FINO / LACUNAS | 22 | ✅ Parcial (55%) |
+| 23 | AUDITORIA BLOCO 21-25 | 25 | ✅ CONCLUÍDA |
+| 24 | AUDITORIA PROMPTS/PATCHES | 19 | ✅ MAPEADA |
+| 25 | PROMPTS CONSOLIDADOS | 30 | ✅ MAPEADA |
+| 26 | MEGA AUDITOR PARTE 1 | 10 | ✅ PRONTO P/ EXECUTAR |
+| 27 | ARQUIVO MEGA COMPLETO | 13 | ✅ PRONTO P/ EXECUTAR |
+| 28 | AVATAR/TTS + PERPLEXITY + ORQUESTRADOR | 15 | 📝 CONCEITUAL |
+| 29 | LABORATÓRIO DE IAs (SIMULAÇÃO) | 20 | 📝 CONCEITUAL |
+
+TOTAL: 320 itens em 29 fases
+
+================================================================================
+FASE 30 – ARQUITETURA VISUAL + ORGANOGRAMAS + MOCKUPS
+================================================================================
+Fonte: [CHATGPT] Chat 04/12/2025 07:40 UTC-5 - Discussão sobre Organogramas
+Autoria: ChatGPT (planejamento) + Eduardo (decisões) + Windsurf (execução)
+Status: 📝 CONCEITUAL - PRONTO PARA IMPLEMENTAR
+
+--------------------------------------------------------------------------------
+BLOCO A – ORGANOGRAMA 1: VISÃO GERAL DO ECOSSISTEMA
+--------------------------------------------------------------------------------
+
+ARQUIVO: docs/ARQUITETURA-ECOSSISTEMA.mmd
+
+ESTRUTURA:
+- RADAR NARCISISTA (SaaS Mãe)
+- GERADOR DE SAAS (Core + Templates)
+- ADMIN GLOBAL (painel do dono)
+- SaaS Filhos / Clones Temáticos
+  - SaaS Filho A (tema X)
+  - SaaS Filho B (tema Y)
+  - SaaS Filho N (tema ...)
+- Infra / Serviços Compartilhados
+  - Supabase (DB + Auth + RLS)
+  - Stripe (Planos, Add-ons)
+  - Orquestrador de IAs (Mapa de IAs + Regras)
+  - ORÁCULO_V2_CORE (módulo IA núcleo)
+  - Logs + Observabilidade
+
+--------------------------------------------------------------------------------
+BLOCO B – ORGANOGRAMA 2: ARQUITETURA DENTRO DE UM SAAS
+--------------------------------------------------------------------------------
+
+ARQUIVO: docs/ARQUITETURA-SAAS.mmd
+
+FRONTENDS:
+- App Web (Next.js)
+- App Mobile / PWA
+- Admin deste SaaS (Admin local / White Label / Profissional)
+
+BACKEND / API:
+- Rotas API Next.js (/api/...)
+- Orquestrador de Fluxos de IA (AI Flows)
+- Oráculo V2 (endpoint) /api/oraculo-v2
+- Billing & Planos (Stripe + Add-ons)
+- Feature Flags / Planos (quem vê o quê)
+
+DADOS & NÚCLEO:
+- Supabase (Postgres + RLS)
+- Perfis & Planos (usuária, profissional, admin, whitelabel)
+- Logs de App (oraculo_logs, auditoria)
+- Conteúdos, diários, relatórios, testes
+
+CAMADA DE IAs:
+- Mapa de IAs (config por menu / função)
+- OpenAI, DeepSeek, Together, Grok
+- Outras IAs Futuras (Perplexity, Gemini...)
+
+--------------------------------------------------------------------------------
+BLOCO C – ORGANOGRAMA 3: MAPA DE IAs + SIMULAÇÕES
+--------------------------------------------------------------------------------
+
+ARQUIVO: docs/ARQUITETURA-IA-LAB.mmd
+
+ADMIN - GOVERNANÇA DE IAs:
+- Cadastro de IA (API keys, custos, limites)
+- Cenários de Simulação (chat, oráculo, relatórios)
+- Simulações (comparar combinações)
+- Presets de Configuração (pacotes de regras)
+- Aplicar em Produção (por plano / perfil / função)
+
+EXECUÇÃO EM PRODUÇÃO:
+- Roteador de IA (Orquestrador em tempo real)
+- Funções do Sistema (chat, diário, oráculo)
+- Mapa de IAs Ativas por função/plano/perfil
+
+--------------------------------------------------------------------------------
+BLOCO D – REGRA DE OURO PARA MANTER ATUALIZADO
+--------------------------------------------------------------------------------
+
+REGRA:
+Toda vez que criar ou alterar uma ETAPA importante:
+→ Atualizar os arquivos de arquitetura
+
+ARQUIVOS NO REPO:
+- docs/ARQUITETURA-ECOSSISTEMA.mmd
+- docs/ARQUITETURA-SAAS.mmd
+- docs/ARQUITETURA-IA-LAB.mmd
+- docs/ARQUITETURA-RADAR.txt (versão escrita)
+
+CHECKLIST PARA CADA ETAPA GRANDE:
+☐ Atualizar os diagramas Mermaid relacionados
+☐ Atualizar ARQUITETURA-RADAR.txt com a descrição
+☐ Commit com mensagem clara: "ETAPA X - Atualização ARQUITETURA"
+
+--------------------------------------------------------------------------------
+BLOCO E – MOCKUP 1: DASHBOARD GLOBAL DO ECOSSISTEMA
+--------------------------------------------------------------------------------
+
+ROTA: /admin/ecossistema
+
+MENU LATERAL:
+- Visão Geral
+- SaaS Mãe (Radar)
+- SaaS Filhos
+- Gerador de SaaS
+- IAs & Custos
+- Planos & Add-ons
+- Logs & Auditoria
+- Oráculo Admin
+
+RESUMO DO ECOSSISTEMA:
+- CARD SaaS Mãe (Radar): Usuárias, Profissionais, Status
+- CARD Gerador de SaaS: SaaS gerados, Modelos base, Status
+- CARD SaaS Filhos: Lista com [ver detalhes]
+
+INFRA COMPARTILHADA:
+- [Supabase: OK] [Stripe: OK] [Orquestrador de IA: OK] [Logs: OK]
+
+--------------------------------------------------------------------------------
+BLOCO F – MOCKUP 2: LAB DE IAs / GOVERNANÇA
+--------------------------------------------------------------------------------
+
+ROTA: /admin/ia-lab
+
+ABAS:
+1. Cadastro de IAs
+2. Cenários & Simulações
+3. Presets
+4. Aplicação
+
+ABA 1 - CADASTRO DE IAs:
+Tabela:
+| Nome IA | Provider | Custo aprox/1k tokens | Status | Usada em |
+|---------|----------|----------------------|--------|----------|
+| OpenAI-gpt4o | OpenAI | $X,XX | ATIVA | chat, diário |
+| DeepSeek-R1 | DeepSeek | $X,XX | ATIVA | oráculo, teste |
+| Together-Mix | Together | $X,XX | PAUSA | - |
+| Grok-latest | xAI | $X,XX | ATIVA | relatórios |
+| Perplexity | Perplexity | $X,XX | NOVA | (não aplicada) |
+
+Botão: [+ Cadastrar Nova IA]
+
+Formulário:
+- Nome exibido
+- Tipo / Provider
+- API Key [Testar conexão]
+- Limite diário
+- Comentário interno
+[Salvar IA]
+
+ABA 2 - CENÁRIOS & SIMULAÇÕES:
+Tabela de Cenários Salvos:
+| Nome Cenário | Descrição curta | Status | Último teste |
+|--------------|-----------------|--------|-------------|
+| Chat_Equilibrado | GPT-4o + DeepSeek | OK | 30/11 15:20 |
+| Diario_Barato | DeepSeek + Together | OK | 29/11 11:02 |
+| Oraculo_Potente | GPT-4o + Grok | WARN | 28/11 09:33 |
+| Teste_Perplexity | Perplexity sozinho | NOVO | - |
+
+Botão: [+ Criar Novo Cenário]
+
+Formulário Novo Cenário:
+- Nome do cenário
+- Contexto de teste: [chat | diário | oráculo | relatório | outro]
+- IAs incluídas (com peso %)
+- Estratégia: [Só primeira | Votar | Enviar pra todas e resumir]
+- Casos de teste: [+ Adicionar prompt de teste]
+[Rodar Simulação] [Salvar como Cenário]
+
+--------------------------------------------------------------------------------
+BLOCO G – MOCKUP 3: MAPA DE IAs POR MENU/FUNÇÃO
+--------------------------------------------------------------------------------
+
+ROTA: /admin/ia-mapa
+
+FILTROS RÁPIDOS:
+- Menu: [Todos]
+- Plano: [Todos]
+- Perfil: [Todos]
+
+TABELA:
+| MENU / FUNÇÃO | Perfil | Plano | IAs Ativas |
+|---------------|--------|-------|------------|
+| Chat principal | usuária | Free | OpenAI-gpt4o (60%), DeepSeek (40%) |
+| Chat principal | usuária | Premium | OpenAI-gpt4o, Grok-latest |
+| Diário | usuária | Free | DeepSeek-R1 |
+| Diário | usuária | Premium | DeepSeek-R1, Together-Mix |
+| Oráculo V2 admin | admin | - | GPT-4o, DeepSeek |
+| Relatórios profissional | profissional | Pro | OpenAI-gpt4o, Perplexity (beta) |
+| Teste de Clareza | usuária | Todos | OpenAI-gpt4o |
+
+Botões: [Editar configuração] [Exportar CSV]
+
+DETALHE AO CLICAR:
+- Estratégia: Votação entre IAs
+- IAs com peso e limite
+- Segurança: Oráculo de risco, Logs detalhados
+[Salvar] [Copiar como Preset] [Voltar ao mapa]
+
+--------------------------------------------------------------------------------
+BLOCO H – ETAPAS SUGERIDAS PARA IMPLEMENTAÇÃO
+--------------------------------------------------------------------------------
+
+ETAPA A – Dashboard Global do Ecossistema
+- Rota: /admin/ecossistema
+- Componentes: cards, menu lateral, infra status
+
+ETAPA B – Lab de IAs (Cadastro + Cenários + Presets + Aplicação)
+- Rota: /admin/ia-lab
+- Tabelas: ai_providers, ai_simulation_scenarios, ai_presets
+
+ETAPA C – Mapa de IAs por menu/função + visão por plano/perfil
+- Rota: /admin/ia-mapa
+- Tabelas: ai_menu_providers, ai_plan_overrides
+
+================================================================================
+📊 RESUMO CONSOLIDADO - TODAS AS 30 FASES
+================================================================================
+
+| # | FASE | ITENS | STATUS |
+|---|------|-------|--------|
+| 1 | Completar Triângulo | 2 | ⏳ Pendente |
+| 2 | FanPage Viva | 4 | ⏳ Pendente |
+| 3 | Dívidas Técnicas | 2 | ⏳ Pendente |
+| 4 | Gerador de SaaS | 2 | ⏳ Pendente |
+| 5 | AI_CONFIG_CORE | 7 | ✅ Parcial |
+| 6 | Oráculo V2 Multiperfil | 4 | ⏳ Futuro (BLOCO 26-30) |
+| 7 | Control Hub Externo | 5 | ⏳ Futuro |
+| 8 | Avançado | 3 | ⏳ Futuro |
+| 9 | Auditoria Master V1 | 9 | ⏳ Pendente |
+| 10 | Verificar Patches | 10 | ⏳ Pendente |
+| 11 | Migrations | 3 | ⏳ Pendente |
+| 12 | Testes Manuais | 8 | ⏳ Pendente |
+| 13 | Documentação | 7 | ⏳ Pendente |
+| 14 | Deploy e Go-Live | 6 | ⏳ Pendente |
+| 15 | Auditoria V2 | 10 | ⏳ Pendente |
+| 16 | Avatares/Personas IA | 12 | ✅ Parcial (70%) |
+| 17 | ADMIN MENU CORE | 10 | ✅ Parcial |
+| 18 | NÚCLEO DE INTERFACES | 16 | ✅ Parcial |
+| 19 | MATRIZ DE IAs | 12 | ✅ Parcial |
+| 20 | MATRIZ GLOBAL DE IAs | 23 | ⚠️ Parcial (60%) |
+| 21 | MODO SIMULAÇÃO | 11 | ✅ Parcial (50%) |
+| 22 | PENTE FINO / LACUNAS | 22 | ✅ Parcial (55%) |
+| 23 | AUDITORIA BLOCO 21-25 | 25 | ✅ CONCLUÍDA |
+| 24 | AUDITORIA PROMPTS/PATCHES | 19 | ✅ MAPEADA |
+| 25 | PROMPTS CONSOLIDADOS | 30 | ✅ MAPEADA |
+| 26 | MEGA AUDITOR PARTE 1 | 10 | ✅ PRONTO P/ EXECUTAR |
+| 27 | ARQUIVO MEGA COMPLETO | 13 | ✅ PRONTO P/ EXECUTAR |
+| 28 | AVATAR/TTS + PERPLEXITY + ORQUESTRADOR | 15 | 📝 CONCEITUAL |
+| 29 | LABORATÓRIO DE IAs (SIMULAÇÃO) | 20 | 📝 CONCEITUAL |
+| 30 | ARQUITETURA VISUAL + ORGANOGRAMAS + MOCKUPS | 25 | 📝 CONCEITUAL |
+
+TOTAL: 345 itens em 30 fases
+
+TOTAL DE FASES: ANTES ERA 29 / AGORA: 30
 
 ================================================================================
 🎯 PRÓXIMAS AÇÕES SUGERIDAS (SEM "OU", SEM "OPCIONAIS")
