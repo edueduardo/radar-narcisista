@@ -401,7 +401,7 @@ export default function RelatoriosPage() {
                   <div className="text-center py-8 text-gray-500">
                     <Brain className="h-12 w-12 mx-auto mb-3 opacity-30" />
                     <p>Nenhum teste realizado ainda</p>
-                    <Link href="/teste-claridade" className="text-purple-500 hover:underline text-sm">
+                    <Link href="/teste-clareza" className="text-purple-500 hover:underline text-sm">
                       Fazer primeiro teste →
                     </Link>
                   </div>

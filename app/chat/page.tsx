@@ -1779,7 +1779,7 @@ function ChatPageContent() {
                   </Link>
                   
                   <Link
-                    href="/teste-claridade"
+                    href="/teste-clareza"
                     className="flex items-center gap-3 p-3 rounded-xl bg-green-50 hover:bg-green-100 transition-colors group"
                   >
                     <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200">

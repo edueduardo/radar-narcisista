@@ -103,7 +103,7 @@ function SucessoContent() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              href="/teste-claridade"
+              href="/teste-clareza"
               className="w-full py-3 px-4 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors"
             >
               Fazer Teste de Clareza

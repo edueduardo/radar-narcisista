@@ -54,7 +54,7 @@ export default function VersionB() {
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/teste-claridade"
+                href="/teste-clareza"
                 className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold text-lg hover:scale-105 transition-all shadow-xl"
               >
                 <Zap className="inline h-5 w-5 mr-2" />
@@ -136,7 +136,7 @@ export default function VersionB() {
               Junte-se a milhares que já encontraram clareza e recuperação
             </p>
             <Link
-              href="/teste-claridade"
+              href="/teste-clareza"
               className="inline-block px-10 py-4 bg-white text-blue-600 rounded-xl font-bold text-lg hover:scale-105 transition-all"
             >
               Fazer Teste Gratuitamente

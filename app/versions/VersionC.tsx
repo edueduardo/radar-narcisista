@@ -87,7 +87,7 @@ export default function VersionC() {
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
               <Link
-                href="/teste-claridade"
+                href="/teste-clareza"
                 className="group relative px-12 py-6 bg-white text-purple-600 rounded-2xl font-bold text-xl hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-white/50"
               >
                 <span className="relative z-10">Fazer Teste Grátis Agora</span>
@@ -188,7 +188,7 @@ export default function VersionC() {
               Se você se identificou com <strong className="text-purple-600">2 ou mais</strong>, este teste foi feito para você
             </p>
             <Link
-              href="/teste-claridade"
+              href="/teste-clareza"
               className="inline-block px-10 py-5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-2xl font-bold text-lg hover:scale-105 transition-all shadow-xl hover:shadow-purple-500/50"
             >
               Fazer Teste Agora (5 minutos)
@@ -218,7 +218,7 @@ export default function VersionC() {
             
             {/* CTA principal */}
             <Link
-              href="/teste-claridade"
+              href="/teste-clareza"
               className="group relative inline-block px-16 py-8 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white rounded-2xl font-bold text-2xl hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-purple-500/50 mb-16"
             >
               <span className="relative z-10">Fazer Teste Gratuito Agora</span>

@@ -255,7 +255,7 @@ export default function DepoimentosPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              href="/teste-claridade"
+              href="/teste-clareza"
               className="px-6 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
             >
               Fazer Teste de Clareza

@@ -274,7 +274,7 @@ export default function ChecklistReconhecimentoPage() {
             {/* CTAs */}
             <div className="space-y-3">
               <Link
-                href="/teste-claridade"
+                href="/teste-clareza"
                 className="w-full py-3 bg-purple-500 text-white rounded-xl font-medium hover:bg-purple-600 transition-colors flex items-center justify-center gap-2"
               >
                 Fazer Teste de Clareza Completo

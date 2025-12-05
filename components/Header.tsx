@@ -138,7 +138,7 @@ export default function Header() {
 
           {/* CTA Principal */}
           <Link
-            href="/teste-claridade"
+            href="/teste-clareza"
             className="rounded-full bg-gradient-to-r from-purple-600 to-purple-700 px-4 py-2 text-sm font-semibold text-white hover:from-purple-700 hover:to-purple-800 transition-all shadow-lg shadow-purple-500/25"
           >
             Fazer o Teste
@@ -155,7 +155,7 @@ export default function Header() {
         {/* Mobile - CTA + Entrar + Hambúrguer */}
         <div className="flex items-center gap-2 md:hidden">
           <Link
-            href="/teste-claridade"
+            href="/teste-clareza"
             className="rounded-full bg-purple-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-purple-700 transition-colors"
           >
             Teste
@@ -211,7 +211,7 @@ export default function Header() {
             {/* CTAs Mobile */}
             <div className="mt-4 flex flex-col gap-2">
               <Link
-                href="/teste-claridade"
+                href="/teste-clareza"
                 className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-purple-700 px-4 py-3 text-sm font-semibold text-white hover:from-purple-700 hover:to-purple-800 transition-all"
                 onClick={() => setOpen(false)}
               >

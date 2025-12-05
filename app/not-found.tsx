@@ -55,7 +55,7 @@ export default function NotFound() {
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <Link 
-              href="/teste-claridade"
+              href="/teste-clareza"
               className="flex items-center gap-3 p-3 rounded-xl hover:bg-purple-50 dark:hover:bg-slate-700 transition-colors group"
             >
               <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center group-hover:bg-purple-200 dark:group-hover:bg-purple-800 transition-colors">

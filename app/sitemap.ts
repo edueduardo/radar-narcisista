@@ -9,8 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/login',
     '/cadastro',
     // Produto
-    '/teste-claridade',
-    '/teste-clareza', // Landing para trafego pago
+    '/teste-clareza', // Teste principal
     '/planos',
     '/status',
     // Entenda - Clusters SEO
@@ -51,6 +50,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: route === '' ? 'daily' : route.startsWith('/blog') ? 'weekly' : 'monthly',
-    priority: route === '' ? 1 : route === '/teste-claridade' ? 0.9 : 0.7,
+    priority: route === '' ? 1 : route === '/teste-clareza' ? 0.9 : 0.7,
   }))
 }

@@ -33,7 +33,7 @@ export default function VersionA() {
             <a href="#recursos" className="text-stone-600 hover:text-stone-900">Recursos</a>
             <a href="#faq" className="text-stone-600 hover:text-stone-900">FAQ</a>
             <Link href="/login" className="text-stone-600 hover:text-stone-900">Entrar</Link>
-            <Link href="/teste-claridade" className="px-4 py-2 bg-stone-900 text-white rounded-full text-sm hover:bg-stone-800">
+            <Link href="/teste-clareza" className="px-4 py-2 bg-stone-900 text-white rounded-full text-sm hover:bg-stone-800">
               Começar
             </Link>
           </div>
@@ -49,7 +49,7 @@ export default function VersionA() {
             <a href="#recursos" className="block py-2 text-stone-600">Recursos</a>
             <a href="#faq" className="block py-2 text-stone-600">FAQ</a>
             <Link href="/login" className="block py-2 text-stone-600">Entrar</Link>
-            <Link href="/teste-claridade" className="block py-3 bg-stone-900 text-white rounded-lg text-center">Começar</Link>
+            <Link href="/teste-clareza" className="block py-3 bg-stone-900 text-white rounded-lg text-center">Começar</Link>
           </div>
         )}
       </nav>
@@ -75,7 +75,7 @@ export default function VersionA() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link 
-              href="/teste-claridade"
+              href="/teste-clareza"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-500 to-rose-500 text-white rounded-full font-medium hover:opacity-90 transition shadow-lg shadow-rose-500/25"
             >
               Fazer o Teste de Clareza
@@ -309,7 +309,7 @@ export default function VersionA() {
             O primeiro passo é reconhecer. Estamos aqui para ajudar.
           </p>
           <Link 
-            href="/teste-claridade"
+            href="/teste-clareza"
             className="inline-flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-amber-500 to-rose-500 text-white rounded-full font-medium text-lg hover:opacity-90 transition shadow-xl"
           >
             Começar Agora — É Gratuito

@@ -79,7 +79,7 @@
       "name": "Teste de Clareza",
       "short_name": "Teste",
       "description": "Fazer o teste de clareza",
-      "url": "/teste-claridade",
+      "url": "/teste-clareza",
       "icons": [{ "src": "/icons/shortcut-test.png", "sizes": "96x96" }]
     },
     {

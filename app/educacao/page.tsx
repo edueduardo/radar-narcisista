@@ -404,7 +404,7 @@ export default function EducacaoPage() {
             Reconhecer é o primeiro passo. Você não está sozinha(o) e não é sua culpa.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/teste-claridade" className="px-6 py-3 bg-white text-purple-600 rounded-xl font-semibold hover:bg-purple-50 transition-colors">
+            <Link href="/teste-clareza" className="px-6 py-3 bg-white text-purple-600 rounded-xl font-semibold hover:bg-purple-50 transition-colors">
               Fazer Teste de Clareza
             </Link>
             <Link href="/chat" className="px-6 py-3 bg-purple-500 text-white rounded-xl font-semibold hover:bg-purple-400 transition-colors">
