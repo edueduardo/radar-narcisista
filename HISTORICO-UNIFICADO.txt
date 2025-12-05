@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 17:55 UTC-5
+Última atualização: 04/12/2025 18:35 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -1562,6 +1562,33 @@ Funcionalidades adicionadas:
 A sidebar agora consome:
 - ui-core-registry.ts para estrutura do menu
 - menu-help-registry.ts para textos de ajuda
+
+================================================================================
+SESSÃO 04/12/2025 18:30 UTC-5 – SQL FANPAGE VIVA
+================================================================================
+
+Arquivo CRIADO: database/sql_consolidado/SQL_CONSOLIDADO_03_FANPAGE_VIVA.sql (550 linhas)
+
+TABELAS CRIADAS:
+1. content_items - Conteúdos publicados (artigos, FAQs, notícias)
+2. content_suggestions - Sugestões da IA para curadoria
+3. content_insights - Métricas agregadas para frontpage
+4. academy_tracks - Trilhas de aprendizado
+5. academy_lessons - Aulas das trilhas
+6. academy_progress - Progresso do usuário
+7. fanpage_config - Configuração dos blocos da frontpage
+
+FUNÇÕES CRIADAS:
+- update_track_metrics() - Atualiza métricas da trilha automaticamente
+- get_frontpage_insights() - Busca insights públicos
+- get_published_content() - Busca conteúdos publicados
+
+SEED DATA:
+- 6 blocos de fanpage configurados
+- 6 insights iniciais
+- 3 trilhas de exemplo
+
+STATUS: AGUARDANDO EXECUÇÃO MANUAL NO SUPABASE
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF
