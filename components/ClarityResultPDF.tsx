@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { 
   FileDown, 
   Printer, 
@@ -64,7 +64,7 @@ const ClarityResultPDF = forwardRef<ClarityResultPDFHandle, ClarityResultPDFProp
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('')
   const printRef = useRef<HTMLDivElement>(null)
 
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   // Expor função de download para componentes pais
   useImperativeHandle(ref, () => ({

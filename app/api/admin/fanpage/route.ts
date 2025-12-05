@@ -1,14 +1,14 @@
 // API para configuração da Fanpage (Admin)
 // /api/admin/fanpage
 
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 // GET - Listar configurações da fanpage
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação e role admin
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
 // PUT - Atualizar configuração de bloco
 export async function PUT(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação e role admin
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -107,7 +107,7 @@ export async function PUT(request: NextRequest) {
 // POST - Reordenar blocos
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação e role admin
     const { data: { user }, error: authError } = await supabase.auth.getUser()

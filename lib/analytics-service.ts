@@ -11,7 +11,7 @@
  * - Custom (Supabase)
  */
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 // =============================================================================
 // TIPOS
@@ -100,7 +100,7 @@ export class AnalyticsService {
   private config: AnalyticsConfig
   private userId: string | null = null
   private userProperties: UserProperties = {}
-  private supabase = createClientComponentClient()
+  private supabase = createClient()
 
   constructor(config?: Partial<AnalyticsConfig>) {
     this.config = {

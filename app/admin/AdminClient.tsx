@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { 
   Layout, 
   TestTube, 
@@ -121,7 +121,7 @@ export default function AdminClient() {
   const [activeTab, setActiveTab] = useState('ias')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   // ===== ESTADOS PARA GESTÃO DE CONTEÚDO =====
   

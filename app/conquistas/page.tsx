@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { 
   ArrowLeft, 
@@ -29,7 +29,7 @@ export default function ConquistasPage() {
   const [progresso, setProgresso] = useState<UserProgress | null>(null)
   const [categoriaAtiva, setCategoriaAtiva] = useState<string>('todos')
   
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadProgresso()

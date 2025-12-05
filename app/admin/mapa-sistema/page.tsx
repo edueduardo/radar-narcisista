@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AdminSidebar from '@/components/AdminSidebar'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { 
   ArrowLeft, 
   Map, 
@@ -268,7 +268,7 @@ useEffect(() => {
   // Estados para abas
   const [activeTab, setActiveTab] = useState<'services' | 'hierarchy' | 'users' | 'admin-features'>('services')
   
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   const router = useRouter()
 
   // Função para logout

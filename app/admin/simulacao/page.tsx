@@ -34,7 +34,7 @@ import {
   ChevronDown,
   ChevronRight
 } from 'lucide-react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 // Tipos
 interface UserForSimulation {
@@ -67,7 +67,7 @@ interface SessionStats {
 }
 
 export default function SimulacaoPage() {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   const [users, setUsers] = useState<UserForSimulation[]>([])
   const [sessions, setSessions] = useState<ImpersonationSession[]>([])

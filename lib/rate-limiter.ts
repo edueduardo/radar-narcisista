@@ -4,7 +4,7 @@
  * Bloco 36-40 - ETAPA 37
  */
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 // Tipos
 export interface RateLimitResult {
@@ -41,8 +41,8 @@ export class RateLimiter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private supabase: any
 
-  constructor(supabaseClient?: ReturnType<typeof createClientComponentClient>) {
-    this.supabase = supabaseClient || createClientComponentClient()
+  constructor(supabaseClient?: ReturnType<typeof createClient>) {
+    this.supabase = supabaseClient || createClient()
   }
 
   /**

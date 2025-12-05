@@ -12,11 +12,11 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 
 // Verificar se usuário tem plano profissional
-async function checkProfessionalAccess(supabase: ReturnType<typeof createRouteHandlerClient>, userId: string): Promise<boolean> {
+async function checkProfessionalAccess(supabase: Awaited<ReturnType<typeof createRouteHandlerClient>>, userId: string): Promise<boolean> {
   const { data: profile } = await supabase
     .from('profiles')
     .select('plan_id, subscription_status')
@@ -35,7 +35,7 @@ export async function GET(
 ) {
   try {
     const { clientId } = await params
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação
     const { data: { user }, error: authError } = await supabase.auth.getUser()

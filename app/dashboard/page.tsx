@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { 
   BookOpen, 
@@ -339,7 +339,7 @@ export default function DashboardV2Page() {
   }, [clarityProfile, hasClarityProfile, userPlanLevel, triangleState, safetyPlanStatus])
 
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   // Verificar se é admin - IGUAL DASHBOARD ORIGINAL
   const isAdmin = userEmail ? ADMIN_EMAILS.includes(userEmail.toLowerCase()) : false

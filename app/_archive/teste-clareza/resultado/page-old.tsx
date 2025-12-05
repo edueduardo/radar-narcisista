@@ -2,7 +2,7 @@
 
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { 
   Target, ArrowRight, BookOpen, MessageCircle, Shield, PenLine,
@@ -64,7 +64,7 @@ function ResultadoContent() {
   const [isDarkMode, setIsDarkMode] = useState(false)
   const searchParams = useSearchParams()
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadTestResult()

@@ -20,7 +20,7 @@
 import { useEffect, useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import {
   Shield,
   UserCheck,
@@ -116,7 +116,7 @@ const PERMISSION_OPTIONS: PermissionOption[] = [
 function AceitarConviteContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   // Estados
   const [loading, setLoading] = useState(true)

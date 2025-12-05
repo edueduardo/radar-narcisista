@@ -6,7 +6,7 @@
  * LOCAL: lib/referral.ts
  */
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 // ============================================
 // TIPOS
@@ -82,7 +82,7 @@ export function generateReferralCode(userId: string): string {
  * Cria ou retorna código de referral do usuário
  */
 export async function getOrCreateReferralCode(userId: string): Promise<ReferralCode | null> {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   try {
     // Verificar se já existe
@@ -134,7 +134,7 @@ export async function applyReferralCode(
   code: string, 
   newUserId: string
 ): Promise<{ success: boolean; message: string }> {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   try {
     // Buscar código
@@ -213,7 +213,7 @@ export async function applyReferralCode(
  * Busca estatísticas de referral do usuário
  */
 export async function getReferralStats(userId: string): Promise<ReferralStats> {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   try {
     // Buscar código do usuário

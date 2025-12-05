@@ -13,7 +13,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import {
   ArrowLeft,
   Palette,
@@ -58,7 +58,7 @@ const PRESET_COLORS = [
 
 export default function ConfigurarMarcaPage() {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   // Estados
   const [loading, setLoading] = useState(true)

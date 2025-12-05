@@ -7,7 +7,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { ArrowLeft, ShoppingBag, Sparkles, Gift } from 'lucide-react'
 import AddonsStore from '@/components/AddonsStore'
 import { usePlanLimits } from '@/hooks/usePlanLimits'

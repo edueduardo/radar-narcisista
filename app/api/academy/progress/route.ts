@@ -1,4 +1,4 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -12,7 +12,7 @@ import { NextRequest, NextResponse } from 'next/server'
 // GET - Busca progresso do usuário
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     const { searchParams } = new URL(request.url)
     
     // Verificar autenticação
@@ -99,7 +99,7 @@ export async function GET(request: NextRequest) {
 // POST - Registra/atualiza progresso
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação
     const { data: { user } } = await supabase.auth.getUser()

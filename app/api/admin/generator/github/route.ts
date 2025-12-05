@@ -1,7 +1,7 @@
 // API para integração com GitHub
 // /api/admin/generator/github
 
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -21,7 +21,7 @@ interface GitHubFile {
 // POST - Criar repositório no GitHub
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação e role admin
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -152,7 +152,7 @@ export async function POST(request: NextRequest) {
 // GET - Verificar conexão com GitHub
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação e role admin
     const { data: { user }, error: authError } = await supabase.auth.getUser()

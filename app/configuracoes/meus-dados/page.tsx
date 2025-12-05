@@ -6,7 +6,7 @@
  */
 
 import { useState } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import {
   Download,
@@ -30,7 +30,7 @@ export default function MeusDadosPage() {
   const [deleting, setDeleting] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   const handleExport = async () => {
     setExporting(true)

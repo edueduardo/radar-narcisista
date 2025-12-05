@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { analyzePatternsServer } from './actions'
 import Microphone from '../../../components/Microphone'
 import AbuseTagsDictionary from '../../../components/diario/AbuseTagsDictionary'
@@ -93,7 +93,7 @@ function NovoDiarioPageContent() {
   const [analysisResult, setAnalysisResult] = useState<any>(null)
   const [selectedCategoryId, setSelectedCategoryId] = useState<AbuseTagCategoryId | null>(null)
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   // Hook para verificar aceite dos termos
   const { hasAccepted: hasAcceptedTerms, isLoading: isLoadingTerms, markAsAccepted } = useTermsAcceptance()

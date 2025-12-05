@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { 
   ArrowLeft, 
@@ -56,7 +56,7 @@ export default function RelatoriosPage() {
   const [periodo, setPeriodo] = useState<'7d' | '30d' | '90d' | 'all'>('30d')
   const [gerandoPDF, setGerandoPDF] = useState(false)
   
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadData()

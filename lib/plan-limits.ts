@@ -5,7 +5,7 @@
  * Integra com a configuração de planos (plans-config.ts).
  */
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { PLANS, PlanLevel, PlanLimit } from './plans-config'
 
 // =============================================================================
@@ -42,7 +42,7 @@ export interface UserPlanInfo {
  * Conta mensagens de chat do usuário hoje
  */
 export async function countTodayMessages(userId: string): Promise<number> {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   const today = new Date()
   today.setHours(0, 0, 0, 0)
@@ -66,7 +66,7 @@ export async function countTodayMessages(userId: string): Promise<number> {
  * Conta entradas de diário do usuário este mês
  */
 export async function countMonthDiaryEntries(userId: string): Promise<number> {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   const firstDayOfMonth = new Date()
   firstDayOfMonth.setDate(1)
@@ -91,7 +91,7 @@ export async function countMonthDiaryEntries(userId: string): Promise<number> {
  * Conta testes de clareza do usuário este mês
  */
 export async function countMonthTests(userId: string): Promise<number> {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   const firstDayOfMonth = new Date()
   firstDayOfMonth.setDate(1)

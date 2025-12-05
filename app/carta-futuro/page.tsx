@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { ArrowLeft, Mail, Calendar, Heart, Send, Clock, Loader2, CheckCircle } from 'lucide-react'
 
 // =============================================================================
@@ -21,7 +21,7 @@ export default function CartaFuturoPage() {
   const [existingLetters, setExistingLetters] = useState<any[]>([])
   
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadUserData()

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AdminSidebar from '@/components/AdminSidebar'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { 
   ArrowLeft, Plus, Trash2, Save, ExternalLink, AlertTriangle,
   CheckCircle, XCircle, RefreshCw, Sparkles, Clock
@@ -18,7 +18,7 @@ export default function GerenciarIAsPage() {
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
 
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   const router = useRouter()
 
   // Função para logout

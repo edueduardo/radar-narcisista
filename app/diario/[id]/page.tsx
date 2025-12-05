@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { 
   ArrowLeft, 
   Calendar, 
@@ -99,7 +99,7 @@ export default function DiarioDetalhesPage() {
   const [deleting, setDeleting] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [expandedHistory, setExpandedHistory] = useState(false)
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   const entryId = params.id as string
   const currentAnalysis = analyses[0] || null

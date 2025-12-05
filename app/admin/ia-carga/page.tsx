@@ -22,7 +22,7 @@ import {
   Calendar,
   Brain
 } from 'lucide-react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 // Tipos
 interface UsageByProvider {
@@ -60,7 +60,7 @@ interface DailyUsage {
 }
 
 export default function IACargaPage() {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   const [usageByProvider, setUsageByProvider] = useState<UsageByProvider[]>([])
   const [usageByFeature, setUsageByFeature] = useState<UsageByFeature[]>([])

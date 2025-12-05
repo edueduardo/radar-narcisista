@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { ArrowLeft, MessageCircle, Heart, Sparkles, Send, Loader2, History } from 'lucide-react'
 
 // =============================================================================
@@ -28,7 +28,7 @@ export default function ModoEspelhoPage() {
   const [showHistory, setShowHistory] = useState(false)
   
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadPastReflections()

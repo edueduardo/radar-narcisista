@@ -1,7 +1,7 @@
 // API para gerar código do projeto
 // /api/admin/generator/generate
 
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -268,9 +268,9 @@ module.exports = nextConfig
     // lib/supabase.ts
     {
       path: 'lib/supabase.ts',
-      content: `import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+      content: `import { createClient } from '@/lib/supabase/client'
 
-export const createClient = () => createClientComponentClient()
+export const createClient = () => createClient()
 `
     },
     // TUDO-PARA-O-GPT.txt
@@ -354,7 +354,7 @@ BANCO DE DADOS:
 // POST - Gerar código do projeto
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação e role admin
     const { data: { user }, error: authError } = await supabase.auth.getUser()

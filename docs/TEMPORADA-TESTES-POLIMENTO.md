@@ -2,6 +2,7 @@
 
 ## Status: EM ANDAMENTO
 Data de Início: 05/12/2025
+Última Atualização: 05/12/2025
 
 ---
 
@@ -10,7 +11,14 @@ Data de Início: 05/12/2025
 ### 1. VERIFICAÇÃO DE BUILD ✅
 - [x] `npm run build` passa sem erros
 - [x] 241 rotas compiladas
-- [ ] Verificar warnings do build
+- [x] Warnings de linting verificados (maioria em _archive)
+
+### 1.1 CORREÇÕES APLICADAS ✅
+- [x] URLs `teste-claridade` → `teste-clareza` (18 arquivos)
+- [x] `manifest.json` shortcut URL corrigido
+- [x] `sitemap.ts` URL duplicada removida
+- [x] `next.config.ts` otimizado (imagens, headers, compressão)
+- [x] Headers de segurança configurados (HSTS, X-Frame-Options, etc.)
 
 ### 2. TESTES DE FLUXO CRÍTICO
 - [ ] **Cadastro/Login**

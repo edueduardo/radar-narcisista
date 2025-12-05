@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { 
   Target, ArrowRight, BookOpen, MessageCircle, Shield, PenLine,
@@ -53,7 +53,7 @@ export default function ResultadoUnificado() {
   const [diaryStats, setDiaryStats] = useState<any>(null)
   
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadResult()

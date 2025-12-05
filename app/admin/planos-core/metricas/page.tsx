@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import {
   ArrowLeft, BarChart3, Users, Zap, TrendingUp, TrendingDown,
@@ -37,7 +37,7 @@ interface OverviewMetrics {
 }
 
 export default function AdminPlanosCoreMetricasPage() {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   const [loading, setLoading] = useState(true)
   const [overview, setOverview] = useState<OverviewMetrics | null>(null)
   const [featureMetrics, setFeatureMetrics] = useState<FeatureMetric[]>([])

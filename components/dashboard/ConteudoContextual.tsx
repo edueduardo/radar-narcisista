@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useState } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import {
   Lightbulb,
@@ -157,7 +157,7 @@ export default function ConteudoContextual({ theme = 'light', maxItems = 3 }: Pr
   const [suggestions, setSuggestions] = useState<ContentSuggestion[]>([])
   const [loading, setLoading] = useState(true)
   const [userContext, setUserContext] = useState<UserContext | null>(null)
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadContextAndSuggestions()

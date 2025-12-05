@@ -13,7 +13,7 @@
  * - Grupo (Black Friday, beta, cliente VIP)
  */
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 // =============================================================================
 // TIPOS
@@ -71,7 +71,7 @@ export interface AIUsageLog {
 // =============================================================================
 
 export class AIConfigCore {
-  private supabase = createClientComponentClient()
+  private supabase = createClient()
 
   /**
    * Obtém os provedores configurados para um contexto específico

@@ -6,7 +6,7 @@
  * LOCAL: lib/admin-storage.ts
  */
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 // ============================================
 // TIPOS
@@ -94,7 +94,7 @@ const CONFIG_ID = '00000000-0000-0000-0000-000000000001'
  */
 export async function loadIAConfig(): Promise<AdminIAConfig> {
   try {
-    const supabase = createClientComponentClient()
+    const supabase = createClient()
     
     const { data, error } = await supabase
       .from('admin_ia_config')
@@ -120,7 +120,7 @@ export async function loadIAConfig(): Promise<AdminIAConfig> {
  */
 export async function saveIAConfig(config: Partial<AdminIAConfig>): Promise<boolean> {
   try {
-    const supabase = createClientComponentClient()
+    const supabase = createClient()
     
     const { error } = await supabase
       .from('admin_ia_config')
@@ -180,7 +180,7 @@ export function loadIAConfigLocal(): AdminIAConfig | null {
  */
 export async function loadContent(tipo: string): Promise<AdminContent[]> {
   try {
-    const supabase = createClientComponentClient()
+    const supabase = createClient()
     
     const { data, error } = await supabase
       .from('admin_content')
@@ -205,7 +205,7 @@ export async function loadContent(tipo: string): Promise<AdminContent[]> {
  */
 export async function saveContent(content: Omit<AdminContent, 'id' | 'created_at' | 'updated_at'>): Promise<string | null> {
   try {
-    const supabase = createClientComponentClient()
+    const supabase = createClient()
     
     const { data, error } = await supabase
       .from('admin_content')
@@ -239,7 +239,7 @@ export async function updateContentStatus(
   userId?: string
 ): Promise<boolean> {
   try {
-    const supabase = createClientComponentClient()
+    const supabase = createClient()
     
     const updateData: any = {
       status,
@@ -274,7 +274,7 @@ export async function updateContentStatus(
  */
 export async function deleteContent(id: string): Promise<boolean> {
   try {
-    const supabase = createClientComponentClient()
+    const supabase = createClient()
     
     const { error } = await supabase
       .from('admin_content')
@@ -303,7 +303,7 @@ export async function deleteContent(id: string): Promise<boolean> {
  */
 export async function loadRecursosEstado(sigla: string): Promise<RecursoEstado | null> {
   try {
-    const supabase = createClientComponentClient()
+    const supabase = createClient()
     
     const { data, error } = await supabase
       .from('recursos_estado')
@@ -328,7 +328,7 @@ export async function loadRecursosEstado(sigla: string): Promise<RecursoEstado |
  */
 export async function loadAllRecursos(): Promise<RecursoEstado[]> {
   try {
-    const supabase = createClientComponentClient()
+    const supabase = createClient()
     
     const { data, error } = await supabase
       .from('recursos_estado')
@@ -352,7 +352,7 @@ export async function loadAllRecursos(): Promise<RecursoEstado[]> {
  */
 export async function saveRecursosEstado(recurso: Omit<RecursoEstado, 'id'>): Promise<boolean> {
   try {
-    const supabase = createClientComponentClient()
+    const supabase = createClient()
     
     const { error } = await supabase
       .from('recursos_estado')

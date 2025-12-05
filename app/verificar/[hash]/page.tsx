@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { 
   Shield, 
@@ -52,7 +52,7 @@ export default function VerificarDocumento() {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<VerificationData | null>(null)
   
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     if (hash) {

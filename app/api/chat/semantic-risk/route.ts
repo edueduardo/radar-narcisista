@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { analyzeRiskWithAI, getSuggestedResponse } from '@/lib/semantic-risk-detector'
 import { sendRiskNotifications } from '@/lib/risk-notifications'
@@ -13,7 +13,7 @@ import { sendRiskNotifications } from '@/lib/risk-notifications'
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {

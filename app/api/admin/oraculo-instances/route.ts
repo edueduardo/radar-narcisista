@@ -10,7 +10,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { 
@@ -44,7 +44,7 @@ async function isAdmin(userId: string): Promise<boolean> {
 // GET - Lista todas as instâncias
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
@@ -76,7 +76,7 @@ export async function GET(request: NextRequest) {
 // POST - Cria nova instância
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {

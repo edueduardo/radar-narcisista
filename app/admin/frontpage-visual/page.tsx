@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { 
   ArrowLeft, 
   Save, 
@@ -520,7 +520,7 @@ export default function FrontpageVisualEditorPage() {
   const [viewMode, setViewMode] = useState<'desktop' | 'tablet' | 'mobile'>('desktop')
   const [selectedSection, setSelectedSection] = useState<string | null>('hero')
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   // Carregar configurações
   const loadConfigs = async () => {

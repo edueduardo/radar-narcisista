@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { 
   Target, ArrowRight, BookOpen, MessageCircle, Shield, PenLine,
@@ -74,7 +74,7 @@ export default function ResultadoV2() {
   const pdfRef = useRef<ClarityResultPDFHandle>(null)
   
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadResult()

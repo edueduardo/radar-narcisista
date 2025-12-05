@@ -12,7 +12,7 @@
  * - user_subscriptions_core: assinatura ativa do usuário
  */
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 // =============================================================================
 // TIPOS
@@ -118,10 +118,10 @@ export type EffectiveFeatures = Record<string, EffectiveFeature>
 // =============================================================================
 
 export class PlanosCore {
-  private supabase: ReturnType<typeof createClientComponentClient>
+  private supabase: ReturnType<typeof createClient>
 
-  constructor(supabaseClient?: ReturnType<typeof createClientComponentClient>) {
-    this.supabase = supabaseClient || createClientComponentClient()
+  constructor(supabaseClient?: ReturnType<typeof createClient>) {
+    this.supabase = supabaseClient || createClient()
   }
 
   // ---------------------------------------------------------------------------

@@ -1,14 +1,14 @@
 // API para gerenciamento de conteúdos (Admin)
 // /api/admin/content
 
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 // GET - Listar conteúdos (com filtros)
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação e role admin
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
 // POST - Criar novo conteúdo
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação e role admin
     const { data: { user }, error: authError } = await supabase.auth.getUser()

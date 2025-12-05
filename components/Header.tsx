@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Menu, X, Globe, Check } from 'lucide-react'
 import { Locale, locales, localeNames, defaultLocale, detectBrowserLocale } from '../lib/i18n'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 // Menu simplificado: 3 links + 2 CTAs
 const mainNav = [
@@ -18,7 +18,7 @@ export default function Header() {
   const [langOpen, setLangOpen] = useState(false)
   const [currentLocale, setCurrentLocale] = useState<Locale>(defaultLocale)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   // Carregar idioma salvo ou detectar do navegador
   useEffect(() => {

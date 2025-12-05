@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { 
   ArrowLeft, 
   Calendar, 
@@ -101,7 +101,7 @@ export default function TimelinePage() {
   // ETAPA 6 - Filtro por tipo de entrada do triângulo
   const [entryTypeFilter, setEntryTypeFilter] = useState<'all' | 'clarity_baseline' | 'chat_summary' | 'normal'>('all')
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadEntries()

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AdminSidebar from '@/components/AdminSidebar'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { 
   ArrowLeft, 
   BarChart3, 
@@ -42,7 +42,7 @@ export default function MetricasPage() {
   const [chartData, setChartData] = useState<ChartData[]>([])
   const [topPages, setTopPages] = useState<{ page: string; views: number }[]>([])
   
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   const router = useRouter()
 
   useEffect(() => {

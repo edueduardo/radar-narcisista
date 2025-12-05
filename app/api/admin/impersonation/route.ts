@@ -9,7 +9,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { 
   startImpersonationSession, 
@@ -22,7 +22,7 @@ import {
 } from '@/lib/impersonation'
 
 // Verificar se usuário é admin
-async function getAdminUser(supabase: ReturnType<typeof createRouteHandlerClient>) {
+async function getAdminUser(supabase: Awaited<ReturnType<typeof createRouteHandlerClient>>) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return null
   
@@ -45,7 +45,7 @@ async function getAdminUser(supabase: ReturnType<typeof createRouteHandlerClient
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     const admin = await getAdminUser(supabase)
     if (!admin) {
@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     const admin = await getAdminUser(supabase)
     if (!admin) {
@@ -197,7 +197,7 @@ export async function POST(request: NextRequest) {
  */
 export async function DELETE(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     const admin = await getAdminUser(supabase)
     if (!admin) {

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { AlertTriangle, X, TrendingUp, Zap, Bell } from 'lucide-react'
 import Link from 'next/link'
 
@@ -20,7 +20,7 @@ interface UsageStatus {
 }
 
 export default function LimitNotificationBanner() {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [usageStatuses, setUsageStatuses] = useState<UsageStatus[]>([])
   const [dismissed, setDismissed] = useState<string[]>([])

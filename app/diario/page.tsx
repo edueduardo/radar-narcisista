@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { JournalEntry } from '../../types/database'
 import { ArrowLeft, FileText, BookOpen, Sparkles, MessageCircle, Shield } from 'lucide-react'
 
@@ -19,7 +19,7 @@ export default function DiarioPage() {
   const [filter, setFilter] = useState<'all' | 'high' | 'medium' | 'low'>('all')
   const [entryTypeFilter, setEntryTypeFilter] = useState<'all' | 'clarity_baseline' | 'chat_summary' | 'normal'>('all')
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadEntries()

@@ -1,4 +1,4 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -17,7 +17,7 @@ interface RouteContext {
 // GET - Busca conteúdo por ID ou slug
 export async function GET(request: NextRequest, { params }: RouteContext) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     const { id } = await params
     
     // Verificar se é admin
@@ -80,7 +80,7 @@ export async function GET(request: NextRequest, { params }: RouteContext) {
 // PUT - Atualiza conteúdo (admin only)
 export async function PUT(request: NextRequest, { params }: RouteContext) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     const { id } = await params
     
     // Verificar autenticação
@@ -163,7 +163,7 @@ export async function PUT(request: NextRequest, { params }: RouteContext) {
 // DELETE - Remove conteúdo (admin only)
 export async function DELETE(request: NextRequest, { params }: RouteContext) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     const { id } = await params
     
     // Verificar autenticação

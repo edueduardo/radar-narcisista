@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import {
   ArrowLeft,
@@ -156,7 +156,7 @@ export default function AcademyPage() {
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null)
   const [editingTrack, setEditingTrack] = useState<Track | null>(null)
   const [message, setMessage] = useState('')
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   // Filtrar trilhas
   const filteredTracks = tracks.filter(track => {

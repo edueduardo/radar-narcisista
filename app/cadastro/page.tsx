@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { supabase } from '../../lib/supabaseClient'
+import { createClient } from '@/lib/supabase/client'
 import { UserPlus, Mail, Lock, AlertCircle, ArrowLeft, Shield, Check, Target, Sparkles, LogIn, Loader2 } from 'lucide-react'
 
 // Componente interno que usa useSearchParams
@@ -17,6 +17,7 @@ function CadastroContent() {
   const [mode, setMode] = useState<'unified' | 'login' | 'signup'>('unified') // Modo unificado
   const router = useRouter()
   const searchParams = useSearchParams()
+  const supabase = createClient()
   
   // Detecta se veio do teste de clareza
   const fromTeste = searchParams.get('from') === 'teste'

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { analiseColaborativaAdmin } from '../../../../lib/ia-admin'
 import type { ImpactLevel } from '../../../../lib/diary-types'
@@ -167,7 +167,7 @@ export async function POST(request: NextRequest) {
     if (entryId) {
       try {
         const cookieStore = cookies()
-        const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+        const supabase = await createRouteHandlerClient()
         const { data: { user } } = await supabase.auth.getUser()
         
         if (user) {

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import {
   Lightbulb,
@@ -99,7 +99,7 @@ export default function SugestoesPage() {
   const [iaSourceType, setIaSourceType] = useState('blog')
 
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   const loadSuggestions = useCallback(async () => {
     setLoading(true)

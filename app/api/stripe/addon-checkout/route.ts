@@ -6,7 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { stripe, isStripeConfigured } from '@/lib/stripe'
 import { getAddonById, type Addon } from '@/lib/addons-config'
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Buscar usuário autenticado
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {

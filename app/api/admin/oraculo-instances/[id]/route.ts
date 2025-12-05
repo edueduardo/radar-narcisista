@@ -11,7 +11,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { 
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params
     
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
@@ -111,7 +111,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params
     
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
@@ -157,7 +157,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params
     
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {

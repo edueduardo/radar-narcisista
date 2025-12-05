@@ -8,7 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createTicket, CreateTicketInput, listTickets, getTicketStats, ListTicketsParams } from '@/lib/helpdesk-core'
 import { getProjectById } from '@/lib/control-tower'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 
 /**
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação
     const { data: { user } } = await supabase.auth.getUser()

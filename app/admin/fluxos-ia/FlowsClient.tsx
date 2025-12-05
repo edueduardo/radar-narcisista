@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { 
   Bot, 
   Plus, 
@@ -69,7 +69,7 @@ interface FlowsClientProps {
 
 export default function FlowsClient({ initialFlows }: FlowsClientProps) {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   const [flows, setFlows] = useState<Flow[]>(initialFlows)
   const [loading, setLoading] = useState(false)
   const [showMock, setShowMock] = useState(false)

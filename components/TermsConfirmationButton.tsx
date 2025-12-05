@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { Shield, FileText, CheckCircle, AlertTriangle } from 'lucide-react'
 import { ResponsibilityTermsModal } from './ResponsibilityTermsModal'
 
@@ -21,7 +21,7 @@ export function TermsConfirmationButton({
   const [isLoading, setIsLoading] = useState(true)
   const [lastAcceptedAt, setLastAcceptedAt] = useState<string | null>(null)
   const [acceptanceId, setAcceptanceId] = useState<string | null>(null)
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     checkTermsStatus()

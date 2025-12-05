@@ -6,7 +6,7 @@
  */
 
 import { useEffect, useState } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import {
   TrendingUp,
   TrendingDown,
@@ -55,7 +55,7 @@ interface Props {
 export default function EmotionalAggregations({ theme = 'light' }: Props) {
   const [data, setData] = useState<EmotionalData | null>(null)
   const [loading, setLoading] = useState(true)
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadAggregations()

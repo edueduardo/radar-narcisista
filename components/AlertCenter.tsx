@@ -13,7 +13,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import {
   AlertTriangle,
   Shield,
@@ -106,7 +106,7 @@ export default function AlertCenter({
   const [loading, setLoading] = useState(true)
   const [expanded, setExpanded] = useState(!compact)
   
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   // Carregar alertas
   useEffect(() => {
@@ -371,7 +371,7 @@ export default function AlertCenter({
 export function AlertBadge({ className = '' }: { className?: string }) {
   const [count, setCount] = useState(0)
   const [hasCritical, setHasCritical] = useState(false)
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     const loadCount = async () => {

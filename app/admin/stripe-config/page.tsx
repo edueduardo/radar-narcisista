@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import {
   ArrowLeft,
@@ -37,7 +37,7 @@ export default function StripeConfigPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [stripeConnected, setStripeConnected] = useState(false)
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   // Carregar planos
   useEffect(() => {

@@ -35,7 +35,7 @@ import {
   Activity,
   PieChart
 } from 'lucide-react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 // Tipos
 interface UsageStats {
@@ -83,7 +83,7 @@ interface Alert {
 type Period = '24h' | '7d' | '30d' | '90d'
 
 export default function IAAnalyticsPage() {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   const [loading, setLoading] = useState(true)
   const [period, setPeriod] = useState<Period>('7d')

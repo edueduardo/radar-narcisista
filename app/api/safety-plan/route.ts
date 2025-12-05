@@ -1,4 +1,4 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
@@ -118,7 +118,7 @@ async function createDiaryEntry(
 export async function GET() {
   try {
     const cookieStore = cookies()
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+    const supabase = await createRouteHandlerClient()
     
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     
@@ -169,7 +169,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const cookieStore = cookies()
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+    const supabase = await createRouteHandlerClient()
     
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     
@@ -253,7 +253,7 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const cookieStore = cookies()
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+    const supabase = await createRouteHandlerClient()
     
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     

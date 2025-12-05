@@ -15,7 +15,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import AdminSidebar from '@/components/AdminSidebar'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import {
   BarChart3,
   TrendingUp,
@@ -99,7 +99,7 @@ export default function OraculoMetricasPage() {
   const [periodo, setPeriodo] = useState<'hoje' | 'semana' | 'mes'>('semana')
   const [salvando, setSalvando] = useState(false)
   
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   // Carregar dados
   useEffect(() => {

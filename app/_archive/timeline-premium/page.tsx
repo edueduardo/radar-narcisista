@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { 
   Clock, 
@@ -51,7 +51,7 @@ export default function TimelinePremiumPage() {
   const [expandedEntry, setExpandedEntry] = useState<string | null>(null)
 
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     const init = async () => {

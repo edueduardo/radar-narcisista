@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { 
   Target, 
@@ -61,7 +61,7 @@ export default function TesteClarezaUnificado() {
   const [isPremium, setIsPremium] = useState(false) // TODO: verificar plano do usuário
 
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     const init = async () => {

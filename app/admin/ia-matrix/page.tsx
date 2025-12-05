@@ -26,7 +26,7 @@ import {
   ChevronDown,
   ChevronRight
 } from 'lucide-react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 // Tipos
 interface AIProvider {
@@ -78,7 +78,7 @@ const PERFIS = [
 ]
 
 export default function IAMatrixPage() {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   const [providers, setProviders] = useState<AIProvider[]>([])
   const [features, setFeatures] = useState<AIFeature[]>([])

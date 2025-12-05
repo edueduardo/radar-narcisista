@@ -9,7 +9,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { 
   listAllProjects, 
@@ -20,7 +20,7 @@ import {
 } from '@/lib/control-tower'
 
 // Verificar se usuário é super-admin
-async function isSuperAdmin(supabase: ReturnType<typeof createRouteHandlerClient>): Promise<boolean> {
+async function isSuperAdmin(supabase: Awaited<ReturnType<typeof createRouteHandlerClient>>): Promise<boolean> {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return false
   
@@ -39,7 +39,7 @@ async function isSuperAdmin(supabase: ReturnType<typeof createRouteHandlerClient
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação e permissão
     if (!await isSuperAdmin(supabase)) {
@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação e permissão
     if (!await isSuperAdmin(supabase)) {
@@ -133,7 +133,7 @@ export async function POST(request: NextRequest) {
  */
 export async function PATCH(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação e permissão
     if (!await isSuperAdmin(supabase)) {

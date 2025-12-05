@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AdminSidebar from '@/components/AdminSidebar'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { 
   ArrowLeft, Key, Save, Eye, EyeOff, CheckCircle, XCircle, 
   ExternalLink, Zap, Brain, Sparkles, Bot, AlertTriangle,
@@ -245,7 +245,7 @@ export default function ConfigurarIAsPage() {
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
 
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   const router = useRouter()
 
   // Função para logout

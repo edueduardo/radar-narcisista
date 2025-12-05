@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { ArrowLeft, Clock, Heart, AlertTriangle, Frown, Ghost, RotateCcw, ChevronRight, Info, BookOpen, Loader2 } from 'lucide-react'
 
 // =============================================================================
@@ -154,7 +154,7 @@ export default function LinhaTempoPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [userPhaseData, setUserPhaseData] = useState<UserPhaseData | null>(null)
   
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadUserData()

@@ -17,7 +17,7 @@
  * @see lib/ai-personas.ts - Personas/Avatares
  */
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { AIConfigCore, AIProviderConfig, AIConfigContext } from './ai-config-core'
 import { getActivePersonasForContext, PersonaForContext } from './ai-personas'
 
@@ -105,7 +105,7 @@ export interface MenuProviderMapping {
 // =============================================================================
 
 class AIRouter {
-  private supabase = createClientComponentClient()
+  private supabase = createClient()
   private aiConfig = new AIConfigCore()
 
   // Cache de providers por menu (TTL: 5 minutos)

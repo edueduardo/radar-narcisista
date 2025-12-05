@@ -25,7 +25,7 @@ import {
   Sparkles,
   LayoutGrid
 } from 'lucide-react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 // Tipos
 interface MenuMapping {
@@ -69,7 +69,7 @@ const PERFIS = [
 ]
 
 export default function IAMapaMenusPage() {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   const [menus, setMenus] = useState<MenuMapping[]>([])
   const [providers, setProviders] = useState<Provider[]>([])

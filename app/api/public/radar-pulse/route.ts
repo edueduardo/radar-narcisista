@@ -2,7 +2,7 @@
 // /api/public/radar-pulse
 // Ideia Diamante #1: "Clima Emocional do Radar, Hoje"
 
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -31,7 +31,7 @@ interface RadarPulseData {
 // GET - Buscar dados do Radar Pulse
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     const today = new Date()
     today.setHours(0, 0, 0, 0)

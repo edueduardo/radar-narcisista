@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import {
   ArrowLeft, Search, User, Shield, Plus, Trash2, Save, X, Check,
@@ -37,7 +37,7 @@ interface UserData {
 }
 
 export default function AdminPlanosCoreOverridesPage() {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   const [features, setFeatures] = useState<Feature[]>([])
   const [loading, setLoading] = useState(true)
   const [searchEmail, setSearchEmail] = useState('')

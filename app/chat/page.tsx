@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { chatWithCoach } from '../../lib/openai'
 import { chatEmergencyMode, statusEmergencyMode } from '../../lib/chat-emergency'
 import { chatColaborativo, getConfigChatColaborativo } from '../../lib/chat-colaborativo'
@@ -157,7 +157,7 @@ function ChatPageContent() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   // Mostrar mensagem de boas-vindas e prompt de localização automaticamente
   useEffect(() => {

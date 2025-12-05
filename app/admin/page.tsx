@@ -1,5 +1,4 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import { createServerComponentClient } from '@/lib/supabase/server-compat'
 import { redirect } from 'next/navigation'
 import AdminClient from './AdminClient'
 
@@ -12,10 +11,7 @@ const ADMIN_EMAILS = [
 ]
 
 export default async function AdminPage() {
-  const cookieStore = await cookies()
-  const supabase = createServerComponentClient({ 
-    cookies: () => cookieStore as any
-  })
+  const supabase = await createServerComponentClient()
 
   // Usar getUser() que é mais confiável que getSession()
   const { data: { user }, error: userError } = await supabase.auth.getUser()

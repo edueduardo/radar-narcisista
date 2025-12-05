@@ -1,14 +1,14 @@
 // API pública para dados da frontpage
 // /api/public/frontpage
 
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 // GET - Buscar dados públicos da frontpage
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Buscar configuração dos blocos ativos
     const { data: blocks } = await supabase

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import {
   ArrowLeft,
@@ -150,7 +150,7 @@ export default function FanpageConfigPage() {
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
   const [selectedBlock, setSelectedBlock] = useState<FanpageBlock | null>(null)
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   // Carregar configuração do banco
   useEffect(() => {

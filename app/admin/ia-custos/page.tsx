@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import {
   ArrowLeft,
@@ -55,7 +55,7 @@ export default function IACustosPage() {
   const [alerts, setAlerts] = useState<CostAlert[]>([])
   const [totalCost, setTotalCost] = useState(0)
   const [totalTokens, setTotalTokens] = useState(0)
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadStats()

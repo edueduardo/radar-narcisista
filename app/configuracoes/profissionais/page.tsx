@@ -18,7 +18,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import {
   ArrowLeft,
   Shield,
@@ -116,7 +116,7 @@ const PERMISSION_OPTIONS: PermissionOption[] = [
 
 export default function GerenciarProfissionaisPage() {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   // Estados
   const [loading, setLoading] = useState(true)

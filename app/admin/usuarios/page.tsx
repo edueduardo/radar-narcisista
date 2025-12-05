@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AdminSidebar from '@/components/AdminSidebar'
@@ -32,7 +32,7 @@ export default function GerenciadorUsuariosPage() {
   const [pagina, setPagina] = useState(1)
   const [menuAberto, setMenuAberto] = useState<string | null>(null)
   
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   const router = useRouter()
   const porPagina = 10
 

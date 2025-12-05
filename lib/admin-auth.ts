@@ -1,6 +1,5 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createServerComponentClient } from '@/lib/supabase/server-compat'
 import { supabaseAdmin } from '@/lib/supabaseClient'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 const ADMIN_EMAILS = [
@@ -13,10 +12,7 @@ const ADMIN_EMAILS = [
  * Deve ser usada em Server Components de rotas admin
  */
 export async function requireAdmin() {
-  const cookieStore = await cookies()
-  const supabase = createServerComponentClient({ 
-    cookies: () => cookieStore as any
-  })
+  const supabase = await createServerComponentClient()
 
   const { data: { session }, error } = await supabase.auth.getSession()
 
@@ -54,10 +50,7 @@ export async function requireAdmin() {
  */
 export async function isAdmin(): Promise<boolean> {
   try {
-    const cookieStore = await cookies()
-    const supabase = createServerComponentClient({ 
-      cookies: () => cookieStore as any
-    })
+    const supabase = await createServerComponentClient()
 
     const { data: { session } } = await supabase.auth.getSession()
 

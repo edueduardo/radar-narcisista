@@ -8,7 +8,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { 
   getProjectById,
@@ -17,7 +17,7 @@ import {
 } from '@/lib/control-tower'
 
 // Verificar se usuário é super-admin
-async function isSuperAdmin(supabase: ReturnType<typeof createRouteHandlerClient>): Promise<boolean> {
+async function isSuperAdmin(supabase: Awaited<Awaited<ReturnType<typeof createRouteHandlerClient>>>): Promise<boolean> {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return false
   
@@ -41,7 +41,7 @@ interface RouteParams {
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação e permissão
     if (!await isSuperAdmin(supabase)) {
@@ -90,7 +90,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = await params
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação e permissão
     if (!await isSuperAdmin(supabase)) {

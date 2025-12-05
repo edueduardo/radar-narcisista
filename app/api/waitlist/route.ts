@@ -1,4 +1,4 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     }
     
     const cookieStore = cookies()
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar se email já está na lista
     const { data: existing } = await supabase
@@ -75,7 +75,7 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   try {
     const cookieStore = cookies()
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar se é admin (simplificado)
     const { data: { user } } = await supabase.auth.getUser()

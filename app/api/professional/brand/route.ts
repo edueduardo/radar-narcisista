@@ -12,7 +12,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 
 // Tipo da marca
@@ -38,7 +38,7 @@ const DEFAULT_BRAND: Omit<ProfessionalBrand, 'professional_id'> = {
 }
 
 // Verificar se usuário tem plano profissional
-async function checkProfessionalAccess(supabase: ReturnType<typeof createRouteHandlerClient>, userId: string): Promise<boolean> {
+async function checkProfessionalAccess(supabase: Awaited<ReturnType<typeof createRouteHandlerClient>>, userId: string): Promise<boolean> {
   const { data: profile } = await supabase
     .from('profiles')
     .select('plan_id, subscription_status')
@@ -61,7 +61,7 @@ function isValidHexColor(color: string): boolean {
 // =============================================================================
 export async function GET(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -114,7 +114,7 @@ export async function GET(request: NextRequest) {
 // =============================================================================
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies })
+    const supabase = await createRouteHandlerClient()
     
     // Verificar autenticação
     const { data: { user }, error: authError } = await supabase.auth.getUser()

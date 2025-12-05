@@ -36,7 +36,7 @@ import {
   Settings,
   Sparkles
 } from 'lucide-react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 // Tipos
 interface Plan {
@@ -97,7 +97,7 @@ const FEATURES = [
 ]
 
 export default function IAPlanosPage() {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   const [plans, setPlans] = useState<Plan[]>(DEFAULT_PLANS)
   const [providers, setProviders] = useState<AIProvider[]>(DEFAULT_PROVIDERS)

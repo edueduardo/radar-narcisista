@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createServerComponentClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import { 
   BillingPlan, 
@@ -32,8 +32,8 @@ export async function GET(request: NextRequest) {
     const audience = searchParams.get('audience') || 'consumer'
     const locale = (searchParams.get('locale') || 'pt-BR') as Locale
     
-    const cookieStore = await cookies()
-    const supabase = createServerComponentClient({ cookies: () => cookieStore as any })
+    
+    const supabase = await createServerComponentClient()
     
     // Buscar planos públicos
     const { data: plans, error: plansError } = await supabase

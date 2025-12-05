@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Microphone from '../../../../components/Microphone'
 import { ArrowLeft, FileText, Sparkles, Loader2, ExternalLink } from 'lucide-react'
 import { PROBLEMS } from '@/lib/tools-config'
@@ -51,7 +51,7 @@ export default function EditarDiarioPage() {
   const [analysisResult, setAnalysisResult] = useState<any>(null)
   const router = useRouter()
   const params = useParams()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   // Hook para verificar aceite dos termos
   const { hasAccepted: hasAcceptedTerms, isLoading: isLoadingTerms, markAsAccepted } = useTermsAcceptance()

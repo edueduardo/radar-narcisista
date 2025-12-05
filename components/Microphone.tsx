@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 interface MicrophoneProps {
   onTranscription: (text: string) => void
@@ -14,7 +14,7 @@ export default function Microphone({ onTranscription, onError, disabled = false 
   const [isProcessing, setIsProcessing] = useState(false)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const chunksRef = useRef<Blob[]>([])
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   const startRecording = async () => {
     try {

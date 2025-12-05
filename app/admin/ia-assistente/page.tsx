@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AdminSidebar from '@/components/AdminSidebar'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { 
   ArrowLeft, Sparkles, Video, TrendingUp, Instagram, Youtube, 
   Lightbulb, DollarSign, Users, Settings, Power, PowerOff, 
@@ -48,7 +48,7 @@ export default function IAAssistentePage() {
   const [gerando, setGerando] = useState(false)
   const [copiado, setCopiado] = useState<string | null>(null)
 
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   const router = useRouter()
 
   // Função para logout

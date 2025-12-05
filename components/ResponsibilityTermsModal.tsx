@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { AlertTriangle, Scale, Shield, FileWarning, CheckCircle2 } from 'lucide-react'
 
 interface ResponsibilityTermsModalProps {
@@ -28,7 +28,7 @@ export function ResponsibilityTermsModal({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [shouldShow, setShouldShow] = useState(forceShow)
   const [hasAccepted, setHasAccepted] = useState<boolean | null>(null)
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   const allChecked = Object.values(checks).every(v => v)
 

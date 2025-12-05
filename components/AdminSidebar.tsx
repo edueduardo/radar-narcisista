@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { 
   Bot, 
   Settings, 
@@ -123,7 +123,7 @@ export default function AdminSidebar() {
   const router = useRouter()
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [menuItems, setMenuItems] = useState<SidebarItem[]>([])
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     // Carrega o menu centralizado (que já vem do registry) e converte para itens da sidebar

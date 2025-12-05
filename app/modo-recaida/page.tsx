@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { ArrowLeft, AlertTriangle, Heart, BookOpen, MessageCircle, Phone, ChevronRight, X, Loader2 } from 'lucide-react'
 
 // =============================================================================
@@ -36,7 +36,7 @@ export default function ModoRecaidaPage() {
   const [cartaFuturo, setCartaFuturo] = useState<string | null>(null)
   
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadUserData()

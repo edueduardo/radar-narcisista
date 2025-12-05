@@ -3,7 +3,7 @@
  * Funções para gerenciar add-ons do usuário
  */
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 
 // Tipos
 export interface UserAddonDB {
@@ -27,7 +27,7 @@ export interface UserAddonDB {
  * Busca todos os add-ons ativos do usuário
  */
 export async function getUserAddons(userId?: string): Promise<UserAddonDB[]> {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   const { data, error } = await supabase
     .from('user_addons')

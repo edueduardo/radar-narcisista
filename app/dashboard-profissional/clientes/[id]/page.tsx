@@ -19,7 +19,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import {
   ArrowLeft,
   Printer,
@@ -127,7 +127,7 @@ export default function ClienteRelatorioPage() {
   const router = useRouter()
   const params = useParams()
   const clientId = params.id as string
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   // Estados
   const [loading, setLoading] = useState(true)

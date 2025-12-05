@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { chatWithCoach } from '../../../lib/openai'
 import { chatColaborativo, getConfigChatColaborativo } from '../../../lib/chat-colaborativo'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 
 // Tipos de problemas que podem ser detectados
@@ -142,7 +142,7 @@ function detectFraudFlags(text: string, history: any[]): FraudFlag[] {
 async function getClarityContextForChat(userId: string): Promise<string | null> {
   try {
     const cookieStore = cookies()
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+    const supabase = await createRouteHandlerClient()
     
     const { data: profile, error } = await supabase
       .from('clarity_tests')
@@ -213,7 +213,7 @@ async function getClarityContextForChat(userId: string): Promise<string | null> 
 async function getDiaryContextForChat(userId: string): Promise<string | null> {
   try {
     const cookieStore = cookies()
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+    const supabase = await createRouteHandlerClient()
     
     // Buscar últimos 3 episódios mais intensos (mood_intensity >= 6) dos últimos 30 dias
     const thirtyDaysAgo = new Date()
@@ -297,7 +297,7 @@ export async function POST(request: NextRequest) {
     // ETAPA 7 - Verificar se é uma requisição para criar risk_alert
     if (body?.createRiskAlert) {
       const cookieStore = cookies()
-      const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+      const supabase = await createRouteHandlerClient()
       
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) {
@@ -359,7 +359,7 @@ export async function POST(request: NextRequest) {
 
     // Buscar contexto de clareza do usuário (se logado e tiver perfil)
     const cookieStore = cookies()
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+    const supabase = await createRouteHandlerClient()
     const { data: { user } } = await supabase.auth.getUser()
     
     let clarityContext: string | null = null

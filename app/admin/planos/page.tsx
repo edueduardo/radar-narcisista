@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import {
   ArrowLeft,
@@ -29,7 +29,7 @@ import { BillingPlan, BillingPlanPromotion, centsToReais, reaisToCents, formatPr
 import { SemaforoCard } from '@/components/admin/EditSemaforoBadge'
 
 export default function AdminPlanosPage() {
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   // Estados
   const [plans, setPlans] = useState<BillingPlan[]>([])

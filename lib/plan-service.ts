@@ -5,7 +5,7 @@
  * Substitui gradualmente o uso direto de plans-config.ts.
  */
 
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createServerComponentClient } from '@/lib/supabase/server-compat'
 import { cookies } from 'next/headers'
 import {
   BillingPlan,
@@ -106,8 +106,8 @@ function calculateEffectivePrice(
 // =============================================================================
 
 export async function getPublicConsumerPlans(locale: Locale = 'pt-BR'): Promise<AppPlanWithEffectivePrice[]> {
-  const cookieStore = await cookies()
-  const supabase = createServerComponentClient({ cookies: () => cookieStore as any })
+  
+  const supabase = await createServerComponentClient()
   
   const { data: plans, error } = await supabase
     .from('billing_plans')
@@ -158,8 +158,8 @@ export async function getPublicConsumerPlans(locale: Locale = 'pt-BR'): Promise<
 }
 
 export async function getPublicProfessionalPlans(locale: Locale = 'pt-BR'): Promise<AppPlanWithEffectivePrice[]> {
-  const cookieStore = await cookies()
-  const supabase = createServerComponentClient({ cookies: () => cookieStore as any })
+  
+  const supabase = await createServerComponentClient()
   
   const { data: plans, error } = await supabase
     .from('billing_plans')
@@ -188,8 +188,8 @@ export async function getPublicProfessionalPlans(locale: Locale = 'pt-BR'): Prom
 }
 
 export async function getAdminPlans(): Promise<{ plans: BillingPlan[], promotions: BillingPlanPromotion[] }> {
-  const cookieStore = await cookies()
-  const supabase = createServerComponentClient({ cookies: () => cookieStore as any })
+  
+  const supabase = await createServerComponentClient()
   
   const [plansResult, promosResult] = await Promise.all([
     supabase.from('billing_plans').select('*').order('sort_order'),
@@ -203,8 +203,8 @@ export async function getAdminPlans(): Promise<{ plans: BillingPlan[], promotion
 }
 
 export async function getPlanByCode(code: string, locale: Locale = 'pt-BR'): Promise<AppPlan | null> {
-  const cookieStore = await cookies()
-  const supabase = createServerComponentClient({ cookies: () => cookieStore as any })
+  
+  const supabase = await createServerComponentClient()
   
   const { data: plan } = await supabase
     .from('billing_plans')
@@ -221,8 +221,8 @@ export async function getPlanByCode(code: string, locale: Locale = 'pt-BR'): Pro
 // =============================================================================
 
 export async function upsertPlan(input: PlanInput & { id?: string }): Promise<{ success: boolean, error?: string }> {
-  const cookieStore = await cookies()
-  const supabase = createServerComponentClient({ cookies: () => cookieStore as any })
+  
+  const supabase = await createServerComponentClient()
   
   if (input.id) {
     const { error } = await supabase
@@ -241,8 +241,8 @@ export async function upsertPlan(input: PlanInput & { id?: string }): Promise<{ 
 }
 
 export async function upsertPromotion(input: PromotionInput & { id?: string }): Promise<{ success: boolean, error?: string }> {
-  const cookieStore = await cookies()
-  const supabase = createServerComponentClient({ cookies: () => cookieStore as any })
+  
+  const supabase = await createServerComponentClient()
   
   if (input.id) {
     const { error } = await supabase
@@ -261,8 +261,8 @@ export async function upsertPromotion(input: PromotionInput & { id?: string }): 
 }
 
 export async function deletePromotion(id: string): Promise<{ success: boolean, error?: string }> {
-  const cookieStore = await cookies()
-  const supabase = createServerComponentClient({ cookies: () => cookieStore as any })
+  
+  const supabase = await createServerComponentClient()
   
   const { error } = await supabase
     .from('billing_plan_promotions')

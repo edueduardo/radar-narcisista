@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import { ThemeSelector } from '../../components/ThemeProvider'
 import { Moon, BarChart3, FileText, MessageCircle, ClipboardCheck, ArrowLeft, Users, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
@@ -27,7 +27,7 @@ export default function ConfiguracoesPage() {
     chatSessionsCount: 0
   })
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadSettings()

@@ -15,7 +15,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import AdminSidebar from '@/components/AdminSidebar'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import {
   Eye,
   TrendingUp,
@@ -96,7 +96,7 @@ export default function OraculoPage() {
   const [loading, setLoading] = useState(true)
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null)
   
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
 
   useEffect(() => {
     loadOracleData()

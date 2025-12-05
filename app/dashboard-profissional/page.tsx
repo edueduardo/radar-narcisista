@@ -22,7 +22,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@/lib/supabase/client'
 import {
   Users,
   FileText,
@@ -95,7 +95,7 @@ async function fetchClients(): Promise<ProfessionalClient[]> {
 
 export default function DashboardProfissionalPage() {
   const router = useRouter()
-  const supabase = createClientComponentClient()
+  const supabase = createClient()
   
   // Estados
   const [loading, setLoading] = useState(true)
