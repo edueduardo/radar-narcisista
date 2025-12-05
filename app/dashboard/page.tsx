@@ -259,6 +259,9 @@ export default function DashboardV2Page() {
     diaryIntense30d: 0,
     chatSummaryCount30d: 0,
     lastChatSummaryDate: null as string | null,
+    // DETECÇÃO VIA DIÁRIO - Tags graves nos últimos 30 dias
+    graveTagsCount30d: 0,
+    hasRecentGraveTags: false,
   })
   
   // ETAPA 7 - Estado do Plano de Segurança
@@ -534,10 +537,10 @@ export default function DashboardV2Page() {
           .eq('entry_type', 'clarity_baseline')
           .order('created_at', { ascending: false })
           .limit(1),
-        // Entradas do diário nos últimos 30 dias
+        // Entradas do diário nos últimos 30 dias (incluindo tags para detecção)
         supabase
           .from('journal_entries')
-          .select('mood_intensity, created_at')
+          .select('mood_intensity, created_at, tags, impact_score')
           .eq('user_id', user.id)
           .gte('created_at', thirtyDaysAgo.toISOString()),
         // Resumos de chat nos últimos 30 dias
@@ -553,6 +556,26 @@ export default function DashboardV2Page() {
       const diaryEntries30d = diaryEntriesRes.data || []
       const chatSummaries30d = chatSummaryRes.data || []
       
+      // DETECÇÃO VIA DIÁRIO - Contar entradas com tags graves
+      const GRAVE_TAGS = [
+        'ameaça velada', 'ameaca velada',
+        'explosão', 'explosao',
+        'agressão verbal', 'agressao verbal',
+        'ameaças', 'ameacas',
+        'violência física', 'violencia fisica',
+        'agressão física', 'agressao fisica',
+        'estrangulamento',
+        'empurrão', 'empurrao',
+        'soco', 'tapa', 'chute'
+      ]
+      
+      const entriesWithGraveTags = diaryEntries30d.filter(entry => {
+        const entryTags = (entry.tags || []).map((t: string) => t.toLowerCase())
+        return entryTags.some((tag: string) => 
+          GRAVE_TAGS.some(grave => tag.includes(grave) || grave.includes(tag))
+        ) || entry.impact_score === 3
+      })
+      
       setTriangleState({
         hasClarity: (clarityEntriesRes.data?.length || 0) > 0,
         lastClarityDate: clarityEntriesRes.data?.[0]?.created_at || null,
@@ -560,6 +583,9 @@ export default function DashboardV2Page() {
         diaryIntense30d: diaryEntries30d.filter(e => (e.mood_intensity || 0) >= 7).length,
         chatSummaryCount30d: chatSummaries30d.length,
         lastChatSummaryDate: chatSummaries30d[0]?.created_at || null,
+        // DETECÇÃO VIA DIÁRIO
+        graveTagsCount30d: entriesWithGraveTags.length,
+        hasRecentGraveTags: entriesWithGraveTags.length >= 3, // Alerta se >= 3 episódios graves em 30 dias
       })
       
       setLoading(false)
@@ -1113,6 +1139,45 @@ export default function DashboardV2Page() {
                   >
                     <X className={`w-4 h-4 ${t.textMuted}`} />
                   </button>
+                </div>
+              </div>
+            </section>
+          )}
+          
+          {/* ============================================================ */}
+          {/* BANNER DE ALERTA - TAGS GRAVES NO DIÁRIO (>= 3 em 30 dias) */}
+          {/* ============================================================ */}
+          {triangleState.hasRecentGraveTags && (
+            <section className="mb-4">
+              <div className={`p-4 rounded-xl border-2 ${theme === 'light' ? 'bg-orange-50 border-orange-300' : 'bg-orange-950/30 border-orange-700'}`}>
+                <div className="flex items-start gap-3">
+                  <div className={`p-2 rounded-lg ${theme === 'light' ? 'bg-orange-100' : 'bg-orange-900/50'}`}>
+                    <AlertTriangle className={`w-5 h-5 ${theme === 'light' ? 'text-orange-600' : 'text-orange-400'}`} />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className={`font-semibold ${theme === 'light' ? 'text-orange-800' : 'text-orange-300'}`}>
+                      ⚠️ Padrão de episódios graves detectado
+                    </h4>
+                    <p className={`text-sm mt-1 ${theme === 'light' ? 'text-orange-700' : 'text-orange-400'}`}>
+                      Você registrou <strong>{triangleState.graveTagsCount30d} episódios</strong> com sinais de risco nos últimos 30 dias. 
+                      Considere revisar seu Plano de Segurança e buscar apoio profissional.
+                    </p>
+                    <div className="flex items-center gap-3 mt-3">
+                      <Link 
+                        href="/plano-seguranca"
+                        className={`inline-flex items-center gap-1 text-sm font-medium ${theme === 'light' ? 'text-orange-700 hover:text-orange-800' : 'text-orange-400 hover:text-orange-300'}`}
+                      >
+                        Revisar Plano de Segurança
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                      <Link 
+                        href="/diario"
+                        className={`inline-flex items-center gap-1 text-sm ${theme === 'light' ? 'text-orange-600 hover:text-orange-700' : 'text-orange-500 hover:text-orange-400'}`}
+                      >
+                        Ver episódios
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
             </section>

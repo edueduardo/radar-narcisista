@@ -26,50 +26,91 @@
 -- ================================================================================
 -- PARTE 1: TIPOS ENUMERADOS (ENUMs)
 -- ================================================================================
+-- NOTA: PostgreSQL não suporta "CREATE TYPE IF NOT EXISTS"
+-- Usamos DO $$ ... $$ para verificar se o tipo já existe
 
 -- Zonas de clareza do Teste de Clareza
-CREATE TYPE IF NOT EXISTS clarity_zone AS ENUM ('ATENCAO', 'ALERTA', 'VERMELHA');
+DO $$ BEGIN
+  CREATE TYPE clarity_zone AS ENUM ('ATENCAO', 'ALERTA', 'VERMELHA');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Contextos do diário
-CREATE TYPE IF NOT EXISTS journal_context AS ENUM ('RELACIONAMENTO', 'FAMILIA', 'TRABALHO', 'OUTRO');
+DO $$ BEGIN
+  CREATE TYPE journal_context AS ENUM ('RELACIONAMENTO', 'FAMILIA', 'TRABALHO', 'OUTRO');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Tipos de sessão de chat
-CREATE TYPE IF NOT EXISTS chat_session_kind AS ENUM (
-  'USER_COACH', 
-  'AI_STUDIO_LEVEL1', 
-  'AI_STUDIO_LEVEL2', 
-  'AI_STUDIO_ALL'
-);
+DO $$ BEGIN
+  CREATE TYPE chat_session_kind AS ENUM (
+    'USER_COACH', 
+    'AI_STUDIO_LEVEL1', 
+    'AI_STUDIO_LEVEL2', 
+    'AI_STUDIO_ALL'
+  );
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Roles de mensagem de IA
-CREATE TYPE IF NOT EXISTS ai_message_role AS ENUM ('user', 'assistant', 'system', 'meta');
+DO $$ BEGIN
+  CREATE TYPE ai_message_role AS ENUM ('user', 'assistant', 'system', 'meta');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Categorias de sugestão de IA
-CREATE TYPE IF NOT EXISTS ai_suggestion_category AS ENUM ('PRODUCT', 'UX', 'RISK', 'CONTENT');
+DO $$ BEGIN
+  CREATE TYPE ai_suggestion_category AS ENUM ('PRODUCT', 'UX', 'RISK', 'CONTENT');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Status de sugestão de IA
-CREATE TYPE IF NOT EXISTS ai_suggestion_status AS ENUM ('PENDING', 'ACCEPTED', 'REJECTED', 'IMPLEMENTED');
+DO $$ BEGIN
+  CREATE TYPE ai_suggestion_status AS ENUM ('PENDING', 'ACCEPTED', 'REJECTED', 'IMPLEMENTED');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Roles de usuário
-CREATE TYPE IF NOT EXISTS user_role AS ENUM ('USER', 'ADMIN', 'SUPER_ADMIN');
+DO $$ BEGIN
+  CREATE TYPE user_role AS ENUM ('USER', 'ADMIN', 'SUPER_ADMIN');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Tipos de anexo
-CREATE TYPE IF NOT EXISTS attachment_type AS ENUM ('IMAGE', 'AUDIO', 'PDF', 'VIDEO', 'OTHER');
+DO $$ BEGIN
+  CREATE TYPE attachment_type AS ENUM ('IMAGE', 'AUDIO', 'PDF', 'VIDEO', 'OTHER');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Status de item do plano de segurança
-CREATE TYPE IF NOT EXISTS safety_item_status AS ENUM ('PENDING', 'IN_PROGRESS', 'COMPLETED', 'NOT_APPLICABLE');
+DO $$ BEGIN
+  CREATE TYPE safety_item_status AS ENUM ('PENDING', 'IN_PROGRESS', 'COMPLETED', 'NOT_APPLICABLE');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Níveis de risco
-CREATE TYPE IF NOT EXISTS risk_level AS ENUM ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL');
+DO $$ BEGIN
+  CREATE TYPE risk_level AS ENUM ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Categorias de risco
-CREATE TYPE IF NOT EXISTS risk_category AS ENUM ('PHYSICAL_VIOLENCE', 'THREATS', 'ISOLATION', 'FINANCIAL_CONTROL', 'EMOTIONAL_ABUSE', 'STALKING', 'OTHER');
+DO $$ BEGIN
+  CREATE TYPE risk_category AS ENUM ('PHYSICAL_VIOLENCE', 'THREATS', 'ISOLATION', 'FINANCIAL_CONTROL', 'EMOTIONAL_ABUSE', 'STALKING', 'OTHER');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Tipos de documento
-CREATE TYPE IF NOT EXISTS document_type AS ENUM ('CLARITY_TEST', 'JOURNAL', 'COMPLETE_REPORT', 'PROFESSIONAL_SUMMARY');
+DO $$ BEGIN
+  CREATE TYPE document_type AS ENUM ('CLARITY_TEST', 'JOURNAL', 'COMPLETE_REPORT', 'PROFESSIONAL_SUMMARY');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- Tipos de entrada no diário (incluindo safety_plan)
-CREATE TYPE IF NOT EXISTS journal_entry_type AS ENUM ('episode', 'reflection', 'safety_plan', 'milestone');
+DO $$ BEGIN
+  CREATE TYPE journal_entry_type AS ENUM ('episode', 'reflection', 'safety_plan', 'milestone');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 
 -- ================================================================================
 -- PARTE 2: TABELAS PRINCIPAIS
@@ -333,6 +374,7 @@ CREATE TABLE IF NOT EXISTS public.professional_brand (
 CREATE TABLE IF NOT EXISTS public.plan_catalog (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   plan_key TEXT UNIQUE NOT NULL,
+  slug TEXT UNIQUE,  -- Compatibilidade com estrutura existente
   name TEXT NOT NULL,
   description TEXT,
   price_monthly INTEGER DEFAULT 0,
@@ -348,26 +390,53 @@ CREATE TABLE IF NOT EXISTS public.plan_catalog (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Inserir planos padrão
-INSERT INTO public.plan_catalog (plan_key, name, description, price_monthly, price_yearly, features, limits, display_order)
-VALUES 
-  ('free', 'Gratuito', 'Acesso básico ao sistema', 0, 0, 
-   '{"clarity_test": true, "journal": true, "chat": false, "safety_plan": false}',
-   '{"clarity_tests_per_month": 1, "journal_entries_per_month": 5, "chat_messages_per_month": 0}',
-   1),
-  ('basic', 'Básico', 'Para quem está começando', 2990, 29900,
-   '{"clarity_test": true, "journal": true, "chat": true, "safety_plan": true}',
-   '{"clarity_tests_per_month": 3, "journal_entries_per_month": 30, "chat_messages_per_month": 50}',
-   2),
-  ('premium', 'Premium', 'Acesso completo', 4990, 49900,
-   '{"clarity_test": true, "journal": true, "chat": true, "safety_plan": true, "pdf_export": true, "voice_input": true}',
-   '{"clarity_tests_per_month": -1, "journal_entries_per_month": -1, "chat_messages_per_month": -1}',
-   3),
-  ('professional', 'Profissional', 'Para terapeutas e advogados', 9990, 99900,
-   '{"clarity_test": true, "journal": true, "chat": true, "safety_plan": true, "pdf_export": true, "voice_input": true, "client_management": true, "reports": true}',
-   '{"clarity_tests_per_month": -1, "journal_entries_per_month": -1, "chat_messages_per_month": -1, "clients_limit": 50}',
-   4)
-ON CONFLICT (plan_key) DO NOTHING;
+-- Inserir planos padrão usando DO block para compatibilidade com diferentes estruturas de tabela
+DO $$
+DECLARE
+  has_nome_exibicao BOOLEAN;
+BEGIN
+  -- Verificar se a tabela tem coluna nome_exibicao
+  SELECT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_schema = 'public' AND table_name = 'plan_catalog' AND column_name = 'nome_exibicao'
+  ) INTO has_nome_exibicao;
+  
+  IF has_nome_exibicao THEN
+    -- Tabela com colunas em português
+    INSERT INTO public.plan_catalog (plan_key, slug, name, nome_exibicao, description, price_monthly, price_yearly, features, limits, display_order)
+    VALUES 
+      ('free', 'free', 'Gratuito', 'Gratuito', 'Acesso básico ao sistema', 0, 0, 
+       '{"clarity_test": true, "journal": true, "chat": false, "safety_plan": false}',
+       '{"clarity_tests_per_month": 1, "journal_entries_per_month": 5, "chat_messages_per_month": 0}', 1),
+      ('basic', 'basic', 'Básico', 'Básico', 'Para quem está começando', 2990, 29900,
+       '{"clarity_test": true, "journal": true, "chat": true, "safety_plan": true}',
+       '{"clarity_tests_per_month": 3, "journal_entries_per_month": 30, "chat_messages_per_month": 50}', 2),
+      ('premium', 'premium', 'Premium', 'Premium', 'Acesso completo', 4990, 49900,
+       '{"clarity_test": true, "journal": true, "chat": true, "safety_plan": true, "pdf_export": true, "voice_input": true}',
+       '{"clarity_tests_per_month": -1, "journal_entries_per_month": -1, "chat_messages_per_month": -1}', 3),
+      ('professional', 'professional', 'Profissional', 'Profissional', 'Para terapeutas e advogados', 9990, 99900,
+       '{"clarity_test": true, "journal": true, "chat": true, "safety_plan": true, "pdf_export": true, "voice_input": true, "client_management": true, "reports": true}',
+       '{"clarity_tests_per_month": -1, "journal_entries_per_month": -1, "chat_messages_per_month": -1, "clients_limit": 50}', 4)
+    ON CONFLICT (plan_key) DO NOTHING;
+  ELSE
+    -- Tabela com colunas em inglês
+    INSERT INTO public.plan_catalog (plan_key, slug, name, description, price_monthly, price_yearly, features, limits, display_order)
+    VALUES 
+      ('free', 'free', 'Gratuito', 'Acesso básico ao sistema', 0, 0, 
+       '{"clarity_test": true, "journal": true, "chat": false, "safety_plan": false}',
+       '{"clarity_tests_per_month": 1, "journal_entries_per_month": 5, "chat_messages_per_month": 0}', 1),
+      ('basic', 'basic', 'Básico', 'Para quem está começando', 2990, 29900,
+       '{"clarity_test": true, "journal": true, "chat": true, "safety_plan": true}',
+       '{"clarity_tests_per_month": 3, "journal_entries_per_month": 30, "chat_messages_per_month": 50}', 2),
+      ('premium', 'premium', 'Premium', 'Acesso completo', 4990, 49900,
+       '{"clarity_test": true, "journal": true, "chat": true, "safety_plan": true, "pdf_export": true, "voice_input": true}',
+       '{"clarity_tests_per_month": -1, "journal_entries_per_month": -1, "chat_messages_per_month": -1}', 3),
+      ('professional', 'professional', 'Profissional', 'Para terapeutas e advogados', 9990, 99900,
+       '{"clarity_test": true, "journal": true, "chat": true, "safety_plan": true, "pdf_export": true, "voice_input": true, "client_management": true, "reports": true}',
+       '{"clarity_tests_per_month": -1, "journal_entries_per_month": -1, "chat_messages_per_month": -1, "clients_limit": 50}', 4)
+    ON CONFLICT (plan_key) DO NOTHING;
+  END IF;
+END $$;
 
 -- ================================================================================
 -- PARTE 5: ROW LEVEL SECURITY (RLS)

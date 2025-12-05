@@ -689,7 +689,7 @@ psiquiatria ou terapia.
 
       // Create journal entry
       // ETAPA 2 - TRIÂNGULO: Incluir entry_type e clarity_test_id se aplicável
-      const { error } = await supabase.from('journal_entries').insert({
+      const { data: newEntry, error } = await supabase.from('journal_entries').insert({
         user_id: user.id,
         title: formData.title,
         description: formData.description,
@@ -699,9 +699,61 @@ psiquiatria ou terapia.
         from_voice: false,
         entry_type: formData.entry_type || 'normal',
         clarity_test_id: formData.clarity_test_id || null
-      })
+      }).select().single()
 
       if (error) throw error
+
+      // =========================================================================
+      // DETECÇÃO VIA DIÁRIO - Tags Graves → Criar risk_alert automaticamente
+      // Tags que indicam risco: ameaça velada, explosão, agressão verbal, ameaças
+      // =========================================================================
+      const GRAVE_TAGS = [
+        'ameaça velada', 'ameaca velada',
+        'explosão', 'explosao',
+        'agressão verbal', 'agressao verbal',
+        'ameaças', 'ameacas',
+        'violência física', 'violencia fisica',
+        'agressão física', 'agressao fisica',
+        'estrangulamento',
+        'empurrão', 'empurrao',
+        'soco', 'tapa', 'chute'
+      ]
+      
+      const tagsLower = formData.tags.map(t => t.toLowerCase())
+      const hasGraveTags = tagsLower.some(tag => 
+        GRAVE_TAGS.some(grave => tag.includes(grave) || grave.includes(tag))
+      )
+      
+      // Se tem tags graves OU impacto alto (3), criar risk_alert
+      if (hasGraveTags || formData.impact_score === 3) {
+        try {
+          // Determinar nível de risco
+          const riskLevel = hasGraveTags ? 'HIGH' : 'MEDIUM'
+          const riskCategory = hasGraveTags ? 'PHYSICAL_VIOLENCE' : 'EMOTIONAL_ABUSE'
+          
+          await supabase.from('risk_alerts').insert({
+            user_id: user.id,
+            source: 'journal_entry',
+            source_id: newEntry?.id,
+            level: riskLevel,
+            category: riskCategory,
+            title: hasGraveTags 
+              ? '⚠️ Episódio com sinais de risco detectado'
+              : '⚡ Episódio de alto impacto registrado',
+            description: `Entrada no diário "${formData.title}" contém ${hasGraveTags ? 'tags que indicam possível risco físico' : 'impacto emocional alto'}. Tags: ${formData.tags.join(', ')}`,
+            recommended_action: hasGraveTags
+              ? 'Revise seu Plano de Segurança e considere buscar ajuda profissional.'
+              : 'Monitore seus padrões emocionais e considere conversar com alguém de confiança.',
+            is_read: false,
+            is_dismissed: false
+          })
+          
+          console.log('🚨 Risk alert criado automaticamente via diário')
+        } catch (riskError) {
+          console.error('Erro ao criar risk_alert:', riskError)
+          // Não bloquear o fluxo se falhar
+        }
+      }
 
       // Analyze patterns if user allowed
       if (settings?.allow_ai_learning_product && formData.description) {

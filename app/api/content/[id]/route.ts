@@ -10,15 +10,15 @@ import { NextRequest, NextResponse } from 'next/server'
  * DELETE /api/content/[id] - Remove conteúdo (admin)
  */
 
-interface RouteParams {
-  params: { id: string }
+interface RouteContext {
+  params: Promise<{ id: string }>
 }
 
 // GET - Busca conteúdo por ID ou slug
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET(request: NextRequest, { params }: RouteContext) {
   try {
     const supabase = createRouteHandlerClient({ cookies })
-    const { id } = params
+    const { id } = await params
     
     // Verificar se é admin
     const { data: { user } } = await supabase.auth.getUser()
@@ -78,10 +78,10 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 }
 
 // PUT - Atualiza conteúdo (admin only)
-export async function PUT(request: NextRequest, { params }: RouteParams) {
+export async function PUT(request: NextRequest, { params }: RouteContext) {
   try {
     const supabase = createRouteHandlerClient({ cookies })
-    const { id } = params
+    const { id } = await params
     
     // Verificar autenticação
     const { data: { user } } = await supabase.auth.getUser()
@@ -161,10 +161,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 }
 
 // DELETE - Remove conteúdo (admin only)
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export async function DELETE(request: NextRequest, { params }: RouteContext) {
   try {
     const supabase = createRouteHandlerClient({ cookies })
-    const { id } = params
+    const { id } = await params
     
     // Verificar autenticação
     const { data: { user } } = await supabase.auth.getUser()

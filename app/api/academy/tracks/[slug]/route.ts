@@ -10,15 +10,15 @@ import { NextRequest, NextResponse } from 'next/server'
  * DELETE /api/academy/tracks/[slug] - Remove trilha (admin)
  */
 
-interface RouteParams {
-  params: { slug: string }
+interface RouteContext {
+  params: Promise<{ slug: string }>
 }
 
 // GET - Busca trilha por slug
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET(request: NextRequest, { params }: RouteContext) {
   try {
     const supabase = createRouteHandlerClient({ cookies })
-    const { slug } = params
+    const { slug } = await params
     
     // Verificar se é admin
     const { data: { user } } = await supabase.auth.getUser()
@@ -122,10 +122,10 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 }
 
 // PUT - Atualiza trilha (admin only)
-export async function PUT(request: NextRequest, { params }: RouteParams) {
+export async function PUT(request: NextRequest, { params }: RouteContext) {
   try {
     const supabase = createRouteHandlerClient({ cookies })
-    const { slug } = params
+    const { slug } = await params
     
     // Verificar autenticação
     const { data: { user } } = await supabase.auth.getUser()
@@ -203,10 +203,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 }
 
 // DELETE - Remove trilha (admin only)
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export async function DELETE(request: NextRequest, { params }: RouteContext) {
   try {
     const supabase = createRouteHandlerClient({ cookies })
-    const { slug } = params
+    const { slug } = await params
     
     // Verificar autenticação
     const { data: { user } } = await supabase.auth.getUser()

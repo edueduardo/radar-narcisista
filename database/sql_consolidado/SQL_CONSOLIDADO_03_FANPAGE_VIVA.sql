@@ -72,15 +72,17 @@ CREATE INDEX IF NOT EXISTS idx_content_items_tags ON public.content_items USING 
 -- RLS
 ALTER TABLE public.content_items ENABLE ROW LEVEL SECURITY;
 
--- Políticas
+-- Políticas (DROP antes para evitar erro de duplicata)
+DROP POLICY IF EXISTS "content_items_public_read" ON public.content_items;
 CREATE POLICY "content_items_public_read" ON public.content_items
   FOR SELECT USING (status = 'published' AND visibility = 'public');
 
+DROP POLICY IF EXISTS "content_items_admin_all" ON public.content_items;
 CREATE POLICY "content_items_admin_all" ON public.content_items
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM public.profiles 
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM public.user_profiles 
+      WHERE user_id = auth.uid() AND role = 'ADMIN'
     )
   );
 
@@ -152,11 +154,12 @@ CREATE INDEX IF NOT EXISTS idx_content_suggestions_relevance ON public.content_s
 -- RLS
 ALTER TABLE public.content_suggestions ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "content_suggestions_admin_all" ON public.content_suggestions;
 CREATE POLICY "content_suggestions_admin_all" ON public.content_suggestions
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM public.profiles 
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM public.user_profiles 
+      WHERE user_id = auth.uid() AND role = 'ADMIN'
     )
   );
 
@@ -208,14 +211,16 @@ CREATE INDEX IF NOT EXISTS idx_content_insights_frontpage ON public.content_insi
 -- RLS
 ALTER TABLE public.content_insights ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "content_insights_public_read" ON public.content_insights;
 CREATE POLICY "content_insights_public_read" ON public.content_insights
   FOR SELECT USING (is_public = true);
 
+DROP POLICY IF EXISTS "content_insights_admin_all" ON public.content_insights;
 CREATE POLICY "content_insights_admin_all" ON public.content_insights
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM public.profiles 
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM public.user_profiles 
+      WHERE user_id = auth.uid() AND role = 'ADMIN'
     )
   );
 
@@ -278,14 +283,16 @@ CREATE INDEX IF NOT EXISTS idx_academy_tracks_order ON public.academy_tracks(dis
 -- RLS
 ALTER TABLE public.academy_tracks ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "academy_tracks_public_read" ON public.academy_tracks;
 CREATE POLICY "academy_tracks_public_read" ON public.academy_tracks
   FOR SELECT USING (is_published = true);
 
+DROP POLICY IF EXISTS "academy_tracks_admin_all" ON public.academy_tracks;
 CREATE POLICY "academy_tracks_admin_all" ON public.academy_tracks
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM public.profiles 
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM public.user_profiles 
+      WHERE user_id = auth.uid() AND role = 'ADMIN'
     )
   );
 
@@ -349,6 +356,7 @@ CREATE INDEX IF NOT EXISTS idx_academy_lessons_type ON public.academy_lessons(ty
 -- RLS
 ALTER TABLE public.academy_lessons ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "academy_lessons_public_read" ON public.academy_lessons;
 CREATE POLICY "academy_lessons_public_read" ON public.academy_lessons
   FOR SELECT USING (
     is_published = true AND
@@ -358,11 +366,12 @@ CREATE POLICY "academy_lessons_public_read" ON public.academy_lessons
     )
   );
 
+DROP POLICY IF EXISTS "academy_lessons_admin_all" ON public.academy_lessons;
 CREATE POLICY "academy_lessons_admin_all" ON public.academy_lessons
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM public.profiles 
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM public.user_profiles 
+      WHERE user_id = auth.uid() AND role = 'ADMIN'
     )
   );
 
@@ -417,14 +426,16 @@ CREATE INDEX IF NOT EXISTS idx_academy_progress_status ON public.academy_progres
 -- RLS
 ALTER TABLE public.academy_progress ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "academy_progress_own" ON public.academy_progress;
 CREATE POLICY "academy_progress_own" ON public.academy_progress
   FOR ALL USING (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "academy_progress_admin_read" ON public.academy_progress;
 CREATE POLICY "academy_progress_admin_read" ON public.academy_progress
   FOR SELECT USING (
     EXISTS (
-      SELECT 1 FROM public.profiles 
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM public.user_profiles 
+      WHERE user_id = auth.uid() AND role = 'ADMIN'
     )
   );
 
@@ -471,14 +482,16 @@ CREATE TABLE IF NOT EXISTS public.fanpage_config (
 -- RLS
 ALTER TABLE public.fanpage_config ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "fanpage_config_public_read" ON public.fanpage_config;
 CREATE POLICY "fanpage_config_public_read" ON public.fanpage_config
   FOR SELECT USING (enabled = true);
 
+DROP POLICY IF EXISTS "fanpage_config_admin_all" ON public.fanpage_config;
 CREATE POLICY "fanpage_config_admin_all" ON public.fanpage_config
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM public.profiles 
-      WHERE id = auth.uid() AND role = 'admin'
+      SELECT 1 FROM public.user_profiles 
+      WHERE user_id = auth.uid() AND role = 'ADMIN'
     )
   );
 
@@ -578,6 +591,11 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 -- ================================================================================
 -- PARTE 9: SEED DATA
 -- ================================================================================
+
+-- Criar índices únicos necessários para ON CONFLICT (se não existirem)
+CREATE UNIQUE INDEX IF NOT EXISTS idx_fanpage_config_block_key ON public.fanpage_config(block_key);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_content_insights_insight_key ON public.content_insights(insight_key);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_academy_tracks_slug ON public.academy_tracks(slug);
 
 -- Configuração padrão da fanpage
 INSERT INTO public.fanpage_config (block_key, title, description, icon, enabled, display_order, max_items, refresh_interval_minutes, source, config) VALUES
