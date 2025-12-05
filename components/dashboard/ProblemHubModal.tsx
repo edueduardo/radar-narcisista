@@ -74,7 +74,7 @@ const PROBLEM_DATA: Record<ProblemType, ProblemData> = {
     subtitle: 'Quando usam culpa, chantagem ou vitimismo para te controlar',
     description: 'Reconhecer a manipulação é o primeiro passo para se libertar.',
     tools: [
-      { name: 'Teste de Clareza', description: 'Avalie a situação com clareza', href: '/teste-claridade', icon: <Heart className="w-5 h-5" />, primary: true },
+      { name: 'Teste de Clareza', description: 'Avalie a situação com clareza', href: '/teste-clareza', icon: <Heart className="w-5 h-5" />, primary: true },
       { name: 'Modo Espelho', description: 'Reflita sem culpa', href: '/modo-espelho', icon: <Heart className="w-5 h-5" /> },
       { name: 'Biblioteca', description: 'Padrões de manipulação', href: '/biblioteca-respostas?tema=manipulacao', icon: <BookOpen className="w-5 h-5" /> },
       { name: 'Registrar Episódio', description: 'Documente situações', href: '/diario/novo?tipo=manipulacao', icon: <PenLine className="w-5 h-5" /> },

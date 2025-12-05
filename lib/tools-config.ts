@@ -87,7 +87,7 @@ export const TOOLS: ToolConfig[] = [
     name: 'Teste de Clareza',
     shortLabel: 'Teste',
     description: 'Entenda se o que você vive é abuso narcisista',
-    href: '/teste-claridade',
+    href: '/teste-clareza',
     mainGoals: ['clareza'],
     problems: ['invalidacao', 'gaslighting', 'manipulacao', 'ameacas', 'isolamento'],
     placements: ['hero_cta', 'main_tools', 'goals_section', 'quick_actions', 'clarity_section', 'problem_hub'],

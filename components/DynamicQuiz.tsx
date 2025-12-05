@@ -166,7 +166,7 @@ export default function DynamicQuiz({
         onComplete(result)
       } else {
         // Redirecionar para resultado
-        router.push(`/teste-claridade/resultado?zone=${result.zone}`)
+        router.push(`/teste-clareza/resultado?zone=${result.zone}`)
       }
     } catch (error) {
       console.error('Erro ao processar resultado:', error)
