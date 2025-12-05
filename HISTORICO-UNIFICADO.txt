@@ -3,7 +3,7 @@ HISTÓRICO UNIFICADO - RADAR NARCISISTA
 ================================================================================
 LEIA ESTE ARQUIVO PRIMEIRO AO ABRIR O PROJETO!
 
-Última atualização: 04/12/2025 18:35 UTC-5
+Última atualização: 04/12/2025 19:20 UTC-5
 Autoria: Windsurf + ChatGPT + Eduardo
 
 ================================================================================
@@ -1589,6 +1589,47 @@ SEED DATA:
 - 3 trilhas de exemplo
 
 STATUS: AGUARDANDO EXECUÇÃO MANUAL NO SUPABASE
+
+================================================================================
+SESSÃO 04/12/2025 19:15 UTC-5 – APIs FANPAGE VIVA
+================================================================================
+
+APIs CRIADAS:
+
+1. /api/content (route.ts)
+   - GET: Lista conteúdos publicados (filtros: type, tag, status)
+   - POST: Cria novo conteúdo (admin)
+
+2. /api/content/[id] (route.ts)
+   - GET: Busca por ID ou slug
+   - PUT: Atualiza conteúdo (admin)
+   - DELETE: Remove conteúdo (admin)
+
+3. /api/content/suggestions (route.ts)
+   - GET: Lista sugestões pendentes (admin)
+   - POST: Cria sugestão
+   - PATCH: Aprova/Rejeita sugestão (converte para content_items)
+
+4. /api/academy/tracks (route.ts)
+   - GET: Lista trilhas (com progresso do usuário)
+   - POST: Cria trilha (admin)
+
+5. /api/academy/tracks/[slug] (route.ts)
+   - GET: Busca trilha com aulas
+   - PUT: Atualiza trilha (admin)
+   - DELETE: Remove trilha (admin)
+
+6. /api/academy/progress (route.ts)
+   - GET: Busca progresso do usuário
+   - POST: Registra/atualiza progresso (start, complete, progress, quiz)
+
+7. /api/fanpage/insights (route.ts)
+   - GET: Busca insights públicos para frontpage
+   - POST: Atualiza insight (admin)
+
+8. /api/fanpage/config (route.ts)
+   - GET: Busca configuração dos blocos
+   - PUT: Atualiza configuração (single ou batch)
 
 ================================================================================
 INSTRUÇÕES PARA O WINDSURF
