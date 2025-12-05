@@ -409,6 +409,33 @@ function ChatPageContent() {
     }
   }
 
+  // DETECÇÃO VIA IA - Análise semântica de risco
+  const analyzeRiskWithAI = async (messageContent: string) => {
+    try {
+      const response = await fetch('/api/chat/analyze-risk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: messageContent,
+          createAlertIfRisk: true // Cria alerta automaticamente se detectar risco
+        })
+      })
+      
+      if (!response.ok) return
+      
+      const data = await response.json()
+      
+      // Se detectou risco alto ou crítico, mostrar alerta
+      if (data.analysis?.hasRisk && ['HIGH', 'CRITICAL'].includes(data.analysis.level)) {
+        setShowPhysicalRiskAlert(true)
+        console.log('🚨 Risco detectado via IA:', data.analysis)
+      }
+    } catch (error) {
+      // Silenciosamente falha - não interrompe o fluxo do chat
+      console.warn('Análise IA falhou:', error)
+    }
+  }
+
   // Modificar função sendMessage para incluir avaliação de clareza
   const sendMessage = async (messageContent: string, fromVoice = false) => {
     if (!messageContent.trim() || isLoading || !currentSession) return
@@ -428,11 +455,19 @@ function ChatPageContent() {
       return
     }
 
-    // ETAPA 7 - Detectar risco físico na mensagem
+    // ETAPA 7 - Detectar risco físico na mensagem (regex rápido)
     if (PHYSICAL_RISK_REGEX.test(messageContent)) {
       setShowPhysicalRiskAlert(true)
       // Criar risk_alert no backend (não bloqueia o fluxo)
       createRiskAlert(user.id, messageContent)
+    }
+
+    // DETECÇÃO VIA IA - Análise semântica em background (não bloqueia)
+    // Só executa se a mensagem for longa o suficiente para análise
+    if (messageContent.length > 50) {
+      analyzeRiskWithAI(messageContent).catch(err => 
+        console.warn('Análise IA em background falhou:', err)
+      )
     }
 
     // Avaliar clareza da mensagem do usuário
