@@ -1,7 +1,17 @@
 import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://radarnarcisista.com.br'
+  // Prioridade: APP_URL > VERCEL_URL > domínio padrão
+  const getBaseUrl = () => {
+    if (process.env.NEXT_PUBLIC_APP_URL && !process.env.NEXT_PUBLIC_APP_URL.includes('localhost')) {
+      return process.env.NEXT_PUBLIC_APP_URL
+    }
+    if (process.env.VERCEL_URL) {
+      return `https://${process.env.VERCEL_URL}`
+    }
+    return 'https://radarnarcisista.com.br'
+  }
+  const baseUrl = getBaseUrl()
   
   return {
     rules: [
