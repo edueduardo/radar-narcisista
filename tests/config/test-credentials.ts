@@ -38,9 +38,9 @@ export const TEST_ADMIN = {
 // ============================================================================
 
 export const TEST_USER = {
-  email: 'teste@radar-narcisista.com.br',
+  email: 'teste.usuario@radar-narcisista.com.br',
   password: 'Teste123!@#',
-  name: 'Usuário Teste',
+  name: 'Usuária de Teste E2E',
   role: 'user'
 }
 

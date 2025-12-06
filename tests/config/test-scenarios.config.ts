@@ -49,7 +49,7 @@ export const testScenarios = {
    * DASHBOARD USUÁRIA - Painel da usuária
    * Testa: contagem de diários, gráficos, indicador de risco
    */
-  dashboard_usuario: false,
+  dashboard_usuario: true,
 
   /**
    * DIÁRIO BÁSICO - Funcionalidades básicas do diário
@@ -61,7 +61,7 @@ export const testScenarios = {
    * DIÁRIO CRÍTICO - Detecção de risco no diário
    * Testa: tags graves, criação de risk_alert, padrões 30 dias
    */
-  diario_critico: false,
+  diario_critico: true,
 
   /**
    * ORÁCULO - Chat com IA (Coach de Clareza)
@@ -137,7 +137,7 @@ export const testScenarios = {
    * BILLING BÁSICO - Pagamentos básicos
    * Testa: planos exibidos, fluxo checkout, status assinatura
    */
-  billing_basico: false,
+  billing_basico: true,
 
   /**
    * BILLING - Pagamentos e assinaturas (completo)
