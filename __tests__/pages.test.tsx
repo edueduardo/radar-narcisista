@@ -20,12 +20,20 @@ jest.mock('next/navigation', () => ({
 }))
 
 // Mock do Supabase
-jest.mock('@supabase/auth-helpers-nextjs', () => ({
-  createClientComponentClient: () => ({
+jest.mock('@/lib/supabase/client', () => ({
+  createClient: () => ({
     auth: {
       getSession: jest.fn().mockResolvedValue({ data: { session: null } }),
+      getUser: jest.fn().mockResolvedValue({ data: { user: null } }),
       onAuthStateChange: jest.fn().mockReturnValue({ data: { subscription: { unsubscribe: jest.fn() } } }),
     },
+    from: jest.fn().mockReturnValue({
+      select: jest.fn().mockReturnValue({
+        eq: jest.fn().mockReturnValue({
+          single: jest.fn().mockResolvedValue({ data: null, error: null })
+        })
+      })
+    })
   }),
 }))
 
