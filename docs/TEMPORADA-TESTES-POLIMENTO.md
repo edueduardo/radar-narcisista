@@ -173,11 +173,27 @@ Data de Início: 05/12/2025
 
 | # | Descrição | Prioridade | Status |
 |---|-----------|------------|--------|
-| 1 | Criar ícones PWA em múltiplos tamanhos | Média | ⏳ Pendente |
-| 2 | Criar og-image.png para compartilhamento | Média | ⏳ Pendente |
-| 3 | Configurar NEXT_PUBLIC_APP_URL no Vercel | Alta | ⏳ Pendente |
-| 4 | Configurar Stripe em modo live | Alta | ⏳ Pendente |
+| 1 | Criar ícones PWA (SVG) | Média | ✅ Feito |
+| 2 | Criar og-image.svg para compartilhamento | Média | ✅ Feito |
+| 3 | Configurar NEXT_PUBLIC_APP_URL no Vercel | Alta | ⏳ Pendente (VOCÊ) |
+| 4 | Configurar Stripe em modo live | Alta | ⏳ Pendente (VOCÊ) |
 | 5 | Criar screenshots para PWA | Baixa | ⏳ Pendente |
+
+## ✅ JÁ IMPLEMENTADO (Descoberto na Auditoria)
+
+| # | Funcionalidade | Arquivo |
+|---|----------------|---------|
+| 1 | Detecção via Diário (tags graves) | `app/api/diario/route.ts` |
+| 2 | Criação automática de risk_alert | `app/api/diario/route.ts` |
+| 3 | Análise de padrão 30 dias | `app/api/diario/route.ts` |
+| 4 | Fanpage Viva - Blocos dinâmicos | `components/frontpage/DynamicSections.tsx` |
+| 5 | Radar em Números | `components/frontpage/RadarEmNumerosSection.tsx` |
+| 6 | FAQ Dinâmico | `components/frontpage/FaqDinamicoSection.tsx` |
+| 7 | Radar no Mundo | `components/frontpage/RadarNoMundoSection.tsx` |
+| 8 | Radar Academy | `components/frontpage/RadarAcademySection.tsx` |
+| 9 | Integração plan_catalog | `hooks/usePlans.ts` |
+| 10 | Acessibilidade (SkipLinks, FocusTrap) | `components/Accessibility.tsx` |
+| 11 | Centro de Alertas | `components/AlertCenter.tsx` |
 
 ---
 
