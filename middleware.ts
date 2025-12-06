@@ -5,6 +5,7 @@ import { NextResponse, type NextRequest } from 'next/server'
 const ADMIN_EMAILS = ['etailoffice@gmail.com', 'eduardo.mkt.davila@gmail.com']
 
 export async function middleware(request: NextRequest) {
+  // Criar response base
   let supabaseResponse = NextResponse.next({
     request,
   })
@@ -30,6 +31,16 @@ export async function middleware(request: NextRequest) {
     }
   )
 
+  // Ignorar rotas de API e assets
+  const pathname = request.nextUrl.pathname
+  if (
+    pathname.startsWith('/api/') ||
+    pathname.startsWith('/_next/') ||
+    pathname.includes('.') // arquivos estáticos
+  ) {
+    return supabaseResponse
+  }
+
   // IMPORTANT: DO NOT REMOVE auth.getUser()
   const {
     data: { user },
@@ -38,18 +49,26 @@ export async function middleware(request: NextRequest) {
   // Proteger rotas de admin
   if (request.nextUrl.pathname.startsWith('/admin')) {
     if (!user) {
+      console.log('[MIDDLEWARE] Admin sem user, redirecionando para login')
       const loginUrl = new URL('/login', request.url)
       loginUrl.searchParams.set('redirectTo', request.nextUrl.pathname)
       return NextResponse.redirect(loginUrl)
     }
     
     // Verificar se é admin pelo EMAIL (mesma lógica do login)
-    const userEmail = user.email?.toLowerCase()
-    const isAdmin = userEmail && ADMIN_EMAILS.includes(userEmail)
+    const userEmail = user.email?.toLowerCase().trim()
+    const isAdmin = userEmail && ADMIN_EMAILS.some(
+      email => email.toLowerCase().trim() === userEmail
+    )
+    
+    console.log('[MIDDLEWARE] Verificação admin:', { userEmail, isAdmin, adminEmails: ADMIN_EMAILS })
     
     if (!isAdmin) {
+      console.log('[MIDDLEWARE] Não é admin, redirecionando para dashboard')
       return NextResponse.redirect(new URL('/dashboard', request.url))
     }
+    
+    console.log('[MIDDLEWARE] ✅ Admin autorizado:', userEmail)
   }
 
   // Adicionar headers de segurança
