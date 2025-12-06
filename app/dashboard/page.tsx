@@ -75,6 +75,7 @@ import {
   type DashboardModuleState 
 } from '@/lib/dashboard-user-layout'
 import type { PlanLevel } from '@/lib/plans-config'
+import AlertCenter from '@/components/AlertCenter'
 import { 
   Compass,
   GraduationCap,
@@ -769,6 +770,15 @@ export default function DashboardV2Page() {
               </div>
             </Link>
           </div>
+
+          {/* ============================================================ */}
+          {/* 1.5 CENTRO DE ALERTAS - CICLO 2 TRIÂNGULO */}
+          {/* ============================================================ */}
+          <AlertCenter 
+            className="mb-6" 
+            compact={true} 
+            maxAlerts={3}
+          />
 
           {/* ============================================================ */}
           {/* 2. HERO - Saudação */}

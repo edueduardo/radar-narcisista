@@ -1684,3 +1684,28 @@ RESULTADOS DOS TESTES:
 
 TOTAL DE TAREFAS: ANTES ERA 10 / AGORA: 16
 
+
+================================================================================
+SESSAO 05/12/2025 21:15 UTC-5 - CICLO 2 TRIANGULO COMPLETO
+================================================================================
+
+O QUE FOI FEITO:
+- Integrado AlertCenter no Dashboard da usuaria
+- AlertCenter agora aparece logo apos o banner de emergencia
+- Atualizado AlertCenter para suportar ambos os formatos de dados:
+  - Formato SQL consolidado (level, category, is_dismissed)
+  - Formato API do diario (risk_level, risk_type, status)
+- Adicionado suporte a source 'journal' (alias de 'diary')
+
+ARQUIVOS MODIFICADOS:
+- app/dashboard/page.tsx: import AlertCenter + renderizacao
+- components/AlertCenter.tsx: interface RiskAlert expandida + funcoes helper
+
+TRIANGULO DE SEGURANCA AGORA FUNCIONA:
+1. Usuario salva entrada no diario com tags graves
+2. API /api/diario detecta tags e cria risk_alert automaticamente
+3. Dashboard mostra AlertCenter com os alertas ativos
+4. Usuario pode ver Plano de Seguranca ou marcar como resolvido
+
+BUILD: PASSOU
+

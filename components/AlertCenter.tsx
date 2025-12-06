@@ -36,12 +36,27 @@ import {
 interface RiskAlert {
   id: string
   user_id: string
-  source: 'clarity_test' | 'chat' | 'diary' | 'manual'
-  level: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
-  category: 'PHYSICAL_VIOLENCE' | 'EMOTIONAL_ABUSE' | 'FINANCIAL_ABUSE' | 'ISOLATION' | 'OTHER'
-  recommendation: string
-  is_resolved: boolean
-  resolved_at: string | null
+  source: 'clarity_test' | 'chat' | 'journal' | 'diary' | 'manual'
+  source_id?: string
+  // Suporta ambos os formatos (SQL consolidado e API do diário)
+  level?: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
+  risk_level?: 'low' | 'moderate' | 'high' | 'critical'
+  category?: 'PHYSICAL_VIOLENCE' | 'EMOTIONAL_ABUSE' | 'FINANCIAL_ABUSE' | 'ISOLATION' | 'OTHER'
+  risk_type?: string
+  title?: string
+  description?: string
+  recommendation?: string
+  details?: {
+    tags_detected?: string[]
+    entry_title?: string
+    entry_preview?: string
+    impact_score?: number
+  }
+  status?: 'active' | 'resolved' | 'dismissed'
+  is_resolved?: boolean
+  is_dismissed?: boolean
+  resolved_at?: string | null
+  dismissed_at?: string | null
   created_at: string
 }
 
@@ -56,17 +71,19 @@ interface AlertCenterProps {
 // CONSTANTES
 // ============================================================================
 
-const SOURCE_ICONS = {
+const SOURCE_ICONS: Record<string, typeof Brain> = {
   clarity_test: Brain,
   chat: MessageSquare,
   diary: BookOpen,
+  journal: BookOpen,
   manual: Shield
 }
 
-const SOURCE_LABELS = {
+const SOURCE_LABELS: Record<string, string> = {
   clarity_test: 'Teste de Clareza',
   chat: 'Chat',
   diary: 'Diário',
+  journal: 'Diário',
   manual: 'Manual'
 }
 
@@ -126,8 +143,9 @@ export default function AlertCenter({
         .order('created_at', { ascending: false })
         .limit(maxAlerts)
 
+      // Filtrar por status ativo (suporta ambos os formatos)
       if (!showResolved) {
-        query = query.eq('is_resolved', false)
+        query = query.or('status.eq.active,status.is.null')
       }
 
       const { data, error } = await query
@@ -176,8 +194,45 @@ export default function AlertCenter({
     return date.toLocaleDateString('pt-BR')
   }
 
-  const unresolvedCount = alerts.filter(a => !a.is_resolved).length
-  const hasCritical = alerts.some(a => a.level === 'CRITICAL' && !a.is_resolved)
+  // Funções helper para normalizar dados (suporta ambos os formatos)
+  const getNormalizedLevel = (alert: RiskAlert): 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL' => {
+    if (alert.level) return alert.level
+    if (alert.risk_level) {
+      const map: Record<string, 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'> = {
+        'low': 'LOW',
+        'moderate': 'MEDIUM',
+        'high': 'HIGH',
+        'critical': 'CRITICAL'
+      }
+      return map[alert.risk_level] || 'MEDIUM'
+    }
+    return 'MEDIUM'
+  }
+
+  const isAlertResolved = (alert: RiskAlert): boolean => {
+    if (alert.is_resolved !== undefined) return alert.is_resolved
+    if (alert.is_dismissed !== undefined) return alert.is_dismissed
+    if (alert.status) return alert.status !== 'active'
+    return false
+  }
+
+  const getAlertTitle = (alert: RiskAlert): string => {
+    if (alert.title) return alert.title
+    if (alert.details?.entry_title) return alert.details.entry_title
+    if (alert.risk_type) return `Alerta: ${alert.risk_type}`
+    return 'Alerta de Risco'
+  }
+
+  const getAlertDescription = (alert: RiskAlert): string => {
+    if (alert.description) return alert.description
+    if (alert.recommendation) return alert.recommendation
+    if (alert.details?.entry_preview) return alert.details.entry_preview
+    if (alert.details?.tags_detected) return `Tags detectadas: ${alert.details.tags_detected.join(', ')}`
+    return 'Verifique este alerta'
+  }
+
+  const unresolvedCount = alerts.filter(a => !isAlertResolved(a)).length
+  const hasCritical = alerts.some(a => getNormalizedLevel(a) === 'CRITICAL' && !isAlertResolved(a))
 
   // Se não há alertas, mostrar mensagem positiva
   if (!loading && alerts.length === 0) {
@@ -259,43 +314,47 @@ export default function AlertCenter({
           </div>
         ) : (
           alerts.map(alert => {
-            const SourceIcon = SOURCE_ICONS[alert.source]
+            const SourceIcon = SOURCE_ICONS[alert.source] || SOURCE_ICONS['manual']
+            const level = getNormalizedLevel(alert)
+            const resolved = isAlertResolved(alert)
+            const title = getAlertTitle(alert)
+            const description = getAlertDescription(alert)
             
             return (
               <div 
                 key={alert.id}
-                className={`p-4 ${alert.is_resolved ? 'opacity-50' : ''}`}
+                className={`p-4 ${resolved ? 'opacity-50' : ''}`}
               >
                 <div className="flex items-start gap-3">
                   {/* Ícone da fonte */}
-                  <div className={`p-2 rounded-lg ${LEVEL_COLORS[alert.level].split(' ')[0]}`}>
-                    <SourceIcon className={`w-4 h-4 ${LEVEL_COLORS[alert.level].split(' ')[1]}`} />
+                  <div className={`p-2 rounded-lg ${LEVEL_COLORS[level].split(' ')[0]}`}>
+                    <SourceIcon className={`w-4 h-4 ${LEVEL_COLORS[level].split(' ')[1]}`} />
                   </div>
 
                   {/* Conteúdo */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className={`px-2 py-0.5 text-xs rounded-full border ${LEVEL_COLORS[alert.level]}`}>
-                        {LEVEL_LABELS[alert.level]}
+                      <span className={`px-2 py-0.5 text-xs rounded-full border ${LEVEL_COLORS[level]}`}>
+                        {LEVEL_LABELS[level]}
                       </span>
                       <span className="text-gray-500 text-xs">
-                        {SOURCE_LABELS[alert.source]}
+                        {SOURCE_LABELS[alert.source] || 'Sistema'}
                       </span>
                       <span className="text-gray-600 text-xs">
                         • {formatDate(alert.created_at)}
                       </span>
                     </div>
                     
-                    <p className="text-gray-300 text-sm mb-2">
-                      {CATEGORY_LABELS[alert.category]}
+                    <p className="text-gray-300 text-sm font-medium mb-1">
+                      {title}
                     </p>
                     
                     <p className="text-gray-400 text-sm line-clamp-2">
-                      {alert.recommendation}
+                      {description}
                     </p>
 
                     {/* Ações */}
-                    {!alert.is_resolved && (
+                    {!resolved && (
                       <div className="flex items-center gap-2 mt-3">
                         <Link
                           href="/plano-seguranca"
