@@ -14,6 +14,12 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:apis": "node scripts/test-all-apis.js",
+    "test:health": "node scripts/health-check.js",
+    "test:e2e": "npx playwright test",
+    "test:e2e:ui": "npx playwright test --ui",
+    "test:e2e:headed": "npx playwright test --headed",
+    "test:all": "npm run test:health && npm run test:apis && npm run test:e2e",
     "espelho-codigo": "node scripts/gerar-espelho-codigo.cjs"
   },
   "dependencies": {
@@ -47,6 +53,7 @@
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "@tailwindcss/postcss": "^4.1.17",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
