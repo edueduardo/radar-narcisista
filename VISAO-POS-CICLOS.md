@@ -193,15 +193,216 @@ Com um clique, gera dossiê organizado:
 
 ---
 
-## ORDEM SUGERIDA DE IMPLEMENTAÇÃO (PÓS-CICLOS)
+---
 
-| FASE | EIXO | COMPLEXIDADE | IMPACTO |
-|------|------|--------------|---------|
-| 6 | Oráculo V3 – Timeline de Padrões | MÉDIA | ALTO |
+## EIXOS DE INOVAÇÃO – NÍVEL PLATAFORMA 2.0
+
+### 6️⃣ RADAR STUDIO – "Figma de Protocolos Emocionais"
+
+**Conceito:** Transformar todo o stack em um builder visual.
+
+**Funcionalidade:**
+- Arrastar blocos: `Pergunta → Diário → Alerta → Insight → PDF → Encaminhamento`
+- Ligar em fluxos visuais (igual automação, mas emocional/comportamental)
+
+**Saídas:**
+- Protocolo utilizável no Radar principal
+- Pacote pronto para micro-SaaS filho
+- Documentação automática (auditoria + onboarding)
+
+**Inovação:**
+> Em vez de vender "Radar pronto", vender um **estúdio para criar micro-Radares e protocolos**.
+
+**Integra com:**
+- Gerador de SaaS
+- Engine de Protocolos
+- Auditoria automática de fluxos
+
+**Arquivos potenciais:**
+```
+app/admin/radar-studio/page.tsx
+app/admin/radar-studio/editor/page.tsx
+lib/protocol-visual-builder.ts
+lib/protocol-compiler.ts
+components/studio/BlockPalette.tsx
+components/studio/FlowCanvas.tsx
+```
+
+---
+
+### 7️⃣ RADAR AUDIT BOT – Auditor Autônomo como Produto
+
+**Conceito:** Transformar auditoria manual em produto automatizado.
+
+**O que audita:**
+- Protocolo alinhado com ética
+- Não dá conselho tipo "larga ele agora"
+- Perguntas não empurram para culpa/auto-culpa tóxica
+
+**Fluxo:**
+1. Profissional cria/edita protocolo no Radar Studio
+2. Audit Bot faz review automático:
+   - Linguagem
+   - Coerência com princípios (sem diagnóstico, sem determinismo)
+   - Risco de sugestão imprudente
+3. Gera relatório: "90% alinhado; pontos críticos: X, Y, Z"
+
+**Monetização:**
+> "Radar Compliance Layer" para clínicas, redes, ONGs
+
+**Arquivos potenciais:**
+```
+lib/audit-bot/index.ts
+lib/audit-bot/language-checker.ts
+lib/audit-bot/ethics-validator.ts
+lib/audit-bot/risk-detector.ts
+app/admin/audit-reports/page.tsx
+```
+
+---
+
+### 8️⃣ RADAR MARKUP – Linguagem de Interoperabilidade
+
+**Conceito:** Formato padrão para descrever protocolos.
+
+**Estrutura (JSON/DSL):**
+```json
+{
+  "protocol": "sair-da-neblina",
+  "version": "1.0",
+  "blocks": [
+    { "type": "question", "id": "q1", "text": "...", "next": "q2" },
+    { "type": "diary_prompt", "id": "d1", "trigger": "q1.answer == 'sim'" },
+    { "type": "alert", "id": "a1", "level": "HIGH", "condition": "..." },
+    { "type": "export", "format": "pdf", "template": "relatorio-clareza" }
+  ],
+  "metadata": {
+    "author": "...",
+    "audit_score": 92,
+    "tags": ["clareza", "segurança"]
+  }
+}
+```
+
+**Usos práticos:**
+- **Import/Export:** Profissional exporta `.radar.json`, outro importa
+- **Marketplace futuro:** Protocolos validados pelo Audit Bot
+- **Integração:** Outros sistemas "entendem" protocolo Radar
+
+**Arquivos potenciais:**
+```
+lib/radar-markup/parser.ts
+lib/radar-markup/validator.ts
+lib/radar-markup/compiler.ts
+lib/radar-markup/types.ts
+app/api/protocols/import/route.ts
+app/api/protocols/export/route.ts
+```
+
+---
+
+### 9️⃣ RADAR RESEARCH MODE – Módulo de Pesquisa
+
+**Conceito:** Ferramenta para pesquisa aplicada, com governança.
+
+**Regras invioláveis:**
+- Sempre opt-in
+- Consentimento explícito
+- Dados anonimizados/agrupados
+- Instância separada
+
+**Funcionalidades:**
+- Pesquisadores desenham estudos usando blocos do Radar
+- Gerenciamento de consentimento integrado
+- Randomização de grupos (A/B)
+- Coleta estruturada (sem texto livre sensível, se desejado)
+- Exports prontos para análise estatística
+
+**Inovação:**
+> Radar vira ferramenta para **pesquisa aplicada** sobre relações abusivas, recuperação, impacto de intervenções.
+
+**Arquivos potenciais:**
+```
+app/research/page.tsx
+app/research/estudos/page.tsx
+app/research/consentimento/page.tsx
+lib/research/anonymizer.ts
+lib/research/consent-manager.ts
+lib/research/statistical-export.ts
+database/migrate-research-module.sql
+```
+
+---
+
+### 🔟 MÓDULO REPARAÇÃO & RECONSTRUÇÃO – Pós-Saída
+
+**Conceito:** Não só sobreviver, mas reconstruir identidade e vida.
+
+**Diferencial:**
+- Hoje: clareza, segurança, triângulo, registro
+- Novo: reconstrução de identidade, projeto de vida, relações futuras
+
+**Componentes:**
+
+#### a) Módulo "Cicatriz" (nome ilustrativo)
+Protocolos focados em:
+- Reconstrução de identidade
+- Confiança em si
+- Escolha de novos relacionamentos
+- Reentrada em carreira/negócio após abuso
+
+#### b) Oráculo em Modo Reconstrução
+- Foco em metas positivas (não só risco)
+- Tracking de progresso ao longo de meses/anos
+- Celebração de marcos de recuperação
+
+#### c) Micro-Radares de Reconstrução
+- "Radar Reconstrução Profissional"
+- "Radar Novos Relacionamentos"
+- "Radar Autoconfiança"
+
+**Inovação:**
+> Diferencia de qualquer coisa só focada em "detectar narcisista" – vira **plataforma de ciclos de vida**.
+
+**Arquivos potenciais:**
+```
+app/reconstrucao/page.tsx
+app/reconstrucao/identidade/page.tsx
+app/reconstrucao/metas/page.tsx
+lib/reconstruction-tracker.ts
+components/MilestoneTimeline.tsx
+```
+
+---
+
+## ORDEM SUGERIDA DE IMPLEMENTAÇÃO (COMPLETA)
+
+### FASE 1: FUNDAÇÃO (CICLOS 1-5)
+| CICLO | DESCRIÇÃO | STATUS |
+|-------|-----------|--------|
+| 1 | Banco redondo | ✅ |
+| 2 | Triângulo de Segurança | ✅ |
+| 3 | FanPage Viva v1 | ⏳ |
+| 4 | Billing/planos | ⏳ |
+| 5 | Gerador SaaS Fase 2 | ⏳ |
+
+### FASE 2: INOVAÇÃO PRODUTO (CICLOS 6-10)
+| CICLO | EIXO | COMPLEXIDADE | IMPACTO |
+|-------|------|--------------|---------|
+| 6 | Oráculo V3 – Timeline | MÉDIA | ALTO |
 | 7 | Engine de Protocolos | ALTA | MUITO ALTO |
 | 8 | Builder de Dossiê (Pro) | MÉDIA | ALTO |
 | 9 | Co-criação Guiada | MÉDIA | ALTO |
 | 10 | Radar Lab | ALTA | ESTRATÉGICO |
+
+### FASE 3: PLATAFORMA 2.0 (CICLOS 11-15)
+| CICLO | EIXO | COMPLEXIDADE | IMPACTO |
+|-------|------|--------------|---------|
+| 11 | Radar Studio | MUITO ALTA | TRANSFORMADOR |
+| 12 | Radar Audit Bot | ALTA | COMPLIANCE |
+| 13 | Radar Markup | ALTA | ECOSSISTEMA |
+| 14 | Radar Research Mode | ALTA | ACADÊMICO |
+| 15 | Módulo Reparação | MÉDIA | DIFERENCIAÇÃO |
 
 ---
 
