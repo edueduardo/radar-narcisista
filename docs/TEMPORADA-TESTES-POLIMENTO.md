@@ -20,6 +20,21 @@ Data de Início: 05/12/2025
 - [x] `next.config.ts` otimizado (imagens, headers, compressão)
 - [x] Headers de segurança configurados (HSTS, X-Frame-Options, etc.)
 
+### 1.2 MIGRAÇÃO SUPABASE ✅
+- [x] Migrar de `@supabase/auth-helpers-nextjs` para `@supabase/ssr`
+- [x] Criar `lib/supabase/client.ts` (Client Components)
+- [x] Criar `lib/supabase/server.ts` (Server Components)
+- [x] Criar camadas de compatibilidade
+- [x] Atualizar middleware.ts
+- [x] Remover pacote deprecated do package.json
+- [x] Atualizar Next.js 16.0.3 → 16.0.7 (CVE-2025-66478)
+- [x] Deploy Vercel funcionando
+
+### 1.3 API HEALTH ✅
+- [x] API `/api/health` retorna status healthy
+- [x] Database: ok
+- [x] Environment: production
+
 ### 2. TESTES DE FLUXO CRÍTICO
 - [ ] **Cadastro/Login**
   - [ ] Criar conta nova
