@@ -19423,3 +19423,53 @@ FIM DO ESCOPO - VERSÃO CONSOLIDADA 04/12/2025 07:13 UTC-5
 - Implementado em: 04/12/2025 14:05 UTC-5
 
 === FIM IMPLEMENTAÇÃO ===
+
+[TAREFA 11]
+- Descricao: Executar SQL_CONSOLIDADO_01_BASE.sql no Supabase (se ainda nao executado)
+- Status: PENDENTE
+- Origem: CICLO 1 - Banco + Implementacao
+- Arquivos envolvidos: database/sql_consolidado/SQL_CONSOLIDADO_01_BASE.sql
+- SQL consolidado: SQL_CONSOLIDADO_01_BASE.sql
+- Proximo passo: Executar no Supabase SQL Editor
+
+[TAREFA 12]
+- Descricao: Executar SQL_CONSOLIDADO_02_ADDONS_AI_MENUS.sql no Supabase
+- Status: PENDENTE
+- Origem: CICLO 1 - Banco + Implementacao (TAREFA 3, 4, 5)
+- Arquivos envolvidos: database/sql_consolidado/SQL_CONSOLIDADO_02_ADDONS_AI_MENUS.sql
+- SQL consolidado: SQL_CONSOLIDADO_02_ADDONS_AI_MENUS.sql
+- Proximo passo: Executar no Supabase SQL Editor
+
+[TAREFA 13]
+- Descricao: Executar SQL_CONSOLIDADO_03_FANPAGE_VIVA.sql no Supabase
+- Status: PENDENTE
+- Origem: CICLO 1 - Banco + Implementacao (FanPage Viva)
+- Arquivos envolvidos: database/sql_consolidado/SQL_CONSOLIDADO_03_FANPAGE_VIVA.sql
+- SQL consolidado: SQL_CONSOLIDADO_03_FANPAGE_VIVA.sql
+- Proximo passo: Executar no Supabase SQL Editor
+
+[TAREFA 14]
+- Descricao: Configurar chaves de IA no Vercel (GROQ_API_KEY, OPENAI_API_KEY)
+- Status: PENDENTE
+- Origem: Debug IA Curadora - Sessao 05/12/2025
+- Arquivos envolvidos: Vercel Dashboard -> Settings -> Environment Variables
+- SQL consolidado: N/A
+- Proximo passo: Acessar Vercel e adicionar variaveis
+
+[TAREFA 15]
+- Descricao: Testar IA Curadora apos configurar chaves
+- Status: PENDENTE
+- Origem: Debug IA Curadora - Sessao 05/12/2025
+- Arquivos envolvidos: app/api/admin/content/curadoria/ia-sugerir/route.ts
+- SQL consolidado: N/A
+- Proximo passo: Acessar /admin/curadoria e testar
+
+[TAREFA 16]
+- Descricao: Corrigir header Admin com toggle Demo/Real (verificar se aparece)
+- Status: PENDENTE
+- Origem: Implementacao 05/12/2025 - AdminDemoToggle
+- Arquivos envolvidos: components/admin/AdminDemoToggle.tsx, app/admin/layout.tsx
+- SQL consolidado: N/A
+- Proximo passo: Testar em producao apos deploy
+
+=== FIM IMPLEMENTACAO ===
