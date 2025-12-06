@@ -30,7 +30,7 @@ export const testScenarios = {
   all: false,
 
   // ========================================
-  // CENÁRIOS DE TESTE
+  // BLOCO A - USUÁRIA FINAL
   // ========================================
 
   /** 
@@ -46,10 +46,10 @@ export const testScenarios = {
   frontpage_with_admin: true,
 
   /**
-   * AUTH - Autenticação (login, cadastro, logout)
-   * Testa: formulários, validações, redirecionamentos
+   * DASHBOARD USUÁRIA - Painel da usuária
+   * Testa: contagem de diários, gráficos, indicador de risco
    */
-  auth: false,
+  dashboard_usuario: false,
 
   /**
    * DIÁRIO BÁSICO - Funcionalidades básicas do diário
@@ -64,7 +64,7 @@ export const testScenarios = {
   diario_critico: false,
 
   /**
-   * ORÁCULO - Chat com IA
+   * ORÁCULO - Chat com IA (Coach de Clareza)
    * Testa: enviar mensagem, receber resposta, histórico
    */
   oraculo: false,
@@ -81,29 +81,105 @@ export const testScenarios = {
    */
   plano_seguranca: false,
 
-  /**
-   * PROFISSIONAL - Painel do profissional
-   * Testa: dashboard pro, casos, relatórios
-   */
-  profissional: false,
+  // ========================================
+  // BLOCO B - PROFISSIONAL / ADMIN
+  // ========================================
 
   /**
-   * BILLING - Pagamentos e assinaturas
-   * Testa: checkout Stripe, planos, upgrade/downgrade
+   * DASHBOARD PROFISSIONAL - Painel do profissional
+   * Testa: casos listados, alertas, priorização
    */
-  billing: false,
+  dashboard_profissional: false,
 
   /**
-   * ADMIN - Painel administrativo
+   * ADMIN FEATURE FLAGS - Configurações do admin
+   * Testa: ativar/desativar flags, salvar configurações
+   */
+  admin_feature_flags: false,
+
+  /**
+   * ADMIN - Painel administrativo geral
    * Testa: dashboard admin, usuários, configurações
    */
   admin: false,
 
+  // ========================================
+  // BLOCO C - BACKEND / APIs
+  // ========================================
+
   /**
-   * GERADOR SAAS - Gerador de SaaS filhos
+   * API CORE - APIs principais
+   * Testa: criar diário, registrar teste, gerar alerta
+   */
+  api_core: false,
+
+  /**
+   * API RESPONSES - Testes de API (respostas)
+   * Testa: endpoints públicos e autenticados
+   */
+  api_responses: true,
+
+  // ========================================
+  // BLOCO D - BANCO DE DADOS / RLS
+  // ========================================
+
+  /**
+   * RLS CORE - Row Level Security
+   * Testa: RLS impedindo acesso indevido
+   */
+  rls_core: false,
+
+  // ========================================
+  // BLOCO E - BILLING / STRIPE
+  // ========================================
+
+  /**
+   * BILLING BÁSICO - Pagamentos básicos
+   * Testa: planos exibidos, fluxo checkout, status assinatura
+   */
+  billing_basico: false,
+
+  /**
+   * BILLING - Pagamentos e assinaturas (completo)
+   * Testa: checkout Stripe, planos, upgrade/downgrade
+   */
+  billing: false,
+
+  // ========================================
+  // BLOCO F - GERADOR SAAS / MULTIINSTÂNCIA
+  // ========================================
+
+  /**
+   * SAAS GENERATOR - Gerador de SaaS filhos
    * Testa: criar projeto, GitHub API, download
    */
+  saas_generator: false,
+
+  /**
+   * SAAS SMOKE - Smoke test de instâncias filhas
+   * Testa: abrir / de cada instância enabled
+   */
+  saas_smoke: false,
+
+  /**
+   * GERADOR SAAS (alias) - Gerador de SaaS filhos
+   */
   gerador_saas: false,
+
+  // ========================================
+  // OUTROS CENÁRIOS
+  // ========================================
+
+  /**
+   * AUTH - Autenticação (login, cadastro, logout)
+   * Testa: formulários, validações, redirecionamentos
+   */
+  auth: false,
+
+  /**
+   * PROFISSIONAL - Painel do profissional (alias)
+   */
+  profissional: false,
 
   /**
    * FANPAGE VIVA - Conteúdo dinâmico
@@ -116,12 +192,6 @@ export const testScenarios = {
    * Testa: exibição de alertas, marcar como resolvido
    */
   alert_center: false,
-
-  /**
-   * API RESPONSES - Testes de API
-   * Testa: endpoints públicos e autenticados
-   */
-  api_responses: true,
 
   /**
    * NAVIGATION - Navegação geral
