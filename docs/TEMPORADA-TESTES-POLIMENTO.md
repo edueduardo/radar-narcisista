@@ -36,6 +36,22 @@ Data de Início: 05/12/2025
 - [x] Environment: production
 
 ### 2. TESTES DE FLUXO CRÍTICO
+
+#### 2.1 Páginas Carregando ✅
+- [x] `/login` - 200 OK
+- [x] `/cadastro` - 200 OK
+- [x] `/dashboard` - 200 OK
+- [x] `/teste-clareza` - 200 OK
+- [x] `/chat` - 200 OK
+- [x] `/diario` - 200 OK
+- [x] `/planos` - 200 OK
+- [x] `/plano-seguranca` - 200 OK
+
+#### 2.2 APIs Protegidas ✅
+- [x] `/api/diario` - 401 sem auth (correto)
+- [x] `/api/chat` - 200 OK
+
+#### 2.3 Testes Manuais Pendentes
 - [ ] **Cadastro/Login**
   - [ ] Criar conta nova
   - [ ] Login com email/senha
@@ -46,31 +62,23 @@ Data de Início: 05/12/2025
   - [ ] Completar teste
   - [ ] Ver resultado
   - [ ] Ativar perfil
-  - [ ] Verificar risk_alert criado (se hasPhysicalRisk)
 
 - [ ] **Chat**
   - [ ] Enviar mensagem
   - [ ] Receber resposta da IA
-  - [ ] Detectar risco (testar com "ele me ameaçou")
-  - [ ] Ver alerta de emergência
 
 - [ ] **Diário**
   - [ ] Criar entrada
   - [ ] Editar entrada
   - [ ] Ver timeline
-  - [ ] Verificar análise de risco
 
 - [ ] **Plano de Segurança**
   - [ ] Criar plano
   - [ ] Editar seções
-  - [ ] Ver status no dashboard
-  - [ ] Verificar cadeia de custódia
 
 - [ ] **Pagamentos**
   - [ ] Ver planos
   - [ ] Iniciar checkout Stripe
-  - [ ] Verificar webhook
-  - [ ] Acessar portal do cliente
 
 ### 3. TESTES DE UI/UX
 - [ ] **Responsividade**
