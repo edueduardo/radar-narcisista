@@ -77,15 +77,15 @@ AUDITORIA: ETAPA 7.2/7.3 - PLANO DE SEGURANÇA + TRIÂNGULO
    - Descrição: Contagem de tags graves nos últimos 30 dias
    - Tags: ameaca_velada, explosao, agressao_verbal, ameacas
    - Regra: Após N=3 episódios graves em 30 dias, sugerir revisão do plano
-   - Arquivo a modificar: app/dashboard/page.tsx
-   - Status: ❌ NÃO IMPLEMENTADO
-   - Complexidade: MÉDIA
+   - Arquivo: app/api/diario/route.ts (linhas 131-172)
+   - Status: ✅ IMPLEMENTADO - Auditoria 06/12/2025
+   - Detalhes: HIGH_RISK_TAGS + MODERATE_RISK_TAGS + análise 30 dias
 
 2. CRIAÇÃO AUTOMÁTICA DE risk_alert AO SALVAR EPISÓDIO COM TAGS GRAVES
    - Descrição: Quando usuário salva entrada no diário com tags graves, criar risk_alert
-   - Arquivo a modificar: app/api/journal/route.ts (ou similar)
-   - Status: ❌ NÃO IMPLEMENTADO
-   - Complexidade: MÉDIA
+   - Arquivo: app/api/diario/route.ts (linhas 100-129)
+   - Status: ✅ IMPLEMENTADO - Auditoria 06/12/2025
+   - Detalhes: Cria risk_alert com source='journal', risk_level, details
 
 3. DETECÇÃO VIA IA NO CHAT (Análise Semântica)
    - Descrição: Usar IA para detectar risco além do regex simples
@@ -135,15 +135,20 @@ AUDITORIA: ETAPA 7.2/7.3 - PLANO DE SEGURANÇA + TRIÂNGULO
 
 4. MODO 3 DO GERADOR DE SAAS - CICLO 5
    - Descrição: Criar SAAS a partir de CORE BRANCO na UI
-   - Status: ⏳ PARCIALMENTE IMPLEMENTADO (70%)
+   - Status: ✅ IMPLEMENTADO - Auditoria 06/12/2025
    - Arquivos:
      * app/admin/gerador-saas/page.tsx (845 linhas)
      * app/admin/gerador-saas/wizard/
-   - Pendente: Lógica de CORE_BRANCO
+     * app/api/admin/generator/generate/route.ts (420 linhas)
+     * CORE_BRANCO_STRUCTURE com templates completos
 
 5. GITHUB API NO GERADOR - CICLO 5
    - Descrição: Criar repos automaticamente
-   - Status: ⏳ UI PRONTA, FALTA API REAL
+   - Status: ✅ IMPLEMENTADO - Auditoria 06/12/2025
+   - Arquivos:
+     * app/api/admin/generator/github/route.ts (230 linhas)
+     * GET: Verificar conexão + listar orgs
+     * POST: Criar repo + adicionar arquivos
 
 ================================================================================
 === 🎯 ORDEM DE PRIORIDADE SUGERIDA ===
@@ -282,9 +287,9 @@ CICLO 4 - BILLING/PLANOS:
 CICLO 5 - GERADOR SAAS:
 - UI Gerador: ✅ IMPLEMENTADO (845 linhas)
 - Wizard: ✅ IMPLEMENTADO
-- Modo 3 CORE_BRANCO: ⏳ PARCIAL
-- GitHub API: ⏳ UI PRONTA, FALTA API
-- STATUS: 70% COMPLETO
+- Modo 3 CORE_BRANCO: ✅ IMPLEMENTADO (420 linhas)
+- GitHub API: ✅ IMPLEMENTADO (230 linhas)
+- STATUS: 100% COMPLETO
 
 IDEIAS DIAMANTE:
 - 8 ideias documentadas para futuro
@@ -310,12 +315,12 @@ FASE 3 - BILLING/PLANOS: ✅ 90% CONCLUÍDO
 9. [x] Integração frontpage com plan_catalog (usePlans.ts)
 10. [ ] Stripe price_id reais (ANTES DO LANÇAMENTO)
 
-FASE 4 - GERADOR DE SAAS: ⏳ 70% CONCLUÍDO
+FASE 4 - GERADOR DE SAAS: ✅ 100% CONCLUÍDO
 11. [x] UI Gerador (845 linhas)
 12. [x] Wizard básico
-13. [ ] Modo 3 CORE_BRANCO (lógica completa)
-14. [ ] GitHub API (criar repos automaticamente)
-15. [ ] Sistema PATCH (mãe → filhos)
+13. [x] Modo 3 CORE_BRANCO (420 linhas) - app/api/admin/generator/generate/route.ts
+14. [x] GitHub API (230 linhas) - app/api/admin/generator/github/route.ts
+15. [ ] Sistema PATCH (mãe → filhos) - FUTURO
 
 FASE 5 - AVANÇADO (FUTURO):
 16. [ ] Detecção via IA no chat (análise semântica)
