@@ -1,11 +1,27 @@
 import { test, expect } from '@playwright/test'
+import { testScenarios, shouldRunScenario, getSkipMessage } from '../config/test-scenarios.config'
 
 /**
- * Testes E2E - Páginas Públicas
- * Verifica se as páginas públicas carregam corretamente
+ * ============================================================================
+ * TESTES E2E - PÁGINAS PÚBLICAS
+ * ============================================================================
+ * 
+ * CENÁRIO: frontpage, navigation, seo, responsividade
+ * 
+ * Verifica se as páginas públicas carregam corretamente.
+ * 
+ * COMO ATIVAR/DESATIVAR:
+ * Edite tests/config/test-scenarios.config.ts
  */
 
 test.describe('Páginas Públicas', () => {
+  
+  test.beforeEach(async () => {
+    test.skip(
+      !shouldRunScenario('frontpage'),
+      getSkipMessage('frontpage')
+    )
+  })
   
   test('Homepage carrega corretamente', async ({ page }) => {
     await page.goto('/')
@@ -59,6 +75,13 @@ test.describe('Páginas Públicas', () => {
 
 test.describe('SEO e Meta Tags', () => {
   
+  test.beforeEach(async () => {
+    test.skip(
+      !shouldRunScenario('seo'),
+      getSkipMessage('seo')
+    )
+  })
+  
   test('Homepage tem meta tags corretas', async ({ page }) => {
     await page.goto('/')
     
@@ -87,6 +110,13 @@ test.describe('SEO e Meta Tags', () => {
 })
 
 test.describe('Responsividade', () => {
+  
+  test.beforeEach(async () => {
+    test.skip(
+      !shouldRunScenario('responsividade'),
+      getSkipMessage('responsividade')
+    )
+  })
   
   test('Homepage é responsiva em mobile', async ({ page }) => {
     // Viewport mobile
