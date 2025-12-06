@@ -1,0 +1,63 @@
+# LICENSE / LICENÇA - RADAR NARCISISTA
+# =====================================
+
+## PORTUGUÊS
+
+Copyright © 2025 Eduardo. Todos os direitos reservados.
+
+Este repositório contém código-fonte, documentação, prompts de IA e demais 
+ativos do projeto "Radar Narcisista", que são PROPRIEDADE EXCLUSIVA do autor.
+
+### TERMOS DE USO
+
+1. **NÃO É OPEN SOURCE**: Este código NÃO está licenciado sob nenhuma licença 
+   open source (MIT, GPL, Apache, etc.).
+
+2. **USO COMERCIAL PROIBIDO SEM AUTORIZAÇÃO**: Qualquer uso comercial, 
+   redistribuição, cópia, modificação ou criação de obras derivadas para 
+   fins de produto ou serviço requer CONTRATO ESCRITO com o autor.
+
+3. **REPOSITÓRIO PARA AVALIAÇÃO**: Este repositório está público apenas para 
+   fins de demonstração e avaliação por potenciais compradores ou parceiros.
+
+4. **VENDA COMO ASSET**: Este projeto está disponível para aquisição como 
+   ativo tecnológico (código + documentação + visão). Os termos específicos 
+   de transferência de direitos serão definidos em contrato.
+
+### CONTATO PARA AQUISIÇÃO
+
+Para propostas de compra, licenciamento ou parceria:
+- Email: [SEU_EMAIL_AQUI]
+- GitHub: https://github.com/edueduardo
+
+---
+
+## ENGLISH
+
+Copyright © 2025 Eduardo. All rights reserved.
+
+This repository contains source code, documentation, AI prompts, and other 
+assets of the "Radar Narcisista" project, which are the EXCLUSIVE PROPERTY 
+of the author.
+
+### TERMS OF USE
+
+1. **NOT OPEN SOURCE**: This code is NOT licensed under any open source 
+   license (MIT, GPL, Apache, etc.).
+
+2. **COMMERCIAL USE PROHIBITED WITHOUT AUTHORIZATION**: Any commercial use, 
+   redistribution, copying, modification, or creation of derivative works 
+   for product or service purposes requires a WRITTEN CONTRACT with the author.
+
+3. **REPOSITORY FOR EVALUATION**: This repository is public only for 
+   demonstration and evaluation purposes by potential buyers or partners.
+
+4. **ASSET SALE**: This project is available for acquisition as a 
+   technological asset (code + documentation + vision). Specific terms 
+   of rights transfer will be defined in contract.
+
+### CONTACT FOR ACQUISITION
+
+For purchase, licensing, or partnership proposals:
+- Email: [YOUR_EMAIL_HERE]
+- GitHub: https://github.com/edueduardo
