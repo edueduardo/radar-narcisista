@@ -12,66 +12,10 @@
   "categories": ["health", "lifestyle", "utilities"],
   "icons": [
     {
-      "src": "/icons/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/screenshots/mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow"
-    },
-    {
-      "src": "/screenshots/desktop.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "form_factor": "wide"
+      "src": "/favicon.ico",
+      "sizes": "256x256",
+      "type": "image/x-icon",
+      "purpose": "any"
     }
   ],
   "shortcuts": [
@@ -79,22 +23,19 @@
       "name": "Teste de Clareza",
       "short_name": "Teste",
       "description": "Fazer o teste de clareza",
-      "url": "/teste-clareza",
-      "icons": [{ "src": "/icons/shortcut-test.png", "sizes": "96x96" }]
+      "url": "/teste-clareza"
     },
     {
       "name": "Emergência",
       "short_name": "SOS",
       "description": "Números de emergência",
-      "url": "/seguranca",
-      "icons": [{ "src": "/icons/shortcut-sos.png", "sizes": "96x96" }]
+      "url": "/seguranca"
     },
     {
       "name": "Diário",
       "short_name": "Diário",
       "description": "Registrar episódio",
-      "url": "/diario",
-      "icons": [{ "src": "/icons/shortcut-diary.png", "sizes": "96x96" }]
+      "url": "/diario"
     }
   ],
   "related_applications": [],

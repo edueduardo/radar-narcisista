@@ -15,8 +15,20 @@ import CrispChat from '@/components/CrispChat'
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
+// Função para obter URL base correta
+const getMetadataBaseUrl = () => {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL
+  if (appUrl && !appUrl.includes('localhost')) {
+    return appUrl
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`
+  }
+  return 'https://radarnarcisista.com.br'
+}
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://radarnarcisista.com.br'),
+  metadataBase: new URL(getMetadataBaseUrl()),
   title: {
     default: 'Radar Narcisista BR – Encontre clareza em meio à confusão',
     template: '%s | Radar Narcisista BR',
