@@ -127,7 +127,10 @@ Data de Início: 05/12/2025
 
 | # | Descrição | Severidade | Status | Arquivo |
 |---|-----------|------------|--------|---------|
-| 1 | - | - | - | - |
+| 1 | Favicon 404 | Baixa | ✅ Corrigido | public/favicon.ico |
+| 2 | Chunk JS não carrega (cache Vercel) | Alta | ✅ Corrigido | Redeploy limpo |
+| 3 | Next.js vulnerável CVE-2025-66478 | Crítica | ✅ Corrigido | package.json |
+| 4 | @supabase/auth-helpers deprecated | Média | ✅ Corrigido | Migrado para @supabase/ssr |
 
 ---
 
