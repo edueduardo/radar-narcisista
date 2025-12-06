@@ -1,0 +1,17 @@
+# CHAVES DO SUPABASE DEMO
+# Criado em: 06/12/2025
+# Projeto: radar-demo
+# =====================================================
+
+# USE ESTAS CHAVES NA VERCEL (Environment Variables)
+
+NEXT_PUBLIC_SUPABASE_URL=https://ecanknegullbmwhslecv.supabase.co
+
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVjYW5rbmVndWxsYm13aHNsZWN2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUwMzEyMjUsImV4cCI6MjA4MDYwNzIyNX0.C6lUWrVctvNBZeKD7IQDFNxU4e1cNooC8xMXROwqrK8
+
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVjYW5rbmVndWxsYm13aHNsZWN2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTAzMTIyNSwiZXhwIjoyMDgwNjA3MjI1fQ.XqmB3pExMLn_spU19T14ih5NXvzSsgwK6H5ToWdGS68
+
+# =====================================================
+# IMPORTANTE: NÃO COMPARTILHE A SERVICE_ROLE_KEY!
+# Ela dá acesso total ao banco de dados.
+# =====================================================

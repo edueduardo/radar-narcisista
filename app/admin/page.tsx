@@ -7,7 +7,8 @@ export const dynamic = 'force-dynamic'
 // Lista de emails admin - HARDCODED para garantir acesso
 const ADMIN_EMAILS = [
   'etailoffice@gmail.com',
-  'eduardo.mkt.davila@gmail.com'
+  'eduardo.mkt.davila@gmail.com',
+  'demo.admin@radar.test' // Demo admin para demonstração
 ]
 
 export default async function AdminPage() {
