@@ -38,6 +38,61 @@ const ADMIN_PASSWORD = 'Admin123!@#' // Senha de teste - NÃO usar em produção
 // ============================================================================
 
 /**
+ * Fecha modais que podem aparecer na página (aviso 18+, tutorial, etc.)
+ * Explicação: Modais bloqueiam interação com elementos da página
+ * Usa page.evaluate() para clicar via JavaScript (mais confiável)
+ */
+async function closeModals(page: Page): Promise<void> {
+  console.log('🔒 Verificando modais...')
+  
+  // Aguardar um pouco para modais aparecerem
+  await page.waitForTimeout(1500)
+  
+  // Fechar TODOS os modais de uma vez via JavaScript
+  await page.evaluate(() => {
+    const buttons = document.querySelectorAll('button')
+    buttons.forEach(btn => {
+      const text = btn.textContent || ''
+      const ariaLabel = btn.getAttribute('aria-label') || ''
+      
+      // Modal de aviso 18+
+      if (text.includes('Entendi e Aceito')) {
+        console.log('Clicando em: Entendi e Aceito')
+        btn.click()
+      }
+      // Tutorial
+      if (text.includes('Pular tutorial')) {
+        console.log('Clicando em: Pular tutorial')
+        btn.click()
+      }
+      // Fechar notificações
+      if (text === 'Fechar' || ariaLabel === 'Fechar') {
+        console.log('Clicando em: Fechar')
+        btn.click()
+      }
+    })
+  })
+  
+  // Aguardar animações
+  await page.waitForTimeout(1000)
+  
+  // Segunda passada para garantir que tudo foi fechado
+  await page.evaluate(() => {
+    const buttons = document.querySelectorAll('button')
+    buttons.forEach(btn => {
+      const text = btn.textContent || ''
+      if (text.includes('Pular tutorial') || text.includes('Entendi e Aceito')) {
+        btn.click()
+      }
+    })
+  })
+  
+  await page.waitForTimeout(500)
+  
+  console.log('✅ Modais verificados')
+}
+
+/**
  * Faz login no admin
  * Explicação: Sem login, não conseguimos acessar as configurações do backend
  */
@@ -85,6 +140,9 @@ async function goToAdmin(page: Page): Promise<void> {
 
 test.describe('Frontpage com Backend Configurado', () => {
   
+  // Aumentar timeout para 90 segundos
+  test.setTimeout(90000)
+  
   // Pular se o cenário estiver desativado
   test.beforeEach(async () => {
     test.skip(
@@ -101,6 +159,9 @@ test.describe('Frontpage com Backend Configurado', () => {
     console.log('🏠 Abrindo frontpage...')
     await page.goto('/')
     await page.waitForLoadState('networkidle')
+    
+    // Fechar modais que podem bloquear interação
+    await closeModals(page)
     
     /**
      * PASSO 2: Verificar título da página
@@ -199,6 +260,9 @@ test.describe('Frontpage com Backend Configurado', () => {
     await page.goto('/')
     await page.waitForLoadState('networkidle')
     
+    // Fechar modais que podem bloquear interação
+    await closeModals(page)
+    
     /**
      * Testar link de Login
      */
@@ -256,6 +320,7 @@ test.describe('Frontpage com Backend Configurado', () => {
     await page.setViewportSize({ width: 1280, height: 720 })
     await page.goto('/')
     await page.waitForLoadState('networkidle')
+    await closeModals(page)
     await expect(page.locator('body')).toBeVisible()
     console.log('✅ Desktop OK')
     
