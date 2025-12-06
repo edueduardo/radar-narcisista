@@ -37,7 +37,8 @@ Data de Início: 05/12/2025
 
 ### 2. TESTES DE FLUXO CRÍTICO
 
-#### 2.1 Páginas Carregando ✅
+#### 2.1 Páginas Carregando ✅ (25 testadas)
+- [x] `/` - Home 200 OK
 - [x] `/login` - 200 OK
 - [x] `/cadastro` - 200 OK
 - [x] `/dashboard` - 200 OK
@@ -46,10 +47,32 @@ Data de Início: 05/12/2025
 - [x] `/diario` - 200 OK
 - [x] `/planos` - 200 OK
 - [x] `/plano-seguranca` - 200 OK
+- [x] `/termos`, `/privacidade`, `/lgpd` - 200 OK
+- [x] `/faq`, `/contato`, `/manifesto` - 200 OK
+- [x] `/gaslighting`, `/love-bombing`, `/triangulacao`, `/ciclo-abuso` - 200 OK
+- [x] `/biblioteca`, `/educacao`, `/blog` - 200 OK
+- [x] `/estatisticas/publicas`, `/seguranca-digital` - 200 OK
+- [x] `/onboarding`, `/conquistas` - 200 OK
+- [x] `/admin` - 307 redirect (protegido) ✅
 
-#### 2.2 APIs Protegidas ✅
-- [x] `/api/diario` - 401 sem auth (correto)
-- [x] `/api/chat` - 200 OK
+#### 2.2 APIs Testadas ✅
+- [x] `/api/health` - healthy, database ok
+- [x] `/api/plan-catalog` - 7 planos
+- [x] `/api/plans/catalog` - 4 planos estáticos
+- [x] `/api/public/radar-pulse` - temperatura 75
+- [x] `/api/public/frontpage` - 4 blocos, 2 tracks
+- [x] `/api/stripe/status` - connected: false (não configurado)
+- [x] `/api/chat` POST - 200 OK
+- [x] `/api/diario` - 401 sem auth ✅
+- [x] `/api/gamification` - 401 sem auth ✅
+- [x] `/api/content/suggestions` - 401 sem auth ✅
+
+#### 2.3 Assets ✅
+- [x] `/favicon.ico` - 200 OK
+- [x] `/manifest.json` - 200 OK
+- [x] `/sw.js` - 200 OK (Service Worker)
+- [x] `/robots.txt` - 200 OK
+- [x] `/sitemap.xml` - 200 OK
 
 #### 2.3 Testes Manuais Pendentes
 - [ ] **Cadastro/Login**
@@ -139,6 +162,10 @@ Data de Início: 05/12/2025
 | 2 | Chunk JS não carrega (cache Vercel) | Alta | ✅ Corrigido | Redeploy limpo |
 | 3 | Next.js vulnerável CVE-2025-66478 | Crítica | ✅ Corrigido | package.json |
 | 4 | @supabase/auth-helpers deprecated | Média | ✅ Corrigido | Migrado para @supabase/ssr |
+| 5 | robots.txt com localhost | Média | ✅ Corrigido | app/robots.ts |
+| 6 | sitemap.xml com localhost | Média | ✅ Corrigido | app/sitemap.ts |
+| 7 | og:image com localhost | Média | ✅ Corrigido | app/layout.tsx |
+| 8 | Ícones PWA 404 | Baixa | ✅ Corrigido | manifest.json simplificado |
 
 ---
 
@@ -146,7 +173,11 @@ Data de Início: 05/12/2025
 
 | # | Descrição | Prioridade | Status |
 |---|-----------|------------|--------|
-| 1 | - | - | - |
+| 1 | Criar ícones PWA em múltiplos tamanhos | Média | ⏳ Pendente |
+| 2 | Criar og-image.png para compartilhamento | Média | ⏳ Pendente |
+| 3 | Configurar NEXT_PUBLIC_APP_URL no Vercel | Alta | ⏳ Pendente |
+| 4 | Configurar Stripe em modo live | Alta | ⏳ Pendente |
+| 5 | Criar screenshots para PWA | Baixa | ⏳ Pendente |
 
 ---
 
