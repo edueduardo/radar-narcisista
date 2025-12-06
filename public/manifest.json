@@ -24,6 +24,22 @@
       "purpose": "any maskable"
     }
   ],
+  "screenshots": [
+    {
+      "src": "/screenshots/mobile.svg",
+      "sizes": "390x844",
+      "type": "image/svg+xml",
+      "form_factor": "narrow",
+      "label": "Dashboard mobile do Radar Narcisista"
+    },
+    {
+      "src": "/screenshots/desktop.svg",
+      "sizes": "1920x1080",
+      "type": "image/svg+xml",
+      "form_factor": "wide",
+      "label": "Dashboard desktop do Radar Narcisista"
+    }
+  ],
   "shortcuts": [
     {
       "name": "Teste de Clareza",

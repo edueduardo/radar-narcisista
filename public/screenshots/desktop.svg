@@ -1,0 +1,128 @@
+<svg width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e1b4b"/>
+      <stop offset="100%" style="stop-color:#312e81"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3730a3"/>
+      <stop offset="100%" style="stop-color:#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9333ea"/>
+      <stop offset="100%" style="stop-color:#7c3aed"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1920" height="1080" fill="url(#bgGrad)"/>
+  
+  <!-- Sidebar -->
+  <rect width="280" height="1080" fill="#1e1b4b"/>
+  
+  <!-- Logo -->
+  <circle cx="50" cy="50" r="24" fill="url(#purpleGrad)"/>
+  <text x="85" y="55" font-family="system-ui" font-size="18" font-weight="700" fill="white">Radar Narcisista</text>
+  
+  <!-- Sidebar Menu -->
+  <rect x="16" y="100" width="248" height="48" rx="8" fill="#9333ea"/>
+  <text x="56" y="130" font-family="system-ui" font-size="14" fill="white">🏠 Dashboard</text>
+  
+  <text x="56" y="180" font-family="system-ui" font-size="14" fill="rgba(255,255,255,0.6)">📝 Diário</text>
+  <text x="56" y="220" font-family="system-ui" font-size="14" fill="rgba(255,255,255,0.6)">💬 Chat com IA</text>
+  <text x="56" y="260" font-family="system-ui" font-size="14" fill="rgba(255,255,255,0.6)">🎯 Teste de Clareza</text>
+  <text x="56" y="300" font-family="system-ui" font-size="14" fill="rgba(255,255,255,0.6)">🛡️ Plano de Segurança</text>
+  <text x="56" y="340" font-family="system-ui" font-size="14" fill="rgba(255,255,255,0.6)">📊 Relatórios</text>
+  
+  <!-- Main Content Area -->
+  <!-- Header -->
+  <rect x="280" y="0" width="1640" height="70" fill="#1e1b4b"/>
+  <text x="320" y="45" font-family="system-ui" font-size="24" font-weight="700" fill="white">Dashboard</text>
+  <circle cx="1800" cy="35" r="20" fill="#312e81"/>
+  <circle cx="1850" cy="35" r="20" fill="url(#purpleGrad)"/>
+  
+  <!-- Welcome Banner -->
+  <rect x="320" y="100" width="1560" height="140" rx="16" fill="url(#cardGrad)"/>
+  <text x="360" y="150" font-family="system-ui" font-size="16" fill="rgba(255,255,255,0.7)">Bem-vinda de volta, Maria</text>
+  <text x="360" y="190" font-family="system-ui" font-size="28" font-weight="700" fill="white">Você está no caminho certo para a clareza 🌟</text>
+  <text x="360" y="220" font-family="system-ui" font-size="14" fill="rgba(255,255,255,0.8)">7 dias consecutivos de registro • Nível de clareza: 85%</text>
+  
+  <!-- Stats Cards Row -->
+  <rect x="320" y="270" width="370" height="150" rx="16" fill="#312e81"/>
+  <text x="360" y="320" font-family="system-ui" font-size="14" fill="rgba(255,255,255,0.6)">Entradas no Diário</text>
+  <text x="360" y="370" font-family="system-ui" font-size="48" font-weight="700" fill="white">24</text>
+  <text x="360" y="400" font-family="system-ui" font-size="12" fill="#22c55e">↑ 12% este mês</text>
+  
+  <rect x="710" y="270" width="370" height="150" rx="16" fill="#312e81"/>
+  <text x="750" y="320" font-family="system-ui" font-size="14" fill="rgba(255,255,255,0.6)">Nível de Clareza</text>
+  <text x="750" y="370" font-family="system-ui" font-size="48" font-weight="700" fill="#22c55e">85%</text>
+  <text x="750" y="400" font-family="system-ui" font-size="12" fill="#22c55e">↑ 5% desde o início</text>
+  
+  <rect x="1100" y="270" width="370" height="150" rx="16" fill="#312e81"/>
+  <text x="1140" y="320" font-family="system-ui" font-size="14" fill="rgba(255,255,255,0.6)">Conversas com IA</text>
+  <text x="1140" y="370" font-family="system-ui" font-size="48" font-weight="700" fill="white">18</text>
+  <text x="1140" y="400" font-family="system-ui" font-size="12" fill="rgba(255,255,255,0.5)">Últimos 30 dias</text>
+  
+  <rect x="1490" y="270" width="390" height="150" rx="16" fill="#312e81"/>
+  <text x="1530" y="320" font-family="system-ui" font-size="14" fill="rgba(255,255,255,0.6)">Alertas de Risco</text>
+  <text x="1530" y="370" font-family="system-ui" font-size="48" font-weight="700" fill="#f59e0b">3</text>
+  <text x="1530" y="400" font-family="system-ui" font-size="12" fill="#f59e0b">Atenção necessária</text>
+  
+  <!-- Quick Actions -->
+  <text x="320" y="470" font-family="system-ui" font-size="18" font-weight="600" fill="white">Ações Rápidas</text>
+  
+  <rect x="320" y="500" width="250" height="120" rx="12" fill="#312e81"/>
+  <circle cx="370" cy="550" r="24" fill="#9333ea"/>
+  <text x="370" y="555" font-family="system-ui" font-size="20" fill="white" text-anchor="middle">📝</text>
+  <text x="410" y="545" font-family="system-ui" font-size="16" font-weight="600" fill="white">Novo Registro</text>
+  <text x="410" y="570" font-family="system-ui" font-size="12" fill="rgba(255,255,255,0.6)">Adicionar ao diário</text>
+  
+  <rect x="590" y="500" width="250" height="120" rx="12" fill="#312e81"/>
+  <circle cx="640" cy="550" r="24" fill="#06b6d4"/>
+  <text x="640" y="555" font-family="system-ui" font-size="20" fill="white" text-anchor="middle">💬</text>
+  <text x="680" y="545" font-family="system-ui" font-size="16" font-weight="600" fill="white">Chat com IA</text>
+  <text x="680" y="570" font-family="system-ui" font-size="12" fill="rgba(255,255,255,0.6)">Conversar agora</text>
+  
+  <rect x="860" y="500" width="250" height="120" rx="12" fill="#312e81"/>
+  <circle cx="910" cy="550" r="24" fill="#22c55e"/>
+  <text x="910" y="555" font-family="system-ui" font-size="20" fill="white" text-anchor="middle">🎯</text>
+  <text x="950" y="545" font-family="system-ui" font-size="16" font-weight="600" fill="white">Teste de Clareza</text>
+  <text x="950" y="570" font-family="system-ui" font-size="12" fill="rgba(255,255,255,0.6)">Avaliar situação</text>
+  
+  <!-- Recent Activity -->
+  <text x="320" y="680" font-family="system-ui" font-size="18" font-weight="600" fill="white">Atividade Recente</text>
+  
+  <rect x="320" y="710" width="760" height="80" rx="12" fill="#312e81"/>
+  <circle cx="370" cy="750" r="24" fill="#22c55e"/>
+  <text x="410" y="745" font-family="system-ui" font-size="14" font-weight="500" fill="white">Teste de Clareza concluído com sucesso</text>
+  <text x="410" y="770" font-family="system-ui" font-size="12" fill="rgba(255,255,255,0.5)">Há 2 horas • Score: 85%</text>
+  
+  <rect x="320" y="800" width="760" height="80" rx="12" fill="#312e81"/>
+  <circle cx="370" cy="840" r="24" fill="#f59e0b"/>
+  <text x="410" y="835" font-family="system-ui" font-size="14" font-weight="500" fill="white">Nova entrada no diário: "Conversa difícil"</text>
+  <text x="410" y="860" font-family="system-ui" font-size="12" fill="rgba(255,255,255,0.5)">Ontem às 21:30 • Tags: gaslighting, manipulação</text>
+  
+  <rect x="320" y="890" width="760" height="80" rx="12" fill="#312e81"/>
+  <circle cx="370" cy="930" r="24" fill="#9333ea"/>
+  <text x="410" y="925" font-family="system-ui" font-size="14" font-weight="500" fill="white">Chat com IA: 12 mensagens trocadas</text>
+  <text x="410" y="950" font-family="system-ui" font-size="12" fill="rgba(255,255,255,0.5)">Há 3 dias • Tema: limites saudáveis</text>
+  
+  <!-- Right Panel - Safety Plan -->
+  <rect x="1120" y="500" width="760" height="480" rx="16" fill="#312e81"/>
+  <text x="1160" y="545" font-family="system-ui" font-size="18" font-weight="600" fill="white">🛡️ Plano de Segurança</text>
+  
+  <rect x="1140" y="570" width="720" height="60" rx="8" fill="#22c55e" fill-opacity="0.2"/>
+  <text x="1170" y="605" font-family="system-ui" font-size="14" fill="#22c55e">✓ Contatos de emergência configurados</text>
+  
+  <rect x="1140" y="640" width="720" height="60" rx="8" fill="#22c55e" fill-opacity="0.2"/>
+  <text x="1170" y="675" font-family="system-ui" font-size="14" fill="#22c55e">✓ Documentos importantes salvos</text>
+  
+  <rect x="1140" y="710" width="720" height="60" rx="8" fill="#f59e0b" fill-opacity="0.2"/>
+  <text x="1170" y="745" font-family="system-ui" font-size="14" fill="#f59e0b">⚠ Rota de fuga: pendente</text>
+  
+  <rect x="1140" y="780" width="720" height="60" rx="8" fill="rgba(255,255,255,0.1)"/>
+  <text x="1170" y="815" font-family="system-ui" font-size="14" fill="rgba(255,255,255,0.6)">○ Código secreto com pessoa de confiança</text>
+  
+  <rect x="1140" y="880" width="200" height="48" rx="24" fill="url(#purpleGrad)"/>
+  <text x="1240" y="910" font-family="system-ui" font-size="14" font-weight="600" fill="white" text-anchor="middle">Completar Plano</text>
+</svg>
