@@ -20,6 +20,9 @@
     "test:e2e:ui": "npx playwright test --ui",
     "test:e2e:headed": "npx playwright test --headed",
     "test:all": "npm run test:health && npm run test:apis && npm run test:e2e",
+    "test:api": "node scripts/test-all-apis.js",
+    "health-check": "node scripts/health-check.js",
+    "qa": "node scripts/run-all-tests.js",
     "espelho-codigo": "node scripts/gerar-espelho-codigo.cjs"
   },
   "dependencies": {

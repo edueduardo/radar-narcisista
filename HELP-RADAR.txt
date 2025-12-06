@@ -1,0 +1,58 @@
+================================================================================
+HELP – RADAR NARCISISTA BR (VISÃO PARA TESTES)
+================================================================================
+
+01. O Radar Narcisista é uma plataforma digital para apoiar pessoas em relações abusivas ou confusas.
+02. A ferramenta NÃO faz diagnóstico nem dá ordens diretas – isso é regra inviolável.
+03. O sistema combina diário, testes, alertas e IA para ajudar a pessoa a enxergar padrões.
+04. A pessoa usuária final é sempre o "herói" do sistema; profissionais existem como apoio.
+05. O Radar registra diários guiados, onde o usuário escreve o que viveu e marca tags.
+06. Esses diários alimentam o Triângulo de Segurança, que monitora sinais de risco.
+07. O sistema oferece testes e questionários voltados à clareza, não ao diagnóstico clínico.
+08. Resultados de diários e testes podem gerar alertas internos chamados risk_alert.
+09. O Oráculo é uma camada de IA que ajuda a interpretar padrões e fazer perguntas melhores.
+10. O Oráculo NUNCA deve dizer "faça isso" ou "termine agora" – isso é bug conceitual.
+11. O Radar possui painel específico para profissionais com casos, alertas e materiais.
+12. Profissionais acompanham o percurso do usuário sem acesso invasivo a tudo.
+13. O sistema suporta geração de dossiês organizados, sempre com consentimento.
+14. Cada instância do Radar tem sua própria base de dados isolada (privacidade).
+15. O Gerador de SaaS cria instâncias-filhas com marca e configurações próprias.
+16. Instâncias-filhas NÃO compartilham dados entre si – apenas herdam estrutura.
+17. O sistema se integra com Supabase (Postgres + RLS) para auth e banco de dados.
+18. A parte visual é construída em Next.js (app router) com páginas dinâmicas.
+19. Stripe é usado para gerenciar assinaturas e planos pagos.
+20. Há uma FanPage Viva voltada a conteúdos públicos e materiais educativos.
+21. O Radar mantém arquivos internos de auditoria em .txt (FUTURO, HISTORICO, AUDITORIA).
+22. Esse trio de arquivos serve como "cérebro de governança" do projeto.
+23. O sistema tem mecanismos de segurança para termos de uso e prevenção de fraude.
+24. Existem scripts SQL de segurança que criam tabelas de termos e logs de fraude.
+25. Ao testar, verificar se esses scripts estão aplicados no Supabase.
+26. A ferramenta foi pensada para permitir pesquisa ética com coleta anônima e consentida.
+27. Para profissionais, o Radar pode ser um hub de casos, protocolos e relatórios.
+28. Para instituições, o Radar pode ser instanciado como whitelabel com domínio próprio.
+29. Para a pessoa usuária, o Radar deve parecer simples: diário, testes, alertas, apoio.
+30. Toda complexidade de Multi-SaaS e oráculos fica "atrás do palco".
+31. O foco principal é clareza, segurança e reconstrução – NUNCA diagnóstico.
+32. Qualquer texto que pareça diagnóstico ou ordem de ação é BUG CONCEITUAL.
+33. Muitos testes envolvem não só "funciona/não funciona" mas "fala da forma correta".
+34. O Radar foi desenhado para ser extensível: novos protocolos podem ser adicionados.
+35. A arquitetura equilibra flexibilidade de IA com barreiras éticas documentadas.
+36. Em UX, o objetivo é que a pessoa se sinta acolhida, não julgada.
+37. Em negócio, o valor vem de profissionais e parceiros que usam o Radar como infra.
+38. Testes de painel profissional e billing são tão importantes quanto testes de diário.
+39. Cada parte (auth, diário, testes, oráculo, billing) deve ser testada isolada e em conjunto.
+40. Ao testar, cruzar o que o código faz com o que está nos arquivos de ROADMAP/FUTURO.
+41. Inconsistências entre código e documentação devem ser registradas como itens de auditoria.
+42. A ferramenta tenta proteger a usuária contra confusão, gaslighting e apagamento.
+43. Decisões de design e linguagem também fazem parte dos testes de qualidade.
+44. O Radar se propõe a ser um aliado discreto, não um juiz ou oráculo mágico.
+45. Cada instância é um "mundo próprio" – isso deve ser respeitado em testes e deploys.
+46. Quando tudo está alinhado, casos, protocolos, IA e profissionais trabalham em conjunto.
+47. Quando algo sai do alinhamento (schema quebrado, dados vazando), é bug crítico.
+48. Testar o Radar é testar tanto o código quanto os princípios que ele segue.
+49. Este help existe para lembrar qual é a intenção original da ferramenta.
+50. A ideia final: usar tecnologia e IA para apoiar pessoas sem ultrapassar limites éticos.
+
+================================================================================
+FIM DO HELP
+================================================================================
