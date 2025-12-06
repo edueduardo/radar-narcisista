@@ -46,7 +46,8 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Proteger rotas de admin
+  // Proteger rotas de admin - apenas verificar se está logado
+  // A verificação de role é feita na página /admin/page.tsx
   if (request.nextUrl.pathname.startsWith('/admin')) {
     if (!user) {
       console.log('[MIDDLEWARE] Admin sem user, redirecionando para login')
@@ -54,21 +55,8 @@ export async function middleware(request: NextRequest) {
       loginUrl.searchParams.set('redirectTo', request.nextUrl.pathname)
       return NextResponse.redirect(loginUrl)
     }
-    
-    // Verificar se é admin pelo EMAIL (mesma lógica do login)
-    const userEmail = user.email?.toLowerCase().trim()
-    const isAdmin = userEmail && ADMIN_EMAILS.some(
-      email => email.toLowerCase().trim() === userEmail
-    )
-    
-    console.log('[MIDDLEWARE] Verificação admin:', { userEmail, isAdmin, adminEmails: ADMIN_EMAILS })
-    
-    if (!isAdmin) {
-      console.log('[MIDDLEWARE] Não é admin, redirecionando para dashboard')
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
-    
-    console.log('[MIDDLEWARE] ✅ Admin autorizado:', userEmail)
+    // Deixa passar - a página faz a verificação de admin
+    console.log('[MIDDLEWARE] ✅ Usuário logado, deixando página verificar admin:', user.email)
   }
 
   // Adicionar headers de segurança
