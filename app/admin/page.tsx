@@ -1,6 +1,6 @@
 import { createServerComponentClient } from '@/lib/supabase/server-compat'
 import { redirect } from 'next/navigation'
-import AdminClient from './AdminClient'
+import AdminDashboard from './dashboard-admin'
 
 export const dynamic = 'force-dynamic'
 
@@ -45,7 +45,7 @@ export default async function AdminPage() {
   // Se é admin por email, permite acesso IMEDIATAMENTE
   if (isAdminEmail) {
     console.log('[ADMIN] ✅ Acesso permitido por email admin')
-    return <AdminClient />
+    return <AdminDashboard />
   }
 
   // Se não é admin por email, verificar role no banco
@@ -69,5 +69,5 @@ export default async function AdminPage() {
   }
 
   console.log('[ADMIN] ✅ Acesso permitido por role no banco')
-  return <AdminClient />
+  return <AdminDashboard />
 }

@@ -94,7 +94,7 @@ export interface UICoreRegistry {
 const adminGroups: InterfaceGroup[] = [
   {
     id: 'admin_overview',
-    label: 'Visão Geral & Controle',
+    label: 'admin.menu.overview',
     icon: '🎯',
     description: 'Painéis principais e monitoramento',
     audience: 'admin',
@@ -102,57 +102,57 @@ const adminGroups: InterfaceGroup[] = [
   },
   {
     id: 'admin_people',
-    label: 'Pessoas & Acessos',
+    label: 'admin.menu.people',
     icon: '👥',
-    description: 'Gerenciamento de usuários',
+    description: 'Gestão de usuários e acessos',
     audience: 'admin',
     priority: 2
   },
   {
-    id: 'admin_plans_billing',
-    label: 'Planos, Billing & Promoções',
+    id: 'admin_billing',
+    label: 'admin.menu.plans',
     icon: '💳',
-    description: 'Gestão financeira',
+    description: 'Planos, assinaturas e promoções',
     audience: 'admin',
     priority: 3
   },
   {
     id: 'admin_ai_core',
-    label: 'IAs & Orquestração',
+    label: 'admin.menu.ai',
     icon: '🤖',
-    description: 'Configuração de IAs',
+    description: 'IAs, personas e orquestração',
     audience: 'admin',
     priority: 4
   },
   {
     id: 'admin_product',
-    label: 'Produto & Funcionalidades',
-    icon: '🎯',
-    description: 'Funcionalidades do produto',
+    label: 'admin.menu.product',
+    icon: '🚀',
+    description: 'Features e funcionalidades',
     audience: 'admin',
     priority: 5
   },
   {
-    id: 'admin_front_content',
-    label: 'Front & Conteúdos',
+    id: 'admin_front',
+    label: 'admin.menu.front',
     icon: '🎨',
-    description: 'Gestão de conteúdo',
+    description: 'Frontpage, conteúdos e UI',
     audience: 'admin',
     priority: 6
   },
   {
     id: 'admin_governance',
-    label: 'Governança & LGPD',
+    label: 'admin.menu.governance',
     icon: '⚖️',
-    description: 'Compliance e auditoria',
+    description: 'LGPD, termos e compliance',
     audience: 'admin',
     priority: 7
   },
   {
     id: 'admin_lab',
-    label: 'Laboratório & Dev',
+    label: 'admin.menu.lab',
     icon: '🧪',
-    description: 'Ferramentas de desenvolvimento',
+    description: 'Laboratório de desenvolvimento',
     audience: 'admin',
     priority: 8
   }

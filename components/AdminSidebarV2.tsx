@@ -1,25 +1,25 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { 
-  LogOut, 
+  Sparkles, 
   ChevronDown, 
-  ChevronRight,
-  Menu,
-  X,
-  Sparkles,
-  Trash2,
-  HelpCircle
+  ChevronRight, 
+  LogOut, 
+  Trash2, 
+  Menu, 
+  X, 
+  HelpCircle 
 } from 'lucide-react'
 import { 
   getMenuForAudience, 
-  type InterfaceGroup, 
   type InterfaceScreen 
 } from '@/lib/ui-core-registry'
 import { getHelpForRoute, MenuHelpBlock } from '@/lib/menu-help-registry'
+import { Locale, getAdminTranslation } from '@/lib/i18n'
 
 /**
  * AdminSidebarV2 - Sidebar do Admin usando UI Core Registry
@@ -37,9 +37,18 @@ export default function AdminSidebarV2() {
   const [expandedGroups, setExpandedGroups] = useState<string[]>(['admin_overview', 'admin_ai_core'])
   const [mobileOpen, setMobileOpen] = useState(false)
   const [helpModal, setHelpModal] = useState<MenuHelpBlock | null>(null)
+  const [locale, setLocale] = useState<Locale>('pt-BR')
   
   // Carregar menu do registry
   const menu = getMenuForAudience('admin')
+
+  useEffect(() => {
+    // Detectar idioma do localStorage
+    const savedLocale = localStorage.getItem('locale') as Locale
+    if (savedLocale && ['pt-BR', 'en', 'es'].includes(savedLocale)) {
+      setLocale(savedLocale)
+    }
+  }, [])
 
   function toggleGroup(groupId: string) {
     setExpandedGroups(prev => 
@@ -91,21 +100,26 @@ export default function AdminSidebarV2() {
     }
   }
 
+  const t = (key: string) => getAdminTranslation(key, locale)
+
   const sidebarContent = (
     <>
       {/* Header */}
-      <div className="p-3 border-b border-slate-800 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-lg flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-white" />
+      <div className="p-4 border-b border-slate-700/50 flex items-center justify-between bg-slate-900/50">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+            <Sparkles className="w-5 h-5 text-white" />
           </div>
           {sidebarOpen && (
-            <span className="font-bold text-purple-400">Admin</span>
+            <div>
+              <span className="font-bold text-purple-400 text-lg">Admin</span>
+              <p className="text-xs text-slate-500">Control Panel</p>
+            </div>
           )}
         </div>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 hover:bg-slate-800 rounded-lg text-slate-400"
+          className="p-2.5 hover:bg-slate-700/50 rounded-lg text-slate-400 transition-all hover:text-white"
           aria-label={sidebarOpen ? 'Recolher menu' : 'Expandir menu'}
         >
           {sidebarOpen ? '◀' : '▶'}
@@ -113,35 +127,35 @@ export default function AdminSidebarV2() {
       </div>
 
       {/* Menu Groups */}
-      <nav className="flex-1 py-2 overflow-y-auto">
+      <nav className="flex-1 py-3 overflow-y-auto">
         {menu.map(({ group, screens }) => (
-          <div key={group.id} className="mb-1">
+          <div key={group.id} className="mb-2">
             {/* Group Header */}
             <button
               onClick={() => toggleGroup(group.id)}
-              className={`w-full flex items-center justify-between px-3 py-2 text-sm transition-colors ${
+              className={`w-full flex items-center justify-between px-4 py-3 text-sm transition-all rounded-lg mx-2 ${
                 isGroupActive(screens)
-                  ? 'bg-purple-600/20 text-purple-400'
-                  : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                  ? 'bg-purple-600/20 text-purple-300 bg-purple-500/10 border border-purple-500/20'
+                  : 'text-slate-400 hover:bg-slate-700/50 hover:text-white'
               }`}
               title={!sidebarOpen ? group.label : undefined}
             >
-              <div className="flex items-center gap-2">
-                <span className="text-lg">{group.icon}</span>
+              <div className="flex items-center gap-3">
+                <span className="text-xl">{group.icon}</span>
                 {sidebarOpen && (
-                  <span className="font-medium truncate">{group.label}</span>
+                  <span className="font-medium truncate">{t(group.label)}</span>
                 )}
               </div>
               {sidebarOpen && (
                 isGroupExpanded(group.id) 
-                  ? <ChevronDown className="w-4 h-4 flex-shrink-0" />
+                  ? <ChevronDown className="w-4 h-4 flex-shrink-0 text-purple-400" />
                   : <ChevronRight className="w-4 h-4 flex-shrink-0" />
               )}
             </button>
 
             {/* Group Screens */}
             {sidebarOpen && isGroupExpanded(group.id) && (
-              <div className="ml-2 border-l border-slate-700">
+              <div className="ml-2 border-l border-slate-600/50 pl-2">
                 {screens.map(screen => {
                   const active = isActive(screen.route)
                   const help = getHelpForRoute(screen.route)
@@ -150,28 +164,28 @@ export default function AdminSidebarV2() {
                     <div key={screen.id} className="flex items-center group">
                       <Link
                         href={screen.isPlaceholder ? '#' : screen.route}
-                        className={`flex items-center gap-2 px-3 py-2 text-sm transition-colors flex-1 ${
+                        className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-all rounded-lg mx-1 flex-1 ${
                           screen.isPlaceholder
-                            ? 'text-slate-600 cursor-not-allowed'
+                            ? 'text-slate-600 cursor-not-allowed opacity-60'
                             : screen.isNew
-                              ? 'bg-green-600/10 text-green-400 hover:bg-green-600/20'
+                              ? 'bg-green-600/10 text-green-400 hover:bg-green-600/20 border border-green-500/20'
                               : active
-                                ? 'bg-purple-600/20 text-purple-400 border-r-2 border-purple-500'
-                                : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                                ? 'bg-purple-600/20 text-purple-300 bg-purple-500/10 border border-purple-500/30 font-medium'
+                                : 'text-slate-400 hover:bg-slate-700/50 hover:text-white'
                         }`}
                         onClick={e => screen.isPlaceholder && e.preventDefault()}
                       >
-                        {screen.icon && <span>{screen.icon}</span>}
+                        {screen.icon && <span className="text-base">{screen.icon}</span>}
                         <span className="truncate flex-1">{screen.label}</span>
                         
                         {screen.isNew && (
-                          <span className="bg-green-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                          <span className="bg-green-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
                             NEW
                           </span>
                         )}
                         
                         {screen.isPlaceholder && (
-                          <span className="text-[10px] text-slate-600">
+                          <span className="text-[10px] text-slate-500 bg-slate-700/30 px-2 py-0.5 rounded">
                             Em breve
                           </span>
                         )}
@@ -185,10 +199,10 @@ export default function AdminSidebarV2() {
                             e.stopPropagation()
                             setHelpModal(help)
                           }}
-                          className="p-1 mr-1 opacity-0 group-hover:opacity-100 hover:bg-slate-700 rounded text-slate-500 hover:text-purple-400 transition-all"
+                          className="p-1.5 mr-2 opacity-0 group-hover:opacity-100 hover:bg-slate-700/50 rounded-lg text-slate-500 hover:text-purple-400 transition-all"
                           title="Ajuda"
                         >
-                          <HelpCircle className="w-3.5 h-3.5" />
+                          <HelpCircle className="w-4 h-4" />
                         </button>
                       )}
                     </div>
@@ -201,20 +215,20 @@ export default function AdminSidebarV2() {
       </nav>
 
       {/* Footer Actions */}
-      <div className="p-3 border-t border-slate-800 space-y-2">
+      <div className="p-4 border-t border-slate-700/50 space-y-2 bg-slate-900/30">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-red-400 hover:text-red-300 hover:bg-red-950/30"
+          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-red-400 hover:text-red-300 hover:bg-red-950/20 transition-all border border-red-500/20 hover:border-red-500/30"
         >
           <LogOut className="h-4 w-4" />
-          {sidebarOpen && <span>Sair</span>}
+          {sidebarOpen && <span>{t('admin.nav.logout')}</span>}
         </button>
         <button
           onClick={handleClearCache}
-          className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-slate-400 hover:text-slate-200 hover:bg-slate-800"
+          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-xs text-slate-500 hover:text-slate-300 hover:bg-slate-700/50 transition-all border border-slate-600/30"
         >
           <Trash2 className="h-3 w-3" />
-          {sidebarOpen && <span>Limpar cache de IA</span>}
+          {sidebarOpen && <span>{t('admin.actions.clear')} Cache IA</span>}
         </button>
       </div>
     </>
@@ -224,7 +238,7 @@ export default function AdminSidebarV2() {
     <>
       {/* Desktop Sidebar */}
       <aside
-        className={`${sidebarOpen ? 'w-64' : 'w-16'} bg-slate-900 border-r border-slate-800 flex-col h-screen fixed z-40 transition-all duration-300 hidden lg:flex`}
+        className={`${sidebarOpen ? 'w-72' : 'w-20'} bg-slate-900/95 backdrop-blur-md border-r border-slate-700/50 flex-col h-screen fixed z-40 transition-all duration-300 hidden lg:flex shadow-xl`}
       >
         {sidebarContent}
       </aside>
@@ -232,7 +246,7 @@ export default function AdminSidebarV2() {
       {/* Mobile Toggle */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="lg:hidden fixed bottom-4 left-4 z-40 p-3 bg-purple-600 text-white rounded-full shadow-lg"
+        className="lg:hidden fixed bottom-4 left-4 z-40 p-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
       >
         <Menu className="w-6 h-6" />
       </button>
@@ -241,41 +255,47 @@ export default function AdminSidebarV2() {
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-50">
           <div 
-            className="absolute inset-0 bg-black/50"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
           />
-          <aside className="absolute left-0 top-0 bottom-0 w-64 bg-slate-900 shadow-xl flex flex-col">
+          <aside className="absolute left-0 top-0 bottom-0 w-72 bg-slate-900/95 backdrop-blur-md shadow-2xl flex flex-col">
             <button
               onClick={() => setMobileOpen(false)}
-              className="absolute top-4 right-4 p-2 hover:bg-slate-800 rounded-lg text-slate-400"
+              className="absolute top-4 right-4 p-2.5 hover:bg-slate-700/50 rounded-lg text-slate-400 transition-all"
             >
               <X className="w-5 h-5" />
             </button>
-            {sidebarContent}
+            <div className="pt-16">
+              {sidebarContent}
+            </div>
           </aside>
         </div>
       )}
 
-      {/* Spacer for content */}
-      <div className={`hidden lg:block ${sidebarOpen ? 'w-64' : 'w-16'} flex-shrink-0 transition-all duration-300`} />
-
       {/* Help Modal */}
       {helpModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
-          <div className="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-lg max-h-[80vh] overflow-hidden">
-            <div className="p-4 border-b border-slate-800 flex items-center justify-between">
-              <h3 className="text-lg font-semibold flex items-center gap-2">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setHelpModal(null)}
+          />
+          <div className="relative bg-slate-900 border border-slate-700 rounded-xl p-6 max-w-md w-full shadow-2xl">
+            <button
+              onClick={() => setHelpModal(null)}
+              className="absolute top-4 right-4 p-2 hover:bg-slate-700/50 rounded-lg text-slate-400 transition-all"
+            >
+              <X className="w-4 h-4" />
+            </button>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-purple-600/20 rounded-lg flex items-center justify-center">
                 <HelpCircle className="w-5 h-5 text-purple-400" />
-                {helpModal.titulo}
-              </h3>
-              <button
-                onClick={() => setHelpModal(null)}
-                className="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-white">{helpModal.titulo}</h3>
+                <p className="text-sm text-slate-400">Ajuda rápida</p>
+              </div>
             </div>
-            <div className="p-4 overflow-y-auto max-h-[60vh] space-y-4">
+            <div className="space-y-3 text-slate-300">
               {/* O que é */}
               <div>
                 <h4 className="text-sm font-semibold text-purple-400 mb-1">O que é:</h4>

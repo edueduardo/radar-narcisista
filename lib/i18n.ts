@@ -761,6 +761,307 @@ export const frontpageDictionaries = {
 
 export type FrontpageDictionary = typeof frontpageDictionaries['pt-BR']
 
+// =============================================================================
+// ADMIN TRANSLATIONS
+// =============================================================================
+
+export const adminTranslations = {
+  'pt-BR': {
+    // Header
+    'admin.header.title': 'Painel Admin - Radar Narcisista',
+    'admin.header.subtitle': 'Painel de Controle Administrativo',
+    
+    // Menu Groups
+    'admin.menu.overview': 'Visão Geral & Controle',
+    'admin.menu.people': 'Pessoas & Acessos',
+    'admin.menu.plans': 'Planos, Billing & Promoções',
+    'admin.menu.ai': 'IAs & Orquestração',
+    'admin.menu.product': 'Produto & Funcionalidades',
+    'admin.menu.front': 'Front & Conteúdos',
+    'admin.menu.governance': 'Governança & LGPD',
+    'admin.menu.lab': 'Laboratório & Dev',
+    
+    // Common Actions
+    'admin.actions.save': 'Salvar',
+    'admin.actions.cancel': 'Cancelar',
+    'admin.actions.delete': 'Excluir',
+    'admin.actions.edit': 'Editar',
+    'admin.actions.add': 'Adicionar',
+    'admin.actions.search': 'Buscar',
+    'admin.actions.filter': 'Filtrar',
+    'admin.actions.export': 'Exportar',
+    'admin.actions.import': 'Importar',
+    'admin.actions.refresh': 'Atualizar',
+    'admin.actions.clear': 'Limpar',
+    'admin.actions.confirm': 'Confirmar',
+    'admin.actions.back': 'Voltar',
+    'admin.actions.next': 'Próximo',
+    'admin.actions.close': 'Fechar',
+    'admin.actions.open': 'Abrir',
+    'admin.actions.view': 'Visualizar',
+    'admin.actions.download': 'Baixar',
+    'admin.actions.upload': 'Upload',
+    
+    // Status
+    'admin.status.active': 'Ativo',
+    'admin.status.inactive': 'Inativo',
+    'admin.status.pending': 'Pendente',
+    'admin.status.completed': 'Concluído',
+    'admin.status.failed': 'Falhou',
+    'admin.status.loading': 'Carregando...',
+    'admin.status.empty': 'Vazio',
+    'admin.status.error': 'Erro',
+    'admin.status.success': 'Sucesso',
+    'admin.status.warning': 'Atenção',
+    
+    // Messages
+    'admin.msg.saveSuccess': 'Salvo com sucesso!',
+    'admin.msg.saveError': 'Erro ao salvar',
+    'admin.msg.deleteSuccess': 'Excluído com sucesso!',
+    'admin.msg.deleteError': 'Erro ao excluir',
+    'admin.msg.loading': 'Carregando...',
+    'admin.msg.noData': 'Nenhum dado encontrado',
+    'admin.msg.confirmDelete': 'Tem certeza que deseja excluir?',
+    'admin.msg.unsavedChanges': 'Você tem alterações não salvas',
+    'admin.msg.networkError': 'Erro de conexão',
+    
+    // Navigation
+    'admin.nav.dashboard': 'Dashboard',
+    'admin.nav.users': 'Usuários',
+    'admin.nav.settings': 'Configurações',
+    'admin.nav.logout': 'Sair',
+    'admin.nav.profile': 'Perfil',
+    'admin.nav.help': 'Ajuda',
+    
+    // Forms
+    'admin.form.required': 'Campo obrigatório',
+    'admin.form.optional': 'Opcional',
+    'admin.form.select': 'Selecione...',
+    'admin.form.search': 'Buscar...',
+    'admin.form.clear': 'Limpar',
+    
+    // Tables
+    'admin.table.name': 'Nome',
+    'admin.table.email': 'E-mail',
+    'admin.table.status': 'Status',
+    'admin.table.created': 'Criado em',
+    'admin.table.updated': 'Atualizado em',
+    'admin.table.actions': 'Ações',
+    'admin.table.empty': 'Nenhum registro encontrado',
+    
+    // Pagination
+    'admin.pagination.previous': 'Anterior',
+    'admin.pagination.next': 'Próximo',
+    'admin.pagination.showing': 'Mostrando',
+    'admin.pagination.of': 'de',
+    'admin.pagination.items': 'itens',
+    
+    // Language
+    'admin.lang.select': 'Selecionar idioma',
+    'admin.lang.portuguese': 'Português',
+    'admin.lang.english': 'English',
+    'admin.lang.spanish': 'Español',
+  },
+  
+  'en': {
+    // Header
+    'admin.header.title': 'Admin Panel - Narcissist Radar',
+    'admin.header.subtitle': 'Administrative Control Panel',
+    
+    // Menu Groups
+    'admin.menu.overview': 'Overview & Control',
+    'admin.menu.people': 'People & Access',
+    'admin.menu.plans': 'Plans, Billing & Promotions',
+    'admin.menu.ai': 'AIs & Orchestration',
+    'admin.menu.product': 'Product & Features',
+    'admin.menu.front': 'Front & Content',
+    'admin.menu.governance': 'Governance & LGPD',
+    'admin.menu.lab': 'Laboratory & Dev',
+    
+    // Common Actions
+    'admin.actions.save': 'Save',
+    'admin.actions.cancel': 'Cancel',
+    'admin.actions.delete': 'Delete',
+    'admin.actions.edit': 'Edit',
+    'admin.actions.add': 'Add',
+    'admin.actions.search': 'Search',
+    'admin.actions.filter': 'Filter',
+    'admin.actions.export': 'Export',
+    'admin.actions.import': 'Import',
+    'admin.actions.refresh': 'Refresh',
+    'admin.actions.clear': 'Clear',
+    'admin.actions.confirm': 'Confirm',
+    'admin.actions.back': 'Back',
+    'admin.actions.next': 'Next',
+    'admin.actions.close': 'Close',
+    'admin.actions.open': 'Open',
+    'admin.actions.view': 'View',
+    'admin.actions.download': 'Download',
+    'admin.actions.upload': 'Upload',
+    
+    // Status
+    'admin.status.active': 'Active',
+    'admin.status.inactive': 'Inactive',
+    'admin.status.pending': 'Pending',
+    'admin.status.completed': 'Completed',
+    'admin.status.failed': 'Failed',
+    'admin.status.loading': 'Loading...',
+    'admin.status.empty': 'Empty',
+    'admin.status.error': 'Error',
+    'admin.status.success': 'Success',
+    'admin.status.warning': 'Warning',
+    
+    // Messages
+    'admin.msg.saveSuccess': 'Saved successfully!',
+    'admin.msg.saveError': 'Error saving',
+    'admin.msg.deleteSuccess': 'Deleted successfully!',
+    'admin.msg.deleteError': 'Error deleting',
+    'admin.msg.loading': 'Loading...',
+    'admin.msg.noData': 'No data found',
+    'admin.msg.confirmDelete': 'Are you sure you want to delete?',
+    'admin.msg.unsavedChanges': 'You have unsaved changes',
+    'admin.msg.networkError': 'Network error',
+    
+    // Navigation
+    'admin.nav.dashboard': 'Dashboard',
+    'admin.nav.users': 'Users',
+    'admin.nav.settings': 'Settings',
+    'admin.nav.logout': 'Logout',
+    'admin.nav.profile': 'Profile',
+    'admin.nav.help': 'Help',
+    
+    // Forms
+    'admin.form.required': 'Required field',
+    'admin.form.optional': 'Optional',
+    'admin.form.select': 'Select...',
+    'admin.form.search': 'Search...',
+    'admin.form.clear': 'Clear',
+    
+    // Tables
+    'admin.table.name': 'Name',
+    'admin.table.email': 'E-mail',
+    'admin.table.status': 'Status',
+    'admin.table.created': 'Created',
+    'admin.table.updated': 'Updated',
+    'admin.table.actions': 'Actions',
+    'admin.table.empty': 'No records found',
+    
+    // Pagination
+    'admin.pagination.previous': 'Previous',
+    'admin.pagination.next': 'Next',
+    'admin.pagination.showing': 'Showing',
+    'admin.pagination.of': 'of',
+    'admin.pagination.items': 'items',
+    
+    // Language
+    'admin.lang.select': 'Select language',
+    'admin.lang.portuguese': 'Portuguese',
+    'admin.lang.english': 'English',
+    'admin.lang.spanish': 'Spanish',
+  },
+  
+  'es': {
+    // Header
+    'admin.header.title': 'Panel Admin - Radar Narcisista',
+    'admin.header.subtitle': 'Panel de Control Administrativo',
+    
+    // Menu Groups
+    'admin.menu.overview': 'Visión General & Control',
+    'admin.menu.people': 'Personas & Accesos',
+    'admin.menu.plans': 'Planes, Billing & Promociones',
+    'admin.menu.ai': 'IAs & Orquestación',
+    'admin.menu.product': 'Producto & Funcionalidades',
+    'admin.menu.front': 'Front & Contenidos',
+    'admin.menu.governance': 'Gobernanza & LGPD',
+    'admin.menu.lab': 'Laboratorio & Dev',
+    
+    // Common Actions
+    'admin.actions.save': 'Guardar',
+    'admin.actions.cancel': 'Cancelar',
+    'admin.actions.delete': 'Eliminar',
+    'admin.actions.edit': 'Editar',
+    'admin.actions.add': 'Agregar',
+    'admin.actions.search': 'Buscar',
+    'admin.actions.filter': 'Filtrar',
+    'admin.actions.export': 'Exportar',
+    'admin.actions.import': 'Importar',
+    'admin.actions.refresh': 'Actualizar',
+    'admin.actions.clear': 'Limpiar',
+    'admin.actions.confirm': 'Confirmar',
+    'admin.actions.back': 'Volver',
+    'admin.actions.next': 'Siguiente',
+    'admin.actions.close': 'Cerrar',
+    'admin.actions.open': 'Abrir',
+    'admin.actions.view': 'Ver',
+    'admin.actions.download': 'Descargar',
+    'admin.actions.upload': 'Subir',
+    
+    // Status
+    'admin.status.active': 'Activo',
+    'admin.status.inactive': 'Inactivo',
+    'admin.status.pending': 'Pendiente',
+    'admin.status.completed': 'Completado',
+    'admin.status.failed': 'Falló',
+    'admin.status.loading': 'Cargando...',
+    'admin.status.empty': 'Vacío',
+    'admin.status.error': 'Error',
+    'admin.status.success': 'Éxito',
+    'admin.status.warning': 'Atención',
+    
+    // Messages
+    'admin.msg.saveSuccess': '¡Guardado con éxito!',
+    'admin.msg.saveError': 'Error al guardar',
+    'admin.msg.deleteSuccess': '¡Eliminado con éxito!',
+    'admin.msg.deleteError': 'Error al eliminar',
+    'admin.msg.loading': 'Cargando...',
+    'admin.msg.noData': 'No se encontraron datos',
+    'admin.msg.confirmDelete': '¿Está seguro que desea eliminar?',
+    'admin.msg.unsavedChanges': 'Tiene cambios sin guardar',
+    'admin.msg.networkError': 'Error de conexión',
+    
+    // Navigation
+    'admin.nav.dashboard': 'Dashboard',
+    'admin.nav.users': 'Usuarios',
+    'admin.nav.settings': 'Configuraciones',
+    'admin.nav.logout': 'Salir',
+    'admin.nav.profile': 'Perfil',
+    'admin.nav.help': 'Ayuda',
+    
+    // Forms
+    'admin.form.required': 'Campo requerido',
+    'admin.form.optional': 'Opcional',
+    'admin.form.select': 'Seleccionar...',
+    'admin.form.search': 'Buscar...',
+    'admin.form.clear': 'Limpiar',
+    
+    // Tables
+    'admin.table.name': 'Nombre',
+    'admin.table.email': 'E-mail',
+    'admin.table.status': 'Estado',
+    'admin.table.created': 'Creado',
+    'admin.table.updated': 'Actualizado',
+    'admin.table.actions': 'Acciones',
+    'admin.table.empty': 'No se encontraron registros',
+    
+    // Pagination
+    'admin.pagination.previous': 'Anterior',
+    'admin.pagination.next': 'Siguiente',
+    'admin.pagination.showing': 'Mostrando',
+    'admin.pagination.of': 'de',
+    'admin.pagination.items': 'ítems',
+    
+    // Language
+    'admin.lang.select': 'Seleccionar idioma',
+    'admin.lang.portuguese': 'Portugués',
+    'admin.lang.english': 'English',
+    'admin.lang.spanish': 'Español',
+  }
+}
+
+export function getAdminTranslation(key: string, locale: Locale = 'pt-BR'): string {
+  return adminTranslations[locale][key] || adminTranslations['pt-BR'][key] || key
+}
+
 export function getFrontpageDictionary(locale: Locale): FrontpageDictionary {
   return frontpageDictionaries[locale] || frontpageDictionaries['pt-BR']
 }
